@@ -1,0 +1,123 @@
+header{
+    text-align: center;
+    background-color: #F7F7F7;
+    font-size: .28rem;
+    color: #434343;
+    height: 0.8rem;
+    line-height: 0.8rem;
+    position: relative;
+}
+header .back{
+    width: 0.2rem;
+    height: 0.12rem;
+    background: url(../img/detail/moreIcon.png) no-repeat center;
+    -webkit-background-size: cover;
+    background-size: cover;
+    position: absolute;
+    transform: rotateZ(90deg);
+    left: 0.2rem;
+    top: 0.3rem;
+}
+.checkMore{
+    text-align: center;
+}
+.more{
+    display: block;
+    width: 0.2rem;
+    height: 0.12rem;
+    background: url(../img/detail/moreIcon.png) no-repeat center;
+    -webkit-background-size: cover;
+    background-size: cover;
+    margin: 0.1rem auto 0;
+}
+.comment{
+    background-color: #fff;
+    padding: 0.3rem 0.24rem 0.35rem;
+    border-bottom: 1px solid #C9C9C9;
+}
+.comment>h2{
+    font-size: 0.28rem;
+    font-weight: normal;
+    color: #3E3E3E;
+}
+
+.comment .userInfo{
+    margin: 0.2rem 0;
+}
+.comment .userInfo .user{}
+.comment .user>span:first-child{
+}
+.comment .user>span:first-child img{
+    width: 0.26rem;
+    height: 0.26rem;
+}
+.comment .user .phone{
+    color: #707070;
+    font-size: 0.24rem;
+    line-height: 0.4rem;
+    margin: 0 0.1rem 0 0.05rem;
+
+}
+.comment .user>div{
+    padding-top: 0.05rem;
+}
+.comment .user>div img{
+    width: 0.2rem;
+    height: 0.2rem;
+    margin-right: 0.03rem;
+}
+.comment .userInfo .starNum{
+    padding-left: 0.5rem;
+    padding-right: 0.15rem;
+    height: 0.35rem;
+    line-height: 0.35rem;
+    background-color: #1592E6;
+    border-radius: 0.1rem;
+    position: relative;
+    color: #fff;
+    font-size: 0.24rem;
+}
+.comment .userInfo .starNum:before{
+    content: "";
+    width: 0.3rem;
+    height: 0.3rem;
+    background: url(../img/detail/starIcon.png) no-repeat center;
+    -webkit-background-size: cover;
+    background-size: cover;
+    position: absolute;
+    left: 0.1rem;
+    top: 0.03rem;
+}
+
+
+.comment .title{
+    margin-bottom: 0.2rem;
+}
+.comment .title strong{
+    font-size: 0.28rem;
+    color: #434343;
+}
+.comment .title span{
+    font-size: 0.24rem;
+    color: #989898;
+}
+
+.comment .commentCont{
+    text-align: justify;
+    color: #7E7D7D;
+    font-size: 0.24rem;
+    margin-bottom: 0.45rem;
+}
+.comment button{
+    width: 1.5rem;
+    height: 0.4rem;
+    line-height: 0.4rem;
+    text-align: center;
+    font-size: 0.2rem;
+    color: #F48206;
+    border: 1px solid #F48206;
+    background-color: #fff;
+    margin: 0 auto;
+    display: block;
+    border-radius: 0.1rem;
+}

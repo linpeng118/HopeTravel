@@ -1,0 +1,35 @@
+/*##########################*/
+/*主题背景色*/
+.bg-theme{
+	background: #3c88cc !important;
+}
+/*主题字体色*/
+.col-theme{
+	color: #3c88cc !important;
+}
+/*主题边框色*/
+.bdcol-theme{
+	border-color: #3c88cc !important;
+}
+/*激活选项主题色*/
+.active-col{
+	color: #3c88cc !important;
+}
+
+.active-bg{
+	background: #3c88cc !important;
+	color: #fff !important;
+}
+
+/*slidngbtn.css样式文件*/
+/*租车首页切换按钮颜色*/
+.swithbtn-container{
+	border: 1px solid #3c88cc;
+}
+.swithbtn-container .btn:before{
+	background: #3c88cc;
+}
+/*每日租金日历*/
+.bg-ffeac0{
+	background: #ffeac0;
+}

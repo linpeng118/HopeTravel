@@ -1,0 +1,47 @@
+//公共颜色变量-禁删-使用颜色值作为class名称
+@mkcolor31:#FEA802;
+//兼容老版本
+@mkcolor1:#f2f2f2;
+@mkcolor2:white;
+@mkcolor3:red;
+@mkcolor4:#cccccc;
+@mkcolor5:#989898;
+@mkcolor6:#999999;
+@mkcolor7:#00A0E9;
+@mkcolor8:#1398FF;
+@mkcolor9:#F4AE00;
+@mkcolor10:#666666;
+@mkcolor11:#666;
+@mkcolor12:#fff;
+@mkcolor13:#ccc;
+@mkcolor14:#333;
+@mkcolor15:#808080;
+@mkcolor16:#000;
+@mkcolor17:#FA852C;
+@mkcolor18:#999;
+@mkcolor19:#AA852C;
+@mkcolor20:#FF7A0E;
+@mkcolor21:#b3b3b3;
+@mkcolor22:#1296db;
+@mkcolor23:#E6E6E6;
+@mkcolor24:#FF4400;
+@mkcolor25:#b3b3b3;
+@mkcolor26:#ffb11b;
+@mkcolor27:#f95971;
+@mkcolor28:#f17c67;
+@mkcolor29:#f0f0f0;
+@mkcolor30:#e6e6e6;
+
+//end
+// 生成颜色与背景色- 例子：color-999
+.taskSlideBg(@num) when (@num <= 31){
+  @color:"mkcolor@{num}";
+  .setfont(@name,@value){
+    .color-@{name}{color:@value};
+    .col-@{name}{color:@value};
+    .bg-@{name}{background-color:@value};
+  }
+  .setfont(Replace(@@color,"#",""),@@color);
+  .taskSlideBg((@num+1))
+}
+.taskSlideBg(1);

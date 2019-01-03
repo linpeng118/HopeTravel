@@ -25,7 +25,13 @@ module.exports = {
       rel: 'icon',
       type: 'image/x-icon',
       href: '/favicon.ico'
-    }]
+    }],
+    script: [{
+      src: '/flexible/flexible.js',
+      type: 'text/javascript',
+      charset: 'utf-8'
+    }],
+    __dangerouslyDisableSanitizers: ['script']
   },
 
   /*
@@ -38,13 +44,15 @@ module.exports = {
   /*
    ** Global CSS
    */
-  css: [],
+  css: [
+    '@assets/css/index.css'
+  ],
 
   /*
    ** Plugins to load before mounting the App
    */
   plugins: [{
-    src: '~plugins/mint-ui.js',
+    src: '~plugins/mint-ui/mint-ui.js',
     ssr: true
   }, ],
 
@@ -67,6 +75,11 @@ module.exports = {
    */
   build: {
     vendor: ['axios'],
+    postcss: [
+      require('postcss-px2rem')({
+        remUnit: 75 // 转换基本单位
+      })
+    ],
     /*
      ** You can extend webpack config here
      */

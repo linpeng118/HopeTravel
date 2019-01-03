@@ -21,6 +21,7 @@
     "mint-ui": "^2.2.13",
     "node-sass": "^4.11.0",
     "nuxt": "^2.0.0",
+    "postcss-px2rem": "^0.3.0",
     "sass-loader": "^7.1.0"
   },
   "devDependencies": {

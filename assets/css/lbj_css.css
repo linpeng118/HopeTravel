@@ -1,0 +1,214 @@
+/*公共样式*/
+
+
+/** {
+    margin: 0;
+}*/
+
+
+/*颜色类*/
+
+
+/* 价格颜色 */
+
+.c_price_z {
+    color: #ff4400 !important;
+}
+
+.c_main_z {
+    color: #f4ae00 !important;
+}
+
+.c_999_z {
+    color: #999 !important;
+}
+
+.c_153_z {
+    color: rgba(153, 153, 153, 1) !important;
+}
+
+.c_3B_z {
+    color: #3B1E1A !important;
+}
+
+.c_523_z {
+    color: #c52348 !important;
+}
+
+.c_blc_z {
+    color: rgba(51, 51, 51, 1)
+}
+
+.c_main {
+    color: #f4ae00 !important;
+}
+
+.bg_3B_z {
+    background: #3B1E1A;
+}
+
+.bg_52_z {
+    background: #c52348;
+}
+
+.bg_main {
+    background: #f4ae00 !important;
+}
+
+.bg_main_z_ec {
+    background: #ECECEC !important;
+}
+
+.bg_mains {
+    background: #f4ae00 !important;
+    /* linear-gradient(top, #fad700, #f4ae00);*/
+}
+
+.c_fff {
+    color: #fff !important;
+}
+
+.bg_fff {
+    background: #fff;
+}
+
+.c_999 {
+    color: #999;
+}
+
+.c_666 {
+    color: #666;
+}
+
+
+/* 下划线 */
+
+.border_bot {
+    border-bottom: 0.01rem solid #f6f6f6;
+}
+
+a {
+    text-decoration: none;
+}
+
+.size-10 {
+    font-size: .1rem!important;
+}
+
+.size-18 {
+    font-size: .18rem!important;
+}
+
+.size-28 {
+    font-size: .28rem!important;
+}
+
+.w100 {
+    width: 100%;
+}
+
+.img_bg {
+    background: #f2f2f2 no-repeat center center / cover;
+}
+
+.m_l10 {
+    margin-left: .1rem
+}
+
+.m_l5 {
+    margin-left: .05rem
+}
+
+.m_r5 {
+    margin-right: .05rem
+}
+
+.m_r10 {
+    margin-right: .1rem
+}
+
+
+/*对齐及定位*/
+
+.pi_r {
+    position: relative;
+}
+
+.pi_a {
+    position: absolute;
+}
+
+.pi_f {
+    position: fixed;
+}
+
+.di_i {
+    display: inline;
+}
+
+.di_b {
+    display: block;
+}
+
+.di_ib {
+    display: inline-block;
+}
+
+.t_center {
+    text-align: center;
+}
+
+.t_left {
+    text-align: left;
+}
+
+.t_right {
+    text-align: right;
+}
+
+
+/*flex补充*/
+
+.box_center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-parent {
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-flow: row wrap;
+    align-content: flex-start;
+}
+
+
+/*内容两边对其*/
+
+.space-around {
+    justify-content: space-around;
+}
+
+.userName {
+    /* display: inline-block; */
+    width: .5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/**/
+
+i.r_arrow {
+    display: inline-block;
+    width: 0.08rem;
+    height: 0.08rem;
+    border: 0.02rem solid #999;
+    border-top: transparent;
+    border-left: transparent;
+    transform: rotate(-40deg);
+}
+
+button {bordr:none;}
