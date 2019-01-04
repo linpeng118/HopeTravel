@@ -2,15 +2,15 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import { interopDefault } from './utils'
 
-const _3dd73d3e = () => interopDefault(import('..\\pages\\local_regiment\\index.vue' /* webpackChunkName: "pages_local_regiment_index" */))
-const _5b4f5110 = () => interopDefault(import('..\\pages\\test1\\index.vue' /* webpackChunkName: "pages_test1_index" */))
-const _e80458e2 = () => interopDefault(import('..\\pages\\m2\\custom\\index.vue' /* webpackChunkName: "pages_m2_custom_index" */))
-const _8e6051a2 = () => interopDefault(import('..\\pages\\local_regiment\\components\\tags\\index.vue' /* webpackChunkName: "pages_local_regiment_components_tags_index" */))
-const _5865d1c3 = () => interopDefault(import('..\\pages\\m2\\custom\\gushi.vue' /* webpackChunkName: "pages_m2_custom_gushi" */))
-const _5635fa71 = () => interopDefault(import('..\\pages\\m2\\custom\\list.vue' /* webpackChunkName: "pages_m2_custom_list" */))
-const _20f9041e = () => interopDefault(import('..\\pages\\m2\\custom\\store.vue' /* webpackChunkName: "pages_m2_custom_store" */))
-const _4e79359a = () => interopDefault(import('..\\pages\\local_regiment\\components\\items\\hotItem.vue' /* webpackChunkName: "pages_local_regiment_components_items_hotItem" */))
-const _74e810a5 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages_index" */))
+const _58af6966 = () => interopDefault(import('..\\pages\\local_regiment\\index.vue' /* webpackChunkName: "pages_local_regiment_index" */))
+const _32866621 = () => interopDefault(import('..\\pages\\test1\\index.vue' /* webpackChunkName: "pages_test1_index" */))
+const _dc237dc4 = () => interopDefault(import('..\\pages\\m2\\custom\\index.vue' /* webpackChunkName: "pages_m2_custom_index" */))
+const _3ab51f7e = () => interopDefault(import('..\\pages\\local_regiment\\components\\tags\\index.vue' /* webpackChunkName: "pages_local_regiment_components_tags_index" */))
+const _5e563f52 = () => interopDefault(import('..\\pages\\m2\\custom\\gushi.vue' /* webpackChunkName: "pages_m2_custom_gushi" */))
+const _3a6bc1fc = () => interopDefault(import('..\\pages\\m2\\custom\\list.vue' /* webpackChunkName: "pages_m2_custom_list" */))
+const _26e971ad = () => interopDefault(import('..\\pages\\m2\\custom\\store.vue' /* webpackChunkName: "pages_m2_custom_store" */))
+const _6752d6eb = () => interopDefault(import('..\\pages\\local_regiment\\components\\items\\hotItem.vue' /* webpackChunkName: "pages_local_regiment_components_items_hotItem" */))
+const _3745c698 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages_index" */))
 
 Vue.use(Router)
 
@@ -71,39 +71,39 @@ export function createRouter() {
 
     routes: [{
       path: "/local_regiment",
-      component: _3dd73d3e,
+      component: _58af6966,
       name: "local_regiment"
     }, {
       path: "/test1",
-      component: _5b4f5110,
+      component: _32866621,
       name: "test1"
     }, {
       path: "/m2/custom",
-      component: _e80458e2,
+      component: _dc237dc4,
       name: "m2-custom"
     }, {
       path: "/local_regiment/components/tags",
-      component: _8e6051a2,
+      component: _3ab51f7e,
       name: "local_regiment-components-tags"
     }, {
       path: "/m2/custom/gushi",
-      component: _5865d1c3,
+      component: _5e563f52,
       name: "m2-custom-gushi"
     }, {
       path: "/m2/custom/list",
-      component: _5635fa71,
+      component: _3a6bc1fc,
       name: "m2-custom-list"
     }, {
       path: "/m2/custom/store",
-      component: _20f9041e,
+      component: _26e971ad,
       name: "m2-custom-store"
     }, {
       path: "/local_regiment/components/items/hotItem",
-      component: _4e79359a,
+      component: _6752d6eb,
       name: "local_regiment-components-items-hotItem"
     }, {
       path: "/",
-      component: _74e810a5,
+      component: _3745c698,
       name: "index"
     }],
 
