@@ -74,7 +74,7 @@
           top: 0px;
         }
         &.bottom {
-          bottom: 0px;
+          bottom: 5px;
         }
         .tag {
           display: inline-block;
