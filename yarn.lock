@@ -1481,6 +1481,18 @@ autoprefixer@^9.4.2:
     postcss "^7.0.6"
     postcss-value-parser "^3.3.1"
 
+autoprefixer@^9.4.4:
+  version "9.4.4"
+  resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-9.4.4.tgz#40c42b335bdb22efe8cd80389ca82ffb5e32d68d"
+  integrity sha512-7tpjBadJyHKf+gOJEmKhZIksWxdZCSrnKbbTJNsw+/zX9+f//DLELRQPWjjjVoDbbWlCuNRkN7RfmZwDVgWMLw==
+  dependencies:
+    browserslist "^4.3.7"
+    caniuse-lite "^1.0.30000926"
+    normalize-range "^0.1.2"
+    num2fraction "^1.2.2"
+    postcss "^7.0.7"
+    postcss-value-parser "^3.3.1"
+
 aws-sign2@~0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/aws-sign2/-/aws-sign2-0.7.0.tgz#b46e890934a9591f2d2f6f86d7e6a9f1b3fe76a8"
@@ -2244,7 +2256,7 @@ browserslist-useragent@^2.0.1:
     semver "^5.4.1"
     useragent "^2.2.1"
 
-browserslist@^4.0.0, browserslist@^4.0.1, browserslist@^4.3.4, browserslist@^4.3.5, browserslist@^4.3.6:
+browserslist@^4.0.0, browserslist@^4.0.1, browserslist@^4.3.4, browserslist@^4.3.5, browserslist@^4.3.6, browserslist@^4.3.7:
   version "4.3.7"
   resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.3.7.tgz#f1de479a6466ea47a0a26dcc725e7504817e624a"
   integrity sha512-pWQv51Ynb0MNk9JGMCZ8VkM785/4MQNXiFYtPqI7EEP0TJO+/d/NqRVn1uiAN0DNbnlUSpL2sh16Kspasv3pUQ==
@@ -2421,6 +2433,11 @@ caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000910, caniuse-lite@^1.0.30000918, can
   version "1.0.30000926"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000926.tgz#4361a99d818ca6e521dbe89a732de62a194a789c"
   integrity sha512-diMkEvxfFw09SkbErCLmw/1Fx1ZZe9xfWm4aeA2PUffB48x1tfZeMsK5j4BW7zN7Y4PdqmPVVdG2eYjE5IRTag==
+
+caniuse-lite@^1.0.30000926:
+  version "1.0.30000927"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000927.tgz#114a9de4ff1e01f5790fe578ecd93421c7524665"
+  integrity sha512-ogq4NbUWf1uG/j66k0AmiO3GjqJAlQyF8n4w8a954cbCyFKmYGvRtgz6qkq2fWuduTXHibX7GyYL5Pg58Aks2g==
 
 capture-stack-trace@^1.0.0:
   version "1.0.1"

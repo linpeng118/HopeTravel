@@ -2,12 +2,12 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import { interopDefault } from './utils'
 
-const _5b4f5110 = () => interopDefault(import('..\\pages\\test1\\index.vue' /* webpackChunkName: "pages_test1_index" */))
-const _e80458e2 = () => interopDefault(import('..\\pages\\m2\\custom\\index.vue' /* webpackChunkName: "pages_m2_custom_index" */))
-const _5865d1c3 = () => interopDefault(import('..\\pages\\m2\\custom\\gushi.vue' /* webpackChunkName: "pages_m2_custom_gushi" */))
-const _5635fa71 = () => interopDefault(import('..\\pages\\m2\\custom\\list.vue' /* webpackChunkName: "pages_m2_custom_list" */))
-const _20f9041e = () => interopDefault(import('..\\pages\\m2\\custom\\store.vue' /* webpackChunkName: "pages_m2_custom_store" */))
-const _74e810a5 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages_index" */))
+const _32866621 = () => interopDefault(import('..\\pages\\test1\\index.vue' /* webpackChunkName: "pages_test1_index" */))
+const _dc237dc4 = () => interopDefault(import('..\\pages\\m2\\custom\\index.vue' /* webpackChunkName: "pages_m2_custom_index" */))
+const _5e563f52 = () => interopDefault(import('..\\pages\\m2\\custom\\gushi.vue' /* webpackChunkName: "pages_m2_custom_gushi" */))
+const _3a6bc1fc = () => interopDefault(import('..\\pages\\m2\\custom\\list.vue' /* webpackChunkName: "pages_m2_custom_list" */))
+const _26e971ad = () => interopDefault(import('..\\pages\\m2\\custom\\store.vue' /* webpackChunkName: "pages_m2_custom_store" */))
+const _3745c698 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages_index" */))
 
 Vue.use(Router)
 
@@ -68,27 +68,27 @@ export function createRouter() {
 
     routes: [{
       path: "/test1",
-      component: _5b4f5110,
+      component: _32866621,
       name: "test1"
     }, {
       path: "/m2/custom",
-      component: _e80458e2,
+      component: _dc237dc4,
       name: "m2-custom"
     }, {
       path: "/m2/custom/gushi",
-      component: _5865d1c3,
+      component: _5e563f52,
       name: "m2-custom-gushi"
     }, {
       path: "/m2/custom/list",
-      component: _5635fa71,
+      component: _3a6bc1fc,
       name: "m2-custom-list"
     }, {
       path: "/m2/custom/store",
-      component: _20f9041e,
+      component: _26e971ad,
       name: "m2-custom-store"
     }, {
       path: "/",
-      component: _74e810a5,
+      component: _3745c698,
       name: "index"
     }],
 

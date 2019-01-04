@@ -51,10 +51,12 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [{
-    src: '~plugins/mint-ui/mint-ui.js',
-    ssr: true
-  }, ],
+  plugins: [
+    {
+      src: '~plugins/mint-ui/mint-ui.js',
+      ssr: true
+    }
+  ],
 
   /*
    ** Nuxt.js modules
@@ -67,9 +69,23 @@ module.exports = {
    ** Axios module configuration
    */
   axios: {
-    // See https://github.com/nuxt-community/axios-module#options
+    proxy: true,
+    prefix: '/api', // baseURL
+    credentials: true,
   },
-
+  proxy: [
+    // 配置代理
+    [
+      '/api',
+      {
+        target: 'http://m20.tourscool.net/api', // api主机
+        pathRewrite: {
+          '^/api' : '/api'
+        },
+        changeOrigin: true
+      }
+    ]
+  ],
   /*
    ** Build configuration
    */
@@ -78,6 +94,9 @@ module.exports = {
     postcss: [
       require('postcss-px2rem')({
         remUnit: 75 // 转换基本单位
+      }),
+      require('autoprefixer')({
+        browsers: ['last 3 versions']
       })
     ],
     /*

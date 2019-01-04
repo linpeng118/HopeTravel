@@ -24,10 +24,28 @@
 
 <script>
 import Logo from '~/components/Logo.vue'
-
+import {getData} from '../api/test'
+import {mapMutations} from 'vuex'
 export default {
   components: {
     Logo
+  },
+  data () {
+    return {
+      ss: 'sssss'
+    }
+  },
+  mounted () {
+    getData().then(res => {
+      console.log(res)
+      window.localStorage.setItem('token', 'token111111111')
+      this.updateToken('token111111111')
+    })
+  },
+  methods: {
+    ...mapMutations([
+      'updateToken'
+    ])
   }
 }
 </script>
@@ -63,4 +81,5 @@ export default {
 .links {
   padding-top: 15px;
 }
+
 </style>

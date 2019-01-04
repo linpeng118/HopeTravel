@@ -25,5 +25,7 @@ module.exports = {
     'vue/html-self-closing': 0,
     'vue/no-parsing-error': 0,
     'vue/no-parsing-error': 0,
+    'vue/attributes-order': 0,
+    'vue/name-property-casing': 0
   }
 }
