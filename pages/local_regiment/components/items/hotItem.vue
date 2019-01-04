@@ -116,6 +116,7 @@
     }
     .price-wrap {
       .price {
+        font-size: 32px;
         color: #ff0000;
       }
       .ori-price {
