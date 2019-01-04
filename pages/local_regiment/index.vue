@@ -47,6 +47,8 @@
             <hot-item class="high-quality-item"
               v-for="item in highQualityList"
               :key="item.desc"
+              tagPos="bottom"
+              :isShowTitle="false"
               :proData="item" />
           </div>
         </mt-tab-container-item>
@@ -93,7 +95,7 @@
         },
         hotList: [
           {
-            type: [1, 2, 3],
+            type: [1, 2],
             title: '标题1',
             src: require('./assets/imgs/hot_1@2x.png'),
             desc: '1这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
@@ -101,7 +103,7 @@
             oriPrice: 2002
           },
           {
-            type: [3],
+            type: [2],
             title: '标题2',
             src: require('./assets/imgs/hot_1@2x.png'),
             desc: '2这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
@@ -122,21 +124,21 @@
         selected: '',
         highQualityList: [
           {
-            type: [1, 2, 3],
+            type: [1, 2],
             src: require('./assets/imgs/hot_1@2x.png'),
             desc: '1这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
             price: 1001,
             oriPrice: 2002
           },
           {
-            type: [3],
+            type: [2],
             src: require('./assets/imgs/hot_1@2x.png'),
             desc: '2这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
             price: 1002,
             oriPrice: 2002
           },
           {
-            type: [3],
+            type: [1],
             src: require('./assets/imgs/hot_1@2x.png'),
             desc: '3333这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
             price: 1003,
@@ -150,7 +152,7 @@
             oriPrice: 2004
           },
           {
-            type: [1],
+            type: [2],
             src: require('./assets/imgs/hot_1@2x.png'),
             desc: '5555这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
             price: 1005,
