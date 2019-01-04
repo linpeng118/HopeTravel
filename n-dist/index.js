@@ -13,6 +13,7 @@ import { setContext, getLocation, getRouteData, normalizeError } from './utils'
 
 import nuxt_plugin_axios_7153ffc6 from 'nuxt_plugin_axios_7153ffc6' // Source: ./axios.js
 import nuxt_plugin_mintui_a7060c02 from 'nuxt_plugin_mintui_a7060c02' // Source: ..\\plugins\\mint-ui\\mint-ui.js
+import nuxt_plugin_swiper_6b925385 from 'nuxt_plugin_swiper_6b925385' // Source: ..\\plugins\\vue-swiper\\swiper.js (ssr: false)
 
 // Component: <no-ssr>
 Vue.component(NoSSR.name, NoSSR)
@@ -132,6 +133,10 @@ async function createApp(ssrContext) {
 
   if (typeof nuxt_plugin_axios_7153ffc6 === 'function') await nuxt_plugin_axios_7153ffc6(app.context, inject)
   if (typeof nuxt_plugin_mintui_a7060c02 === 'function') await nuxt_plugin_mintui_a7060c02(app.context, inject)
+
+  if (process.client) {
+    if (typeof nuxt_plugin_swiper_6b925385 === 'function') await nuxt_plugin_swiper_6b925385(app.context, inject)
+  }
 
   // If server-side, wait for async component to be resolved first
   if (process.server && ssrContext && ssrContext.url) {

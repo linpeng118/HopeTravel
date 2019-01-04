@@ -23,7 +23,11 @@ module.exports = {
     'vue/attributes-order': 0,
     'vue/name-property-casing': 0,
     'vue/html-self-closing': 0,
-    'vue/no-parsing-error': 0,
-    'vue/no-parsing-error': 0,
+    'vue/no-parsing-error': [0, {
+      'x-invalid-end-tag': false
+    }],
+    'vue/mustache-interpolation-spacing': 0,
+    'vue/attribute-hyphenation': 0,
+    'vue/require-valid-default-prop': 0,
   }
 }

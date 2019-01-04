@@ -45,7 +45,10 @@ module.exports = {
    ** Global CSS
    */
   css: [
-    '@assets/css/index.css'
+    '@assets/css/index.css',
+    {
+      src: "swiper/dist/css/swiper.css"
+    }
   ],
 
   /*
@@ -54,6 +57,9 @@ module.exports = {
   plugins: [{
     src: '~plugins/mint-ui/mint-ui.js',
     ssr: true
+  }, {
+    src: "~/plugins/vue-swiper/swiper.js",
+    ssr: false
   }, ],
 
   /*

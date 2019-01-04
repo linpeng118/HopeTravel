@@ -3,9 +3,12 @@ import NuxtLoading from './components/nuxt-loading.vue'
 
 import '..\\assets\\css\\index.css'
 
-import _6f6c098b from '..\\layouts\\default.vue'
+import '..\\node_modules\\swiper\\dist\\css\\swiper.css'
 
-const layouts = { "_default": _6f6c098b }
+import _6f6c098b from '..\\layouts\\default.vue'
+import _ffc57810 from '..\\layouts\\defaultHeader.vue'
+
+const layouts = { "_default": _6f6c098b,"_defaultHeader": _ffc57810 }
 
 export default {
   head: {"title":"nuxt","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"My best Nuxt.js project"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"}],"script":[{"src":"\u002Fflexible\u002Fflexible.js","type":"text\u002Fjavascript","charset":"utf-8"}],"__dangerouslyDisableSanitizers":["script"],"style":[]},
@@ -78,6 +81,8 @@ export default {
     },
 
     setLayout(layout) {
+      if(layout && typeof layout !== 'string') throw new Error('[nuxt] Avoid using non-string value as layout property.')
+
       if (!layout || !layouts['_' + layout]) {
         layout = 'default'
       }
