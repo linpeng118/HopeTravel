@@ -66,8 +66,8 @@
 
 <script>
   import {Swipe, SwipeItem, Navbar, TabItem} from 'mint-ui';
-  import HotItem from './components/items/hotItem.vue';
-  import HotCityTag from './components/tags/index.vue';
+  import HotItem from '../components/items/hotItem.vue';
+  import HotCityTag from '../components/tags/index.vue';
 
   export default {
     layout: 'defaultHeader',
@@ -104,7 +104,7 @@
           {
             type: [1, 2],
             title: '标题1',
-            src: require('./assets/imgs/hot_1@2x.png'),
+            src: require('../assets/imgs/hot_1@2x.png'),
             desc: '1这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
             price: 1001,
             oriPrice: 2002
@@ -112,7 +112,7 @@
           {
             type: [2],
             title: '标题2',
-            src: require('./assets/imgs/hot_1@2x.png'),
+            src: require('../assets/imgs/hot_1@2x.png'),
             desc: '2这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
             price: 1002,
             oriPrice: 2002
@@ -120,7 +120,7 @@
           {
             type: [1],
             title: '标题3',
-            src: require('./assets/imgs/hot_1@2x.png'),
+            src: require('../assets/imgs/hot_1@2x.png'),
             desc: '3这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
             price: 1003,
             oriPrice: 2003
@@ -132,42 +132,42 @@
         highQualityList: [
           {
             type: [1, 2],
-            src: require('./assets/imgs/hot_1@2x.png'),
+            src: require('../assets/imgs/hot_1@2x.png'),
             desc: '1这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
             price: 1001,
             oriPrice: 2002
           },
           {
             type: [2],
-            src: require('./assets/imgs/hot_1@2x.png'),
+            src: require('../assets/imgs/hot_1@2x.png'),
             desc: '2这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
             price: 1002,
             oriPrice: 2002
           },
           {
             type: [1],
-            src: require('./assets/imgs/hot_1@2x.png'),
+            src: require('../assets/imgs/hot_1@2x.png'),
             desc: '3333这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
             price: 1003,
             oriPrice: 2003
           },
           {
             type: [1],
-            src: require('./assets/imgs/hot_1@2x.png'),
+            src: require('../assets/imgs/hot_1@2x.png'),
             desc: '4444这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
             price: 1004,
             oriPrice: 2004
           },
           {
             type: [2],
-            src: require('./assets/imgs/hot_1@2x.png'),
+            src: require('../assets/imgs/hot_1@2x.png'),
             desc: '5555这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
             price: 1005,
             oriPrice: 2006
           },
           {
             type: [1],
-            src: require('./assets/imgs/hot_1@2x.png'),
+            src: require('../assets/imgs/hot_1@2x.png'),
             desc: '6这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
             price: 1006,
             oriPrice: 2006
@@ -198,7 +198,7 @@
     height: 100%;
     .banner {
       height: 312px;
-      background: url(assets/imgs/bg_banner@2x.png) no-repeat 0 0/100%;
+      background: url(../assets/imgs/bg_banner@2x.png) no-repeat 0 0/100%;
     }
     .hot-swiper,
     .hot-citys,
