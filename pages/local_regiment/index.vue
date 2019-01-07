@@ -19,13 +19,16 @@
       <h1 class="title">热门目的地</h1>
       <hot-city-tag v-for="hotCity in hotCityList"
         :key="hotCity"
-        :name="hotCity" />
+        :name="hotCity"
+        @callOnTag="onCity" />
       <hot-city-tag className="more"
-        name="更多目的地" />
+        name="更多目的地"
+        @callOnTag="onMoreCity" />
     </div>
     <!-- 稀饭精选 -->
     <div class="high-quality">
       <h1 class="title">稀饭精选</h1>
+      <!-- 国家-滑动tab -->
       <div class="scroll-topbar">
         <mt-navbar v-model="selected">
           <mt-tab-item :id="item"
@@ -33,13 +36,17 @@
             :key="item">{{item}}</mt-tab-item>
         </mt-navbar>
       </div>
+      <!-- 国家标签 -->
       <div class="hq-tags">
         <hot-city-tag className="more"
-          name="全部" />
+          name="全部"
+          @callOnTag="onCityAll" />
         <hot-city-tag v-for="hotCity in hotCityList"
           :key="hotCity"
-          :name="hotCity" />
+          :name="hotCity"
+          @callOnTag="onCity" />
       </div>
+      <!-- 列表 -->
       <mt-tab-container class="high-quality-list-wrap"
         v-model="selected">
         <mt-tab-container-item :id="selected">
@@ -76,9 +83,9 @@
       return {
         // swiper配置
         swiperOption: {
-          loop: true,
+          // loop: true,
           slidesPerView: 2,
-          spaceBetween: 11,
+          spaceBetween: 10,
           // centeredSlides: true,
           // pagination: {
           //   el: '.swiper-pagination',
@@ -119,7 +126,7 @@
             oriPrice: 2003
           }
         ],
-        hotCityList: ['欧洲', '澳新', '东南亚', '日本', '汉密尔顿岛', '欧洲', '美国'],
+        hotCityList: ['欧洲', '澳新', '东南亚', '日本', '汉密尔顿岛', '中国', '美国'],
         highQualities: ['欧洲', '澳新', '东南亚', '日本', '中国', '马来西亚'],
         selected: '',
         highQualityList: [
@@ -170,6 +177,17 @@
     },
     mounted() {
       // this.mySwiper.slideTo(3)
+    },
+    methods: {
+      onCity(tag) {
+        console.log(tag)
+      },
+      onMoreCity() {
+        console.log('更多')
+      },
+      onCityAll() {
+        console.log('全部')
+      },
     }
   }
 </script>
@@ -194,11 +212,16 @@
       }
     }
     .hot-swiper {
-      padding-left: 32px;
       height: 522px;
       width: 100%;
-      .swiper-slide {
-        font-size: 38px;
+      padding-left: 32px;
+      .swiper-wrapper {
+        width: 100%;
+        .swiper-slide {
+          font-size: 38px;
+          width: 332px !important;
+          // padding-left: 32px;
+        }
       }
     }
     .hot-citys {
@@ -214,11 +237,18 @@
         padding-left: 32px;
       }
       .scroll-topbar {
-        overflow-x: scroll;
+        width: 100%;
+        .mint-navbar {
+          overflow-x: scroll;
+          .mint-tab-item {
+            min-width: 22%;
+          }
+        }
       }
       .hq-tags {
         margin-top: 10px;
         padding: 0 30px;
+        font-size: 0;
       }
       .high-quality-list-wrap {
         padding: 0 32px;

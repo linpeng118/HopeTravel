@@ -1,8 +1,8 @@
 <template>
-  <span class="tag"
+  <div class="tag"
     :class="className"
-    @click="onTag">{{name}}
-  </span>
+    @click="onTag(name)">{{name}}
+  </div>
 </template>
 
 <script>
@@ -26,8 +26,8 @@
     computed: {},
     mounted() {},
     methods: {
-      onTag() {
-        this.$emit('callOnTag', )
+      onTag(name) {
+        this.$emit('callOnTag', name)
       }
     },
   }
