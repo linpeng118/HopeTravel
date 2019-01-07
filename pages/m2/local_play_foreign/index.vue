@@ -21,7 +21,7 @@
     height: 100%;
     .banner {
       height: 312px;
-      background: url(../assets/imgs/bg_banner@2x.png) no-repeat 0 0/100%;
+      background: url(../assets/imgs/local_regiment/bg_banner@2x.png) no-repeat 0 0/100%;
     }
     .hot-swiper,
     .hot-citys,

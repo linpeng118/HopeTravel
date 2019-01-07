@@ -19,6 +19,7 @@
     <p class="desc">{{proData.desc}}</p>
     <div class="price-wrap">
       <span class="price">${{proData.price}}</span>
+      <span class="unit">/起&nbsp;</span>
       <span class="ori-price">${{proData.price}}</span>
     </div>
   </div>
@@ -117,6 +118,10 @@
     .price-wrap {
       .price {
         font-size: 32px;
+        color: #ff0000;
+      }
+      .unit {
+        font-size: 24px;
         color: #ff0000;
       }
       .ori-price {
