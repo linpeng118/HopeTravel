@@ -1,7 +1,7 @@
 <template>
   <section class="container">
     <h1 class="title">
-      test2
+      test222
     </h1>
     <div class="swiper-wrap">
       <mt-swipe :auto="4000">
