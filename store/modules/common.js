@@ -1,4 +1,4 @@
-import {TOKEN_KEY} from '../../common/js/config'
+import {TOKEN_KEY} from '../../pages/m2/assets/js/common/config'
 const user = {
   state: {
     token: process.navigator ? window.localStorage.getItem(TOKEN_KEY) : ''

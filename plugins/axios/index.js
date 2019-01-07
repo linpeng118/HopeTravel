@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {TOKEN_KEY} from '../../common/js/config'
+import {TOKEN_KEY} from '../../pages/m2/assets/js/common/config'
 import store from '../../store'
 axios.create({
   timeout: 1000 * 10,
