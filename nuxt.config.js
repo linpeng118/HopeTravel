@@ -94,6 +94,7 @@ module.exports = {
   build: {
     vendor: [
       'axios',
+      'lodash',
       '~/plugins/mint-ui',
       '~/plugins/vue-swiper',
     ],

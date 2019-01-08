@@ -1,5 +1,5 @@
 <template>
-  <section class="local-regiment">
+  <section class="local-regiment" v-infinite-scroll>
     <!-- banner -->
     <div class="banner"></div>
     <!-- 当季热门 -->
