@@ -45,20 +45,18 @@ module.exports = {
    ** Global CSS
    */
   css: [
-    '@assets/css/index.css',
-    {
-      src: "swiper/dist/css/swiper.css"
-    }
+    '@/assets/css/index.css',
+    'swiper/dist/css/swiper.css'
   ],
 
   /*
    ** Plugins to load before mounting the App
    */
   plugins: [{
-    src: '~plugins/mint-ui/mint-ui.js',
+    src: '~/plugins/mint-ui',
     ssr: true
   }, {
-    src: "~/plugins/vue-swiper/swiper.js",
+    src: "~/plugins/vue-swiper",
     ssr: false
   }, ],
 
@@ -84,7 +82,7 @@ module.exports = {
       {
         target: 'http://m20.tourscool.net/api', // api主机
         pathRewrite: {
-          '^/api' : '/api'
+          '^/api': '/api'
         },
         changeOrigin: true
       }
@@ -94,7 +92,11 @@ module.exports = {
    ** Build configuration
    */
   build: {
-    vendor: ['axios'],
+    vendor: [
+      'axios',
+      '~/plugins/mint-ui',
+      '~/plugins/vue-swiper',
+    ],
     postcss: [
       require('postcss-px2rem')({
         remUnit: 75 // 转换基本单位

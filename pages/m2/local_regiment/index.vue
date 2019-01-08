@@ -3,27 +3,30 @@
     <!-- banner -->
     <div class="banner"></div>
     <!-- 当季热门 -->
-    <div class="hot-swiper"
-      v-swiper:mySwiper="swiperOption">
+    <div class="hot-swiper">
       <h1 class="title">当季热门</h1>
-      <div class="swiper-wrapper">
-        <div class="swiper-slide"
-          v-for="hot in hotList"
-          :key="hot.id">
-          <hot-item :proData="hot" />
+      <div v-swiper:mySwiper="swiperOption">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide"
+            v-for="hot in hotList"
+            :key="hot.title">
+            <hot-item :proData="hot" />
+          </div>
         </div>
       </div>
     </div>
     <!-- 热门目的地 -->
     <div class="hot-citys">
       <h1 class="title">热门目的地</h1>
-      <hot-city-tag v-for="hotCity in hotCityList"
-        :key="hotCity"
-        :name="hotCity"
-        @callOnTag="onCity" />
-      <hot-city-tag className="more"
-        name="更多目的地"
-        @callOnTag="onMoreCity" />
+      <div class="city-list">
+        <hot-city-tag v-for="hotCity in hotCityList"
+          :key="hotCity"
+          :name="hotCity"
+          @callOnTag="onCity" />
+        <hot-city-tag className="more"
+          name="更多目的地"
+          @callOnTag="onMoreCity" />
+      </div>
     </div>
     <!-- 稀饭精选 -->
     <div class="high-quality">
@@ -65,15 +68,13 @@
 </template>
 
 <script>
-  import {Swipe, SwipeItem, Navbar, TabItem} from 'mint-ui';
+  import {Navbar, TabItem} from 'mint-ui';
   import HotItem from '../components/items/hotItem.vue';
   import HotCityTag from '../components/tags/index.vue';
 
   export default {
     layout: 'defaultHeader',
     components: {
-      Swipe,
-      SwipeItem,
       Navbar,
       TabItem,
       HotItem,
@@ -86,6 +87,7 @@
           // loop: true,
           slidesPerView: 'auto',
           spaceBetween: 10,
+          slidesOffsetBefore: 16,
           // centeredSlides: true,
           // pagination: {
           //   el: '.swiper-pagination',
@@ -196,6 +198,7 @@
   .local-regiment {
     background: #f1f1f1;
     height: 100%;
+    font-size: 0;
     .banner {
       height: 312px;
       background: url(../assets/imgs/local_regiment/bg_banner@2x.png) no-repeat 0
@@ -204,20 +207,20 @@
     .hot-swiper,
     .hot-citys,
     .high-quality {
+      margin-top: 24px;
+      padding: 30px 0 34px;
       background: #fff;
       .title {
+        padding-left: 32px;
         color: #191919;
         font-size: 40px;
         font-weight: 300;
-        padding: 30px 0;
       }
     }
     .hot-swiper {
       height: 522px;
-      width: 100%;
-      padding-left: 32px;
       .swiper-wrapper {
-        width: 100%;
+        margin-top: 28px;
         .swiper-slide {
           font-size: 38px;
           width: 332px !important;
@@ -225,23 +228,26 @@
       }
     }
     .hot-citys {
-      margin-top: 24px;
-      padding: 0 30px;
       height: 268px;
       width: 100%;
-      font-size: 0;
+      .city-list {
+        padding: 28px;
+      }
     }
     .high-quality {
-      margin-top: 24px;
       .title {
         padding-left: 32px;
       }
       .scroll-topbar {
+        padding: 30px 0 10px;
         width: 100%;
         .mint-navbar {
           overflow-x: scroll;
           .mint-tab-item {
             min-width: 22%;
+            .mint-tab-item-label {
+              font-size: 32px !important;
+            }
           }
         }
       }
@@ -257,6 +263,7 @@
             display: inline-block;
             margin-right: 10px;
             margin-top: 34px;
+            width: 332px !important;
           }
         }
       }

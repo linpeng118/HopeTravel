@@ -9,7 +9,7 @@
 <script>
   import LayHeader from '@/components/header/index.vue'
   import LayFooter from '@/components/footer/index.vue'
-  
+
   export default {
     components: {
       LayHeader,

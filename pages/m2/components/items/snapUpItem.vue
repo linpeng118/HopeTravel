@@ -19,19 +19,21 @@
           <span>6</span>
         </span>
         <div class="collect">
-          <img v-if="isCollect" src="../../../../assets/image/star_active@2x.png"
+          <img v-if="isCollect"
+            src="../../../../assets/image/star_active@2x.png"
             alt="">
-          <img v-else src="../../../../assets/image/star@2x.png"
+          <img v-else
+            src="../../../../assets/image/star@2x.png"
             alt="">
         </div>
       </div>
-      <p class="title"
+      <div class="title"
         v-if="isShowTitle">
         {{proData.title}}
-      </p>
+      </div>
     </div>
     <div class="desc">
-      <span class="tags-wrap"
+      <div class="tags-wrap"
         :class="tagPos">
         <div class="tag"
           :class="`tag${item}`"
@@ -40,7 +42,7 @@
           <span v-if="item===1">自营</span>
           <span v-if="item===2">精选</span>
         </div>
-      </span>
+      </div>
       <span>{{proData.desc}}</span>
     </div>
     <div class="price-wrap">
@@ -173,6 +175,7 @@
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       .tags-wrap {
+        display: inline-block;
         .tag {
           display: inline-block;
           width: 60px;

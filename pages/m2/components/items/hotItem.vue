@@ -1,9 +1,9 @@
 <template>
   <div class="hot-item">
-    <div class="hot-banner">
+    <div class="banner">
       <img :src="proData.src"
-        alt="hot-img">
-      <div class="hot-tags"
+        alt="banner">
+      <div class="tag-wrap"
         :class="tagPos">
         <div class="tag"
           :class="`tag${item}`"
@@ -13,10 +13,10 @@
           <span v-if="item===2">精选</span>
         </div>
       </div>
-      <p class="title"
-        v-if="isShowTitle">{{proData.title}}</p>
+      <div class="title"
+        v-if="isShowTitle">{{proData.title}}</div>
     </div>
-    <p class="desc">{{proData.desc}}</p>
+    <div class="desc">{{proData.desc}}</div>
     <div class="price-wrap">
       <span class="price">${{proData.price}}</span>
       <span class="unit">/起&nbsp;</span>
@@ -59,20 +59,21 @@
 
 <style lang="scss" scoped>
   .hot-item {
-    width: 332px;
+    width: 100%;
     height: 100%;
-    .hot-banner {
+    font-size: 0;
+    .banner {
       position: relative;
       height: 240px;
       img {
-        width: 332px;
-        height: 240px;
+        width: 100%;
+        height: 100%;
       }
-      .hot-tags {
+      .tag-wrap {
         position: absolute;
         left: 5px;
         &.top {
-          top: 0px;
+          top: 5px;
         }
         &.bottom {
           bottom: 5px;
@@ -116,6 +117,7 @@
       -webkit-box-orient: vertical;
     }
     .price-wrap {
+      margin-top: 8px;
       .price {
         font-size: 32px;
         color: #ff0000;
