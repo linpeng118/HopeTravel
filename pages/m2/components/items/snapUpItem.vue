@@ -18,7 +18,7 @@
           <span>5</span>
           <span>6</span>
         </span>
-        <div class="collect">
+        <div class="collect" @click="OnCollect(proData)">
           <img v-if="isCollect"
             src="../../../../assets/image/star_active@2x.png"
             alt="">
@@ -89,7 +89,11 @@
     },
     computed: {},
     mounted() {},
-    methods: {},
+    methods: {
+      OnCollect(val) {
+        this.$emit('callCollect', val)
+      }
+    },
   }
 </script>
 

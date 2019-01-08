@@ -12,7 +12,7 @@
           <div class="swiper-slide"
             v-for="viewed in viewedList"
             :key="viewed.title">
-            <snap-up-item :proData="viewed" />
+            <snap-up-item :proData="viewed" @callCollect="doCollect"/>
           </div>
         </div>
       </div>
@@ -212,6 +212,11 @@
             ],
           },
         ],
+      }
+    },
+    methods: {
+      doCollect(val) {
+        console.log(val)
       }
     }
   }
