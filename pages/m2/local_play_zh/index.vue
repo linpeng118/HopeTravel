@@ -2,6 +2,8 @@
   <section class="local-play-zh">
     <!-- banner -->
     <div class="banner"></div>
+    <!-- 热门城市 -->
+    <hot-city/>
     <!-- 最近浏览 -->
     <div class="recently-viewed">
       <h1 class="title">最近浏览</h1>
@@ -21,7 +23,7 @@
       <div class="show-item"
         v-for="showItem in showList"
         :key="showItem.title">
-        <show-item :proData="showItem" />
+        <swipe-item :proData="showItem" />
       </div>
     </div>
     <!-- 底部距离 -->
@@ -31,13 +33,15 @@
 
 <script>
   import SnapUpItem from '../components/items/snapUpItem'
-  import ShowItem from './partial/showItem'
-
+  import SwipeItem from '../components/items/swipeItem'
+  import HotCity from './partial/hotCity'
+  
   export default {
     layout: 'defaultAll',
     components: {
+      HotCity,
       SnapUpItem,
-      ShowItem
+      SwipeItem
     },
     data() {
       return {

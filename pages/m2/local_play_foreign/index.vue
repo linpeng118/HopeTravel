@@ -2,16 +2,16 @@
   <section class="container">
     <!-- banner -->
     <div class="banner"></div>
-    <hot-city></hot-city>
+    <!-- <hot-city></hot-city> -->
   </section>
 </template>
 
 <script>
-  import HotCity from './partial/hotCity'
+  // import HotCity from './partial/hotCity'
   export default {
     layout: 'defaultHeader',
     components: {
-      HotCity
+      // HotCity
     },
     data() {
       return {}

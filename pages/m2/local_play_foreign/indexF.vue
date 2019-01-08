@@ -75,7 +75,7 @@
       width: 100%;
       top:0;
       left: 0;
-      background: url(../assets/imgs/bg_banner@2x.png) no-repeat;
+      background: url(../assets/imgs/local_regiment/bg_banner@2x.png) no-repeat;
       background-size: cover;
       z-index: 0;
     }
