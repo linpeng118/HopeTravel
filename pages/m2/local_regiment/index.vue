@@ -197,8 +197,11 @@
 <style lang="scss" scoped>
   .local-regiment {
     background: #f1f1f1;
-    height: 100%;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
     font-size: 0;
+    -webkit-overflow-scrolling: touch;
     .banner {
       height: 312px;
       background: url(../assets/imgs/local_regiment/bg_banner@2x.png) no-repeat 0
