@@ -18,9 +18,14 @@
     components: {
       Header
     },
+    props: {
+      title: {
+        type: String,
+        default: '标题'
+      }
+    },
     data() {
       return {
-        title: '标题',
         isFixed: true,
       }
     },

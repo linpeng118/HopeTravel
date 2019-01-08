@@ -2,13 +2,17 @@
   <section class="container">
     <!-- banner -->
     <div class="banner"></div>
-    <div>dfs</div>
+    <hot-city></hot-city>
   </section>
 </template>
 
 <script>
+  import HotCity from './partial/hotCity'
   export default {
     layout: 'defaultHeader',
+    components: {
+      HotCity
+    },
     data() {
       return {}
     }
