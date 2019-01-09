@@ -79,17 +79,7 @@
   }
 }
 
-
-/*********************** 其它样式修改 ***********************/
-
-// 1.UC上有一个插件，导致页面显示不完全，出现了滚动条，把它干掉，
-#trans-tooltip,
-#tip-arrow-bottom,
-#tip-arrow-top {
-  display: none;
-}
-
-// 2.滚动条样式（pc用得多点）
+// 滚动条样式（pc用得多点）
 //::-webkit-scrollbar {
 //  width: 10px;
 //  height: 10px;
@@ -110,3 +100,12 @@
 //::-webkit-scrollbar-thumb:active {
 //  background-color: #40BA83;
 //}
+
+/*********************** 其它样式修改 ***********************/
+
+// 1.UC上有一个插件，导致页面显示不完全，出现了滚动条，把它干掉，
+#trans-tooltip,
+#tip-arrow-bottom,
+#tip-arrow-top {
+  display: none;
+}
