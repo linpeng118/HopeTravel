@@ -9,17 +9,8 @@
   display: none !important;
 }
 
-.no-highlight {
-  outline: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  appearance: none;
-  -webkit-tap-highlight-color: transparent;
-}
-
 // 内部全是float元素的容器，解决容器没有宽高的问题
-.float-container {
+.f-content {
 
   &:after,
   &:before {
@@ -32,12 +23,19 @@
   }
 }
 
-.float-left {
+.fl {
   float: left;
 }
 
-.float-right {
+.fr {
   float: right;
+}
+
+// 行高
+.no-highlight {
+  outline: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 // 手型
@@ -45,6 +43,7 @@
   cursor: pointer;
 }
 
+// 禁止选中
 .user-select-none {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0.5);
   -webkit-touch-callout: none;
@@ -59,6 +58,28 @@
   white-space: pre-line;
 }
 
+// 不换行
+.no-wrap {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+// 扩展点击区域
+.extend-click {
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+  }
+}
+
+
 /*********************** 其它样式修改 ***********************/
 
 // 1.UC上有一个插件，导致页面显示不完全，出现了滚动条，把它干掉，
@@ -68,7 +89,7 @@
   display: none;
 }
 
-// 2.滚动条样式
+// 2.滚动条样式（pc用得多点）
 //::-webkit-scrollbar {
 //  width: 10px;
 //  height: 10px;
@@ -89,10 +110,3 @@
 //::-webkit-scrollbar-thumb:active {
 //  background-color: #40BA83;
 //}
-
-// 3.地区插件样式
-// .distpicker-address-wrapper select {
-//   padding: 0.4rem 0.75rem !important;
-//   height: 32px !important;
-//   font-size: 0.8rem !important;
-// }

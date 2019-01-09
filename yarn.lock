@@ -990,6 +990,11 @@
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.1.tgz#48fd98c1561fe718b61733daed46ff115b496e18"
   integrity sha512-eqz8c/0kwNi/OEHQfvIuJVLTst3in0e7uTKeuY+WL/zfKn0xVujOTp42bS/vUUokhK5P2BppLd9JXMOMHcgbjA==
 
+"@vant/icons@^1.0.3":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@vant/icons/-/icons-1.0.4.tgz#76b166f5ecf291711a0f8ff86a1af99e4813343c"
+  integrity sha512-X2+7ZPvkUq8wACTiQ0wptQ6UmUIY8BQTkxeAkPrvSglPjqhRFFuaof6RS1O2c8zGxa0GkM4dt9mqHySkjjikKQ==
+
 "@vue/component-compiler-utils@^2.0.0":
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/@vue/component-compiler-utils/-/component-compiler-utils-2.4.0.tgz#a887b57ff06e562873a0ba1dfcf1f8068efa6e26"
@@ -9011,6 +9016,15 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
+vant@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/vant/-/vant-1.5.1.tgz#e3fbf05580a30446cf1326a6b080065e6bd080d5"
+  integrity sha512-WdzhDGUUemU4xI1UpDWpJBt/mIBL87h/TFYlRYTv6sXLW4M5fafgrYWW5i5/g/ZDBwBWm9nRZCXDFlgj/DS3wg==
+  dependencies:
+    "@babel/runtime" "^7.1.5"
+    "@vant/icons" "^1.0.3"
+    vue-lazyload "1.2.3"
+
 vary@^1.1.2, vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
@@ -9061,6 +9075,11 @@ vue-hot-reload-api@^2.3.0:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.1.tgz#b2d3d95402a811602380783ea4f566eb875569a2"
   integrity sha512-AA86yKZ5uOKz87/q1UpngEXhbRkaYg1b7HMMVRobNV1IVKqZe8oLIzo6iMocVwZXnYitlGwf2k4ZRLOZlS8oPQ==
+
+vue-lazyload@1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/vue-lazyload/-/vue-lazyload-1.2.3.tgz#901f9ec15c7e6ca78781a2bae4a343686bdedb2c"
+  integrity sha512-DC0ZwxanbRhx79tlA3zY5OYJkH8FYp3WBAnAJbrcuoS8eye1P73rcgAZhyxFSPUluJUTelMB+i/+VkNU/qVm7g==
 
 vue-lazyload@^1.0.1:
   version "1.2.6"

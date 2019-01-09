@@ -46,19 +46,23 @@ module.exports = {
    */
   css: [
     '@/assets/style/index.scss',
-    // 'swiper/dist/style/swiper.css'
   ],
 
   /*
    ** Plugins to load before mounting the App
    */
   plugins: [{
-    src: '~/plugins/mint-ui',
-    ssr: true
-  }, {
-    src: "~/plugins/vue-swiper",
-    ssr: false
-  }, ],
+      src: '~/plugins/vant',
+      ssr: true
+    },
+    {
+      src: '~/plugins/mint-ui',
+      ssr: true
+    }, {
+      src: "~/plugins/vue-swiper",
+      ssr: false
+    },
+  ],
 
   /*
    ** Nuxt.js modules
@@ -96,6 +100,7 @@ module.exports = {
       'axios',
       'lodash',
       '~/plugins/mint-ui',
+      '~/plugins/vant',
       '~/plugins/vue-swiper',
     ],
     postcss: [

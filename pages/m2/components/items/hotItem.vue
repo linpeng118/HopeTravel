@@ -13,8 +13,10 @@
           <span v-if="item===2">精选</span>
         </div>
       </div>
-      <div class="title"
-        v-if="isShowTitle">{{proData.title}}</div>
+      <div class="title-wrap"
+        v-if="isShowTitle">
+        <span class="title">{{proData.title}}</span>
+      </div>
     </div>
     <div class="desc">{{proData.desc}}</div>
     <div class="price-wrap">
@@ -95,16 +97,19 @@
           background: #fe423f;
         }
       }
-      .title {
+      .title-wrap {
+        box-sizing: border-box;
         position: absolute;
         bottom: 0;
-        padding: 0 10px;
         width: 100%;
-        height: 40px;
-        line-height: 40px;
         background: rgba(0, 0, 0, 0.6);
-        color: #f1f1f1;
-        font-size: 10px;
+        padding-left: 10px;
+        .title {
+          height: 40px;
+          line-height: 40px;
+          color: #f1f1f1;
+          font-size: 10px;
+        }
       }
     }
     .desc {
