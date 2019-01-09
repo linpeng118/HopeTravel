@@ -35,7 +35,7 @@
   import SnapUpItem from '../components/items/snapUpItem'
   import SwipeItem from '../components/items/swipeItem'
   import HotCity from './partial/hotCity'
-  
+
   export default {
     layout: 'defaultAll',
     components: {
@@ -217,7 +217,7 @@
     methods: {
       doCollect(val) {
         console.log(val)
-      },
+      }
     }
   }
 </script>
