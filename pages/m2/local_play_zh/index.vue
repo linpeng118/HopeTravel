@@ -35,7 +35,7 @@
   import SnapUpItem from '../components/items/snapUpItem'
   import SwipeItem from '../components/items/swipeItem'
   import HotCity from './partial/hotCity'
-  import {getData2} from ''
+  
   export default {
     layout: 'defaultAll',
     components: {
@@ -218,13 +218,6 @@
       doCollect(val) {
         console.log(val)
       },
-      getDatass() {
-        getData2({
-          city: 1
-        }).then(res => {
-
-        })
-      }
     }
   }
 </script>
