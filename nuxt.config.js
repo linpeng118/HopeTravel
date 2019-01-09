@@ -46,6 +46,7 @@ module.exports = {
    */
   css: [
     '@/assets/style/index.scss',
+    'vant/lib/index.css'
   ],
 
   /*
@@ -104,8 +105,9 @@ module.exports = {
       '~/plugins/vue-swiper',
     ],
     postcss: [
-      require('postcss-px2rem')({
-        remUnit: 75 // 转换基本单位
+      require('postcss-px2rem-exclude')({
+        remUnit: 75, // 转换基本单位
+        exclude: /vant/i
       }),
       require('autoprefixer')({
         browsers: ['last 3 versions']
