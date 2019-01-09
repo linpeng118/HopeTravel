@@ -1,10 +1,11 @@
 <template>
   <section class="test-vant">
-    <div>
+    <div class="back">
       <nuxt-link to="/test">
-        首页
+        <van-icon name="arrow-left" />
       </nuxt-link>
     </div>
+    <!-- 例子 -->
     <van-checkbox v-model="checked">复选框</van-checkbox>
     <van-button type="default">默认按钮</van-button>
     <van-button type="primary">主要按钮</van-button>
@@ -30,9 +31,12 @@
   }
 </script>
 
-<style>
+<style lang="scss" scoped>
   .test-vant {
     min-height: 100vh;
     background-color: #eee;
+    .back {
+      padding: 10px;
+    }
   }
 </style>

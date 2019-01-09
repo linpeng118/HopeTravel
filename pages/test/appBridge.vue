@@ -1,5 +1,11 @@
 <template>
   <section class="app-bridge">
+    <div class="back">
+      <nuxt-link to="/test">
+        <van-icon name="arrow-left" />
+      </nuxt-link>
+    </div>
+    <!-- 例子 -->
     <div class="btn"
       v-for="(item, index) in funcNames"
       :key="item">
@@ -96,7 +102,7 @@
       margin: 15px 0;
       padding: 20px;
       border-radius: 6px;
-      border: 2px solid #abcdef;
+      border: 2px solid cornflowerblue;
       font-size: 16px;
       &.disabled {
         color: #f02b55;
