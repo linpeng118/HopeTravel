@@ -8,6 +8,14 @@ html {
 *:after {
   box-sizing: inherit;
 }
+* { touch-action: none; }
+
+*{
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select:none;
+}
 
 body {
   height: 100%;

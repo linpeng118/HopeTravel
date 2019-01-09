@@ -327,7 +327,7 @@
   </div>
 </template>
 <script>
-  // import "../assets/style/swiper.min.css";
+  // import "../assets/style/swiper.min.style";
   import "../assets/style/base.css";
   import "../assets/style/custom.css";
   //   import $ from 'jquery';

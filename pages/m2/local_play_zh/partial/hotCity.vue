@@ -73,7 +73,7 @@ export default {
 </script>
 
 <style type="text/scss" lang="scss" scoped>
-  @import "../../assets/style/common/mixin";
+  @import "../../../../assets/style/mixin/index.scss";
   .hot-city{
     padding: 0 32px;
     background: #fff;

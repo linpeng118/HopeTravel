@@ -45,8 +45,8 @@ module.exports = {
    ** Global CSS
    */
   css: [
-    '@/assets/css/index.scss',
-    'swiper/dist/css/swiper.css'
+    '@/assets/style/index.scss',
+    // 'swiper/dist/style/swiper.css'
   ],
 
   /*
