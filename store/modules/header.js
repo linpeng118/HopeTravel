@@ -1,7 +1,7 @@
 export default {
   namespaced: true,
   state: {
-    headerStatus: 'top',
+    headerStatus: 0,
   },
   actions: {
     // changeStatus({commit}, data) {
