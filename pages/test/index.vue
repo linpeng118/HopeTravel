@@ -1,22 +1,12 @@
 <template>
-  <section class="container">
-    <h1 class="title">
-      version 1.0
-    </h1>
-    <van-icon name="close" />
-    <!-- 左对齐 -->
-    <van-row type="flex">
-      <van-col span="6">span: 6</van-col>
-      <van-col span="6">span: 6</van-col>
-      <van-col span="6">span: 6</van-col>
-    </van-row>
-    <!-- 居中 -->
-    <van-row type="flex"
-      justify="center">
-      <van-col span="6">span: 6</van-col>
-      <van-col span="6">span: 6</van-col>
-      <van-col span="6">span: 6</van-col>
-    </van-row>
+  <section class="test-page">
+    <h3>测试页面 version 1.0</h3>
+    <nuxt-link class="test-item hand"
+      v-for="item in testList"
+      :key="item.path"
+      :to="item.path">
+      {{item.id}}.{{item.name}}
+    </nuxt-link>
   </section>
 </template>
 
@@ -25,14 +15,27 @@
     components: {},
     data() {
       return {
-
+        testList: [
+          {id: 1, path: '/test/vant', name: 'vant UI'},
+          {id: 2, path: '/test/appBridge', name: '测试调用移动端接口'},
+        ]
       }
     }
   }
 </script>
 
-<style>
-  .container {
+<style lang="scss" scoped>
+  .test-page {
     min-height: 100vh;
+    padding: 30px;
+    .test-item {
+      display: inline-block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 20px;
+      border: 2px solid #abcdef;
+      border-radius: 8px;
+      color: teal;
+    }
   }
 </style>
