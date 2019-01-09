@@ -3,7 +3,7 @@
     <!-- banner -->
     <div class="banner"></div>
     <!-- 热门城市 -->
-    <hot-city/>
+    <hot-city />
     <!-- 最近浏览 -->
     <div class="recently-viewed">
       <h1 class="title">最近浏览</h1>
@@ -12,7 +12,8 @@
           <div class="swiper-slide"
             v-for="viewed in viewedList"
             :key="viewed.title">
-            <snap-up-item :proData="viewed" @callCollect="doCollect"/>
+            <snap-up-item :proData="viewed"
+              @callCollect="doCollect" />
           </div>
         </div>
       </div>

@@ -1,8 +1,9 @@
 <template>
-  <van-nav-bar class="layout-header"
+  <van-nav-bar class="layout-header tours-no-bb"
+    ref="layoutHeader"
     fixed
-    :title="title"
-    :class="{'show-bg': isBgHeader}"
+    :title="'本地跟团'"
+    :class="{'show-bg': vxHeaderStatus}"
     :z-index="999"
     @click-left="onClickLeft"
     @click-right="onClickRight">
@@ -20,6 +21,9 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
+  import {HEADER_TYPE} from '../../pages/m2/assets/js/consts/headerType'
+
   export default {
     components: {
     },
@@ -35,12 +39,18 @@
     },
     data() {
       return {
+        HEADER_TYPE,
         isFixed: true,
       }
     },
+    computed: {
+      ...mapState({
+        vxHeaderStatus: state => state.header.headerStatus,
+      })
+    },
     methods: {
       onClickLeft() {
-        console.log('返回');
+        this.$router.go(-1)
       },
       onClickRight() {
         console.log('按钮');
@@ -55,10 +65,14 @@
     font-size: 32px;
     color: #eee;
     background-color: transparent;
+    transition: all 0.5s;
     &.show-bg {
       background-color: #fff;
       color: #191919;
       box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.14);
+      .left-wrap {
+        color: #191919;
+      }
       .right-wrap {
         .search {
           background: #399ef6 !important;
@@ -91,8 +105,5 @@
         }
       }
     }
-  }
-  .van-hairline--bottom::after {
-    border-bottom-width: 0px !important;
   }
 </style>
