@@ -33,10 +33,10 @@
 </template>
 
 <script>
+  import {mapState, mapActions} from 'vuex'
   import SnapUpItem from '../components/items/snapUpItem'
   import SwipeItem from '../components/items/swipeItem'
   import HotCity from './partial/hotCity'
-
   export default {
     layout: 'defaultAll',
     components: {
@@ -215,7 +215,20 @@
         ],
       }
     },
+    mounted() {
+      this.init()
+    },
     methods: {
+      ...mapActions({
+        vxGetHotActive: 'localPlay/getHotActive' // 玩乐搜索-获取热门活动
+      }),
+      async init() {
+        try {
+          await this.vxGetHotActive()
+        } catch (error) {
+          console.log(error)
+        }
+      },
       doCollect(val) {
         console.log(val)
       }
