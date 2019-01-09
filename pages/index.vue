@@ -24,7 +24,7 @@
 
 <script>
 import Logo from '~/components/Logo.vue'
-import {getData} from '../api/test'
+import {getData} from './m2/api/test'
 import {mapMutations} from 'vuex'
 export default {
   components: {
