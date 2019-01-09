@@ -1,21 +1,22 @@
 <template>
-  <mt-header :fixed="isFixed"
+  <van-nav-bar class="layout-header"
+    fixed
     :title="title"
-    class="defalut-header"
-    :class="{'show-bg': isBgHeader}">
-    <router-link to="/"
-      slot="left">
-      <mt-button icon="back"
-        class="back"></mt-button>
-    </router-link>
-    <div slot="right"
-      class="right-wrap">
+    :class="{'show-bg': isBgHeader}"
+    :z-index="999"
+    @click-left="onClickLeft"
+    @click-right="onClickRight">
+    <van-icon class="left-wrap"
+      name="arrow-left"
+      slot="left" />
+    <van-icon class="right-wrap"
+      slot="right">
       <div class="search">
         <div class="icon"></div>
         <div class="text">搜索</div>
       </div>
-    </div>
-  </mt-header>
+    </van-icon>
+  </van-nav-bar>
 </template>
 
 <script>
@@ -39,19 +40,23 @@
         isFixed: true,
       }
     },
-    computed: {},
-    mounted() {},
-    methods: {},
+    methods: {
+      onClickLeft() {
+        console.log('返回');
+      },
+      onClickRight() {
+        console.log('按钮');
+      }
+    },
   }
 </script>
 
 <style lang="scss" scoped>
-  .defalut-header {
+  .layout-header {
     height: 88px;
     font-size: 32px;
-    background-color: transparent;
     color: #eee;
-    z-index: 999;
+    background-color: transparent;
     &.show-bg {
       background-color: #fff;
       color: #191919;
@@ -63,14 +68,13 @@
         }
       }
     }
-    .back .mintui-back {
-      font-size: 32px;
+    .left-wrap {
+      color: #fff;
     }
     .right-wrap {
-      float: right;
       .search {
         width: 118px;
-        height: 44px;
+        height: 100%;
         background: rgba(255, 255, 255, 0.4);
         border-radius: 22px;
         display: flex;
@@ -85,8 +89,12 @@
         .text {
           margin-left: 5px;
           font-size: 22px;
+          color: #fff;
         }
       }
     }
+  }
+  .van-hairline--bottom::after {
+    border-bottom-width: 0px !important;
   }
 </style>
