@@ -20,10 +20,8 @@
 </template>
 
 <script>
-  import {Header} from 'mint-ui';
   export default {
     components: {
-      Header
     },
     props: {
       title: {

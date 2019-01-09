@@ -1,0 +1,11 @@
+// tours.scss 用于覆盖使用的vant的UI样式，定制公司自己的一套样式规范
+.tours-tabs {
+  .van-tabs__line {
+    background-color: #399EF6;
+
+  }
+
+  .van-hairline--top-bottom::after {
+    border-width: 0 !important;
+  }
+}

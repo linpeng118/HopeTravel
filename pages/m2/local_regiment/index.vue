@@ -29,30 +29,28 @@
       </div>
     </div>
     <!-- 稀饭精选 -->
-    <div class="high-quality">
+    <div class="high-quality tours-tabs">
       <h1 class="title">稀饭精选</h1>
-      <!-- 国家-滑动tab -->
-      <div class="scroll-topbar">
-        <mt-navbar v-model="selected">
-          <mt-tab-item :id="item"
-            v-for="item in highQualities"
-            :key="item">{{item}}</mt-tab-item>
-        </mt-navbar>
-      </div>
-      <!-- 国家标签 -->
-      <div class="hq-tags">
-        <hot-city-tag className="more"
-          name="全部"
-          @callOnTag="onCityAll" />
-        <hot-city-tag v-for="hotCity in hotCityList"
-          :key="hotCity"
-          :name="hotCity"
-          @callOnTag="onCity" />
-      </div>
-      <!-- 列表 -->
-      <mt-tab-container class="high-quality-list-wrap"
-        v-model="selected">
-        <mt-tab-container-item :id="selected">
+      <!-- 横向tabs -->
+      <van-tabs v-model="selected"
+        sticky
+        swipeable>
+        <!-- 国家标签 -->
+        <div class="hq-tags">
+          <hot-city-tag className="more"
+            name="全部"
+            @callOnTag="onCityAll" />
+          <hot-city-tag v-for="hotCity in hotCityList"
+            :key="hotCity"
+            :name="hotCity"
+            @callOnTag="onCity" />
+        </div>
+        <!-- 列表 -->
+        <van-tab class="high-quality-list-wrap"
+          v-for="item in highQualities"
+          :key="item"
+          :id="item"
+          :title="item">
           <div class="high-quality-list">
             <hot-item class="high-quality-item"
               v-for="item in highQualityList"
@@ -61,22 +59,19 @@
               :isShowTitle="false"
               :proData="item" />
           </div>
-        </mt-tab-container-item>
-      </mt-tab-container>
+        </van-tab>
+      </van-tabs>
     </div>
   </section>
 </template>
 
 <script>
-  import {Navbar, TabItem} from 'mint-ui';
   import HotItem from '../components/items/hotItem.vue';
   import HotCityTag from '../components/tags/index.vue';
 
   export default {
     layout: 'defaultHeader',
     components: {
-      Navbar,
-      TabItem,
       HotItem,
       HotCityTag
     },
@@ -88,11 +83,6 @@
           slidesPerView: 'auto',
           spaceBetween: 10,
           slidesOffsetBefore: 16,
-          // centeredSlides: true,
-          // pagination: {
-          //   el: '.swiper-pagination',
-          //   dynamicBullets: true
-          // },
           on: {
             slideChange() {
               console.log('onSlideChangeEnd', this);
@@ -238,6 +228,7 @@
       }
     }
     .high-quality {
+      font-size: 0;
       .title {
         padding-left: 32px;
       }
@@ -255,9 +246,8 @@
         }
       }
       .hq-tags {
-        margin-top: 10px;
+        margin-top: 24px;
         padding: 0 30px;
-        font-size: 0;
       }
       .high-quality-list-wrap {
         padding: 0 32px 32px;

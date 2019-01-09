@@ -55,10 +55,6 @@ module.exports = {
   plugins: [{
       src: '~/plugins/vant',
       ssr: true
-    },
-    {
-      src: '~/plugins/mint-ui',
-      ssr: true
     }, {
       src: "~/plugins/vue-swiper",
       ssr: false
@@ -100,7 +96,6 @@ module.exports = {
     vendor: [
       'axios',
       'lodash',
-      '~/plugins/mint-ui',
       '~/plugins/vant',
       '~/plugins/vue-swiper',
     ],
