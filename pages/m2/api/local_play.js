@@ -8,5 +8,5 @@ import axios from '../../../plugins/axios/axios'
 // }
 
 export const getHotActivities = () => {
-  return axios.get('/localPlay/activity')
+  return axios.get('/api/localPlay/activity')
 }
