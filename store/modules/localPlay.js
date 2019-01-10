@@ -6,7 +6,7 @@ import {
 export default {
   namespaced: true,
   state: () => ({
-    hotActiveList: 0,
+    hotActiveList: [],
   }),
   actions: {
     async getHotActive({
