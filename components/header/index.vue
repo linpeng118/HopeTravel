@@ -2,7 +2,7 @@
   <van-nav-bar class="layout-header tours-no-bb"
     ref="layoutHeader"
     fixed
-    :title="'本地跟团'"
+    :title="'当地跟团'"
     :class="{'show-bg': vxHeaderStatus}"
     :z-index="999"
     @click-left="onClickLeft"
