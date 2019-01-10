@@ -76,19 +76,24 @@ module.exports = {
     prefix: '/api', // baseURL
     credentials: true,
   },
-  proxy: [
+  proxy: {
     // 配置代理
-    [
-      '/api',
+    '/api': {
+      target: 'http://m20.tourscool.net/api/tour/v1', // api主机
+      pathRewrite: {
+        '^/api': '/'
+      },
+      changeOrigin: true
+    },
+    '/paly':
       {
-        target: 'http://m20.tourscool.net/api/tour/v1', // api主机
-        pathRewrite: {
-          '^/api': '/'
-        },
+        target: 'http://192.168.1.91:8888/api/tour/v1', // api主机
+          pathRewrite: {
+            '^/paly': '/'
+          },
         changeOrigin: true
       }
-    ]
-  ],
+  },
   /*
    ** Build configuration
    */

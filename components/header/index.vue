@@ -2,8 +2,8 @@
   <van-nav-bar class="layout-header tours-no-bb"
     ref="layoutHeader"
     fixed
-    :title="'本地跟团'"
-    :class="{'show-bg': vxHeaderStatus}"
+    :title="title"
+    :class="{'show-bg': vxHeaderStatus, 'bg-color': classBg}"
     :z-index="999"
     @click-left="onClickLeft"
     @click-right="onClickRight">
@@ -12,7 +12,7 @@
       slot="left" />
     <van-icon class="right-wrap"
       slot="right">
-      <div class="search">
+      <div class="search" v-if="isSearch">
         <div class="icon"></div>
         <div class="text">搜索</div>
       </div>
@@ -33,6 +33,14 @@
         default: '标题'
       },
       isBgHeader: {
+        type: Boolean,
+        default: false
+      },
+      isSearch: {
+        type: Boolean,
+        default: true
+      },
+      classBg: {
         type: Boolean,
         default: false
       }

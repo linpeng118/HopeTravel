@@ -1,6 +1,6 @@
 <template>
   <section class="container">
-    <lay-header :title="title"></lay-header>
+    <lay-header title="更多城市" :isSearch="false" :classBg="true"></lay-header>
     <div class="listview">
       <van-collapse v-model="activeName" accordion>
         <van-collapse-item v-for="cityInfo in cityList" :key="cityInfo.countryId" :title="cityInfo.countryName" :name="cityInfo.countryId">
@@ -20,36 +20,33 @@
 
 <script>
   import LayHeader from '@/components/header/index.vue'
-  import Scroll from '../components/sroll/index.vue'
-  import {getCityList} from '../api/city'
+  import Scroll from '@/components/sroll/index.vue'
+  import {getCityList} from '@/api/local_play'
   export default {
     name: 'moreCity',
-    async asyncData () {
-      try {
-        let {data} = await getCityList()
-        return {
-          cityList: data
-        }
-      } catch (e) {
-        console.log(e)
-      }
-    },
     components: {
       LayHeader,
       Scroll
     },
     data() {
       return {
-        title: '更多城市',
-        activeName: 1
+        activeName: 1,
+        cityList: []
       }
     },
     created() {
-      this._nomalLizeCityList(this.cityList)
+      this.getInit()
     },
     methods: {
-      scroll() {},
-      _nomalLizeCityList(obj) { // 格式化aip得到的数据
+      // 初始化数据
+      async getInit() {
+        let {data, code} = await getCityList()
+        if (code === 0) {
+          this.cityList = this._nomalLizeCityList(data)
+        }
+      },
+      // 格式化aip得到的数据
+      _nomalLizeCityList(obj) {
         let list = []
         for (let key in obj) {
           let {city_info,county_info} = obj[key]
@@ -59,11 +56,12 @@
             countryId:county_info.country_id
           })
         }
-        this.cityList = list
+        return list
       },
-      selectItem(cityId) { // 路由跳转
+      // 路由跳转
+      selectItem(cityId) {
         this.$router.push({
-          path: `/m2/local_play_foreign`,
+          path: `/local_play_foreign`,
           query: {
             touCityId: cityId
           }
@@ -79,6 +77,13 @@
   }
 </style>
 <style type="text/scss" lang="scss">
+  .bg-color{
+    background: #fff !important;
+    color: #3E3E3E !important;
+    .left-wrap{
+      color: #3E3E3E !important;
+    }
+  }
   .listview{
     padding-top: 88px;
     .van-cell{

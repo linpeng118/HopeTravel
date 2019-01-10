@@ -1,6 +1,7 @@
 <template>
-  <section class="container">
-    <div class="area-play">
+  <section class="container" >
+    <lay-header title="当地玩乐"></lay-header>
+    <div class="area-play" v-if="cityInfo.city">
       <!---->
       <div class="area-location">
         <div class="icon"></div>
@@ -38,40 +39,59 @@
         </div>
       </div>
     </div>
-    <div class="area-image-bg" :style="bgstyle"></div>
+    <div class="area-image-bg" v-if="cityInfo.city" :style="bgStyle">
+      <img :src="cityInfo.city.image" alt="" @load="imageLoaded">
+      <!--<img src="../../assets/imgs/local_regiment/bg_banner@2x.png" alt="" @load="imageLoaded">-->
+    </div>
   </section>
 </template>
 
 <script>
-  import SwipeItem from '../components/items/swipeItem'
-  import {getCityInfo} from '../api/city'
+  import SwipeItem from '@/components/items/swipeItem'
+  import {getCityInfo} from '@/api/local_play'
+  import LayHeader from '@/components/header/index.vue'
   export default {
-    layout: 'defaultHeader',
+    // layout: 'defaultHeader',
     components: {
-      SwipeItem
+      SwipeItem,
+      LayHeader
     },
     validate({ query }) { // 判断路由是否正确
       return query.touCityId
     },
     async asyncData({ query }) {
-      console.log(query)
-      let {data} = await getCityInfo(query.touCityId)
       return {
-        cityInfo: data
+        cityId: query.touCityId
       }
     },
     data() {
       return {
-        cityId: this.$route.query.touCityId || 0,
-        cityInfo: {}
+        cityInfo: {},
+        imgShow: false
       }
     },
     computed: {
-      bgstyle() {
-        return `background-image:url(${this.cityInfo.city.image})`
+      // 城市背景图片处理
+      bgStyle() {
+        let url = this.imgShow ? this.cityInfo.city.image: require('../../assets/imgs/local_regiment/bg_banner@2x.png')
+        return `background-image:url(${url})`
       }
     },
-    mounted() {
+    created() {
+      this.getInit()
+    },
+    methods: {
+      // 初始化数据
+      async getInit() {
+        let {data, code} = await getCityInfo(this.cityId)
+        if(code === 0) {
+          this.cityInfo = data
+        }
+      },
+      // 判断城市背景图片是否加载完成
+      imageLoaded() {
+        this.imgShow = true
+      }
     }
   }
 </script>
@@ -199,6 +219,10 @@
     top: 0;
     z-index: 0;
     background-size: cover;
+    background-position: center;
+    img{
+      display:none;
+    }
   }
 </style>
 

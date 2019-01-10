@@ -1,9 +1,10 @@
 <template>
-  <section class="local-play-zh">
+  <div class="local-play-zh" ref="refLocalPlayPage">
+    <lay-header title="当地玩乐"></lay-header>
     <!-- banner -->
     <div class="banner"></div>
     <!-- 热门城市 -->
-    <hot-city />
+    <hot-city :hotCityList="hotCity"></hot-city>
     <!-- 最近浏览 -->
     <div class="recently-viewed">
       <h1 class="title">最近浏览</h1>
@@ -24,25 +25,32 @@
       <div class="show-item"
         v-for="showItem in showList"
         :key="showItem.title">
-        <swipe-item :proData="showItem" />
+        <!--<swipe-item :proData="showItem" />-->
       </div>
     </div>
+    <lay-footer :imageInfo="footerAdvert" class="footer-margin"></lay-footer>
     <!-- 底部距离 -->
-    <div class="footer-margin"></div>
-  </section>
+    <div></div>
+  </div>
 </template>
 
 <script>
-  import {mapState, mapActions} from 'vuex'
   import SnapUpItem from '@/components/items/snapUpItem'
   import SwipeItem from '@/components/items/swipeItem'
-  import HotCity from './partial/hotCity'
+  import HotCity from '@/components/local_hot_city/hotCity'
+  import {getPlay} from '@/api/local_play'
+  import LayHeader from '@/components/header'
+  import LayFooter from '@/components/footer'
+  import {throttle as _throttle} from 'lodash'
+  import {mapMutations} from 'vuex'
+  import {HEADER_TYPE} from '@/assets/js/consts/headerType'
   export default {
-    layout: 'defaultAll',
     components: {
       HotCity,
       SnapUpItem,
-      SwipeItem
+      SwipeItem,
+      LayHeader,
+      LayFooter
     },
     data() {
       return {
@@ -213,24 +221,62 @@
             ],
           },
         ],
+        // 热门城市
+        hotCity: [],
+        // 热门活动
+        footerAdvert:{}
       }
     },
     mounted() {
       this.init()
+      // 监听滚动
+      this.$refs.refLocalPlayPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
     },
     methods: {
-      ...mapActions({
-        vxGetHotActive: 'localPlay/getHotActive' // 玩乐搜索-获取热门活动
+      ...mapMutations({
+        vxChangeHeaderStatus: 'header/changeStatus' // 修改头部状态
       }),
       async init() {
-        try {
-          await this.vxGetHotActive()
-        } catch (error) {
-          console.log(error)
+        let {data, code} = await getPlay()
+        if (code === 0) {
+          this.showList = this._nomalLizeshowList(data)
+          console.log(this.showList)
         }
+      },
+      _nomalLizeshowList(data) {
+        let showList = []
+        let len = data.length
+        this.hotCity = data[0].data
+        this.footerAdvert = data[len-1].data
+        for(let i = 1; i < len - 1;i++){
+          let obj = {}
+          obj.title = data[i].moduleName
+          obj.list = data[i].data
+          showList.push(obj)
+        }
+        return showList
       },
       doCollect(val) {
         console.log(val)
+      },
+      scrollFn() {
+        window.requestAnimationFrame(() => {
+          const s1 = this.$refs.refLocalPlayPage.scrollTop
+          setTimeout(() => {
+            const s2 = this.$refs.refLocalPlayPage.scrollTop
+            const direct = s2 - s1
+            if (s1 === 0) {
+              console.log('处于顶部')
+              this.vxChangeHeaderStatus(HEADER_TYPE.TOP)
+            } else if (direct > 0) {
+              console.log('向下滚动')
+              this.vxChangeHeaderStatus(HEADER_TYPE.DOWN)
+            } else if (direct < 0) {
+              console.log('向上滚动')
+              this.vxChangeHeaderStatus(HEADER_TYPE.UP)
+            }
+          }, 17)
+        })
       }
     }
   }
@@ -238,7 +284,11 @@
 
 <style lang="scss" scoped>
   .local-play-zh {
+    font-size: 0;
+    height: 100vh;
     background: #f1f1f1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     .banner {
       height: 312px;
       background: url('../../assets/imgs/local_regiment/bg_banner@2x.png') no-repeat 0
@@ -276,8 +326,7 @@
       }
     }
     .footer-margin {
-      height: 24px;
-      width: 100%;
+      margin-top:24px;
     }
   }
 </style>

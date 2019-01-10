@@ -13,10 +13,10 @@
           <span v-if="item===2">精选</span>
         </div>
       </div>
-      <div class="title-wrap"
-        v-if="isShowTitle">
-        <span class="title">{{proData.title}}</span>
-      </div>
+      <!--<div class="title-wrap"-->
+        <!--v-if="isShowTitle">-->
+        <!--<span class="title">{{proData.title}}</span>-->
+      <!--</div>-->
     </div>
     <div class="desc">{{proData.desc}}</div>
     <div class="price-wrap">

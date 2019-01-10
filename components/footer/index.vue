@@ -1,14 +1,20 @@
 <template>
   <div class="default-all-footer">
-    <div class="bg-img">
-      私人定制 · 探秘全球
-    </div>
+    <a :href="imageInfo.link_url">
+      <img :src="imageInfo.image_url" alt="" class="bg-img">
+    </a>
   </div>
 </template>
 
 <script>
   export default {
     components: {},
+    props:{
+      imageInfo:{
+        type: Object,
+        default: null
+      }
+    },
     data() {
       return {
       }
@@ -23,12 +29,6 @@
   .default-all-footer {
     .bg-img {
       width: 100%;
-      height: 160px;
-      line-height: 160px;
-      text-align: center;
-      color: #fff;
-      // background: red;
-      background: url("../../assets/imgs/footer/bg_footer@2x.png") no-repeat 0 0/100% 100%;
     }
   }
 </style>
