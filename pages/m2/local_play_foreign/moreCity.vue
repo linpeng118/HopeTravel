@@ -1,307 +1,101 @@
 <template>
   <section class="container">
     <lay-header :title="title"></lay-header>
-    <div class="city-area">
-      <mt-index-list>
-        <mt-index-section v-for="item in cityList" :key="item.id" :index="item.title">
-          <mt-cell v-for="country in item.items" :key="country.ids" :title="country.name">
-            {{country.code}}
-          </mt-cell>
-        </mt-index-section>
-      </mt-index-list>
+    <div class="listview">
+      <van-collapse v-model="activeName" accordion>
+        <van-collapse-item v-for="cityInfo in cityList" :key="cityInfo.countryId" :title="cityInfo.countryName" :name="cityInfo.countryId">
+          <ul>
+            <li
+              class="list-group-item"
+              v-for="item in cityInfo.cityInfo"
+              :key="item.tour_city_id"
+              @click="selectItem(item.tour_city_id)"
+              >{{item.city_name}}</li>
+          </ul>
+        </van-collapse-item>
+      </van-collapse>
     </div>
   </section>
 </template>
 
 <script>
-import LayHeader from '@/components/header/index.vue'
-export default {
-  name: 'moreCity',
-  transition: 'bounce',
-  components: {
-    LayHeader
-  },
-  data() {
-    return {
-      title: '更多城市',
-      cityList: [
-        {
-          id: 1,
-          title: 'A',
-          items: [
-            {
-              ids: 1,
-              name: '中国大陆',
-              code: 86
-            },
-            {
-              ids: 2,
-              name: '中国大陆1',
-              code: 86
-            },
-            {
-              ids: 3,
-              name: '中国大陆',
-              code: 86
-            },
-            {
-              ids: 4,
-              name: '中国大陆1',
-              code: 86
-            }
-          ]
-        },
-        {
-          id: 2,
-          title: 'B',
-          items: [
-            {
-              ids: 1,
-              name: 'A中国大陆',
-              code: 86
-            },
-            {
-              ids: 2,
-              name: '中国大陆',
-              code: 86
-            },
-            {
-              ids: 3,
-              name: '中国大陆1',
-              code: 86
-            }
-          ]
-        },
-        {
-          id: 3,
-          title: 'C',
-          items: [
-            {
-              ids: 1,
-              name: 'A中国大陆',
-              code: 86
-            },
-            {
-              ids: 2,
-              name: '中国大陆',
-              code: 86
-            },
-            {
-              ids: 3,
-              name: '中国大陆1',
-              code: 86
-            }
-          ]
-        },
-        {
-          id: 4,
-          title: 'D',
-          items: [
-            {
-              ids: 1,
-              name: 'A中国大陆',
-              code: 86
-            },
-            {
-              ids: 2,
-              name: '中国大陆',
-              code: 86
-            },
-            {
-              ids: 3,
-              name: '中国大陆1',
-              code: 86
-            }
-          ]
-        },
-        {
-          id: 5,
-          title: 'E',
-          items: [
-            {
-              ids: 1,
-              name: 'A中国大陆',
-              code: 86
-            },
-            {
-              ids: 2,
-              name: '中国大陆',
-              code: 86
-            },
-            {
-              ids: 3,
-              name: '中国大陆1',
-              code: 86
-            }
-          ]
-        },
-        {
-          id: 6,
-          title: 'F',
-          items: [
-            {
-              ids: 1,
-              name: 'A中国大陆',
-              code: 86
-            },
-            {
-              ids: 2,
-              name: '中国大陆',
-              code: 86
-            },
-            {
-              ids: 3,
-              name: '中国大陆1',
-              code: 86
-            }
-          ]
-        },
-        {
-          id: 7,
-          title: 'A',
-          items: [
-            {
-              ids: 1,
-              name: '中国大陆',
-              code: 86
-            },
-            {
-              ids: 2,
-              name: '中国大陆1',
-              code: 86
-            },
-            {
-              ids: 3,
-              name: '中国大陆',
-              code: 86
-            },
-            {
-              ids: 4,
-              name: '中国大陆1',
-              code: 86
-            }
-          ]
-        },
-        {
-          id: 8,
-          title: 'B',
-          items: [
-            {
-              ids: 1,
-              name: 'A中国大陆',
-              code: 86
-            },
-            {
-              ids: 2,
-              name: '中国大陆',
-              code: 86
-            },
-            {
-              ids: 3,
-              name: '中国大陆1',
-              code: 86
-            }
-          ]
-        },
-        {
-          id: 9,
-          title: 'C',
-          items: [
-            {
-              ids: 1,
-              name: 'A中国大陆',
-              code: 86
-            },
-            {
-              ids: 2,
-              name: '中国大陆',
-              code: 86
-            },
-            {
-              ids: 3,
-              name: '中国大陆1',
-              code: 86
-            }
-          ]
-        },
-        {
-          id: 10,
-          title: 'D',
-          items: [
-            {
-              ids: 1,
-              name: 'A中国大陆',
-              code: 86
-            },
-            {
-              ids: 2,
-              name: '中国大陆',
-              code: 86
-            },
-            {
-              ids: 3,
-              name: '中国大陆1',
-              code: 86
-            }
-          ]
+  import LayHeader from '@/components/header/index.vue'
+  import Scroll from '../components/sroll/index.vue'
+  import {getCityList} from '../api/city'
+  export default {
+    name: 'moreCity',
+    async asyncData () {
+      try {
+        let {data} = await getCityList()
+        return {
+          cityList: data
         }
-      ]
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    components: {
+      LayHeader,
+      Scroll
+    },
+    data() {
+      return {
+        title: '更多城市',
+        activeName: 1
+      }
+    },
+    created() {
+      this._nomalLizeCityList(this.cityList)
+    },
+    methods: {
+      scroll() {},
+      _nomalLizeCityList(obj) { // 格式化aip得到的数据
+        let list = []
+        for (let key in obj) {
+          let {city_info,county_info} = obj[key]
+          list.push({
+            cityInfo:city_info,
+            countryName:county_info.country_name,
+            countryId:county_info.country_id
+          })
+        }
+        this.cityList = list
+      },
+      selectItem(cityId) { // 路由跳转
+        this.$router.push({
+          path: `/m2/local_play_foreign`,
+          query: {
+            touCityId: cityId
+          }
+        })
+      }
     }
   }
-}
 </script>
 
+<style type="text/scss" lang="scss" scoped>
+  .listview{
+
+  }
+</style>
 <style type="text/scss" lang="scss">
-  .city-area{
+  .listview{
     padding-top: 88px;
-    background: #fff;
-    .mint-indexlist-content{
-      margin-right:0!important;
+    .van-cell{
+      border-top: 1px solid #DEDEDE;
     }
-    .mint-indexsection-index{
-      height: 48px;
-      padding:0 32px;
-      line-height: 48px;
-      background:rgba(241,241,241,1);
-      font-size:22px;
-      color:rgba(94,94,94,1);
-      margin: 0;
+    .van-collapse-item__content{
+      padding: 0;
     }
-    .mint-indexlist-nav{
-      border-left: none;
+    .van-cell__title{
+      font-weight: bold;
     }
-    .mint-cell{
-      height: 82px;
+    .list-group-item{
+      padding:26px 0;
       margin: 0 32px;
-      border-bottom: 1px solid rgba(222,222,222,1);
-      &:last-child{
-        border-bottom: none;
-      }
-      .mint-cell-value{
-        color:rgba(152,152,152,1);
-        font-size:24px;
-        margin-right: 480px;
-      }
-      .mint-cell-wrapper{
-        padding:0;
-        .mint-cell-title{
-          padding: 26px 0;
-          font-size:24px;
-          font-weight:300;
-          color:rgba(25,25,25,1);
-        }
-      }
-    }
-    .mint-indexlist-navlist{
-      position: fixed;
-      top:50%;
-      right: 2px;
-      transform: translateY(-50%);
       font-size:24px;
-      color:rgba(57,158,246,1);
-      .mint-indexlist-navitem{
-        font-size:24px;
-      }
+      color: #191919;
+      border-top: 1px solid #DEDEDE;
     }
   }
 </style>

@@ -5,8 +5,8 @@
       v-swiper:mySwiper="swiperOption">
       <div class="swiper-wrapper">
         <div class="swiper-slide"
-          v-for="(cItem,index) in proData.list"
-          :key="index">
+          v-for="cItem in proData.list"
+          :key="cItem.product_id">
           <hot-item :proData="cItem" />
         </div>
       </div>

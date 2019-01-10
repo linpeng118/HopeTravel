@@ -4,15 +4,15 @@
       <!---->
       <div class="area-location">
         <div class="icon"></div>
-        <div class="name">{{info.name}}</div>
+        <div class="name">{{cityInfo.city.name}}</div>
       </div>
       <div class="area-main">
         <div class="area-info">
-          悉尼（Sydney），位于澳大利亚的东南沿岸，是澳大利亚新南威尔士州的首府，也是澳大利亚面积最大、人口最多的城市。城市中心坐标为南纬33°51'、东经151°12′。
+          {{cityInfo.city.description}}
         </div>
         <div class="area-search">
           <span class="icon-search"></span>
-          <span class="search-box">查找{{info.name}}的活动</span>
+          <span class="search-box">查找{{cityInfo.city.name}}的活动</span>
         </div>
         <div class="area-entrance">
           <div class="c-title">
@@ -43,24 +43,35 @@
 </template>
 
 <script>
+  import SwipeItem from '../components/items/swipeItem'
+  import {getCityInfo} from '../api/city'
   export default {
     layout: 'defaultHeader',
+    components: {
+      SwipeItem
+    },
+    validate({ query }) { // 判断路由是否正确
+      return query.touCityId
+    },
+    async asyncData({ query }) {
+      console.log(query)
+      let {data} = await getCityInfo(query.touCityId)
+      return {
+        cityInfo: data
+      }
+    },
     data() {
       return {
-        info: {
-          name: '悉尼',
-          bgImage: 'http://pic43.photophoto.cn/20170615/0011034472272627_b.jpg'
-        },
-        query: ''
+        cityId: this.$route.query.touCityId || 0,
+        cityInfo: {}
       }
     },
     computed: {
       bgstyle() {
-        return `background-image:url(${this.info.bgImage})`
+        return `background-image:url(${this.cityInfo.city.image})`
       }
     },
     mounted() {
-      console.log(this.info.bgImage)
     }
   }
 </script>
@@ -184,7 +195,7 @@
   .area-image-bg{
     position: absolute;
     width: 100%;
-    height:962px;
+    height:874px;
     top: 0;
     z-index: 0;
     background-size: cover;
