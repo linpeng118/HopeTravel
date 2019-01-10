@@ -17,8 +17,9 @@ let httprequest = axios.create({
   }
 })
 
-// post请求头的设置
+// 修改默认配置-post请求头的设置
 httprequest.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+
 
 // 请求拦截器（有些请求需要登录态才能访问）
 httprequest.interceptors.request.use(
@@ -38,15 +39,16 @@ httprequest.interceptors.request.use(
 // 相应拦截器
 httprequest.interceptors.response.use(
   // 请求成功
-  res => res.status === 200 ? Promise.resolve(res) : Promise.reject(res),
+  res => res.status === 200 ? Promise.resolve(res.data) : Promise.reject(res.data),
   // 请求失败
   error => {
     const {
       response
     } = error;
+    console.log('err response', response)
     if (response) {
       // 请求已发出，但是不在2xx的范围 
-      errorHandle(response.status, response.data.msg);
+      errorHandle(response.status, response.data.message);
       return Promise.reject(response);
     } else {
       // 处理断网的情况
@@ -57,38 +59,6 @@ httprequest.interceptors.response.use(
     }
   }
 )
-
-// 创建一个请求
-// const httpServer = (param) => {
-//   console.log(11, param)
-//   var defaults = {
-//     't': new Date().getTime()
-//   }
-//   let httpDefaultOpts = {
-//     method: param.method,
-//     url: param.url
-//   }
-//   if (param.method === 'get') {
-//     const params = param.time ? Object.assign(defaults, param.params) : param.params
-//     httpDefaultOpts.params = params
-//   } else if (param.method === 'post') {
-//     const data = param.time ? Object.assign(defaults, param.data) : param.data
-//     httpDefaultOpts.data = data
-//   }
-//   return new Promise((resolve, reject) => {
-//     axios(httpDefaultOpts).then(response => {
-//       const res = response.data
-//       if (res && res.code === 401) {
-//         // window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname)
-//       }
-//       resolve(res)
-//     }).catch(error => {
-//       console.log(error)
-//       // 统一错误处理 后续补充
-//       reject(error)
-//     })
-//   })
-// }
 
 export default httprequest
 
@@ -129,7 +99,7 @@ const errorHandle = (status, other) => {
 const tip = msg => {
   Toast({
     message: msg,
-    duration: 1000,
+    duration: 3000,
     forbidClick: true
   });
 }
