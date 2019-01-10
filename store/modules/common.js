@@ -1,6 +1,6 @@
 import {
   TOKEN_KEY
-} from '../../pages/m2/assets/js/common/config'
+} from '@/assets/js/config'
 
 const user = {
   state: {
