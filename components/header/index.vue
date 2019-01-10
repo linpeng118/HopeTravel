@@ -22,7 +22,7 @@
 
 <script>
   import {mapState} from 'vuex'
-  import {HEADER_TYPE} from '../../pages/m2/assets/js/consts/headerType'
+  import {HEADER_TYPE} from '@/assets/js/consts/headerType'
 
   export default {
     components: {
@@ -96,7 +96,7 @@
           display: inline-block;
           width: 32px;
           height: 44px;
-          background: url("../../assets/image/search@2x.png") no-repeat 0 5px/100%;
+          background: url("../../assets/imgs/search@2x.png") no-repeat 0 5px/100%;
         }
         .text {
           margin-left: 5px;

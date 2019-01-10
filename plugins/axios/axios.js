@@ -94,10 +94,11 @@ const errorHandle = (status, other) => {
 
 /** 
  * 提示函数 
- * 禁止点击蒙层、显示一秒后关闭
+ * 禁止点击蒙层、显示三秒后关闭
  */
 const tip = msg => {
   Toast({
+    type: 'fail',
     message: msg,
     duration: 3000,
     forbidClick: true
