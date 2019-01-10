@@ -1,5 +1,6 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
+import state from './state'
 import actions from './actions'
 import getters from './getters'
 import mutations from './mutations'
@@ -12,14 +13,15 @@ Vue.use(Vuex)
 
 const createStore = () => {
   return new Vuex.Store({
+    state,
+    getters,
+    actions,
+    mutations,
     modules: {
       common,
       header,
       localPlay
     },
-    getters,
-    actions,
-    mutations
   })
 }
 

@@ -3,7 +3,7 @@ import axios from '../../../plugins/axios/index'
 export const getHotActivities = () => {
   return axios({
     method: 'get',
-    url: '/api/tour/v1/localPlay/activity',
+    url: '/api/localPlay/activity',
   })
 }
 
