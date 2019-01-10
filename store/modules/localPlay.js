@@ -6,7 +6,7 @@ import {
 export default {
   namespaced: true,
   state: () => ({
-    hotActiveList: [],
+    activityList: [],
   }),
   actions: {
     async getHotActive({
@@ -19,7 +19,7 @@ export default {
   mutations: {
     setHotActvie(state, res) {
       console.log('setHotActvie', res)
-      state.hotActiveList = (res || []).map(item => ({
+      state.activityList = (res || []).map(item => ({
         productId: _get(item, 'product_id'),
         siteId: _get(item, 'defaultPrice'),
         image: _get(item, 'image'),
@@ -28,7 +28,7 @@ export default {
         name: _get(item, 'name'),
         price: _get(item, 'price'),
       }))
-      console.log(state.hotActiveList)
+      console.log(state.activityList)
     }
   }
 }

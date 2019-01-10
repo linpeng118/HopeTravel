@@ -1,7 +1,7 @@
 <template>
   <div class="hot-item">
     <div class="banner">
-      <img :src="proData.src"
+      <img :src="proData.image"
         alt="banner">
       <div class="tag-wrap"
         :class="tagPos">
@@ -18,11 +18,16 @@
         <!--<span class="title">{{proData.title}}</span>-->
       <!--</div>-->
     </div>
-    <div class="desc">{{proData.desc}}</div>
+    <div class="desc no-wrap-line2">{{proData.name}}</div>
     <div class="price-wrap">
-      <span class="price">${{proData.price}}</span>
+      <span class="price">
+        {{proData.special_price ? proData.special_price : proData.default_price }}
+      </span>
       <span class="unit">/起&nbsp;</span>
-      <span class="ori-price">${{proData.price}}</span>
+      <span class="ori-price"
+        v-if="!proData.special_price">
+        {{proData.default_price}}
+      </span>
     </div>
   </div>
 </template>
@@ -35,9 +40,18 @@
         type: Object,
         require: true,
         default: () => ({
-          type: [],
-          src: '',
-          desc: ''
+          default_price: '0.00',
+          departure_city: '拉斯维加斯',
+          icons_show: [],
+          icons_tour: [],
+          image: 'http://192.168.1.91:8888/images/product/5762458507a94_600_338.jpg',
+          is_play: 0,
+          min_book_date: '',
+          name: '(9天)梦幻黄石全景摄影游：大峡谷、布莱斯峡谷、锡安公园、羚羊彩穴、马蹄湾、纪念碑谷、拱门公园、峡谷地、黄石小镇、大提顿公园、大盐湖',
+          product_entity_type: 1,
+          product_id: 3,
+          self_support: 0,
+          special_price: '',
         })
       },
       isShowTitle: {
@@ -104,7 +118,7 @@
         width: 100%;
         background: rgba(0, 0, 0, 0.6);
         padding-left: 10px;
-        .title {
+        .name {
           height: 40px;
           line-height: 40px;
           color: #f1f1f1;
@@ -115,11 +129,6 @@
     .desc {
       margin-top: 10px;
       font-size: 14px;
-      overflow: hidden;
-      text-overflow: ellipsis; //文本溢出显示省略号
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
     }
     .price-wrap {
       margin-top: 8px;

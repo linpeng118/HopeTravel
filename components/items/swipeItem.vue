@@ -1,6 +1,6 @@
 <template>
   <div class="part-show-item">
-    <h1 class="title">{{proData.title}}</h1>
+    <h1 class="title">{{proData.name}}</h1>
     <div class="swiper-container"
       v-swiper:mySwiper="swiperOption">
       <div class="swiper-wrapper">

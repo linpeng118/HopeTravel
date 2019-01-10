@@ -59,6 +59,10 @@ module.exports = {
       src: "~/plugins/vue-swiper",
       ssr: false
     },
+    {
+      src: "~/plugins/vconsole",
+      ssr: false
+    },
   ],
 
   /*
@@ -66,14 +70,14 @@ module.exports = {
    */
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
   ],
   /*
    ** Axios module configuration
    */
   axios: {
     proxy: true,
-    prefix: '/api', // baseURL
+    // prefix: '/api', // baseURL
     credentials: true,
   },
   proxy: {
@@ -85,15 +89,31 @@ module.exports = {
       },
       changeOrigin: true
     },
-    '/paly':
-      {
-        target: 'http://192.168.1.91:8888/api/tour/v1', // api主机
-          pathRewrite: {
-            '^/paly': '/'
-          },
+    '/paly': {
+      target: 'http://192.168.1.91:8888/api/tour/v1', // api主机
+        pathRewrite: {
+          '^/paly': '/'
+        },
+      changeOrigin: true
+      },
+    '/api2': {
+        target: 'http://192.168.1.91:8888/api/tour/v1/', // api主机
+        pathRewrite: {
+          '^/api2': '/'
+        },
         changeOrigin: true
       }
   },
+    // [
+    //   '/api',
+    //   {
+    //     target: 'http://m20.tourscool.net/api/tour/v1', // api主机
+    //     pathRewrite: {
+    //       '^/api': '/'
+    //     },
+    //     changeOrigin: true
+    //   }
+    // ],
   /*
    ** Build configuration
    */

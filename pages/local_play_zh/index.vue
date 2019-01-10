@@ -291,8 +291,8 @@
     -webkit-overflow-scrolling: touch;
     .banner {
       height: 312px;
-      background: url('../../assets/imgs/local_regiment/bg_banner@2x.png') no-repeat 0
-        0/100%;
+      background: url("../../assets/imgs/local_regiment/bg_banner@2x.png")
+        no-repeat 0 0/100%;
     }
     .recently-viewed {
       width: 100%;
