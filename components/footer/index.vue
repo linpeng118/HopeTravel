@@ -28,7 +28,7 @@
       text-align: center;
       color: #fff;
       // background: red;
-      background: url("../../assets/image/footer/bg_footer@2x.png") no-repeat 0 0/100% 100%;
+      background: url("../../assets/imgs/footer/bg_footer@2x.png") no-repeat 0 0/100% 100%;
     }
   }
 </style>

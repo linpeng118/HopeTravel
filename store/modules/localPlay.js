@@ -1,4 +1,4 @@
-import * as apiLocalPlay from '../../pages/m2/api/local_play'
+import * as apiLocalPlay from '@/api/local_play'
 import {
   get as _get
 } from 'lodash'
