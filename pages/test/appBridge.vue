@@ -6,27 +6,29 @@
       </nuxt-link>
     </div>
     <!-- 例子 -->
+    <h4>不需要传参给移动端</h4>
     <div class="btn"
       v-for="(item, index) in funcNames"
       :key="item"
-      @click="callAppBridgeFunc(item)">
+      @click="callNoArgFunc(item)">
       {{index}}.{{item}}
     </div>
     <!-- <mt-switch v-model="holdPage">
       {{holdPage ? 'new window' : 'replace window'}}
     </mt-switch> -->
+    <h4>需要传递给移动端</h4>
     <div class="btn"
-      v-for="(item, index) in jumpFuncNames"
-      :key="item">
-      <!-- :class="{disabled:!testApi(item)}"
-      @click="callAppBridgeFunc(item)"> -->
+      v-for="(item, index) in funcNamesNeedArg"
+      :key="item"
+      @click="callArgFunc(item)">
       {{index + funcNames.length}}.{{item}}
     </div>
   </section>
 </template>
 
 <script>
-  // import appBridge from '@/assets/js/appBridge.js'
+  import appBridge from '@/assets/js/appBridge.js'
+  import {mapState} from 'vuex'
 
   export default {
     components: {},
@@ -37,31 +39,32 @@
           'hideNavigationBar',
           'showNavigationBar',
         ],
-        // 页面跳转方法列表
-        jumpFuncNames: [
+        // 有参数需要传递
+        funcNamesNeedArg: [
           'jumpProductListView', // 跳转列表界面
         ],
         holdPage: true,
       }
     },
+    computed: {
+      ...mapState({
+        vxDeviceType: state => state.deviceType
+      })
+    },
     methods: {
-      async callAppBridgeFunc(funcName) {
-        console.log('call', funcName)
+      async callNoArgFunc(funcName) {
+        console.log('方法名（无参）：', funcName, this.vxDeviceType)
+        appBridge[funcName](this.vxDeviceType)
+      },
+      async callArgFunc(funcName) {
+        console.log('方法名（带参）', funcName, this.vxDeviceType)
         switch (funcName) {
-          // case 'jumpToSendMessage':
-          //   appBridge.jumpToSendMessage(this.openid, 'user name')
-          //   break
-          case 'getSessionKey': {
-            const sessionKey = await appBridge.getSessionKey()
-            console.log('sessionKey', sessionKey)
-            break
-          }
+          case 'jumpProductListView':
+            appBridge[funcName](this.vxDeviceType, {'itemType': 1})
+            break;
           default:
-            if (this.jumpFuncNames.includes(funcName)) {
-              appBridge[funcName](this.holdPage)
-            } else {
-              appBridge[funcName]()
-            }
+            appBridge[funcName](this.vxDeviceType)
+            break;
         }
       },
     }
@@ -76,11 +79,11 @@
     .btn {
       display: block;
       color: cornflowerblue;
-      margin: 15px 0;
+      margin: 20px 0;
       padding: 20px;
       border-radius: 6px;
       border: 2px solid cornflowerblue;
-      font-size: 32px;
+      font-size: 40px;
       &.disabled {
         color: #f02b55;
       }
