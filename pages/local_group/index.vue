@@ -62,11 +62,11 @@
             :title="item.title">
             <div class="high-quality-list">
               <hot-item class="high-quality-item"
-                v-for="item in localgroupData[2].data"
-                :key="item.desc"
+                v-for="product in productList"
+                :key="product.desc"
                 tagPos="bottom"
                 :isShowTitle="false"
-                :proData="item" />
+                :proData="product" />
             </div>
           </van-tab>
         </van-tabs>
@@ -79,7 +79,7 @@
   import {mapMutations} from 'vuex'
   import {throttle as _throttle} from 'lodash'
   import {getLocalgroup} from '@/api/local_group'
-  import {getProductList} from '@/api/product_list'
+  import {getProductList} from '@/api/products'
   import {HEADER_TYPE} from '@/assets/js/consts/headerType'
   import {LIST_TYPE} from '@/assets/js/consts/products'
   import HotItem from '@/components/items/hotItem.vue'
@@ -109,7 +109,9 @@
             }
           }
         },
+        // 当前默认选择第0号
         selected: 0,
+        // tag是否一起吸顶
         isFixedTags: false,
         // 距离顶部的高度
         headerHeight: 44,
@@ -119,6 +121,8 @@
           {moduleName: '', data: []},
           {moduleName: '', data: []},
         ],
+        // 产品列表
+        productList: [],
       }
     },
     mounted() {
@@ -144,7 +148,7 @@
           console.log(error)
         }
       },
-      async getProductsData(data) {
+      async getProductsData(data = {}) {
         try {
           const submitData = {
             type: data.type || LIST_TYPE.LOCAL_GROUP,
@@ -163,10 +167,10 @@
             order: data.order || '',
           }
           const res = await getProductList(submitData)
+          this.productList = res.data
         } catch (error) {
-
+          console.log(error)
         }
-
       },
       onCity(tag) {
         console.log(tag)
@@ -190,7 +194,7 @@
        * @param val { scrollTop: 距离顶部位置, isFixed: 是否吸顶 }
        */
       scrollTab(val) {
-        console.log(val)
+        // console.log(val)
         if (val.isFixed) {
           this.isFixedTags = true
         } else {
@@ -198,27 +202,25 @@
         }
       },
       scrollFn() {
-        window.requestAnimationFrame(() => {
-          // console.log('scrollTop(获取/设置对象的最顶部到对象在当前窗口顶边的距离)+offsetHeight(获取元素的高度)')
-          console.log(this.$refs.refLocalGroupPage.scrollTop, this.$refs.refLocalGroupPage.offsetHeight)
-          // console.log('100vh高度', this.$refs.refLocalGroupPage.offsetHeight)
-          // console.log('获取滚动对象整体高度', this.$refs.refLocalGroup.offsetHeight)
-          const s1 = this.$refs.refLocalGroupPage.scrollTop
-          setTimeout(() => {
-            const s2 = this.$refs.refLocalGroupPage.scrollTop
-            const direct = s2 - s1
-            if (s1 === 0) {
-              console.log('处于顶部')
-              this.vxChangeHeaderStatus(HEADER_TYPE.TOP)
-            } else if (direct > 0) {
-              console.log('向下滚动')
-              this.vxChangeHeaderStatus(HEADER_TYPE.DOWN)
-            } else if (direct < 0) {
-              console.log('向上滚动')
-              this.vxChangeHeaderStatus(HEADER_TYPE.UP)
-            }
-          }, 17)
-        })
+        // console.log('scrollTop(获取/设置对象的最顶部到对象在当前窗口顶边的距离)+offsetHeight(获取元素的高度)')
+        console.log(this.$refs.refLocalGroupPage.scrollTop, this.$refs.refLocalGroupPage.offsetHeight)
+        // console.log('100vh高度', this.$refs.refLocalGroupPage.offsetHeight)
+        // console.log('获取滚动对象整体高度', this.$refs.refLocalGroup.offsetHeight)
+        const s1 = this.$refs.refLocalGroupPage.scrollTop
+        setTimeout(() => {
+          const s2 = this.$refs.refLocalGroupPage.scrollTop
+          const direct = s2 - s1
+          if (s1 === 0) {
+            console.log('处于顶部')
+            this.vxChangeHeaderStatus(HEADER_TYPE.TOP)
+          } else if (direct > 0) {
+            console.log('向下滚动')
+            this.vxChangeHeaderStatus(HEADER_TYPE.DOWN)
+          } else if (direct < 0) {
+            console.log('向上滚动')
+            this.vxChangeHeaderStatus(HEADER_TYPE.UP)
+          }
+        }, 17)
       },
     }
   }
