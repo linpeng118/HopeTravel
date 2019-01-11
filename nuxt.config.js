@@ -91,29 +91,12 @@ module.exports = {
     },
     '/paly': {
       target: 'http://192.168.1.91:8888/api/tour/v1', // api主机
-        pathRewrite: {
-          '^/paly': '/'
-        },
-      changeOrigin: true
-      },
-    '/api2': {
-      target: 'http://192.168.1.91:8888/api/tour/v1/', // api主机
       pathRewrite: {
-        '^/api2': '/'
+        '^/paly': '/'
       },
       changeOrigin: true
-    }
+    },
   },
-    // [
-    //   '/api',
-    //   {
-    //     target: 'http://m20.tourscool.net/api/tour/v1', // api主机
-    //     pathRewrite: {
-    //       '^/api': '/'
-    //     },
-    //     changeOrigin: true
-    //   }
-    // ],
   /*
    ** Build configuration
    */
