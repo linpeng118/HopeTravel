@@ -15,6 +15,16 @@
   }
 }
 
+.tours-tabs-nowrap {
+  .van-tabs__line {
+    background-color: #399EF6;
+  }
+
+  .van-hairline--top-bottom::after {
+    border-width: 0 !important;
+  }
+}
+
 // 去掉border-bottom（van-hairline--bottom）
 .tours-no-bb {
   &.van-hairline--bottom::after {
