@@ -298,7 +298,7 @@
         padding: 24px 30px;
         &.fixed-tag {
           position: fixed;
-          top: calc(92px + 44px + 40px);
+          top: calc(92px + 44px + 24px);
           z-index: 999;
         }
       }
