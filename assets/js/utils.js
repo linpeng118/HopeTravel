@@ -1,3 +1,22 @@
+/*
+ * 设备检测
+ * @return {{isIos:Function, isAndroid:Function}}
+ */
+export function getBrowserVersion() {
+  const ua = navigator.userAgent || navigator.vendor || window.opera
+  const uaInfo = {
+    ios: /\(i[^;]+;( U;)? CPU.+Mac OS X/i.test(ua),
+    android: /Android/i.test(ua) || /Linux/i.test(ua)
+  }
+  return {
+    isIos() {
+      return uaInfo.ios
+    },
+    isAndroid() {
+      return uaInfo.android
+    }
+  }
+}
 /**
  * 生成指定长度的随机字符串序列
  * @param {number?} len

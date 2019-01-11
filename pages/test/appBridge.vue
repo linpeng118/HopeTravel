@@ -27,8 +27,8 @@
 </template>
 
 <script>
-  import appBridge from '@/assets/js/appBridge.js'
   import {mapState} from 'vuex'
+  import appBridge from '@/assets/js/appBridge.js'
 
   export default {
     components: {},
@@ -52,18 +52,24 @@
       })
     },
     methods: {
+      /**
+       * 无参数请求app接口
+       */
       async callNoArgFunc(funcName) {
-        console.log('方法名（无参）：', funcName, this.vxDeviceType)
-        appBridge[funcName](this.vxDeviceType)
+        console.log('方法名（无参）：', funcName, appBridge)
+        appBridge[funcName]()
       },
+      /**
+       * 带参数请求app接口
+       */
       async callArgFunc(funcName) {
-        console.log('方法名（带参）', funcName, this.vxDeviceType)
+        console.log('方法名（带参）', funcName)
         switch (funcName) {
           case 'jumpProductListView':
-            appBridge[funcName](this.vxDeviceType, {'itemType': 1})
+            appBridge[funcName]({'itemType': 1})
             break;
           default:
-            appBridge[funcName](this.vxDeviceType)
+            console.log(`not found ${funcName}`)
             break;
         }
       },

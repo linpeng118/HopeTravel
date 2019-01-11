@@ -63,6 +63,10 @@ module.exports = {
       src: "~/plugins/vconsole",
       ssr: false
     },
+    {
+      src: "~/assets/js/appBridge",
+      ssr: false
+    },
   ],
   /*
    ** middleware
