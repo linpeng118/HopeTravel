@@ -96,21 +96,6 @@ function createJumpApi(androidPageCode, iosFuncName) {
 }
 
 /**
- * 打开某人的profile页面
- * @param {string} openId
- */
-// export const openProfile = (() => {
-//   if (browserVersion.isAndroid() && testApi('openProfile', true)) {
-//     return openId => callApi('openProfile', true, openId)
-//   }
-//   if (browserVersion.isIos() && testApi('JSMessage_jumpToProfileByOpenID', false)) {
-//     return openId => callApi('JSMessage_jumpToProfileByOpenID', false, openId)
-//   }
-//   return null
-// })()
-
-
-/**
  * 异步获取本地用户登录态
  * @return {Promise|null}
  */
@@ -140,11 +125,27 @@ function createJumpApi(androidPageCode, iosFuncName) {
 // })()
 
 /**
+ *  显示顶部导航栏
+ */
+export const showNavigationBar = (() => {
+  console.log('showNavigationBar', browserVersion.isAndroid(), browserVersion.isIos())
+  if (browserVersion.isAndroid() && testApi('setShowTitleBar', true)) {
+    console.log(11)
+    return () => callApi('setShowTitleBar', true, true)
+  }
+  if (browserVersion.isIos() && testApi('showNavigationBar', false)) {
+    console.log(22)
+    return () => callApi('showNavigationBar', false)
+  }
+  console.log(33)
+  return null
+})()
+
+/**
  *  隐藏顶部导航栏
  */
 export const hideNavigationBar = (() => {
-  console.log(111, browserVersion.isAndroid(), browserVersion.isIos())
-  console.log(222, browserVersion.isAndroid(), browserVersion.isIos())
+  console.log('hideNavigationBar', browserVersion.isAndroid(), browserVersion.isIos())
   if (browserVersion.isAndroid() && testApi('hideNavigationBar', true)) {
     console.log(1)
     return () => callApi('hideNavigationBar', true)
@@ -157,30 +158,9 @@ export const hideNavigationBar = (() => {
   return null
 })()
 
-/**
- *  显示顶部导航栏
- */
-export const showNavigationBar = (() => {
-  if (browserVersion.isAndroid() && testApi('setShowTitleBar', true)) {
-    return () => callApi('setShowTitleBar', true, true)
-  }
-  if (browserVersion.isIos() && testApi('JSMessage_showNavigationBar', false)) {
-    return () => callApi('JSMessage_showNavigationBar', false)
-  }
-  return null
-})()
-
-/**
- * 打开自己的profile
- */
-export const jumpToProfile = createJumpApi(-3, 'jumpToProfile')
-
-
-
-
 export default {
   // 以下接口需传参调用
-  // openProfile,
+  // jumpProductListView,
   // 以下接口无需参数
   hideNavigationBar,
   showNavigationBar,
