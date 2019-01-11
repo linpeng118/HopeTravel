@@ -79,7 +79,7 @@
   import {mapMutations} from 'vuex'
   import {throttle as _throttle} from 'lodash'
   import {getLocalgroup} from '@/api/local_group'
-  import {getProductList} from '@/api/local_group'
+  import {getProductList} from '@/api/product_list'
   import {HEADER_TYPE} from '@/assets/js/consts/headerType'
   import {LIST_TYPE} from '@/assets/js/consts/products'
   import HotItem from '@/components/items/hotItem.vue'

@@ -97,12 +97,12 @@ module.exports = {
       changeOrigin: true
       },
     '/api2': {
-        target: 'http://192.168.1.91:8888/api/tour/v1/', // api主机
-        pathRewrite: {
-          '^/api2': '/'
-        },
-        changeOrigin: true
-      }
+      target: 'http://192.168.1.91:8888/api/tour/v1/', // api主机
+      pathRewrite: {
+        '^/api2': '/'
+      },
+      changeOrigin: true
+    }
   },
     // [
     //   '/api',
