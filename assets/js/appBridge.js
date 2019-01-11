@@ -2,7 +2,7 @@ import {
   get as _get
 } from 'lodash'
 import {
-  // getBrowserVersion,
+  getBrowserVersion,
   randomString
 } from './utils'
 
