@@ -12,7 +12,8 @@
       slot="left" />
     <van-icon class="right-wrap"
       slot="right">
-      <div class="search" v-if="isSearch">
+      <div class="search"
+        v-if="isSearch">
         <div class="icon"></div>
         <div class="text">搜索</div>
       </div>

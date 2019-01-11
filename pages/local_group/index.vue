@@ -1,6 +1,9 @@
 <template>
   <div class="local-group-page"
     ref="refLocalGroupPage">
+    <!-- header -->
+    <search-header :title="'当地跟团'"/>
+    <!-- body -->
     <section class="local-group"
       ref="refLocalGroup">
       <!-- banner -->
@@ -82,12 +85,14 @@
   import {getProductList} from '@/api/products'
   import {HEADER_TYPE} from '@/assets/js/consts/headerType'
   import {LIST_TYPE} from '@/assets/js/consts/products'
+  import SearchHeader from '@/components/header/index.vue'
   import HotItem from '@/components/items/hotItem.vue'
   import HotCityTag from '@/components/tags/index.vue'
 
   export default {
-    layout: 'defaultHeader',
+    layout: 'default',
     components: {
+      SearchHeader,
       HotItem,
       HotCityTag
     },
