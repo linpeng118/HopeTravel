@@ -50,7 +50,7 @@
           :disabled="!isMobileOk"
           @click="mobileLogin">登陆</van-button>
       </van-tab>
-      <p class="text">登陆即代表您已同意我们的<span>&nbsp;服务协议</span></p>
+      <p class="text">登陆即代表您已同意我们的<span @click="onAgreement">&nbsp;服务协议</span></p>
     </van-tabs>
   </div>
 </template>
@@ -100,6 +100,10 @@
       },
       mobileLogin() {
         console.log(2, this.mobile)
+      },
+      // 点击服务协议
+      onAgreement() {
+        console.log('onAgreement')
       }
     },
   }
