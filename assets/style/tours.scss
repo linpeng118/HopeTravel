@@ -15,9 +15,54 @@
   }
 }
 
+.tours-tabs-nowrap {
+  .van-tabs__line {
+    background-color: #399EF6;
+  }
+
+  .van-hairline--top-bottom::after {
+    border-width: 0 !important;
+  }
+}
+
 // 去掉border-bottom（van-hairline--bottom）
 .tours-no-bb {
   &.van-hairline--bottom::after {
     border-bottom-width: 0px !important;
+  }
+}
+
+.tours-input {
+
+  &.van-cell,
+  .van-field {
+    height: 80px;
+    border: 2px solid rgba(196, 196, 196, 1) !important;
+    border-radius: 10px;
+  }
+
+  &.van-field .van-cell__title {
+    text-align: left;
+    max-width: 100px;
+  }
+}
+
+.tours-button {
+  &.van-button--default {
+    height: 84px;
+    line-height: 84px;
+    background: #399EF6 !important;
+    color: #fff;
+    border-radius: 10px;
+  }
+}
+
+.tours-button-noborder {
+  &.van-button--default {
+    height: 84px;
+    line-height: 84px;
+    color: #399EF6;
+    border: 0;
+    border-radius: 10px;
   }
 }
