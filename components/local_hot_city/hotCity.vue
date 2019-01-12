@@ -2,8 +2,8 @@
   <div class="hot-city">
     <h1 class="title">热门城市</h1>
     <div class="hot-list">
-      <div class="hot-item" v-for="item in hotCityList" :key="item.category">
-        <img :src="item.image_url" alt="">
+      <div class="hot-item" v-for="item in hotCityList" :key="item.category" @click="selectItem(item.start_city)">
+        <img v-lazy="item.image_url" alt="">
         <div class="city-name">{{item.title}}</div>
       </div>
     </div>
@@ -24,6 +24,11 @@ export default {
   },
   data() {
     return {}
+  },
+  methods: {
+    selectItem(id) {
+      this.$emit('clickItem', id)
+    }
   }
 }
 </script>

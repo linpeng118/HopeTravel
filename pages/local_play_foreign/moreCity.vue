@@ -77,13 +77,6 @@
   }
 </style>
 <style type="text/scss" lang="scss">
-  .bg-color{
-    background: #fff !important;
-    color: #3E3E3E !important;
-    .left-wrap{
-      color: #3E3E3E !important;
-    }
-  }
   .listview{
     padding-top: 88px;
     .van-cell{

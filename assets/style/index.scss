@@ -133,3 +133,9 @@
 .container{
   background: #F1F1F1;
 }
+
+[class^="self-btn-"]{
+  font-size:32px !important;
+  font-weight:400;
+  border-radius:8px !important;
+}
