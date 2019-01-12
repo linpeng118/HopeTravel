@@ -1,36 +1,38 @@
 <template>
   <div class="local-play-zh" ref="refLocalPlayPage">
     <lay-header title="当地玩乐"></lay-header>
-    <!-- banner -->
-    <div class="banner"></div>
-    <!-- 热门城市 -->
-    <hot-city :hotCityList="hotCity"></hot-city>
-    <!-- 最近浏览 -->
-    <div class="recently-viewed">
-      <h1 class="title">最近浏览</h1>
-      <div v-swiper:mySwiper="viewedSwiperOption">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide"
-            v-for="viewed in viewedList"
-            :key="viewed.title">
-            <snap-up-item :proData="viewed"
-              @callCollect="doCollect" />
+    <div v-if="showList.length">
+      <!-- banner -->
+      <div class="banner"></div>
+      <!-- 热门城市 -->
+      <hot-city :hotCityList="hotCity" @clickItem="linkCityHandle"></hot-city>
+      <!-- 最近浏览 -->
+      <div class="recently-viewed">
+        <h1 class="title">最近浏览</h1>
+        <div v-swiper:mySwiper="viewedSwiperOption">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"
+                 v-for="viewed in viewedList"
+                 :key="viewed.title">
+              <snap-up-item :proData="viewed"
+                            @callCollect="doCollect" />
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <!-- 列表：热门活动/日本必去滑雪胜地/冬季黄石热推/各地热卖 -->
-    <!-- <swiper-list :proData="showList" /> -->
-    <div class="show-list">
-      <div class="show-item"
-        v-for="showItem in showList"
-        :key="showItem.title">
-        <!--<swipe-item :proData="showItem" />-->
+      <!-- 列表：热门活动/日本必去滑雪胜地/冬季黄石热推/各地热卖 -->
+      <!-- <swiper-list :proData="showList" /> -->
+      <div class="show-list">
+        <div class="show-item"
+             v-for="showItem in showList"
+             :key="showItem.title">
+          <!--<swipe-item :proData="showItem" />-->
+        </div>
       </div>
+      <!-- 底部广告 -->
+      <lay-footer :imageInfo="footerAdvert" class="footer-margin"></lay-footer>
     </div>
-    <lay-footer :imageInfo="footerAdvert" class="footer-margin"></lay-footer>
-    <!-- 底部距离 -->
-    <div></div>
+    <loading v-if="!showList.length"></loading>
   </div>
 </template>
 
@@ -44,13 +46,15 @@
   import {throttle as _throttle} from 'lodash'
   import {mapMutations} from 'vuex'
   import {HEADER_TYPE} from '@/assets/js/consts/headerType'
+  import Loading from '@/components/loading'
   export default {
     components: {
       HotCity,
       SnapUpItem,
       SwipeItem,
       LayHeader,
-      LayFooter
+      LayFooter,
+      Loading
     },
     data() {
       return {
@@ -243,6 +247,7 @@
           console.log(this.showList)
         }
       },
+      // 序列化数据
       _nomalLizeshowList(data) {
         let showList = []
         let len = data.length
@@ -259,6 +264,7 @@
       doCollect(val) {
         console.log(val)
       },
+      // 滚动监听显示header
       scrollFn() {
         window.requestAnimationFrame(() => {
           const s1 = this.$refs.refLocalPlayPage.scrollTop
@@ -276,6 +282,14 @@
               this.vxChangeHeaderStatus(HEADER_TYPE.UP)
             }
           }, 17)
+        })
+      },
+      linkCityHandle(cityId){
+        this.$router.push({
+          path: `/local_play_foreign`,
+          query: {
+            touCityId: cityId
+          }
         })
       }
     }

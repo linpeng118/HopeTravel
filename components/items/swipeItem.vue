@@ -46,7 +46,9 @@
       }
     },
     computed: {},
-    mounted() {},
+    mounted() {
+      console.log(this.proData)
+    },
     methods: {},
   }
 </script>

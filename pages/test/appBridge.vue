@@ -34,7 +34,7 @@
 </template>
 
 <script>
-  // import appBridge from '@/assets/js/app_bridge.js'
+  import appBridge from '@/assets/js/appBridge.js'
   export default {
     components: {},
     data() {

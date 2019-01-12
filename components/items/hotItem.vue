@@ -13,10 +13,10 @@
           <span v-if="item===2">精选</span>
         </div>
       </div>
-      <!--<div class="title-wrap"-->
-        <!--v-if="isShowTitle">-->
-        <!--<span class="title">{{proData.title}}</span>-->
-      <!--</div>-->
+      <div class="title-wrap"
+        v-if="isShowTitle">
+        <span class="title">{{proData.title}}</span>
+      </div>
     </div>
     <div class="desc no-wrap-line2">{{proData.name}}</div>
     <div class="price-wrap">
@@ -41,13 +41,13 @@
         require: true,
         default: () => ({
           default_price: '0.00',
-          departure_city: '拉斯维加斯',
+          departure_city: '',
           icons_show: [],
           icons_tour: [],
-          image: 'http://192.168.1.91:8888/images/product/5762458507a94_600_338.jpg',
+          image: '',
           is_play: 0,
           min_book_date: '',
-          name: '(9天)梦幻黄石全景摄影游：大峡谷、布莱斯峡谷、锡安公园、羚羊彩穴、马蹄湾、纪念碑谷、拱门公园、峡谷地、黄石小镇、大提顿公园、大盐湖',
+          name: '',
           product_entity_type: 1,
           product_id: 3,
           self_support: 0,

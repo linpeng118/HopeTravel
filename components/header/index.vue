@@ -16,6 +16,10 @@
         <div class="icon"></div>
         <div class="text">搜索</div>
       </div>
+      <div class="big-search" :style="{opacity: barSearch ? 1 : 0}">
+        <div class="icon"></div>
+        <div class="text">{{searchKeyWords}}</div>
+      </div>
     </van-icon>
   </van-nav-bar>
 </template>
@@ -43,6 +47,14 @@
       classBg: {
         type: Boolean,
         default: false
+      },
+      barSearch: {
+        type: Boolean,
+        default: false
+      },
+      searchKeyWords:{
+        type: String,
+        default: ''
       }
     },
     data() {
@@ -112,6 +124,34 @@
           color: #fff;
         }
       }
+      .big-search{
+        width: 634px;
+        height: 72px;
+        padding: 0 26px;
+        text-align: left;
+        color: #989898;
+        border-radius:36px;
+        font-size:30px;
+        background: #EBEBEB;
+        display: flex;
+        align-items: center;
+        line-height: 72px;
+        transition: all .5s;
+        .icon {
+          display: inline-block;
+          width: 32px;
+          height: 44px;
+          background: url("../../assets/imgs/search_b@2x.png") no-repeat 0 5px/100%;
+          margin-right: 22px;
+        }
+      }
+    }
+  }
+  .bg-color{
+    background: #fff !important;
+    color: #3E3E3E !important;
+    .left-wrap{
+      color: #3E3E3E !important;
     }
   }
 </style>

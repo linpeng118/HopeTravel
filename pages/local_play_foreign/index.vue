@@ -1,19 +1,21 @@
 <template>
-  <section class="container" >
-    <lay-header title="当地玩乐"></lay-header>
-    <div class="area-play" v-if="cityInfo.city">
+  <section class="local-play-foreign" ref="refLocalPlayForeign">
+    <lay-header :title="title" :isSearch="false" :barSearch="barSearch" :searchKeyWords="searchKeyWords"></lay-header>
+    <div class="area-play">
       <!---->
       <div class="area-location">
         <div class="icon"></div>
-        <div class="name">{{cityInfo.city.name}}</div>
+        <div class="name">{{cityInfo.name}}</div>
       </div>
-      <div class="area-main">
+      <div class="area-main" ref="refAreaMain">
         <div class="area-info">
-          {{cityInfo.city.description}}
+          {{cityInfo.description}}
         </div>
-        <div class="area-search">
-          <span class="icon-search"></span>
-          <span class="search-box">查找{{cityInfo.city.name}}的活动</span>
+        <div class="area-search" ref="refAreaSeach">
+          <span class="icon-search">
+            <van-icon name="search" color="white" size="0.6rem" />
+          </span>
+          <span class="search-box">查找{{cityInfo.name}}的活动</span>
         </div>
         <div class="area-entrance">
           <div class="c-title">
@@ -39,10 +41,19 @@
         </div>
       </div>
     </div>
-    <div class="area-image-bg" v-if="cityInfo.city" :style="bgStyle">
-      <img :src="cityInfo.city.image" alt="" @load="imageLoaded">
+    <div class="area-image-bg" v-if="cityInfo" :style="bgStyle">
+      <img :src="cityInfo.image" alt="" @load="imageLoaded">
       <!--<img src="../../assets/imgs/local_regiment/bg_banner@2x.png" alt="" @load="imageLoaded">-->
     </div>
+    <div class="show-list">
+      <div class="show-item"
+           v-for="showItem in showList"
+           :key="showItem.title"
+            v-if="showItem.list.length">
+        <swipe-item :proData="showItem" />
+      </div>
+    </div>
+    <loading v-if="!showList.length"></loading>
   </section>
 </template>
 
@@ -50,11 +61,16 @@
   import SwipeItem from '@/components/items/swipeItem'
   import {getCityInfo} from '@/api/local_play'
   import LayHeader from '@/components/header/index.vue'
+  import Loading from '@/components/loading'
+  import {throttle as _throttle} from 'lodash'
+  import {mapMutations} from 'vuex'
+  import {HEADER_TYPE} from '@/assets/js/consts/headerType'
   export default {
     // layout: 'defaultHeader',
     components: {
       SwipeItem,
-      LayHeader
+      LayHeader,
+      Loading
     },
     validate({ query }) { // 判断路由是否正确
       return query.touCityId
@@ -67,36 +83,116 @@
     data() {
       return {
         cityInfo: {},
-        imgShow: false
+        imgShow: false,
+        title: '当地玩乐',
+        barSearch: false,
+        showList: [],
+        searchKeyWords:''
       }
     },
     computed: {
       // 城市背景图片处理
       bgStyle() {
-        let url = this.imgShow ? this.cityInfo.city.image: require('../../assets/imgs/local_regiment/bg_banner@2x.png')
+        let url = this.imgShow ? this.cityInfo.image: require('../../assets/imgs/local_regiment/bg_banner@2x.png')
         return `background-image:url(${url})`
       }
     },
     created() {
       this.getInit()
     },
+    mounted() {
+      this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 500))
+    },
     methods: {
+      ...mapMutations({
+        vxChangeHeaderStatus: 'header/changeStatus' // 修改头部状态
+      }),
       // 初始化数据
       async getInit() {
         let {data, code} = await getCityInfo(this.cityId)
         if(code === 0) {
-          this.cityInfo = data
+          this.cityInfo = data.city
+          this.showList = this._nomalLizeshowList(data)
+          console.log(this.showList)
+        } else {
+          this.cityInfo = {}
         }
+      },
+      // 序列化数据
+      _nomalLizeshowList(data) {
+        let obj = {
+          activity : '最新活动',
+          boutique: '稀饭精选',
+          welcome: '最受欢迎'
+        }
+        let {activity,boutique,welcome} = data
+        let showList = [
+          {
+            name: obj.boutique,
+            list: boutique
+          },
+          {
+            name: obj.welcome,
+            list: welcome
+          },
+          {
+            name: obj.activity,
+            list: activity
+          }
+        ]
+        return showList
       },
       // 判断城市背景图片是否加载完成
       imageLoaded() {
         this.imgShow = true
-      }
+      },
+      scrollTab() {
+        console.log('scrollTab');
+      },
+      // 滚动监听显示header
+      scrollFn() {
+        window.requestAnimationFrame(() => {
+          // console.log('滚动高度', this.$refs.refLocalPlayForeign.scrollTop)
+          // console.log('refAreaMain', this.$refs.refAreaMain.offsetHeight)
+          const s1 = this.$refs.refLocalPlayForeign.scrollTop
+          const s3 = this.$refs.refAreaMain.offsetHeight
+          setTimeout(() => {
+            const s2 = this.$refs.refLocalPlayForeign.scrollTop
+            const direct = s2 - s1
+            if (s1 === 0) {
+              console.log('处于顶部')
+              this.vxChangeHeaderStatus(HEADER_TYPE.TOP)
+            } else if (direct > 0) {
+              console.log('向下滚动')
+              this.vxChangeHeaderStatus(HEADER_TYPE.DOWN)
+            } else if (direct < 0) {
+              console.log('向上滚动')
+              this.vxChangeHeaderStatus(HEADER_TYPE.UP)
+            }
+            if (s1 > s3) {
+              this.title = ''
+              this.barSearch = true
+              this.searchKeyWords = `查找${this.cityInfo.name}的活动`
+            } else {
+              this.title = '当地玩乐'
+              this.barSearch = false
+            }
+          }, 17)
+        })
+      },
     }
   }
 </script>
 
 <style lang="scss" scoped>
+  .local-play-foreign{
+    font-size: 0;
+    height: 100vh;
+    background: #f1f1f1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+  }
   .area-play{
     position: relative;
     z-index: 1;
@@ -150,16 +246,13 @@
         .icon-search{
           width:44px;
           height:44px;
-          display: inline-block;
-          background: url('../../assets/imgs/icon_location@2x.png') no-repeat;
-          background-size: 100%;
         }
         .search-box{
           flex: 1;
           font-size:32px;
           font-weight:300;
           color: #fff;
-          padding-left:30px;
+          padding-left:10px;
         }
       }
       .area-entrance{
@@ -222,6 +315,14 @@
     background-position: center;
     img{
       display:none;
+    }
+  }
+  .show-list {
+    .show-item {
+      margin-top: 24px;
+      padding: 22px 0 34px 0;
+      height: 514px;
+      background: #fff;
     }
   }
 </style>
