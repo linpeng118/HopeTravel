@@ -26,7 +26,7 @@
         <div class="show-item"
              v-for="showItem in showList"
              :key="showItem.title">
-          <!--<swipe-item :proData="showItem" />-->
+          <swipe-item :proData="showItem" />
         </div>
       </div>
       <!-- 底部广告 -->
@@ -40,13 +40,14 @@
   import SnapUpItem from '@/components/items/snapUpItem'
   import SwipeItem from '@/components/items/swipeItem'
   import HotCity from '@/components/local_hot_city/hotCity'
-  import {getPlay} from '@/api/local_play'
+  import {getPlay, getProductList} from '@/api/local_play'
   import LayHeader from '@/components/header'
   import LayFooter from '@/components/footer'
   import {throttle as _throttle} from 'lodash'
   import {mapMutations} from 'vuex'
   import {HEADER_TYPE} from '@/assets/js/consts/headerType'
   import Loading from '@/components/loading'
+  import {PRODUCTIDS} from '@/assets/js/config'
   export default {
     components: {
       HotCity,
@@ -231,8 +232,31 @@
         footerAdvert:{}
       }
     },
+    async asyncData({$axios}) {
+      let {data, code} = await getPlay($axios)
+      // let hahah = await getProductList($axios, [1434, 1442])
+      if (code === 0) {
+        return {
+          original: data
+        }
+      } else {
+        return {
+          original: []
+        }
+      }
+    },
+    fetch ({store}) {
+      // const productIds = localStorage.getItem(PRODUCTIDS)
+      // console.log(productIds)
+      // if (productIds) {
+      //   let productList = await getProductList($axios, productIds)
+      // }
+    },
+    created() {
+      this.showList = this._nomalLizeshowList(this.original)
+      // console.log('sadasdasdasdasdasdas', this.hahah)
+    },
     mounted() {
-      this.init()
       // 监听滚动
       this.$refs.refLocalPlayPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
     },
@@ -241,10 +265,13 @@
         vxChangeHeaderStatus: 'header/changeStatus' // 修改头部状态
       }),
       async init() {
-        let {data, code} = await getPlay()
-        if (code === 0) {
-          this.showList = this._nomalLizeshowList(data)
-          console.log(this.showList)
+        try {
+          let {data, code} = await getPlay()
+          if (code === 0) {
+            this.showList = this._nomalLizeshowList(data)
+          }
+        } catch (e) {
+          console.log(e)
         }
       },
       // 序列化数据
@@ -255,14 +282,14 @@
         this.footerAdvert = data[len-1].data
         for(let i = 1; i < len - 1;i++){
           let obj = {}
-          obj.title = data[i].moduleName
+          obj.name = data[i].moduleName
           obj.list = data[i].data
           showList.push(obj)
         }
         return showList
       },
       doCollect(val) {
-        console.log(val)
+        // console.log(val)
       },
       // 滚动监听显示header
       scrollFn() {
@@ -272,13 +299,13 @@
             const s2 = this.$refs.refLocalPlayPage.scrollTop
             const direct = s2 - s1
             if (s1 === 0) {
-              console.log('处于顶部')
+              // console.log('处于顶部')
               this.vxChangeHeaderStatus(HEADER_TYPE.TOP)
             } else if (direct > 0) {
-              console.log('向下滚动')
+              // console.log('向下滚动')
               this.vxChangeHeaderStatus(HEADER_TYPE.DOWN)
             } else if (direct < 0) {
-              console.log('向上滚动')
+              // console.log('向上滚动')
               this.vxChangeHeaderStatus(HEADER_TYPE.UP)
             }
           }, 17)

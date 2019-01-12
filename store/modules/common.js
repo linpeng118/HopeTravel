@@ -4,7 +4,7 @@ import {
 
 const user = {
   state: {
-    token: process.navigator ? window.localStorage.getItem(TOKEN_KEY) : ''
+    token: process.client ? process.client : ''
   },
   mutations: {
     updateToken: (state, token) => {

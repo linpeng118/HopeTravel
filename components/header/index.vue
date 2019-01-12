@@ -17,7 +17,7 @@
         <div class="icon"></div>
         <div class="text">搜索</div>
       </div>
-      <div class="big-search" :style="{opacity: barSearch ? 1 : 0}">
+      <div class="big-search" :style="{opacity: barSearch ? 1 : 0}" v-if="!isSearch">
         <div class="icon"></div>
         <div class="text">{{searchKeyWords}}</div>
       </div>

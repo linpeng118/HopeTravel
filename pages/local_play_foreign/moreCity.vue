@@ -34,15 +34,27 @@
         cityList: []
       }
     },
+    async asyncData({$axios}) {
+      let {data, code} = await getCityList($axios)
+      if (code === 0) {
+        return {
+          original: data
+        }
+      }
+    },
     created() {
-      this.getInit()
+      this.cityList = this._nomalLizeCityList(this.original)
     },
     methods: {
       // 初始化数据
       async getInit() {
-        let {data, code} = await getCityList()
-        if (code === 0) {
-          this.cityList = this._nomalLizeCityList(data)
+        try {
+          let {data, code} = await getCityList()
+          if (code === 0) {
+            this.cityList = this._nomalLizeCityList(data)
+          }
+        } catch (e) {
+          console.log(e)
         }
       },
       // 格式化aip得到的数据
