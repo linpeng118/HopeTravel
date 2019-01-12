@@ -1,57 +1,60 @@
 <template>
   <section class="local-play-foreign" ref="refLocalPlayForeign">
     <lay-header :title="title" :isSearch="false" :barSearch="barSearch" :searchKeyWords="searchKeyWords"></lay-header>
-    <div class="area-play">
-      <!---->
-      <div class="area-location">
-        <div class="icon"></div>
-        <div class="name">{{cityInfo.name}}</div>
-      </div>
-      <div class="area-main" ref="refAreaMain">
-        <div class="area-info">
-          {{cityInfo.description}}
+    <div v-if="showList.length">
+      <div class="area-play">
+        <!---->
+        <div class="area-location">
+          <div class="icon"></div>
+          <div class="name">{{cityInfo.name}}</div>
         </div>
-        <div class="area-search" ref="refAreaSeach">
+        <div class="area-main" ref="refAreaMain">
+          <div class="area-info">
+            {{cityInfo.description}}
+          </div>
+          <div class="area-search" ref="refAreaSeach">
           <span class="icon-search">
             <van-icon name="search" color="white" size="0.6rem" />
           </span>
-          <span class="search-box">查找{{cityInfo.name}}的活动</span>
-        </div>
-        <div class="area-entrance">
-          <div class="c-title">
-            <nuxt-link to="/">查看全部</nuxt-link>
-            <span>当地玩乐</span>
+            <span class="search-box">查找{{cityInfo.name}}的活动</span>
           </div>
-          <div class="guide-list">
-            <ul>
-              <nuxt-link tag="li" to="/">
-                <span class="icon-guide-ticket"></span>
-                <span class="text">门票演出</span>
-              </nuxt-link>
-              <nuxt-link tag="li" to="/">
-                <span class="icon-guide-car"></span>
-                <span class="text">一日游&当地交通</span>
-              </nuxt-link>
-              <nuxt-link tag="li" to="/">
-                <span class="icon-guide-special"></span>
-                <span class="text">特色体验</span>
-              </nuxt-link>
-            </ul>
+          <div class="area-entrance">
+            <div class="c-title">
+              <nuxt-link to="/">查看全部</nuxt-link>
+              <span>当地玩乐</span>
+            </div>
+            <div class="guide-list">
+              <ul>
+                <nuxt-link tag="li" to="/">
+                  <span class="icon-guide-ticket"></span>
+                  <span class="text">门票演出</span>
+                </nuxt-link>
+                <nuxt-link tag="li" to="/">
+                  <span class="icon-guide-car"></span>
+                  <span class="text">一日游&当地交通</span>
+                </nuxt-link>
+                <nuxt-link tag="li" to="/">
+                  <span class="icon-guide-special"></span>
+                  <span class="text">特色体验</span>
+                </nuxt-link>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="area-image-bg" v-if="cityInfo" :style="bgStyle">
-      <img :src="cityInfo.image" alt="" @load="imageLoaded">
-      <!--<img src="../../assets/imgs/local_regiment/bg_banner@2x.png" alt="" @load="imageLoaded">-->
-    </div>
-    <div class="show-list">
-      <div class="show-item"
-           v-for="showItem in showList"
-           :key="showItem.title"
-            v-if="showItem.list.length">
-        <swipe-item :proData="showItem" />
+      <div class="area-image-bg" v-if="cityInfo" :style="bgStyle">
+        <!--<img :src="cityInfo.image" alt="" @load="imageLoaded">-->
+        <!--<img src="../../assets/imgs/local_regiment/bg_banner@2x.png" alt="" @load="imageLoaded">-->
       </div>
+      <div class="show-list">
+        <div class="show-item"
+             v-for="showItem in showList"
+             :key="showItem.title"
+             v-if="showItem.list.length">
+          <swipe-item :proData="showItem" />
+        </div>
+      </div>
+      <div style="height: 2000px;"></div>
     </div>
     <loading v-if="!showList.length"></loading>
   </section>
@@ -75,30 +78,39 @@
     validate({ query }) { // 判断路由是否正确
       return query.touCityId
     },
-    async asyncData({ query }) {
-      return {
-        cityId: query.touCityId
+    async asyncData({query, $axios}) {
+      let {data, code} = await getCityInfo($axios, query.touCityId)
+      if(code === 0) {
+        return {
+          cityInfo: data.city,
+          original: data
+        }
+      } else {
+        return {
+          cityInfo: {},
+          showList: []
+        }
       }
     },
     data() {
       return {
-        cityInfo: {},
         imgShow: false,
         title: '当地玩乐',
         barSearch: false,
         showList: [],
-        searchKeyWords:''
+        searchKeyWords:'',
+        test: this.$router.query
       }
     },
     computed: {
       // 城市背景图片处理
       bgStyle() {
-        let url = this.imgShow ? this.cityInfo.image: require('../../assets/imgs/local_regiment/bg_banner@2x.png')
-        return `background-image:url(${url})`
+        return `background-image:url(${this.cityInfo.image})`
       }
     },
     created() {
-      this.getInit()
+      // this.getInit()
+      this.showList = this._nomalLizeshowList(this.original)
     },
     mounted() {
       this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 500))
@@ -109,13 +121,17 @@
       }),
       // 初始化数据
       async getInit() {
-        let {data, code} = await getCityInfo(this.cityId)
-        if(code === 0) {
-          this.cityInfo = data.city
-          this.showList = this._nomalLizeshowList(data)
-          console.log(this.showList)
-        } else {
-          this.cityInfo = {}
+        try {
+          let {data, code} = await getCityInfo(this.cityId)
+          if(code === 0) {
+            this.cityInfo = data&&data.city
+            this.showList = this._nomalLizeshowList(data)
+            // console.log(this.showList)
+          } else {
+            this.cityInfo = {}
+          }
+        } catch (e) {
+          console.log(e)
         }
       },
       // 序列化数据
@@ -142,12 +158,8 @@
         ]
         return showList
       },
-      // 判断城市背景图片是否加载完成
-      imageLoaded() {
-        this.imgShow = true
-      },
       scrollTab() {
-        console.log('scrollTab');
+        // console.log('scrollTab');
       },
       // 滚动监听显示header
       scrollFn() {
@@ -160,13 +172,13 @@
             const s2 = this.$refs.refLocalPlayForeign.scrollTop
             const direct = s2 - s1
             if (s1 === 0) {
-              console.log('处于顶部')
+              // console.log('处于顶部')
               this.vxChangeHeaderStatus(HEADER_TYPE.TOP)
             } else if (direct > 0) {
-              console.log('向下滚动')
+              // console.log('向下滚动')
               this.vxChangeHeaderStatus(HEADER_TYPE.DOWN)
             } else if (direct < 0) {
-              console.log('向上滚动')
+              // console.log('向上滚动')
               this.vxChangeHeaderStatus(HEADER_TYPE.UP)
             }
             if (s1 > s3) {
@@ -313,6 +325,7 @@
     z-index: 0;
     background-size: cover;
     background-position: center;
+    background-color: #ccc;
     img{
       display:none;
     }
