@@ -24,13 +24,16 @@
           </van-field>
         </van-cell-group>
         <van-button class="btn-login tours-button"
-          size="large">登陆</van-button>
+          size="large"
+          :disabled="!isNameOk"
+          @click="login">登陆</van-button>
       </van-tab>
       <!-- 手机验证码登陆 -->
       <van-tab class="mobile-login"
         title="手机验证码登陆">
         <van-cell-group>
-          <area-code-input class="mobile" />
+          <area-code-input class="mobile"
+            :proMobile.sync="mobile" />
           <van-field class="auth-code tours-input"
             v-model="authCode"
             center
@@ -43,7 +46,9 @@
           </van-field>
         </van-cell-group>
         <van-button class="btn-login tours-button"
-          size="large">登陆</van-button>
+          size="large"
+          :disabled="!isMobileOk"
+          @click="mobileLogin">登陆</van-button>
       </van-tab>
       <p class="text">登陆即代表您已同意我们的<span>&nbsp;服务协议</span></p>
     </van-tabs>
@@ -63,8 +68,10 @@
         username: '',
         password: '',
         pswInputType: 'password', // 密码输入框类型
+        isNameOk: false, // 验证用户名是否ok
         // 手机登录
         mobile: '',
+        isMobileOk: false, // 验证手机号是否ok
         authCode: '', // 验证码
         areaCode: '86', // 区号
         show: false,
@@ -87,6 +94,12 @@
       },
       onAreaCode() {
         console.log(123)
+      },
+      login() {
+        console.log(1)
+      },
+      mobileLogin() {
+        console.log(2, this.mobile)
       }
     },
   }

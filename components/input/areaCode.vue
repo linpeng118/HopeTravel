@@ -12,9 +12,11 @@
       <van-icon class="icon-arrow"
         name="arrow" />
     </van-col>
-    <van-col v-show="!isShowList"
+    <van-col class="mobile-input"
+      v-show="!isShowList"
       span="18">
       <van-field class="mobile"
+        style=""
         v-model="mobile"
         placeholder="请输入手机号">
       </van-field>
@@ -36,6 +38,12 @@
 <script>
   export default {
     components: {},
+    props: {
+      proMobile: {
+        type: [Number, String],
+        default: ''
+      },
+    },
     data() {
       return {
         isShowList: false, // 是否显示列表
@@ -50,7 +58,11 @@
         ]
       }
     },
-    computed: {},
+    watch: {
+      mobile(val) {
+        this.$emit('update:proMobile', val)
+      }
+    },
     mounted() {},
     methods: {
       toggleAreaList() {
@@ -85,6 +97,11 @@
       .icon-arrow {
         margin-left: 20px;
         font-size: 24px;
+      }
+    }
+    .mobile-input {
+      .mobile {
+        padding: 0 15px;
       }
     }
     .area-list {
