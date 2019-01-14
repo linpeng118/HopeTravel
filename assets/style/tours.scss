@@ -73,3 +73,17 @@
     border-bottom: 0 !important;
   }
 }
+
+// checkbox方形
+.tour-checkbox {
+  .van-checkbox__icon {
+    height: 28px;
+    line-height: 28px;
+  }
+
+  .van-checkbox__icon--round .van-icon {
+    border-radius: 4px;
+    width: 28px;
+    height: 28px;
+  }
+}
