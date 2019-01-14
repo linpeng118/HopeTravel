@@ -139,7 +139,7 @@
       this.appBridge = require('@/assets/js/appBridge.js').default
       const localProductIds = this.appBridge.getLocalStorage()
       console.log('，，，，，，，，，,,,,,,,,,,,,,,')
-      Object.prototype.toString.call('localProductIds的数据类型'+localProductIds)
+      console.log('localProductIds的数据类型:' + Object.prototype.toString.call(localProductIds))
       localProductIds.then(res => {
         console.log(res)
       })
