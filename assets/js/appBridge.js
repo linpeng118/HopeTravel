@@ -63,39 +63,6 @@ function createNoArgApi(androidFuncName, iosFuncName) {
 }
 
 /**
- * 快速创建跳转页面用的接口
- * @param {number} androidPageCode 安卓的页面代码
- * @param {string} iosFuncName ios的跳转方法名
- * @return {Function|null} 这个函数会带有一个boolean参数，表示是否需要保持当前页面不关闭，默认关闭
- */
-function createJumpApi(androidPageCode, iosFuncName) {
-  if (browserVersion.isAndroid() && testApi('jumpPage', true)) {
-    return holdCurrentPage => {
-      // 之前安卓会在jump的同时自动关闭网页。出现finishPageV2接口后就需要手动调用才关闭了
-      if (!holdCurrentPage && testApi('finishPageV2', true)) {
-        callApi('finishPageV2', true)
-      }
-      callApi('jumpPage', true, androidPageCode)
-    }
-  }
-  if (browserVersion.isIos() && testApi(iosFuncName, false)) {
-    return holdCurrentPage => {
-      if (holdCurrentPage) {
-        // 调用后不会关闭当前网页的接口
-        const tempJumpFuncName = iosFuncName.startsWith('JSMessage_') ? `${iosFuncName}_Temp` : `JSMessage_${iosFuncName}_Temp`
-        console.log(tempJumpFuncName)
-        if (testApi(tempJumpFuncName, false)) {
-          callApi(tempJumpFuncName, false)
-          return
-        }
-      }
-      callApi(iosFuncName, false)
-    }
-  }
-  return null
-}
-
-/**
  * 异步获取本地用户登录态
  * @return {Promise|null}
  */
@@ -124,186 +91,64 @@ function createJumpApi(androidPageCode, iosFuncName) {
 //   return null
 // })()
 
-/**
- * 异步获取本地用户登录态
- * @return {Promise|null}
- */
-// export const getSessionKey = (() => {
-//   if (browserVersion.isAndroid() && testApi('getSessionKey', true)) {
-//     return () => {
-//       return new Promise(resolve => {
-//         const funcName = `__API__${randomString(6)}`
-//         window[funcName] = resolve
-//         callApi('getSessionKey', true, funcName)
-//       })
-//     }
-//   }
-//   if (browserVersion.isIos() && testApi('JSMessage_ClickAndPassSessionKey', false)) {
-//     return () => {
-//       return new Promise(resolve => {
-//         const oldFunc = window.getSessionKey
-//         window.getSessionKey = sessionKey => {
-//           window.getSessionKey = oldFunc
-//           resolve(sessionKey)
-//         }
-//         callApi('JSMessage_ClickAndPassSessionKey', false)
-//       })
-//     }
-//   }
-//   return null
-// })()
+/*  =========================== 需要参数的方法 ===========================  */
 
 /**
- * 跳转列表界面
+ * 跳转列表界面, 返回的(参数为json对象) => {}
  */
 export const jumpProductListView = (() => {
-  console.log('jumpProductListView', browserVersion.isAndroid(), browserVersion.isIos())
-  if (browserVersion.isAndroid() && testApi('setShowTitleBar', true)) {
-    console.log(11)
-    return ({
-      data
-    }) => callApi('setShowTitleBar', true, {
-      data
-    })
+  if (browserVersion.isAndroid() && testApi('jumpProductListView', true)) {
+    return (data) => callApi('jumpProductListView', true, [data])
   }
   if (browserVersion.isIos() && testApi('jumpProductListView', false)) {
-    console.log(22)
-    return ({
-      data
-    }) => callApi('jumpProductListView', false, {
-      data
-    })
+    return (data) => callApi('jumpProductListView', false, [data])
   }
-  console.log(33)
   return null
 })()
 
 /**
- * 跳转列表界面
+ * 跳转列表详情界面
  */
 export const jumpProductDetailView = (() => {
-  console.log('jumpProductDetailView', browserVersion.isAndroid(), browserVersion.isIos())
-  if (browserVersion.isAndroid() && testApi('setShowTitleBar', true)) {
-    console.log(11)
-    return ({
-      data
-    }) => callApi('setShowTitleBar', true, {
-      data
-    })
+  if (browserVersion.isAndroid() && testApi('jumpProductDetailView', true)) {
+    return (data) => callApi('jumpProductDetailView', true, [data])
   }
   if (browserVersion.isIos() && testApi('jumpProductDetailView', false)) {
-    console.log(22)
-    return ({
-      data
-    }) => callApi('jumpProductDetailView', false, {
-      data
-    })
+    return (data) => callApi('jumpProductDetailView', false, [data])
   }
-  console.log(33)
   return null
 })()
 
+/*  =========================== 不需要参数的方法 ===========================  */
 /**
  *  显示顶部导航栏
  */
-export const showNavigationBar = (() => {
-  console.log('showNavigationBar', browserVersion.isAndroid(), browserVersion.isIos())
-  if (browserVersion.isAndroid() && testApi('setShowTitleBar', true)) {
-    console.log(11)
-    return () => callApi('setShowTitleBar', true, true)
-  }
-  if (browserVersion.isIos() && testApi('showNavigationBar', false)) {
-    console.log(22)
-    return () => callApi('showNavigationBar', false)
-  }
-  console.log(33)
-  return null
-})()
+export const showNavigationBar = createNoArgApi('showNavigationBar', 'showNavigationBar')
 
 /**
  *  隐藏顶部导航栏
  */
-export const hideNavigationBar = (() => {
-  console.log('hideNavigationBar', browserVersion.isAndroid(), browserVersion.isIos())
-  if (browserVersion.isAndroid() && testApi('hideNavigationBar', true)) {
-    console.log(1)
-    return () => callApi('hideNavigationBar', true)
-  }
-  if (browserVersion.isIos() && testApi('hideNavigationBar', false)) {
-    console.log(2)
-    return () => callApi('hideNavigationBar', false)
-  }
-  console.log(3)
-  return null
-})()
+export const hideNavigationBar = createNoArgApi('hideNavigationBar', 'hideNavigationBar')
 
 /**
  * 跳转到登录页面
  */
-export const jumpToLoginView = (() => {
-  console.log('jumpToLoginView', browserVersion.isAndroid(), browserVersion.isIos())
-  if (browserVersion.isAndroid() && testApi('jumpToLoginView', true)) {
-    console.log(1)
-    return () => callApi('jumpToLoginView', true)
-  }
-  if (browserVersion.isIos() && testApi('jumpToLoginView', false)) {
-    console.log(2)
-    return () => callApi('jumpToLoginView', false)
-  }
-  console.log(3)
-  return null
-})()
+export const jumpToLoginView = createNoArgApi('jumpToLoginView', 'jumpToLoginView')
 
 /**
  *  隐藏顶部导航栏
  */
-export const jumpSearchView = (() => {
-  console.log('jumpSearchView', browserVersion.isAndroid(), browserVersion.isIos())
-  if (browserVersion.isAndroid() && testApi('jumpSearchView', true)) {
-    console.log(1)
-    return () => callApi('jumpSearchView', true)
-  }
-  if (browserVersion.isIos() && testApi('jumpSearchView', false)) {
-    console.log(2)
-    return () => callApi('jumpSearchView', false)
-  }
-  console.log(3)
-  return null
-})()
+export const jumpSearchView = createNoArgApi('jumpSearchView', 'jumpSearchView')
 
 /**
  * 目的地界面
  */
-export const jumpDestinationView = (() => {
-  console.log('jumpDestinationView', browserVersion.isAndroid(), browserVersion.isIos())
-  if (browserVersion.isAndroid() && testApi('jumpDestinationView', true)) {
-    console.log(1)
-    return () => callApi('jumpDestinationView', true)
-  }
-  if (browserVersion.isIos() && testApi('jumpDestinationView', false)) {
-    console.log(2)
-    return () => callApi('jumpDestinationView', false)
-  }
-  console.log(3)
-  return null
-})()
+export const jumpDestinationView = createNoArgApi('jumpDestinationView', 'jumpDestinationView')
 
 /**
  * 返回上一个界面(对web而言就是返回app首页)
  */
-export const backPreviousView = (() => {
-  console.log('backPreviousView', browserVersion.isAndroid(), browserVersion.isIos())
-  if (browserVersion.isAndroid() && testApi('backPreviousView', true)) {
-    console.log(1)
-    return () => callApi('backPreviousView', true)
-  }
-  if (browserVersion.isIos() && testApi('backPreviousView', false)) {
-    console.log(2)
-    return () => callApi('backPreviousView', false)
-  }
-  console.log(3)
-  return null
-})()
+export const backPreviousView = createNoArgApi('jumpDestinationView', 'jumpDestinationView')
 
 export default {
   // 以下接口需传参调用
