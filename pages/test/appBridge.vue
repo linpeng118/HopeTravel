@@ -29,6 +29,7 @@
 <script>
   import {mapState} from 'vuex'
   import appBridge from '@/assets/js/appBridge.js'
+  
   export default {
     components: {},
     data() {
