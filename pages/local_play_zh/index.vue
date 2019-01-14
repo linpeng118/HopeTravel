@@ -138,10 +138,10 @@
       this.$refs.refLocalPlayPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
       this.appBridge = require('@/assets/js/appBridge.js').default
       const localProductIds = this.appBridge.getLocalStorage()
-      console.log('===============================================')
-      console.log('localProductIds:' + localProductIds.then(res => {
+      console.log('??????????????????????')
+      localProductIds.then(res => {
         console.log(res)
-      }))
+      })
 
       if (this.getPlatForm()) {
         const localProductIds = this.appBridge.getLocalStorage()
