@@ -315,19 +315,6 @@
       .title {
         padding-left: 32px;
       }
-      .scroll-topbar {
-        padding: 30px 0 10px;
-        width: 100%;
-        .mint-navbar {
-          overflow-x: scroll;
-          .mint-tab-item {
-            min-width: 22%;
-            .mint-tab-item-label {
-              font-size: 32px !important;
-            }
-          }
-        }
-      }
       .hq-tags {
         background: #fff;
         height: 172px;
