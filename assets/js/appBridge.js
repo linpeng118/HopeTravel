@@ -47,6 +47,22 @@ function callApi(funcName, isAndroid, ...args) {
 }
 
 /**
+ * 快速创建带参数接口
+ * @param {string|null} androidFuncName 安卓的方法名，传null表示该平台无对应的接口
+ * @param {string|null} iosFuncName ios的方法名，传null表示该平台无对应的接口
+ * @return {Function|null}
+ */
+function createArgApi(androidFuncName, iosFuncName) {
+  if (browserVersion.isAndroid() && androidFuncName && testApi(androidFuncName, true)) {
+    return (data) => callApi(androidFuncName, true, data)
+  }
+  if (browserVersion.isIos() && iosFuncName && testApi(iosFuncName, false)) {
+    return (data) => callApi(iosFuncName, false, data)
+  }
+  return null
+}
+
+/**
  * 快速创建无参数接口
  * @param {string|null} androidFuncName 安卓的方法名，传null表示该平台无对应的接口
  * @param {string|null} iosFuncName ios的方法名，传null表示该平台无对应的接口
@@ -96,28 +112,12 @@ function createNoArgApi(androidFuncName, iosFuncName) {
 /**
  * 跳转列表界面, 返回的(参数为json对象) => {}
  */
-export const jumpProductListView = (() => {
-  if (browserVersion.isAndroid() && testApi('jumpProductListView', true)) {
-    return (data) => callApi('jumpProductListView', true, data)
-  }
-  if (browserVersion.isIos() && testApi('jumpProductListView', false)) {
-    return (data) => callApi('jumpProductListView', false, data)
-  }
-  return null
-})()
+export const jumpProductListView = createArgApi('jumpProductListView', 'jumpProductListView')
 
 /**
  * 跳转列表详情界面
  */
-export const jumpProductDetailView = (() => {
-  if (browserVersion.isAndroid() && testApi('jumpProductDetailView', true)) {
-    return (data) => callApi('jumpProductDetailView', true, data)
-  }
-  if (browserVersion.isIos() && testApi('jumpProductDetailView', false)) {
-    return (data) => callApi('jumpProductDetailView', false, data)
-  }
-  return null
-})()
+export const jumpProductDetailView = createArgApi('jumpProductDetailView', 'jumpProductDetailView')
 
 /*  =========================== 不需要参数的方法 ===========================  */
 /**
