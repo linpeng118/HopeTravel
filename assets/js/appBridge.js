@@ -121,7 +121,7 @@ export const getLocalStorage = (() => {
       })
     }
   }
-  if (browserVersion.isIos() && testApi('JSMessage_ClickAndPassLocalStorage', false)) {
+  if (browserVersion.isIos() && testApi('getLocalStorage', false)) {
     return () => {
       return new Promise(resolve => {
         const oldFunc = window.getLocalStorage
@@ -129,7 +129,7 @@ export const getLocalStorage = (() => {
             window.getLocalStorage = oldFunc
             resolve(localStorage)
         }
-        callApi('JSMessage_ClickAndPassLocalStorage', false)
+        callApi('getLocalStorage', false)
       })
     }
   }

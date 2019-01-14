@@ -137,6 +137,10 @@
       // 监听滚动
       this.$refs.refLocalPlayPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
       this.appBridge = require('@/assets/js/appBridge.js').default
+      if (this.getPlatForm()) {
+       const localProductIds =  this.appBridge.getLocalStorage()
+        console.log('localProductIds:' + localProductIds)
+      }
     },
     methods: {
       ...mapMutations({
