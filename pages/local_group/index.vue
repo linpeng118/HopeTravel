@@ -28,7 +28,7 @@
           <hot-city-tag v-for="city in localgroupData[1].data"
             :key="city.title"
             :tag="city"
-            @callOnTag="onCity" />
+            @callOnTag="onHotCity(city)" />
           <hot-city-tag className="more"
             :tag="{title: '更多目的地'}"
             @callOnTag="onMoreCity" />
@@ -53,7 +53,7 @@
             <hot-city-tag v-for="item in localgroupData[2].data[selected] && localgroupData[2].data[selected].sub"
               :key="item.title"
               :tag="item"
-              @callOnTag="onCity" />
+              @callOnTag="onCity(item)" />
           </div>
           <div class="tags-height"
             v-show="isFixedTags"></div>
@@ -149,13 +149,7 @@
       }),
       async init() {
         await this.getLocalgroupData()
-        const res = await getProductList({
-          type: LIST_TYPE.LOCAL_GROUP,
-        })
-        // 初始化产品列表
-        this.productList = res.data
-        this.prodPagination = res.pagination
-        console.log('init products', this.productList, this.prodPagination)
+        await this.getProductListData()
       },
       // 获取当地跟团数据
       async getLocalgroupData() {
@@ -168,22 +162,50 @@
           console.log(error)
         }
       },
-      onCity(tag) {
-        console.log(tag)
+      // 获取产品列表
+      async getProductListData(data = {}) {
+        const submitData = {
+          type: LIST_TYPE.LOCAL_GROUP,
+          start_city: data.start_city || 0,
+          stop_city: data.stop_city || 0,
+          span_city: data.span_city || '34',
+          product_type: data.product_type || 0,
+          category: data.category || '', // 横向tag
+        }
+        const res = await getProductList(submitData)
+        // 初始化产品列表
+        this.productList = res.data
+        this.prodPagination = res.pagination
+        console.log('getProductListData', this.productList, this.prodPagination)
+      },
+      onHotCity(hotCity) {
+        console.log(hotCity)
       },
       onMoreCity() {
         console.log('更多')
-      },
-      onCityAll() {
-        console.log('全部')
       },
       /**
        * @param index 标签索引
        * @param title 标题
        */
       clickTab(index, title) {
-        console.log(index, title)
+        console.log(index, title, this.localgroupData[2].data[index])
         this.selected = index
+        const submitData = {
+          category: this.localgroupData[2].data[index].category,
+        }
+        this.getProductListData(submitData)
+      },
+      // 精选下的城市
+      onCity(city) {
+        this.getProductListData({
+          category: city.category,
+          start_city: city.start_city,
+          span_city: city.span_city,
+        })
+      },
+      onCityAll() {
+        console.log('全部')
       },
       /**
        * 监听页面的滚动

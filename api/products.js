@@ -3,7 +3,7 @@ import axios from '@/plugins/axios/axios'
 export const getProductList = (data) => {
   return axios.get('/api/products', {
     params: {
-      type: data.type || LIST_TYPE.LOCAL_GROUP,
+      type: data.type,
       keyword: data.keyword || '',
       page: data.page || 0,
       page_size: data.page_size || 9,
