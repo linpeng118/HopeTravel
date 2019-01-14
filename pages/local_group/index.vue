@@ -332,13 +332,14 @@
         padding-left: 32px;
       }
       .hq-tags {
+        padding: 24px 30px;
         background: #fff;
         height: 172px;
-        padding: 24px 30px;
         &.fixed-tag {
           position: fixed;
-          top: calc(92px + 44px + 24px);
+          top: calc(92px + 44px + 24px + 15px);
           z-index: 999;
+          box-shadow: 0 0.053333rem 0.16rem rgba(0, 0, 0, 0.1);
         }
       }
       .tags-height {
