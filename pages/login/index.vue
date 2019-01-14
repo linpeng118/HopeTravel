@@ -2,7 +2,7 @@
   <div class="login-page">
     <login-header rightText="注册"
       @callOnRigth="toRegist" />
-    <h1 class="title">稀饭旅行账号登陆</h1>
+    <h1 class="title">稀饭旅行账号登录</h1>
     <van-tabs class="login-wrap tours-tabs-nowrap">
       <!-- 普通登陆 -->
       <van-tab class="login"
@@ -28,7 +28,7 @@
         <van-button class="btn-login tours-button"
           size="large"
           :disabled="!isNameOk"
-          @click="login">登陆</van-button>
+          @click="login">登录</van-button>
       </van-tab>
       <!-- 手机验证码登陆 -->
       <van-tab class="mobile-login"
@@ -50,7 +50,7 @@
         <van-button class="btn-login tours-button"
           size="large"
           :disabled="!isMobileOk"
-          @click="mobileLogin">登陆</van-button>
+          @click="mobileLogin">登录</van-button>
       </van-tab>
       <p class="text">登陆即代表您已同意我们的<span @click="onAgreement">&nbsp;服务协议</span></p>
     </van-tabs>

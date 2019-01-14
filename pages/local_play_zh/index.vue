@@ -37,16 +37,16 @@
 </template>
 
 <script>
+  import {throttle as _throttle} from 'lodash'
+  import {mapMutations} from 'vuex'
+  import {getPlay, getProductList} from '@/api/local_play'
   import SnapUpItem from '@/components/items/snapUpItem'
   import SwipeItem from '@/components/items/swipeItem'
   import HotCity from '@/components/local_hot_city/hotCity'
-  import {getPlay, getProductList} from '@/api/local_play'
   import LayHeader from '@/components/header'
   import LayFooter from '@/components/footer'
-  import {throttle as _throttle} from 'lodash'
-  import {mapMutations} from 'vuex'
-  import {HEADER_TYPE} from '@/assets/js/consts/headerType'
   import Loading from '@/components/loading'
+  import {HEADER_TYPE} from '@/assets/js/consts/headerType'
   import {PRODUCTIDS} from '@/assets/js/config'
   import {getUrlParam} from '@/assets/js/utils'
   export default {
