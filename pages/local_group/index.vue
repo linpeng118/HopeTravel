@@ -190,12 +190,10 @@
         this.appBridge.jumpProductListView(params)
       },
       onHotCity(hotCity) {
-<<<<<<< HEAD
         (hotCity)
       },
       onMoreCity() {
         ('更多')
-=======
         console.log(hotCity)
         const params = {
           'itemType': LIST_TYPE.LOCAL_GROUP,
@@ -203,11 +201,6 @@
           'span_city': hotCity.span_city,
         }
         this.appBridge.jumpProductListView(params)
-      },
-      onMoreCity() {
-        console.log('更多')
-        this.appBridge.jumpDestinationView()
->>>>>>> 118994b00b38b47eeb6b58d04b3c4efaf7171fe7
       },
       /**
        * @param index 标签索引
@@ -231,11 +224,11 @@
       },
       // 点击全部
       onCityAll() {
-<<<<<<< HEAD
+
         ('全部')
-=======
+
         this.getProductListData()
->>>>>>> 118994b00b38b47eeb6b58d04b3c4efaf7171fe7
+
       },
       /**
        * 监听页面的滚动
