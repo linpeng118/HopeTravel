@@ -138,11 +138,11 @@
       this.$refs.refLocalPlayPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
       this.appBridge = require('@/assets/js/appBridge.js').default
       const localProductIds = this.appBridge.getLocalStorage()
-      console.log('++++++++++++++++++++++++')
+      console.log('**************************************')
       console.log('localProductIds的数据类型:' + Object.prototype.toString.call(localProductIds))
       console.log(localProductIds)
       localProductIds.then(res => {
-        console.log('result的结果是：' + res.toString())
+        console.log('result的结果是：' + res)
       })
 
       if (this.getPlatForm()) {
