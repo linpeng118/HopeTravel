@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="hot-more">
-      <nuxt-link to="/local_play_foreign/moreCity">更多</nuxt-link>
+      <div class="link" @click="selectMore">更多</div>
     </div>
   </div>
 </template>
@@ -28,6 +28,9 @@ export default {
   methods: {
     selectItem(id) {
       this.$emit('clickItem', id)
+    },
+    selectMore() {
+      this.$emit('selectMore')
     }
   }
 }
@@ -78,7 +81,7 @@ export default {
       width:180px;
       height:52px;
       margin: 28px auto 0 auto;
-      a{
+      .link{
         display: block;
         background:rgba(57,158,246,1);
         border-radius:26px;

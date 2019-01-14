@@ -22,6 +22,7 @@
   import LayHeader from '@/components/header/index.vue'
   import Scroll from '@/components/sroll/index.vue'
   import {getCityList} from '@/api/local_play'
+  import {getUrlParam} from '@/assets/js/utils'
   export default {
     name: 'moreCity',
     components: {
@@ -46,6 +47,10 @@
       this.cityList = this._nomalLizeCityList(this.original)
     },
     methods: {
+      // 判断是app还是web
+      getPlatForm() {
+        return getUrlParam('platform') ? true : false
+      },
       // 返回上一级页面
       leftClick() {
         this.$router.go(-1)
@@ -76,11 +81,15 @@
       },
       // 路由跳转
       selectItem(cityId) {
+        let query = {
+          touCityId: cityId
+        }
+        if (this.getPlatForm()) {
+          query.platform = 'app'
+        }
         this.$router.push({
           path: `/local_play_foreign`,
-          query: {
-            touCityId: cityId
-          }
+          query
         })
       }
     }

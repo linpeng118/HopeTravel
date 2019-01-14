@@ -112,10 +112,10 @@
           slidesOffsetBefore: 16,
           on: {
             slideChange() {
-              console.log('onSlideChangeEnd', this);
+              ('onSlideChangeEnd', this);
             },
             tap() {
-              console.log('onTap', this);
+              ('onTap', this);
             }
           }
         },
@@ -155,11 +155,11 @@
       async getLocalgroupData() {
         try {
           const res = await getLocalgroup()
-          console.log('getLocalgroupData', res.data)
+          ('getLocalgroupData', res.data)
           // 初始化本地跟团数据
           this.localgroupData = res.data
         } catch (error) {
-          console.log(error)
+          (error)
         }
       },
       // 获取产品列表
@@ -176,20 +176,20 @@
         // 初始化产品列表
         this.productList = res.data
         this.prodPagination = res.pagination
-        console.log('getProductListData', this.productList, this.prodPagination)
+        ('getProductListData', this.productList, this.prodPagination)
       },
       onHotCity(hotCity) {
-        console.log(hotCity)
+        (hotCity)
       },
       onMoreCity() {
-        console.log('更多')
+        ('更多')
       },
       /**
        * @param index 标签索引
        * @param title 标题
        */
       clickTab(index, title) {
-        console.log(index, title, this.localgroupData[2].data[index])
+        (index, title, this.localgroupData[2].data[index])
         this.selected = index
         const submitData = {
           category: this.localgroupData[2].data[index].category,
@@ -205,14 +205,14 @@
         })
       },
       onCityAll() {
-        console.log('全部')
+        ('全部')
       },
       /**
        * 监听页面的滚动
        * @param val { scrollTop: 距离顶部位置, isFixed: 是否吸顶 }
        */
       scrollTab(val) {
-        // console.log(val)
+        // (val)
         if (val.isFixed) {
           this.isFixedTags = true
         } else {
@@ -221,42 +221,42 @@
       },
       // 监听滚动
       scrollFn() {
-        // console.log('scrollTop(获取/设置对象的最顶部到对象在当前窗口顶边的距离)+offsetHeight(获取元素的高度)')
-        // console.log(this.$refs.refLocalGroupPage.scrollTop, this.$refs.refLocalGroupPage.offsetHeight)
-        // console.log('100vh高度', this.$refs.refLocalGroupPage.offsetHeight)
-        // console.log('获取滚动对象整体高度', this.$refs.refLocalGroup.offsetHeight)
+        // ('scrollTop(获取/设置对象的最顶部到对象在当前窗口顶边的距离)+offsetHeight(获取元素的高度)')
+        // (this.$refs.refLocalGroupPage.scrollTop, this.$refs.refLocalGroupPage.offsetHeight)
+        // ('100vh高度', this.$refs.refLocalGroupPage.offsetHeight)
+        // ('获取滚动对象整体高度', this.$refs.refLocalGroup.offsetHeight)
         const s1 = this.$refs.refLocalGroupPage.scrollTop
         setTimeout(() => {
           const s2 = this.$refs.refLocalGroupPage.scrollTop
           const direct = s2 - s1
           if (s1 === 0) {
-            console.log('处于顶部')
+            ('处于顶部')
             this.vxChangeHeaderStatus(HEADER_TYPE.TOP)
           } else if (direct > 0) {
-            console.log('向下滚动')
+            ('向下滚动')
             this.vxChangeHeaderStatus(HEADER_TYPE.DOWN)
           } else if (direct < 0) {
-            console.log('向上滚动')
+            ('向上滚动')
             this.vxChangeHeaderStatus(HEADER_TYPE.UP)
           }
         }, 17)
       },
       // 滚动产品列表到底出发
       async onLoad() {
-        console.log('onLoad')
+        ('onLoad')
         // 异步更新数据
         if (this.prodPagination.more) {
           const submitData = {
             type: LIST_TYPE.LOCAL_GROUP,
             page: this.prodPagination.page + 1
           }
-          console.log(submitData)
+          (submitData)
           const res = await getProductList(submitData)
           this.productList.push(...res.data)
           this.prodPagination = res.pagination
-          console.log('get more over', this.productList)
+          ('get more over', this.productList)
         } else {
-          console.log('no more')
+          ('no more')
         }
         // 加载状态结束
         this.prodLoading = false;

@@ -1,6 +1,6 @@
 <template>
   <section class="local-play-foreign" ref="refLocalPlayForeign">
-    <lay-header :title="title" :isSearch="false" :barSearch="barSearch" :searchKeyWords="searchKeyWords"></lay-header>
+    <lay-header :title="title" :isSearch="false" :barSearch="barSearch" :searchKeyWords="searchKeyWords" @leftClick="leftClick"></lay-header>
     <div v-if="showList.length">
       <div class="area-play">
         <!---->
@@ -19,27 +19,16 @@
             <span class="search-box">查找{{cityInfo.name}}的活动</span>
           </div>
           <div class="area-entrance">
-            <div class="c-title">
-              <nuxt-link to="/">查看全部</nuxt-link>
+            <div class="c-title" @click="selectProductList(null)">
+              <div class="link">查看全部</div>
               <span>当地玩乐</span>
             </div>
             <div class="guide-list">
               <ul>
-                <li v-for="category in categoryList" :key="category.type">
-                  <span class="icon-guide-ticket" v-if="category.type === 1"></span>
-                  <span class="icon-guide-ticket" v-if="category.type === 2"></span>
-                  <span class="icon-guide-ticket" v-if="category.type === 3"></span>
-                  <span class="icon-guide-ticket" v-if="category.type === 3"></span>
-                  <span class="text">门票演出</span>
+                <li v-for="category in categoryList" :key="category.type" @click="selectProductList(category.type_id)">
+                  <span :class="iconChow(category.type)"></span>
+                  <span class="text">{{category.name}}</span>
                 </li>
-                <!--<nuxt-link tag="li" to="/">-->
-                  <!--<span class="icon-guide-car"></span>-->
-                  <!--<span class="text">一日游&当地交通</span>-->
-                <!--</nuxt-link>-->
-                <!--<nuxt-link tag="li" to="/">-->
-                  <!--<span class="icon-guide-special"></span>-->
-                  <!--<span class="text">特色体验</span>-->
-                <!--</nuxt-link>-->
               </ul>
             </div>
           </div>
@@ -57,7 +46,6 @@
           <swipe-item :proData="showItem" />
         </div>
       </div>
-      <div style="height: 2000px;"></div>
     </div>
     <loading v-if="!showList.length"></loading>
   </section>
@@ -71,6 +59,7 @@
   import {throttle as _throttle} from 'lodash'
   import {mapMutations} from 'vuex'
   import {HEADER_TYPE} from '@/assets/js/consts/headerType'
+  import {getUrlParam} from '@/assets/js/utils'
   export default {
     // layout: 'defaultHeader',
     components: {
@@ -86,12 +75,14 @@
       if(code === 0) {
         return {
           cityInfo: data.city,
-          original: data
+          original: data,
+          categoryList: data.category
         }
       } else {
         return {
           cityInfo: {},
-          showList: []
+          showList: [],
+          categoryList: []
         }
       }
     },
@@ -112,16 +103,38 @@
       }
     },
     created() {
-      // this.getInit()
       this.showList = this._nomalLizeshowList(this.original)
     },
     mounted() {
       this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 500))
+      this.appBridge = require('@/assets/js/appBridge.js').default
     },
     methods: {
       ...mapMutations({
         vxChangeHeaderStatus: 'header/changeStatus' // 修改头部状态
       }),
+      // 返回上一级菜单
+      leftClick () {
+        if (this.getPlatForm()) {
+          this.appBridge.backPreviousView()
+        } else {
+          this.$router.go(-1)
+        }
+      },
+      // 判断是app还是web
+      getPlatForm() {
+        return getUrlParam('platform') ? true : false
+      },
+      // 判断显示icon
+      iconChow(type) {
+        if (type === 1) { // 门票演出
+          return 'icon-guide-ticket'
+        } else if(type === 2) { // 一日游
+          return 'icon-guide-car'
+        } else if(type === 3) { // 特色体验
+          return 'icon-guide-special'
+        }
+      },
       // 初始化数据
       async getInit() {
         try {
@@ -130,7 +143,6 @@
             this.cityInfo = data && data.city
             this.categoryList = data.category
             this.showList = this._nomalLizeshowList(data)
-            console.log(this.showList)
           } else {
             this.cityInfo = {}
           }
@@ -140,11 +152,14 @@
       },
       // 序列化数据
       _nomalLizeshowList(data) {
+        if (!data) return []
         let obj = {
           activity : '最新活动',
           boutique: '稀饭精选',
           welcome: '最受欢迎'
         }
+
+        // if(data) return false
         let {activity,boutique,welcome} = data
         let showList = [
           {
@@ -163,26 +178,20 @@
         return showList
       },
       scrollTab() {
-        // console.log('scrollTab');
       },
       // 滚动监听显示header
       scrollFn() {
         window.requestAnimationFrame(() => {
-          // console.log('滚动高度', this.$refs.refLocalPlayForeign.scrollTop)
-          // console.log('refAreaMain', this.$refs.refAreaMain.offsetHeight)
           const s1 = this.$refs.refLocalPlayForeign.scrollTop
           const s3 = this.$refs.refAreaMain.offsetHeight
           setTimeout(() => {
             const s2 = this.$refs.refLocalPlayForeign.scrollTop
             const direct = s2 - s1
             if (s1 === 0) {
-              // console.log('处于顶部')
               this.vxChangeHeaderStatus(HEADER_TYPE.TOP)
             } else if (direct > 0) {
-              // console.log('向下滚动')
               this.vxChangeHeaderStatus(HEADER_TYPE.DOWN)
             } else if (direct < 0) {
-              // console.log('向上滚动')
               this.vxChangeHeaderStatus(HEADER_TYPE.UP)
             }
             if (s1 > s3) {
@@ -196,6 +205,20 @@
           }, 17)
         })
       },
+      selectProductList(typeId) {
+        if(this.getPlatForm()) {
+          let data = {
+            'itemType': '2'
+          }
+          if (typeId !== null) {
+            data.product_type = typeId.toString()
+          }
+          this.appBridge.jumpProductListView(data)
+        } else {
+          // web页面跳转
+          console.log('web页面跳转')
+        }
+      }
     }
   }
 </script>
@@ -281,7 +304,7 @@
           font-weight:300;
           color:#989898;
           line-height: 72px;
-          a{
+          .link{
             float: right;
             padding: 0 20px;
             color: #399EF6;

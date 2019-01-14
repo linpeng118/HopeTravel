@@ -5,7 +5,7 @@
       <!-- banner -->
       <div class="banner"></div>
       <!-- 热门城市 -->
-      <hot-city :hotCityList="hotCity" @clickItem="linkCityHandle"></hot-city>
+      <hot-city :hotCityList="hotCity" @clickItem="linkCityHandle" @selectMore="selectMore"></hot-city>
       <!-- 最近浏览 -->
       <div class="recently-viewed">
         <h1 class="title">最近浏览</h1>
@@ -49,7 +49,6 @@
   import Loading from '@/components/loading'
   import {PRODUCTIDS} from '@/assets/js/config'
   import {getUrlParam} from '@/assets/js/utils'
-  // import appBridge from '@/assets/js/appBridge.js'
   export default {
     components: {
       HotCity,
@@ -137,6 +136,7 @@
     mounted() {
       // 监听滚动
       this.$refs.refLocalPlayPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
+      this.appBridge = require('@/assets/js/appBridge.js').default
     },
     methods: {
       ...mapMutations({
@@ -150,7 +150,7 @@
       leftClick() {
         if (this.getPlatForm()) {
           //app
-          appBridge.backPreviousView()
+          this.appBridge.backPreviousView()
         } else {
           //web
           this.$router.go(-1)
@@ -160,7 +160,7 @@
       selectItem(productId) {
         if(this.getPlatForm()) {
           // app详情跳转
-          appBridge.jumpProductDetailView({
+          this.appBridge.jumpProductDetailView({
             productID: productId
           })
         } else {
@@ -221,11 +221,26 @@
         })
       },
       linkCityHandle(cityId){
+        let query = {
+          touCityId: cityId
+        }
+        if (this.getPlatForm()) {
+          query.platform = 'app'
+        }
         this.$router.push({
           path: `/local_play_foreign`,
-          query: {
-            touCityId: cityId
-          }
+          query
+        })
+      },
+      // 更多城市
+      selectMore() {
+        let query = {}
+        if (this.getPlatForm()) {
+          query.platform = 'app'
+        }
+        this.$router.push({
+          path: `/local_play_foreign/more_city`,
+          query
         })
       }
     }

@@ -21,7 +21,7 @@ export default function ({ $axios, redirect }) {
     const {
       response
     } = error;
-    console.log('err response', response)
+    ('err response', response)
     if (response) {
       // 请求已发出，但是不在2xx的范围
       errorHandle(response.status, response.data.message);

@@ -41,6 +41,7 @@
           'jumpSearchView', // 搜索界面
           'jumpDestinationView', // 目的地界面
           'backPreviousView', // 返回上一个界面(对web而言就是返回app首页)
+          'getLocalStorage' // 最近浏览数据
         ],
         // 有参数需要传递
         funcNamesNeedArg: [
@@ -60,14 +61,14 @@
        * 无参数请求app接口
        */
       async callNoArgFunc(funcName) {
-        console.log('方法名（无参）：', funcName, appBridge)
+        ('方法名（无参）：', funcName, appBridge)
         appBridge[funcName]()
       },
       /**
        * 带参数请求app接口
        */
       async callArgFunc(funcName) {
-        console.log('方法名（带参）', funcName)
+        ('方法名（带参）', funcName)
         switch (funcName) {
           case 'jumpProductListView':
             //  1=当地跟团，2=当地玩乐，3=稀饭精品，4=门票演出，5=一日游，6=接驳服务，7=邮轮
@@ -81,7 +82,7 @@
             })
             break;
           default:
-            console.log(`not found ${funcName}`)
+            (`not found ${funcName}`)
             break;
         }
       },

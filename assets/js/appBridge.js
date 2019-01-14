@@ -25,7 +25,7 @@ export function testApi(funcName, isAndroid) {
  * @param {...*} args 传给api接口的参数列表
  */
 function callApi(funcName, isAndroid, ...args) {
-  console.log(`call ${isAndroid ? 'Android' : 'iOS'} api: ${funcName} args: ${args}`)
+  (`call ${isAndroid ? 'Android' : 'iOS'} api: ${funcName} args: ${args}`)
   // iOS接口必须有且仅有一个参数，否则会调用失败。如果业务没传就随便传一个参数进去
   if (!args.length && !isAndroid) {
     args = ['ignore']
@@ -107,6 +107,34 @@ function createNoArgApi(androidFuncName, iosFuncName) {
 //   return null
 // })()
 
+/**
+ * 最近浏览
+ * @return {Promise|null}
+ */
+export const getLocalStorage = (() => {
+  if (browserVersion.isAndroid() && testApi('getLocalStorage', true)) {
+    return () => {
+      return new Promise(resolve => {
+        const funcName = `__API__${randomString(6)}`
+        window[funcName] = resolve
+        callApi('getLocalStorage', true, funcName)
+      })
+    }
+  }
+  if (browserVersion.isIos() && testApi('JSMessage_ClickAndPassLocalStorage', false)) {
+    return () => {
+      return new Promise(resolve => {
+        const oldFunc = window.getLocalStorage
+          window.getLocalStorage = localStorage => {
+            window.getLocalStorage = oldFunc
+            resolve(localStorage)
+        }
+        callApi('JSMessage_ClickAndPassLocalStorage', false)
+      })
+    }
+  }
+  return null
+})()
 /*  =========================== 需要参数的方法 ===========================  */
 
 /**
@@ -160,5 +188,6 @@ export default {
   jumpToLoginView,
   jumpSearchView,
   jumpDestinationView,
-  backPreviousView
+  backPreviousView,
+  getLocalStorage
 }

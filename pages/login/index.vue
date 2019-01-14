@@ -103,17 +103,17 @@
         // TODO:
       },
       onAreaCode() {
-        console.log(123)
+        (123)
       },
       login() {
-        console.log(1)
+        (1)
       },
       mobileLogin() {
-        console.log(2, this.mobile)
+        (2, this.mobile)
       },
       // 点击服务协议
       onAgreement() {
-        console.log('onAgreement')
+        ('onAgreement')
       }
     },
   }
