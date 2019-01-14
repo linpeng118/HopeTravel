@@ -1,6 +1,6 @@
 <template>
   <div>
-    <lay-header title="搜索" :isSearch="false" :barSearch="true" searchKeyWords="城市/景点/产品/关键字"></lay-header>
+    <lay-header title="搜索" :isSearch="false" :classBg="true" :barSearch="true" searchKeyWords="城市/景点/产品/关键字"></lay-header>
     <div class="search-wrap">
       <van-badge-group :active-key="activeKey" @change="onChange" class="badge-bar">
         <van-badge title="热门推荐" />
@@ -10,6 +10,12 @@
       </van-badge-group>
       <div class="search-main">
         <h2>经典线路</h2>
+        <div class="line">
+          <hot-city-tag v-for="line in lineList" :key="line.id" :className="{active: line.active, normal:!line.active }" :tag="line" />
+        </div>
+        <!--热门景点-->
+        <h2>热门景点</h2>
+        <h2>热门景点</h2>
       </div>
     </div>
   </div>
@@ -26,7 +32,14 @@ export default {
   },
   data() {
     return {
-      activeKey: 0
+      activeKey: 0,
+      lineList: [
+        {title: '美国全景',id:1},
+        {title: '纽约+阿拉斯加+洛杉矶',id:2,active: true},
+        {title: '美国+墨西哥',id:3, active:true},
+        {title: '美国+加拿大',id:4},
+        {title: '纽约+阿拉斯加+洛杉矶',id:5}
+      ]
       // searchKeyWords: ''
     }
   },
@@ -40,7 +53,8 @@ export default {
 
 <style type="text/scss" lang="scss" scoped>
   .search-wrap{
-    margin-top:88px;
+    position: relative;
+    top:88px;
     .badge-bar{
       position: fixed;
       top:88px;
@@ -62,10 +76,15 @@ export default {
     .search-main {
       flex: 1;
       padding-left: 210px;
+      height: 6000px;
       h2{
-        padding:32px 0;
+        padding:32px 0 20px 0;
         font-size:28px;
         color: #9A9A9A;
+      }
+      .active{
+        background-color: #00ABF9;
+        color: #fff;
       }
     }
 
