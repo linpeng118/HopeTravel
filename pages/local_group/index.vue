@@ -112,12 +112,9 @@
           spaceBetween: 10,
           slidesOffsetBefore: 16,
           on: {
-            slideChange() {
-              ('onSlideChangeEnd', this);
-            },
-            tap() {
-              ('onTap', this);
-            }
+            // tap() {
+            //   console.log('onTap', this);
+            // }
           }
         },
         // 当前默认选择第0号
@@ -159,11 +156,11 @@
       async getLocalgroupData() {
         try {
           const res = await getLocalgroup()
-          ('getLocalgroupData', res.data)
+          console.log('getLocalgroupData', res.data)
           // 初始化本地跟团数据
           this.localgroupData = res.data
         } catch (error) {
-          (error)
+          console.log(error)
         }
       },
       // 获取产品列表
@@ -180,7 +177,7 @@
         // 初始化产品列表
         this.productList = res.data
         this.prodPagination = res.pagination
-        ('getProductListData', this.productList, this.prodPagination)
+        console.log('getProductListData', this.productList, this.prodPagination)
       },
       // 点击当季热门item
       onHot(item) {
@@ -190,10 +187,6 @@
         this.appBridge.jumpProductListView(params)
       },
       onHotCity(hotCity) {
-        (hotCity)
-      },
-      onMoreCity() {
-        ('更多')
         console.log(hotCity)
         const params = {
           'itemType': LIST_TYPE.LOCAL_GROUP,
@@ -202,12 +195,16 @@
         }
         this.appBridge.jumpProductListView(params)
       },
+      onMoreCity() {
+        console.log('更多')
+        this.appBridge.jumpDestinationView()
+      },
       /**
        * @param index 标签索引
        * @param title 标题
        */
       clickTab(index, title) {
-        (index, title, this.localgroupData[2].data[index])
+        console.log(index, title, this.localgroupData[2].data[index])
         this.selected = index
         const submitData = {
           category: this.localgroupData[2].data[index].category,
@@ -224,18 +221,14 @@
       },
       // 点击全部
       onCityAll() {
-
-        ('全部')
-
         this.getProductListData()
-
       },
       /**
        * 监听页面的滚动
        * @param val { scrollTop: 距离顶部位置, isFixed: 是否吸顶 }
        */
       scrollTab(val) {
-        // (val)
+        // console.log(val)
         if (val.isFixed) {
           this.isFixedTags = true
         } else {
@@ -244,42 +237,42 @@
       },
       // 监听滚动
       scrollFn() {
-        // ('scrollTop(获取/设置对象的最顶部到对象在当前窗口顶边的距离)+offsetHeight(获取元素的高度)')
-        // (this.$refs.refLocalGroupPage.scrollTop, this.$refs.refLocalGroupPage.offsetHeight)
-        // ('100vh高度', this.$refs.refLocalGroupPage.offsetHeight)
-        // ('获取滚动对象整体高度', this.$refs.refLocalGroup.offsetHeight)
+        // console.log('scrollTop(获取/设置对象的最顶部到对象在当前窗口顶边的距离)+offsetHeight(获取元素的高度)')
+        // console.log(this.$refs.refLocalGroupPage.scrollTop, this.$refs.refLocalGroupPage.offsetHeight)
+        // console.log('100vh高度', this.$refs.refLocalGroupPage.offsetHeight)
+        // console.log('获取滚动对象整体高度', this.$refs.refLocalGroup.offsetHeight)
         const s1 = this.$refs.refLocalGroupPage.scrollTop
         setTimeout(() => {
           const s2 = this.$refs.refLocalGroupPage.scrollTop
           const direct = s2 - s1
           if (s1 === 0) {
-            ('处于顶部')
+            console.log('处于顶部')
             this.vxChangeHeaderStatus(HEADER_TYPE.TOP)
           } else if (direct > 0) {
-            ('向下滚动')
+            console.log('向下滚动')
             this.vxChangeHeaderStatus(HEADER_TYPE.DOWN)
           } else if (direct < 0) {
-            ('向上滚动')
+            console.log('向上滚动')
             this.vxChangeHeaderStatus(HEADER_TYPE.UP)
           }
         }, 17)
       },
       // 滚动产品列表到底出发
       async onLoad() {
-        ('onLoad')
+        console.log('onLoad')
         // 异步更新数据
         if (this.prodPagination.more) {
           const submitData = {
             type: LIST_TYPE.LOCAL_GROUP,
             page: this.prodPagination.page + 1
           }
-          (submitData)
+          console.log(submitData)
           const res = await getProductList(submitData)
           this.productList.push(...res.data)
           this.prodPagination = res.pagination
-          ('get more over', this.productList)
+          console.log('get more over', this.productList)
         } else {
-          ('no more')
+          console.log('no more')
         }
         // 加载状态结束
         this.prodLoading = false;
