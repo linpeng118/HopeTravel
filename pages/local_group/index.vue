@@ -2,7 +2,7 @@
   <div class="local-group-page"
     ref="refLocalGroupPage">
     <!-- header -->
-    <search-header :title="'当地跟团'"/>
+    <search-header :title="'当地跟团'" />
     <!-- body -->
     <section class="local-group"
       ref="refLocalGroup">
@@ -63,14 +63,19 @@
             :key="item.title"
             :id="item.title"
             :title="item.title">
-            <div class="high-quality-list">
-              <hot-item class="high-quality-item"
-                v-for="product in productList"
-                :key="product.desc"
+            <van-list class="high-quality-list"
+              v-model="prodLoading"
+              :prodFinished="prodFinished"
+              finished-text="没有更多了"
+              @load="onLoad">
+              <van-cell class="high-quality-item"
                 tagPos="bottom"
-                :isShowTitle="false"
-                :proData="product" />
-            </div>
+                v-for="product in productList"
+                :key="product.desc">
+                <hot-item :isShowTitle="false"
+                  :proData="product" />
+              </van-cell>
+            </van-list>
           </van-tab>
         </van-tabs>
       </div>
@@ -128,6 +133,9 @@
         ],
         // 产品列表
         productList: [],
+        prodPagination: {}, // 分页数据
+        prodLoading: false, // 是否处于加载状态，加载过程中不触发load事件
+        prodFinished: false, // 是否已加载完成，加载完成后不再触发load事件
       }
     },
     mounted() {
@@ -141,38 +149,21 @@
       }),
       async init() {
         await this.getLocalgroupData()
-        await this.getProductsData()
+        const res = await getProductList({
+          type: LIST_TYPE.LOCAL_GROUP,
+        })
+        // 初始化产品列表
+        this.productList = res.data
+        this.prodPagination = res.pagination
+        console.log(111, this.productList, this.prodPagination)
       },
+      // 获取当地跟团数据
       async getLocalgroupData() {
         try {
           const res = await getLocalgroup()
-          console.log(res.data)
+          console.log('getLocalgroupData', res.data)
+          // 初始化本地跟团数据
           this.localgroupData = res.data
-          // 默认数据
-        } catch (error) {
-          console.log(error)
-        }
-      },
-      async getProductsData(data = {}) {
-        try {
-          const submitData = {
-            type: data.type || LIST_TYPE.LOCAL_GROUP,
-            keyword: data.keyword || '',
-            page: data.page || 0,
-            page_size: data.page_size || 9,
-            start_city: data.start_city || 0,
-            stop_city: data.stop_city || 0,
-            span_city: data.span_city || '34',
-            tag: data.tag || 0,
-            duration: data.duration || 0,
-            price: data.price || 0,
-            product_type: data.product_type || 0,
-            category: data.category || '',
-            order_by: data.order_by || '',
-            order: data.order || '',
-          }
-          const res = await getProductList(submitData)
-          this.productList = res.data
         } catch (error) {
           console.log(error)
         }
@@ -187,7 +178,7 @@
         console.log('全部')
       },
       /**
-       * @param index 标签索引，
+       * @param index 标签索引
        * @param title 标题
        */
       clickTab(index, title) {
@@ -206,6 +197,7 @@
           this.isFixedTags = false
         }
       },
+      // 监听滚动
       scrollFn() {
         // console.log('scrollTop(获取/设置对象的最顶部到对象在当前窗口顶边的距离)+offsetHeight(获取元素的高度)')
         console.log(this.$refs.refLocalGroupPage.scrollTop, this.$refs.refLocalGroupPage.offsetHeight)
@@ -227,6 +219,28 @@
           }
         }, 17)
       },
+      // 滚动产品列表到底出发
+      async onLoad() {
+        console.log('onLoad', this.prodPagination)
+        // 异步更新数据
+        if (this.prodPagination.more) {
+          const submitData = {
+            type: LIST_TYPE.LOCAL_GROUP,
+            page: this.prodPagination.page + 1
+          }
+          console.log(submitData)
+          const res = await getProductList(submitData)
+          this.productList.push(...res.data)
+          this.prodPagination = res.pagination
+          console.log('get more over', this.productList)
+        } else {
+          console.log('no more')
+        }
+        // 加载状态结束
+        this.prodLoading = false;
+        // 数据全部加载完成
+        this.prodFinished = false;
+      }
     }
   }
 </script>
@@ -312,6 +326,7 @@
             display: inline-block;
             margin-right: 10px;
             margin-top: 34px;
+            padding: 0;
             width: 332px !important;
           }
         }
