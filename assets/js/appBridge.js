@@ -125,6 +125,85 @@ function createJumpApi(androidPageCode, iosFuncName) {
 // })()
 
 /**
+ * 异步获取本地用户登录态
+ * @return {Promise|null}
+ */
+// export const getSessionKey = (() => {
+//   if (browserVersion.isAndroid() && testApi('getSessionKey', true)) {
+//     return () => {
+//       return new Promise(resolve => {
+//         const funcName = `__API__${randomString(6)}`
+//         window[funcName] = resolve
+//         callApi('getSessionKey', true, funcName)
+//       })
+//     }
+//   }
+//   if (browserVersion.isIos() && testApi('JSMessage_ClickAndPassSessionKey', false)) {
+//     return () => {
+//       return new Promise(resolve => {
+//         const oldFunc = window.getSessionKey
+//         window.getSessionKey = sessionKey => {
+//           window.getSessionKey = oldFunc
+//           resolve(sessionKey)
+//         }
+//         callApi('JSMessage_ClickAndPassSessionKey', false)
+//       })
+//     }
+//   }
+//   return null
+// })()
+
+/**
+ * 跳转列表界面
+ */
+export const jumpProductListView = (() => {
+  console.log('jumpProductListView', browserVersion.isAndroid(), browserVersion.isIos())
+  if (browserVersion.isAndroid() && testApi('setShowTitleBar', true)) {
+    console.log(11)
+    return ({
+      data
+    }) => callApi('setShowTitleBar', true, {
+      data
+    })
+  }
+  if (browserVersion.isIos() && testApi('jumpProductListView', false)) {
+    console.log(22)
+    return ({
+      data
+    }) => callApi('jumpProductListView', false, {
+      data
+    })
+  }
+  console.log(33)
+  return null
+})()
+
+/**
+ * 跳转列表界面
+ */
+export const jumpProductDetailView = (() => {
+  console.log('jumpProductDetailView', browserVersion.isAndroid(), browserVersion.isIos())
+  if (browserVersion.isAndroid() && testApi('setShowTitleBar', true)) {
+    console.log(11)
+    return ({
+      data
+    }) => callApi('setShowTitleBar', true, {
+      data
+    })
+  }
+  if (browserVersion.isIos() && testApi('jumpProductDetailView', false)) {
+    console.log(22)
+    return ({
+      data
+    }) => callApi('jumpProductDetailView', false, {
+      data
+    })
+  }
+  console.log(33)
+  return null
+})()
+
+/**
  *  显示顶部导航栏
  */
 export const showNavigationBar = (() => {
@@ -158,10 +237,83 @@ export const hideNavigationBar = (() => {
   return null
 })()
 
+/**
+ * 跳转到登录页面
+ */
+export const jumpToLoginView = (() => {
+  console.log('jumpToLoginView', browserVersion.isAndroid(), browserVersion.isIos())
+  if (browserVersion.isAndroid() && testApi('jumpToLoginView', true)) {
+    console.log(1)
+    return () => callApi('jumpToLoginView', true)
+  }
+  if (browserVersion.isIos() && testApi('jumpToLoginView', false)) {
+    console.log(2)
+    return () => callApi('jumpToLoginView', false)
+  }
+  console.log(3)
+  return null
+})()
+
+/**
+ *  隐藏顶部导航栏
+ */
+export const jumpSearchView = (() => {
+  console.log('jumpSearchView', browserVersion.isAndroid(), browserVersion.isIos())
+  if (browserVersion.isAndroid() && testApi('jumpSearchView', true)) {
+    console.log(1)
+    return () => callApi('jumpSearchView', true)
+  }
+  if (browserVersion.isIos() && testApi('jumpSearchView', false)) {
+    console.log(2)
+    return () => callApi('jumpSearchView', false)
+  }
+  console.log(3)
+  return null
+})()
+
+/**
+ * 目的地界面
+ */
+export const jumpDestinationView = (() => {
+  console.log('jumpDestinationView', browserVersion.isAndroid(), browserVersion.isIos())
+  if (browserVersion.isAndroid() && testApi('jumpDestinationView', true)) {
+    console.log(1)
+    return () => callApi('jumpDestinationView', true)
+  }
+  if (browserVersion.isIos() && testApi('jumpDestinationView', false)) {
+    console.log(2)
+    return () => callApi('jumpDestinationView', false)
+  }
+  console.log(3)
+  return null
+})()
+
+/**
+ * 返回上一个界面(对web而言就是返回app首页)
+ */
+export const backPreviousView = (() => {
+  console.log('backPreviousView', browserVersion.isAndroid(), browserVersion.isIos())
+  if (browserVersion.isAndroid() && testApi('backPreviousView', true)) {
+    console.log(1)
+    return () => callApi('backPreviousView', true)
+  }
+  if (browserVersion.isIos() && testApi('backPreviousView', false)) {
+    console.log(2)
+    return () => callApi('backPreviousView', false)
+  }
+  console.log(3)
+  return null
+})()
+
 export default {
   // 以下接口需传参调用
-  // jumpProductListView,
+  jumpProductListView,
+  jumpProductDetailView,
   // 以下接口无需参数
   hideNavigationBar,
   showNavigationBar,
+  jumpToLoginView,
+  jumpSearchView,
+  jumpDestinationView,
+  backPreviousView
 }
