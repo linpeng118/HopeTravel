@@ -98,10 +98,10 @@ function createNoArgApi(androidFuncName, iosFuncName) {
  */
 export const jumpProductListView = (() => {
   if (browserVersion.isAndroid() && testApi('jumpProductListView', true)) {
-    return (data) => callApi('jumpProductListView', true, [data])
+    return (data) => callApi('jumpProductListView', true, data)
   }
   if (browserVersion.isIos() && testApi('jumpProductListView', false)) {
-    return (data) => callApi('jumpProductListView', false, [data])
+    return (data) => callApi('jumpProductListView', false, data)
   }
   return null
 })()
@@ -111,10 +111,10 @@ export const jumpProductListView = (() => {
  */
 export const jumpProductDetailView = (() => {
   if (browserVersion.isAndroid() && testApi('jumpProductDetailView', true)) {
-    return (data) => callApi('jumpProductDetailView', true, [data])
+    return (data) => callApi('jumpProductDetailView', true, data)
   }
   if (browserVersion.isIos() && testApi('jumpProductDetailView', false)) {
-    return (data) => callApi('jumpProductDetailView', false, [data])
+    return (data) => callApi('jumpProductDetailView', false, data)
   }
   return null
 })()
