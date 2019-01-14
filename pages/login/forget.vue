@@ -1,9 +1,9 @@
 <template>
-  <div class="regist-page">
+  <div class="forget-page">
     <login-header rightText="登录"
       @callOnRigth="toLogin" />
     <h1 class="title">别担心，在这里找回密码</h1>
-    <van-tabs class="regist-wrap tours-tabs-nowrap">
+    <van-tabs class="forget-wrap tours-tabs-nowrap">
       <!-- 手机号 -->
       <van-tab class="regist"
         title="手机号">
@@ -18,13 +18,13 @@
             <van-button class="tours-button-noborder"
               slot="button"
               size="small"
-              @click="forgetPsw">获取验证码</van-button>
+              @click="getCode">获取验证码</van-button>
           </van-field>
         </van-cell-group>
         <van-button class="btn-login tours-button"
           size="large"
           :disabled="!canSubmit"
-          @click="regist">下一步</van-button>
+          @click="toNext">下一步</van-button>
       </van-tab>
       <!-- 邮箱 -->
       <van-tab class="email-regist"
@@ -47,9 +47,8 @@
         <van-button class="btn-login tours-button"
           size="large"
           :disabled="!canSubmit"
-          @click="mobileLogin">注册</van-button>
+          @click="toNext">下一步</van-button>
       </van-tab>
-
     </van-tabs>
   </div>
 </template>
@@ -90,11 +89,6 @@
       toggleInputType(val) {
         this.pswInputType = this.pswInputType === 'password' ? 'text' : 'password'
       },
-      forgetPsw() {
-        this.$router.push({
-          path: '/regist/forget'
-        })
-      },
       // 获取验证码
       getCode() {
         // TODO:
@@ -102,7 +96,8 @@
       onAreaCode() {
         console.log(123)
       },
-      regist() {
+      // 下一步
+      toNext() {
         console.log(1)
       },
       mobileLogin() {
@@ -117,7 +112,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .regist-page {
+  .forget-page {
     text-align: center;
     .title {
       padding-top: 136px;
@@ -128,7 +123,7 @@
       color: rgba(85, 85, 85, 1);
       opacity: 1;
     }
-    .regist-wrap {
+    .forget-wrap {
       margin-top: 100px;
       .regist,
       .email-regist {

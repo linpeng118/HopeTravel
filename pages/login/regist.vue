@@ -27,19 +27,13 @@
             <van-button class="tours-button-noborder"
               slot="button"
               size="small"
-              @click="forgetPsw">获取验证码</van-button>
+              @click="getCode">获取验证码</van-button>
           </van-field>
         </van-cell-group>
         <van-button class="btn-login tours-button"
           size="large"
           :disabled="!canSubmit"
           @click="regist">注册</van-button>
-        <p class="text">
-          <van-checkbox class="tour-checkbox"
-            v-model="checked">
-            <span @click="onAgreement">我已经阅读并同意《服务协议》</span>
-          </van-checkbox>
-        </p>
       </van-tab>
       <!-- 请输入邮箱 -->
       <van-tab class="email-regist"
@@ -73,7 +67,12 @@
           :disabled="!canSubmit"
           @click="mobileLogin">注册</van-button>
       </van-tab>
-
+      <p class="text">
+        <van-checkbox class="tour-checkbox"
+          v-model="checked">
+          <span @click="onAgreement">我已经阅读并同意《服务协议》</span>
+        </van-checkbox>
+      </p>
     </van-tabs>
   </div>
 </template>
@@ -188,6 +187,7 @@
       }
       .text {
         margin-top: 30px;
+        padding: 0 76px;
         text-align: left;
         font-size: 22px;
         span {
