@@ -26,7 +26,7 @@
         <div class="show-item"
              v-for="showItem in showList"
              :key="showItem.title">
-          <swipe-item :proData="showItem" />
+          <swipe-item :proData="showItem" @selectItem="selectItem" />
         </div>
       </div>
       <!-- 底部广告 -->
@@ -264,6 +264,9 @@
       ...mapMutations({
         vxChangeHeaderStatus: 'header/changeStatus' // 修改头部状态
       }),
+      selectItem(id) {
+        console.log(id)
+      },
       async init() {
         try {
           let {data, code} = await getPlay()
