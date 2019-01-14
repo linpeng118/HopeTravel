@@ -32,21 +32,31 @@
         </van-cell-group>
         <van-button class="btn-login tours-button"
           size="large"
-          :disabled="!isNameOk"
+          :disabled="!canSubmit"
           @click="regist">注册</van-button>
         <p class="text">
-          <van-checkbox class="tour-checkbox" v-model="checked">
+          <van-checkbox class="tour-checkbox"
+            v-model="checked">
             <span @click="onAgreement">我已经阅读并同意《服务协议》</span>
           </van-checkbox>
         </p>
       </van-tab>
-      <!-- 手机验证码登陆 -->
+      <!-- 请输入邮箱 -->
       <van-tab class="email-regist"
-        title="手机验证码登陆">
+        title="请输入邮箱">
         <van-cell-group>
           <van-field class="email tours-input"
             v-model="email"
             placeholder="请输入邮箱" />
+          <van-field class="password tours-input"
+            v-model="password"
+            center
+            clearable
+            icon="eye-o"
+            placeholder="请输入密码"
+            :type="pswInputType"
+            @click-icon="toggleInputType">
+          </van-field>
           <van-field class="auth-code tours-input"
             v-model="authCode"
             center
@@ -60,7 +70,7 @@
         </van-cell-group>
         <van-button class="btn-login tours-button"
           size="large"
-          :disabled="!isMobileOk"
+          :disabled="!canSubmit"
           @click="mobileLogin">注册</van-button>
       </van-tab>
 
@@ -81,11 +91,15 @@
       return {
         // 手机注册
         mobile: '',
-        isMobileOk: false, // 验证手机号是否ok
-        authCode: '', // 验证码
+        canSubmit: false, // 是否可提交
         areaCode: '86', // 区号
+        authCode: '', // 验证码
         show: false,
         checked: true,
+        pswInputType: 'password',
+        // 邮箱注册
+        email: '',
+        password: '',
       }
     },
     computed: {},
@@ -164,6 +178,9 @@
       .email-regist {
         .email {
           margin-top: 54px;
+        }
+        .password {
+          margin-top: 16px;
         }
         .auth-code {
           margin-top: 16px;
