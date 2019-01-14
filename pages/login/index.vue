@@ -1,5 +1,7 @@
 <template>
   <div class="login-page">
+    <login-header rightText="注册"
+      @callOnRigth="toRegist" />
     <h1 class="title">稀饭旅行账号登陆</h1>
     <van-tabs class="login-wrap tours-tabs-nowrap">
       <!-- 普通登陆 -->
@@ -56,10 +58,12 @@
 </template>
 
 <script>
+  import loginHeader from '@/components/header/loginHeader'
   import AreaCodeInput from '@/components/input/areaCode'
 
   export default {
     components: {
+      loginHeader,
       AreaCodeInput
     },
     data() {
@@ -80,6 +84,12 @@
     computed: {},
     mounted() {},
     methods: {
+      // 跳转至注册页
+      toRegist() {
+        this.$router.push({
+          path: '/login/regist'
+        })
+      },
       toggleInputType(val) {
         this.pswInputType = this.pswInputType === 'password' ? 'text' : 'password'
       },
