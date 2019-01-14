@@ -71,7 +71,8 @@
     },
     methods: {
       onClickLeft() {
-        this.$router.go(-1)
+        // this.$router.go(-1)
+        this.$emit('leftClick')
       },
       onClickRight() {
         console.log('按钮');

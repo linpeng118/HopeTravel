@@ -1,6 +1,6 @@
 <template>
   <div class="local-play-zh" ref="refLocalPlayPage">
-    <lay-header title="当地玩乐"></lay-header>
+    <lay-header title="当地玩乐" @leftClick="leftClick"></lay-header>
     <div v-if="showList.length">
       <!-- banner -->
       <div class="banner"></div>
@@ -48,6 +48,8 @@
   import {HEADER_TYPE} from '@/assets/js/consts/headerType'
   import Loading from '@/components/loading'
   import {PRODUCTIDS} from '@/assets/js/config'
+  import {getUrlParam} from '@/assets/js/utils'
+  // import appBridge from '@/assets/js/appBridge.js'
   export default {
     components: {
       HotCity,
@@ -108,124 +110,7 @@
             oriPrice: 2004
           }
         ],
-        showList: [
-          {
-            title: '热门活动',
-            list: [
-              {
-                type: [1, 2],
-                title: '热门活1',
-                src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-                desc: '11热门活动热门活动热门活动热门活动热门活动',
-                price: 1001,
-                oriPrice: 2002
-              },
-              {
-                type: [2],
-                title: '标题2',
-                src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-                desc: '2这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
-                price: 1002,
-                oriPrice: 2002
-              },
-              {
-                type: [1],
-                title: '标题3',
-                src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-                desc: '3这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
-                price: 1003,
-                oriPrice: 2003
-              }
-            ],
-          },
-          {
-            title: '日本必去滑雪胜地',
-            list: [
-              {
-                type: [1, 2],
-                title: '标题1',
-                src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-                desc: '1日本必去滑雪胜地日本必去滑雪胜地日本必去滑雪胜地日本必去滑雪胜地日本必去滑雪胜地日本必去滑雪胜地',
-                price: 1001,
-                oriPrice: 2002
-              },
-              {
-                type: [2],
-                title: '标题2',
-                src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-                desc: '2这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
-                price: 1002,
-                oriPrice: 2002
-              },
-              {
-                type: [1],
-                title: '标题3',
-                src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-                desc: '3这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
-                price: 1003,
-                oriPrice: 2003
-              }
-            ],
-          },
-          {
-            title: '冬季黄石热推',
-            list: [
-              {
-                type: [1, 2],
-                title: '标题1',
-                src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-                desc: '1冬季黄石热推冬季黄石热推冬季黄石热推冬季黄石热推冬季黄石热推冬季黄石热推冬季黄石热推冬季黄石热推',
-                price: 1001,
-                oriPrice: 2002
-              },
-              {
-                type: [2],
-                title: '标题2',
-                src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-                desc: '2这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
-                price: 1002,
-                oriPrice: 2002
-              },
-              {
-                type: [1],
-                title: '标题3',
-                src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-                desc: '3这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
-                price: 1003,
-                oriPrice: 2003
-              }
-            ],
-          },
-          {
-            title: '各地热卖',
-            list: [
-              {
-                type: [1, 2],
-                title: '标题1',
-                src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-                desc: '1各地热卖各地热卖各地热卖各地热卖各地热卖各地热卖各地热卖各地热卖各地热卖各地热卖各地热卖',
-                price: 1001,
-                oriPrice: 2002
-              },
-              {
-                type: [2],
-                title: '标题2',
-                src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-                desc: '2这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
-                price: 1002,
-                oriPrice: 2002
-              },
-              {
-                type: [1],
-                title: '标题3',
-                src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-                desc: '3这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
-                price: 1003,
-                oriPrice: 2003
-              }
-            ],
-          },
-        ],
+        showList: [],
         // 热门城市
         hotCity: [],
         // 热门活动
@@ -234,7 +119,6 @@
     },
     async asyncData({$axios}) {
       let {data, code} = await getPlay($axios)
-      // let hahah = await getProductList($axios, [1434, 1442])
       if (code === 0) {
         return {
           original: data
@@ -246,15 +130,9 @@
       }
     },
     fetch ({store}) {
-      // const productIds = localStorage.getItem(PRODUCTIDS)
-      // console.log(productIds)
-      // if (productIds) {
-      //   let productList = await getProductList($axios, productIds)
-      // }
     },
     created() {
       this.showList = this._nomalLizeshowList(this.original)
-      // console.log('sadasdasdasdasdasdas', this.hahah)
     },
     mounted() {
       // 监听滚动
@@ -264,8 +142,36 @@
       ...mapMutations({
         vxChangeHeaderStatus: 'header/changeStatus' // 修改头部状态
       }),
-      selectItem(id) {
-        console.log(id)
+      // 判断是app还是web
+      getPlatForm() {
+        return getUrlParam('platform') ? true : false
+      },
+      // 头部返回按钮
+      leftClick() {
+        if (this.getPlatForm()) {
+          //app
+          appBridge.backPreviousView()
+        } else {
+          //web
+          this.$router.go(-1)
+        }
+      },
+      // 跳转到详情页面
+      selectItem(productId) {
+        if(this.getPlatForm()) {
+          // app详情跳转
+          appBridge.jumpProductDetailView({
+            productID: productId
+          })
+        } else {
+          // m跳转
+          this.$router.push({
+            path: '/product/detail',
+            query: {
+              productId
+            }
+          })
+        }
       },
       async init() {
         try {

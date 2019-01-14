@@ -25,18 +25,21 @@
             </div>
             <div class="guide-list">
               <ul>
-                <nuxt-link tag="li" to="/">
-                  <span class="icon-guide-ticket"></span>
+                <li v-for="category in categoryList" :key="category.type">
+                  <span class="icon-guide-ticket" v-if="category.type === 1"></span>
+                  <span class="icon-guide-ticket" v-if="category.type === 2"></span>
+                  <span class="icon-guide-ticket" v-if="category.type === 3"></span>
+                  <span class="icon-guide-ticket" v-if="category.type === 3"></span>
                   <span class="text">门票演出</span>
-                </nuxt-link>
-                <nuxt-link tag="li" to="/">
-                  <span class="icon-guide-car"></span>
-                  <span class="text">一日游&当地交通</span>
-                </nuxt-link>
-                <nuxt-link tag="li" to="/">
-                  <span class="icon-guide-special"></span>
-                  <span class="text">特色体验</span>
-                </nuxt-link>
+                </li>
+                <!--<nuxt-link tag="li" to="/">-->
+                  <!--<span class="icon-guide-car"></span>-->
+                  <!--<span class="text">一日游&当地交通</span>-->
+                <!--</nuxt-link>-->
+                <!--<nuxt-link tag="li" to="/">-->
+                  <!--<span class="icon-guide-special"></span>-->
+                  <!--<span class="text">特色体验</span>-->
+                <!--</nuxt-link>-->
               </ul>
             </div>
           </div>
@@ -99,7 +102,7 @@
         barSearch: false,
         showList: [],
         searchKeyWords:'',
-        test: this.$router.query
+        categoryList: []
       }
     },
     computed: {
@@ -124,9 +127,10 @@
         try {
           let {data, code} = await getCityInfo(this.cityId)
           if(code === 0) {
-            this.cityInfo = data&&data.city
+            this.cityInfo = data && data.city
+            this.categoryList = data.category
             this.showList = this._nomalLizeshowList(data)
-            // console.log(this.showList)
+            console.log(this.showList)
           } else {
             this.cityInfo = {}
           }

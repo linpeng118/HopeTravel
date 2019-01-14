@@ -1,6 +1,6 @@
 <template>
   <section class="container">
-    <lay-header title="更多城市" :isSearch="false" :classBg="true"></lay-header>
+    <lay-header title="更多城市" :isSearch="false" :classBg="true" @leftClick="leftClick"></lay-header>
     <div class="listview">
       <van-collapse v-model="activeName" accordion>
         <van-collapse-item v-for="cityInfo in cityList" :key="cityInfo.countryId" :title="cityInfo.countryName" :name="cityInfo.countryId">
@@ -46,6 +46,10 @@
       this.cityList = this._nomalLizeCityList(this.original)
     },
     methods: {
+      // 返回上一级页面
+      leftClick() {
+        this.$router.go(-1)
+      },
       // 初始化数据
       async getInit() {
         try {
