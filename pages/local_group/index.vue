@@ -16,7 +16,8 @@
             <div class="swiper-slide"
               v-for="module0 in localgroupData[0].data"
               :key="module0.title">
-              <hot-item :proData="module0" />
+              <hot-item :proData="module0"
+                @click.native="onHot(module0)" />
             </div>
           </div>
         </div>
@@ -111,12 +112,9 @@
           spaceBetween: 10,
           slidesOffsetBefore: 16,
           on: {
-            slideChange() {
-              console.log('onSlideChangeEnd', this);
-            },
-            tap() {
-              console.log('onTap', this);
-            }
+            // tap() {
+            //   console.log('onTap', this);
+            // }
           }
         },
         // 当前默认选择第0号
@@ -139,6 +137,9 @@
       }
     },
     mounted() {
+      // 引入appBridge
+      this.appBridge = require('@/assets/js/appBridge').default
+      // 初始化
       this.init()
       // 监听滚动
       this.$refs.refLocalGroupPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
@@ -178,11 +179,25 @@
         this.prodPagination = res.pagination
         console.log('getProductListData', this.productList, this.prodPagination)
       },
+      // 点击当季热门item
+      onHot(item) {
+        const params = {
+          'itemType': LIST_TYPE.LOCAL_GROUP,
+        }
+        this.appBridge.jumpProductListView(params)
+      },
       onHotCity(hotCity) {
         console.log(hotCity)
+        const params = {
+          'itemType': LIST_TYPE.LOCAL_GROUP,
+          'category': hotCity.category,
+          'span_city': hotCity.span_city,
+        }
+        this.appBridge.jumpProductListView(params)
       },
       onMoreCity() {
         console.log('更多')
+        this.appBridge.jumpDestinationView()
       },
       /**
        * @param index 标签索引
@@ -204,8 +219,9 @@
           span_city: city.span_city,
         })
       },
+      // 点击全部
       onCityAll() {
-        console.log('全部')
+        this.getProductListData()
       },
       /**
        * 监听页面的滚动
