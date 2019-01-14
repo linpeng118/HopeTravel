@@ -1,7 +1,7 @@
 <template>
   <div class="tag"
     :class="className"
-    @click="onTag(name)">{{name}}
+    @click="onTag(tag)">{{tag.title}}
   </div>
 </template>
 
@@ -9,10 +9,10 @@
   export default {
     components: {},
     props: {
-      name: {
-        type: String,
+      tag: {
+        type: Object,
         require: true,
-        default: ''
+        default: () => ({})
       },
       className: {
         type: String,
@@ -26,8 +26,8 @@
     computed: {},
     mounted() {},
     methods: {
-      onTag(name) {
-        this.$emit('callOnTag', name)
+      onTag(tag) {
+        this.$emit('callOnTag', tag)
       }
     },
   }

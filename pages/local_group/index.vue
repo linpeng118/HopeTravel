@@ -27,10 +27,10 @@
         <div class="city-list">
           <hot-city-tag v-for="city in localgroupData[1].data"
             :key="city.title"
-            :name="city.title"
+            :tag="city"
             @callOnTag="onCity" />
           <hot-city-tag className="more"
-            name="更多目的地"
+            :tag="{title: '更多目的地'}"
             @callOnTag="onMoreCity" />
         </div>
       </div>
@@ -48,11 +48,11 @@
           <div class="hq-tags"
             :class="{'fixed-tag': isFixedTags}">
             <hot-city-tag className="more"
-              name="全部"
+              :tag="{title: '全部'}"
               @callOnTag="onCityAll" />
             <hot-city-tag v-for="item in localgroupData[2].data[selected] && localgroupData[2].data[selected].sub"
               :key="item.title"
-              :name="item.title"
+              :tag="item"
               @callOnTag="onCity" />
           </div>
           <div class="tags-height"
@@ -63,7 +63,7 @@
             :key="item.title"
             :id="item.title"
             :title="item.title">
-            <van-list class="high-quality-list"
+            <van-list class="high-quality-list tours-list-no-bb"
               v-model="prodLoading"
               :prodFinished="prodFinished"
               finished-text="没有更多了"
@@ -155,7 +155,7 @@
         // 初始化产品列表
         this.productList = res.data
         this.prodPagination = res.pagination
-        console.log(111, this.productList, this.prodPagination)
+        console.log('init products', this.productList, this.prodPagination)
       },
       // 获取当地跟团数据
       async getLocalgroupData() {
@@ -200,7 +200,7 @@
       // 监听滚动
       scrollFn() {
         // console.log('scrollTop(获取/设置对象的最顶部到对象在当前窗口顶边的距离)+offsetHeight(获取元素的高度)')
-        console.log(this.$refs.refLocalGroupPage.scrollTop, this.$refs.refLocalGroupPage.offsetHeight)
+        // console.log(this.$refs.refLocalGroupPage.scrollTop, this.$refs.refLocalGroupPage.offsetHeight)
         // console.log('100vh高度', this.$refs.refLocalGroupPage.offsetHeight)
         // console.log('获取滚动对象整体高度', this.$refs.refLocalGroup.offsetHeight)
         const s1 = this.$refs.refLocalGroupPage.scrollTop
@@ -221,7 +221,7 @@
       },
       // 滚动产品列表到底出发
       async onLoad() {
-        console.log('onLoad', this.prodPagination)
+        console.log('onLoad')
         // 异步更新数据
         if (this.prodPagination.more) {
           const submitData = {
