@@ -71,9 +71,9 @@
                 <img :src="item.url"
                   alt="img">
                 <div class="season-body">
-                  <h1 class="title">{{item.title}}</h1>
-                  <h3 class="desc no-wrap-line3">{{item.desc}}</h3>
-                  <p class="price">参考价格：{{item.price}} 人/起</p>
+                  <h1 class="season-body-title">{{item.title}}</h1>
+                  <h3 class="season-body-desc no-wrap-line3">{{item.desc}}</h3>
+                  <p class="season-body-price">参考价格：{{item.price}} 人/起</p>
                 </div>
               </div>
             </div>
@@ -436,7 +436,7 @@
               }
               .season-body {
                 padding: 22px 24px;
-                .title {
+                .season-body-title {
                   margin: 0;
                   padding: 0;
                   height: 44px;
@@ -445,7 +445,7 @@
                   font-weight: 400;
                   color: #000;
                 }
-                .desc {
+                .season-body-desc {
                   margin-top: 12px;
                   padding-bottom: 16px;
                   border-bottom: 2px silid #e4e4e4;
@@ -455,7 +455,7 @@
                   line-height: 32px;
                   color: #989898;
                 }
-                .price {
+                .season-body-price {
                   margin-top: 16px;
                   height: 34px;
                   font-size: 24px;
