@@ -79,6 +79,7 @@
   import SnapUpItem from '@/components/items/snapUpItem'
   export default {
     // layout: 'defaultHeader',
+    transition: 'page',
     components: {
       SwipeItem,
       LayHeader,
@@ -141,14 +142,13 @@
     mounted() {
       this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 500))
       // this.getViewedList('958,961')
+      this.appBridge = require('@/assets/js/appBridge.js').default
       if (this.getPlatForm()) {
-        this.appBridge = require('@/assets/js/appBridge.js').default
         this.appBridge.hideNavigationBar()
         const localProductIds = this.appBridge.getLocalStorage().toString()
         console.log('localProductIds:' + localProductIds)
         this.getViewedList(localProductIds)
       }
-      console.log('2019年1月15日11:04:26')
     },
     methods: {
       ...mapMutations({
@@ -203,20 +203,26 @@
       },
       // 跳转到详情页面
       selectItem(productId) {
-        if(this.getPlatForm()) {
-          // app详情跳转
-          this.appBridge.jumpProductDetailView({
-            productID: productId
-          })
-        } else {
-          // m跳转
-          this.$router.push({
-            path: '/product/detail',
-            query: {
-              productId
-            }
-          })
-        }
+        console.log(productId)
+        // this.appBridge.jumpProductDetailView({
+        //   productID: productId
+        // })
+        // if(this.getPlatForm()) {
+        //   // app详情跳转
+        //   console.log('app详情跳转')
+        //   this.appBridge.jumpProductDetailView({
+        //     productID: productId
+        //   })
+        // } else {
+        //   // m跳转
+        //   console.log('m跳转')
+        //   this.$router.push({
+        //     path: '/product/detail',
+        //     query: {
+        //       productId
+        //     }
+        //   })
+        // }
       },
       // 序列化数据
       _nomalLizeshowList(data) {

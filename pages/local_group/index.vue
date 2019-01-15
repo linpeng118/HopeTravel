@@ -143,6 +143,8 @@
       this.init()
       // 监听滚动
       this.$refs.refLocalGroupPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
+      //
+      this.appBridge.hideNavigationBar()
     },
     methods: {
       ...mapMutations({
