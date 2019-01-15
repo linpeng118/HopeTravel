@@ -1,5 +1,5 @@
 <template>
-  <div class="hot-item" @click.native="selectItem">
+  <div class="hot-item" @click="selectItem">
     <div class="banner" :productId="proData.product_id">
       <img :src="proData.image"
         alt="banner">
