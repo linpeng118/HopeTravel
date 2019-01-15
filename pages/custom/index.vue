@@ -68,11 +68,16 @@
             <div class="season-item">
               <img :src="item.url"
                 alt="img">
-              div.
+              <div class="season-body">
+                <h1 class="title">{{item.title}}</h1>
+                <h3 class="desc no-wrap-line3">{{item.desc}}</h3>
+                <p class="price">参考价格：{{item.price}} 人/起</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <div class="btn-more">查看全部</div>
     </div>
     <!-- 承诺/服务 -->
     <div class="features">
@@ -120,14 +125,12 @@
     data() {
       return {
         swiperOption: {
+          loop: true,
+          centeredSlides: true, // 居中
           slidesPerView: 'auto',
-          slidesOffsetBefore: 16,
-          spaceBetween: 10,
+          // spaceBetween: 5,
           observer: true, //修改swiper自己或子元素时，自动初始化swiper 
           observeParents: true, //修改swiper的父元素时，自动初始化swiper
-          pagination: {
-            el: '.swiper-pagination',
-          },
           on: {
             slideChange() {
               console.log('onSlideChangeEnd', this);
@@ -329,6 +332,7 @@
         }
       }
     }
+    // 当季推荐
     .season-recommend {
       height: 930px;
       overflow: hidden;
@@ -340,22 +344,75 @@
         color: #131313;
       }
       .season-wrap {
-        margin-top: 68px;
+        margin-top: 28px;
       }
       .swiper-container {
-        height: 375px;
-        .swiper-pagination {
-          bottom: 0;
-        }
         .swiper-slide {
           font-size: 38px;
           width: 686px !important;
-          img {
-            height: 356px;
-            width: 686px;
+          height: 668px;
+          transition: all 0.5s;
+          &:not(.swiper-slide-active) {
+            transform: translate3d(0, 40px, 0);
+          }
+          .season-item {
+            font-size: 0;
+            background: #fff;
             border-radius: 12px;
+            height: 628px;
+            margin: 0 10px;
+            img {
+              height: 356px;
+              width: 666px;
+              border-radius: 12px 12px 0 0;
+            }
+            .season-body {
+              padding: 22px 24px;
+              .title {
+                margin: 0;
+                padding: 0;
+                height: 44px;
+                font-size: 32px;
+                line-height: 44px;
+                font-weight: 400;
+                color: #000;
+              }
+              .desc {
+                margin-top: 12px;
+                padding-bottom: 16px;
+                border-bottom: 2px silid #e4e4e4;
+                height: 96px;
+                font-size: 22px;
+                font-weight: 300;
+                line-height: 32px;
+                color: #989898;
+              }
+              .price {
+                margin-top: 16px;
+                height: 34px;
+                font-size: 24px;
+                line-height: 34px;
+                color: #399ef6;
+              }
+            }
           }
         }
+      }
+      .btn-more {
+        margin: 14px auto 0;
+        width: 330px;
+        height: 72px;
+        line-height: 72px;
+        font-size: 28px;
+        color: #fff;
+        background: linear-gradient(
+          41deg,
+          rgba(57, 158, 246, 1) 0%,
+          rgba(137, 196, 248, 1) 100%
+        );
+        text-align: center;
+        box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.16);
+        border-radius: 36px;
       }
     }
     .features {
@@ -394,7 +451,6 @@
             margin-top: 16px;
             height: 30px;
             font-size: 22px;
-            font-family: Microsoft YaHei;
             font-weight: 400;
             color: #000;
           }
@@ -407,7 +463,6 @@
         width: 128px;
         height: 44px;
         font-size: 32px;
-        font-family: PingFang SC;
         font-weight: 400;
         color: #131313;
         &.gray {
