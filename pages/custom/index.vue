@@ -8,8 +8,8 @@
         fixed />
       <!-- banner -->
       <div class="banner">
-        <h1 class="title">高阶玩法&emsp;探秘全球</h1>
-        <h3 class="desc">旅游自由随心，体验独一无二</h3>
+        <h1 class="banner-title">高阶玩法&emsp;探秘全球</h1>
+        <h3 class="banner-desc">旅游自由随心，体验独一无二</h3>
         <div class="form-wrap">
           <div class="title-s">热门景点</div>
           <div class="tag-list">
@@ -60,7 +60,7 @@
       </div>
       <!-- 当季推荐 -->
       <div class="season-recommend">
-        <div class="title">当季推荐</div>
+        <div class="season-title">当季推荐</div>
         <div class="season-wrap wiper-container"
           v-swiper:mySwiper="swiperOption">
           <div class="swiper-wrapper">
@@ -83,15 +83,15 @@
       </div>
       <!-- 承诺/服务 -->
       <div class="features">
-        <div class="title">稀饭承诺 · 专业服务</div>
-        <div class="desc">用心给你舒适的旅行</div>
-        <div class="list">
+        <div class="features-title">稀饭承诺 · 专业服务</div>
+        <div class="features-desc">用心给你舒适的旅行</div>
+        <div class="features-list">
           <div class="item"
             v-for="item in featureList"
             :key="item.title">
             <img :src="item.img"
               alt="">
-            <p class="title">{{item.title}}</p>
+            <p class="features-item-title">{{item.title}}</p>
           </div>
         </div>
       </div>
@@ -102,10 +102,10 @@
       <div class="story-wrap"
         v-for="item in storyList"
         :key="item.title">
-        <div class="title">{{item.title}}</div>
-        <div class="pos">{{item.pos}}</div>
-        <div class="line"></div>
-        <div class="desc no-wrap-line2">{{item.desc}}</div>
+        <div class="story-item-title">{{item.title}}</div>
+        <div class="story-item-pos">{{item.pos}}</div>
+        <div class="story-item-line"></div>
+        <div class="story-item-desc no-wrap-line2">{{item.desc}}</div>
         <div class="show-banner">
           <img-item :proData="item.imgs" />
         </div>
@@ -296,7 +296,7 @@
       .banner {
         padding: 154px 32px 28px;
         background: url("../../assets/imgs/custom/custom_bg@2x.png") no-repeat 0 -88px/100%;
-        .title {
+        .banner-title {
           height: 74px;
           line-height: 74px;
           font-size: 52px;
@@ -316,7 +316,7 @@
             background: #fff;
           }
         }
-        .desc {
+        .banner-desc {
           height: 40px;
           line-height: 40px;
           font-size: 28px;
@@ -404,7 +404,7 @@
       .season-recommend {
         height: 930px;
         overflow: hidden;
-        .title {
+        .season-title {
           margin-top: 44px;
           padding: 0 42px;
           height: 44px;
@@ -489,21 +489,21 @@
         text-align: center;
         background: #fff;
         overflow: hidden;
-        .title {
+        .features-title {
           margin-top: 86px;
           height: 58px;
           font-size: 44px;
           line-height: 58px;
           color: #383a3e;
         }
-        .desc {
+        .features-desc {
           margin-top: 8px;
           height: 38px;
           font-size: 28px;
           color: rgba(158, 184, 195, 1);
           letter-spacing: 15px;
         }
-        .list {
+        .features-list {
           margin-top: 12px;
           display: flex;
           flex-wrap: wrap;
@@ -515,7 +515,7 @@
               width: 104px;
               height: 104px;
             }
-            .title {
+            .features-item-title {
               margin-top: 16px;
               height: 30px;
               font-size: 22px;
@@ -543,31 +543,31 @@
         background: #fff;
         height: 640px;
         overflow: hidden;
-        .title,
-        .pos,
-        .desc {
+        .story-item-title,
+        .story-item-pos,
+        .story-item-desc {
           padding: 0 34px;
         }
-        .title {
+        .story-item-title {
           margin-top: 32px;
           height: 40px;
           font-size: 28px;
           line-height: 40px;
           color: #000;
         }
-        .pos {
+        .story-item-pos {
           margin-top: 8px;
           height: 34px;
           font-size: 24px;
           color: #484848;
         }
-        .line {
+        .story-item-line {
           width: 686px;
           margin-top: 20px;
           margin-left: 34px;
           border-bottom: 2px solid #e4e4e4;
         }
-        .desc {
+        .story-item-desc {
           margin-top: 20px;
           height: 64px;
           font-size: 24px;
