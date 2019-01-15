@@ -1,7 +1,7 @@
 <template>
-  <div class="snap-up-item">
+  <div class="snap-up-item" @click="selectItem(proData)">
     <div class="banner">
-      <img :src="proData.src"
+      <img :src="proData.image"
         alt="banner">
       <div class="time-wrap"
         v-if="isShowTime">
@@ -29,26 +29,36 @@
       </div>
       <div class="title"
         v-if="isShowTitle">
-        {{proData.title}}
+        {{proData.name}}
       </div>
     </div>
     <div class="desc">
       <div class="tags-wrap"
         :class="tagPos">
-        <div class="tag"
-          :class="`tag${item}`"
-          v-for="item in proData.type"
-          :key="item">
-          <span v-if="item===1">自营</span>
-          <span v-if="item===2">精选</span>
+        <!--<div class="tag"-->
+          <!--:class="`tag${item}`"-->
+          <!--v-for="item in proData.type"-->
+          <!--:key="item">-->
+          <!--<span v-if="item===1">自营</span>-->
+          <!--<span v-if="item===2">精选</span>-->
+        <!--</div>-->
+        <div class="tag tag1">
+          <span v-if="proData.self_support===0">自营</span>
+          <!--<span v-if="item===2">精选</span>-->
         </div>
       </div>
-      <span>{{proData.desc}}</span>
+      <span>{{proData.name}}</span>
     </div>
     <div class="price-wrap">
-      <span class="price">${{proData.price}}</span>
-      <span class="unit">/起&emsp;</span>
-      <span class="ori-price">${{proData.price}}</span>
+      <div v-if="proData.special_price">
+        <span class="price">{{proData.special_price}}</span>
+        <span class="unit">/起&emsp;</span>
+        <span class="ori-price">${{proData.default_price}}</span>
+      </div>
+      <div v-else>
+        <span class="price">{{proData.default_price}}</span>
+        <span class="unit">/起&emsp;</span>
+      </div>
     </div>
   </div>
 </template>
@@ -62,7 +72,7 @@
         require: true,
         default: () => ({
           type: [],
-          src: '',
+          image: '',
           desc: ''
         })
       },
@@ -92,6 +102,9 @@
     methods: {
       OnCollect(val) {
         this.$emit('callCollect', val)
+      },
+      selectItem(product) {
+        this.$emit('selectDetail', product.product_id)
       }
     },
   }

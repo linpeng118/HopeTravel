@@ -11,7 +11,7 @@
       <div class="search-main">
         <h2>经典线路</h2>
         <div class="line">
-          <hot-city-tag v-for="line in lineList" :key="line.id" :className="{active: line.active, normal:!line.active }" :tag="line" />
+          <hot-city-tag v-for="line in lineList" :key="line.id" :className="line.active ? 'active' : 'normal'" :tag="line" />
         </div>
         <!--热门景点-->
         <h2>热门景点</h2>
@@ -46,6 +46,9 @@ export default {
   methods: {
     onChange(key) {
       this.activeKey = key;
+    },
+    classActive(active) {
+      if (active) {}
     }
   }
 }

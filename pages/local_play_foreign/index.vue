@@ -38,12 +38,28 @@
         <!--<img :src="cityInfo.image" alt="" @load="imageLoaded">-->
         <!--<img src="../../assets/imgs/local_regiment/bg_banner@2x.png" alt="" @load="imageLoaded">-->
       </div>
+      <!-- 最近浏览 -->
+      <div class="recently-viewed" v-if="viewedList.length">
+        <h1 class="title">最近浏览</h1>
+        <div v-swiper:mySwiper="viewedSwiperOption">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"
+                 v-for="viewed in viewedList"
+                 :key="viewed.product_id">
+              <snap-up-item :proData="viewed"
+                            :isShowTime="false"
+                            @selectDetail="selectItem" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--列表数据-->
       <div class="show-list">
         <div class="show-item"
              v-for="showItem in showList"
              :key="showItem.title"
              v-if="showItem.list.length">
-          <swipe-item :proData="showItem" />
+          <swipe-item :proData="showItem" @selectItem="selectItem" />
         </div>
       </div>
     </div>
@@ -53,19 +69,21 @@
 
 <script>
   import SwipeItem from '@/components/items/swipeItem'
-  import {getCityInfo} from '@/api/local_play'
+  import {getCityInfo,getProductList} from '@/api/local_play'
   import LayHeader from '@/components/header/index.vue'
   import Loading from '@/components/loading'
   import {throttle as _throttle} from 'lodash'
   import {mapMutations} from 'vuex'
   import {HEADER_TYPE} from '@/assets/js/consts/headerType'
   import {getUrlParam} from '@/assets/js/utils'
+  import SnapUpItem from '@/components/items/snapUpItem'
   export default {
     // layout: 'defaultHeader',
     components: {
       SwipeItem,
       LayHeader,
-      Loading
+      Loading,
+      SnapUpItem
     },
     validate({ query }) { // 判断路由是否正确
       return query.touCityId
@@ -88,12 +106,27 @@
     },
     data() {
       return {
+        // swiper配置
+        viewedSwiperOption: {
+          slidesPerView: 'auto',
+          slidesOffsetBefore: 16,
+          spaceBetween: 8,
+          on: {
+            slideChange() {
+              console.log('onSlideChangeEnd', this);
+            },
+            tap() {
+              console.log('onTap', this);
+            }
+          }
+        },
         imgShow: false,
         title: '当地玩乐',
         barSearch: false,
         showList: [],
         searchKeyWords:'',
-        categoryList: []
+        categoryList: [],
+        viewedList: []
       }
     },
     computed: {
@@ -107,7 +140,14 @@
     },
     mounted() {
       this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 500))
-      this.appBridge = require('@/assets/js/appBridge.js').default
+      // this.getViewedList('958,961')
+      if (this.getPlatForm()) {
+        this.appBridge = require('@/assets/js/appBridge.js').default
+        const localProductIds = this.appBridge.getLocalStorage().toString()
+        console.log('localProductIds:' + localProductIds)
+        this.getViewedList(localProductIds)
+      }
+      console.log('2019年1月15日11:04:26')
     },
     methods: {
       ...mapMutations({
@@ -148,6 +188,33 @@
           }
         } catch (e) {
           console.log(e)
+        }
+      },
+      // 获取最近浏览
+      async getViewedList(ids) {
+        let {data, code} = await getProductList(ids)
+        if(code === 0) {
+          this.viewedList = data
+          console.log(this.viewedList)
+        } else {
+          this.viewedList = []
+        }
+      },
+      // 跳转到详情页面
+      selectItem(productId) {
+        if(this.getPlatForm()) {
+          // app详情跳转
+          this.appBridge.jumpProductDetailView({
+            productID: productId
+          })
+        } else {
+          // m跳转
+          this.$router.push({
+            path: '/product/detail',
+            query: {
+              productId
+            }
+          })
         }
       },
       // 序列化数据
@@ -231,6 +298,29 @@
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     position: relative;
+    .recently-viewed {
+      width: 100%;
+      background: #fff;
+      .title {
+        padding-left: 32px;
+        color: #191919;
+        font-size: 40px;
+        font-weight: 300;
+      }
+    }
+    .recently-viewed {
+      margin-top: 24px;
+      padding: 18px 0 18px;
+      .swiper-container {
+        margin-top: 28px;
+        width: 100%;
+        height: 548px;
+        .swiper-slide {
+          width: 686px !important;
+          font-size: 38px;
+        }
+      }
+    }
   }
   .area-play{
     position: relative;

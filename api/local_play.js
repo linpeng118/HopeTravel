@@ -30,6 +30,6 @@ export const getPlay = (ajax) => {
   return ajax.get('/paly/localplay')
 }
 
-export const getProductList = (ajax,ids) => {
-  return ajax.get(`/api/product/ids?product=${ids}`)
+export const getProductList = (ids) => {
+  return axios.get(`/api/product/ids?product=${ids}`)
 }
