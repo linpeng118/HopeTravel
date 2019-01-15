@@ -115,10 +115,7 @@
       // 监听滚动
       this.$refs.refLocalPlayPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
       this.appBridge = require('@/assets/js/appBridge.js').default
-      this.appBridge.hideNavigationBar()
-      const localProductIds = this.appBridge.getLocalStorage().toString()
-      console.log('localProductIds:' + localProductIds)
-      this.getViewedList(localProductIds)
+
     },
     methods: {
       ...mapMutations({
@@ -140,9 +137,10 @@
       },
       // 跳转到详情页面
       selectItem(productId) {
-        this.appBridge.jumpProductDetailView({
-          productID: productId
-        })
+        console.log(productId)
+        // this.appBridge.jumpProductDetailView({
+        //   productID: productId
+        // })
         // if(this.getPlatForm()) {
         //   // app详情跳转
         //   console.log('app详情跳转')

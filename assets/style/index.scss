@@ -142,8 +142,8 @@
 
 
 .page-enter-active, .page-leave-active {
-  transition: opacity 2s;
+  transition: all .5s;
 }
 .page-enter, .page-leave-active {
-  opacity: 0;
+  transform :translate3d(100%,0,0)
 }

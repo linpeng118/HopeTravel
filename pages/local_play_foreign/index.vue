@@ -203,22 +203,26 @@
       },
       // 跳转到详情页面
       selectItem(productId) {
-        if(this.getPlatForm()) {
-          // app详情跳转
-          console.log('app详情跳转')
-          this.appBridge.jumpProductDetailView({
-            productID: productId
-          })
-        } else {
-          // m跳转
-          console.log('m跳转')
-          this.$router.push({
-            path: '/product/detail',
-            query: {
-              productId
-            }
-          })
-        }
+        console.log(productId)
+        this.appBridge.jumpProductDetailView({
+          productID: productId
+        })
+        // if(this.getPlatForm()) {
+        //   // app详情跳转
+        //   console.log('app详情跳转')
+        //   this.appBridge.jumpProductDetailView({
+        //     productID: productId
+        //   })
+        // } else {
+        //   // m跳转
+        //   console.log('m跳转')
+        //   this.$router.push({
+        //     path: '/product/detail',
+        //     query: {
+        //       productId
+        //     }
+        //   })
+        // }
       },
       // 序列化数据
       _nomalLizeshowList(data) {
