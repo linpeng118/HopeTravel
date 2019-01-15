@@ -4,7 +4,7 @@
     <div class="swiper-wrapper">
       <div class="swiper-slide"
         v-for="item in proData"
-        :key="item.url">
+        :key="item.id">
         <img :src="item.url"
           alt="img">
       </div>
@@ -30,9 +30,6 @@
           spaceBetween: 10,
           observer: true, //修改swiper自己或子元素时，自动初始化swiper 
           observeParents: true, //修改swiper的父元素时，自动初始化swiper
-          pagination: {
-            el: '.swiper-pagination',
-          },
           on: {
             slideChange() {
               console.log('onSlideChangeEnd', this);
