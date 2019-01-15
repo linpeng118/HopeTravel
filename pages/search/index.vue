@@ -22,6 +22,7 @@
         </div>
         <div>
           <h2>热门目的地</h2>
+          <hot-place :lists="hotTarget"></hot-place>
         </div>
       </div>
     </div>
@@ -50,6 +51,11 @@ export default {
         {title: '纽约+阿拉斯加+洛杉矶',id:5}
       ],
       hotPlace: [
+        {id: 1, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '黄石国家公园', desc: '惊艳黄石'},
+        {id: 2, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '黄石国家公园', desc: '惊艳黄石'},
+        {id: 3, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '黄石国家公园', desc: '惊艳黄石'},
+      ],
+      hotTarget: [
         {id: 1, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '黄石国家公园', desc: '惊艳黄石'},
         {id: 2, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '黄石国家公园', desc: '惊艳黄石'},
         {id: 3, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '黄石国家公园', desc: '惊艳黄石'},
@@ -93,6 +99,7 @@ export default {
     .search-main {
       flex: 1;
       padding-left: 210px;
+      padding-right: 32px;
       height: 6000px;
       h2{
         padding:32px 0 20px 0;

@@ -24,6 +24,7 @@ export default {
   .hot-place{
     display: flex;
     text-align: center;
+    justify-content: space-around;
     .title{
       font-size: 24px;
       color: #000000;

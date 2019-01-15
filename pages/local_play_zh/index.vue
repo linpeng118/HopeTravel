@@ -95,6 +95,7 @@
     },
     async asyncData({$axios}) {
       let {data, code} = await getPlay($axios)
+      console.log(data)
       if (code === 0) {
         return {
           original: data
