@@ -257,286 +257,284 @@
   .custom-page {
     height: 100vh;
     font-size: 0;
-
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     .custom-content {
-      height: 100%;
-    }
-    .banner {
-      padding: 154px 32px 28px;
-      background: #f1f1f1 url("../../assets/imgs/custom/custom_bg@2x.png")
-        no-repeat 0 -88px/100%;
-      .title {
-        height: 74px;
-        line-height: 74px;
-        font-size: 52px;
-        font-weight: 100;
-        color: rgba(255, 255, 255, 1);
-        -webkit-text-stroke: 1 rgba(255, 255, 255, 1);
-        text-stroke: 1 rgba(255, 255, 255, 1);
-        position: relative;
-        &::after {
-          content: "";
-          display: inline-block;
-          position: absolute;
-          left: 235px;
-          top: 12px;
-          width: 2px;
-          height: 52px;
-          background: #fff;
+      background: #f1f1f1;
+      .banner {
+        padding: 154px 32px 28px;
+        background: url("../../assets/imgs/custom/custom_bg@2x.png") no-repeat 0 -88px/100%;
+        .title {
+          height: 74px;
+          line-height: 74px;
+          font-size: 52px;
+          font-weight: 100;
+          color: rgba(255, 255, 255, 1);
+          -webkit-text-stroke: 1 rgba(255, 255, 255, 1);
+          text-stroke: 1 rgba(255, 255, 255, 1);
+          position: relative;
+          &::after {
+            content: "";
+            display: inline-block;
+            position: absolute;
+            left: 235px;
+            top: 12px;
+            width: 2px;
+            height: 52px;
+            background: #fff;
+          }
         }
-      }
-      .desc {
-        height: 40px;
-        line-height: 40px;
-        font-size: 28px;
-        font-weight: 300;
-        color: rgba(255, 255, 255, 1);
-      }
-      .form-wrap {
-        margin-top: 80px;
-        padding: 20px 32px;
-        width: 686px;
-        height: 656px;
-        background: rgba(0, 0, 0, 1);
-        opacity: 0.7;
-        border-radius: 12px;
-        .title-s {
-          font-size: 24px;
+        .desc {
+          height: 40px;
+          line-height: 40px;
+          font-size: 28px;
           font-weight: 300;
-          line-height: 34px;
-          color: rgba(152, 152, 152, 1);
+          color: rgba(255, 255, 255, 1);
         }
-        .tag-list {
-          margin-top: 20px;
-        }
-        .form {
-          margin-top: calc(58px - 20px);
-          .form-input {
-            width: 622px;
-            height: 72px;
-            background: rgba(0, 0, 0, 0);
-            border: 2px solid rgba(255, 255, 255, 1);
-            border-radius: 22px;
-            display: flex;
-            justify-content: center;
-            align-content: center;
-            .left-icon {
-              width: 74px;
-              display: 0 0 74px;
-              background: url("../../assets/imgs/icon_pos.png") no-repeat center
-                center/40px 40px;
-              position: relative;
-              &::after {
-                content: "";
-                display: inline-block;
-                position: absolute;
-                right: 0;
-                top: 15px;
-                width: 2px;
-                height: 40px;
-                background: #fff;
+        .form-wrap {
+          margin-top: 80px;
+          padding: 20px 32px;
+          width: 686px;
+          height: 656px;
+          background: rgba(0, 0, 0, 1);
+          opacity: 0.7;
+          border-radius: 12px;
+          .title-s {
+            font-size: 24px;
+            font-weight: 300;
+            line-height: 34px;
+            color: rgba(152, 152, 152, 1);
+          }
+          .tag-list {
+            margin-top: 20px;
+          }
+          .form {
+            margin-top: calc(58px - 20px);
+            .form-input {
+              width: 622px;
+              height: 72px;
+              background: rgba(0, 0, 0, 0);
+              border: 2px solid rgba(255, 255, 255, 1);
+              border-radius: 22px;
+              display: flex;
+              justify-content: center;
+              align-content: center;
+              .left-icon {
+                width: 74px;
+                display: 0 0 74px;
+                background: url("../../assets/imgs/icon_pos.png") no-repeat center
+                  center/40px 40px;
+                position: relative;
+                &::after {
+                  content: "";
+                  display: inline-block;
+                  position: absolute;
+                  right: 0;
+                  top: 15px;
+                  width: 2px;
+                  height: 40px;
+                  background: #fff;
+                }
+              }
+              .transparent-input {
+                flex: 1;
+              }
+              .right {
+                flex: 0 0 30px;
+                height: 28px;
+                align-self: center;
+                line-height: 100%;
+                color: #fff;
+                font-size: 28px;
               }
             }
-            .transparent-input {
-              flex: 1;
+            .mobile,
+            .wx {
+              margin-top: 24px;
             }
-            .right {
-              flex: 0 0 30px;
-              height: 28px;
-              align-self: center;
-              line-height: 100%;
-              color: #fff;
-              font-size: 28px;
+            .btn-custom {
+              margin-top: 62px;
             }
-          }
-          .mobile,
-          .wx {
-            margin-top: 24px;
-          }
-          .btn-custom {
-            margin-top: 62px;
           }
         }
       }
-    }
-    // 当季推荐
-    .season-recommend {
-      height: 930px;
-      overflow: hidden;
-      .title {
-        margin-top: 44px;
-        padding: 0 42px;
-        height: 44px;
-        font-size: 32px;
-        color: #131313;
+      // 当季推荐
+      .season-recommend {
+        height: 930px;
+        overflow: hidden;
+        .title {
+          margin-top: 44px;
+          padding: 0 42px;
+          height: 44px;
+          font-size: 32px;
+          color: #131313;
+        }
+        .season-wrap {
+          margin-top: 28px;
+        }
+        .swiper-container {
+          .swiper-slide {
+            margin: 0 10px;
+            font-size: 38px;
+            width: 686px !important;
+            height: 668px;
+            transition: all 0.5s;
+            &:not(.swiper-slide-active) {
+              transform: translate3d(0, 40px, 0);
+            }
+            .season-item {
+              font-size: 0;
+              background: #fff;
+              border-radius: 12px;
+              height: 628px;
+              img {
+                height: 356px;
+                width: 686px;
+                border-radius: 12px 12px 0 0;
+              }
+              .season-body {
+                padding: 22px 24px;
+                .title {
+                  margin: 0;
+                  padding: 0;
+                  height: 44px;
+                  font-size: 32px;
+                  line-height: 44px;
+                  font-weight: 400;
+                  color: #000;
+                }
+                .desc {
+                  margin-top: 12px;
+                  padding-bottom: 16px;
+                  border-bottom: 2px silid #e4e4e4;
+                  height: 96px;
+                  font-size: 22px;
+                  font-weight: 300;
+                  line-height: 32px;
+                  color: #989898;
+                }
+                .price {
+                  margin-top: 16px;
+                  height: 34px;
+                  font-size: 24px;
+                  line-height: 34px;
+                  color: #399ef6;
+                }
+              }
+            }
+          }
+        }
+        .btn-more {
+          margin: 14px auto 0;
+          width: 330px;
+          height: 72px;
+          line-height: 72px;
+          font-size: 28px;
+          color: #fff;
+          background: linear-gradient(
+            41deg,
+            rgba(57, 158, 246, 1) 0%,
+            rgba(137, 196, 248, 1) 100%
+          );
+          text-align: center;
+          box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.16);
+          border-radius: 36px;
+        }
       }
-      .season-wrap {
+      .features {
+        height: 700px;
+        width: 100%;
+        text-align: center;
+        background: #fff;
+        overflow: hidden;
+        .title {
+          margin-top: 86px;
+          height: 58px;
+          font-size: 44px;
+          line-height: 58px;
+          color: #383a3e;
+        }
+        .desc {
+          margin-top: 8px;
+          height: 38px;
+          font-size: 28px;
+          color: rgba(158, 184, 195, 1);
+          letter-spacing: 15px;
+        }
+        .list {
+          margin-top: 12px;
+          display: flex;
+          flex-wrap: wrap;
+          .item {
+            flex: 0 0 33.3%;
+            width: 33.3%;
+            margin-top: 56px;
+            img {
+              width: 104px;
+              height: 104px;
+            }
+            .title {
+              margin-top: 16px;
+              height: 30px;
+              font-size: 22px;
+              font-weight: 400;
+              color: #000;
+            }
+          }
+        }
+      }
+      .story-title {
+        padding: 44px 0 4px 42px;
+        span {
+          width: 128px;
+          height: 44px;
+          font-size: 32px;
+          font-weight: 400;
+          color: #131313;
+          &.gray {
+            color: #989898;
+          }
+        }
+      }
+      .story-wrap {
+        margin-top: 24px;
+        background: #fff;
+        height: 640px;
+        overflow: hidden;
+        .title,
+        .pos,
+        .desc {
+          padding: 0 34px;
+        }
+        .title {
+          margin-top: 32px;
+          height: 40px;
+          font-size: 28px;
+          line-height: 40px;
+          color: #000;
+        }
+        .pos {
+          margin-top: 8px;
+          height: 34px;
+          font-size: 24px;
+          color: #484848;
+        }
+        .line {
+          width: 686px;
+          margin-top: 20px;
+          margin-left: 34px;
+          border-bottom: 2px solid #e4e4e4;
+        }
+        .desc {
+          margin-top: 20px;
+          height: 64px;
+          font-size: 24px;
+          line-height: 30px;
+        }
+      }
+      .show-banner {
         margin-top: 28px;
       }
-      .swiper-container {
-        .swiper-slide {
-          margin: 0 10px;
-          font-size: 38px;
-          width: 686px !important;
-          height: 668px;
-          transition: all 0.5s;
-          &:not(.swiper-slide-active) {
-            transform: translate3d(0, 40px, 0);
-          }
-          .season-item {
-            font-size: 0;
-            background: #fff;
-            border-radius: 12px;
-            height: 628px;
-            img {
-              height: 356px;
-              width: 686px;
-              border-radius: 12px 12px 0 0;
-            }
-            .season-body {
-              padding: 22px 24px;
-              .title {
-                margin: 0;
-                padding: 0;
-                height: 44px;
-                font-size: 32px;
-                line-height: 44px;
-                font-weight: 400;
-                color: #000;
-              }
-              .desc {
-                margin-top: 12px;
-                padding-bottom: 16px;
-                border-bottom: 2px silid #e4e4e4;
-                height: 96px;
-                font-size: 22px;
-                font-weight: 300;
-                line-height: 32px;
-                color: #989898;
-              }
-              .price {
-                margin-top: 16px;
-                height: 34px;
-                font-size: 24px;
-                line-height: 34px;
-                color: #399ef6;
-              }
-            }
-          }
-        }
-      }
-      .btn-more {
-        margin: 14px auto 0;
-        width: 330px;
-        height: 72px;
-        line-height: 72px;
-        font-size: 28px;
-        color: #fff;
-        background: linear-gradient(
-          41deg,
-          rgba(57, 158, 246, 1) 0%,
-          rgba(137, 196, 248, 1) 100%
-        );
-        text-align: center;
-        box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.16);
-        border-radius: 36px;
-      }
-    }
-    .features {
-      height: 700px;
-      width: 100%;
-      text-align: center;
-      background: #fff;
-      overflow: hidden;
-      .title {
-        margin-top: 86px;
-        height: 58px;
-        font-size: 44px;
-        line-height: 58px;
-        color: #383a3e;
-      }
-      .desc {
-        margin-top: 8px;
-        height: 38px;
-        font-size: 28px;
-        color: rgba(158, 184, 195, 1);
-        letter-spacing: 15px;
-      }
-      .list {
-        margin-top: 12px;
-        display: flex;
-        flex-wrap: wrap;
-        .item {
-          flex: 0 0 33.3%;
-          width: 33.3%;
-          margin-top: 56px;
-          img {
-            width: 104px;
-            height: 104px;
-          }
-          .title {
-            margin-top: 16px;
-            height: 30px;
-            font-size: 22px;
-            font-weight: 400;
-            color: #000;
-          }
-        }
-      }
-    }
-    .story-title {
-      padding: 44px 0 4px 42px;
-      span {
-        width: 128px;
-        height: 44px;
-        font-size: 32px;
-        font-weight: 400;
-        color: #131313;
-        &.gray {
-          color: #989898;
-        }
-      }
-    }
-    .story-wrap {
-      margin-top: 24px;
-      background: #fff;
-      height: 640px;
-      overflow: hidden;
-      .title,
-      .pos,
-      .desc {
-        padding: 0 34px;
-      }
-      .title {
-        margin-top: 32px;
-        height: 40px;
-        font-size: 28px;
-        line-height: 40px;
-        color: #000;
-      }
-      .pos {
-        margin-top: 8px;
-        height: 34px;
-        font-size: 24px;
-        color: #484848;
-      }
-      .line {
-        width: 686px;
-        margin-top: 20px;
-        margin-left: 34px;
-        border-bottom: 2px solid #e4e4e4;
-      }
-      .desc {
-        margin-top: 20px;
-        height: 64px;
-        font-size: 24px;
-        line-height: 30px;
-      }
-    }
-    .show-banner {
-      margin-top: 28px;
     }
   }
 </style>
