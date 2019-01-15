@@ -3,7 +3,7 @@
 @import './tours';
 @import './animate';
 @import './animate_vue';
-
+@import './custom/customStore.css';
 // vue编译结束前不显示带v-cloak的标签
 [v-cloak] {
   display: none !important;
