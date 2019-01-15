@@ -66,7 +66,7 @@
           <div class="swiper-wrapper">
             <div class="swiper-slide"
               v-for="item in seasonList"
-              :key="item.url">
+              :key="item.title">
               <div class="season-item">
                 <img :src="item.url"
                   alt="img">
@@ -178,13 +178,13 @@
             desc: '卸下工作的我，突然想去脚踏实地的感受一下旅行的意义。一般的旅行团都不会有这样的行程，旅行一次独属于我的私人旅行。',
             imgs: [
               {
-                url: require('../../assets/imgs/custom/story_1.png'), title: ''
+                url: require('../../assets/imgs/custom/story_1.png'), id: '1'
               },
               {
-                url: require('../../assets/imgs/custom/story_1.png'), title: ''
+                url: require('../../assets/imgs/custom/story_1.png'), id: '2'
               },
               {
-                url: require('../../assets/imgs/custom/story_1.png'), title: ''
+                url: require('../../assets/imgs/custom/story_1.png'), id: '3'
               },
             ]
           },
@@ -194,13 +194,13 @@
             desc: '2卸下工作的我，突然想去脚踏实地的感受一下旅行的意义。一般的旅行团都不会有这样的行程，旅行一次独属于我的私人旅行。',
             imgs: [
               {
-                url: require('../../assets/imgs/custom/story_1.png'), title: ''
+                url: require('../../assets/imgs/custom/story_1.png'), id: '4'
               },
               {
-                url: require('../../assets/imgs/custom/story_1.png'), title: ''
+                url: require('../../assets/imgs/custom/story_1.png'), id: '5'
               },
               {
-                url: require('../../assets/imgs/custom/story_1.png'), title: ''
+                url: require('../../assets/imgs/custom/story_1.png'), id: '6'
               },
             ]
           },
@@ -210,13 +210,13 @@
             desc: '3卸下工作的我，突然想去脚踏实地的感受一下旅行的意义。一般的旅行团都不会有这样的行程，旅行一次独属于我的私人旅行。',
             imgs: [
               {
-                url: require('../../assets/imgs/custom/story_1.png'), title: ''
+                url: require('../../assets/imgs/custom/story_1.png'), id: '7'
               },
               {
-                url: require('../../assets/imgs/custom/story_1.png'), title: ''
+                url: require('../../assets/imgs/custom/story_1.png'), id: '8'
               },
               {
-                url: require('../../assets/imgs/custom/story_1.png'), title: ''
+                url: require('../../assets/imgs/custom/story_1.png'), id: '9'
               },
             ]
           }
@@ -257,8 +257,7 @@
   .custom-page {
     height: 100vh;
     font-size: 0;
-    background: #f1f1f1 url("../../assets/imgs/custom/custom_bg@2x.png") no-repeat
-      0 -88px/100%;
+
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     .custom-content {
@@ -266,6 +265,8 @@
     }
     .banner {
       padding: 154px 32px 28px;
+      background: #f1f1f1 url("../../assets/imgs/custom/custom_bg@2x.png")
+        no-repeat 0 -88px/100%;
       .title {
         height: 74px;
         line-height: 74px;

@@ -4,7 +4,7 @@
     <div class="swiper-wrapper">
       <div class="swiper-slide"
         v-for="item in proData"
-        :key="item.url">
+        :key="item.id">
         <img :src="item.url"
           alt="img">
       </div>
