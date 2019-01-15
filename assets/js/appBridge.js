@@ -1,10 +1,5 @@
-import {
-  get as _get
-} from 'lodash'
-import {
-  getBrowserVersion,
-  randomString
-} from './utils'
+import {get as _get} from 'lodash'
+import {getBrowserVersion, randomString} from './utils'
 
 const browserVersion = getBrowserVersion()
 
@@ -25,7 +20,7 @@ export function testApi(funcName, isAndroid) {
  * @param {...*} args 传给api接口的参数列表
  */
 function callApi(funcName, isAndroid, ...args) {
-  (`call ${isAndroid ? 'Android' : 'iOS'} api: ${funcName} args: ${args}`)
+  ;`call ${isAndroid ? 'Android' : 'iOS'} api: ${funcName} args: ${args}`
   // iOS接口必须有且仅有一个参数，否则会调用失败。如果业务没传就随便传一个参数进去
   if (!args.length && !isAndroid) {
     args = ['ignore']
@@ -36,7 +31,9 @@ function callApi(funcName, isAndroid, ...args) {
   try {
     // 这里不能使用提前获取好的函数对象，也不是bind的问题
     if (isAndroid) {
-      window.android[funcName](...args)
+      console.log('args: ', ...args)
+      const str = String(...args)
+      window.android[funcName](str)
     } else {
       // iOS只能传入一个参数，多的必须装到数组里
       window.webkit.messageHandlers[funcName].postMessage(args[0])
@@ -54,10 +51,10 @@ function callApi(funcName, isAndroid, ...args) {
  */
 function createArgApi(androidFuncName, iosFuncName) {
   if (browserVersion.isAndroid() && androidFuncName && testApi(androidFuncName, true)) {
-    return (data) => callApi(androidFuncName, true, data)
+    return data => callApi(androidFuncName, true, data)
   }
   if (browserVersion.isIos() && iosFuncName && testApi(iosFuncName, false)) {
-    return (data) => callApi(iosFuncName, false, data)
+    return data => callApi(iosFuncName, false, data)
   }
   return null
 }
@@ -126,9 +123,9 @@ export const getLocalStorage = (() => {
     return () => {
       return new Promise(resolve => {
         const oldFunc = window.getLocalStorage
-          window.getLocalStorage = localStorage => {
-            window.getLocalStorage = oldFunc
-            resolve(localStorage)
+        window.getLocalStorage = localStorage => {
+          window.getLocalStorage = oldFunc
+          resolve(localStorage)
         }
         callApi('getLocalStorage', false)
       })
@@ -190,5 +187,5 @@ export default {
   jumpSearchView,
   jumpDestinationView,
   backPreviousView,
-  getLocalStorage
+  getLocalStorage,
 }

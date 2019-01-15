@@ -57,21 +57,87 @@
       </div>
     </div>
     <!-- 当季推荐 -->
+    <div class="season-recommend">
+      <div class="title">当季推荐</div>
+      <div class="season-wrap wiper-container"
+        v-swiper:mySwiper="swiperOption">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide"
+            v-for="item in seasonList"
+            :key="item.url">
+            <div class="season-item">
+              <img :src="item.url"
+                alt="img">
+              div.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- 承诺/服务 -->
+    <div class="features">
+      <div class="title">稀饭承诺 · 专业服务</div>
+      <div class="desc">用心给你舒适的旅行</div>
+      <div class="list">
+        <div class="item"
+          v-for="item in featureList"
+          :key="item.title">
+          <img :src="item.img"
+            alt="">
+          <p class="title">{{item.title}}</p>
+        </div>
+      </div>
+    </div>
+    <!-- story -->
+    <h1 class="story-title">
+      <span>遇见稀饭</span><span class="gray">&emsp;|&emsp;旅行故事</span>
+    </h1>
+    <div class="story-wrap"
+      v-for="item in storyList"
+      :key="item.title">
+      <div class="title">{{item.title}}</div>
+      <div class="pos">{{item.pos}}</div>
+      <div class="line"></div>
+      <div class="desc no-wrap-line2">{{item.desc}}</div>
+      <div class="show-banner">
+        <img-item :proData="item.imgs" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
   import NormalHeader from '@/components/header/mormal'
   import transpTag from '@/components/tags/transparent'
+  import ImgItem from '@/components/items/imgItem'
 
   export default {
     components: {
       NormalHeader,
-      transpTag
+      transpTag,
+      ImgItem
     },
     data() {
       return {
+        swiperOption: {
+          slidesPerView: 'auto',
+          slidesOffsetBefore: 16,
+          spaceBetween: 10,
+          observer: true, //修改swiper自己或子元素时，自动初始化swiper 
+          observeParents: true, //修改swiper的父元素时，自动初始化swiper
+          pagination: {
+            el: '.swiper-pagination',
+          },
+          on: {
+            slideChange() {
+              console.log('onSlideChangeEnd', this);
+            },
+            tap(e) {
+              // console.log('onTap', this);
+              vm.$emit('selectItem', e.target.getAttribute('productId'))
+            }
+          }
+        },
         tagList: [
           {title: '日本'},
           {title: '泰国'},
@@ -84,6 +150,69 @@
         mobile: '',
         wx: '',
         canSubmit: false,
+        seasonList: [
+          {url: require('../../assets/imgs/custom/story_1.png'), title: '巴黎九天七晚街拍之旅', desc: '巴黎是法国的首都，也是这个国家的心脏。大多数游客心中向往的，是一个古老而浪漫的巴黎，一个极具历史感的巴黎，还有一个充满前卫与波西米亚气息的巴黎。', price: '￥ 19980'},
+          {url: require('../../assets/imgs/custom/story_1.png'), title: '22巴黎九天七晚街拍之旅', desc: '巴黎是法国的首都，也是这个国家的心脏。大多数游客心中向往的，是一个古老而浪漫的巴黎，一个极具历史感的巴黎，还有一个充满前卫与波西米亚气息的巴黎。', price: '￥ 19980'},
+          {url: require('../../assets/imgs/custom/story_1.png'), title: '33巴黎九天七晚街拍之旅', desc: '巴黎是法国的首都，也是这个国家的心脏。大多数游客心中向往的，是一个古老而浪漫的巴黎，一个极具历史感的巴黎，还有一个充满前卫与波西米亚气息的巴黎。', price: '￥ 19980'},
+        ],
+        featureList: [
+          {img: require('../../assets/imgs/custom/features_1@2x.png'), title: '全球出发一人成团'},
+          {img: require('../../assets/imgs/custom/features_2@2x.png'), title: '私家路线花样玩法'},
+          {img: require('../../assets/imgs/custom/features_3@2x.png'), title: '项目自选费用透明'},
+          {img: require('../../assets/imgs/custom/features_4@2x.png'), title: '高额保险安全出行'},
+          {img: require('../../assets/imgs/custom/features_5@2x.png'), title: '海归团队专业定制'},
+          {img: require('../../assets/imgs/custom/features_6@2x.png'), title: '管家式一对一服务'},
+        ],
+        storyList: [
+          {
+            title: '一路向北 · 退役空姐的欧洲之旅',
+            pos: '目的地：欧洲',
+            desc: '卸下工作的我，突然想去脚踏实地的感受一下旅行的意义。一般的旅行团都不会有这样的行程，旅行一次独属于我的私人旅行。',
+            imgs: [
+              {
+                url: require('../../assets/imgs/custom/story_1.png'), title: ''
+              },
+              {
+                url: require('../../assets/imgs/custom/story_1.png'), title: ''
+              },
+              {
+                url: require('../../assets/imgs/custom/story_1.png'), title: ''
+              },
+            ]
+          },
+          {
+            title: '2一路向南 · 退役空姐的欧洲之旅',
+            pos: '2目的地：欧洲',
+            desc: '2卸下工作的我，突然想去脚踏实地的感受一下旅行的意义。一般的旅行团都不会有这样的行程，旅行一次独属于我的私人旅行。',
+            imgs: [
+              {
+                url: require('../../assets/imgs/custom/story_1.png'), title: ''
+              },
+              {
+                url: require('../../assets/imgs/custom/story_1.png'), title: ''
+              },
+              {
+                url: require('../../assets/imgs/custom/story_1.png'), title: ''
+              },
+            ]
+          },
+          {
+            title: '3一路向东 · 退役空姐的欧洲之旅',
+            pos: '3目的地：欧洲',
+            desc: '3卸下工作的我，突然想去脚踏实地的感受一下旅行的意义。一般的旅行团都不会有这样的行程，旅行一次独属于我的私人旅行。',
+            imgs: [
+              {
+                url: require('../../assets/imgs/custom/story_1.png'), title: ''
+              },
+              {
+                url: require('../../assets/imgs/custom/story_1.png'), title: ''
+              },
+              {
+                url: require('../../assets/imgs/custom/story_1.png'), title: ''
+              },
+            ]
+          }
+        ]
       }
     },
     computed: {},
@@ -199,6 +328,131 @@
           }
         }
       }
+    }
+    .season-recommend {
+      height: 930px;
+      overflow: hidden;
+      .title {
+        margin-top: 44px;
+        padding: 0 42px;
+        height: 44px;
+        font-size: 32px;
+        color: #131313;
+      }
+      .season-wrap {
+        margin-top: 68px;
+      }
+      .swiper-container {
+        height: 375px;
+        .swiper-pagination {
+          bottom: 0;
+        }
+        .swiper-slide {
+          font-size: 38px;
+          width: 686px !important;
+          img {
+            height: 356px;
+            width: 686px;
+            border-radius: 12px;
+          }
+        }
+      }
+    }
+    .features {
+      height: 700px;
+      width: 100%;
+      text-align: center;
+      background: #fff;
+      overflow: hidden;
+      .title {
+        margin-top: 86px;
+        height: 58px;
+        font-size: 44px;
+        line-height: 58px;
+        color: #383a3e;
+      }
+      .desc {
+        margin-top: 8px;
+        height: 38px;
+        font-size: 28px;
+        color: rgba(158, 184, 195, 1);
+        letter-spacing: 15px;
+      }
+      .list {
+        margin-top: 12px;
+        display: flex;
+        flex-wrap: wrap;
+        .item {
+          flex: 0 0 33.3%;
+          width: 33.3%;
+          margin-top: 56px;
+          img {
+            width: 104px;
+            height: 104px;
+          }
+          .title {
+            margin-top: 16px;
+            height: 30px;
+            font-size: 22px;
+            font-family: Microsoft YaHei;
+            font-weight: 400;
+            color: #000;
+          }
+        }
+      }
+    }
+    .story-title {
+      padding: 44px 0 4px 42px;
+      span {
+        width: 128px;
+        height: 44px;
+        font-size: 32px;
+        font-family: PingFang SC;
+        font-weight: 400;
+        color: #131313;
+        &.gray {
+          color: #989898;
+        }
+      }
+    }
+    .story-wrap {
+      margin-top: 24px;
+      background: #fff;
+      height: 640px;
+      overflow: hidden;
+      .title,
+      .pos,
+      .desc {
+        padding: 0 34px;
+      }
+      .title {
+        margin-top: 32px;
+        height: 40px;
+        font-size: 28px;
+        line-height: 40px;
+        color: #000;
+      }
+      .pos {
+        margin-top: 8px;
+        height: 34px;
+        font-size: 24px;
+        color: #484848;
+      }
+      .line {
+        width: 686px;
+        margin-top: 20px;
+        margin-left: 34px;
+        border-bottom: 2px solid #e4e4e4;
+      }
+      .desc {
+        margin-top: 20px;
+        height: 64px;
+        font-size: 24px;
+        line-height: 30px;
+      }
+    }
+    .show-banner {
+      margin-top: 28px;
     }
   }
 </style>
