@@ -36,7 +36,7 @@ function callApi(funcName, isAndroid, ...args) {
   try {
     // 这里不能使用提前获取好的函数对象，也不是bind的问题
     if (isAndroid) {
-      console.log('args: ', args)
+      console.log('args: ', ...args, args)
       window.android[funcName](args)
     } else {
       // iOS只能传入一个参数，多的必须装到数组里
