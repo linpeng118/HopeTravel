@@ -1,7 +1,7 @@
 <template>
   <section class="local-play-foreign" ref="refLocalPlayForeign">
-    <lay-header :title="title" :isSearch="false" :barSearch="barSearch" :searchKeyWords="searchKeyWords" @leftClick="leftClick"></lay-header>
-    <div v-if="showList.length">
+    <lay-header :title="title" :isSearch="false" :classBg="classBg" :barSearch="barSearch" :searchKeyWords="searchKeyWords" @leftClick="leftClick"></lay-header>
+    <div v-if="!loadFail">
       <div class="area-play">
         <!---->
         <div class="area-location">
@@ -12,10 +12,10 @@
           <div class="area-info">
             {{cityInfo.description}}
           </div>
-          <div class="area-search" ref="refAreaSeach">
-          <span class="icon-search">
-            <van-icon name="search" color="white" size="0.6rem" />
-          </span>
+          <div class="area-search" ref="refAreaSeach" @click="selectSearch">
+            <span class="icon-search">
+              <van-icon name="search" color="white" size="0.6rem" />
+            </span>
             <span class="search-box">查找{{cityInfo.name}}的活动</span>
           </div>
           <div class="area-entrance">
@@ -63,7 +63,7 @@
         </div>
       </div>
     </div>
-    <loading v-if="!showList.length"></loading>
+    <loading v-if="!loadFail && !showList.length "></loading>
   </section>
 </template>
 
@@ -77,6 +77,7 @@
   import {HEADER_TYPE} from '@/assets/js/consts/headerType'
   import {getUrlParam} from '@/assets/js/utils'
   import SnapUpItem from '@/components/items/snapUpItem'
+  import { Toast } from 'vant'
   export default {
     // layout: 'defaultHeader',
     transition: 'page',
@@ -95,13 +96,18 @@
         return {
           cityInfo: data.city,
           original: data,
-          categoryList: data.category
+          categoryList: data.category,
+          loadFail: false,
+          classBg: false
         }
       } else {
+        Toast('加载失败')
         return {
           cityInfo: {},
           showList: [],
-          categoryList: []
+          categoryList: [],
+          loadFail: true,
+          classBg: true
         }
       }
     },
@@ -127,7 +133,7 @@
         showList: [],
         searchKeyWords:'',
         categoryList: [],
-        viewedList: []
+        viewedList: [],
       }
     },
     computed: {
@@ -219,6 +225,16 @@
               productId
             }
           })
+        }
+      },
+      // 跳转search
+      selectSearch() {
+        if(this.getPlatForm()) {
+          console.log('app搜索')
+          this.appBridge.jumpSearchView()
+        } else {
+          // m跳转
+          console.log('m搜索')
         }
       },
       // 序列化数据

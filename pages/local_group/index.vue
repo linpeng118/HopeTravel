@@ -17,7 +17,7 @@
               v-for="module0 in localgroupData[0].data"
               :key="module0.title">
               <hot-item :proData="module0"
-                @click.native="onHot(module0)" />
+                @click.native="onHot(module0.product_id)" />
             </div>
           </div>
         </div>
@@ -74,7 +74,7 @@
                 v-for="product in productList"
                 :key="product.desc">
                 <hot-item :isShowTitle="false"
-                  :proData="product" />
+                  :proData="product" @selectItem="onHot" />
               </van-cell>
             </van-list>
           </van-tab>
@@ -94,6 +94,7 @@
   import SearchHeader from '@/components/header/index.vue'
   import HotItem from '@/components/items/hotItem.vue'
   import HotCityTag from '@/components/tags/index.vue'
+  import {getUrlParam} from '@/assets/js/utils'
 
   export default {
     layout: 'default',
@@ -138,18 +139,26 @@
     },
     mounted() {
       // 引入appBridge
-      this.appBridge = require('@/assets/js/appBridge').default
       // 初始化
       this.init()
       // 监听滚动
       this.$refs.refLocalGroupPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
       //
-      this.appBridge.hideNavigationBar()
+      if (this.getPlatForm()) {
+        this.appBridge = require('@/assets/js/appBridge').default
+        this.appBridge.hideNavigationBar()
+      } else {
+        console.log('m操作')
+      }
     },
     methods: {
       ...mapMutations({
         vxChangeHeaderStatus: 'header/changeStatus' // 修改头部状态
       }),
+      // 判断是app还是web
+      getPlatForm() {
+        return getUrlParam('platform') ? true : false
+      },
       async init() {
         await this.getLocalgroupData()
         await this.getProductListData()
@@ -182,26 +191,36 @@
         console.log('getProductListData', this.productList, this.prodPagination)
       },
       // 点击当季热门item
-      onHot(item) {
-        const params = {
-          'itemType': LIST_TYPE.LOCAL_GROUP,
+      onHot(productId) {
+        console.log('product_id：' + productId)
+        if (this.getPlatForm()) {
+          this.appBridge.jumpProductDetailView({
+            productID: productId
+          })
+        } else {
+          console.log('m操作')
         }
-        this.appBridge.jumpProductDetailView({
-          productID: item.product_id
-        })
       },
       onHotCity(hotCity) {
         console.log(hotCity)
-        const params = {
-          'itemType': LIST_TYPE.LOCAL_GROUP,
-          'category': hotCity.category,
-          'span_city': hotCity.span_city,
+        if (this.getPlatForm()) {
+          const params = {
+            'itemType': LIST_TYPE.LOCAL_GROUP,
+            'category': hotCity.category,
+            'span_city': hotCity.span_city,
+          }
+          this.appBridge.jumpProductListView(params)
+        } else {
+          console.log('m操作')
         }
-        this.appBridge.jumpProductListView(params)
       },
       onMoreCity() {
         console.log('更多')
-        this.appBridge.jumpDestinationView()
+        if (this.getPlatForm()) {
+          this.appBridge.jumpDestinationView()
+        } else {
+          console.log('m操作')
+        }
       },
       /**
        * @param index 标签索引
