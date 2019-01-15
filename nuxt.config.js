@@ -45,49 +45,68 @@ module.exports = {
    ** Global CSS
    */
   css: [
-    '@/assets/css/index.css',
-    'swiper/dist/css/swiper.css'
+    '@/assets/style/index.scss',
+    'vant/lib/index.css'
   ],
 
   /*
    ** Plugins to load before mounting the App
    */
   plugins: [{
-    src: '~/plugins/mint-ui',
-    ssr: true
-  }, {
-    src: "~/plugins/vue-swiper",
-    ssr: false
-  }, ],
-
+      src: '~/plugins/vant',
+      ssr: true
+    }, {
+      src: "~/plugins/vue-swiper",
+      ssr: false
+    },
+    {
+      src: "~/plugins/vconsole",
+      ssr: false
+    },
+    {
+      src: "~/assets/js/appBridge",
+      ssr: false
+    },
+    '~/plugins/axios/nuxtaxios'
+  ],
+  /*
+   ** middleware
+   */
+  router: {
+    // middleware: ["device"],
+  },
   /*
    ** Nuxt.js modules
    */
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
   ],
   /*
    ** Axios module configuration
    */
   axios: {
     proxy: true,
-    prefix: '/api', // baseURL
+    // prefix: '/api', // baseURL
     credentials: true,
   },
-  proxy: [
+  proxy: {
     // 配置代理
-    [
-      '/api',
-      {
-        target: 'http://m20.tourscool.net/api', // api主机
-        pathRewrite: {
-          '^/api': '/api'
-        },
-        changeOrigin: true
-      }
-    ]
-  ],
+    '/api': {
+      target: 'http://m20.tourscool.net/api/tour/v1', // api主机
+      pathRewrite: {
+        '^/api': '/'
+      },
+      changeOrigin: true
+    },
+    '/paly': {
+      target: 'http://192.168.1.91:8887/api/tour/v1', // api主机
+      pathRewrite: {
+        '^/paly': '/'
+      },
+      changeOrigin: true
+    },
+  },
   /*
    ** Build configuration
    */
@@ -95,12 +114,13 @@ module.exports = {
     vendor: [
       'axios',
       'lodash',
-      '~/plugins/mint-ui',
+      '~/plugins/vant',
       '~/plugins/vue-swiper',
     ],
     postcss: [
-      require('postcss-px2rem')({
-        remUnit: 75 // 转换基本单位
+      require('postcss-px2rem-exclude')({
+        remUnit: 75, // 转换基本单位
+        exclude: /vant/i
       }),
       require('autoprefixer')({
         browsers: ['last 3 versions']

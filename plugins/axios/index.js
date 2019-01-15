@@ -1,5 +1,7 @@
 import axios from 'axios'
-import {TOKEN_KEY} from '../../pages/m2/assets/js/common/config'
+import {
+  TOKEN_KEY
+} from '@/assets/js/config'
 import store from '../../store'
 axios.create({
   timeout: 1000 * 10,
@@ -48,7 +50,7 @@ const httpServer = (param) => {
       }
       resolve(res)
     }).catch(error => {
-      console.log(error)
+      (error)
       // 统一错误处理 后续补充
       reject(error)
     })

@@ -1,0 +1,68 @@
+// fade
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s;
+}
+
+// maskfade
+.maskfade-enter,
+.maskfade-leave-to {
+  opacity: 0;
+}
+
+.maskfade-enter-active,
+.maskfade-leave-active {
+  transition: opacity 0.2s;
+}
+
+// upward
+.upward-enter,
+.upward-leave-to {
+  transform: translateY(100vh);
+}
+
+.upward-enter-active,
+.upward-leave-active {
+  transition: all 0.3s ease;
+}
+
+// upin-downout
+.upin-downout-enter {
+  transform: translateY(-100vh);
+}
+
+.upin-downout-leave-to {
+  transform: translateY(100vh);
+}
+
+.upin-downout-enter-active,
+.upin-downout-leave-active {
+  transition: all 0.3s ease;
+}
+
+// 从右边出来
+.from-right-enter,
+.from-right-leave-to {
+  transform: translateX(200px);
+}
+
+.from-right-enter-active,
+.from-right-leave-active {
+  transition: all 0.3s ease 2s;
+}
+
+// 从左边进入
+.from-left-enter,
+.from-left-leave-to {
+  transform: translateX(200px);
+}
+
+.from-left-enter-active,
+.from-left-leave-active {
+  transition: all 0.3s ease 2s;
+}

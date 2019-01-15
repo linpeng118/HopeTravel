@@ -1,0 +1,141 @@
+@import './reset';
+@import './consts';
+@import './tours';
+@import './animate';
+@import './animate_vue';
+
+// vue编译结束前不显示带v-cloak的标签
+[v-cloak] {
+  display: none !important;
+}
+
+// 内部全是float元素的容器，解决容器没有宽高的问题
+.f-content {
+
+  &:after,
+  &:before {
+    display: table;
+    content: '';
+  }
+
+  &:after {
+    clear: both;
+  }
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+// 行高
+.no-highlight {
+  outline: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+// 手型
+.hand {
+  cursor: pointer;
+}
+
+// 禁止选中
+.user-select-none {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.5);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+// \n生效
+.next-line {
+  white-space: pre-line;
+}
+
+// 不换行(单行)
+.no-wrap {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+// 不换行(双行)
+.no-wrap-line2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+// 不换行(三行)
+.no-wrap-line3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+// 扩展点击区域
+.extend-click {
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+  }
+}
+
+
+
+// 滚动条样式（pc用得多点）
+//::-webkit-scrollbar {
+//  width: 10px;
+//  height: 10px;
+//}
+//
+//::-webkit-scrollbar-track {
+//  background-color: rgba(0, 0, 0, 0);
+//}
+//
+//::-webkit-scrollbar-thumb {
+//  background-color: #40BA83;
+//  border-radius: 3px;
+//}
+//
+//::-webkit-scrollbar-thumb:hover {
+//  background-color: mix(#40BA83, #fff, 80%);
+//}
+//::-webkit-scrollbar-thumb:active {
+//  background-color: #40BA83;
+//}
+
+/*********************** 其它样式修改 ***********************/
+
+// 1.UC上有一个插件，导致页面显示不完全，出现了滚动条，把它干掉，
+#trans-tooltip,
+#tip-arrow-bottom,
+#tip-arrow-top {
+  display: none;
+}
+
+.container{
+  background: #F1F1F1;
+}
+
+[class^="self-btn-"]{
+  font-size:32px !important;
+  font-weight:400;
+  border-radius:8px !important;
+}

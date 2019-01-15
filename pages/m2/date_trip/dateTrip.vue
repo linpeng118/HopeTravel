@@ -34,12 +34,15 @@
 </template>
 
 <script>
+
   import {getdateTrip} from '@/api/date_trip'
+
   export default {
 
     props:{
       product: Object,
     },
+
     async asyncData({product, $axios}) {
       let {data, code} = await getdateTrip($axios, product.product_id)
       if(code === 0) {
@@ -53,6 +56,8 @@
         }
       }
     },
+
+
     data() {
       return {
         //需要渲染的月份数据
@@ -103,7 +108,6 @@
     methods: {
       //得到价格日历
       getpeicedata(){
-
 
       },
       mGetDate(year, month){

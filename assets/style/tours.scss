@@ -1,0 +1,120 @@
+// tours.scss 用于覆盖使用的vant的UI样式，定制公司自己的一套样式规范
+.tours-tabs {
+  .van-tabs__line {
+    background-color: #399EF6;
+
+  }
+
+  .van-tabs__wrap {
+    left: 32px;
+    border-bottom: 2px solid #E4E4E4;
+  }
+
+  .van-hairline--top-bottom::after {
+    border-width: 0 !important;
+  }
+}
+
+.tours-tabs-nowrap {
+  .van-tabs__line {
+    background-color: #399EF6;
+  }
+
+  .van-hairline--top-bottom::after {
+    border-width: 0 !important;
+  }
+}
+
+// 去掉border-bottom（van-hairline--bottom）
+.tours-no-bb {
+  &.van-hairline--bottom::after {
+    border-bottom-width: 0px !important;
+  }
+}
+
+// 登录样式
+.tours-input {
+  height: 80px;
+
+  &.van-cell,
+  .van-field {
+    padding: 15px 20px;
+    border: 2px solid rgba(196, 196, 196, 1) !important;
+    border-radius: 10px;
+  }
+
+  &.van-field .van-cell__title {
+    text-align: left;
+    max-width: 100px;
+  }
+}
+
+// 私人定制输入框样式
+.tours-input-no-bg {
+  height: 72px;
+
+  &.van-cell {
+    padding: 10px 20px;
+    background-color: transparent;
+
+    .van-field__control {
+      color: #fff;
+    }
+  }
+}
+
+.tours-button {
+  &.van-button--default {
+    height: 84px;
+    line-height: 84px;
+    background: #399EF6 !important;
+    color: #fff;
+    border: 0;
+    border-radius: 10px;
+  }
+}
+
+// 登录button样式
+.tours-button-noborder {
+  &.van-button--default {
+    height: 84px;
+    line-height: 84px;
+    color: #399EF6;
+    border: 0;
+    border-radius: 10px;
+  }
+}
+
+// 私人定制按钮样式
+.tours-button-no-bg {
+  &.van-button--default {
+    height: 72px;
+    line-height: 72px;
+    background: rgba(0, 0, 0, 0);
+    border: 2px solid rgba(57, 158, 246, 1);
+    color: #fff;
+    opacity: 1;
+    border-radius: 22px;
+  }
+}
+
+// 去掉van-cell的border-bottom
+.tours-list-no-bb {
+  .van-cell::after {
+    border-bottom: 0 !important;
+  }
+}
+
+// checkbox方形
+.tour-checkbox {
+  .van-checkbox__icon {
+    height: 28px;
+    line-height: 28px;
+  }
+
+  .van-checkbox__icon--round .van-icon {
+    border-radius: 4px;
+    width: 28px;
+    height: 28px;
+  }
+}

@@ -179,7 +179,104 @@
           "is_favorite":false,
           "duration_days":5
         },
+
+      "attributes"
+    :
+      [
+        {
+          "title": "奥兰多十三大主题乐园或三大特色一日游任选其一（第一天）",
+          "items": [
+            {
+              "id": 397,
+              "title": "Disney Epoct（未来世界）"
+            },
+            {
+              "id": 398,
+              "title": "Disney Hollywood Studio（好莱坞影城）"
+            },
+            {
+              "id": 399,
+              "title": "Disney Animal Kingdom （动物王国）"
+            },
+            {
+              "id": 403,
+              "title": "Aquatica Orlando（海洋世界水上乐园）"
+            }
+          ]
+        }
+      ],
+        "attributes_override"
+    :
+      [
+        {
+          "title": "瀑布酒店升级",
+          "items": [
+            {
+              "id": 393,
+              "title": "升级酒店到Quality Inn At The Falls或同級"
+            },
+            {
+              "id": 394,
+              "title": "不升级"
+            },
+            {
+              "id": 395,
+              "title": "升级到Doubletree by Hilton Niagara Falls/Sheraton at the Niagara Falls或同级"
+            }
+          ]
+        }
+      ],
+        "transfer"
+    :
+      [
+        {
+          "product_departure_id": 236,
+          "time": "1:00PM",
+          "product_id": 141,
+          "region": "华盛顿",
+          "address": "航天航空博物馆 National Air and Space Museum ",
+          "full_address": "601 Independence Ave SW, Washington, DC 20024"
+        }
+      ],
+        "top_price"
+    :
+      [
+        {
+          "years": "2018",
+          "month": "12",
+          "days": [
+            {
+              "day": 23,
+              "price": "$645",
+              "status": true
+            },
+            {
+              "day": 24,
+              "price": "$645",
+              "status": true
+            },
+            {
+              "day": 25,
+              "price": "$645",
+              "status": true
+            },
+            {
+              "day": 26,
+              "price": "$645",
+              "status": true
+            },
+            {
+              "day": 27,
+              "price": "$645",
+              "status": true
+            }
+          ]
+        }
+      ]
     }
+
+      }
+>>>>>>> develop
     },
     created() {
 
