@@ -1,21 +1,22 @@
 <template>
   <div class="local-play-zh" ref="refLocalPlayPage">
-    <lay-header title="当地玩乐"></lay-header>
+    <lay-header title="当地玩乐" @leftClick="leftClick"></lay-header>
     <div v-if="showList.length">
       <!-- banner -->
       <div class="banner"></div>
       <!-- 热门城市 -->
-      <hot-city :hotCityList="hotCity" @clickItem="linkCityHandle"></hot-city>
+      <hot-city :hotCityList="hotCity" @clickItem="linkCityHandle" @selectMore="selectMore"></hot-city>
       <!-- 最近浏览 -->
-      <div class="recently-viewed">
+      <div class="recently-viewed" v-if="viewedList.length">
         <h1 class="title">最近浏览</h1>
         <div v-swiper:mySwiper="viewedSwiperOption">
           <div class="swiper-wrapper">
             <div class="swiper-slide"
                  v-for="viewed in viewedList"
-                 :key="viewed.title">
+                 :key="viewed.product_id">
               <snap-up-item :proData="viewed"
-                            @callCollect="doCollect" />
+                            :isShowTime="false"
+                            @selectDetail="selectItem" />
             </div>
           </div>
         </div>
@@ -25,8 +26,8 @@
       <div class="show-list">
         <div class="show-item"
              v-for="showItem in showList"
-             :key="showItem.title">
-          <swipe-item :proData="showItem" />
+             :key="showItem.title" v-if="showItem.list.length">
+          <swipe-item :proData="showItem" @selectItem="selectItem" />
         </div>
       </div>
       <!-- 底部广告 -->
@@ -37,17 +38,18 @@
 </template>
 
 <script>
+  import {throttle as _throttle} from 'lodash'
+  import {mapMutations} from 'vuex'
+  import {getPlay, getProductList} from '@/api/local_play'
   import SnapUpItem from '@/components/items/snapUpItem'
   import SwipeItem from '@/components/items/swipeItem'
   import HotCity from '@/components/local_hot_city/hotCity'
-  import {getPlay, getProductList} from '@/api/local_play'
   import LayHeader from '@/components/header'
   import LayFooter from '@/components/footer'
-  import {throttle as _throttle} from 'lodash'
-  import {mapMutations} from 'vuex'
-  import {HEADER_TYPE} from '@/assets/js/consts/headerType'
   import Loading from '@/components/loading'
+  import {HEADER_TYPE} from '@/assets/js/consts/headerType'
   import {PRODUCTIDS} from '@/assets/js/config'
+  import {getUrlParam} from '@/assets/js/utils'
   export default {
     components: {
       HotCity,
@@ -75,157 +77,16 @@
         },
         // 最近浏览列表
         viewedList: [
-          {
-            type: [1, 2],
-            title: '标题1',
-            src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-            desc: '1最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览',
-            price: 1001,
-            oriPrice: 2002
-          },
-          {
-            type: [2],
-            title: '标题2',
-            src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-            desc: '2最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览',
-            price: 1002,
-            oriPrice: 2002
-          },
-          {
-            type: [1],
-            title: '标题3',
-            src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-            desc: '3最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览',
-            price: 1003,
-            oriPrice: 2003
-          },
-          {
-            type: [2],
-            title: '标题4',
-            src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-            desc: '3最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览',
-            price: 1004,
-            oriPrice: 2004
-          }
+          // {
+          //   type: [1, 2],
+          //   title: '标题1',
+          //   src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
+          //   desc: '1最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览',
+          //   price: 1001,
+          //   oriPrice: 2002
+          // },
         ],
-        showList: [
-          {
-            title: '热门活动',
-            list: [
-              {
-                type: [1, 2],
-                title: '热门活1',
-                src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-                desc: '11热门活动热门活动热门活动热门活动热门活动',
-                price: 1001,
-                oriPrice: 2002
-              },
-              {
-                type: [2],
-                title: '标题2',
-                src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-                desc: '2这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
-                price: 1002,
-                oriPrice: 2002
-              },
-              {
-                type: [1],
-                title: '标题3',
-                src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-                desc: '3这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
-                price: 1003,
-                oriPrice: 2003
-              }
-            ],
-          },
-          {
-            title: '日本必去滑雪胜地',
-            list: [
-              {
-                type: [1, 2],
-                title: '标题1',
-                src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-                desc: '1日本必去滑雪胜地日本必去滑雪胜地日本必去滑雪胜地日本必去滑雪胜地日本必去滑雪胜地日本必去滑雪胜地',
-                price: 1001,
-                oriPrice: 2002
-              },
-              {
-                type: [2],
-                title: '标题2',
-                src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-                desc: '2这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
-                price: 1002,
-                oriPrice: 2002
-              },
-              {
-                type: [1],
-                title: '标题3',
-                src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-                desc: '3这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
-                price: 1003,
-                oriPrice: 2003
-              }
-            ],
-          },
-          {
-            title: '冬季黄石热推',
-            list: [
-              {
-                type: [1, 2],
-                title: '标题1',
-                src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-                desc: '1冬季黄石热推冬季黄石热推冬季黄石热推冬季黄石热推冬季黄石热推冬季黄石热推冬季黄石热推冬季黄石热推',
-                price: 1001,
-                oriPrice: 2002
-              },
-              {
-                type: [2],
-                title: '标题2',
-                src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-                desc: '2这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
-                price: 1002,
-                oriPrice: 2002
-              },
-              {
-                type: [1],
-                title: '标题3',
-                src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-                desc: '3这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
-                price: 1003,
-                oriPrice: 2003
-              }
-            ],
-          },
-          {
-            title: '各地热卖',
-            list: [
-              {
-                type: [1, 2],
-                title: '标题1',
-                src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-                desc: '1各地热卖各地热卖各地热卖各地热卖各地热卖各地热卖各地热卖各地热卖各地热卖各地热卖各地热卖',
-                price: 1001,
-                oriPrice: 2002
-              },
-              {
-                type: [2],
-                title: '标题2',
-                src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-                desc: '2这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
-                price: 1002,
-                oriPrice: 2002
-              },
-              {
-                type: [1],
-                title: '标题3',
-                src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-                desc: '3这是一个测试,这是一个测试这是一个测试这是一个测试,这是一个测试这是一个测试',
-                price: 1003,
-                oriPrice: 2003
-              }
-            ],
-          },
-        ],
+        showList: [],
         // 热门城市
         hotCity: [],
         // 热门活动
@@ -234,7 +95,6 @@
     },
     async asyncData({$axios}) {
       let {data, code} = await getPlay($axios)
-      // let hahah = await getProductList($axios, [1434, 1442])
       if (code === 0) {
         return {
           original: data
@@ -246,24 +106,67 @@
       }
     },
     fetch ({store}) {
-      // const productIds = localStorage.getItem(PRODUCTIDS)
-      // console.log(productIds)
-      // if (productIds) {
-      //   let productList = await getProductList($axios, productIds)
-      // }
     },
     created() {
       this.showList = this._nomalLizeshowList(this.original)
-      // console.log('sadasdasdasdasdasdas', this.hahah)
+      // console.log(this.showList)
     },
     mounted() {
       // 监听滚动
       this.$refs.refLocalPlayPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
+      // this.getViewedList('')
+      if (this.getPlatForm()) {
+        this.appBridge = require('@/assets/js/appBridge.js').default
+        const localProductIds = this.appBridge.getLocalStorage().toString()
+        console.log('localProductIds:' + localProductIds)
+        this.getViewedList(localProductIds)
+      }
+      console.log('2019年1月15日11:04:26')
     },
     methods: {
       ...mapMutations({
         vxChangeHeaderStatus: 'header/changeStatus' // 修改头部状态
       }),
+      // 判断是app还是web
+      getPlatForm() {
+        return getUrlParam('platform') ? true : false
+      },
+      // 头部返回按钮
+      leftClick() {
+        if (this.getPlatForm()) {
+          //app
+          this.appBridge.backPreviousView()
+        } else {
+          //web
+          this.$router.go(-1)
+        }
+      },
+      // 跳转到详情页面
+      selectItem(productId) {
+        if(this.getPlatForm()) {
+          // app详情跳转
+          this.appBridge.jumpProductDetailView({
+            productID: productId
+          })
+        } else {
+          // m跳转
+          this.$router.push({
+            path: '/product/detail',
+            query: {
+              productId
+            }
+          })
+        }
+      },
+      // 获取最近浏览
+     async getViewedList(ids) {
+       let {data, code} = await getProductList(ids)
+       if(code === 0) {
+         this.viewedList = data
+       } else {
+         this.viewedList = []
+       }
+      },
       async init() {
         try {
           let {data, code} = await getPlay()
@@ -289,7 +192,7 @@
         return showList
       },
       doCollect(val) {
-        // console.log(val)
+        console.log(val)
       },
       // 滚动监听显示header
       scrollFn() {
@@ -312,11 +215,26 @@
         })
       },
       linkCityHandle(cityId){
+        let query = {
+          touCityId: cityId
+        }
+        if (this.getPlatForm()) {
+          query.platform = 'app'
+        }
         this.$router.push({
           path: `/local_play_foreign`,
-          query: {
-            touCityId: cityId
-          }
+          query
+        })
+      },
+      // 更多城市
+      selectMore() {
+        let query = {}
+        if (this.getPlatForm()) {
+          query.platform = 'app'
+        }
+        this.$router.push({
+          path: `/local_play_foreign/more_city`,
+          query
         })
       }
     }

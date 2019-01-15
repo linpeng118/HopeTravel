@@ -2,7 +2,7 @@
   <div class="local-group-page"
     ref="refLocalGroupPage">
     <!-- header -->
-    <search-header :title="'当地跟团'"/>
+    <search-header :title="'当地跟团'" />
     <!-- body -->
     <section class="local-group"
       ref="refLocalGroup">
@@ -16,7 +16,8 @@
             <div class="swiper-slide"
               v-for="module0 in localgroupData[0].data"
               :key="module0.title">
-              <hot-item :proData="module0" />
+              <hot-item :proData="module0"
+                @click.native="onHot(module0)" />
             </div>
           </div>
         </div>
@@ -27,10 +28,10 @@
         <div class="city-list">
           <hot-city-tag v-for="city in localgroupData[1].data"
             :key="city.title"
-            :name="city.title"
-            @callOnTag="onCity" />
+            :tag="city"
+            @callOnTag="onHotCity(city)" />
           <hot-city-tag className="more"
-            name="更多目的地"
+            :tag="{title: '更多目的地'}"
             @callOnTag="onMoreCity" />
         </div>
       </div>
@@ -48,12 +49,12 @@
           <div class="hq-tags"
             :class="{'fixed-tag': isFixedTags}">
             <hot-city-tag className="more"
-              name="全部"
+              :tag="{title: '全部'}"
               @callOnTag="onCityAll" />
             <hot-city-tag v-for="item in localgroupData[2].data[selected] && localgroupData[2].data[selected].sub"
               :key="item.title"
-              :name="item.title"
-              @callOnTag="onCity" />
+              :tag="item"
+              @callOnTag="onCity(item)" />
           </div>
           <div class="tags-height"
             v-show="isFixedTags"></div>
@@ -63,14 +64,19 @@
             :key="item.title"
             :id="item.title"
             :title="item.title">
-            <div class="high-quality-list">
-              <hot-item class="high-quality-item"
-                v-for="product in productList"
-                :key="product.desc"
+            <van-list class="high-quality-list tours-list-no-bb"
+              v-model="prodLoading"
+              :prodFinished="prodFinished"
+              finished-text="没有更多了"
+              @load="onLoad">
+              <van-cell class="high-quality-item"
                 tagPos="bottom"
-                :isShowTitle="false"
-                :proData="product" />
-            </div>
+                v-for="product in productList"
+                :key="product.desc">
+                <hot-item :isShowTitle="false"
+                  :proData="product" />
+              </van-cell>
+            </van-list>
           </van-tab>
         </van-tabs>
       </div>
@@ -106,12 +112,9 @@
           spaceBetween: 10,
           slidesOffsetBefore: 16,
           on: {
-            slideChange() {
-              console.log('onSlideChangeEnd', this);
-            },
-            tap() {
-              console.log('onTap', this);
-            }
+            // tap() {
+            //   console.log('onTap', this);
+            // }
           }
         },
         // 当前默认选择第0号
@@ -128,9 +131,15 @@
         ],
         // 产品列表
         productList: [],
+        prodPagination: {}, // 分页数据
+        prodLoading: false, // 是否处于加载状态，加载过程中不触发load事件
+        prodFinished: false, // 是否已加载完成，加载完成后不再触发load事件
       }
     },
     mounted() {
+      // 引入appBridge
+      this.appBridge = require('@/assets/js/appBridge').default
+      // 初始化
       this.init()
       // 监听滚动
       this.$refs.refLocalGroupPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
@@ -141,58 +150,78 @@
       }),
       async init() {
         await this.getLocalgroupData()
-        await this.getProductsData()
+        await this.getProductListData()
       },
+      // 获取当地跟团数据
       async getLocalgroupData() {
         try {
           const res = await getLocalgroup()
-          console.log(res.data)
+          console.log('getLocalgroupData', res.data)
+          // 初始化本地跟团数据
           this.localgroupData = res.data
-          // 默认数据
         } catch (error) {
           console.log(error)
         }
       },
-      async getProductsData(data = {}) {
-        try {
-          const submitData = {
-            type: data.type || LIST_TYPE.LOCAL_GROUP,
-            keyword: data.keyword || '',
-            page: data.page || 0,
-            page_size: data.page_size || 9,
-            start_city: data.start_city || 0,
-            stop_city: data.stop_city || 0,
-            span_city: data.span_city || '34',
-            tag: data.tag || 0,
-            duration: data.duration || 0,
-            price: data.price || 0,
-            product_type: data.product_type || 0,
-            category: data.category || '',
-            order_by: data.order_by || '',
-            order: data.order || '',
-          }
-          const res = await getProductList(submitData)
-          this.productList = res.data
-        } catch (error) {
-          console.log(error)
+      // 获取产品列表
+      async getProductListData(data = {}) {
+        const submitData = {
+          type: LIST_TYPE.LOCAL_GROUP,
+          start_city: data.start_city || 0,
+          stop_city: data.stop_city || 0,
+          span_city: data.span_city || '34',
+          product_type: data.product_type || 0,
+          category: data.category || '', // 横向tag
         }
+        const res = await getProductList(submitData)
+        // 初始化产品列表
+        this.productList = res.data
+        this.prodPagination = res.pagination
+        console.log('getProductListData', this.productList, this.prodPagination)
       },
-      onCity(tag) {
-        console.log(tag)
+      // 点击当季热门item
+      onHot(item) {
+        const params = {
+          'itemType': LIST_TYPE.LOCAL_GROUP,
+        }
+        this.appBridge.jumpProductListView(params)
+      },
+      onHotCity(hotCity) {
+        console.log(hotCity)
+        const params = {
+          'itemType': LIST_TYPE.LOCAL_GROUP,
+          'category': hotCity.category,
+          'span_city': hotCity.span_city,
+        }
+        this.appBridge.jumpProductListView(params)
       },
       onMoreCity() {
         console.log('更多')
-      },
-      onCityAll() {
-        console.log('全部')
+        this.appBridge.jumpDestinationView()
       },
       /**
-       * @param index 标签索引，
+       * @param index 标签索引
        * @param title 标题
        */
       clickTab(index, title) {
-        console.log(index, title)
+        console.log(index, title, this.localgroupData[2].data[index])
         this.selected = index
+        const submitData = {
+          category: this.localgroupData[2].data[index].category,
+        }
+        this.getProductListData(submitData)
+      },
+      // 精选下的城市
+      onCity(city) {
+        this.getProductListData({
+          category: city.category,
+          start_city: city.start_city,
+          span_city: city.span_city,
+        })
+      },
+      // 点击全部
+      onCityAll() {
+        this.getProductListData()
       },
       /**
        * 监听页面的滚动
@@ -206,9 +235,10 @@
           this.isFixedTags = false
         }
       },
+      // 监听滚动
       scrollFn() {
         // console.log('scrollTop(获取/设置对象的最顶部到对象在当前窗口顶边的距离)+offsetHeight(获取元素的高度)')
-        console.log(this.$refs.refLocalGroupPage.scrollTop, this.$refs.refLocalGroupPage.offsetHeight)
+        // console.log(this.$refs.refLocalGroupPage.scrollTop, this.$refs.refLocalGroupPage.offsetHeight)
         // console.log('100vh高度', this.$refs.refLocalGroupPage.offsetHeight)
         // console.log('获取滚动对象整体高度', this.$refs.refLocalGroup.offsetHeight)
         const s1 = this.$refs.refLocalGroupPage.scrollTop
@@ -227,6 +257,28 @@
           }
         }, 17)
       },
+      // 滚动产品列表到底出发
+      async onLoad() {
+        console.log('onLoad')
+        // 异步更新数据
+        if (this.prodPagination.more) {
+          const submitData = {
+            type: LIST_TYPE.LOCAL_GROUP,
+            page: this.prodPagination.page + 1
+          }
+          console.log(submitData)
+          const res = await getProductList(submitData)
+          this.productList.push(...res.data)
+          this.prodPagination = res.pagination
+          console.log('get more over', this.productList)
+        } else {
+          console.log('no more')
+        }
+        // 加载状态结束
+        this.prodLoading = false;
+        // 数据全部加载完成
+        this.prodFinished = false;
+      }
     }
   }
 </script>
@@ -279,27 +331,15 @@
       .title {
         padding-left: 32px;
       }
-      .scroll-topbar {
-        padding: 30px 0 10px;
-        width: 100%;
-        .mint-navbar {
-          overflow-x: scroll;
-          .mint-tab-item {
-            min-width: 22%;
-            .mint-tab-item-label {
-              font-size: 32px !important;
-            }
-          }
-        }
-      }
       .hq-tags {
+        padding: 24px 30px;
         background: #fff;
         height: 172px;
-        padding: 24px 30px;
         &.fixed-tag {
           position: fixed;
-          top: calc(92px + 44px + 24px);
+          top: calc(92px + 44px + 24px + 15px);
           z-index: 999;
+          box-shadow: 0 0.053333rem 0.16rem rgba(0, 0, 0, 0.1);
         }
       }
       .tags-height {
@@ -312,6 +352,7 @@
             display: inline-block;
             margin-right: 10px;
             margin-top: 34px;
+            padding: 0;
             width: 332px !important;
           }
         }

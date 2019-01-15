@@ -27,6 +27,7 @@
       },
     },
     data() {
+      const vm = this
       return {
         swiperOption: {
           slidesPerView: 'auto',
@@ -38,8 +39,9 @@
             slideChange() {
               console.log('onSlideChangeEnd', this);
             },
-            tap() {
-              console.log('onTap', this);
+            tap(e) {
+              // console.log('onTap', this);
+              vm.$emit('selectItem', e.target.getAttribute('productId'))
             }
           }
         }

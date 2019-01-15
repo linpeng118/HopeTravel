@@ -50,7 +50,7 @@ const httpServer = (param) => {
       }
       resolve(res)
     }).catch(error => {
-      console.log(error)
+      (error)
       // 统一错误处理 后续补充
       reject(error)
     })

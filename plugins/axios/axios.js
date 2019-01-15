@@ -46,7 +46,7 @@ httprequest.interceptors.response.use(
     const {
       response
     } = error;
-    console.log('err response', response)
+    ('err response', response)
     if (response) {
       // 请求已发出，但是不在2xx的范围 
       errorHandle(response.status, response.data.message);
@@ -89,7 +89,7 @@ const errorHandle = (status, other) => {
       tip('请求的资源不存在');
       break;
     default:
-      console.log(other);
+      (other);
   }
 }
 

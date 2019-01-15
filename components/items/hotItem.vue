@@ -1,6 +1,6 @@
 <template>
   <div class="hot-item">
-    <div class="banner">
+    <div class="banner" :productId="proData.product_id">
       <img :src="proData.image"
         alt="banner">
       <div class="tag-wrap"

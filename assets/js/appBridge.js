@@ -25,7 +25,7 @@ export function testApi(funcName, isAndroid) {
  * @param {...*} args 传给api接口的参数列表
  */
 function callApi(funcName, isAndroid, ...args) {
-  console.log(`call ${isAndroid ? 'Android' : 'iOS'} api: ${funcName} args: ${args}`)
+  (`call ${isAndroid ? 'Android' : 'iOS'} api: ${funcName} args: ${args}`)
   // iOS接口必须有且仅有一个参数，否则会调用失败。如果业务没传就随便传一个参数进去
   if (!args.length && !isAndroid) {
     args = ['ignore']
@@ -47,6 +47,22 @@ function callApi(funcName, isAndroid, ...args) {
 }
 
 /**
+ * 快速创建带参数接口
+ * @param {string|null} androidFuncName 安卓的方法名，传null表示该平台无对应的接口
+ * @param {string|null} iosFuncName ios的方法名，传null表示该平台无对应的接口
+ * @return {Function|null}
+ */
+function createArgApi(androidFuncName, iosFuncName) {
+  if (browserVersion.isAndroid() && androidFuncName && testApi(androidFuncName, true)) {
+    return (data) => callApi(androidFuncName, true, data)
+  }
+  if (browserVersion.isIos() && iosFuncName && testApi(iosFuncName, false)) {
+    return (data) => callApi(iosFuncName, false, data)
+  }
+  return null
+}
+
+/**
  * 快速创建无参数接口
  * @param {string|null} androidFuncName 安卓的方法名，传null表示该平台无对应的接口
  * @param {string|null} iosFuncName ios的方法名，传null表示该平台无对应的接口
@@ -58,39 +74,6 @@ function createNoArgApi(androidFuncName, iosFuncName) {
   }
   if (browserVersion.isIos() && iosFuncName && testApi(iosFuncName, false)) {
     return () => callApi(iosFuncName, false)
-  }
-  return null
-}
-
-/**
- * 快速创建跳转页面用的接口
- * @param {number} androidPageCode 安卓的页面代码
- * @param {string} iosFuncName ios的跳转方法名
- * @return {Function|null} 这个函数会带有一个boolean参数，表示是否需要保持当前页面不关闭，默认关闭
- */
-function createJumpApi(androidPageCode, iosFuncName) {
-  if (browserVersion.isAndroid() && testApi('jumpPage', true)) {
-    return holdCurrentPage => {
-      // 之前安卓会在jump的同时自动关闭网页。出现finishPageV2接口后就需要手动调用才关闭了
-      if (!holdCurrentPage && testApi('finishPageV2', true)) {
-        callApi('finishPageV2', true)
-      }
-      callApi('jumpPage', true, androidPageCode)
-    }
-  }
-  if (browserVersion.isIos() && testApi(iosFuncName, false)) {
-    return holdCurrentPage => {
-      if (holdCurrentPage) {
-        // 调用后不会关闭当前网页的接口
-        const tempJumpFuncName = iosFuncName.startsWith('JSMessage_') ? `${iosFuncName}_Temp` : `JSMessage_${iosFuncName}_Temp`
-        console.log(tempJumpFuncName)
-        if (testApi(tempJumpFuncName, false)) {
-          callApi(tempJumpFuncName, false)
-          return
-        }
-      }
-      callApi(iosFuncName, false)
-    }
   }
   return null
 }
@@ -125,43 +108,87 @@ function createJumpApi(androidPageCode, iosFuncName) {
 // })()
 
 /**
- *  显示顶部导航栏
+ * 最近浏览
+ * @return {Promise|null}
  */
-export const showNavigationBar = (() => {
-  console.log('showNavigationBar', browserVersion.isAndroid(), browserVersion.isIos())
-  if (browserVersion.isAndroid() && testApi('setShowTitleBar', true)) {
-    console.log(11)
-    return () => callApi('setShowTitleBar', true, true)
+export const getLocalStorage = (() => {
+  if (browserVersion.isAndroid() && testApi('getLocalStorage', true)) {
+    return () => {
+      return new Promise(resolve => {
+        const funcName = `__API__${randomString(6)}`
+        window[funcName] = resolve
+        callApi('getLocalStorage', true, funcName)
+      })
+    }
   }
-  if (browserVersion.isIos() && testApi('showNavigationBar', false)) {
-    console.log(22)
-    return () => callApi('showNavigationBar', false)
+  if (browserVersion.isIos() && testApi('getLocalStorage', false)) {
+    console.log('getLocalStorage调用')
+    return () => {
+      return new Promise(resolve => {
+        const oldFunc = window.getLocalStorage
+          window.getLocalStorage = localStorage => {
+            window.getLocalStorage = oldFunc
+            resolve(localStorage)
+        }
+        callApi('getLocalStorage', false)
+      })
+    }
   }
-  console.log(33)
   return null
 })()
+/*  =========================== 需要参数的方法 ===========================  */
+
+/**
+ * 跳转列表界面, 返回的(参数为json对象) => {}
+ */
+export const jumpProductListView = createArgApi('jumpProductListView', 'jumpProductListView')
+
+/**
+ * 跳转列表详情界面
+ */
+export const jumpProductDetailView = createArgApi('jumpProductDetailView', 'jumpProductDetailView')
+
+/*  =========================== 不需要参数的方法 ===========================  */
+/**
+ *  显示顶部导航栏
+ */
+export const showNavigationBar = createNoArgApi('showNavigationBar', 'showNavigationBar')
 
 /**
  *  隐藏顶部导航栏
  */
-export const hideNavigationBar = (() => {
-  console.log('hideNavigationBar', browserVersion.isAndroid(), browserVersion.isIos())
-  if (browserVersion.isAndroid() && testApi('hideNavigationBar', true)) {
-    console.log(1)
-    return () => callApi('hideNavigationBar', true)
-  }
-  if (browserVersion.isIos() && testApi('hideNavigationBar', false)) {
-    console.log(2)
-    return () => callApi('hideNavigationBar', false)
-  }
-  console.log(3)
-  return null
-})()
+export const hideNavigationBar = createNoArgApi('hideNavigationBar', 'hideNavigationBar')
+
+/**
+ * 跳转到登录页面
+ */
+export const jumpToLoginView = createNoArgApi('jumpToLoginView', 'jumpToLoginView')
+
+/**
+ *  隐藏顶部导航栏
+ */
+export const jumpSearchView = createNoArgApi('jumpSearchView', 'jumpSearchView')
+
+/**
+ * 目的地界面
+ */
+export const jumpDestinationView = createNoArgApi('jumpDestinationView', 'jumpDestinationView')
+
+/**
+ * 返回上一个界面(对web而言就是返回app首页)
+ */
+export const backPreviousView = createNoArgApi('jumpDestinationView', 'jumpDestinationView')
 
 export default {
   // 以下接口需传参调用
-  // jumpProductListView,
+  jumpProductListView,
+  jumpProductDetailView,
   // 以下接口无需参数
   hideNavigationBar,
   showNavigationBar,
+  jumpToLoginView,
+  jumpSearchView,
+  jumpDestinationView,
+  backPreviousView,
+  getLocalStorage
 }

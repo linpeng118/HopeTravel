@@ -1,6 +1,5 @@
 <template>
   <div class="tag"
-    :class="className"
     @click="onTag(tag)">{{tag.title}}
   </div>
 </template>
@@ -14,10 +13,6 @@
         require: true,
         default: () => ({})
       },
-      className: {
-        type: String,
-        default: 'normal'
-      }
     },
     data() {
       return {
@@ -36,17 +31,13 @@
 <style lang="scss" scoped>
   .tag {
     display: inline-block;
-    margin: 0 32px 20px 0;
-    padding: 10px 20px;
-    font-size: 14px;
-    border-radius: 26px;
-    &.normal {
-      color: #191919;
-      background: #f1f1f1;
-    }
-    &.more {
-      color: #f1f1f1;
-      background: #399ef6;
-    }
+    margin: 0 16px 20px 0;
+    padding: 6px 36px;
+    font-size: 22px;
+    font-weight: 300;
+    background: rgba(0, 0, 0, 0);
+    color: #fff;
+    border: 2px solid rgba(57, 158, 246, 1);
+    border-radius: 22px;
   }
 </style>

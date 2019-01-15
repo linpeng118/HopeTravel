@@ -1,6 +1,6 @@
 <template>
   <section class="container">
-    <lay-header title="更多城市" :isSearch="false" :classBg="true"></lay-header>
+    <lay-header title="更多城市" :isSearch="false" :classBg="true" @leftClick="leftClick"></lay-header>
     <div class="listview">
       <van-collapse v-model="activeName" accordion>
         <van-collapse-item v-for="cityInfo in cityList" :key="cityInfo.countryId" :title="cityInfo.countryName" :name="cityInfo.countryId">
@@ -22,6 +22,7 @@
   import LayHeader from '@/components/header/index.vue'
   import Scroll from '@/components/sroll/index.vue'
   import {getCityList} from '@/api/local_play'
+  import {getUrlParam} from '@/assets/js/utils'
   export default {
     name: 'moreCity',
     components: {
@@ -46,6 +47,14 @@
       this.cityList = this._nomalLizeCityList(this.original)
     },
     methods: {
+      // 判断是app还是web
+      getPlatForm() {
+        return getUrlParam('platform') ? true : false
+      },
+      // 返回上一级页面
+      leftClick() {
+        this.$router.go(-1)
+      },
       // 初始化数据
       async getInit() {
         try {
@@ -72,11 +81,15 @@
       },
       // 路由跳转
       selectItem(cityId) {
+        let query = {
+          touCityId: cityId
+        }
+        if (this.getPlatForm()) {
+          query.platform = 'app'
+        }
         this.$router.push({
           path: `/local_play_foreign`,
-          query: {
-            touCityId: cityId
-          }
+          query
         })
       }
     }

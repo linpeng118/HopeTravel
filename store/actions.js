@@ -4,6 +4,6 @@ export default {
   }, {
     req
   }) {
-    console.log('nuxtServerInit')
+    ('nuxtServerInit')
   }
 }

@@ -71,10 +71,11 @@
     },
     methods: {
       onClickLeft() {
-        this.$router.go(-1)
+        // this.$router.go(-1)
+        this.$emit('leftClick')
       },
       onClickRight() {
-        console.log('按钮');
+        ('按钮');
       }
     },
   }
@@ -130,10 +131,10 @@
         height: 72px;
         padding: 0 26px;
         text-align: left;
-        color: #989898;
+        color: #fff;
         border-radius:36px;
         font-size:30px;
-        background: #EBEBEB;
+        background: #DBDBDB;
         display: flex;
         align-items: center;
         line-height: 72px;

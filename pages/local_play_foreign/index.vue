@@ -1,6 +1,6 @@
 <template>
   <section class="local-play-foreign" ref="refLocalPlayForeign">
-    <lay-header :title="title" :isSearch="false" :barSearch="barSearch" :searchKeyWords="searchKeyWords"></lay-header>
+    <lay-header :title="title" :isSearch="false" :barSearch="barSearch" :searchKeyWords="searchKeyWords" @leftClick="leftClick"></lay-header>
     <div v-if="showList.length">
       <div class="area-play">
         <!---->
@@ -19,24 +19,16 @@
             <span class="search-box">查找{{cityInfo.name}}的活动</span>
           </div>
           <div class="area-entrance">
-            <div class="c-title">
-              <nuxt-link to="/">查看全部</nuxt-link>
+            <div class="c-title" @click="selectProductList(null)">
+              <div class="link">查看全部</div>
               <span>当地玩乐</span>
             </div>
             <div class="guide-list">
               <ul>
-                <nuxt-link tag="li" to="/">
-                  <span class="icon-guide-ticket"></span>
-                  <span class="text">门票演出</span>
-                </nuxt-link>
-                <nuxt-link tag="li" to="/">
-                  <span class="icon-guide-car"></span>
-                  <span class="text">一日游&当地交通</span>
-                </nuxt-link>
-                <nuxt-link tag="li" to="/">
-                  <span class="icon-guide-special"></span>
-                  <span class="text">特色体验</span>
-                </nuxt-link>
+                <li v-for="category in categoryList" :key="category.type" @click="selectProductList(category.type_id)">
+                  <span :class="iconChow(category.type)"></span>
+                  <span class="text">{{category.name}}</span>
+                </li>
               </ul>
             </div>
           </div>
@@ -46,15 +38,30 @@
         <!--<img :src="cityInfo.image" alt="" @load="imageLoaded">-->
         <!--<img src="../../assets/imgs/local_regiment/bg_banner@2x.png" alt="" @load="imageLoaded">-->
       </div>
+      <!-- 最近浏览 -->
+      <div class="recently-viewed" v-if="viewedList.length">
+        <h1 class="title">最近浏览</h1>
+        <div v-swiper:mySwiper="viewedSwiperOption">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"
+                 v-for="viewed in viewedList"
+                 :key="viewed.product_id">
+              <snap-up-item :proData="viewed"
+                            :isShowTime="false"
+                            @selectDetail="selectItem" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--列表数据-->
       <div class="show-list">
         <div class="show-item"
              v-for="showItem in showList"
              :key="showItem.title"
              v-if="showItem.list.length">
-          <swipe-item :proData="showItem" />
+          <swipe-item :proData="showItem" @selectItem="selectItem" />
         </div>
       </div>
-      <div style="height: 2000px;"></div>
     </div>
     <loading v-if="!showList.length"></loading>
   </section>
@@ -62,18 +69,21 @@
 
 <script>
   import SwipeItem from '@/components/items/swipeItem'
-  import {getCityInfo} from '@/api/local_play'
+  import {getCityInfo,getProductList} from '@/api/local_play'
   import LayHeader from '@/components/header/index.vue'
   import Loading from '@/components/loading'
   import {throttle as _throttle} from 'lodash'
   import {mapMutations} from 'vuex'
   import {HEADER_TYPE} from '@/assets/js/consts/headerType'
+  import {getUrlParam} from '@/assets/js/utils'
+  import SnapUpItem from '@/components/items/snapUpItem'
   export default {
     // layout: 'defaultHeader',
     components: {
       SwipeItem,
       LayHeader,
-      Loading
+      Loading,
+      SnapUpItem
     },
     validate({ query }) { // 判断路由是否正确
       return query.touCityId
@@ -83,23 +93,40 @@
       if(code === 0) {
         return {
           cityInfo: data.city,
-          original: data
+          original: data,
+          categoryList: data.category
         }
       } else {
         return {
           cityInfo: {},
-          showList: []
+          showList: [],
+          categoryList: []
         }
       }
     },
     data() {
       return {
+        // swiper配置
+        viewedSwiperOption: {
+          slidesPerView: 'auto',
+          slidesOffsetBefore: 16,
+          spaceBetween: 8,
+          on: {
+            slideChange() {
+              console.log('onSlideChangeEnd', this);
+            },
+            tap() {
+              console.log('onTap', this);
+            }
+          }
+        },
         imgShow: false,
         title: '当地玩乐',
         barSearch: false,
         showList: [],
         searchKeyWords:'',
-        test: this.$router.query
+        categoryList: [],
+        viewedList: []
       }
     },
     computed: {
@@ -109,24 +136,53 @@
       }
     },
     created() {
-      // this.getInit()
       this.showList = this._nomalLizeshowList(this.original)
     },
     mounted() {
       this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 500))
+      // this.getViewedList('958,961')
+      if (this.getPlatForm()) {
+        this.appBridge = require('@/assets/js/appBridge.js').default
+        const localProductIds = this.appBridge.getLocalStorage().toString()
+        console.log('localProductIds:' + localProductIds)
+        this.getViewedList(localProductIds)
+      }
+      console.log('2019年1月15日11:04:26')
     },
     methods: {
       ...mapMutations({
         vxChangeHeaderStatus: 'header/changeStatus' // 修改头部状态
       }),
+      // 返回上一级菜单
+      leftClick () {
+        if (this.getPlatForm()) {
+          this.appBridge.backPreviousView()
+        } else {
+          this.$router.go(-1)
+        }
+      },
+      // 判断是app还是web
+      getPlatForm() {
+        return getUrlParam('platform') ? true : false
+      },
+      // 判断显示icon
+      iconChow(type) {
+        if (type === 1) { // 门票演出
+          return 'icon-guide-ticket'
+        } else if(type === 2) { // 一日游
+          return 'icon-guide-car'
+        } else if(type === 3) { // 特色体验
+          return 'icon-guide-special'
+        }
+      },
       // 初始化数据
       async getInit() {
         try {
           let {data, code} = await getCityInfo(this.cityId)
           if(code === 0) {
-            this.cityInfo = data&&data.city
+            this.cityInfo = data && data.city
+            this.categoryList = data.category
             this.showList = this._nomalLizeshowList(data)
-            // console.log(this.showList)
           } else {
             this.cityInfo = {}
           }
@@ -134,13 +190,43 @@
           console.log(e)
         }
       },
+      // 获取最近浏览
+      async getViewedList(ids) {
+        let {data, code} = await getProductList(ids)
+        if(code === 0) {
+          this.viewedList = data
+          console.log(this.viewedList)
+        } else {
+          this.viewedList = []
+        }
+      },
+      // 跳转到详情页面
+      selectItem(productId) {
+        if(this.getPlatForm()) {
+          // app详情跳转
+          this.appBridge.jumpProductDetailView({
+            productID: productId
+          })
+        } else {
+          // m跳转
+          this.$router.push({
+            path: '/product/detail',
+            query: {
+              productId
+            }
+          })
+        }
+      },
       // 序列化数据
       _nomalLizeshowList(data) {
+        if (!data) return []
         let obj = {
           activity : '最新活动',
           boutique: '稀饭精选',
           welcome: '最受欢迎'
         }
+
+        // if(data) return false
         let {activity,boutique,welcome} = data
         let showList = [
           {
@@ -159,26 +245,20 @@
         return showList
       },
       scrollTab() {
-        // console.log('scrollTab');
       },
       // 滚动监听显示header
       scrollFn() {
         window.requestAnimationFrame(() => {
-          // console.log('滚动高度', this.$refs.refLocalPlayForeign.scrollTop)
-          // console.log('refAreaMain', this.$refs.refAreaMain.offsetHeight)
           const s1 = this.$refs.refLocalPlayForeign.scrollTop
           const s3 = this.$refs.refAreaMain.offsetHeight
           setTimeout(() => {
             const s2 = this.$refs.refLocalPlayForeign.scrollTop
             const direct = s2 - s1
             if (s1 === 0) {
-              // console.log('处于顶部')
               this.vxChangeHeaderStatus(HEADER_TYPE.TOP)
             } else if (direct > 0) {
-              // console.log('向下滚动')
               this.vxChangeHeaderStatus(HEADER_TYPE.DOWN)
             } else if (direct < 0) {
-              // console.log('向上滚动')
               this.vxChangeHeaderStatus(HEADER_TYPE.UP)
             }
             if (s1 > s3) {
@@ -192,6 +272,20 @@
           }, 17)
         })
       },
+      selectProductList(typeId) {
+        if(this.getPlatForm()) {
+          let data = {
+            'itemType': '2'
+          }
+          if (typeId !== null) {
+            data.product_type = typeId.toString()
+          }
+          this.appBridge.jumpProductListView(data)
+        } else {
+          // web页面跳转
+          console.log('web页面跳转')
+        }
+      }
     }
   }
 </script>
@@ -204,6 +298,29 @@
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     position: relative;
+    .recently-viewed {
+      width: 100%;
+      background: #fff;
+      .title {
+        padding-left: 32px;
+        color: #191919;
+        font-size: 40px;
+        font-weight: 300;
+      }
+    }
+    .recently-viewed {
+      margin-top: 24px;
+      padding: 18px 0 18px;
+      .swiper-container {
+        margin-top: 28px;
+        width: 100%;
+        height: 548px;
+        .swiper-slide {
+          width: 686px !important;
+          font-size: 38px;
+        }
+      }
+    }
   }
   .area-play{
     position: relative;
@@ -277,7 +394,7 @@
           font-weight:300;
           color:#989898;
           line-height: 72px;
-          a{
+          .link{
             float: right;
             padding: 0 20px;
             color: #399EF6;

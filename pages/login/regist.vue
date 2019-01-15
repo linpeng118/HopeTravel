@@ -1,16 +1,15 @@
 <template>
-  <div class="login-page">
-    <login-header rightText="注册"
-      @callOnRigth="toRegist" />
-    <h1 class="title">稀饭旅行账号登录</h1>
-    <van-tabs class="login-wrap tours-tabs-nowrap">
-      <!-- 普通登陆 -->
-      <van-tab class="login"
-        title="普通登陆">
+  <div class="regist-page">
+    <login-header rightText="登录"
+      @callOnRigth="toLogin" />
+    <h1 class="title">稀饭旅行账号注册</h1>
+    <van-tabs class="regist-wrap tours-tabs-nowrap">
+      <!-- 手机号注册 -->
+      <van-tab class="regist"
+        title="手机号注册">
         <van-cell-group>
-          <van-field class="username tours-input"
-            v-model="username"
-            placeholder="请输入用户名" />
+          <area-code-input class="mobile"
+            :proMobile.sync="mobile" />
           <van-field class="password tours-input"
             v-model="password"
             center
@@ -19,23 +18,39 @@
             placeholder="请输入密码"
             :type="pswInputType"
             @click-icon="toggleInputType">
+          </van-field>
+          <van-field class="password tours-input"
+            v-model="password"
+            center
+            clearable
+            placeholder="请输入验证码">
             <van-button class="tours-button-noborder"
               slot="button"
               size="small"
-              @click="forgetPsw">忘记密码</van-button>
+              @click="getCode">获取验证码</van-button>
           </van-field>
         </van-cell-group>
         <van-button class="btn-login tours-button"
           size="large"
-          :disabled="!isNameOk"
-          @click="login">登录</van-button>
+          :disabled="!canSubmit"
+          @click="regist">注册</van-button>
       </van-tab>
-      <!-- 手机验证码登陆 -->
-      <van-tab class="mobile-login"
-        title="手机验证码登陆">
+      <!-- 请输入邮箱 -->
+      <van-tab class="email-regist"
+        title="请输入邮箱">
         <van-cell-group>
-          <area-code-input class="mobile"
-            :proMobile.sync="mobile" />
+          <van-field class="email tours-input"
+            v-model="email"
+            placeholder="请输入邮箱" />
+          <van-field class="password tours-input"
+            v-model="password"
+            center
+            clearable
+            icon="eye-o"
+            placeholder="请输入密码"
+            :type="pswInputType"
+            @click-icon="toggleInputType">
+          </van-field>
           <van-field class="auth-code tours-input"
             v-model="authCode"
             center
@@ -49,45 +64,50 @@
         </van-cell-group>
         <van-button class="btn-login tours-button"
           size="large"
-          :disabled="!isMobileOk"
-          @click="mobileLogin">登录</van-button>
+          :disabled="!canSubmit"
+          @click="mobileLogin">注册</van-button>
       </van-tab>
-      <p class="text">登陆即代表您已同意我们的<span @click="onAgreement">&nbsp;服务协议</span></p>
+      <p class="text">
+        <van-checkbox class="tour-checkbox"
+          v-model="checked">
+          <span @click="onAgreement">我已经阅读并同意《服务协议》</span>
+        </van-checkbox>
+      </p>
     </van-tabs>
   </div>
 </template>
 
 <script>
   import loginHeader from '@/components/header/loginHeader'
-  import AreaCodeInput from '@/components/input/areaCode'
+  import areaCodeInput from '@/components/input/areaCode'
 
   export default {
     components: {
       loginHeader,
-      AreaCodeInput
+      areaCodeInput
     },
     data() {
       return {
-        // 用户登录
-        username: '',
-        password: '',
-        pswInputType: 'password', // 密码输入框类型
-        isNameOk: false, // 验证用户名是否ok
-        // 手机登录
+        // 手机注册
         mobile: '',
-        isMobileOk: false, // 验证手机号是否ok
-        authCode: '', // 验证码
+        canSubmit: false, // 是否可提交
         areaCode: '86', // 区号
+        authCode: '', // 验证码
         show: false,
+        checked: true,
+        pswInputType: 'password',
+        // 邮箱注册
+        email: '',
+        password: '',
       }
     },
     computed: {},
     mounted() {},
     methods: {
-      // 跳转至注册页
-      toRegist() {
+      // 跳转至登录页
+      toLogin() {
         this.$router.push({
-          path: '/login/regist'
+          path: '/login'
         })
       },
       toggleInputType(val) {
@@ -95,7 +115,7 @@
       },
       forgetPsw() {
         this.$router.push({
-          path: '/login/forget'
+          path: '/regist/forget'
         })
       },
       // 获取验证码
@@ -103,25 +123,24 @@
         // TODO:
       },
       onAreaCode() {
-        (123)
+        console.log(123)
       },
-      login() {
-        (1)
+      regist() {
+        console.log(1)
       },
       mobileLogin() {
-        (2, this.mobile)
+        console.log(2, this.mobile)
       },
       // 点击服务协议
       onAgreement() {
-        ('onAgreement')
+        console.log('onAgreement')
       }
     },
   }
 </script>
 
-
 <style lang="scss" scoped>
-  .login-page {
+  .regist-page {
     text-align: center;
     .title {
       padding-top: 136px;
@@ -132,10 +151,10 @@
       color: rgba(85, 85, 85, 1);
       opacity: 1;
     }
-    .login-wrap {
+    .regist-wrap {
       margin-top: 100px;
-      .login,
-      .mobile-login {
+      .regist,
+      .email-regist {
         padding: 0 76px;
         .icon-arrow {
           position: absolute;
@@ -147,17 +166,20 @@
           margin-top: 20px;
         }
       }
-      .login {
-        .username {
+      .regist {
+        .mobile {
           margin-top: 54px;
         }
         .password {
           margin-top: 16px;
         }
       }
-      .mobile-login {
-        .mobile {
+      .email-regist {
+        .email {
           margin-top: 54px;
+        }
+        .password {
+          margin-top: 16px;
         }
         .auth-code {
           margin-top: 16px;
@@ -165,8 +187,9 @@
       }
       .text {
         margin-top: 30px;
+        padding: 0 76px;
+        text-align: left;
         font-size: 22px;
-        color: #c4c4c4;
         span {
           color: rgba(57, 158, 246, 1);
         }
