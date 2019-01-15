@@ -186,7 +186,9 @@
         const params = {
           'itemType': LIST_TYPE.LOCAL_GROUP,
         }
-        this.appBridge.jumpProductListView(params)
+        this.appBridge.jumpProductDetailView({
+          productID: item.product_id
+        })
       },
       onHotCity(hotCity) {
         console.log(hotCity)
