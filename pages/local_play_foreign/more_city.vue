@@ -60,7 +60,11 @@
       },
       // 返回上一级页面
       leftClick() {
-        this.$router.go(-1)
+        if (this.getPlatForm) {
+          this.appBridge.backPreviousView()
+        } else {
+          this.$router.go(-1)
+        }
       },
       // 初始化数据
       async getInit() {
