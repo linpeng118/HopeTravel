@@ -4,6 +4,9 @@
 @import './animate';
 @import './animate_vue';
 
+body {
+  padding-top: constant(safe-area-inset-top); //88px
+}
 // vue编译结束前不显示带v-cloak的标签
 [v-cloak] {
   display: none !important;
@@ -138,4 +141,12 @@
   font-size:32px !important;
   font-weight:400;
   border-radius:8px !important;
+}
+
+
+.page-enter-active {
+  transition: all .5s;
+}
+.page-enter {
+  transform :translate3d(100%,0,0)
 }

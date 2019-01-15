@@ -7,7 +7,7 @@
         <div class="swiper-slide"
           v-for="cItem in proData.list"
           :key="cItem.product_id">
-          <hot-item :proData="cItem" />
+          <hot-item :proData="cItem" @selectItem="selectItem" />
         </div>
       </div>
     </div>
@@ -41,7 +41,8 @@
             },
             tap(e) {
               // console.log('onTap', this);
-              vm.$emit('selectItem', e.target.getAttribute('productId'))
+              // console.log(e.target.getAttribute('productId'))
+              // vm.$emit('selectItem', e.target.getAttribute('productId'))
             }
           }
         }
@@ -51,7 +52,12 @@
     mounted() {
       console.log(this.proData)
     },
-    methods: {},
+    methods: {
+      selectItem(productId) {
+        console.log(productId)
+        this.$emit('selectItems', productId)
+      }
+    },
   }
 </script>
 

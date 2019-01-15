@@ -7,15 +7,16 @@
       <!-- 热门城市 -->
       <hot-city :hotCityList="hotCity" @clickItem="linkCityHandle" @selectMore="selectMore"></hot-city>
       <!-- 最近浏览 -->
-      <div class="recently-viewed">
+      <div class="recently-viewed" v-if="viewedList.length">
         <h1 class="title">最近浏览</h1>
         <div v-swiper:mySwiper="viewedSwiperOption">
           <div class="swiper-wrapper">
             <div class="swiper-slide"
                  v-for="viewed in viewedList"
-                 :key="viewed.title">
+                 :key="viewed.product_id">
               <snap-up-item :proData="viewed"
-                            @callCollect="doCollect" />
+                            :isShowTime="false"
+                            @selectDetail="selectItem" />
             </div>
           </div>
         </div>
@@ -25,8 +26,8 @@
       <div class="show-list">
         <div class="show-item"
              v-for="showItem in showList"
-             :key="showItem.title">
-          <swipe-item :proData="showItem" @selectItem="selectItem" />
+             :key="showItem.title" v-if="showItem.list.length">
+          <swipe-item :proData="showItem" @selectItems="selectItem" />
         </div>
       </div>
       <!-- 底部广告 -->
@@ -76,38 +77,14 @@
         },
         // 最近浏览列表
         viewedList: [
-          {
-            type: [1, 2],
-            title: '标题1',
-            src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-            desc: '1最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览',
-            price: 1001,
-            oriPrice: 2002
-          },
-          {
-            type: [2],
-            title: '标题2',
-            src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-            desc: '2最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览',
-            price: 1002,
-            oriPrice: 2002
-          },
-          {
-            type: [1],
-            title: '标题3',
-            src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-            desc: '3最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览',
-            price: 1003,
-            oriPrice: 2003
-          },
-          {
-            type: [2],
-            title: '标题4',
-            src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-            desc: '3最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览',
-            price: 1004,
-            oriPrice: 2004
-          }
+          // {
+          //   type: [1, 2],
+          //   title: '标题1',
+          //   src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
+          //   desc: '1最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览',
+          //   price: 1001,
+          //   oriPrice: 2002
+          // },
         ],
         showList: [],
         // 热门城市
@@ -132,15 +109,19 @@
     },
     created() {
       this.showList = this._nomalLizeshowList(this.original)
+      // console.log(this.showList)
     },
     mounted() {
       // 监听滚动
       this.$refs.refLocalPlayPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
-      this.appBridge = require('@/assets/js/appBridge.js').default
       if (this.getPlatForm()) {
-        const localProductIds = this.appBridge.getLocalStorage()
-        console.log('localProductIds:' + localProductIds)
+        this.appBridge = require('@/assets/js/appBridge.js').default
+        this.appBridge.hideNavigationBar()
+        // const localProductIds = this.appBridge.getLocalStorage().toString()
+        // console.log('localProductIds:' + localProductIds)
+        // this.getViewedList(localProductIds)
       }
+      console.log('2019年1月15日15:45:45')
     },
     methods: {
       ...mapMutations({
@@ -164,11 +145,13 @@
       selectItem(productId) {
         if(this.getPlatForm()) {
           // app详情跳转
+          console.log('app详情跳转')
           this.appBridge.jumpProductDetailView({
             productID: productId
           })
         } else {
           // m跳转
+          console.log('m跳转')
           this.$router.push({
             path: '/product/detail',
             query: {
@@ -176,6 +159,15 @@
             }
           })
         }
+      },
+      // 获取最近浏览
+     async getViewedList(ids) {
+       let {data, code} = await getProductList(ids)
+       if(code === 0) {
+         this.viewedList = data
+       } else {
+         this.viewedList = []
+       }
       },
       async init() {
         try {
@@ -202,7 +194,7 @@
         return showList
       },
       doCollect(val) {
-        // console.log(val)
+        console.log(val)
       },
       // 滚动监听显示header
       scrollFn() {
