@@ -27,7 +27,7 @@
         <div class="show-item"
              v-for="showItem in showList"
              :key="showItem.title" v-if="showItem.list.length">
-          <swipe-item :proData="showItem" @selectItem="selectItem" />
+          <swipe-item :proData="showItem" @selectItems="selectItem" />
         </div>
       </div>
       <!-- 底部广告 -->

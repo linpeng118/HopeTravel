@@ -1,5 +1,5 @@
 <template>
-  <div class="hot-item">
+  <div class="hot-item" @click.native="selectItem">
     <div class="banner" :productId="proData.product_id">
       <img :src="proData.image"
         alt="banner">
@@ -69,7 +69,12 @@
     },
     computed: {},
     mounted() {},
-    methods: {},
+    methods: {
+      selectItem() {
+        console.log('dianjil')
+        this.$emit('selectItem', this.proData.product_id)
+      }
+    },
   }
 </script>
 
