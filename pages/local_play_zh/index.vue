@@ -117,11 +117,11 @@
       if (this.getPlatForm()) {
         this.appBridge = require('@/assets/js/appBridge.js').default
         this.appBridge.hideNavigationBar()
-        const localProductIds = this.appBridge.getLocalStorage().toString()
-        console.log('localProductIds:' + localProductIds)
-        this.getViewedList(localProductIds)
+        // const localProductIds = this.appBridge.getLocalStorage().toString()
+        // console.log('localProductIds:' + localProductIds)
+        // this.getViewedList(localProductIds)
       }
-      console.log('2019年1月15日14:51:11')
+      console.log('2019年1月15日15:08:11')
     },
     methods: {
       ...mapMutations({

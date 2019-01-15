@@ -2,7 +2,7 @@
   <div class="local-group-page"
     ref="refLocalGroupPage">
     <!-- header -->
-    <search-header :title="'当地跟团'" />
+    <search-header :title="'当地跟团'" @leftClick="leftClick" />
     <!-- body -->
     <section class="local-group"
       ref="refLocalGroup">
@@ -189,6 +189,14 @@
         this.productList = res.data
         this.prodPagination = res.pagination
         console.log('getProductListData', this.productList, this.prodPagination)
+      },
+      // 返回上一级页面
+      leftClick() {
+        if (this.getPlatForm) {
+          this.appBridge.backPreviousView()
+        } else {
+          this.$router.go(-1)
+        }
       },
       // 点击当季热门item
       onHot(productId) {
