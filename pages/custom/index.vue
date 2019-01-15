@@ -1,112 +1,121 @@
 <template>
-  <div class="custom-page">
-    <!-- header -->
-    <normal-header :title="'私人定制'"
-      transparent
-      fixed />
-    <!-- banner -->
-    <div class="banner">
-      <h1 class="title">高阶玩法&emsp;探秘全球</h1>
-      <h3 class="desc">高阶玩法&emsp;探秘全球</h3>
-      <div class="form-wrap">
-        <div class="title-s">热门景点</div>
-        <div class="tag-list">
-          <transp-tag v-for="tag in tagList"
-            @callOnTag="onTag"
-            :tag="tag"
-            :key="tag.title">
-          </transp-tag>
-        </div>
-        <div class="form">
-          <!-- 地点 -->
-          <div class="form-input">
-            <div class="left-icon"></div>
-            <div class="transparent-input">
-              <van-field class="tours-input-no-bg"
-                v-model="address"
-                placeholder="请填写您想去的目的地或景点" />
-            </div>
-            <div class="right">*</div>
+  <div class="custom-page"
+    ref="refCustomPage">
+    <div class="custom-content">
+      <!-- header -->
+      <normal-header :title="'私人定制'"
+        :transparent="isTransparent"
+        fixed />
+      <!-- banner -->
+      <div class="banner">
+        <h1 class="title">高阶玩法&emsp;探秘全球</h1>
+        <h3 class="desc">高阶玩法&emsp;探秘全球</h3>
+        <div class="form-wrap">
+          <div class="title-s">热门景点</div>
+          <div class="tag-list">
+            <transp-tag v-for="tag in tagList"
+              @callOnTag="onTag"
+              :tag="tag"
+              :key="tag.title">
+            </transp-tag>
           </div>
-          <!-- 手机号码 -->
-          <div class="form-input mobile">
-            <div class="left-icon"></div>
-            <div class="transparent-input">
-              <van-field class="tours-input-no-bg"
-                v-model="mobile"
-                placeholder="请填写您的电话号码" />
+          <div class="form">
+            <!-- 地点 -->
+            <div class="form-input">
+              <div class="left-icon"></div>
+              <div class="transparent-input">
+                <van-field class="tours-input-no-bg"
+                  v-model="address"
+                  placeholder="请填写您想去的目的地或景点" />
+              </div>
+              <div class="right">*</div>
             </div>
-            <div class="right">*</div>
-          </div>
-          <!-- 微信 -->
-          <div class="form-input wx">
-            <div class="left-icon"></div>
-            <div class="transparent-input">
-              <van-field class="tours-input-no-bg"
-                v-model="wx"
-                placeholder="请填写您的微信号码" />
+            <!-- 手机号码 -->
+            <div class="form-input mobile">
+              <div class="left-icon"></div>
+              <div class="transparent-input">
+                <van-field class="tours-input-no-bg"
+                  v-model="mobile"
+                  placeholder="请填写您的电话号码" />
+              </div>
+              <div class="right">*</div>
             </div>
-            <div class="right">*</div>
-          </div>
-          <!-- 定制按钮 -->
-          <van-button class="btn-custom tours-button-no-bg"
-            size="large"
-            :disabled="!canSubmit"
-            @click="onCustom">开始定制</van-button>
-        </div>
-      </div>
-    </div>
-    <!-- 当季推荐 -->
-    <div class="season-recommend">
-      <div class="title">当季推荐</div>
-      <div class="season-wrap wiper-container"
-        v-swiper:mySwiper="swiperOption">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide"
-            v-for="item in seasonList"
-            :key="item.url">
-            <div class="season-item">
-              <img :src="item.url"
-                alt="img">
-              div.
+            <!-- 微信 -->
+            <div class="form-input wx">
+              <div class="left-icon"></div>
+              <div class="transparent-input">
+                <van-field class="tours-input-no-bg"
+                  v-model="wx"
+                  placeholder="请填写您的微信号码" />
+              </div>
+              <div class="right">*</div>
             </div>
+            <!-- 定制按钮 -->
+            <van-button class="btn-custom tours-button-no-bg"
+              size="large"
+              :disabled="!canSubmit"
+              @click="onCustom">开始定制</van-button>
           </div>
         </div>
       </div>
-    </div>
-    <!-- 承诺/服务 -->
-    <div class="features">
-      <div class="title">稀饭承诺 · 专业服务</div>
-      <div class="desc">用心给你舒适的旅行</div>
-      <div class="list">
-        <div class="item"
-          v-for="item in featureList"
-          :key="item.title">
-          <img :src="item.img"
-            alt="">
-          <p class="title">{{item.title}}</p>
+      <!-- 当季推荐 -->
+      <div class="season-recommend">
+        <div class="title">当季推荐</div>
+        <div class="season-wrap wiper-container"
+          v-swiper:mySwiper="swiperOption">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"
+              v-for="item in seasonList"
+              :key="item.title">
+              <div class="season-item">
+                <img :src="item.url"
+                  alt="img">
+                <div class="season-body">
+                  <h1 class="title">{{item.title}}</h1>
+                  <h3 class="desc no-wrap-line3">{{item.desc}}</h3>
+                  <p class="price">参考价格：{{item.price}} 人/起</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="btn-more">查看全部</div>
+      </div>
+      <!-- 承诺/服务 -->
+      <div class="features">
+        <div class="title">稀饭承诺 · 专业服务</div>
+        <div class="desc">用心给你舒适的旅行</div>
+        <div class="list">
+          <div class="item"
+            v-for="item in featureList"
+            :key="item.title">
+            <img :src="item.img"
+              alt="">
+            <p class="title">{{item.title}}</p>
+          </div>
         </div>
       </div>
-    </div>
-    <!-- story -->
-    <h1 class="story-title">
-      <span>遇见稀饭</span><span class="gray">&emsp;|&emsp;旅行故事</span>
-    </h1>
-    <div class="story-wrap"
-      v-for="item in storyList"
-      :key="item.title">
-      <div class="title">{{item.title}}</div>
-      <div class="pos">{{item.pos}}</div>
-      <div class="line"></div>
-      <div class="desc no-wrap-line2">{{item.desc}}</div>
-      <div class="show-banner">
-        <img-item :proData="item.imgs" />
+      <!-- story -->
+      <h1 class="story-title">
+        <span>遇见稀饭</span><span class="gray">&emsp;|&emsp;旅行故事</span>
+      </h1>
+      <div class="story-wrap"
+        v-for="item in storyList"
+        :key="item.title">
+        <div class="title">{{item.title}}</div>
+        <div class="pos">{{item.pos}}</div>
+        <div class="line"></div>
+        <div class="desc no-wrap-line2">{{item.desc}}</div>
+        <div class="show-banner">
+          <img-item :proData="item.imgs" />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import {throttle as _throttle} from 'lodash'
   import NormalHeader from '@/components/header/mormal'
   import transpTag from '@/components/tags/transparent'
   import ImgItem from '@/components/items/imgItem'
@@ -119,15 +128,14 @@
     },
     data() {
       return {
+        isTransparent: true, // 导航头是否透明
         swiperOption: {
+          loop: true,
+          centeredSlides: true, // 居中
           slidesPerView: 'auto',
-          slidesOffsetBefore: 16,
-          spaceBetween: 10,
+          // spaceBetween: 5,
           observer: true, //修改swiper自己或子元素时，自动初始化swiper 
           observeParents: true, //修改swiper的父元素时，自动初始化swiper
-          pagination: {
-            el: '.swiper-pagination',
-          },
           on: {
             slideChange() {
               console.log('onSlideChangeEnd', this);
@@ -170,13 +178,13 @@
             desc: '卸下工作的我，突然想去脚踏实地的感受一下旅行的意义。一般的旅行团都不会有这样的行程，旅行一次独属于我的私人旅行。',
             imgs: [
               {
-                url: require('../../assets/imgs/custom/story_1.png'), title: ''
+                url: require('../../assets/imgs/custom/story_1.png'), id: '1'
               },
               {
-                url: require('../../assets/imgs/custom/story_1.png'), title: ''
+                url: require('../../assets/imgs/custom/story_1.png'), id: '2'
               },
               {
-                url: require('../../assets/imgs/custom/story_1.png'), title: ''
+                url: require('../../assets/imgs/custom/story_1.png'), id: '3'
               },
             ]
           },
@@ -186,13 +194,13 @@
             desc: '2卸下工作的我，突然想去脚踏实地的感受一下旅行的意义。一般的旅行团都不会有这样的行程，旅行一次独属于我的私人旅行。',
             imgs: [
               {
-                url: require('../../assets/imgs/custom/story_1.png'), title: ''
+                url: require('../../assets/imgs/custom/story_1.png'), id: '4'
               },
               {
-                url: require('../../assets/imgs/custom/story_1.png'), title: ''
+                url: require('../../assets/imgs/custom/story_1.png'), id: '5'
               },
               {
-                url: require('../../assets/imgs/custom/story_1.png'), title: ''
+                url: require('../../assets/imgs/custom/story_1.png'), id: '6'
               },
             ]
           },
@@ -202,257 +210,331 @@
             desc: '3卸下工作的我，突然想去脚踏实地的感受一下旅行的意义。一般的旅行团都不会有这样的行程，旅行一次独属于我的私人旅行。',
             imgs: [
               {
-                url: require('../../assets/imgs/custom/story_1.png'), title: ''
+                url: require('../../assets/imgs/custom/story_1.png'), id: '7'
               },
               {
-                url: require('../../assets/imgs/custom/story_1.png'), title: ''
+                url: require('../../assets/imgs/custom/story_1.png'), id: '8'
               },
               {
-                url: require('../../assets/imgs/custom/story_1.png'), title: ''
+                url: require('../../assets/imgs/custom/story_1.png'), id: '9'
               },
             ]
           }
         ]
       }
     },
-    computed: {},
+    mounted() {
+      // 监听滚动
+      this.$refs.refCustomPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
+    },
     methods: {
       onTag(item) {
         console.log(item)
       },
       onCustom() {
         console.log(1)
-      }
+      },
+      scrollFn() {
+        const s1 = this.$refs.refCustomPage.scrollTop
+        console.log(s1)
+        setTimeout(() => {
+          const s2 = this.$refs.refCustomPage.scrollTop
+          const direct = s2 - s1
+          if (s1 === 0) {
+            this.isTransparent = true
+          } else if (direct > 0) {
+            this.isTransparent = false
+          } else if (direct < 0) {
+            this.isTransparent = false
+          }
+        }, 17)
+      },
     },
   }
 </script>
 
 <style lang="scss" scoped>
   .custom-page {
-    min-height: 100vh;
+    height: 100vh;
     font-size: 0;
-    background: #f1f1f1 url("../../assets/imgs/custom/custom_bg@2x.png") no-repeat
-      0 -88px/100%;
-    .banner {
-      padding: 154px 32px 28px;
-      .title {
-        height: 74px;
-        line-height: 74px;
-        font-size: 52px;
-        font-weight: 100;
-        color: rgba(255, 255, 255, 1);
-        -webkit-text-stroke: 1 rgba(255, 255, 255, 1);
-        text-stroke: 1 rgba(255, 255, 255, 1);
-        position: relative;
-        &::after {
-          content: "";
-          display: inline-block;
-          position: absolute;
-          left: 235px;
-          top: 12px;
-          width: 2px;
-          height: 52px;
-          background: #fff;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    .custom-content {
+      background: #f1f1f1;
+      .banner {
+        padding: 154px 32px 28px;
+        background: url("../../assets/imgs/custom/custom_bg@2x.png") no-repeat 0 -88px/100%;
+        .title {
+          height: 74px;
+          line-height: 74px;
+          font-size: 52px;
+          font-weight: 100;
+          color: rgba(255, 255, 255, 1);
+          -webkit-text-stroke: 1 rgba(255, 255, 255, 1);
+          text-stroke: 1 rgba(255, 255, 255, 1);
+          position: relative;
+          &::after {
+            content: "";
+            display: inline-block;
+            position: absolute;
+            left: 235px;
+            top: 12px;
+            width: 2px;
+            height: 52px;
+            background: #fff;
+          }
         }
-      }
-      .desc {
-        height: 40px;
-        line-height: 40px;
-        font-size: 28px;
-        font-weight: 300;
-        color: rgba(255, 255, 255, 1);
-      }
-      .form-wrap {
-        margin-top: 80px;
-        padding: 20px 32px;
-        width: 686px;
-        height: 656px;
-        background: rgba(0, 0, 0, 1);
-        opacity: 0.7;
-        border-radius: 12px;
-        .title-s {
-          font-size: 24px;
+        .desc {
+          height: 40px;
+          line-height: 40px;
+          font-size: 28px;
           font-weight: 300;
-          line-height: 34px;
-          color: rgba(152, 152, 152, 1);
+          color: rgba(255, 255, 255, 1);
         }
-        .tag-list {
-          margin-top: 20px;
-        }
-        .form {
-          margin-top: calc(58px - 20px);
-          .form-input {
-            width: 622px;
-            height: 72px;
-            background: rgba(0, 0, 0, 0);
-            border: 2px solid rgba(255, 255, 255, 1);
-            border-radius: 22px;
-            display: flex;
-            justify-content: center;
-            align-content: center;
-            .left-icon {
-              width: 74px;
-              display: 0 0 74px;
-              background: url("../../assets/imgs/icon_pos.png") no-repeat center
-                center/40px 40px;
-              position: relative;
-              &::after {
-                content: "";
-                display: inline-block;
-                position: absolute;
-                right: 0;
-                top: 15px;
-                width: 2px;
-                height: 40px;
-                background: #fff;
+        .form-wrap {
+          margin-top: 80px;
+          padding: 20px 32px;
+          width: 686px;
+          height: 656px;
+          background: rgba(0, 0, 0, 1);
+          opacity: 0.7;
+          border-radius: 12px;
+          .title-s {
+            font-size: 24px;
+            font-weight: 300;
+            line-height: 34px;
+            color: rgba(152, 152, 152, 1);
+          }
+          .tag-list {
+            margin-top: 20px;
+          }
+          .form {
+            margin-top: calc(58px - 20px);
+            .form-input {
+              width: 622px;
+              height: 72px;
+              background: rgba(0, 0, 0, 0);
+              border: 2px solid rgba(255, 255, 255, 1);
+              border-radius: 22px;
+              display: flex;
+              justify-content: center;
+              align-content: center;
+              .left-icon {
+                width: 74px;
+                display: 0 0 74px;
+                background: url("../../assets/imgs/icon_pos.png") no-repeat center
+                  center/40px 40px;
+                position: relative;
+                &::after {
+                  content: "";
+                  display: inline-block;
+                  position: absolute;
+                  right: 0;
+                  top: 15px;
+                  width: 2px;
+                  height: 40px;
+                  background: #fff;
+                }
+              }
+              .transparent-input {
+                flex: 1;
+              }
+              .right {
+                flex: 0 0 30px;
+                height: 28px;
+                align-self: center;
+                line-height: 100%;
+                color: #fff;
+                font-size: 28px;
               }
             }
-            .transparent-input {
-              flex: 1;
+            .mobile,
+            .wx {
+              margin-top: 24px;
             }
-            .right {
-              flex: 0 0 30px;
-              height: 28px;
-              align-self: center;
-              line-height: 100%;
-              color: #fff;
-              font-size: 28px;
+            .btn-custom {
+              margin-top: 62px;
             }
           }
-          .mobile,
-          .wx {
-            margin-top: 24px;
+        }
+      }
+      // 当季推荐
+      .season-recommend {
+        height: 930px;
+        overflow: hidden;
+        .title {
+          margin-top: 44px;
+          padding: 0 42px;
+          height: 44px;
+          font-size: 32px;
+          color: #131313;
+        }
+        .season-wrap {
+          margin-top: 28px;
+        }
+        .swiper-container {
+          .swiper-slide {
+            margin: 0 10px;
+            font-size: 38px;
+            width: 686px !important;
+            height: 668px;
+            transition: all 0.5s;
+            &:not(.swiper-slide-active) {
+              transform: translate3d(0, 40px, 0);
+            }
+            .season-item {
+              font-size: 0;
+              background: #fff;
+              border-radius: 12px;
+              height: 628px;
+              img {
+                height: 356px;
+                width: 686px;
+                border-radius: 12px 12px 0 0;
+              }
+              .season-body {
+                padding: 22px 24px;
+                .title {
+                  margin: 0;
+                  padding: 0;
+                  height: 44px;
+                  font-size: 32px;
+                  line-height: 44px;
+                  font-weight: 400;
+                  color: #000;
+                }
+                .desc {
+                  margin-top: 12px;
+                  padding-bottom: 16px;
+                  border-bottom: 2px silid #e4e4e4;
+                  height: 96px;
+                  font-size: 22px;
+                  font-weight: 300;
+                  line-height: 32px;
+                  color: #989898;
+                }
+                .price {
+                  margin-top: 16px;
+                  height: 34px;
+                  font-size: 24px;
+                  line-height: 34px;
+                  color: #399ef6;
+                }
+              }
+            }
           }
-          .btn-custom {
-            margin-top: 62px;
+        }
+        .btn-more {
+          margin: 14px auto 0;
+          width: 330px;
+          height: 72px;
+          line-height: 72px;
+          font-size: 28px;
+          color: #fff;
+          background: linear-gradient(
+            41deg,
+            rgba(57, 158, 246, 1) 0%,
+            rgba(137, 196, 248, 1) 100%
+          );
+          text-align: center;
+          box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.16);
+          border-radius: 36px;
+        }
+      }
+      .features {
+        height: 700px;
+        width: 100%;
+        text-align: center;
+        background: #fff;
+        overflow: hidden;
+        .title {
+          margin-top: 86px;
+          height: 58px;
+          font-size: 44px;
+          line-height: 58px;
+          color: #383a3e;
+        }
+        .desc {
+          margin-top: 8px;
+          height: 38px;
+          font-size: 28px;
+          color: rgba(158, 184, 195, 1);
+          letter-spacing: 15px;
+        }
+        .list {
+          margin-top: 12px;
+          display: flex;
+          flex-wrap: wrap;
+          .item {
+            flex: 0 0 33.3%;
+            width: 33.3%;
+            margin-top: 56px;
+            img {
+              width: 104px;
+              height: 104px;
+            }
+            .title {
+              margin-top: 16px;
+              height: 30px;
+              font-size: 22px;
+              font-weight: 400;
+              color: #000;
+            }
           }
         }
       }
-    }
-    .season-recommend {
-      height: 930px;
-      overflow: hidden;
-      .title {
-        margin-top: 44px;
-        padding: 0 42px;
-        height: 44px;
-        font-size: 32px;
-        color: #131313;
-      }
-      .season-wrap {
-        margin-top: 68px;
-      }
-      .swiper-container {
-        height: 375px;
-        .swiper-pagination {
-          bottom: 0;
-        }
-        .swiper-slide {
-          font-size: 38px;
-          width: 686px !important;
-          img {
-            height: 356px;
-            width: 686px;
-            border-radius: 12px;
+      .story-title {
+        padding: 44px 0 4px 42px;
+        span {
+          width: 128px;
+          height: 44px;
+          font-size: 32px;
+          font-weight: 400;
+          color: #131313;
+          &.gray {
+            color: #989898;
           }
         }
       }
-    }
-    .features {
-      height: 700px;
-      width: 100%;
-      text-align: center;
-      background: #fff;
-      overflow: hidden;
-      .title {
-        margin-top: 86px;
-        height: 58px;
-        font-size: 44px;
-        line-height: 58px;
-        color: #383a3e;
-      }
-      .desc {
-        margin-top: 8px;
-        height: 38px;
-        font-size: 28px;
-        color: rgba(158, 184, 195, 1);
-        letter-spacing: 15px;
-      }
-      .list {
-        margin-top: 12px;
-        display: flex;
-        flex-wrap: wrap;
-        .item {
-          flex: 0 0 33.3%;
-          width: 33.3%;
-          margin-top: 56px;
-          img {
-            width: 104px;
-            height: 104px;
-          }
-          .title {
-            margin-top: 16px;
-            height: 30px;
-            font-size: 22px;
-            font-family: Microsoft YaHei;
-            font-weight: 400;
-            color: #000;
-          }
+      .story-wrap {
+        margin-top: 24px;
+        background: #fff;
+        height: 640px;
+        overflow: hidden;
+        .title,
+        .pos,
+        .desc {
+          padding: 0 34px;
+        }
+        .title {
+          margin-top: 32px;
+          height: 40px;
+          font-size: 28px;
+          line-height: 40px;
+          color: #000;
+        }
+        .pos {
+          margin-top: 8px;
+          height: 34px;
+          font-size: 24px;
+          color: #484848;
+        }
+        .line {
+          width: 686px;
+          margin-top: 20px;
+          margin-left: 34px;
+          border-bottom: 2px solid #e4e4e4;
+        }
+        .desc {
+          margin-top: 20px;
+          height: 64px;
+          font-size: 24px;
+          line-height: 30px;
         }
       }
-    }
-    .story-title {
-      padding: 44px 0 4px 42px;
-      span {
-        width: 128px;
-        height: 44px;
-        font-size: 32px;
-        font-family: PingFang SC;
-        font-weight: 400;
-        color: #131313;
-        &.gray {
-          color: #989898;
-        }
+      .show-banner {
+        margin-top: 28px;
       }
-    }
-    .story-wrap {
-      margin-top: 24px;
-      background: #fff;
-      height: 640px;
-      overflow: hidden;
-      .title,
-      .pos,
-      .desc {
-        padding: 0 34px;
-      }
-      .title {
-        margin-top: 32px;
-        height: 40px;
-        font-size: 28px;
-        line-height: 40px;
-        color: #000;
-      }
-      .pos {
-        margin-top: 8px;
-        height: 34px;
-        font-size: 24px;
-        color: #484848;
-      }
-      .line {
-        width: 686px;
-        margin-top: 20px;
-        margin-left: 34px;
-        border-bottom: 2px solid #e4e4e4;
-      }
-      .desc {
-        margin-top: 20px;
-        height: 64px;
-        font-size: 24px;
-        line-height: 30px;
-      }
-    }
-    .show-banner {
-      margin-top: 28px;
     }
   }
 </style>
