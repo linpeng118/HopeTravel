@@ -148,7 +148,6 @@
         console.log('localProductIds:' + localProductIds)
         this.getViewedList(localProductIds)
       }
-      console.log('2019年1月15日11:04:26')
     },
     methods: {
       ...mapMutations({

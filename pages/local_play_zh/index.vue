@@ -114,6 +114,7 @@
     mounted() {
       // 监听滚动
       this.$refs.refLocalPlayPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
+      this.appBridge = require('@/assets/js/appBridge.js').default
       // this.getViewedList('')
       if (this.getPlatForm()) {
         this.appBridge = require('@/assets/js/appBridge.js').default
@@ -122,7 +123,7 @@
         console.log('localProductIds:' + localProductIds)
         this.getViewedList(localProductIds)
       }
-      console.log('2019年1月15日11:04:26')
+      console.log('2019年1月15日12:35:08')
     },
     methods: {
       ...mapMutations({
@@ -144,6 +145,7 @@
       },
       // 跳转到详情页面
       selectItem(productId) {
+        console.log(window.location.search)
         if(this.getPlatForm()) {
           // app详情跳转
           console.log('app详情跳转')
