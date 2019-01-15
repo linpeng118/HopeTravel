@@ -146,11 +146,13 @@
       selectItem(productId) {
         if(this.getPlatForm()) {
           // app详情跳转
+          console.log('app详情跳转')
           this.appBridge.jumpProductDetailView({
             productID: productId
           })
         } else {
           // m跳转
+          console.log('m跳转')
           this.$router.push({
             path: '/product/detail',
             query: {

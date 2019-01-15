@@ -141,8 +141,8 @@
     mounted() {
       this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 500))
       // this.getViewedList('958,961')
+      this.appBridge = require('@/assets/js/appBridge.js').default
       if (this.getPlatForm()) {
-        this.appBridge = require('@/assets/js/appBridge.js').default
         this.appBridge.hideNavigationBar()
         const localProductIds = this.appBridge.getLocalStorage().toString()
         console.log('localProductIds:' + localProductIds)
@@ -205,11 +205,13 @@
       selectItem(productId) {
         if(this.getPlatForm()) {
           // app详情跳转
+          console.log('app详情跳转')
           this.appBridge.jumpProductDetailView({
             productID: productId
           })
         } else {
           // m跳转
+          console.log('m跳转')
           this.$router.push({
             path: '/product/detail',
             query: {
