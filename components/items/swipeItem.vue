@@ -41,6 +41,7 @@
             },
             tap(e) {
               // console.log('onTap', this);
+              console.log(e.target.getAttribute('productId'))
               vm.$emit('selectItem', e.target.getAttribute('productId'))
             }
           }
