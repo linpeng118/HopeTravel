@@ -115,7 +115,7 @@
       // 监听滚动
       this.$refs.refLocalPlayPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
       this.appBridge = require('@/assets/js/appBridge.js').default
-
+      console.log('2019年1月15日13:58:13')
     },
     methods: {
       ...mapMutations({
