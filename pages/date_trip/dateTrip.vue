@@ -34,63 +34,37 @@
 </template>
 
 <script>
-  export default {
 
+  export default {
     props:{
-      product: Object,
+      dateprice: Object,
     },
+
     data() {
       return {
-        //需要渲染的月份数据
-        priceData:
-          {
-            "years":"2018",
-            "month":"12",
-            "days":[
-              {
-                "day":23,
-                "price":"$798.4",
-                "is_special":1,
-                "status":true
-              },
-              {
-                "day":25,
-                "price":"$798.4",
-                "is_special":1,
-                "status":true
-              },
-              {
-                "day":28,
-                "price":"$998",
-                "status":true
-              },
-              {
-                "day":29,
-                "price":"$998",
-                "status":true
-              },
-              {
-                "day":30,
-                "price":"$998",
-                "status":true
-              }
-            ]
-          },
+        //需要渲染的月份数据fitle以后
         dayprice:[],
         checkday:'',
       }
     },
+    watch:{
+      'dateprice'(val){
+        this.mGetDate(val.years,val.month);
+      },
+      'checkday'(val){
+        if(val!=''){
+          this.$emit('setcheckday',val);
+        }
+      }
+    },
     created() {
-      this.mGetDate(this.priceData.years,this.priceData.month)
+       //初始化
+       this.mGetDate(this.dateprice.years,this.dateprice.month)
     },
     mounted(){
 
     },
     methods: {
-      //得到价格日历
-      getpeicedata(){
-
-      },
       mGetDate(year, month){
         let that=this;
         let objarr=[];
@@ -98,10 +72,11 @@
         let len=d.getDate();
         let weeks=new Date(year,month-1,1).getDay();
         let weeke=new Date(year,month-1,len).getDay();
+
         let alllen=len+(weeks==0?6:weeks-1)+(weeke==0?0:7-weeke);
         for(let i=0;i<alllen;i++){
             let obj={};
-            if(i<(weeks==0?7:weeks)||i>=(len+(weeks==0?6:weeks-1))){
+            if(i<(weeks==0?7:weeks)-1||i>=(len+(weeks==0?6:weeks-1))){
               obj={
                 "day":'',
                 "price":'',
@@ -109,22 +84,23 @@
              }
             }
             else{
-              var elsearr=that.priceData.days;
+              var elsearr=that.dateprice.days;
               obj={
-                "day":i-(weeks==0?6:weeks-1),
+                "day":i-(weeks==0?6:weeks-1)+1,
                 "price":'',
                 "status":''
               }
               for(let j=0;j<elsearr.length;j++){
-                if(elsearr[j].day==i-(weeks==0?6:weeks-1)){
+                if(elsearr[j].day==i-(weeks==0?6:weeks-1)+1){
                   obj=elsearr[j];
-                  console.log(i-(weeks==0?6:weeks-1));
                 }
               }
             }
             objarr.push(obj);
         }
         this.dayprice=objarr;
+        // 重置已选日期
+        this.checkday='';
       }
     }
 
@@ -184,6 +160,7 @@
     }
   .activebg{
     background-color: #399EF6;
+    border-radius:6px ;
     color: #fff!important;
   }
   .activebg span{
