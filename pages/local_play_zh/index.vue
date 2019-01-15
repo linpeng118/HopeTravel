@@ -137,10 +137,10 @@
       },
       // 跳转到详情页面
       selectItem(productId) {
-        console.log(productId)
-        // this.appBridge.jumpProductDetailView({
-        //   productID: productId
-        // })
+        // console.log(productId)
+        this.appBridge.jumpProductDetailView({
+          productID: productId
+        })
         // if(this.getPlatForm()) {
         //   // app详情跳转
         //   console.log('app详情跳转')
