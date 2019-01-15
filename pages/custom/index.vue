@@ -9,7 +9,7 @@
       <!-- banner -->
       <div class="banner">
         <h1 class="title">高阶玩法&emsp;探秘全球</h1>
-        <h3 class="desc">高阶玩法&emsp;探秘全球</h3>
+        <h3 class="desc">旅游自由随心，体验独一无二</h3>
         <div class="form-wrap">
           <div class="title-s">热门景点</div>
           <div class="tag-list">
