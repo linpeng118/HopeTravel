@@ -35,7 +35,7 @@ function callApi(funcName, isAndroid, args) {;
     if (isAndroid) {
       if (args) {
         // 有参安卓
-        const strJson = JSON.stringify(...args)
+        const strJson = JSON.stringify(args)
         window.android[funcName](strJson)
       } else {
         // 无参安卓
