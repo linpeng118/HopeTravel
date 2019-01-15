@@ -25,6 +25,10 @@ export default {
     display: flex;
     text-align: center;
     justify-content: space-around;
+    flex-wrap:wrap;
+    .hot-item{
+      margin-bottom: 20px;
+    }
     .title{
       font-size: 24px;
       color: #000000;
