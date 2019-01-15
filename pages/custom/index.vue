@@ -67,7 +67,8 @@
             <div class="swiper-slide"
               v-for="item in seasonList"
               :key="item.title">
-              <div class="season-item">
+              <div class="season-item"
+                @click="onSeasonRecommend(item)">
                 <img :src="item.url"
                   alt="img">
                 <div class="season-body">
@@ -79,7 +80,8 @@
             </div>
           </div>
         </div>
-        <div class="btn-more">查看全部</div>
+        <div class="btn-more"
+          @click="toList">查看全部</div>
       </div>
       <!-- 承诺/服务 -->
       <div class="features">
@@ -107,7 +109,8 @@
         <div class="story-item-line"></div>
         <div class="story-item-desc no-wrap-line2">{{item.desc}}</div>
         <div class="show-banner">
-          <img-item :proData="item.imgs" />
+          <img-item :proData="item.imgs"
+            @callOnSlide="onSlide" />
         </div>
       </div>
     </div>
@@ -138,15 +141,6 @@
           // spaceBetween: 5,
           observer: true, //修改swiper自己或子元素时，自动初始化swiper 
           observeParents: true, //修改swiper的父元素时，自动初始化swiper
-          on: {
-            slideChange() {
-              console.log('onSlideChangeEnd', this);
-            },
-            tap(e) {
-              // console.log('onTap', this);
-              vm.$emit('selectItem', e.target.getAttribute('productId'))
-            }
-          }
         },
         tagList: [
           {title: '日本'},
@@ -161,9 +155,9 @@
         wx: '',
         // canSubmit: false,
         seasonList: [
-          {url: require('../../assets/imgs/custom/story_1.png'), title: '巴黎九天七晚街拍之旅', desc: '巴黎是法国的首都，也是这个国家的心脏。大多数游客心中向往的，是一个古老而浪漫的巴黎，一个极具历史感的巴黎，还有一个充满前卫与波西米亚气息的巴黎。', price: '￥ 19980'},
-          {url: require('../../assets/imgs/custom/story_1.png'), title: '22巴黎九天七晚街拍之旅', desc: '巴黎是法国的首都，也是这个国家的心脏。大多数游客心中向往的，是一个古老而浪漫的巴黎，一个极具历史感的巴黎，还有一个充满前卫与波西米亚气息的巴黎。', price: '￥ 19980'},
-          {url: require('../../assets/imgs/custom/story_1.png'), title: '33巴黎九天七晚街拍之旅', desc: '巴黎是法国的首都，也是这个国家的心脏。大多数游客心中向往的，是一个古老而浪漫的巴黎，一个极具历史感的巴黎，还有一个充满前卫与波西米亚气息的巴黎。', price: '￥ 19980'},
+          {path: '/custom/store1', url: require('../../assets/imgs/custom/story_1.png'), title: '巴黎九天七晚街拍之旅', desc: '巴黎是法国的首都，也是这个国家的心脏。大多数游客心中向往的，是一个古老而浪漫的巴黎，一个极具历史感的巴黎，还有一个充满前卫与波西米亚气息的巴黎。', price: '￥ 19980'},
+          {path: '/custom/store2', url: require('../../assets/imgs/custom/story_1.png'), title: '22巴黎九天七晚街拍之旅', desc: '巴黎是法国的首都，也是这个国家的心脏。大多数游客心中向往的，是一个古老而浪漫的巴黎，一个极具历史感的巴黎，还有一个充满前卫与波西米亚气息的巴黎。', price: '￥ 19980'},
+          {path: '/custom/store3', url: require('../../assets/imgs/custom/story_1.png'), title: '33巴黎九天七晚街拍之旅', desc: '巴黎是法国的首都，也是这个国家的心脏。大多数游客心中向往的，是一个古老而浪漫的巴黎，一个极具历史感的巴黎，还有一个充满前卫与波西米亚气息的巴黎。', price: '￥ 19980'},
         ],
         featureList: [
           {img: require('../../assets/imgs/custom/features_1@2x.png'), title: '全球出发一人成团'},
@@ -180,13 +174,13 @@
             desc: '卸下工作的我，突然想去脚踏实地的感受一下旅行的意义。一般的旅行团都不会有这样的行程，旅行一次独属于我的私人旅行。',
             imgs: [
               {
-                url: require('../../assets/imgs/custom/story_1.png'), id: '1'
+                path: 'custom/gushi1', url: require('../../assets/imgs/custom/story_1.png'), id: '1'
               },
               {
-                url: require('../../assets/imgs/custom/story_1.png'), id: '2'
+                path: 'custom/gushi1', url: require('../../assets/imgs/custom/story_1.png'), id: '2'
               },
               {
-                url: require('../../assets/imgs/custom/story_1.png'), id: '3'
+                path: 'custom/gushi1', url: require('../../assets/imgs/custom/story_1.png'), id: '3'
               },
             ]
           },
@@ -196,13 +190,13 @@
             desc: '2卸下工作的我，突然想去脚踏实地的感受一下旅行的意义。一般的旅行团都不会有这样的行程，旅行一次独属于我的私人旅行。',
             imgs: [
               {
-                url: require('../../assets/imgs/custom/story_1.png'), id: '4'
+                path: 'custom/gushi2', url: require('../../assets/imgs/custom/story_1.png'), id: '4'
               },
               {
-                url: require('../../assets/imgs/custom/story_1.png'), id: '5'
+                path: 'custom/gushi2', url: require('../../assets/imgs/custom/story_1.png'), id: '5'
               },
               {
-                url: require('../../assets/imgs/custom/story_1.png'), id: '6'
+                path: 'custom/gushi2', url: require('../../assets/imgs/custom/story_1.png'), id: '6'
               },
             ]
           },
@@ -212,13 +206,13 @@
             desc: '3卸下工作的我，突然想去脚踏实地的感受一下旅行的意义。一般的旅行团都不会有这样的行程，旅行一次独属于我的私人旅行。',
             imgs: [
               {
-                url: require('../../assets/imgs/custom/story_1.png'), id: '7'
+                path: 'custom/gushi3', url: require('../../assets/imgs/custom/story_1.png'), id: '7'
               },
               {
-                url: require('../../assets/imgs/custom/story_1.png'), id: '8'
+                path: 'custom/gushi3', url: require('../../assets/imgs/custom/story_1.png'), id: '8'
               },
               {
-                url: require('../../assets/imgs/custom/story_1.png'), id: '9'
+                path: 'custom/gushi3', url: require('../../assets/imgs/custom/story_1.png'), id: '9'
               },
             ]
           }
@@ -240,16 +234,28 @@
       // 监听滚动
       this.$refs.refCustomPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
     },
-    destroyed() {
-      this.$refs.refCustomPage.removeEventListener('scroll', _throttle(this.scrollFn, 500))
-    },
     methods: {
       onTag(item) {
         console.log(item)
       },
       onCustom() {
-        console.log(1)
+        console.log('开始定制')
       },
+      onSeasonRecommend(item) {
+        this.jumpToPage(item.path)
+      },
+      toList() {
+        this.jumpToPage('custom/list')
+      },
+      onSlide(val) {
+        this.jumpToPage(val.path)
+      },
+      jumpToPage(path) {
+        this.$router.push({
+          path
+        })
+      },
+      // 滚动函数
       scrollFn() {
         const s1 = this.$refs.refCustomPage.scrollTop
         console.log(s1)
@@ -294,7 +300,8 @@
       background: #f1f1f1;
       padding-bottom: 192px;
       .banner {
-        padding: 154px 32px 28px;
+        padding: 154px 32px 0;
+        height: 1032px;
         background: url("../../assets/imgs/custom/custom_bg@2x.png") no-repeat 0 -88px/100%;
         .banner-title {
           height: 74px;
