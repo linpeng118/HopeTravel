@@ -133,7 +133,7 @@
     }
     .desc {
       margin-top: 10px;
-      font-size: 14px;
+      font-size: 28px;
     }
     .price-wrap {
       margin-top: 8px;
