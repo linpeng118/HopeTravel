@@ -22,7 +22,7 @@
           <div class="form">
             <!-- 地点 -->
             <div class="form-input">
-              <div class="left-icon"></div>
+              <div class="left-icon icon-addr"></div>
               <div class="transparent-input">
                 <van-field class="tours-input-no-bg"
                   v-model="address"
@@ -32,7 +32,7 @@
             </div>
             <!-- 手机号码 -->
             <div class="form-input mobile">
-              <div class="left-icon"></div>
+              <div class="left-icon icon-mobile"></div>
               <div class="transparent-input">
                 <van-field class="tours-input-no-bg"
                   v-model="mobile"
@@ -42,7 +42,7 @@
             </div>
             <!-- 微信 -->
             <div class="form-input wx">
-              <div class="left-icon"></div>
+              <div class="left-icon icon-wx"></div>
               <div class="transparent-input">
                 <van-field class="tours-input-no-bg"
                   v-model="wx"
@@ -159,7 +159,7 @@
         address: '',
         mobile: '',
         wx: '',
-        canSubmit: false,
+        // canSubmit: false,
         seasonList: [
           {url: require('../../assets/imgs/custom/story_1.png'), title: '巴黎九天七晚街拍之旅', desc: '巴黎是法国的首都，也是这个国家的心脏。大多数游客心中向往的，是一个古老而浪漫的巴黎，一个极具历史感的巴黎，还有一个充满前卫与波西米亚气息的巴黎。', price: '￥ 19980'},
           {url: require('../../assets/imgs/custom/story_1.png'), title: '22巴黎九天七晚街拍之旅', desc: '巴黎是法国的首都，也是这个国家的心脏。大多数游客心中向往的，是一个古老而浪漫的巴黎，一个极具历史感的巴黎，还有一个充满前卫与波西米亚气息的巴黎。', price: '￥ 19980'},
@@ -224,6 +224,16 @@
           }
         ],
         timer: null,
+      }
+    },
+    computed: {
+      canSubmit() {
+        if (!this.address) {
+          return false
+        }
+        if (this.mobile || this.wx) {
+          return true
+        }
       }
     },
     mounted() {
@@ -344,9 +354,19 @@
               .left-icon {
                 width: 74px;
                 display: 0 0 74px;
-                background: url("../../assets/imgs/icon_pos.png") no-repeat center
-                  center/40px 40px;
                 position: relative;
+                &.icon-addr {
+                  background: url("../../assets/imgs/icon_pos@2x.png") no-repeat
+                    center center/40px 40px;
+                }
+                &.icon-mobile {
+                  background: url("../../assets/imgs/icon_phone@2x.png") no-repeat
+                    center center/40px 40px;
+                }
+                &.icon-wx {
+                  background: url("../../assets/imgs/icon_wx@2x.png") no-repeat
+                    center center/40px 40px;
+                }
                 &::after {
                   content: "";
                   display: inline-block;
