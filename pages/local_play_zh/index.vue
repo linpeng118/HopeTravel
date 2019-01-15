@@ -119,7 +119,6 @@
       const localProductIds = this.appBridge.getLocalStorage().toString()
       console.log('localProductIds:' + localProductIds)
       this.getViewedList(localProductIds)
-      console.log('2019年1月15日12:52:03')
     },
     methods: {
       ...mapMutations({

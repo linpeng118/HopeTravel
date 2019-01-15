@@ -25,6 +25,7 @@
   import {getUrlParam} from '@/assets/js/utils'
   export default {
     name: 'moreCity',
+    transition: 'page',
     components: {
       LayHeader,
       Scroll

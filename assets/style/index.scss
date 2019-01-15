@@ -139,3 +139,11 @@
   font-weight:400;
   border-radius:8px !important;
 }
+
+
+.page-enter-active, .page-leave-active {
+  transition: opacity 2s;
+}
+.page-enter, .page-leave-active {
+  opacity: 0;
+}

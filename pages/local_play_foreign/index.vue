@@ -79,6 +79,7 @@
   import SnapUpItem from '@/components/items/snapUpItem'
   export default {
     // layout: 'defaultHeader',
+    transition: 'page',
     components: {
       SwipeItem,
       LayHeader,
