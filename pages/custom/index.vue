@@ -53,7 +53,7 @@
             <!-- 定制按钮 -->
             <van-button class="btn-custom tours-button-no-bg"
               size="large"
-              :disabled="!canSubmit"
+              :loading="submiting"
               @click="onCustom">开始定制</van-button>
           </div>
         </div>
@@ -124,6 +124,7 @@
   import NormalHeader from '@/components/header/mormal'
   import transpTag from '@/components/tags/transparent'
   import ImgItem from '@/components/items/imgItem'
+  import {custom} from '@/api/custom'
 
   export default {
     components: {
@@ -153,7 +154,9 @@
         address: '',
         mobile: '',
         wx: '',
-        // canSubmit: false,
+        tipMsg: '请输入想去的地址或景点',
+        canSubmit: false,
+        submiting: false,
         seasonList: [
           {path: '/custom/store1', url: require('../../assets/imgs/custom/story_1.png'), title: '巴黎九天七晚街拍之旅', desc: '巴黎是法国的首都，也是这个国家的心脏。大多数游客心中向往的，是一个古老而浪漫的巴黎，一个极具历史感的巴黎，还有一个充满前卫与波西米亚气息的巴黎。', price: '￥ 19980'},
           {path: '/custom/store2', url: require('../../assets/imgs/custom/story_1.png'), title: '22巴黎九天七晚街拍之旅', desc: '巴黎是法国的首都，也是这个国家的心脏。大多数游客心中向往的，是一个古老而浪漫的巴黎，一个极具历史感的巴黎，还有一个充满前卫与波西米亚气息的巴黎。', price: '￥ 19980'},
@@ -220,36 +223,61 @@
         timer: null,
       }
     },
-    computed: {
-      canSubmit() {
-        if (!this.address) {
-          return false
-        }
-        if (this.mobile || this.wx) {
-          return true
-        }
-      }
-    },
     mounted() {
       // 监听滚动
       this.$refs.refCustomPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
     },
     methods: {
+      // 热门景点tag
       onTag(item) {
         console.log(item)
+        this.address = item.title
       },
+      // 定制
       onCustom() {
-        console.log('开始定制')
+        if (!this.address) {
+          this.$toast('请输入想去的地址或景点')
+          this.submiting = false
+          return
+        }
+        if (!this.mobile && !this.wx) {
+          this.$toast('请输入电话号码或者微信号码至少一个')
+          this.submiting = false
+          return
+        }
+        this.doCustom({
+          addr: this.address,
+          mobile: this.mobile,
+          wx: this.wx,
+        })
       },
+      // 提交定制
+      async doCustom(subData) {
+        this.submiting = true
+        try {
+          let res = await custom(subData)
+          this.$toast('定制成功！')
+        } catch (error) {
+          console.log(error)
+        }
+        this.submiting = false
+      },
+      // 季推荐
       onSeasonRecommend(item) {
         this.jumpToPage(item.path)
       },
+      // 查看全部list
       toList() {
         this.jumpToPage('custom/list')
       },
+      // 故事
       onSlide(val) {
         this.jumpToPage(val.path)
       },
+      /**
+       * 页面跳转
+       * @param {string} path 跳转的路劲
+      */
       jumpToPage(path) {
         this.$router.push({
           path
@@ -258,10 +286,10 @@
       // 滚动函数
       scrollFn() {
         const s1 = this.$refs.refCustomPage.scrollTop
-        console.log(s1)
         setTimeout(() => {
           const s2 = this.$refs.refCustomPage.scrollTop
           const direct = s2 - s1
+          console.log('direct', direct)
           if (s1 === 0) {
             this.isTransparent = true
           } else if (direct > 0) {
