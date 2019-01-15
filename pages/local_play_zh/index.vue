@@ -115,6 +115,7 @@
       // 监听滚动
       this.$refs.refLocalPlayPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
       this.appBridge = require('@/assets/js/appBridge.js').default
+      console.log(window.location)
       // this.getViewedList('')
       if (this.getPlatForm()) {
         this.appBridge = require('@/assets/js/appBridge.js').default
@@ -123,7 +124,7 @@
         console.log('localProductIds:' + localProductIds)
         this.getViewedList(localProductIds)
       }
-      console.log('2019年1月15日12:39:46')
+      console.log('2019年1月15日12:44:48')
     },
     methods: {
       ...mapMutations({
