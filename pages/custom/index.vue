@@ -1,117 +1,121 @@
 <template>
-  <div class="custom-page">
-    <!-- header -->
-    <normal-header :title="'私人定制'"
-      transparent
-      fixed />
-    <!-- banner -->
-    <div class="banner">
-      <h1 class="title">高阶玩法&emsp;探秘全球</h1>
-      <h3 class="desc">高阶玩法&emsp;探秘全球</h3>
-      <div class="form-wrap">
-        <div class="title-s">热门景点</div>
-        <div class="tag-list">
-          <transp-tag v-for="tag in tagList"
-            @callOnTag="onTag"
-            :tag="tag"
-            :key="tag.title">
-          </transp-tag>
-        </div>
-        <div class="form">
-          <!-- 地点 -->
-          <div class="form-input">
-            <div class="left-icon"></div>
-            <div class="transparent-input">
-              <van-field class="tours-input-no-bg"
-                v-model="address"
-                placeholder="请填写您想去的目的地或景点" />
-            </div>
-            <div class="right">*</div>
+  <div class="custom-page"
+    ref="refCustomPage">
+    <div class="custom-content">
+      <!-- header -->
+      <normal-header :title="'私人定制'"
+        :transparent="isTransparent"
+        fixed />
+      <!-- banner -->
+      <div class="banner">
+        <h1 class="title">高阶玩法&emsp;探秘全球</h1>
+        <h3 class="desc">高阶玩法&emsp;探秘全球</h3>
+        <div class="form-wrap">
+          <div class="title-s">热门景点</div>
+          <div class="tag-list">
+            <transp-tag v-for="tag in tagList"
+              @callOnTag="onTag"
+              :tag="tag"
+              :key="tag.title">
+            </transp-tag>
           </div>
-          <!-- 手机号码 -->
-          <div class="form-input mobile">
-            <div class="left-icon"></div>
-            <div class="transparent-input">
-              <van-field class="tours-input-no-bg"
-                v-model="mobile"
-                placeholder="请填写您的电话号码" />
+          <div class="form">
+            <!-- 地点 -->
+            <div class="form-input">
+              <div class="left-icon"></div>
+              <div class="transparent-input">
+                <van-field class="tours-input-no-bg"
+                  v-model="address"
+                  placeholder="请填写您想去的目的地或景点" />
+              </div>
+              <div class="right">*</div>
             </div>
-            <div class="right">*</div>
-          </div>
-          <!-- 微信 -->
-          <div class="form-input wx">
-            <div class="left-icon"></div>
-            <div class="transparent-input">
-              <van-field class="tours-input-no-bg"
-                v-model="wx"
-                placeholder="请填写您的微信号码" />
+            <!-- 手机号码 -->
+            <div class="form-input mobile">
+              <div class="left-icon"></div>
+              <div class="transparent-input">
+                <van-field class="tours-input-no-bg"
+                  v-model="mobile"
+                  placeholder="请填写您的电话号码" />
+              </div>
+              <div class="right">*</div>
             </div>
-            <div class="right">*</div>
+            <!-- 微信 -->
+            <div class="form-input wx">
+              <div class="left-icon"></div>
+              <div class="transparent-input">
+                <van-field class="tours-input-no-bg"
+                  v-model="wx"
+                  placeholder="请填写您的微信号码" />
+              </div>
+              <div class="right">*</div>
+            </div>
+            <!-- 定制按钮 -->
+            <van-button class="btn-custom tours-button-no-bg"
+              size="large"
+              :disabled="!canSubmit"
+              @click="onCustom">开始定制</van-button>
           </div>
-          <!-- 定制按钮 -->
-          <van-button class="btn-custom tours-button-no-bg"
-            size="large"
-            :disabled="!canSubmit"
-            @click="onCustom">开始定制</van-button>
         </div>
       </div>
-    </div>
-    <!-- 当季推荐 -->
-    <div class="season-recommend">
-      <div class="title">当季推荐</div>
-      <div class="season-wrap wiper-container"
-        v-swiper:mySwiper="swiperOption">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide"
-            v-for="item in seasonList"
-            :key="item.url">
-            <div class="season-item">
-              <img :src="item.url"
-                alt="img">
-              <div class="season-body">
-                <h1 class="title">{{item.title}}</h1>
-                <h3 class="desc no-wrap-line3">{{item.desc}}</h3>
-                <p class="price">参考价格：{{item.price}} 人/起</p>
+      <!-- 当季推荐 -->
+      <div class="season-recommend">
+        <div class="title">当季推荐</div>
+        <div class="season-wrap wiper-container"
+          v-swiper:mySwiper="swiperOption">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"
+              v-for="item in seasonList"
+              :key="item.url">
+              <div class="season-item">
+                <img :src="item.url"
+                  alt="img">
+                <div class="season-body">
+                  <h1 class="title">{{item.title}}</h1>
+                  <h3 class="desc no-wrap-line3">{{item.desc}}</h3>
+                  <p class="price">参考价格：{{item.price}} 人/起</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="btn-more">查看全部</div>
       </div>
-      <div class="btn-more">查看全部</div>
-    </div>
-    <!-- 承诺/服务 -->
-    <div class="features">
-      <div class="title">稀饭承诺 · 专业服务</div>
-      <div class="desc">用心给你舒适的旅行</div>
-      <div class="list">
-        <div class="item"
-          v-for="item in featureList"
-          :key="item.title">
-          <img :src="item.img"
-            alt="">
-          <p class="title">{{item.title}}</p>
+      <!-- 承诺/服务 -->
+      <div class="features">
+        <div class="title">稀饭承诺 · 专业服务</div>
+        <div class="desc">用心给你舒适的旅行</div>
+        <div class="list">
+          <div class="item"
+            v-for="item in featureList"
+            :key="item.title">
+            <img :src="item.img"
+              alt="">
+            <p class="title">{{item.title}}</p>
+          </div>
         </div>
       </div>
-    </div>
-    <!-- story -->
-    <h1 class="story-title">
-      <span>遇见稀饭</span><span class="gray">&emsp;|&emsp;旅行故事</span>
-    </h1>
-    <div class="story-wrap"
-      v-for="item in storyList"
-      :key="item.title">
-      <div class="title">{{item.title}}</div>
-      <div class="pos">{{item.pos}}</div>
-      <div class="line"></div>
-      <div class="desc no-wrap-line2">{{item.desc}}</div>
-      <div class="show-banner">
-        <img-item :proData="item.imgs" />
+      <!-- story -->
+      <h1 class="story-title">
+        <span>遇见稀饭</span><span class="gray">&emsp;|&emsp;旅行故事</span>
+      </h1>
+      <div class="story-wrap"
+        v-for="item in storyList"
+        :key="item.title">
+        <div class="title">{{item.title}}</div>
+        <div class="pos">{{item.pos}}</div>
+        <div class="line"></div>
+        <div class="desc no-wrap-line2">{{item.desc}}</div>
+        <div class="show-banner">
+          <img-item :proData="item.imgs" />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import {throttle as _throttle} from 'lodash'
   import NormalHeader from '@/components/header/mormal'
   import transpTag from '@/components/tags/transparent'
   import ImgItem from '@/components/items/imgItem'
@@ -124,6 +128,7 @@
     },
     data() {
       return {
+        isTransparent: true, // 导航头是否透明
         swiperOption: {
           loop: true,
           centeredSlides: true, // 居中
@@ -218,24 +223,47 @@
         ]
       }
     },
-    computed: {},
+    mounted() {
+      // 监听滚动
+      this.$refs.refCustomPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
+    },
     methods: {
       onTag(item) {
         console.log(item)
       },
       onCustom() {
         console.log(1)
-      }
+      },
+      scrollFn() {
+        const s1 = this.$refs.refCustomPage.scrollTop
+        console.log(s1)
+        setTimeout(() => {
+          const s2 = this.$refs.refCustomPage.scrollTop
+          const direct = s2 - s1
+          if (s1 === 0) {
+            this.isTransparent = true
+          } else if (direct > 0) {
+            this.isTransparent = false
+          } else if (direct < 0) {
+            this.isTransparent = false
+          }
+        }, 17)
+      },
     },
   }
 </script>
 
 <style lang="scss" scoped>
   .custom-page {
-    min-height: 100vh;
+    height: 100vh;
     font-size: 0;
     background: #f1f1f1 url("../../assets/imgs/custom/custom_bg@2x.png") no-repeat
       0 -88px/100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    .custom-content {
+      height: 100%;
+    }
     .banner {
       padding: 154px 32px 28px;
       .title {
@@ -348,6 +376,7 @@
       }
       .swiper-container {
         .swiper-slide {
+          margin: 0 10px;
           font-size: 38px;
           width: 686px !important;
           height: 668px;
@@ -360,10 +389,9 @@
             background: #fff;
             border-radius: 12px;
             height: 628px;
-            margin: 0 10px;
             img {
               height: 356px;
-              width: 666px;
+              width: 686px;
               border-radius: 12px 12px 0 0;
             }
             .season-body {
