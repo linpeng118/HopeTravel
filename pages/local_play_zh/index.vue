@@ -123,7 +123,7 @@
         console.log('localProductIds:' + localProductIds)
         this.getViewedList(localProductIds)
       }
-      console.log('2019年1月15日12:35:08')
+      console.log('2019年1月15日12:39:46')
     },
     methods: {
       ...mapMutations({
@@ -145,7 +145,7 @@
       },
       // 跳转到详情页面
       selectItem(productId) {
-        console.log(window.location.search)
+        console.log(window.location)
         if(this.getPlatForm()) {
           // app详情跳转
           console.log('app详情跳转')
