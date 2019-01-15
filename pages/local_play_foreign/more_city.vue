@@ -46,6 +46,13 @@
     created() {
       this.cityList = this._nomalLizeCityList(this.original)
     },
+    mounted() {
+      if (this.getPlatForm()) {
+        this.appBridge = require('@/assets/js/appBridge.js').default
+        this.appBridge.hideNavigationBar()
+      }
+      console.log('2019年1月15日11:04:26')
+    },
     methods: {
       // 判断是app还是web
       getPlatForm() {

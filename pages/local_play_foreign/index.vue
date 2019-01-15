@@ -143,6 +143,7 @@
       // this.getViewedList('958,961')
       if (this.getPlatForm()) {
         this.appBridge = require('@/assets/js/appBridge.js').default
+        this.appBridge.hideNavigationBar()
         const localProductIds = this.appBridge.getLocalStorage().toString()
         console.log('localProductIds:' + localProductIds)
         this.getViewedList(localProductIds)
