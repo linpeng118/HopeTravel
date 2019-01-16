@@ -138,17 +138,17 @@
       }
     },
     mounted() {
-      // 引入appBridge
       // 初始化
       this.init()
       // 监听滚动
       this.$refs.refLocalGroupPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
-      //
+      // 判断机型
       if (this.getPlatForm()) {
+        // 引入appBridge
         this.appBridge = require('@/assets/js/appBridge').default
         this.appBridge.hideNavigationBar()
       } else {
-        console.log('m操作')
+        console.log('web操作')
       }
     },
     methods: {
@@ -192,7 +192,7 @@
       },
       // 返回上一级页面
       leftClick() {
-        if (this.getPlatForm) {
+        if (this.getPlatForm()) {
           this.appBridge.backPreviousView()
         } else {
           this.$router.go(-1)
@@ -206,7 +206,7 @@
             productID: productId.toString()
           })
         } else {
-          console.log('m操作')
+          console.log('web操作')
         }
       },
       onHotCity(hotCity) {
@@ -219,7 +219,7 @@
           }
           this.appBridge.jumpProductListView(params)
         } else {
-          console.log('m操作')
+          console.log('web操作')
         }
       },
       onMoreCity() {
@@ -227,7 +227,7 @@
         if (this.getPlatForm()) {
           this.appBridge.jumpDestinationView()
         } else {
-          console.log('m操作')
+          console.log('web操作')
         }
       },
       /**
