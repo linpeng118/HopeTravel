@@ -126,12 +126,13 @@ export const getLocalStorage = (() => {
     }
   }
   if (browserVersion.isIos() && testApi('getLocalStorage', false)) {
-    console.log('getLocalStorage调用')
+    console.log('iosiosiosios调用')
     return () => {
       return new Promise(resolve => {
         const oldFunc = window.getLocalStorage
         window.getLocalStorage = localStorage => {
           window.getLocalStorage = oldFunc
+          console.log(localStorage)
           resolve(localStorage)
         }
         callApi('getLocalStorage', false)

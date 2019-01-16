@@ -41,10 +41,10 @@ httprequest.interceptors.request.use(
 httprequest.interceptors.response.use(
   // 请求成功
   res => {
-    if (res.status !== 200) {
-      Promise.reject(res.data)
+    if (res.status === 200) {
+      return Promise.resolve(res.data)
     }
-    return res.data
+    return Promise.reject(res.data)
   },
   // 请求失败
   error => {

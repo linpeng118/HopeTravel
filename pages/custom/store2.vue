@@ -236,7 +236,9 @@ export default {
   }
 };
 </script>
-<style>
+
+<style lang="scss" scoped>
+@import '../../assets/style/custom/index';
 .banner {
   background: url("../../assets/imgs/custom/store2/banner.png") no-repeat center
     center/750px 438px;

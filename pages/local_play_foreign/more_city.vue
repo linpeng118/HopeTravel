@@ -37,15 +37,11 @@
       }
     },
     async asyncData({$axios}) {
-      let {data, code} = await getCityList($axios)
-      if (code === 0) {
-        return {
-          original: data
-        }
-      }
+
     },
     created() {
-      this.cityList = this._nomalLizeCityList(this.original)
+      this.init()
+      console.log(this.cityList)
     },
     mounted() {
       if (this.getPlatForm()) {
@@ -60,21 +56,17 @@
       },
       // 返回上一级页面
       leftClick() {
-        if (this.getPlatForm) {
+        if (this.getPlatForm()) {
           this.appBridge.backPreviousView()
         } else {
           this.$router.go(-1)
         }
       },
       // 初始化数据
-      async getInit() {
-        try {
-          let {data, code} = await getCityList()
-          if (code === 0) {
-            this.cityList = this._nomalLizeCityList(data)
-          }
-        } catch (e) {
-          console.log(e)
+      async init() {
+        let {data, code} = await getCityList()
+        if (code === 0) {
+          this.cityList = this._nomalLizeCityList(data)
         }
       },
       // 格式化aip得到的数据
