@@ -247,8 +247,10 @@
             product_id: val.product_id.toString()
           }
           this.appBridge.userCollectProduct(json)
-          let res = await this.appBridge.collectProductResult()
-          console.log(res)
+
+          // let res = await this.appBridge.collectProductResult()
+
+          // console.log(res)
         } else {
           ('web2.0')
         }
