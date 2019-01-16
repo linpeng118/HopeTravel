@@ -139,9 +139,12 @@
       if (this.getPlatForm()) {
         this.appBridge = require('@/assets/js/appBridge.js').default
         this.appBridge.hideNavigationBar()
-        const localProductIds = this.appBridge.getLocalStorage().toString()
-        console.log('localProductIds:' + localProductIds)
-        this.getViewedList(localProductIds)
+        this.appBridge.getLocalStorage().then(res => {
+          if (res.length) {
+            console.log('得到的ios产品id' + res)
+            this.getViewedList(res)
+          }
+        })
       }
     },
     methods: {

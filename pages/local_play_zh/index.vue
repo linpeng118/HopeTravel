@@ -118,7 +118,7 @@
       if (this.getPlatForm()) {
         this.appBridge = require('@/assets/js/appBridge.js').default
         this.appBridge.hideNavigationBar()
-        console.log('2019年1月16日13:20:31')
+        console.log('2019年1月16日13:45:31')
         this.appBridge.getLocalStorage().then(res => {
           if (res.length) {
             console.log('得到的ios产品id' + res)
