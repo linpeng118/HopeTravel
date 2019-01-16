@@ -1,29 +1,30 @@
 const pkg = require('./package')
 
-let plugins = [{
-    src: '~/plugins/vant',
-    ssr: true,
-  },
-  {
-    src: '~/plugins/vue-swiper',
-    ssr: false,
-  },
-  {
-    src: '~/assets/js/appBridge',
-    ssr: false,
-  },
-  '~/plugins/axios/nuxtaxios',
-]
+// let nuxtPlugins = [{
+//     src: '~/plugins/vant',
+//     ssr: true,
+//   },
+//   {
+//     src: '~/plugins/vue-swiper',
+//     ssr: false,
+//   },
+//   {
+//     src: '~/assets/js/appBridge',
+//     ssr: false,
+//   },
+//   '~/plugins/axios/nuxtaxios',
 
-if (process.env.ENV_TYPE === 'prodDev') {
-  plugins.push({
-    src: '~/plugins/vconsole',
-    ssr: false,
-  })
-  console.log('dev环境')
-} else if (process.env.ENV_TYPE === 'prodQa') {
-  console.log('qa环境')
-}
+// ]
+// if (process.env.ENV_TYPE === 'prodDev') {
+//   nuxtPlugins = nuxtPlugins.concat([{
+//     src: '~/plugins/vconsole',
+//     ssr: false,
+//   }])
+//   console.log('dev环境')
+// } else if (process.env.ENV_TYPE === 'prodQa') {
+//   console.log('qa环境')
+// }
+
 
 module.exports = {
   mode: 'universal',
@@ -76,7 +77,24 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: plugins,
+  plugins: [{
+      src: '~/plugins/vant',
+      ssr: true,
+    },
+    {
+      src: '~/plugins/vue-swiper',
+      ssr: false,
+    },
+    {
+      src: '~/assets/js/appBridge',
+      ssr: false,
+    },
+    '~/plugins/axios/nuxtaxios',
+    {
+      src: '~/plugins/vconsole',
+      ssr: false,
+    }
+  ],
   /*
    ** middleware
    */
