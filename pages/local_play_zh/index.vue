@@ -67,10 +67,10 @@
           spaceBetween: 8,
           on: {
             slideChange() {
-              console.log('onSlideChangeEnd', this);
+              // console.log('onSlideChangeEnd', this);
             },
             tap() {
-              console.log('onTap', this);
+              // console.log('onTap', this);
             }
           }
         },
@@ -111,28 +111,29 @@
     },
     created() {
     },
-    mounted() {
+    async mounted() {
       // 监听滚动
       this.$refs.refLocalPlayPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
       this.init()
       if (this.isApp) {
         this.appBridge = require('@/assets/js/appBridge.js').default
         this.appBridge.hideNavigationBar()
-        this.appBridge.obtainUserToken().then(res => {
-          console.log('得到token')
-          console.log(res)
-        })
-        this.appBridge.getLocalStorage().then(res => {
-          if (res.length) {
-            this.getViewedList(res)
-          }
-        })
+        let productIds = await this.appBridge.getLocalStorage()
+        console.log('productIds' + productIds)
+        this.getViewedList(productIds)
+        // if (productIds.length) {
+        //   this.getViewedList(productIds)
+        // }
+        // this.getViewedList(productIds)
+        let token = await this.appBridge.obtainUserToken()
+        console.log(token)
+        this.vxChangeTokens(token)
       }
-      this.getViewedList('985')
     },
     methods: {
       ...mapMutations({
-        vxChangeHeaderStatus: 'header/changeStatus' // 修改头部状态
+        vxChangeHeaderStatus: 'header/changeStatus', // 修改头部状态
+        vxChangeTokens: 'common/updateToken' // 改变token
       }),
       // 头部返回按钮
       leftClick() {
@@ -239,10 +240,21 @@
         })
       },
       // 搜藏
-      callCollect(val) {
+      async callCollect(val) {
         if (this.isApp) {
+          let json = {
+            type: '0',
+            product_id: val.product_id.toString()
+          }
+          this.appBridge.userCollectProduct(json)
+
+          let res = await this.appBridge.collectProductResult()
+
+          console.log(res)
+        } else {
+          ('web2.0')
         }
-        console.log(val)
+        // console.log(val)
       }
     }
   }
