@@ -1,9 +1,9 @@
 import axios from '@/plugins/axios/axios'
 
 export const custom = (data) => {
-  return axios.post('/paly/custom', {
-    addr: data.addr,
-    mobile: data.mobile,
-    wx: data.wx,
+  return axios.post('/api/custom', {
+    destination: data.destination,
+    phone: data.phone,
+    wechat: data.wechat,
   })
 }
