@@ -67,10 +67,10 @@
           spaceBetween: 8,
           on: {
             slideChange() {
-              console.log('onSlideChangeEnd', this);
+              // console.log('onSlideChangeEnd', this);
             },
             tap() {
-              console.log('onTap', this);
+              // console.log('onTap', this);
             }
           }
         },
@@ -121,6 +121,7 @@
         let token = await this.appBridge.obtainUserToken()
         this.appBridge.hideNavigationBar()
         this.vxChangeTokens(token)
+        console.log('productIds' + productIds)
         if (productIds.length) {
           this.getViewedList(res)
         }
