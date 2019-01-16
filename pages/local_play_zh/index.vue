@@ -150,8 +150,8 @@
         if(this.getPlatForm()) {
           // app详情跳转
           console.log('app详情跳转，跳转的产品id是' + productId )
-          var json = {productID: productId}
-          this.appBridge.jumpProductDetailView(json.toString())
+          var json = {productID: productId.toString()}
+          this.appBridge.jumpProductDetailView(json)
         } else {
           // m跳转
           console.log('m跳转')

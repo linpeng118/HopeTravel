@@ -201,7 +201,7 @@
           // app详情跳转
           console.log('app详情跳转')
           this.appBridge.jumpProductDetailView({
-            productID: productId
+            productID: productId.toString()
           })
         } else {
           // m跳转

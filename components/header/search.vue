@@ -1,25 +1,18 @@
 <template>
-  <van-nav-bar class="layout-header tours-no-bb"
+  <van-nav-bar class="layout-header tours-no-bb classBg show-bg"
     ref="layoutHeader"
     fixed
-    :title="title"
-    :class="{'show-bg': vxHeaderStatus, 'bg-color': classBg}"
     :z-index="999"
-    @click-left="onClickLeft"
-    @click-right="onClickRight">
+    @click-left="onClickLeft">
     <van-icon class="left-wrap"
       name="arrow-left"
       slot="left" />
     <van-icon class="right-wrap"
       slot="right">
-      <div class="search"
-        v-if="isSearch">
-        <div class="icon"></div>
-        <div class="text">搜索</div>
-      </div>
-      <div class="big-search" :style="{opacity: barSearch ? 1 : 0}" v-if="!isSearch">
+      <div class="big-search">
         <div class="icon"></div>
         <div class="text">{{searchKeyWords}}</div>
+        <div>搜索</div>
       </div>
     </van-icon>
   </van-nav-bar>
@@ -33,26 +26,6 @@
     components: {
     },
     props: {
-      title: {
-        type: String,
-        default: '标题'
-      },
-      isBgHeader: {
-        type: Boolean,
-        default: false
-      },
-      isSearch: {
-        type: Boolean,
-        default: true
-      },
-      classBg: {
-        type: Boolean,
-        default: false
-      },
-      barSearch: {
-        type: Boolean,
-        default: false
-      },
       searchKeyWords:{
         type: String,
         default: ''
@@ -132,14 +105,13 @@
         height: 72px;
         padding: 0 26px;
         text-align: left;
-        color: #989898;
+        color: #fff;
         border-radius:36px;
         font-size:30px;
-        background: #EBEBEB;
+        background: #DBDBDB;
         display: flex;
         align-items: center;
         line-height: 72px;
-        transition: all .5s;
         .icon {
           display: inline-block;
           width: 32px;

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <lay-header title="搜索" :isSearch="false" :classBg="true" :barSearch="true" searchKeyWords="城市/景点/产品/关键字"></lay-header>
+    <lay-header searchKeyWords="城市/景点/产品/关键字"></lay-header>
     <div class="search-wrap">
       <van-badge-group :active-key="activeKey" @change="onChange" class="badge-bar">
         <van-badge title="热门推荐" />
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import LayHeader from '@/components/header/index.vue'
+import LayHeader from '@/components/header/search.vue'
 import Recommend from '@/components/search/recommend.vue'
 import Country from '@/components/search/country.vue'
 export default {
@@ -27,6 +27,7 @@ export default {
   },
   data() {
     return {
+      iss: this.$router.query,
       activeKey: 0,
       recommendObj: {
         lineList: [
@@ -77,6 +78,9 @@ export default {
       }
       // searchKeyWords: ''
     }
+  },
+  mounted() {
+    console.log(this.iss)
   },
   methods: {
     onChange(key) {

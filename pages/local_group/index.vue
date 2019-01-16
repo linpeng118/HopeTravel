@@ -203,7 +203,7 @@
         console.log('product_id：' + productId)
         if (this.getPlatForm()) {
           this.appBridge.jumpProductDetailView({
-            productID: productId
+            productID: productId.toString()
           })
         } else {
           console.log('m操作')
