@@ -46,6 +46,7 @@ httprequest.interceptors.response.use(
     } else {
       return Promise.reject(res.data)
     }
+    // return res.data
   },
   // 请求失败
   error => {
