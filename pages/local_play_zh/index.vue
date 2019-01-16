@@ -115,17 +115,19 @@
     mounted() {
       // 监听滚动
       this.$refs.refLocalPlayPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
-      this.appBridge = require('@/assets/js/appBridge.js').default
       if (this.getPlatForm()) {
+        this.appBridge = require('@/assets/js/appBridge.js').default
         this.appBridge.hideNavigationBar()
-        const localProductIds = this.appBridge.getLocalStorage()
-        console.log('2019年1月16日12:58:26')
+        console.log('2019年1月16日13:04:10')
+        this.appBridge.getLocalStorage().then(res => {
+          console.log(res)
+        })
         // console.log(localProductIds)
         // console.log()
         // localProductIds().then(res => {
         //   console.log(res)
         // })
-        this.getViewedList(localProductIds)
+        // this.getViewedList(localProductIds)
       }
     },
     methods: {
