@@ -124,7 +124,7 @@
         //   console.log('2019年1月16日16:21:46')
         //   this.getViewedList(productIds)
         // }
-        console.log('2019年1月16日16:24:34')
+        console.log('2019年1月16日16:31:52')
         this.getViewedList(productIds)
         let token = await this.appBridge.obtainUserToken()
         console.log(token)
@@ -248,10 +248,9 @@
       callCollect(val) {
         if (this.isApp) {
           let json = {
-            type: val.is_favorite ? '0' : '1',
-            product_id: val.product_id + ''
+            type: '0',
+            product_id: val.product_id.toString()
           }
-
           this.appBridge.userCollectProduct(json)
           this.appBridge.collectProductResult().then(res => {
             console.log('获取到的收藏结果')
