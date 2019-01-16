@@ -120,9 +120,10 @@
         this.appBridge.hideNavigationBar()
         let productIds = await this.appBridge.getLocalStorage()
         console.log('productIds' + productIds)
-        if (productIds.length) {
-          this.getViewedList(productIds)
-        }
+        this.getViewedList(productIds)
+        // if (productIds.length) {
+        //   this.getViewedList(productIds)
+        // }
         console.log('2019年1月16日16:38:53')
         // this.getViewedList(productIds)
         let token = await this.appBridge.obtainUserToken()
@@ -244,17 +245,15 @@
         })
       },
       // 搜藏
-      callCollect(val) {
+      async callCollect(val) {
         if (this.isApp) {
           let json = {
             type: '0',
             product_id: val.product_id.toString()
           }
           this.appBridge.userCollectProduct(json)
-          this.appBridge.collectProductResult().then(res => {
-            console.log('获取到的收藏结果')
-            console.log(res)
-          })
+          let res = await this.appBridge.collectProductResult()
+          console.log(res)
         } else {
           ('web2.0')
         }
