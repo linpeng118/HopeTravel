@@ -31,7 +31,7 @@
         </div>
       </div>
       <!-- 底部广告 -->
-      <lay-footer :imageInfo="footerAdvert" class="footer-margin"></lay-footer>
+      <lay-footer :imageInfo="footerAdvert" class="footer-margin" v-if="JSON.stringify(footerAdvert) === '{}'"></lay-footer>
     </div>
     <loading v-if="!showList.length"></loading>
   </div>
