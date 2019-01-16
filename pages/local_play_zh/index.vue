@@ -119,7 +119,10 @@
         this.appBridge = require('@/assets/js/appBridge.js').default
         this.appBridge.hideNavigationBar()
         const localProductIds = this.appBridge.getLocalStorage().toString()
-        console.log('localProductIds:' + localProductIds)
+        console.log(localProductIds)
+        localProductIds.then(res => {
+          console.log(res)
+        })
         this.getViewedList(localProductIds)
       }
       console.log('2019年1月15日16:38:35')
