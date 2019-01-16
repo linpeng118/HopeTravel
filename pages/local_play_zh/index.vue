@@ -188,7 +188,7 @@
         let showList = []
         let len = data.length
         this.hotCity = data[0].data
-        this.footerAdvert = data[len-1].data
+        this.footerAdvert = data[len-1].data[0]
         for(let i = 1; i < len - 1;i++){
           let obj = {}
           obj.name = data[i].moduleName
