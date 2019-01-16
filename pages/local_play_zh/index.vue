@@ -118,17 +118,13 @@
       if (this.getPlatForm()) {
         this.appBridge = require('@/assets/js/appBridge.js').default
         this.appBridge.hideNavigationBar()
-        console.log('2019年1月16日13:04:10')
-        console.log('2019年1月16日13:04:10')
+        console.log('2019年1月16日13:20:31')
         this.appBridge.getLocalStorage().then(res => {
-          console.log(res)
+          if (res.length) {
+            console.log('得到的ios产品id' + res)
+            this.getViewedList(res)
+          }
         })
-        // console.log(localProductIds)
-        // console.log()
-        // localProductIds().then(res => {
-        //   console.log(res)
-        // })
-        // this.getViewedList(localProductIds)
       }
     },
     methods: {

@@ -132,8 +132,8 @@ export const getLocalStorage = (() => {
         const oldFunc = window.getLocalStorage
         window.getLocalStorage = localStorage => {
           window.getLocalStorage = oldFunc
-          console.log('2019年1月16日13:04:10')
-          console.log(localStorage)
+          // console.log('2019年1月16日13:04:10')
+          // console.log(localStorage)
           resolve(localStorage)
         }
         callApi('getLocalStorage', false)
