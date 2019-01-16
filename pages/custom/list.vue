@@ -7,18 +7,18 @@
     </div>
     <div class="ct">
       <!-- 产品 -->
-      <a href="/custom/store?store=1">
+      <nuxt-link v-for="item in prodList" :key="item.path" :to="item.path">
         <dl class="product">
           <dt>
             <img
               style="width:335px;height:190px;"
               class="pic_image"
-              src="../../assets/imgs/custom/list/1.png"
+              :src="item.img"
               alt
             >
-            <span class="pic_site">法国</span>
+            <span class="pic_site">{{item.country}}</span>
           </dt>
-          <dd class="description">【巴黎第七章】轻奢9天7晚之旅</dd>
+          <dd class="description">{{item.desc}}</dd>
           <dd class="clearfix">
             <div class="fl" style="line-height:16px;">
               <img
@@ -49,11 +49,11 @@
               <span style="color:#ef9a1a;font-size:14px;position:relative;top: 2.5px;line-height:1px;vertical-align:middle;">4.8</span>
             </div>
             <div class="fr" style="color:#ef9a1a;font-size:16px;line-height:16px;">
-              <span style="font-weight:bold;color:#ef9a1a;font-size:14px;">$19980</span>/起
+              <span style="font-weight:bold;color:#ef9a1a;font-size:14px;">{{item.price}}</span>/起
             </div>
           </dd>
         </dl>
-      </a>
+      </nuxt-link>
       <!-- 产品 -->
       <a href="/custom/store?store=2">
         <dl class="product">
@@ -1012,7 +1012,6 @@
         </dl>
       </a>
     </div>
-
     <div class="btn_container clearfix">
       <a
         target="_blank"
@@ -1035,7 +1034,14 @@
 export default {
   name: "component_name",
   data() {
-    return {};
+    return {
+      prodList: [
+        {path: '/custom/store1', country: '法国', img: require('../../assets/imgs/custom/list/1.png'), desc: '【巴黎第七章】轻奢9天7晚之旅', price: '$19980'},
+        {path: '/custom/store2', country: '希腊', img: require('../../assets/imgs/custom/list/1.png'), desc: '【巴黎第七章】轻奢9天7晚之旅', price: '$19980'},
+        {path: '/custom/store3', country: '法国', img: require('../../assets/imgs/custom/list/1.png'), desc: '【巴黎第七章】轻奢9天7晚之旅', price: '$19980'},
+        {path: '/custom/store4', country: '法国', img: require('../../assets/imgs/custom/list/1.png'), desc: '【巴黎第七章】轻奢9天7晚之旅', price: '$19980'},
+      ]
+    };
   },
   methods: {
     goBack() {
