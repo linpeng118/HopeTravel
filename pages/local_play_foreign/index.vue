@@ -132,7 +132,7 @@
     created() {
     },
     mounted() {
-      this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 500))
+      this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 100))
       this.init()
       if (this.isApp) {
         this.appBridge = require('@/assets/js/appBridge.js').default
