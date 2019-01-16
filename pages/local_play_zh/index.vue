@@ -129,6 +129,7 @@
         console.log(token)
         this.vxChangeTokens(token)
       }
+      this.getViewedList('958')
     },
     methods: {
       ...mapMutations({
@@ -243,14 +244,20 @@
       async callCollect(val) {
         if (this.isApp) {
           let json = {
-            type: '0',
-            product_id: val.product_id.toString()
+            type: val.is_favorite ? '1' : '0',
+            product_id: product_id.toString()
           }
           this.appBridge.userCollectProduct(json)
           this.appBridge.collectProductResult().then(res => {
-            console.log(res)
-          },err => {
-            console.log('err')
+            if (res.code === 0) {
+              this.$toast('操作成功')
+              const index = this.viewedList.findIndex(item => {
+                return item.product_id = val.product_id
+              })
+              this.viewedList[index].is_favorite = !this.viewedList[index].is_favorite
+            } else {
+              this.$toast('操作失败')
+            }
           })
           // let res = await this.appBridge.collectProductResult()
         } else {
