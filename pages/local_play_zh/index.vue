@@ -119,6 +119,7 @@
         this.appBridge = require('@/assets/js/appBridge.js').default
         this.appBridge.hideNavigationBar()
         console.log('2019年1月16日13:04:10')
+        console.log('2019年1月16日13:04:10')
         this.appBridge.getLocalStorage().then(res => {
           console.log(res)
         })
