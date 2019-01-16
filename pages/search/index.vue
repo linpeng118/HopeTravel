@@ -27,7 +27,7 @@ export default {
   },
   data() {
     return {
-      iss: this.$router.query,
+      isApp: this.$route.query.platform,
       activeKey: 0,
       recommendObj: {
         lineList: [
@@ -80,7 +80,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.iss)
+    console.log('platform的值是:' + this.isApp)
   },
   methods: {
     onChange(key) {

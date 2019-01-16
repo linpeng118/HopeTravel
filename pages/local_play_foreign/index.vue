@@ -75,7 +75,6 @@
   import {throttle as _throttle} from 'lodash'
   import {mapMutations} from 'vuex'
   import {HEADER_TYPE} from '@/assets/js/consts/headerType'
-  import {getUrlParam} from '@/assets/js/utils'
   import SnapUpItem from '@/components/items/snapUpItem'
   import { Toast } from 'vant'
   export default {
@@ -121,7 +120,7 @@
         viewedList: [],
         classBg: false,
         cityInfo: {},
-
+        isApp: this.$route.query.platform
       }
     },
     computed: {
@@ -136,7 +135,7 @@
     },
     mounted() {
       this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 500))
-      if (this.getPlatForm()) {
+      if (this.isApp) {
         this.appBridge = require('@/assets/js/appBridge.js').default
         this.appBridge.hideNavigationBar()
         this.appBridge.getLocalStorage().then(res => {
@@ -153,15 +152,11 @@
       }),
       // 返回上一级菜单
       leftClick () {
-        if (this.getPlatForm()) {
+        if (this.isApp) {
           this.appBridge.backPreviousView()
         } else {
           this.$router.go(-1)
         }
-      },
-      // 判断是app还是web
-      getPlatForm() {
-        return getUrlParam('platform') ? true : false
       },
       // 判断显示icon
       iconChow(type) {
@@ -197,7 +192,7 @@
       // 跳转到详情页面
       selectItem(productId) {
         // console.log(productId)
-        if(this.getPlatForm()) {
+        if(this.isApp) {
           // app详情跳转
           console.log('app详情跳转')
           this.appBridge.jumpProductDetailView({
@@ -216,7 +211,7 @@
       },
       // 跳转search
       selectSearch() {
-        if(this.getPlatForm()) {
+        if(this.isApp) {
           console.log('app搜索')
           this.appBridge.jumpSearchView()
         } else {
@@ -280,7 +275,7 @@
         })
       },
       selectProductList(typeId) {
-        if(this.getPlatForm()) {
+        if(this.isApp) {
           let data = {
             'itemType': '2'
           }

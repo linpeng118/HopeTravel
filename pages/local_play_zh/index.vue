@@ -49,7 +49,6 @@
   import Loading from '@/components/loading'
   import {HEADER_TYPE} from '@/assets/js/consts/headerType'
   import {PRODUCTIDS} from '@/assets/js/config'
-  import {getUrlParam} from '@/assets/js/utils'
   export default {
     components: {
       HotCity,
@@ -90,7 +89,8 @@
         // 热门城市
         hotCity: [],
         // 热门活动
-        footerAdvert:{}
+        footerAdvert:{},
+        isApp: this.$route.query.platform
       }
     },
     // async asyncData({$axios}) {
@@ -115,10 +115,9 @@
     mounted() {
       // 监听滚动
       this.$refs.refLocalPlayPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
-      if (this.getPlatForm()) {
+      if (this.isApp) {
         this.appBridge = require('@/assets/js/appBridge.js').default
         this.appBridge.hideNavigationBar()
-        console.log('2019年1月16日13:48:52')
         this.appBridge.getLocalStorage().then(res => {
           if (res.length) {
             console.log('得到的ios产品id' + res)
@@ -131,13 +130,9 @@
       ...mapMutations({
         vxChangeHeaderStatus: 'header/changeStatus' // 修改头部状态
       }),
-      // 判断是app还是web
-      getPlatForm() {
-        return getUrlParam('platform') ? true : false
-      },
       // 头部返回按钮
       leftClick() {
-        if (this.getPlatForm()) {
+        if (this.isApp) {
           //app
           this.appBridge.backPreviousView()
         } else {
@@ -147,8 +142,9 @@
       },
       // 跳转到详情页面
       selectItem(productId) {
-        if(this.getPlatForm()) {
+        if(this.isApp) {
           // app详情跳转
+          console.log('2019年1月16日14:31:01')
           console.log('app详情跳转，跳转的产品id是' + productId )
           var json = {productID: productId.toString()}
           this.appBridge.jumpProductDetailView(json)
@@ -219,7 +215,7 @@
         let query = {
           touCityId: cityId
         }
-        if (this.getPlatForm()) {
+        if (this.isApp) {
           query.platform = 'app'
         }
         this.$router.push({
@@ -230,7 +226,7 @@
       // 更多城市
       selectMore() {
         let query = {}
-        if (this.getPlatForm()) {
+        if (this.isApp) {
           query.platform = 'app'
         }
         this.$router.push({

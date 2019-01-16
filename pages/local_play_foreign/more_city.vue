@@ -22,7 +22,6 @@
   import LayHeader from '@/components/header/index.vue'
   import Scroll from '@/components/sroll/index.vue'
   import {getCityList} from '@/api/local_play'
-  import {getUrlParam} from '@/assets/js/utils'
   export default {
     name: 'moreCity',
     transition: 'page',
@@ -33,7 +32,8 @@
     data() {
       return {
         activeName: 1,
-        cityList: []
+        cityList: [],
+        isApp: this.$route.query.platform
       }
     },
     async asyncData({$axios}) {
@@ -50,10 +50,6 @@
       }
     },
     methods: {
-      // 判断是app还是web
-      getPlatForm() {
-        return getUrlParam('platform') ? true : false
-      },
       // 返回上一级页面
       leftClick() {
         if (this.getPlatForm()) {
@@ -87,7 +83,7 @@
         let query = {
           touCityId: cityId
         }
-        if (this.getPlatForm()) {
+        if (this.isApp) {
           query.platform = 'app'
         }
         this.$router.push({
