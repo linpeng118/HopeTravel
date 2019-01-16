@@ -1,7 +1,7 @@
 <template>
   <div class="local-play-zh" ref="refLocalPlayPage">
     <lay-header title="当地玩乐" @leftClick="leftClick"></lay-header>
-    <div v-if="showList.length">
+    <div>
       <!-- banner -->
       <div class="banner"></div>
       <!-- 热门城市 -->
@@ -31,9 +31,9 @@
         </div>
       </div>
       <!-- 底部广告 -->
-      <lay-footer :imageInfo="footerAdvert" class="footer-margin"></lay-footer>
+      <lay-footer :imageInfo="footerAdvert" class="footer-margin" v-if="JSON.stringify(footerAdvert) === '{}'"></lay-footer>
     </div>
-    <loading v-if="!showList.length"></loading>
+    <!--<loading v-if="!showList.length"></loading>-->
   </div>
 </template>
 
@@ -93,36 +93,39 @@
         footerAdvert:{}
       }
     },
-    async asyncData({$axios}) {
-      let {data, code} = await getPlay($axios)
-      console.log(data)
-      if (code === 0) {
-        return {
-          original: data
-        }
-      } else {
-        return {
-          original: []
-        }
-      }
-    },
+    // async asyncData({$axios}) {
+    //   let {data, code} = await getPlay($axios)
+    //   console.log(data)
+    //   if (code === 0) {
+    //     return {
+    //       original: data
+    //     }
+    //   } else {
+    //     return {
+    //       original: []
+    //     }
+    //   }
+    // },
     fetch ({store}) {
     },
     created() {
-      this.showList = this._nomalLizeshowList(this.original)
+      this.init()
       // console.log(this.showList)
     },
     mounted() {
       // 监听滚动
       this.$refs.refLocalPlayPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
+      this.appBridge = require('@/assets/js/appBridge.js').default
       if (this.getPlatForm()) {
-        this.appBridge = require('@/assets/js/appBridge.js').default
         this.appBridge.hideNavigationBar()
-        const localProductIds = this.appBridge.getLocalStorage().toString()
-        console.log('localProductIds:' + localProductIds)
+        const localProductIds = this.appBridge.getLocalStorage()
+        // console.log(localProductIds)
+        console.log('2019年1月16日11:34:36')
+        localProductIds().then(res => {
+          console.log(res)
+        })
         this.getViewedList(localProductIds)
       }
-      console.log('2019年1月15日16:38:35')
     },
     methods: {
       ...mapMutations({
@@ -170,14 +173,10 @@
          this.viewedList = []
        }
       },
-      async init() {
-        try {
-          let {data, code} = await getPlay()
-          if (code === 0) {
-            this.showList = this._nomalLizeshowList(data)
-          }
-        } catch (e) {
-          console.log(e)
+    async init() {
+      let {data, code} = await getPlay()
+      if (code === 0) {
+        this.showList = this._nomalLizeshowList(data)
         }
       },
       // 序列化数据
@@ -185,7 +184,7 @@
         let showList = []
         let len = data.length
         this.hotCity = data[0].data
-        this.footerAdvert = data[len-1].data
+        this.footerAdvert = data[len-1].data[0]
         for(let i = 1; i < len - 1;i++){
           let obj = {}
           obj.name = data[i].moduleName
@@ -253,8 +252,7 @@
     -webkit-overflow-scrolling: touch;
     .banner {
       height: 312px;
-      background: url("../../assets/imgs/local_regiment/bg_play_local2x.png")
-        no-repeat 0 0/100%;
+      background: url("../../assets/imgs/local_regiment/bg_play_local2x.png") no-repeat 0 0/100%;
     }
     .recently-viewed {
       width: 100%;

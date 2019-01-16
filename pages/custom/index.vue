@@ -8,8 +8,8 @@
         fixed />
       <!-- banner -->
       <div class="banner">
-        <h1 class="title">高阶玩法&emsp;探秘全球</h1>
-        <h3 class="desc">高阶玩法&emsp;探秘全球</h3>
+        <h1 class="banner-title">高阶玩法&emsp;探秘全球</h1>
+        <h3 class="banner-desc">旅游自由随心，体验独一无二</h3>
         <div class="form-wrap">
           <div class="title-s">热门景点</div>
           <div class="tag-list">
@@ -22,7 +22,7 @@
           <div class="form">
             <!-- 地点 -->
             <div class="form-input">
-              <div class="left-icon"></div>
+              <div class="left-icon icon-addr"></div>
               <div class="transparent-input">
                 <van-field class="tours-input-no-bg"
                   v-model="address"
@@ -32,7 +32,7 @@
             </div>
             <!-- 手机号码 -->
             <div class="form-input mobile">
-              <div class="left-icon"></div>
+              <div class="left-icon icon-mobile"></div>
               <div class="transparent-input">
                 <van-field class="tours-input-no-bg"
                   v-model="mobile"
@@ -42,7 +42,7 @@
             </div>
             <!-- 微信 -->
             <div class="form-input wx">
-              <div class="left-icon"></div>
+              <div class="left-icon icon-wx"></div>
               <div class="transparent-input">
                 <van-field class="tours-input-no-bg"
                   v-model="wx"
@@ -53,45 +53,47 @@
             <!-- 定制按钮 -->
             <van-button class="btn-custom tours-button-no-bg"
               size="large"
-              :disabled="!canSubmit"
+              :loading="submiting"
               @click="onCustom">开始定制</van-button>
           </div>
         </div>
       </div>
       <!-- 当季推荐 -->
       <div class="season-recommend">
-        <div class="title">当季推荐</div>
+        <div class="season-title">当季推荐</div>
         <div class="season-wrap wiper-container"
           v-swiper:mySwiper="swiperOption">
           <div class="swiper-wrapper">
             <div class="swiper-slide"
               v-for="item in seasonList"
               :key="item.title">
-              <div class="season-item">
+              <div class="season-item"
+                @click="onSeasonRecommend(item)">
                 <img :src="item.url"
                   alt="img">
                 <div class="season-body">
-                  <h1 class="title">{{item.title}}</h1>
-                  <h3 class="desc no-wrap-line3">{{item.desc}}</h3>
-                  <p class="price">参考价格：{{item.price}} 人/起</p>
+                  <h1 class="season-body-title">{{item.title}}</h1>
+                  <h3 class="season-body-desc no-wrap-line3">{{item.desc}}</h3>
+                  <p class="season-body-price">参考价格：{{item.price}} 人/起</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="btn-more">查看全部</div>
+        <div class="btn-more"
+          @click="toList">查看全部</div>
       </div>
       <!-- 承诺/服务 -->
       <div class="features">
-        <div class="title">稀饭承诺 · 专业服务</div>
-        <div class="desc">用心给你舒适的旅行</div>
-        <div class="list">
+        <div class="features-title">稀饭承诺 · 专业服务</div>
+        <div class="features-desc">用心给你舒适的旅行</div>
+        <div class="features-list">
           <div class="item"
             v-for="item in featureList"
             :key="item.title">
             <img :src="item.img"
               alt="">
-            <p class="title">{{item.title}}</p>
+            <p class="features-item-title">{{item.title}}</p>
           </div>
         </div>
       </div>
@@ -102,15 +104,18 @@
       <div class="story-wrap"
         v-for="item in storyList"
         :key="item.title">
-        <div class="title">{{item.title}}</div>
-        <div class="pos">{{item.pos}}</div>
-        <div class="line"></div>
-        <div class="desc no-wrap-line2">{{item.desc}}</div>
+        <div class="story-item-title">{{item.title}}</div>
+        <div class="story-item-pos">{{item.pos}}</div>
+        <div class="story-item-line"></div>
+        <div class="story-item-desc no-wrap-line2">{{item.desc}}</div>
         <div class="show-banner">
-          <img-item :proData="item.imgs" />
+          <img-item :proData="item.imgs"
+            @callOnSlide="onSlide" />
         </div>
       </div>
     </div>
+    <div class="back-top"
+      @click="backTop"></div>
   </div>
 </template>
 
@@ -119,6 +124,7 @@
   import NormalHeader from '@/components/header/mormal'
   import transpTag from '@/components/tags/transparent'
   import ImgItem from '@/components/items/imgItem'
+  import {custom} from '@/api/custom'
 
   export default {
     components: {
@@ -136,15 +142,6 @@
           // spaceBetween: 5,
           observer: true, //修改swiper自己或子元素时，自动初始化swiper 
           observeParents: true, //修改swiper的父元素时，自动初始化swiper
-          on: {
-            slideChange() {
-              console.log('onSlideChangeEnd', this);
-            },
-            tap(e) {
-              // console.log('onTap', this);
-              vm.$emit('selectItem', e.target.getAttribute('productId'))
-            }
-          }
         },
         tagList: [
           {title: '日本'},
@@ -157,11 +154,13 @@
         address: '',
         mobile: '',
         wx: '',
+        tipMsg: '请输入想去的地址或景点',
         canSubmit: false,
+        submiting: false,
         seasonList: [
-          {url: require('../../assets/imgs/custom/story_1.png'), title: '巴黎九天七晚街拍之旅', desc: '巴黎是法国的首都，也是这个国家的心脏。大多数游客心中向往的，是一个古老而浪漫的巴黎，一个极具历史感的巴黎，还有一个充满前卫与波西米亚气息的巴黎。', price: '￥ 19980'},
-          {url: require('../../assets/imgs/custom/story_1.png'), title: '22巴黎九天七晚街拍之旅', desc: '巴黎是法国的首都，也是这个国家的心脏。大多数游客心中向往的，是一个古老而浪漫的巴黎，一个极具历史感的巴黎，还有一个充满前卫与波西米亚气息的巴黎。', price: '￥ 19980'},
-          {url: require('../../assets/imgs/custom/story_1.png'), title: '33巴黎九天七晚街拍之旅', desc: '巴黎是法国的首都，也是这个国家的心脏。大多数游客心中向往的，是一个古老而浪漫的巴黎，一个极具历史感的巴黎，还有一个充满前卫与波西米亚气息的巴黎。', price: '￥ 19980'},
+          {path: '/custom/store1', url: require('../../assets/imgs/custom/story_1.png'), title: '巴黎九天七晚街拍之旅', desc: '巴黎是法国的首都，也是这个国家的心脏。大多数游客心中向往的，是一个古老而浪漫的巴黎，一个极具历史感的巴黎，还有一个充满前卫与波西米亚气息的巴黎。', price: '￥ 19980'},
+          {path: '/custom/store2', url: require('../../assets/imgs/custom/story_1.png'), title: '22巴黎九天七晚街拍之旅', desc: '巴黎是法国的首都，也是这个国家的心脏。大多数游客心中向往的，是一个古老而浪漫的巴黎，一个极具历史感的巴黎，还有一个充满前卫与波西米亚气息的巴黎。', price: '￥ 19980'},
+          {path: '/custom/store3', url: require('../../assets/imgs/custom/story_1.png'), title: '33巴黎九天七晚街拍之旅', desc: '巴黎是法国的首都，也是这个国家的心脏。大多数游客心中向往的，是一个古老而浪漫的巴黎，一个极具历史感的巴黎，还有一个充满前卫与波西米亚气息的巴黎。', price: '￥ 19980'},
         ],
         featureList: [
           {img: require('../../assets/imgs/custom/features_1@2x.png'), title: '全球出发一人成团'},
@@ -178,13 +177,13 @@
             desc: '卸下工作的我，突然想去脚踏实地的感受一下旅行的意义。一般的旅行团都不会有这样的行程，旅行一次独属于我的私人旅行。',
             imgs: [
               {
-                url: require('../../assets/imgs/custom/story_1.png'), id: '1'
+                path: 'custom/gushi1', url: require('../../assets/imgs/custom/story_1.png'), id: '1'
               },
               {
-                url: require('../../assets/imgs/custom/story_1.png'), id: '2'
+                path: 'custom/gushi1', url: require('../../assets/imgs/custom/story_1.png'), id: '2'
               },
               {
-                url: require('../../assets/imgs/custom/story_1.png'), id: '3'
+                path: 'custom/gushi1', url: require('../../assets/imgs/custom/story_1.png'), id: '3'
               },
             ]
           },
@@ -194,13 +193,13 @@
             desc: '2卸下工作的我，突然想去脚踏实地的感受一下旅行的意义。一般的旅行团都不会有这样的行程，旅行一次独属于我的私人旅行。',
             imgs: [
               {
-                url: require('../../assets/imgs/custom/story_1.png'), id: '4'
+                path: 'custom/gushi2', url: require('../../assets/imgs/custom/story_1.png'), id: '4'
               },
               {
-                url: require('../../assets/imgs/custom/story_1.png'), id: '5'
+                path: 'custom/gushi2', url: require('../../assets/imgs/custom/story_1.png'), id: '5'
               },
               {
-                url: require('../../assets/imgs/custom/story_1.png'), id: '6'
+                path: 'custom/gushi2', url: require('../../assets/imgs/custom/story_1.png'), id: '6'
               },
             ]
           },
@@ -210,17 +209,18 @@
             desc: '3卸下工作的我，突然想去脚踏实地的感受一下旅行的意义。一般的旅行团都不会有这样的行程，旅行一次独属于我的私人旅行。',
             imgs: [
               {
-                url: require('../../assets/imgs/custom/story_1.png'), id: '7'
+                path: 'custom/gushi3', url: require('../../assets/imgs/custom/story_1.png'), id: '7'
               },
               {
-                url: require('../../assets/imgs/custom/story_1.png'), id: '8'
+                path: 'custom/gushi3', url: require('../../assets/imgs/custom/story_1.png'), id: '8'
               },
               {
-                url: require('../../assets/imgs/custom/story_1.png'), id: '9'
+                path: 'custom/gushi3', url: require('../../assets/imgs/custom/story_1.png'), id: '9'
               },
             ]
           }
-        ]
+        ],
+        timer: null,
       }
     },
     mounted() {
@@ -228,18 +228,68 @@
       this.$refs.refCustomPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
     },
     methods: {
+      // 热门景点tag
       onTag(item) {
         console.log(item)
+        this.address = item.title
       },
+      // 定制
       onCustom() {
-        console.log(1)
+        if (!this.address) {
+          this.$toast('请输入想去的地址或景点')
+          this.submiting = false
+          return
+        }
+        if (!this.mobile && !this.wx) {
+          this.$toast('请输入电话号码或者微信号码至少一个')
+          this.submiting = false
+          return
+        }
+        this.doCustom({
+          addr: this.address,
+          mobile: this.mobile,
+          wx: this.wx,
+        })
       },
+      // 提交定制
+      async doCustom(subData) {
+        this.submiting = true
+        let {code, data, msg} = await custom(subData)
+        if (code === 0) {
+          this.$toast('定制成功！')
+        } else {
+          this.$toast(msg || `错误码：${code}返回数据出错`)
+        }
+        this.submiting = false
+      },
+      // 季推荐
+      onSeasonRecommend(item) {
+        this.jumpToPage(item.path)
+      },
+      // 查看全部list
+      toList() {
+        this.jumpToPage('custom/list')
+      },
+      // 故事
+      onSlide(val) {
+        this.jumpToPage(val.path)
+      },
+      /**
+       * 页面跳转
+       * @param {string} path 跳转的路劲
+      */
+      jumpToPage(path) {
+        this.$router.push({
+          path
+        })
+      },
+      // 滚动函数
       scrollFn() {
         const s1 = this.$refs.refCustomPage.scrollTop
-        console.log(s1)
         setTimeout(() => {
           const s2 = this.$refs.refCustomPage.scrollTop
           const direct = s2 - s1
+          console.log('direct', direct)
           if (s1 === 0) {
             this.isTransparent = true
           } else if (direct > 0) {
@@ -248,6 +298,21 @@
             this.isTransparent = false
           }
         }, 17)
+      },
+      // 返回顶部
+      backTop() {
+        console.log('backTop')
+        // TODO:可以使用requestAnimationFrame代替setInterval
+        clearInterval(this.timer)
+        this.timer = setInterval(this.backFn, 20)
+      },
+      backFn() {
+        let scrollTop = this.$refs.refCustomPage.scrollTop
+        let ispeed = Math.floor(-scrollTop / 5)
+        this.$refs.refCustomPage.scrollTop = scrollTop + ispeed
+        if (scrollTop === 0) {
+          clearInterval(this.timer)
+        }
       },
     },
   }
@@ -261,10 +326,12 @@
     -webkit-overflow-scrolling: touch;
     .custom-content {
       background: #f1f1f1;
+      padding-bottom: 192px;
       .banner {
-        padding: 154px 32px 28px;
+        padding: 154px 32px 0;
+        height: 1032px;
         background: url("../../assets/imgs/custom/custom_bg@2x.png") no-repeat 0 -88px/100%;
-        .title {
+        .banner-title {
           height: 74px;
           line-height: 74px;
           font-size: 52px;
@@ -284,7 +351,7 @@
             background: #fff;
           }
         }
-        .desc {
+        .banner-desc {
           height: 40px;
           line-height: 40px;
           font-size: 28px;
@@ -322,9 +389,19 @@
               .left-icon {
                 width: 74px;
                 display: 0 0 74px;
-                background: url("../../assets/imgs/icon_pos.png") no-repeat center
-                  center/40px 40px;
                 position: relative;
+                &.icon-addr {
+                  background: url("../../assets/imgs/icon_pos@2x.png") no-repeat
+                    center center/40px 40px;
+                }
+                &.icon-mobile {
+                  background: url("../../assets/imgs/icon_phone@2x.png") no-repeat
+                    center center/40px 40px;
+                }
+                &.icon-wx {
+                  background: url("../../assets/imgs/icon_wx@2x.png") no-repeat
+                    center center/40px 40px;
+                }
                 &::after {
                   content: "";
                   display: inline-block;
@@ -362,7 +439,7 @@
       .season-recommend {
         height: 930px;
         overflow: hidden;
-        .title {
+        .season-title {
           margin-top: 44px;
           padding: 0 42px;
           height: 44px;
@@ -394,7 +471,7 @@
               }
               .season-body {
                 padding: 22px 24px;
-                .title {
+                .season-body-title {
                   margin: 0;
                   padding: 0;
                   height: 44px;
@@ -403,7 +480,7 @@
                   font-weight: 400;
                   color: #000;
                 }
-                .desc {
+                .season-body-desc {
                   margin-top: 12px;
                   padding-bottom: 16px;
                   border-bottom: 2px silid #e4e4e4;
@@ -413,7 +490,7 @@
                   line-height: 32px;
                   color: #989898;
                 }
-                .price {
+                .season-body-price {
                   margin-top: 16px;
                   height: 34px;
                   font-size: 24px;
@@ -447,21 +524,21 @@
         text-align: center;
         background: #fff;
         overflow: hidden;
-        .title {
+        .features-title {
           margin-top: 86px;
           height: 58px;
           font-size: 44px;
           line-height: 58px;
           color: #383a3e;
         }
-        .desc {
+        .features-desc {
           margin-top: 8px;
           height: 38px;
           font-size: 28px;
           color: rgba(158, 184, 195, 1);
           letter-spacing: 15px;
         }
-        .list {
+        .features-list {
           margin-top: 12px;
           display: flex;
           flex-wrap: wrap;
@@ -473,7 +550,7 @@
               width: 104px;
               height: 104px;
             }
-            .title {
+            .features-item-title {
               margin-top: 16px;
               height: 30px;
               font-size: 22px;
@@ -501,31 +578,31 @@
         background: #fff;
         height: 640px;
         overflow: hidden;
-        .title,
-        .pos,
-        .desc {
+        .story-item-title,
+        .story-item-pos,
+        .story-item-desc {
           padding: 0 34px;
         }
-        .title {
+        .story-item-title {
           margin-top: 32px;
           height: 40px;
           font-size: 28px;
           line-height: 40px;
           color: #000;
         }
-        .pos {
+        .story-item-pos {
           margin-top: 8px;
           height: 34px;
           font-size: 24px;
           color: #484848;
         }
-        .line {
+        .story-item-line {
           width: 686px;
           margin-top: 20px;
           margin-left: 34px;
           border-bottom: 2px solid #e4e4e4;
         }
-        .desc {
+        .story-item-desc {
           margin-top: 20px;
           height: 64px;
           font-size: 24px;
@@ -535,6 +612,16 @@
       .show-banner {
         margin-top: 28px;
       }
+    }
+    .back-top {
+      position: fixed;
+      z-index: 999;
+      right: 38px;
+      bottom: 58px;
+      width: 120px;
+      height: 120px;
+      background: url("../../assets/imgs/custom/back_top@2x.png") no-repeat center
+        center/100%;
     }
   }
 </style>

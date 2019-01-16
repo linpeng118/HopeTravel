@@ -1,10 +1,12 @@
 <template>
   <div class="img-item wiper-container"
+    ref="mySwiper"
     v-swiper:mySwiper="swiperOption">
     <div class="swiper-wrapper">
       <div class="swiper-slide"
         v-for="item in proData"
-        :key="item.id">
+        :key="item.id" 
+        @click="onItem(item)">
         <img :src="item.url"
           alt="img">
       </div>
@@ -15,6 +17,8 @@
 </template>
 
 <script>
+  import Vue from 'vue'
+
   export default {
     props: {
       proData: {
@@ -30,15 +34,17 @@
           spaceBetween: 10,
           observer: true, //修改swiper自己或子元素时，自动初始化swiper 
           observeParents: true, //修改swiper的父元素时，自动初始化swiper
-          on: {
-            slideChange() {
-              console.log('onSlideChangeEnd', this);
-            },
-            tap(e) {
-              // console.log('onTap', this);
-              vm.$emit('selectItem', e.target.getAttribute('productId'))
-            }
-          }
+          pagination: {
+            el: '.swiper-pagination',
+          },
+          // on: {
+          //   slideChange() {
+          //     console.log('onSlideChangeEnd', this);
+          //   },
+          //   tap(e) {
+          //     console.log('onTap', this);
+          //   }
+          // }
         },
       }
     },
@@ -46,7 +52,11 @@
     mounted() {
       console.log(this.proData)
     },
-    methods: {},
+    methods: {
+      onItem(item) {
+        this.$emit('callOnSlide', item)
+      }
+    },
   }
 </script>
 

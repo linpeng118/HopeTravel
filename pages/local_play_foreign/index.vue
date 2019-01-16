@@ -1,7 +1,7 @@
 <template>
   <section class="local-play-foreign" ref="refLocalPlayForeign">
     <lay-header :title="title" :isSearch="false" :classBg="classBg" :barSearch="barSearch" :searchKeyWords="searchKeyWords" @leftClick="leftClick"></lay-header>
-    <div v-if="!loadFail">
+    <div>
       <div class="area-play">
         <!---->
         <div class="area-location">
@@ -63,7 +63,7 @@
         </div>
       </div>
     </div>
-    <loading v-if="!loadFail && !showList.length "></loading>
+    <!--<loading v-if="!loadFail && !showList.length "></loading>-->
   </section>
 </template>
 
@@ -91,24 +91,9 @@
       return query.touCityId
     },
     async asyncData({query, $axios}) {
-      let {data, code} = await getCityInfo($axios, query.touCityId)
-      if(code === 0) {
-        return {
-          cityInfo: data.city,
-          original: data,
-          categoryList: data.category,
-          loadFail: false,
-          classBg: false
-        }
-      } else {
-        Toast('加载失败')
-        return {
-          cityInfo: {},
-          showList: [],
-          categoryList: [],
-          loadFail: true,
-          classBg: true
-        }
+      let {touCityId} = query
+      return {
+        touCityId
       }
     },
     data() {
@@ -134,6 +119,9 @@
         searchKeyWords:'',
         categoryList: [],
         viewedList: [],
+        classBg: false,
+        cityInfo: {},
+
       }
     },
     computed: {
@@ -143,7 +131,8 @@
       }
     },
     created() {
-      this.showList = this._nomalLizeshowList(this.original)
+      // this.showList = this._nomalLizeshowList(this.original)
+      this.init()
     },
     mounted() {
       this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 500))
@@ -182,29 +171,25 @@
         }
       },
       // 初始化数据
-      async getInit() {
-        try {
-          let {data, code} = await getCityInfo(this.cityId)
-          if(code === 0) {
-            this.cityInfo = data && data.city
-            this.categoryList = data.category
-            this.showList = this._nomalLizeshowList(data)
-          } else {
-            this.cityInfo = {}
-          }
-        } catch (e) {
-          console.log(e)
+      async init() {
+        let {data, code} = await getCityInfo(this.touCityId)
+        if(code === 0) {
+          this.cityInfo = data.city
+          this.categoryList = data.category
+          this.showList = this._nomalLizeshowList(data)
+        } else {
+          Toast('加载失败')
         }
       },
       // 获取最近浏览
       async getViewedList(ids) {
-        let {data, code} = await getProductList(ids)
-        if(code === 0) {
-          this.viewedList = data
-          console.log(this.viewedList)
-        } else {
-          this.viewedList = []
-        }
+        // let {data, code} = await getProductList(ids)
+        // if(code === 0) {
+        //   this.viewedList = data
+        //   console.log(this.viewedList)
+        // } else {
+        //   this.viewedList = []
+        // }
       },
       // 跳转到详情页面
       selectItem(productId) {

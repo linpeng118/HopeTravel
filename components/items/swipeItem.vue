@@ -1,6 +1,6 @@
 <template>
   <div class="part-show-item">
-    <h1 class="title">{{proData.name}}</h1>
+    <h1 class="part-title">{{proData.name}}</h1>
     <div class="swiper-container"
       v-swiper:mySwiper="swiperOption">
       <div class="swiper-wrapper">
@@ -63,7 +63,7 @@
 
 <style lang="scss" scoped>
   .part-show-item {
-    .title {
+    .part-title {
       padding-left: 32px;
       height: 54px;
       font-size: 40px;
