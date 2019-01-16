@@ -123,7 +123,6 @@
           this.getViewedList(productIds)
         }
         let token = await this.appBridge.obtainUserToken()
-        console.log(token)
         this.vxChangeTokens(token)
       }
     },
@@ -146,8 +145,6 @@
       selectItem(productId) {
         if(this.isApp) {
           // app详情跳转
-          console.log('2019年1月16日14:31:01')
-          console.log('app详情跳转，跳转的产品id是' + productId )
           var json = {productID: productId.toString()}
           this.appBridge.jumpProductDetailView(json)
         } else {
@@ -238,17 +235,15 @@
       },
       // 搜藏
       async callCollect(val) {
-        console.log('点击了收藏')
         if (this.isApp) {
           let json = {
             type: val.is_favorite ? '1': '0',
             product_id: val.product_id.toString()
           }
-          console.log(json)
           this.appBridge.userCollectProduct(json)
           this.appBridge.collectProductResult().then(res => {
             console.log(res)
-            if (res.code === "0") {
+            if (res.code == 0) {
               this.$toast('操作成功')
               const index = this.viewedList.findIndex(item => {
                 return item.product_id = val.product_id

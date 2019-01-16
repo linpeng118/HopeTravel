@@ -47,8 +47,8 @@
                  v-for="viewed in viewedList"
                  :key="viewed.product_id">
               <snap-up-item :proData="viewed"
-                            :isShowTime="false"
-                            @selectDetail="selectItem" />
+                            @selectDetail="selectItem"
+                            @callCollect="callCollect"/>
             </div>
           </div>
         </div>
@@ -104,10 +104,10 @@
           spaceBetween: 8,
           on: {
             slideChange() {
-              console.log('onSlideChangeEnd', this);
+              // console.log('onSlideChangeEnd', this);
             },
             tap() {
-              console.log('onTap', this);
+              // console.log('onTap', this);
             }
           }
         },
@@ -131,18 +131,18 @@
     },
     created() {
     },
-    mounted() {
+    async mounted() {
       this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 100))
       this.init()
       if (this.isApp) {
         this.appBridge = require('@/assets/js/appBridge.js').default
         this.appBridge.hideNavigationBar()
-        this.appBridge.getLocalStorage().then(res => {
-          if (res.length) {
-            console.log('得到的ios产品id' + res)
-            this.getViewedList(res)
-          }
-        })
+        let productIds = await this.appBridge.getLocalStorage()
+        if (productIds) {
+          this.getViewedList(productIds)
+        }
+        let token = await this.appBridge.obtainUserToken()
+        this.vxChangeTokens(token)
       }
     },
     methods: {
@@ -285,6 +285,31 @@
         } else {
           // web页面跳转
           console.log('web页面跳转')
+        }
+      },
+      // 搜藏
+      async callCollect(val) {
+        if (this.isApp) {
+          let json = {
+            type: val.is_favorite ? '1': '0',
+            product_id: val.product_id.toString()
+          }
+          this.appBridge.userCollectProduct(json)
+          this.appBridge.collectProductResult().then(res => {
+            console.log(res)
+            if (res.code == 0) {
+              this.$toast('操作成功')
+              const index = this.viewedList.findIndex(item => {
+                return item.product_id = val.product_id
+              })
+              this.viewedList[index].is_favorite = !this.viewedList[index].is_favorite
+            } else {
+              this.$toast('操作失败')
+            }
+          })
+          // let res = await this.appBridge.collectProductResult()
+        } else {
+          ('web2.0')
         }
       }
     }

@@ -43,8 +43,7 @@ function callApi(funcName, isAndroid, args) {;
       }
     } else {
       // iOS只能传入一个参数，多的必须装到数组里
-      console.log('传递给ios数据')
-      console.log(args)
+      // console.log(args)
       window.webkit.messageHandlers[funcName].postMessage(args)
     }
   } catch (e) {
@@ -128,7 +127,6 @@ export const getLocalStorage = (() => {
     }
   }
   if (browserVersion.isIos() && testApi('getLocalStorage', false)) {
-    console.log('iosiosiosios调用')
     return () => {
       return new Promise(resolve => {
         const oldFunc = window.getLocalStorage
@@ -155,13 +153,10 @@ export const collectProductResult = (() => {
     }
   }
   if (browserVersion.isIos() && testApi('collectProductResult', false)) {
-    console.log('collectProductResult调用')
     return () => {
       return new Promise(resolve => {
         const oldFunc = window.collectProductResult
         window.collectProductResult = collectResult => {
-          console.log('*************')
-          console.log(collectResult)
           window.collectProductResult = oldFunc
           resolve(collectResult)
         }
@@ -184,7 +179,6 @@ export const obtainUserToken = (() => {
     }
   }
   if (browserVersion.isIos() && testApi('obtainUserToken', false)) {
-    console.log('iosiosiosios，obtainUserToken')
     return () => {
       return new Promise(resolve => {
         const oldFunc = window.obtainUserToken
