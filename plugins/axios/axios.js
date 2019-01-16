@@ -5,7 +5,7 @@ import {
 import store from '../../store'
 // 使用UI库的弹窗
 import {
-  Toast
+  Notify
 } from 'vant';
 
 // 创建axios实例
@@ -103,11 +103,9 @@ const errorHandle = (status, other) => {
  * 禁止点击蒙层、显示三秒后关闭
  */
 const tip = msg => {
-  Toast({
-    type: 'fail',
+  Notify({
     message: msg,
     duration: 3000,
-    forbidClick: true
   });
 }
 
