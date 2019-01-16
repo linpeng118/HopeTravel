@@ -132,6 +132,7 @@ export const getLocalStorage = (() => {
         const oldFunc = window.getLocalStorage
         window.getLocalStorage = localStorage => {
           window.getLocalStorage = oldFunc
+          console.log(localStorage)
           resolve(localStorage)
         }
         callApi('getLocalStorage', false)
