@@ -209,6 +209,9 @@ export const jumpProductListView = createArgApi('jumpProductListView', 'jumpProd
  */
 export const jumpProductDetailView = createArgApi('jumpProductDetailView', 'jumpProductDetailView')
 
+// 收藏
+export const userCollectProduct = createArgApi('userCollectProduct', 'userCollectProduct')
+
 /*  =========================== 不需要参数的方法 ===========================  */
 /**
  *  显示顶部导航栏
@@ -240,8 +243,6 @@ export const jumpDestinationView = createNoArgApi('jumpDestinationView', 'jumpDe
  */
 export const backPreviousView = createNoArgApi('jumpDestinationView', 'jumpDestinationView')
 
-// 收藏
-export const userCollectProduct = createNoArgApi('userCollectProduct', 'userCollectProduct')
 
 export default {
   // 以下接口需传参调用

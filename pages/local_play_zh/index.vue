@@ -124,16 +124,11 @@
         // if (productIds.length) {
         //   this.getViewedList(productIds)
         // }
-        console.log('2019年1月16日16:38:53')
         // this.getViewedList(productIds)
         let token = await this.appBridge.obtainUserToken()
         console.log(token)
         this.vxChangeTokens(token)
-        // this.appBridge.getLocalStorage().then(res => {
-        //
-        // })
       }
-      // this.getViewedList('985')
     },
     methods: {
       ...mapMutations({
