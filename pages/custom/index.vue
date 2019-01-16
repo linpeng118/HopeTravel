@@ -31,21 +31,21 @@
               <div class="right">*</div>
             </div>
             <!-- 手机号码 -->
-            <div class="form-input mobile">
-              <div class="left-icon icon-mobile"></div>
+            <div class="form-input phone">
+              <div class="left-icon icon-phone"></div>
               <div class="transparent-input">
                 <van-field class="tours-input-no-bg"
-                  v-model="mobile"
+                  v-model="phone"
                   placeholder="请填写您的电话号码" />
               </div>
               <div class="right">*</div>
             </div>
             <!-- 微信 -->
-            <div class="form-input wx">
+            <div class="form-input wechat">
               <div class="left-icon icon-wx"></div>
               <div class="transparent-input">
                 <van-field class="tours-input-no-bg"
-                  v-model="wx"
+                  v-model="wechat"
                   placeholder="请填写您的微信号码" />
               </div>
               <div class="right">*</div>
@@ -125,6 +125,7 @@
   import transpTag from '@/components/tags/transparent'
   import ImgItem from '@/components/items/imgItem'
   import {custom} from '@/api/custom'
+  import {isMobile} from '@/assets/js/utils'
 
   export default {
     components: {
@@ -151,8 +152,8 @@
           {title: '毛里求斯'},
         ],
         address: '',
-        mobile: '',
-        wx: '',
+        phone: '',
+        wechat: '',
         tipMsg: '请输入想去的地址或景点',
         canSubmit: false,
         submiting: false,
@@ -239,26 +240,23 @@
           this.submiting = false
           return
         }
-        if (!this.mobile && !this.wx) {
+        if (!this.phone && !this.wechat) {
           this.$toast('请输入电话号码或者微信号码至少一个')
           this.submiting = false
           return
         }
         this.doCustom({
-          addr: this.address,
-          mobile: this.mobile,
-          wx: this.wx,
+          destination: this.address,
+          phone: this.phone,
+          wechat: this.wechat,
         })
       },
       // 提交定制
       async doCustom(subData) {
         this.submiting = true
+        console.log(1, subData)
         let {code, data, msg} = await custom(subData)
-        if (code === 0) {
-          this.$toast('定制成功！')
-        } else {
-          this.$toast(msg || `错误码：${code}, 返回数据出错`)
-        }
+        this.$toast(msg)
         this.submiting = false
       },
       // 季推荐
@@ -393,7 +391,7 @@
                   background: url("../../assets/imgs/icon_pos@2x.png") no-repeat
                     center center/40px 40px;
                 }
-                &.icon-mobile {
+                &.icon-phone {
                   background: url("../../assets/imgs/icon_phone@2x.png") no-repeat
                     center center/40px 40px;
                 }
@@ -424,8 +422,8 @@
                 font-size: 28px;
               }
             }
-            .mobile,
-            .wx {
+            .phone,
+            .wechat {
               margin-top: 24px;
             }
             .btn-custom {
