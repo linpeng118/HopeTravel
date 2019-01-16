@@ -20,14 +20,14 @@ export const getHotActivities = () => {
 //   return axios.get('/paly/localplay')
 // }
 
-export const getCityInfo = (ajax, id) => {
-  return ajax.get(`/api/localPlay/city/${id}`)
+export const getCityInfo = (id) => {
+  return axios.get(`/api/localPlay/city/${id}`)
 }
-export const getCityList = (ajax) => {
-  return ajax.get('/api/localPlay/city')
+export const getCityList = () => {
+  return axios.get('/api/localPlay/city')
 }
-export const getPlay = (ajax) => {
-  return ajax.get('/api/localplay')
+export const getPlay = () => {
+  return axios.get('/api/localplay')
 }
 
 export const getProductList = (ids) => {

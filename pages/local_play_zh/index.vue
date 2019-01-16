@@ -1,7 +1,7 @@
 <template>
   <div class="local-play-zh" ref="refLocalPlayPage">
     <lay-header title="当地玩乐" @leftClick="leftClick"></lay-header>
-    <div v-if="showList.length">
+    <div>
       <!-- banner -->
       <div class="banner"></div>
       <!-- 热门城市 -->
@@ -33,7 +33,7 @@
       <!-- 底部广告 -->
       <lay-footer :imageInfo="footerAdvert" class="footer-margin" v-if="JSON.stringify(footerAdvert) === '{}'"></lay-footer>
     </div>
-    <loading v-if="!showList.length"></loading>
+    <!--<loading v-if="!showList.length"></loading>-->
   </div>
 </template>
 
@@ -93,23 +93,23 @@
         footerAdvert:{}
       }
     },
-    async asyncData({$axios}) {
-      let {data, code} = await getPlay($axios)
-      console.log(data)
-      if (code === 0) {
-        return {
-          original: data
-        }
-      } else {
-        return {
-          original: []
-        }
-      }
-    },
+    // async asyncData({$axios}) {
+    //   let {data, code} = await getPlay($axios)
+    //   console.log(data)
+    //   if (code === 0) {
+    //     return {
+    //       original: data
+    //     }
+    //   } else {
+    //     return {
+    //       original: []
+    //     }
+    //   }
+    // },
     fetch ({store}) {
     },
     created() {
-      this.showList = this._nomalLizeshowList(this.original)
+      this.init()
       // console.log(this.showList)
     },
     mounted() {
@@ -173,14 +173,10 @@
          this.viewedList = []
        }
       },
-      async init() {
-        try {
-          let {data, code} = await getPlay()
-          if (code === 0) {
-            this.showList = this._nomalLizeshowList(data)
-          }
-        } catch (e) {
-          console.log(e)
+    async init() {
+      let {data, code} = await getPlay()
+      if (code === 0) {
+        this.showList = this._nomalLizeshowList(data)
         }
       },
       // 序列化数据
@@ -256,7 +252,7 @@
     -webkit-overflow-scrolling: touch;
     .banner {
       height: 312px;
-      background: url("../../assets/imgs/local_regiment/bg_banner@2x.png")
+      background: url("../../assets/imgs/local_regiment/bg_play@2x.png")
         no-repeat 0 0/100%;
     }
     .recently-viewed {
