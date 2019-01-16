@@ -111,28 +111,29 @@
     },
     created() {
     },
-    mounted() {
+    async mounted() {
       // 监听滚动
       this.$refs.refLocalPlayPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
       this.init()
       if (this.isApp) {
         this.appBridge = require('@/assets/js/appBridge.js').default
+        let productIds = await this.appBridge.getLocalStorage()
+        let token = await this.appBridge.obtainUserToken()
         this.appBridge.hideNavigationBar()
-        this.appBridge.obtainUserToken().then(res => {
-          console.log('得到token')
-          console.log(res)
-        })
-        this.appBridge.getLocalStorage().then(res => {
-          if (res.length) {
-            this.getViewedList(res)
-          }
-        })
+        this.vxChangeTokens(token)
+        if (productIds.length) {
+          this.getViewedList(res)
+        }
+        // this.appBridge.getLocalStorage().then(res => {
+        //
+        // })
       }
       this.getViewedList('985')
     },
     methods: {
       ...mapMutations({
-        vxChangeHeaderStatus: 'header/changeStatus' // 修改头部状态
+        vxChangeHeaderStatus: 'header/changeStatus', // 修改头部状态
+        vxChangeTokens: 'common/updateToken' // 改变token
       }),
       // 头部返回按钮
       leftClick() {
@@ -241,8 +242,19 @@
       // 搜藏
       callCollect(val) {
         if (this.isApp) {
+          let json = {
+            type: val.is_favorite ? '0' : '1',
+            product_id: val.product_id + ''
+          }
+          this.appBridge.userCollectProduct(json)
+          this.appBridge.collectProductResult().then(res => {
+            console.log('获取到的收藏结果')
+            console.log(res)
+          })
+        } else {
+          ('web2.0')
         }
-        console.log(val)
+        // console.log(val)
       }
     }
   }
