@@ -43,10 +43,8 @@ httprequest.interceptors.response.use(
   res => {
     if (res.status === 200) {
       return Promise.resolve(res.data)
-    } else {
-      return Promise.reject(res.data)
     }
-    // return res.data
+    return Promise.reject(res.data)
   },
   // 请求失败
   error => {
