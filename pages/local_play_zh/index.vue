@@ -119,7 +119,7 @@
         this.appBridge = require('@/assets/js/appBridge.js').default
         this.appBridge.hideNavigationBar()
         let productIds = await this.appBridge.getLocalStorage()
-        if (productIds.length) {
+        if (productIds) {
           this.getViewedList(productIds)
         }
         let token = await this.appBridge.obtainUserToken()
@@ -244,6 +244,7 @@
             type: '0',
             product_id: product_id.toString()
           }
+          console.log(json)
           this.appBridge.userCollectProduct(json)
           this.appBridge.collectProductResult().then(res => {
             console.log(res)
