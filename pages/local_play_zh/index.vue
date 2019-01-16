@@ -118,9 +118,9 @@
       this.appBridge = require('@/assets/js/appBridge.js').default
       if (this.getPlatForm()) {
         this.appBridge.hideNavigationBar()
-        const localProductIds = this.appBridge.getLocalStorage().toString()
+        const localProductIds = this.appBridge.getLocalStorage()
         // console.log(localProductIds)
-        console.log('2019年1月16日10:35:00')
+        console.log('2019年1月16日10:40:14')
         localProductIds().then(res => {
           console.log(res)
         })
