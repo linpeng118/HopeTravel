@@ -54,153 +54,7 @@
           </dd>
         </dl>
       </nuxt-link>
-      <!-- 产品 -->
-      <a href="/custom/store?store=2">
-        <dl class="product">
-          <dt>
-            <img
-              style="width:335px;height:190px;"
-              class="pic_image"
-              src="../../assets/imgs/custom/list/2.png"
-              alt
-            >
-            <span class="pic_site">希腊</span>
-          </dt>
-          <dd class="description">
-            【爱琴.地中海】豪华游艇出海/特色海鲜大餐/浮潜/海
-            钓/最美悬崖步道/浪漫地中海日落/梵蒂冈博物馆/圣...
-          </dd>
-          <dd class="clearfix">
-            <div class="fl" style="line-height:16px;">
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_empty.png"
-                alt
-              >
-              <span style="color:#ef9a1a;font-size:14px;position:relative;top: 2.5px;line-height:1px;vertical-align:middle;">4.8</span>
-            </div>
-            <div class="fr" style="color:#ef9a1a;font-size:16px;line-height:16px;">
-              <span style="font-weight:bold;color:#ef9a1a;font-size:14px;">$22800</span>/起
-            </div>
-          </dd>
-        </dl>
-      </a>
-      <!-- 产品 -->
-      <a href="/custom/store?store=3">
-        <dl class="product">
-          <dt>
-            <img
-                style="width:335px;height:190px;"
-              class="pic_image"
-              src="../../assets/imgs/custom/list/3.png"
-              alt
-            >
-            <span class="pic_site">印尼</span>
-          </dt>
-          <dd class="description">【全球热恋】巴厘岛+科莫多</dd>
-          <dd class="clearfix">
-            <div class="fl" style="line-height:16px;">
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_empty.png"
-                alt
-              >
-              <span style="color:#ef9a1a;font-size:14px;position:relative;top: 2.5px;line-height:1px;vertical-align:middle;">4.8</span>
-            </div>
-            <div class="fr" style="color:#ef9a1a;font-size:16px;line-height:16px;">
-              <span style="font-weight:bold;color:#ef9a1a;font-size:14px;">$15600</span>/起
-            </div>
-          </dd>
-        </dl>
-      </a>
-      <!-- 产品 -->
-      <a href="/custom/store?store=4">
-        <dl class="product">
-          <dt>
-            <img
-              style="width:335px;height:190px;"
-              class="pic_image"
-              src="../../assets/imgs/custom/list/4.png"
-              alt
-            >
-            <span class="pic_site">泰国</span>
-          </dt>
-          <dd class="description">【快乐活】苏梅岛+涛岛</dd>
-          <dd class="clearfix">
-            <div class="fl" style="line-height:16px;">
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_empty.png"
-                alt
-              >
-              <span style="color:#ef9a1a;font-size:14px;position:relative;top: 2.5px;line-height:1px;vertical-align:middle;">4.8</span>
-            </div>
-            <div class="fr" style="color:#ef9a1a;font-size:16px;line-height:16px;">
-              <span style="font-weight:bold;color:#ef9a1a;font-size:14px;">$6380</span>/起
-            </div>
-          </dd>
-        </dl>
-      </a>
+     
       <a href="/custom/store?store=5">
         <dl class="product">
           <dt>
@@ -1037,9 +891,9 @@ export default {
     return {
       prodList: [
         {path: '/custom/store1', country: '法国', img: require('../../assets/imgs/custom/list/1.png'), desc: '【巴黎第七章】轻奢9天7晚之旅', price: '$19980'},
-        {path: '/custom/store2', country: '希腊', img: require('../../assets/imgs/custom/list/1.png'), desc: '【巴黎第七章】轻奢9天7晚之旅', price: '$19980'},
-        {path: '/custom/store3', country: '法国', img: require('../../assets/imgs/custom/list/1.png'), desc: '【巴黎第七章】轻奢9天7晚之旅', price: '$19980'},
-        {path: '/custom/store4', country: '法国', img: require('../../assets/imgs/custom/list/1.png'), desc: '【巴黎第七章】轻奢9天7晚之旅', price: '$19980'},
+        {path: '/custom/store2', country: '希腊', img: require('../../assets/imgs/custom/list/2.png'), desc: '【爱琴.地中海】豪华游艇出海/特色海鲜大餐/浮潜/海钓/最美悬崖步道/浪漫地中海日落/梵蒂冈博物馆/圣...', price: '$22800'},
+        {path: '/custom/store3', country: '印尼', img: require('../../assets/imgs/custom/list/3.png'), desc: '【全球热恋】巴厘岛+科莫多', price: '$15600'},
+        {path: '/custom/store4', country: '泰国', img: require('../../assets/imgs/custom/list/4.png'), desc: '【快乐活】苏梅岛+涛岛', price: '$6380'},
       ]
     };
   },
