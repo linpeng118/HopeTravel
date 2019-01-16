@@ -1,6 +1,6 @@
 const pkg = require('./package')
 
-const plugins = [{
+let plugins = [{
     src: '~/plugins/vant',
     ssr: true,
   },
