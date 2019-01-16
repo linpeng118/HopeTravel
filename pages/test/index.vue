@@ -23,8 +23,10 @@
           {id: 3, path: '/local_group?platform=app', name: '测试local_group'},
           {id: 4, path: '/local_play_zh?platform=app', name: '测试local_play_zh'},
           {id: 5, path: '/local_play_foreign?platform=app', name: '测试local_play_foreign'},
+          {id: 5, path: '/custom', name: '测试custom'},
           {id: 6, path: '/login', name: '测试login'},
           {id: 7, path: '/order', name: '测试order'},
+          {id: 5, path: '/product', name: 'product'},
         ]
       }
     }
