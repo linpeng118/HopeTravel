@@ -27,7 +27,7 @@ export const getCityList = (ajax) => {
   return ajax.get('/api/localPlay/city')
 }
 export const getPlay = (ajax) => {
-  return ajax.get('/paly/localplay')
+  return ajax.get('/api/localplay')
 }
 
 export const getProductList = (ids) => {
