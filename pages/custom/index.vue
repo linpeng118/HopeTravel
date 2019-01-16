@@ -254,11 +254,11 @@
       // 提交定制
       async doCustom(subData) {
         this.submiting = true
-        try {
-          let res = await custom(subData)
+        let {code, data, msg} = await custom(subData)
+        if (code === 0) {
           this.$toast('定制成功！')
-        } catch (error) {
-          console.log(error)
+        } else {
+          this.$toast(msg || `错误码：${code}返回数据出错`)
         }
         this.submiting = false
       },
