@@ -119,17 +119,13 @@
         this.appBridge = require('@/assets/js/appBridge.js').default
         this.appBridge.hideNavigationBar()
         let productIds = await this.appBridge.getLocalStorage()
-        console.log('productIds' + productIds)
-        this.getViewedList(productIds)
-        // if (productIds.length) {
-        //   this.getViewedList(productIds)
-        // }
-        // this.getViewedList(productIds)
+        if (productIds.length) {
+          this.getViewedList(productIds)
+        }
         let token = await this.appBridge.obtainUserToken()
         console.log(token)
         this.vxChangeTokens(token)
       }
-      this.getViewedList('958')
     },
     methods: {
       ...mapMutations({
