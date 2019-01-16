@@ -1,7 +1,7 @@
 <template>
   <section class="container">
     <lay-header title="更多城市" :isSearch="false" :classBg="true" @leftClick="leftClick"></lay-header>
-    <div class="listview">
+    <div class="listview" v-if="cityList.length ">
       <van-collapse v-model="activeName" accordion>
         <van-collapse-item v-for="cityInfo in cityList" :key="cityInfo.countryId" :title="cityInfo.countryName" :name="cityInfo.countryId">
           <ul>
@@ -15,6 +15,7 @@
         </van-collapse-item>
       </van-collapse>
     </div>
+    <loading v-if="!cityList.length "></loading>
   </section>
 </template>
 
@@ -22,18 +23,20 @@
   import LayHeader from '@/components/header/index.vue'
   import Scroll from '@/components/sroll/index.vue'
   import {getCityList} from '@/api/local_play'
-  import {getUrlParam} from '@/assets/js/utils'
+  import Loading from '@/components/loading'
   export default {
     name: 'moreCity',
     transition: 'page',
     components: {
       LayHeader,
-      Scroll
+      Scroll,
+      Loading
     },
     data() {
       return {
         activeName: 1,
-        cityList: []
+        cityList: [],
+        isApp: this.$route.query.platform
       }
     },
     async asyncData({$axios}) {
@@ -44,19 +47,15 @@
       console.log(this.cityList)
     },
     mounted() {
-      if (this.getPlatForm()) {
+      if (this.isApp) {
         this.appBridge = require('@/assets/js/appBridge.js').default
         this.appBridge.hideNavigationBar()
       }
     },
     methods: {
-      // 判断是app还是web
-      getPlatForm() {
-        return getUrlParam('platform') ? true : false
-      },
       // 返回上一级页面
       leftClick() {
-        if (this.getPlatForm()) {
+        if (this.isApp) {
           this.appBridge.backPreviousView()
         } else {
           this.$router.go(-1)
@@ -87,7 +86,7 @@
         let query = {
           touCityId: cityId
         }
-        if (this.getPlatForm()) {
+        if (this.isApp) {
           query.platform = 'app'
         }
         this.$router.push({

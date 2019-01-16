@@ -5,7 +5,7 @@ import {
 import store from '../../store'
 // 使用UI库的弹窗
 import {
-  Toast
+  Notify
 } from 'vant';
 
 // 创建axios实例
@@ -28,7 +28,7 @@ httprequest.interceptors.request.use(
     // 可以设置请求头参数
     let token = store().getters.token;
     if (token) {
-      config.headers[TOKEN_KEY] = token // 请求头带上token
+      config.headers[TOKEN_KEY] = store().getters.token // 请求头带上token
     }
     return config
   },
@@ -103,11 +103,9 @@ const errorHandle = (status, other) => {
  * 禁止点击蒙层、显示三秒后关闭
  */
 const tip = msg => {
-  Toast({
-    type: 'fail',
+  Notify({
     message: msg,
     duration: 3000,
-    forbidClick: true
   });
 }
 

@@ -71,7 +71,6 @@
     mounted() {},
     methods: {
       selectItem() {
-        console.log('dianjil')
         this.$emit('selectItem', this.proData.product_id)
       }
     },

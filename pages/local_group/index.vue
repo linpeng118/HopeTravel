@@ -9,7 +9,7 @@
       <!-- banner -->
       <div class="banner"></div>
       <!-- 下标（模块）[0] -->
-      <div class="hot-swiper">
+      <div class="hot-swiper" v-if="localgroupData[0].data.length">
         <h1 class="title">{{localgroupData[0].moduleName}}</h1>
         <div v-swiper:mySwiper="swiperOption">
           <div class="swiper-wrapper">
@@ -23,7 +23,7 @@
         </div>
       </div>
       <!-- 下标（模块）[1] -->
-      <div class="hot-citys">
+      <div class="hot-citys" v-if="localgroupData[1].data.length">
         <h1 class="title">{{localgroupData[1].moduleName}}</h1>
         <div class="city-list">
           <hot-city-tag v-for="city in localgroupData[1].data"
@@ -36,7 +36,7 @@
         </div>
       </div>
       <!-- 下标（模块）[2] -->
-      <div class="high-quality tours-tabs">
+      <div class="high-quality tours-tabs" v-if="localgroupData[2].data.length">
         <h1 class="title">{{localgroupData[2].moduleName}}</h1>
         <!-- 横向tabs -->
         <van-tabs v-model="selected"
@@ -94,7 +94,6 @@
   import SearchHeader from '@/components/header/index.vue'
   import HotItem from '@/components/items/hotItem.vue'
   import HotCityTag from '@/components/tags/index.vue'
-  import {getUrlParam} from '@/assets/js/utils'
 
   export default {
     layout: 'default',
@@ -135,30 +134,27 @@
         prodPagination: {}, // 分页数据
         prodLoading: false, // 是否处于加载状态，加载过程中不触发load事件
         prodFinished: false, // 是否已加载完成，加载完成后不再触发load事件
+        isApp: this.$route.query.platform
       }
     },
     mounted() {
-      // 引入appBridge
       // 初始化
       this.init()
       // 监听滚动
       this.$refs.refLocalGroupPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
-      //
-      if (this.getPlatForm()) {
+      // 判断机型
+      if (this.isApp) {
+        // 引入appBridge
         this.appBridge = require('@/assets/js/appBridge').default
         this.appBridge.hideNavigationBar()
       } else {
-        console.log('m操作')
+        console.log('web操作')
       }
     },
     methods: {
       ...mapMutations({
         vxChangeHeaderStatus: 'header/changeStatus' // 修改头部状态
       }),
-      // 判断是app还是web
-      getPlatForm() {
-        return getUrlParam('platform') ? true : false
-      },
       async init() {
         await this.getLocalgroupData()
         await this.getProductListData()
@@ -192,7 +188,7 @@
       },
       // 返回上一级页面
       leftClick() {
-        if (this.getPlatForm) {
+        if (this.isApp) {
           this.appBridge.backPreviousView()
         } else {
           this.$router.go(-1)
@@ -201,17 +197,17 @@
       // 点击当季热门item
       onHot(productId) {
         console.log('product_id：' + productId)
-        if (this.getPlatForm()) {
+        if (this.isApp) {
           this.appBridge.jumpProductDetailView({
-            productID: productId
+            productID: productId.toString()
           })
         } else {
-          console.log('m操作')
+          console.log('web操作')
         }
       },
       onHotCity(hotCity) {
         console.log(hotCity)
-        if (this.getPlatForm()) {
+        if (this.isApp) {
           const params = {
             'itemType': LIST_TYPE.LOCAL_GROUP,
             'category': hotCity.category,
@@ -219,15 +215,15 @@
           }
           this.appBridge.jumpProductListView(params)
         } else {
-          console.log('m操作')
+          console.log('web操作')
         }
       },
       onMoreCity() {
         console.log('更多')
-        if (this.getPlatForm()) {
+        if (this.isApp) {
           this.appBridge.jumpDestinationView()
         } else {
-          console.log('m操作')
+          console.log('web操作')
         }
       },
       /**

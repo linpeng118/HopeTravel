@@ -38,7 +38,7 @@
     display: inline-block;
     margin: 0 32px 20px 0;
     padding: 10px 20px;
-    font-size: 14px;
+    font-size: 28px;
     border-radius: 26px;
     &.normal {
       color: #191919;

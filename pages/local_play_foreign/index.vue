@@ -1,7 +1,7 @@
 <template>
   <section class="local-play-foreign" ref="refLocalPlayForeign">
     <lay-header :title="title" :isSearch="false" :classBg="classBg" :barSearch="barSearch" :searchKeyWords="searchKeyWords" @leftClick="leftClick"></lay-header>
-    <div>
+    <div v-if="showList.length">
       <div class="area-play">
         <!---->
         <div class="area-location">
@@ -63,7 +63,7 @@
         </div>
       </div>
     </div>
-    <!--<loading v-if="!loadFail && !showList.length "></loading>-->
+    <loading v-if="!showList.length "></loading>
   </section>
 </template>
 
@@ -75,7 +75,6 @@
   import {throttle as _throttle} from 'lodash'
   import {mapMutations} from 'vuex'
   import {HEADER_TYPE} from '@/assets/js/consts/headerType'
-  import {getUrlParam} from '@/assets/js/utils'
   import SnapUpItem from '@/components/items/snapUpItem'
   import { Toast } from 'vant'
   export default {
@@ -121,7 +120,7 @@
         viewedList: [],
         classBg: false,
         cityInfo: {},
-
+        isApp: this.$route.query.platform
       }
     },
     computed: {
@@ -131,17 +130,19 @@
       }
     },
     created() {
-      // this.showList = this._nomalLizeshowList(this.original)
-      this.init()
     },
     mounted() {
       this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 500))
-      if (this.getPlatForm()) {
+      this.init()
+      if (this.isApp) {
         this.appBridge = require('@/assets/js/appBridge.js').default
         this.appBridge.hideNavigationBar()
-        const localProductIds = this.appBridge.getLocalStorage().toString()
-        console.log('localProductIds:' + localProductIds)
-        this.getViewedList(localProductIds)
+        this.appBridge.getLocalStorage().then(res => {
+          if (res.length) {
+            console.log('得到的ios产品id' + res)
+            this.getViewedList(res)
+          }
+        })
       }
     },
     methods: {
@@ -150,15 +151,11 @@
       }),
       // 返回上一级菜单
       leftClick () {
-        if (this.getPlatForm()) {
+        if (this.isApp) {
           this.appBridge.backPreviousView()
         } else {
           this.$router.go(-1)
         }
-      },
-      // 判断是app还是web
-      getPlatForm() {
-        return getUrlParam('platform') ? true : false
       },
       // 判断显示icon
       iconChow(type) {
@@ -194,11 +191,11 @@
       // 跳转到详情页面
       selectItem(productId) {
         // console.log(productId)
-        if(this.getPlatForm()) {
+        if(this.isApp) {
           // app详情跳转
           console.log('app详情跳转')
           this.appBridge.jumpProductDetailView({
-            productID: productId
+            productID: productId.toString()
           })
         } else {
           // m跳转
@@ -213,7 +210,7 @@
       },
       // 跳转search
       selectSearch() {
-        if(this.getPlatForm()) {
+        if(this.isApp) {
           console.log('app搜索')
           this.appBridge.jumpSearchView()
         } else {
@@ -277,7 +274,7 @@
         })
       },
       selectProductList(typeId) {
-        if(this.getPlatForm()) {
+        if(this.isApp) {
           let data = {
             'itemType': '2'
           }

@@ -3,29 +3,26 @@
     <div class="banner">
       <img :src="proData.image"
         alt="banner">
-      <div class="time-wrap"
-        v-if="isShowTime">
-        <div class="text">
-          抢购中
-        </div>
-        <span class="time">
-          <span>0</span>
-          <span>0</span>
-          <span class="colon">:</span>
-          <span>2</span>
-          <span>3</span>
-          <span class="colon">:</span>
-          <span>5</span>
-          <span>6</span>
-        </span>
-        <div class="collect" @click="OnCollect(proData)">
-          <img v-if="isCollect"
-            src="../../assets/imgs/star_active@2x.png"
-            alt="">
-          <img v-else
-            src="../../assets/imgs/star@2x.png"
-            alt="">
-        </div>
+      <div class="time-wrap" @click.stop="OnCollect(proData)">
+        <!--<div class="text">-->
+          <!--抢购中-->
+        <!--</div>-->
+        <!--<span class="time">-->
+          <!--<span>0</span>-->
+          <!--<span>0</span>-->
+          <!--<span class="colon">:</span>-->
+          <!--<span>2</span>-->
+          <!--<span>3</span>-->
+          <!--<span class="colon">:</span>-->
+          <!--<span>5</span>-->
+          <!--<span>6</span>-->
+        <!--</span>-->
+        <img v-if="proData.is_favorite"
+             src="../../assets/imgs/star_active@2x.png"
+             alt="">
+        <img v-else
+             src="../../assets/imgs/star@2x.png"
+             alt="">
       </div>
       <div class="title"
         v-if="isShowTitle">
@@ -118,6 +115,7 @@
     .banner {
       position: relative;
       height: 368px;
+      background: #eee;
       img {
         width: 100%;
         height: 368px;
@@ -135,11 +133,12 @@
         border-radius: 0 0 6px 6px;
       }
       .time-wrap {
+        width: 100px;
+        height: 100px;
         position: absolute;
-        top: 0;
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
+        top: 10px;
+        right: 10px;
+        text-align: right;
         .text {
           flex: 0 0 96px;
           width: 96px;
@@ -173,13 +172,9 @@
             font-size: 24px;
           }
         }
-        .collect {
-          flex: 0 0 60px;
-          padding: 10px;
-          img {
-            width: 50px;
-            height: 50px;
-          }
+        img {
+          width: 50px;
+          height: 50px;
         }
       }
     }
@@ -200,7 +195,7 @@
           line-height: 36px;
           text-align: center;
           color: #fff;
-          font-size: 12px;
+          font-size: 22px;
           border-radius: 6px;
         }
         .tag1 {
