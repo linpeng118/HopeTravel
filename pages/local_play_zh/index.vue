@@ -242,6 +242,7 @@
       },
       // 搜藏
       async callCollect(val) {
+        console.log('点击了收藏')
         if (this.isApp) {
           let json = {
             type: val.is_favorite ? '1' : '0',
@@ -249,6 +250,7 @@
           }
           this.appBridge.userCollectProduct(json)
           this.appBridge.collectProductResult().then(res => {
+            console.log(res)
             if (res.code === 0) {
               this.$toast('操作成功')
               const index = this.viewedList.findIndex(item => {
