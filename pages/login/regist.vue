@@ -20,7 +20,7 @@
             @click-icon="toggleInputType">
           </van-field>
           <van-field class="password tours-input"
-            v-model="password"
+            v-model="smsCode"
             center
             clearable
             placeholder="请输入验证码">
@@ -52,7 +52,7 @@
             @click-icon="toggleInputType">
           </van-field>
           <van-field class="auth-code tours-input"
-            v-model="authCode"
+            v-model="emailCode"
             center
             clearable
             placeholder="请输入验证码">
@@ -92,9 +92,10 @@
         mobile: '',
         canSubmit: false, // 是否可提交
         areaCode: '86', // 区号
-        authCode: '', // 验证码
+        smsCode: '', // 短信验证码
+        emailCode: '', // 邮箱验证码
         show: false,
-        checked: true,
+        checked: false,
         pswInputType: 'password',
         // 邮箱注册
         email: '',
