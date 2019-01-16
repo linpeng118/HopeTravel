@@ -15,50 +15,72 @@
       </p>
     </section>
     <!--选择房间-->
-    <section style="padding-bottom: 90px;" v-if="product.product_entity_type==1&&product.self_support==0">
+    <section v-if="product.product_entity_type==1&&product.self_support==0">
       <ul class="checkroom">
         <template v-for="(item,ind) in rooms">
-          <li :key="ind" class="checkitem">
-            <p class="checkitem_title">房间 {{ind}}</p>
-            <p class="checkitem_con">
+          <li :key="ind" class="checkitem" v-if="product.max_num_guest">
+            <p class="checkitem_title">房间 {{ind}}
+              <span v-if="item.add" @click="roomdel(ind)">删除</span>
+            </p>
+            <div class="checkitem_con">
               <span>成人</span>
               <span>
-              <!--<van-stepper-->
-                <!--integer-->
-                <!--v-model="item.adult"-->
-                <!--:min="1"-->
-                <!--:max="product.max_num_guest-item.child"-->
-              <!--/>-->
+              <van-stepper
+                integer
+                v-model="item.adult"
+                :min="1"
+                :max="product.max_num_guest-item.child"
+              />
             </span>
-            </p>
-            <p v-if="product.is_kids" class="checkitem_con">
+            </div>
+            <div v-if="product.is_kids" class="checkitem_con">
               <span>儿童 <i v-if="product.max_child_age!=-1">&nbsp;0-{{product.max_child_age}}周岁</i></span>
               <span>
-              <!--<van-stepper-->
-                <!--integer-->
-                <!--:min="0"-->
-                <!--v-model="item.child"-->
-                <!--:max="product.max_num_guest-item.adult"-->
-              <!--/>-->
+              <van-stepper
+                integer
+                :min="0"
+                v-model="item.child"
+                :max="product.max_num_guest-item.adult"
+              />
             </span>
-            </p>
+            </div>
             <van-checkbox class="checkitem-btn" v-if="product.is_single_pu&&item.adult==1" v-model="item.pair"><span style="color:#399EF6;">接受单人配房</span></van-checkbox>
           </li>
         </template>
-
+        <div class="addroom-btn" @click="roomadd()" ><van-icon name="plus"/>添加房间</div>
       </ul>
-      <div class="addroom-btn"><van-icon name="plus" />添加房间</div>
-
     </section>
     <!--选择人数-->
     <section v-else>
       <div class="checkperson">
-        <li class="checkitem"></li>
+        <li class="checkitem">
+          <div class="checkitem_con" >
+            <span>成人</span>
+            <span>
+              <van-stepper
+                v-model="total_adult"
+                integer
+                :min="1"
+              />
+            </span>
+          </div>
+          <div v-if="product.is_kids" class="checkitem_con">
+            <span>儿童 <i v-if="product.max_child_age!=-1">&nbsp;0-{{product.max_child_age}}周岁</i></span>
+            <span>
+              <van-stepper
+                integer
+                :min="0"
+                v-model="total_kids"
+              />
+            </span>
+          </div>
+
+        </li>
       </div>
     </section>
     <!--footer-->
     <section>
-
+      <confirm-foot></confirm-foot>
     </section>
   </section>
 
@@ -66,71 +88,14 @@
 
 <script>
   import dateTrip from './dateTrip'
+  import ConfirmFoot from '@/components/confirm_foot/foot.vue'
   import {getdateTrip} from '@/api/date_trip'
   export default {
     components: {
-      dateTrip,
+      dateTrip,ConfirmFoot
     },
     data() {
       return {
-        //产品
-        product: {
-          "product_id":141,
-          "default_price":"$238",
-          "code":"US119",
-          "product_entity_type":1,
-          "product_type":1,
-          "max_num_guest":4,
-          "min_num_guest":1,
-          "max_child_age":2,
-          "sales":3,
-          "self_support":0,
-          "name":"(5天)【华盛顿出发美东豪华游】<纽约+费城+康宁玻璃中心+华盛顿特区+尼亚加拉大瀑布+波士顿>",
-          "small_description":"★ 畅游名城：纽约，费城，华盛顿，尼加拉瓜大瀑布，波士顿。 ★ 震撼体验：多种角度欣赏尼亚加拉瀑布的风采，体验视觉与听觉的双震撼； ★ 独特文化：虽一眼看完的景物，却可以让人深深感受到背后的历史渊源，费城独立厅带你感受人们对民主和自由的向往； ★ 特色风味：波士顿当地龙虾卷+特制面包里的新英格兰蛤蜊巧达浓汤； ",
-          "icons_show":[
-            "限时",
-            "满减"
-          ],
-          "icons_tour":[
-            {
-              "title":"买二送一",
-              "content":"是指三人共同享用一个酒店标准间的价格，不提供加床"
-            },
-            {
-              "title":"买二送二",
-              "content":"是指四人共同享用一个酒店标准间的价格，不提供加床"
-            },
-            {
-              "title":"畅销行程",
-              "content":""
-            },
-            {
-              "title":"低价保证",
-              "content":""
-            },
-            {
-              "title":"即时确认",
-              "content":"该产品下单即可确认出行"
-            }
-          ],
-          "images":[
-            "http://www.24.tourscool.net/images/product/5b6176857cfd5_600_338.jpg",
-            "http://www.24.tourscool.net/images/product/5b6176857d077_600_338.png",
-            "http://www.24.tourscool.net/images/product/5b6176857d228_600_338.jpg",
-            "http://www.24.tourscool.net/images/product/5b6176857d2a7_600_338.jpg"
-          ],
-          "departure_city":"华盛顿",
-          "end_city":"纽约",
-          "special_price":"",
-          "feature_images":[
-            "http://www.24.tourscool.net/images/product/5ba9aede9f341_600_338.jpg",
-            "http://www.24.tourscool.net/images/product/5ba9aede9ed93_600_338.jpg"
-          ],
-          "is_kids":true,
-          "is_single_pu":true,
-          "is_favorite":false,
-          "duration_days":5
-        },
         //价格日历数据
         pricedate:[
           {
@@ -255,44 +220,202 @@
         rooms:[
           { adult:1,
             child:0,
-            pair:false	}
+            pair:false,
+            add:false}
         ],
-
+        //选择人数时参数
+        total_kids:0,
+        total_adult:0,
     }
     },
-    created() {
-      this.getpricedate(this.product.product_id);
-      //初始化选择第一个月份
-      this.datedata=this.pricedate[0];
-      this.activeMonth=this.pricedate[0].month;
+    computed:{
+      //获取计算价格参数
+      get_vuex_countprice() {
+        return this.$store.state.confirm.countprice;
+      },
+      //产品
+      product(){
+        return {
+          "product_id":141,
+          "default_price":"$238",
+          "code":"US119",
+          "product_entity_type":1,
+          "product_type":1,
+          "max_num_guest":4,
+          "min_num_guest":9,
+          "max_child_age":2,
+          "sales":3,
+          "self_support":1,
+          "name":"(5天)【华盛顿出发美东豪华游】<纽约+费城+康宁玻璃中心+华盛顿特区+尼亚加拉大瀑布+波士顿>",
+          "small_description":"★ 畅游名城：纽约，费城，华盛顿，尼加拉瓜大瀑布，波士顿。 ★ 震撼体验：多种角度欣赏尼亚加拉瀑布的风采，体验视觉与听觉的双震撼； ★ 独特文化：虽一眼看完的景物，却可以让人深深感受到背后的历史渊源，费城独立厅带你感受人们对民主和自由的向往； ★ 特色风味：波士顿当地龙虾卷+特制面包里的新英格兰蛤蜊巧达浓汤； ",
+          "icons_show":[
+            "限时",
+            "满减"
+          ],
+          "icons_tour":[
+            {
+              "title":"买二送一",
+              "content":"是指三人共同享用一个酒店标准间的价格，不提供加床"
+            },
+            {
+              "title":"买二送二",
+              "content":"是指四人共同享用一个酒店标准间的价格，不提供加床"
+            },
+            {
+              "title":"畅销行程",
+              "content":""
+            },
+            {
+              "title":"低价保证",
+              "content":""
+            },
+            {
+              "title":"即时确认",
+              "content":"该产品下单即可确认出行"
+            }
+          ],
+          "images":[
+            "http://www.24.tourscool.net/images/product/5b6176857cfd5_600_338.jpg",
+            "http://www.24.tourscool.net/images/product/5b6176857d077_600_338.png",
+            "http://www.24.tourscool.net/images/product/5b6176857d228_600_338.jpg",
+            "http://www.24.tourscool.net/images/product/5b6176857d2a7_600_338.jpg"
+          ],
+          "departure_city":"华盛顿",
+          "end_city":"纽约",
+          "special_price":"",
+          "feature_images":[
+            "http://www.24.tourscool.net/images/product/5ba9aede9f341_600_338.jpg",
+            "http://www.24.tourscool.net/images/product/5ba9aede9ed93_600_338.jpg"
+          ],
+          "is_kids":true,
+          "is_single_pu":true,
+          "is_favorite":false,
+          "duration_days":5
+        }
+      }
     },
-    mounted(){
+    watch:{
+      get_vuex_countprice(val){
+        console.log('本地数据更新1次')
+        this.countprice=val;
+      },
+      'rooms' : {
+        handler:function(val,oldval) {   //特别注意，不能用箭头函数，箭头函数，this指向全局
+          if(this.product.product_entity_type==1&&this.product.self_support==0){
+            let countperson=0;
+            for(let i=0;i<val.length;i++){
+              countperson+=val[i].adult;
+              countperson+=val[i].child;
+            }
+            if(countperson>=this.product.min_num_guest){
+              this.$store.commit("countprice", {
+                room_total: val.length,//房间总数
+                room_attributes: val,//房间数据,
+              });
+            }
+            else{
+              this.$store.commit("countprice", {
+                room_total: 0,//房间总数
+                room_attributes:[],//房间数据,
+              });
+              this.$dialog.alert({
+                message: '总人数不足最少成团人数，请添加'
+              });
+
+            }
+
+          }
+        },
+        deep: true  
+      },
+      'total_adult'(val){
+        if(this.product.product_entity_type==1&&this.product.self_support==0){}
+        else{
+          let countperson=val+this.total_kids;
+          if(countperson>=this.product.min_num_guest){
+            this.$store.commit("countprice", {
+              room_total: 1,//房间总数
+              room_attributes: [{
+                adult:val,
+                child:this.total_kids,
+                pair:false,
+              }],//房间数据,
+            });
+          }
+          else{
+            this.$store.commit("countprice", {
+              room_total: 0,//房间总数
+              room_attributes:[],//房间数据,
+            });
+            this.$dialog.alert({
+              message: '总人数不足最少成团人数，请添加'
+            });
+          }
+        }
+      },
+      'total_kids'(val){
+        if(this.product.product_entity_type==1&&this.product.self_support==0){}
+        else{
+          let countperson=this.total_adult+val;
+          if(countperson>=this.product.min_num_guest){
+            this.$store.commit("countprice", {
+              room_total: 1,//房间总数
+              room_attributes: [{
+                adult:this.total_adult,
+                child:val,
+                pair:false,
+              }],//房间数据,
+            });
+          }
+          else{
+            this.$store.commit("countprice", {
+              room_total: 0,//房间总数
+              room_attributes:[],//房间数据,
+            });
+            this.$dialog.alert({
+              message: '总人数不足最少成团人数，请添加'
+            });
+          }
+        }
+      },
 
     },
+    mounted() {
+      //进来清空一次之前的价格日历vuex，之后可能要考虑返回的情况
+      this.$store.dispatch("emptyprice");
+      //获得价格日历数据
+      this.getpricedate(this.product.product_id);
+      //初始化选择第一条给子组件的数据和第一个月份数据
+      this.datedata=this.pricedate[0];
+      this.activeMonth=this.pricedate[0].month;
+      //初始化生成房间
+      this.roomint();
+    },
+
     methods: {
       //获得价格日历数据
       async getpricedate(id) {
-        let {data, code} = await getdateTrip(id)
-        if(code === 0) {
-          // this.pricedate = data;
-          console.log(this.pricedate)
-        } else {
-          // this.pricedate = []
-        }
+        // let {data, code} = await getdateTrip(id)
+        // if(code === 0) {
+        //   // this.pricedate = data;
+        //   console.log(this.pricedate)
+        // } else {
+        //   // this.pricedate = []
+        // }
       },
       setMonth(val,ind){
         this.activeMonth=val;
         this.datedata=this.pricedate[ind];
         this.checkday='';
         this.showsday='';
-        this.showeday=''
+        this.showeday='';
+        this.$store.commit("countprice", {
+          departure_date: '',//出发日期
+        });
       },
+      //监听选择出发日期
       setcheckday(val){
         this.checkday=val;
-        this.setdate();
-      },
-      // 得到某日期后几天
-      setdate(){
         let sday1=new Date(parseInt(this.datedata.years)+'-'+parseInt(this.datedata.month)+'-'+parseInt(this.checkday));
         let day1en=sday1.getTime()+(this.product.duration_days)*24*60*60*1000;
         let eday1=new Date(day1en);
@@ -300,7 +423,61 @@
         let eday2=(eday1.getMonth() +1)+'月'+(eday1.getDate())+'日';
         this.showsday=sday2;
         this.showeday=eday2;
+        var tha=this;
+        this.$store.commit("countprice", {
+          product_id: tha.product.product_id,//产品id
+          departure_date: sday1,//出发日期
+        });
       },
+      //设置默认房间数和每个房间住的人数
+      roomint(){
+        if(this.product.product_entity_type==1&&this.product.self_support==0){
+          let proroom=[];
+          for(let i=0;i<Math.ceil(this.product.min_num_guest/this.product.max_num_guest);i++){
+            let objroom={};
+            if(i!=Math.ceil(this.product.min_num_guest/this.product.max_num_guest)-1){
+              objroom={
+                adult:this.product.max_num_guest,
+                child:0,
+                pair:false,
+                add:false
+              }
+            }
+            else{
+              objroom={
+                adult:this.product.min_num_guest%this.product.max_num_guest,
+                child:0,
+                pair:false,
+                add:false
+              }
+            }
+            proroom.push(objroom)
+          }
+          this.rooms=proroom;
+        }
+        else{
+          this.total_adult=this.product.min_num_guest;
+        }
+
+
+      },
+      //添加房间
+      roomadd(){
+        this.rooms.push(
+          {
+            adult:1,
+            child:0,
+            pair:false,
+            add:true
+          }
+        )
+      },
+      roomdel(ind){
+        this.rooms.splice(ind,1)
+      },
+      //计算价格熟悉参数重置
+
+
   }
   }
 
@@ -355,9 +532,9 @@
     background-color: #fff;
     box-shadow:0px 0px 12px rgba(0,0,0,0.1);
   }
-  .checkroom,checkperson{
+  .checkroom,.checkperson{
     padding: 0 32px;
-    margin-bottom: 30px;
+    padding-bottom: 180px;
   }
   .checkitem{
     width:686px;
@@ -381,6 +558,7 @@
     line-height: 60px;
     font-size: 24px;
     margin-left: 255px;
+    margin-top: 30px;
   }
   .checkitem_title{
     font-size: 30px;
@@ -388,6 +566,11 @@
     line-height: 70px;
     color: #191919;
     border-bottom: 3px solid #e4e4e4;
+  }
+  .checkitem_title span{
+    color: #399EF6;
+    float: right;
+    font-size: 24px;
   }
   .checkitem_con{
     width: 100%;
