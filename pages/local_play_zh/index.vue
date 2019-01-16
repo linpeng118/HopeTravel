@@ -121,7 +121,7 @@
         let productIds = await this.appBridge.getLocalStorage()
         console.log('productIds' + productIds)
         if (productIds.length) {
-          this.getViewedList(res)
+          this.getViewedList(productIds)
         }
         let token = await this.appBridge.obtainUserToken()
         console.log(token)
