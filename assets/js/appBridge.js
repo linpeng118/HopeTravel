@@ -209,7 +209,9 @@ export const jumpProductListView = createArgApi('jumpProductListView', 'jumpProd
  */
 export const jumpProductDetailView = createArgApi('jumpProductDetailView', 'jumpProductDetailView')
 
-// 收藏
+/**
+ * 收藏
+ */
 export const userCollectProduct = createArgApi('userCollectProduct', 'userCollectProduct')
 
 /*  =========================== 不需要参数的方法 ===========================  */
