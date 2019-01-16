@@ -248,9 +248,9 @@
           }
           this.appBridge.userCollectProduct(json)
 
-          // let res = await this.appBridge.collectProductResult()
+          let res = await this.appBridge.collectProductResult()
 
-          // console.log(res)
+          console.log(res)
         } else {
           ('web2.0')
         }
