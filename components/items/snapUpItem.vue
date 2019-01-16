@@ -200,7 +200,7 @@
           line-height: 36px;
           text-align: center;
           color: #fff;
-          font-size: 12px;
+          font-size: 22px;
           border-radius: 6px;
         }
         .tag1 {

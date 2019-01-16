@@ -149,10 +149,9 @@
       selectItem(productId) {
         if(this.getPlatForm()) {
           // app详情跳转
-          console.log('app详情跳转')
-          this.appBridge.jumpProductDetailView({
-            productID: productId
-          })
+          console.log('app详情跳转，跳转的产品id是' + productId )
+          var json = {productID: productId}
+          this.appBridge.jumpProductDetailView(json.toString())
         } else {
           // m跳转
           console.log('m跳转')
