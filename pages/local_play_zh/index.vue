@@ -1,7 +1,7 @@
 <template>
   <div class="local-play-zh" ref="refLocalPlayPage">
     <lay-header title="当地玩乐" @leftClick="leftClick"></lay-header>
-    <div>
+    <div v-if="showList.length">
       <!-- banner -->
       <div class="banner"></div>
       <!-- 热门城市 -->
@@ -15,8 +15,8 @@
                  v-for="viewed in viewedList"
                  :key="viewed.product_id">
               <snap-up-item :proData="viewed"
-                            :isShowTime="false"
-                            @selectDetail="selectItem" />
+                            @selectDetail="selectItem"
+                            @callCollect="callCollect"/>
             </div>
           </div>
         </div>
@@ -33,7 +33,7 @@
       <!-- 底部广告 -->
       <lay-footer :imageInfo="footerAdvert" class="footer-margin" v-if="JSON.stringify(footerAdvert) === '{}'"></lay-footer>
     </div>
-    <!--<loading v-if="!showList.length"></loading>-->
+    <loading v-if="!showList.length"></loading>
   </div>
 </template>
 
@@ -90,7 +90,8 @@
         hotCity: [],
         // 热门活动
         footerAdvert:{},
-        isApp: this.$route.query.platform
+        isApp: this.$route.query.platform,
+        // 收藏
       }
     },
     // async asyncData({$axios}) {
@@ -109,22 +110,25 @@
     fetch ({store}) {
     },
     created() {
-      this.init()
-      // console.log(this.showList)
     },
     mounted() {
       // 监听滚动
       this.$refs.refLocalPlayPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
+      this.init()
       if (this.isApp) {
         this.appBridge = require('@/assets/js/appBridge.js').default
         this.appBridge.hideNavigationBar()
+        this.appBridge.obtainUserToken().then(res => {
+          console.log('得到token')
+          console.log(res)
+        })
         this.appBridge.getLocalStorage().then(res => {
           if (res.length) {
-            console.log('得到的ios产品id' + res)
             this.getViewedList(res)
           }
         })
       }
+      this.getViewedList('985')
     },
     methods: {
       ...mapMutations({
@@ -160,18 +164,18 @@
         }
       },
       // 获取最近浏览
-     async getViewedList(ids) {
-       let {data, code} = await getProductList(ids)
-       if(code === 0) {
-         this.viewedList = data
-       } else {
-         this.viewedList = []
-       }
+      async getViewedList(ids) {
+        let {data, code} = await getProductList(ids)
+        if(code === 0) {
+          this.viewedList = data
+        } else {
+          this.viewedList = []
+        }
       },
-    async init() {
-      let {data, code} = await getPlay()
-      if (code === 0) {
-        this.showList = this._nomalLizeshowList(data)
+      async init() {
+        let {data, code} = await getPlay()
+        if (code === 0) {
+          this.showList = this._nomalLizeshowList(data)
         }
       },
       // 序列化数据
@@ -233,6 +237,12 @@
           path: `/local_play_foreign/more_city`,
           query
         })
+      },
+      // 搜藏
+      callCollect(val) {
+        if (this.isApp) {
+        }
+        console.log(val)
       }
     }
   }

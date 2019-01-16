@@ -28,7 +28,7 @@ httprequest.interceptors.request.use(
     // 可以设置请求头参数
     let token = store().getters.token;
     if (token) {
-      config.headers[TOKEN_KEY] = token // 请求头带上token
+      config.headers[TOKEN_KEY] = store().getters.token // 请求头带上token
     }
     return config
   },

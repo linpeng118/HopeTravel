@@ -1,7 +1,7 @@
 <template>
   <section class="local-play-foreign" ref="refLocalPlayForeign">
     <lay-header :title="title" :isSearch="false" :classBg="classBg" :barSearch="barSearch" :searchKeyWords="searchKeyWords" @leftClick="leftClick"></lay-header>
-    <div>
+    <div v-if="showList.length">
       <div class="area-play">
         <!---->
         <div class="area-location">
@@ -63,7 +63,7 @@
         </div>
       </div>
     </div>
-    <!--<loading v-if="!loadFail && !showList.length "></loading>-->
+    <loading v-if="!showList.length "></loading>
   </section>
 </template>
 
@@ -130,11 +130,10 @@
       }
     },
     created() {
-      // this.showList = this._nomalLizeshowList(this.original)
-      this.init()
     },
     mounted() {
       this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 500))
+      this.init()
       if (this.isApp) {
         this.appBridge = require('@/assets/js/appBridge.js').default
         this.appBridge.hideNavigationBar()

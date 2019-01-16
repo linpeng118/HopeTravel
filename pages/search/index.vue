@@ -80,7 +80,6 @@ export default {
     }
   },
   mounted() {
-    console.log('platform的值是:' + this.isApp)
   },
   methods: {
     onChange(key) {

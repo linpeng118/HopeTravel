@@ -28,7 +28,7 @@ function callApi(funcName, isAndroid, args) {;
   `call ${isAndroid ? 'Android' : 'iOS'} api: ${funcName} args: ${args}`
   // 无参iOS（iOS接口必须有且仅有一个参数，否则会调用失败, 这里随意创建一个参数)
   if (!args && !isAndroid) {
-    args = ['ignore']
+    args = {}
   }
   try {
     // 这里不能使用提前获取好的函数对象，也不是bind的问题
@@ -144,6 +144,61 @@ export const getLocalStorage = (() => {
   }
   return null
 })()
+
+// 收藏
+export const userCollectProduct = (() => {
+  if (browserVersion.isAndroid() && testApi('getLocalStorage', true)) {
+    return () => {
+      return new Promise(resolve => {
+        const funcName = `__API__${randomString(6)}`
+        window[funcName] = resolve
+        callApi('getLocalStorage', true, funcName)
+      })
+    }
+  }
+  if (browserVersion.isIos() && testApi('getLocalStorage', false)) {
+    console.log('iosiosiosios调用')
+    return () => {
+      return new Promise(resolve => {
+        const oldFunc = window.userCollectProduct
+        window.userCollectProduct = localStorage => {
+          window.userCollectProduct = oldFunc
+          resolve(localStorage)
+        }
+        callApi('userCollectProduct', false)
+      })
+    }
+  }
+  return null
+})()
+
+// 获取token
+export const obtainUserToken = (() => {
+  if (browserVersion.isAndroid() && testApi('obtainUserToken', true)) {
+    return () => {
+      return new Promise(resolve => {
+        const funcName = `__API__${randomString(6)}`
+        window[funcName] = resolve
+        callApi('obtainUserToken', true, funcName)
+      })
+    }
+  }
+  if (browserVersion.isIos() && testApi('obtainUserToken', false)) {
+    console.log('iosiosiosios，obtainUserToken')
+    return () => {
+      return new Promise(resolve => {
+        const oldFunc = window.obtainUserToken
+        window.obtainUserToken = localStorage => {
+          window.obtainUserToken = oldFunc
+          resolve(localStorage)
+        }
+        callApi('obtainUserToken', false)
+      })
+    }
+  }
+  return null
+})()
+
 /*  =========================== 需要参数的方法 ===========================  */
 
 /**
@@ -191,6 +246,7 @@ export default {
   // 以下接口需传参调用
   jumpProductListView,
   jumpProductDetailView,
+  userCollectProduct,
   // 以下接口无需参数
   hideNavigationBar,
   showNavigationBar,
@@ -199,4 +255,5 @@ export default {
   jumpDestinationView,
   backPreviousView,
   getLocalStorage,
+  obtainUserToken
 }
