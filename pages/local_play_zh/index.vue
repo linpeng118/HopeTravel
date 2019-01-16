@@ -125,7 +125,7 @@
         })
         this.getViewedList(localProductIds)
       }
-      console.log('2019年1月16日09:29:50')
+      console.log('2019年1月16日09:53:20')
     },
     methods: {
       ...mapMutations({
