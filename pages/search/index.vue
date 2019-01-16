@@ -9,13 +9,25 @@
         <van-badge title="美东"/>
       </van-badge-group>
       <div class="search-main">
-        <h2>经典线路</h2>
-        <div class="line">
-          <hot-city-tag v-for="line in lineList" :key="line.id" :className="line.active ? 'active' : 'normal'" :tag="line" />
+        <div class="result-line">
+          <h2>经典线路</h2>
+          <div class="line">
+            <hot-city-tag v-for="line in lineList" :key="line.id" :className="line.active ? 'active' : 'normal'" :tag="line" />
+          </div>
         </div>
         <!--热门景点-->
-        <h2>热门景点</h2>
-        <h2>热门景点</h2>
+        <div class="hot-box">
+          <h2>热门景点</h2>
+          <hot-place :lists="hotPlace"></hot-place>
+        </div>
+        <div class="hot-box">
+          <h2>热门目的地</h2>
+          <hot-place :lists="hotTarget"></hot-place>
+        </div>
+        <div class="play-box">
+          <h2>Top6玩法</h2>
+          <play-ways v-for="play in playWaysList" :key="play.id" :item="play"></play-ways>
+        </div>
       </div>
     </div>
   </div>
@@ -24,11 +36,15 @@
 <script>
 import LayHeader from '@/components/header/index.vue'
 import HotCityTag from '@/components/tags/index.vue'
+import HotPlace from '@/components/hot_place/index.vue'
+import PlayWays from '@/components/play_ways/index.vue'
 export default {
   name: 'search',
   components: {
     LayHeader,
-    HotCityTag
+    HotCityTag,
+    HotPlace,
+    PlayWays
   },
   data() {
     return {
@@ -39,6 +55,24 @@ export default {
         {title: '美国+墨西哥',id:3, active:true},
         {title: '美国+加拿大',id:4},
         {title: '纽约+阿拉斯加+洛杉矶',id:5}
+      ],
+      hotPlace: [
+        {id: 1, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '黄石国家公园', desc: '惊艳黄石'},
+        {id: 2, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '黄石国家公园', desc: '惊艳黄石'},
+        {id: 3, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '黄石国家公园', desc: '惊艳黄石'},
+      ],
+      hotTarget: [
+        {id: 1, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '纽约'},
+        {id: 2, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '洛杉矶'},
+        {id: 3, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '塞班'},
+        {id: 4, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '纽约'},
+        {id: 5, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '洛杉矶'},
+        {id: 6, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '塞班'},
+      ],
+      playWaysList: [
+        {id: 1, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg', title: '极限体验w', desc: '挑战自己，突破极限'},
+        {id: 2, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg', title: '极限体验2', desc: '挑战自己，突破极限'},
+        {id: 3, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg', title: '极限体验3', desc: '挑战自己，突破极限'},
       ]
       // searchKeyWords: ''
     }
@@ -79,9 +113,12 @@ export default {
     .search-main {
       flex: 1;
       padding-left: 210px;
-      height: 6000px;
+      padding-right: 32px;
+      .result-line{
+        padding-top: 22px;
+      }
       h2{
-        padding:32px 0 20px 0;
+        padding: 10px 0 20px 0;
         font-size:28px;
         color: #9A9A9A;
       }
@@ -90,7 +127,6 @@ export default {
         color: #fff;
       }
     }
-
   }
 </style>
 <style>

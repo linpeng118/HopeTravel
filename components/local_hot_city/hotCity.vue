@@ -1,6 +1,6 @@
 <template>
   <div class="hot-city">
-    <h1 class="title">热门城市</h1>
+    <h1 class="hot-title">热门城市</h1>
     <div class="hot-list">
       <div class="hot-item" v-for="item in hotCityList" :key="item.category" @click="selectItem(item.start_city)">
         <img v-lazy="item.image_url" alt="">
@@ -41,7 +41,7 @@ export default {
   .hot-city{
     padding: 0 32px 48px 32px;
     background: #fff;
-    h1.title{
+    h1.hot-title{
       padding:32px 0;
       font-size:40px;
       line-height:56px;

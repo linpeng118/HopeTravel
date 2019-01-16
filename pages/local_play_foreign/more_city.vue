@@ -25,6 +25,7 @@
   import {getUrlParam} from '@/assets/js/utils'
   export default {
     name: 'moreCity',
+    transition: 'page',
     components: {
       LayHeader,
       Scroll
@@ -46,6 +47,12 @@
     created() {
       this.cityList = this._nomalLizeCityList(this.original)
     },
+    mounted() {
+      if (this.getPlatForm()) {
+        this.appBridge = require('@/assets/js/appBridge.js').default
+        this.appBridge.hideNavigationBar()
+      }
+    },
     methods: {
       // 判断是app还是web
       getPlatForm() {
@@ -53,7 +60,11 @@
       },
       // 返回上一级页面
       leftClick() {
-        this.$router.go(-1)
+        if (this.getPlatForm) {
+          this.appBridge.backPreviousView()
+        } else {
+          this.$router.go(-1)
+        }
       },
       // 初始化数据
       async getInit() {

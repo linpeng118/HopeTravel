@@ -1,5 +1,5 @@
 <template>
-  <div class="hot-item">
+  <div class="hot-item" @click="selectItem">
     <div class="banner" :productId="proData.product_id">
       <img :src="proData.image"
         alt="banner">
@@ -69,7 +69,12 @@
     },
     computed: {},
     mounted() {},
-    methods: {},
+    methods: {
+      selectItem() {
+        console.log('dianjil')
+        this.$emit('selectItem', this.proData.product_id)
+      }
+    },
   }
 </script>
 
@@ -128,7 +133,7 @@
     }
     .desc {
       margin-top: 10px;
-      font-size: 14px;
+      font-size: 28px;
     }
     .price-wrap {
       margin-top: 8px;

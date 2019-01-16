@@ -40,7 +40,12 @@ httprequest.interceptors.request.use(
 // 相应拦截器
 httprequest.interceptors.response.use(
   // 请求成功
-  res => res.status === 200 ? Promise.resolve(res.data) : Promise.reject(res.data),
+  res => {
+    if (res.status !== 200) {
+      Promise.reject(res.data)
+    }
+    return res.data
+  },
   // 请求失败
   error => {
     const {
@@ -89,7 +94,7 @@ const errorHandle = (status, other) => {
       tip('请求的资源不存在');
       break;
     default:
-      (other);
+      console.log(other);
   }
 }
 

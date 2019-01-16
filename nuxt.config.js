@@ -13,7 +13,7 @@ module.exports = {
       },
       {
         name: 'viewport',
-        content: 'width=device-width, initial-scale=1'
+        content: 'width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover'
       },
       {
         hid: 'description',
@@ -100,7 +100,7 @@ module.exports = {
       changeOrigin: true
     },
     '/paly': {
-      target: 'http://192.168.1.91:8887/api/tour/v1', // api主机
+      target: 'http://192.168.1.91:8888/api/tour/v1', // api主机
       pathRewrite: {
         '^/paly': '/'
       },

@@ -27,11 +27,11 @@
         <div class="show-item"
              v-for="showItem in showList"
              :key="showItem.title" v-if="showItem.list.length">
-          <swipe-item :proData="showItem" @selectItem="selectItem" />
+          <swipe-item :proData="showItem" @selectItems="selectItem" />
         </div>
       </div>
       <!-- 底部广告 -->
-      <lay-footer :imageInfo="footerAdvert" class="footer-margin"></lay-footer>
+      <lay-footer :imageInfo="footerAdvert" class="footer-margin" v-if="JSON.stringify(footerAdvert) === '{}'"></lay-footer>
     </div>
     <loading v-if="!showList.length"></loading>
   </div>
@@ -95,6 +95,7 @@
     },
     async asyncData({$axios}) {
       let {data, code} = await getPlay($axios)
+      console.log(data)
       if (code === 0) {
         return {
           original: data
@@ -114,14 +115,17 @@
     mounted() {
       // 监听滚动
       this.$refs.refLocalPlayPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
-      // this.getViewedList('')
+      this.appBridge = require('@/assets/js/appBridge.js').default
       if (this.getPlatForm()) {
-        this.appBridge = require('@/assets/js/appBridge.js').default
-        const localProductIds = this.appBridge.getLocalStorage().toString()
-        console.log('localProductIds:' + localProductIds)
+        this.appBridge.hideNavigationBar()
+        const localProductIds = this.appBridge.getLocalStorage()
+        // console.log(localProductIds)
+        console.log('2019年1月16日10:40:14')
+        localProductIds().then(res => {
+          console.log(res)
+        })
         this.getViewedList(localProductIds)
       }
-      console.log('2019年1月15日11:04:26')
     },
     methods: {
       ...mapMutations({
@@ -145,11 +149,13 @@
       selectItem(productId) {
         if(this.getPlatForm()) {
           // app详情跳转
+          console.log('app详情跳转')
           this.appBridge.jumpProductDetailView({
             productID: productId
           })
         } else {
           // m跳转
+          console.log('m跳转')
           this.$router.push({
             path: '/product/detail',
             query: {
@@ -182,7 +188,7 @@
         let showList = []
         let len = data.length
         this.hotCity = data[0].data
-        this.footerAdvert = data[len-1].data
+        this.footerAdvert = data[len-1].data[0]
         for(let i = 1; i < len - 1;i++){
           let obj = {}
           obj.name = data[i].moduleName
