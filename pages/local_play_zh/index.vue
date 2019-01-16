@@ -117,11 +117,11 @@
       this.init()
       if (this.isApp) {
         this.appBridge = require('@/assets/js/appBridge.js').default
-        let productIds = await this.appBridge.getLocalStorage()
-        let token = await this.appBridge.obtainUserToken()
         this.appBridge.hideNavigationBar()
-        this.vxChangeTokens(token)
+        let productIds = await this.appBridge.getLocalStorage()
         console.log('productIds' + productIds)
+        let token = await this.appBridge.obtainUserToken()
+        this.vxChangeTokens(token)
         if (productIds.length) {
           this.getViewedList(res)
         }
