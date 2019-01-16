@@ -120,11 +120,12 @@
         this.appBridge.hideNavigationBar()
         let productIds = await this.appBridge.getLocalStorage()
         console.log('productIds' + productIds)
-        let token = await this.appBridge.obtainUserToken()
-        this.vxChangeTokens(token)
         if (productIds.length) {
           this.getViewedList(res)
         }
+        let token = await this.appBridge.obtainUserToken()
+        console.log(token)
+        this.vxChangeTokens(token)
         // this.appBridge.getLocalStorage().then(res => {
         //
         // })
