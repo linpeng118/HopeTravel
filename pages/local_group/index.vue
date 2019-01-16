@@ -9,7 +9,7 @@
       <!-- banner -->
       <div class="banner"></div>
       <!-- 下标（模块）[0] -->
-      <div class="hot-swiper">
+      <div class="hot-swiper" v-if="localgroupData[0].data.length">
         <h1 class="title">{{localgroupData[0].moduleName}}</h1>
         <div v-swiper:mySwiper="swiperOption">
           <div class="swiper-wrapper">
@@ -23,7 +23,7 @@
         </div>
       </div>
       <!-- 下标（模块）[1] -->
-      <div class="hot-citys">
+      <div class="hot-citys" v-if="localgroupData[1].data.length">
         <h1 class="title">{{localgroupData[1].moduleName}}</h1>
         <div class="city-list">
           <hot-city-tag v-for="city in localgroupData[1].data"
@@ -36,7 +36,7 @@
         </div>
       </div>
       <!-- 下标（模块）[2] -->
-      <div class="high-quality tours-tabs">
+      <div class="high-quality tours-tabs" v-if="localgroupData[2].data.length">
         <h1 class="title">{{localgroupData[2].moduleName}}</h1>
         <!-- 横向tabs -->
         <van-tabs v-model="selected"
