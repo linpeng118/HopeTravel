@@ -121,7 +121,7 @@
 
 <script>
   import {throttle as _throttle} from 'lodash'
-  import NormalHeader from '@/components/header/mormal'
+  import NormalHeader from '@/components/header/normal'
   import transpTag from '@/components/tags/transparent'
   import ImgItem from '@/components/items/imgItem'
   import {custom} from '@/api/custom'
@@ -139,7 +139,6 @@
           loop: true,
           centeredSlides: true, // 居中
           slidesPerView: 'auto',
-          // spaceBetween: 5,
           observer: true, //修改swiper自己或子元素时，自动初始化swiper 
           observeParents: true, //修改swiper的父元素时，自动初始化swiper
         },
