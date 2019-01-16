@@ -120,12 +120,11 @@
         this.appBridge.hideNavigationBar()
         let productIds = await this.appBridge.getLocalStorage()
         console.log('productIds' + productIds)
-        // if (productIds.length) {
-        //   console.log('2019年1月16日16:21:46')
-        //   this.getViewedList(productIds)
-        // }
-        console.log('2019年1月16日16:31:52')
-        this.getViewedList(productIds)
+        if (productIds.length) {
+          this.getViewedList(productIds)
+        }
+        console.log('2019年1月16日16:38:53')
+        // this.getViewedList(productIds)
         let token = await this.appBridge.obtainUserToken()
         console.log(token)
         this.vxChangeTokens(token)
@@ -133,7 +132,7 @@
         //
         // })
       }
-      this.getViewedList('985')
+      // this.getViewedList('985')
     },
     methods: {
       ...mapMutations({
