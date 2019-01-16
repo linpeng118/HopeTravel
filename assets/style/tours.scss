@@ -51,10 +51,17 @@
 
 // 私人定制输入框样式
 .tours-input-no-bg {
-  height: 72px;
+  &.van-cell-group {
+    background: transparent;
+  }
 
-  &.van-cell {
+  &.van-hairline--top-bottom::after {
+    border: 0;
+  }
+
+  .van-cell {
     padding: 10px 20px;
+    height: 72px;
     background-color: transparent;
 
     .van-field__control {
