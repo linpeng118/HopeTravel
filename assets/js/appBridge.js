@@ -43,9 +43,9 @@ function callApi(funcName, isAndroid, args) {;
       }
     } else {
       // iOS只能传入一个参数，多的必须装到数组里
-      console.log('参数参数1111' + args)
+      console.log('参数参数222' + args)
       console.log(args)
-      window.webkit.messageHandlers[funcName].postMessage(args[0])
+      window.webkit.messageHandlers[funcName].postMessage(args)
     }
   } catch (e) {
     console.error(e)
