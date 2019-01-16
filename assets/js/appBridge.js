@@ -150,7 +150,7 @@ export const collectProductResult = (() => {
       return new Promise(resolve => {
         const funcName = `__API__${randomString(6)}`
         window[funcName] = resolve
-        // callApi('collectProductResult', true, funcName)
+        callApi('collectProductResult', true, funcName)
       })
     }
   }
@@ -165,7 +165,7 @@ export const collectProductResult = (() => {
           window.collectProductResult = oldFunc
           resolve(collectResult)
         }
-        // callApi('collectProductResult', false)
+        callApi('collectProductResult', false)
       })
     }
   }
