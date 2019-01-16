@@ -241,7 +241,7 @@
         console.log('点击了收藏')
         if (this.isApp) {
           let json = {
-            type: val.is_favorite ? '1' : '0',
+            type: '0',
             product_id: product_id.toString()
           }
           this.appBridge.userCollectProduct(json)
