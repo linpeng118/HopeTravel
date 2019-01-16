@@ -120,10 +120,12 @@
         this.appBridge.hideNavigationBar()
         let productIds = await this.appBridge.getLocalStorage()
         console.log('productIds' + productIds)
-        if (productIds.length) {
-          console.log('2019年1月16日16:21:46')
-          this.getViewedList(productIds)
-        }
+        // if (productIds.length) {
+        //   console.log('2019年1月16日16:21:46')
+        //   this.getViewedList(productIds)
+        // }
+        console.log('2019年1月16日16:24:34')
+        this.getViewedList(productIds)
         let token = await this.appBridge.obtainUserToken()
         console.log(token)
         this.vxChangeTokens(token)
