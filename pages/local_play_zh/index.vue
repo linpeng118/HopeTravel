@@ -251,6 +251,7 @@
             type: val.is_favorite ? '0' : '1',
             product_id: val.product_id + ''
           }
+
           this.appBridge.userCollectProduct(json)
           this.appBridge.collectProductResult().then(res => {
             console.log('获取到的收藏结果')
