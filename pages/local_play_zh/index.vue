@@ -242,11 +242,10 @@
           }
           this.appBridge.userCollectProduct(json)
           this.appBridge.collectProductResult().then(res => {
-            console.log(res)
             if (res.code == 0) {
               this.$toast('操作成功')
-              const index = this.viewedList.findIndex(item => {
-                return item.product_id = val.product_id
+              let index = this.viewedList.findIndex(item => {
+                return item.product_id === val.product_id
               })
               this.viewedList[index].is_favorite = !this.viewedList[index].is_favorite
             } else {
