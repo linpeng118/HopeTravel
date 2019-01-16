@@ -120,7 +120,7 @@
         this.appBridge.hideNavigationBar()
         const localProductIds = this.appBridge.getLocalStorage()
         // console.log(localProductIds)
-        console.log('2019年1月16日10:40:14')
+        console.log('2019年1月16日11:34:36')
         localProductIds().then(res => {
           console.log(res)
         })
