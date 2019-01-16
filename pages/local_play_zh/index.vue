@@ -119,8 +119,9 @@
       if (this.getPlatForm()) {
         this.appBridge.hideNavigationBar()
         const localProductIds = this.appBridge.getLocalStorage()
-        console.log('2019年1月16日12:39:59')
-        console.log(localProductIds())
+        console.log('2019年1月16日12:52:00')
+        console.log(localProductIds)
+        // console.log()
         // localProductIds().then(res => {
         //   console.log(res)
         // })
