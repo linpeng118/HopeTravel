@@ -23,12 +23,12 @@
           </p>
           <div>
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store1/d1_1.png"
               alt
             >
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store1/d1_2.png"
               alt
             >
@@ -46,12 +46,12 @@
           </p>
           <div>
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store1/d1_3.png"
               alt
             >
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store1/d1_4.png"
               alt
             >
@@ -69,12 +69,12 @@
           </p>
           <div>
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store1/d1_5.png"
               alt
             >
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store1/d1_6.png"
               alt
             >
@@ -92,12 +92,12 @@
           </p>
           <div>
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store1/d1_7.png"
               alt
             >
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store1/d1_8.png"
               alt
             >
@@ -115,12 +115,12 @@
           </p>
           <div>
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store1/d1_9.png"
               alt
             >
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store1/d1_10.png"
               alt
             >
@@ -138,12 +138,12 @@
           </p>
           <div>
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store1/d1_11.png"
               alt
             >
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store1/d1_12.png"
               alt
             >
@@ -155,12 +155,12 @@
           </p>
           <div>
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store1/d1_13.png"
               alt
             >
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store1/d1_14.png"
               alt
             >
@@ -178,12 +178,12 @@
           </p>
           <div>
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store1/d1_15.png"
               alt
             >
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store1/d1_16.png"
               alt
             >
@@ -201,7 +201,7 @@
           </p>
           <div>
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store1/d1_17.png"
               alt
             >
@@ -222,12 +222,12 @@
       >位于巴黎与卢瓦河谷交界处，离巴黎市中心60公里。毗邻著名的景点有凡尔赛宫、沙特尔大教堂、枫丹白露等。 城堡酒店既有童话般的魅力，也有历史更有故事。几个世纪以来，城堡的主人不是皇亲国戚，就是世袭显赫、权倾一时的大臣，先后为于罗特伯爵（亨利三世的法国首相）、布里昂（亨利四世议会主席）、拉罗什福科等众多显赫家族拥有。二战盟军在诺曼底登陆一路攻向巴黎时，声名显赫的巴顿将军就曾驻扎于此。因为这里离凡尔赛宫和夏日行宫很近，所以无论是巴黎还是来自外省的皇亲国戚和达官贵族，在觐见皇帝的前后，都会选择到这里落脚下榻。从那时起，这个城堡就是社会名流的交际场所。 城堡除了兼具有护城河、塔楼、阳台、炮塔、钟楼以及参天古树这些欧洲城堡所有的元素之外，它有可与原始森林相媲美的良好生态环境，在生态林中踱步还可遇见梅花鹿、狍子等野生动物。此外，游客还可乘坐热气球或直升机饱览城堡及其周边地区的壮美景色。</p>
       <div>
         <img
-          style="width:311px;height:132px;margin-top:10px;"
+          class="date-img"
           src="../../assets/imgs/custom/store1/d1_18.png"
           alt
         >
         <img
-          style="width:311px;height:132px;margin-top:10px;"
+          class="date-img"
           src="../../assets/imgs/custom/store1/d1_19.png"
           alt
         >
@@ -239,12 +239,12 @@
       >酒店位于巴黎别致的第8区，是一家拥有18世纪法国风格和东方风味且装饰独特的精品酒店。酒店距离香榭丽舍大街仅有5分钟的步行路程，距离时尚的Rue Faubourg Saint-Honoré街有230米之遥。酒店毗邻香榭丽舍和圣奥诺雷郊区街，内部设计独特，就像私人住宅，配有18世纪法国定制手绘中国风格壁纸，珍惜树木雕刻而出的家具，极为舒适的沙发，以及闪亮的东方丝绸。这里是挑剔的游客、艺术爱好者、美食家和情侣入住的理想场所。酒店隶属罗莱夏朵精品奢华酒店集团（RELAIS & CHATEAUX）</p>
       <div>
         <img
-          style="width:311px;height:132px;margin-top:10px;"
+          class="date-img"
           src="../../assets/imgs/custom/store1/d1_20.png"
           alt
         >
         <img
-          style="width:311px;height:132px;margin-top:10px;"
+          class="date-img"
           src="../../assets/imgs/custom/store1/d1_21.png"
           alt
         >
@@ -255,17 +255,17 @@
       >巴黎唯一的城堡酒店。距离凯旋门和维克多雨果大街仅一街之隔，曾是拿破仑三世居所。48间客房和套房也许都曾低调地接待过某位名人政要，来酒店发掘更多的故事吧。在巴黎最时髦的第十六区，在香榭丽舍大街的旁边。酒店有部分城堡的感觉，还有部分家庭联排别墅的感觉，两种味道结合在一起，又是一种新形式的混搭。最近，酒店又由法国知名设计师 Bambi Sloan 重新进行了装修，所呈现的风格集美观大方与私密温馨于一体，古典主义与奢华主义完美结合。不要错过酒店奢华的Spa理疗，它与有名的法国护肤品牌“娇兰（Guerlain）”合作，让你的肌肤享受奢华的护理疗程。Spa场所高贵优雅，气氛静谧，十分适合你在此休闲放松。酒店隶属罗莱夏朵精品奢华酒店集团（RELAIS & CHATEAUX）。</p>
       <div>
         <img
-          style="width:311px;height:132px;margin-top:10px;"
+          class="date-img"
           src="../../assets/imgs/custom/store1/d1_22.png"
           alt
         >
         <img
-          style="width:311px;height:132px;margin-top:10px;"
+          class="date-img"
           src="../../assets/imgs/custom/store1/d1_23.png"
           alt
         >
         <img
-          style="width:311px;height:132px;margin-top:10px;"
+          class="date-img"
           src="../../assets/imgs/custom/store1/d1_24.png"
           alt
         >

@@ -28,7 +28,7 @@
                     早餐：自理      午餐：自理      晚餐：自理      住宿：飞机上<br>
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store2/d1_1.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store2/d1_1.png" alt="">
                 </div>
             </div>
             <div class="day2">
@@ -38,8 +38,8 @@
                     早餐：自理      午餐：自理      晚餐：自理      住宿：圣托里尼特色酒店<br>
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store2/d1_2.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store2/d1_3.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store2/d1_2.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store2/d1_3.png" alt="">
                 </div>
             </div>
             <div class="day3">
@@ -50,9 +50,9 @@
                     早餐：酒店      午餐：自理      晚餐：海鲜大餐      住宿：圣托里尼特色酒店<br>
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store2/d1_4.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store2/d1_5.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store2/d1_6.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store2/d1_4.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store2/d1_5.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store2/d1_6.png" alt="">
                 </div>
             </div>
             <div class="day4">
@@ -63,7 +63,7 @@
                     早餐：酒店      午餐：自理      晚餐：自理      住宿：圣托里尼特色酒店<br>
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store2/d1_7.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store2/d1_7.png" alt="">
                 </div>
             </div>
             <div class="day5">
@@ -78,8 +78,8 @@
                     早餐：酒店      午餐：自理      晚餐：自理      住宿：圣托里尼特色酒店<br>
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store2/d1_8.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store2/d1_9.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store2/d1_8.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store2/d1_9.png" alt="">
                 </div>
             </div>
             <div class="day6">
@@ -91,15 +91,15 @@
                     早餐：酒店      午餐：自理      晚餐：自理      住宿：罗马特色酒店<br>
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store2/d1_10.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store2/d1_11.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store2/d1_10.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store2/d1_11.png" alt="">
                 </div>
                 <p class="date_paragraph">
                     今晚我们将入住巴黎唯一的城堡酒店。距离凯旋门和维克多雨果大街仅一街之隔，曾是拿破仑三世居所。酒店位于巴黎最时髦的第十六区，香榭丽舍大街旁边。酒店有部分城堡的感觉，还有部分家庭联排别墅的感觉，两种味道结合在一起，又是一种新形式的混搭。酒店的SPA选用的是法国奢侈护肤品牌“娇兰”。购物回来享受一下高雅尊贵的SPA，一定让你尽情的放松<br>
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store2/d1_13.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store2/d1_14.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store2/d1_13.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store2/d1_14.png" alt="">
                 </div>
             </div>
             <div class="day7">
@@ -109,8 +109,8 @@
                     早餐：酒店      午餐：自理      晚餐：自理      住宿：罗马特色酒店<br>
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store2/d1_12.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store2/d1_13.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store2/d1_12.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store2/d1_13.png" alt="">
                 </div>
             </div>
             <div class="day8">
@@ -120,9 +120,9 @@
                     早餐：酒店      午餐：自理      晚餐：自理      住宿：罗马特色酒店<br>
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store2/d1_14.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store2/d1_15.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store2/d1_16.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store2/d1_14.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store2/d1_15.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store2/d1_16.png" alt="">
                 </div>
             </div>
             <div class="day9">
@@ -132,7 +132,7 @@
                     早餐：酒店      午餐：自理      晚餐：自理      住宿：飞机上<br>
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store2/d1_17.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store2/d1_17.png" alt="">
                 </div>
             </div>
             <div class="day10">
@@ -142,7 +142,7 @@
                 </p>
             </div>
         </div>
-        <p>注：以上行程中所列仅为参考时间，在不减少行程景点的前提下，公司有权对上述行程的次序、景点，依照当地情况进行调整！<br></p>
+        <p class="date_paragraph">注：以上行程中所列仅为参考时间，在不减少行程景点的前提下，公司有权对上述行程的次序、景点，依照当地情况进行调整！<br></p>
         <h5 class="ct_title">
             酒店信息
         </h5>

@@ -28,8 +28,8 @@
                     早餐：自理      午餐：飞机上      晚餐：自理      住宿：东京湾希尔顿<br>
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store7/d1_1.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store7/d1_2.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store7/d1_1.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store7/d1_2.png" alt="">
                 </div>
             </div>
             <div class="day2">
@@ -39,8 +39,8 @@
                     早餐：酒店含早      午餐：自理      晚餐：自理      住宿：东京湾希尔顿<br>
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store7/d1_3.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store7/d1_4.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store7/d1_3.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store7/d1_4.png" alt="">
                 </div>
             </div>
             <div class="day3">
@@ -51,7 +51,7 @@
                     早餐：酒店含早      午餐：自理      晚餐：酒店含晚餐      住宿：富士山鐘山苑温泉酒店<br>
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store7/d1_5.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store7/d1_5.png" alt="">
                 </div>
             </div>
             <div class="day4">
@@ -61,9 +61,9 @@
                     早餐：酒店含早      午餐：自理      晚餐：自理      住宿：大阪帝国酒店<br>
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store7/d1_6.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store7/d1_7.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store7/d1_8.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store7/d1_6.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store7/d1_7.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store7/d1_8.png" alt="">
                 </div>
             </div>
             <div class="day5">
@@ -73,8 +73,8 @@
                     早餐：酒店含早      午餐：自理      晚餐：自理      住宿：大阪帝国酒店<br>
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store7/d1_9.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store7/d1_10.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store7/d1_9.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store7/d1_10.png" alt="">
                 </div> 
             </div>
             <div class="day6">
@@ -84,11 +84,11 @@
                    早餐：酒店含早      午餐：自理      晚餐：自理      住宿：大阪帝国酒店<br>
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store7/d1_11.png" alt=""> 
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store7/d1_12.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store7/d1_13.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store7/d1_14.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store7/d1_15.png" alt="">   
+                    <img class="date-img" src="../../assets/imgs/custom/store7/d1_11.png" alt=""> 
+                    <img class="date-img" src="../../assets/imgs/custom/store7/d1_12.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store7/d1_13.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store7/d1_14.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store7/d1_15.png" alt="">   
                 </div>
             </div>
             <div class="day7">
@@ -98,9 +98,9 @@
                     早餐：酒店含早      午餐：自理      晚餐：自理      住宿：无<br>
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store7/d1_16.png" alt=""> 
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store7/d1_17.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store7/d1_18.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store7/d1_16.png" alt=""> 
+                    <img class="date-img" src="../../assets/imgs/custom/store7/d1_17.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store7/d1_18.png" alt="">
                 </div>
             </div>
         </div>
@@ -115,8 +115,8 @@
             东京湾希尔顿酒店是东京迪士尼度假区的官方酒店，坐落在东京湾的东岸，在 JR 舞滨站南口的 welcome center（营 业时间 8 点-15 点） 客人可以在此直接办理酒店入住手续以及行李寄存，行李会直接送往酒店。从酒店出发可乘坐 迪士尼小火车前往乐园，酒店亦提供免费接驳巴士到 JR 舞滨站。不论您是商务出差还是休闲旅游千叶东京湾希尔 顿酒店(Hilton Tokyo Bay Chiba)都是理想的下榻之处。附近很多景点，包括东京迪士尼乐园、东京迪士尼海洋和冲绳 迪斯尼伊克斯皮儿莉购物中心都离酒店不远，酒店的园景房一侧还可以看到迪士尼乐园的烟火。
         </p>
         <div>
-            <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store7/d1_19.png" alt="">
-            <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store7/d1_20.png" alt="">   
+            <img class="date-img" src="../../assets/imgs/custom/store7/d1_19.png" alt="">
+            <img class="date-img" src="../../assets/imgs/custom/store7/d1_20.png" alt="">   
         </div>
         <h6 class="ct_subTitle">
             Kaneyamaen （鐘山苑） 
@@ -125,9 +125,9 @@
             鐘山苑有 106 间装修精美的客房，大部分都配有平板电视, 额外浴室, 空气净化器, 免费速溶咖啡, 免费茶水。 酒 店的娱乐设施相当齐全，包括温泉 , 室外游泳池, 水疗中心, 按摩, 花园。 钟山苑酒店地理位置优越，设施优良， 各方面均为理想之选。
         </p>
         <div>
-            <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store7/d1_21.png" alt="">
-            <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store7/d1_22.png" alt="">
-            <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store7/d1_23.png" alt="">   
+            <img class="date-img" src="../../assets/imgs/custom/store7/d1_21.png" alt="">
+            <img class="date-img" src="../../assets/imgs/custom/store7/d1_22.png" alt="">
+            <img class="date-img" src="../../assets/imgs/custom/store7/d1_23.png" alt="">   
         </div>
         <h6 class="ct_subTitle">
           Imperial Hotel Osaka（大阪帝国酒店） 
@@ -136,8 +136,8 @@
             大阪帝国酒店是一家享有盛誉的五星级酒店，坐落在以美丽樱花而闻名的大川河（Okawa River）河畔。 酒店设有众多娱乐设施 。Les Saison 餐厅享有城市全景，供应精致的法国美食。Kamon 餐厅供应新鲜的海产品和铁 板烧风格牛排。Jasmine Garden 餐厅供应奢华的中式菜肴。 
         </p>
         <div>
-            <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store7/d1_24.png" alt="">
-            <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store7/d1_25.png" alt="">  
+            <img class="date-img" src="../../assets/imgs/custom/store7/d1_24.png" alt="">
+            <img class="date-img" src="../../assets/imgs/custom/store7/d1_25.png" alt="">  
         </div>
         <h5 class="ct_title">
             费用包含
