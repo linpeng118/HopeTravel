@@ -1,8 +1,8 @@
 <template>
   <section class="test-page">
     <h4>version 1.0</h4>
-    <h6>功能调试</h6>
     <div class="test-list">
+      <h5>功能调试</h5>
       <nuxt-link class="test-item hand"
         v-for="item in testList"
         :key="item.path"
@@ -11,8 +11,8 @@
         {{item.id}} {{item.name}}
       </nuxt-link>
     </div>
-    <h6>页面测试</h6>
     <div class="test-list">
+      <h5>页面测试</h5>
       <nuxt-link class="test-item hand"
         v-for="item in testPages"
         :key="item.path"
