@@ -9,10 +9,10 @@
         title="普通登陆">
         <van-cell-group>
           <van-field class="username tours-input"
-            v-model="username"
+            v-model="formData.username"
             placeholder="请输入用户名" />
           <van-field class="password tours-input"
-            v-model="password"
+            v-model="formData.password"
             center
             clearable
             icon="eye-o"
@@ -35,21 +35,22 @@
         title="手机验证码登陆">
         <van-cell-group>
           <area-code-input class="mobile"
-            :proMobile.sync="mobile" />
+            :proMobile.sync="formPhone.mobile" />
           <van-field class="auth-code tours-input"
-            v-model="authCode"
+            v-model="formPhone.authCode"
             center
             clearable
             placeholder="请输入验证码">
             <van-button class="btn-get-code tours-button-noborder"
               slot="button"
               size="small"
-              @click="getCode">获取验证码</van-button>
+              :disabled="codeType===VERIFY_CODE.GETTING"
+              @click="getCode">{{showText}}</van-button>
           </van-field>
         </van-cell-group>
         <van-button class="btn-login tours-button"
           size="large"
-          :disabled="!isMobileOk"
+          :disabled="!isPhoneOk"
           @click="mobileLogin">登录</van-button>
       </van-tab>
       <p class="text">登陆即代表您已同意我们的<span @click="onAgreement">&nbsp;服务协议</span></p>
@@ -60,30 +61,41 @@
 <script>
   import loginHeader from '@/components/header/loginHeader'
   import AreaCodeInput from '@/components/input/areaCode'
+  import {VERIFY_CODE} from '@/assets/js/consts'
+  let verifyCode
+  if (process.browser) {
+    verifyCode = require('@/assets/js/mixins/verifyCode').default
+  }
 
   export default {
     components: {
       loginHeader,
       AreaCodeInput
     },
+    mixins: process.browser ? [verifyCode] : [],
     data() {
       return {
+        VERIFY_CODE,
         // 用户登录
-        username: '',
-        password: '',
+        formData: {
+          username: '',
+          password: '',
+        },
         pswInputType: 'password', // 密码输入框类型
         isNameOk: false, // 验证用户名是否ok
         // 手机登录
-        mobile: '',
-        isMobileOk: false, // 验证手机号是否ok
-        authCode: '', // 验证码
-        areaCode: '86', // 区号
-        timer: null,
-        time: 6,
+        formPhone: {
+          areaCode: '86', // 区号
+          mobile: '',
+          code: '', // 验证码
+        },
+        isPhoneOk: false, // 验证手机号是否ok
       }
     },
     computed: {},
-    mounted() {},
+    mounted() {
+
+    },
     methods: {
       // 跳转至注册页
       toRegist() {
@@ -100,22 +112,25 @@
         })
       },
       // 获取验证码
-      getCode() {
-        // TODO:
-        clearInterval(this.timer)
-        this.timer = setInterval(() => {
-          this.time--
-        }, 1000)
+      async getCode() {
+        this.codeType = VERIFY_CODE.GETTING // 获取验证码
+        // 提交
+        try {
+           // await this.getVerifyCode({
+          //   mobile: this.formPhone.mobile,
+          //   areaCode: this.formPhone.areaCode,
+          //   code: this.formPhone.code,
+          // })
+        // mixins
+        await this.countDown()
+      } catch (error) {
+        console.log(error)
+        this.codeType = VERIFY_CODE.START
+      }
       },
-      onAreaCode() {
-        (123)
-      },
-      login() {
-        (1)
-      },
-      mobileLogin() {
-        (2, this.mobile)
-      },
+      onAreaCode() {},
+      login() {},
+      mobileLogin() {},
       // 点击服务协议
       onAgreement() {
         this.$router.push({

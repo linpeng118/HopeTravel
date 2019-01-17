@@ -1,10 +1,10 @@
 import {
   VERIFY_CODE
-} from 'assets/js/const'
+} from 'assets/js/consts'
 
 const TIME = 60 // 倒计时时间
 
-const verifyCode = {
+let verifyCode = {
   data() {
     return {
       VERIFY_CODE,
@@ -16,24 +16,26 @@ const verifyCode = {
   computed: {
     showText() {
       if (this.codeType === VERIFY_CODE.START) {
-        window.clearInterval(this.timer)
-        return this.$t('button.getVerifyCode')
+        clearInterval(this.timer)
+        return '获取验证码'
       } else if (this.codeType === VERIFY_CODE.GETTING) {
-        return `${this.$t('button.sent')}（${this.countDownTime}）`
+        return `${this.countDownTime} s`
       } else {
-        return this.$t('button.recapture')
+        clearInterval(this.timer)
+        return '重新获取'
       }
     }
   },
   methods: {
     /** 倒计时函数 */
     countDown() {
-      this.timer = window.setInterval(() => {
+      this.timer = setInterval(() => {
+        console.log(this.countDownTime)
         if (this.countDownTime <= 0) {
           this.codeType = VERIFY_CODE.AGAIN
           this.countDownTime = TIME
-          console.log('countDownTime', this, this.countDownTime)
-          window.clearInterval(this.timer)
+          console.log('countDownTime', this.countDownTime)
+          clearInterval(this.timer)
         } else {
           this.countDownTime--
         }
