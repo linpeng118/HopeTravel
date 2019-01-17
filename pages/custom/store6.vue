@@ -98,9 +98,9 @@
                     <img class="date-img" src="../../assets/imgs/custom/store6/6.17.png" alt="">
                 </div>
             </div>
-            <p>注：以上行程中所列仅为参考时间，在不减少行程景点的前提下，公司有权对上述行程的次序、景点，依照当地情况进行调整！</p>
+            
         </div>
-
+        <p class="date_paragraph">注：以上行程中所列仅为参考时间，在不减少行程景点的前提下，公司有权对上述行程的次序、景点，依照当地情况进行调整！</p>
         <h5 class="ct_title" style="margin-top: 0.3rem;">
             参考下榻酒店
         </h5>
