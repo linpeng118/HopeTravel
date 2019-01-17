@@ -26,6 +26,7 @@
 </template>
 
 <script>
+  import {throttle as _throttle} from 'lodash'
   export default {
     components: {
     },
@@ -45,9 +46,9 @@
       }
     },
     created() {
-      this.$watch('query', (newValue) => {
+      this.$watch('query', _throttle((newValue) => {
         this.$emit('query', newValue)
-      })
+      }, 500))
     },
     methods: {
       onClickLeft() {
