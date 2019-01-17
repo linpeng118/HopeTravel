@@ -1,22 +1,27 @@
 <template>
-  <div class="local-play-zh" ref="refLocalPlayPage">
-    <lay-header title="当地玩乐" @leftClick="leftClick"></lay-header>
+  <div class="local-play-zh"
+    ref="refLocalPlayPage">
+    <lay-header title="当地玩乐"
+      @leftClick="leftClick"></lay-header>
     <div v-if="showList.length">
       <!-- banner -->
       <div class="banner"></div>
       <!-- 热门城市 -->
-      <hot-city :hotCityList="hotCity" @clickItem="linkCityHandle" @selectMore="selectMore"></hot-city>
+      <hot-city :hotCityList="hotCity"
+        @clickItem="linkCityHandle"
+        @selectMore="selectMore"></hot-city>
       <!-- 最近浏览 -->
-      <div class="recently-viewed" v-if="viewedList.length">
+      <div class="recently-viewed"
+        v-if="viewedList.length">
         <h1 class="title">最近浏览</h1>
         <div v-swiper:mySwiper="viewedSwiperOption">
           <div class="swiper-wrapper">
             <div class="swiper-slide"
-                 v-for="viewed in viewedList"
-                 :key="viewed.product_id">
+              v-for="viewed in viewedList"
+              :key="viewed.product_id">
               <snap-up-item :proData="viewed"
-                            @selectDetail="selectItem"
-                            @callCollect="callCollect"/>
+                @selectDetail="selectItem"
+                @callCollect="callCollect" />
             </div>
           </div>
         </div>
@@ -25,13 +30,17 @@
       <!-- <swiper-list :proData="showList" /> -->
       <div class="show-list">
         <div class="show-item"
-             v-for="showItem in showList"
-             :key="showItem.title" v-if="showItem.list.length">
-          <swipe-item :proData="showItem" @selectItems="selectItem" />
+          v-show="showItem.list.length"
+          v-for="showItem in showList"
+          :key="showItem.title">
+          <swipe-item :proData="showItem"
+            @selectItems="selectItem" />
         </div>
       </div>
       <!-- 底部广告 -->
-      <lay-footer :imageInfo="footerAdvert" class="footer-margin" v-if="JSON.stringify(footerAdvert) === '{}'"></lay-footer>
+      <lay-footer :imageInfo="footerAdvert"
+        class="footer-margin"
+        v-if="JSON.stringify(footerAdvert) === '{}'"></lay-footer>
     </div>
     <loading v-if="!showList.length"></loading>
   </div>
@@ -89,7 +98,7 @@
         // 热门城市
         hotCity: [],
         // 热门活动
-        footerAdvert:{},
+        footerAdvert: {},
         isApp: this.$route.query.platform,
         // 收藏
       }
@@ -107,7 +116,7 @@
     //     }
     //   }
     // },
-    fetch ({store}) {
+    fetch({store}) {
     },
     created() {
     },
@@ -143,7 +152,7 @@
       },
       // 跳转到详情页面
       selectItem(productId) {
-        if(this.isApp) {
+        if (this.isApp) {
           // app详情跳转
           var json = {productID: productId.toString()}
           this.appBridge.jumpProductDetailView(json)
@@ -161,7 +170,7 @@
       // 获取最近浏览
       async getViewedList(ids) {
         let {data, code} = await getProductList(ids)
-        if(code === 0) {
+        if (code === 0) {
           this.viewedList = data
         } else {
           this.viewedList = []
@@ -178,8 +187,8 @@
         let showList = []
         let len = data.length
         this.hotCity = data[0].data
-        this.footerAdvert = data[len-1].data[0]
-        for(let i = 1; i < len - 1;i++){
+        this.footerAdvert = data[len - 1].data[0]
+        for (let i = 1; i < len - 1; i++) {
           let obj = {}
           obj.name = data[i].moduleName
           obj.list = data[i].data
@@ -210,7 +219,7 @@
           }, 17)
         })
       },
-      linkCityHandle(cityId){
+      linkCityHandle(cityId) {
         let query = {
           touCityId: cityId
         }
@@ -237,7 +246,7 @@
       async callCollect(val) {
         if (this.isApp) {
           let json = {
-            type: val.is_favorite ? '1': '0',
+            type: val.is_favorite ? '1' : '0',
             product_id: val.product_id.toString()
           }
           this.appBridge.userCollectProduct(json)
@@ -270,7 +279,8 @@
     -webkit-overflow-scrolling: touch;
     .banner {
       height: 312px;
-      background: url("../../assets/imgs/local_regiment/bg_play_local2x.png") no-repeat 0 0/100%;
+      background: url("../../assets/imgs/local_regiment/bg_play_local2x.png")
+        no-repeat 0 0/100%;
     }
     .recently-viewed {
       width: 100%;
@@ -304,7 +314,7 @@
       }
     }
     .footer-margin {
-      margin-top:24px;
+      margin-top: 24px;
     }
   }
 </style>
