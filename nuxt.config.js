@@ -89,11 +89,7 @@ module.exports = {
       src: '~/assets/js/appBridge',
       ssr: false,
     },
-    '~/plugins/axios/nuxtaxios',
-    {
-      src: '~/plugins/vconsole',
-      ssr: false,
-    }
+    '~/plugins/axios/nuxtaxios'
   ],
   /*
    ** middleware
