@@ -10,861 +10,25 @@
       <nuxt-link v-for="item in prodList" :key="item.path" :to="item.path">
         <dl class="product">
           <dt>
-            <img
-              style="width:335px;height:190px;"
-              class="pic_image"
-              :src="item.img"
-              alt
-            >
+            <img class="pic_image imgStyle" :src="item.img" alt>
             <span class="pic_site">{{item.country}}</span>
           </dt>
           <dd class="description">{{item.desc}}</dd>
-          <dd class="clearfix">
-            <div class="fl" style="line-height:16px;">
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_empty.png"
-                alt
-              >
-              <span style="color:#ef9a1a;font-size:14px;position:relative;top: 2.5px;line-height:1px;vertical-align:middle;">4.8</span>
+          <dd class="clearfix com_height">
+            <div class="fl star">
+              <img class="starStyle" src="../../assets/imgs/custom/list/star_full.png" alt>
+              <img class="starStyle" src="../../assets/imgs/custom/list/star_full.png" alt>
+              <img class="starStyle" src="../../assets/imgs/custom/list/star_full.png" alt>
+              <img class="starStyle" src="../../assets/imgs/custom/list/star_full.png" alt>
+              <img class="starStyle" src="../../assets/imgs/custom/list/star_empty.png" alt>
+              <span class="scoreStyle">4.8</span>
             </div>
-            <div class="fr" style="color:#ef9a1a;font-size:16px;line-height:16px;">
-              <span style="font-weight:bold;color:#ef9a1a;font-size:14px;">{{item.price}}</span>/起
+            <div class="priceStyle fr">
+              <span>{{item.price}}</span>/起
             </div>
           </dd>
         </dl>
       </nuxt-link>
-     
-      <a href="/custom/store?store=5">
-        <dl class="product">
-          <dt>
-            <img
-              style="width:335px;height:190px;"
-              class="pic_image"
-              src="../../assets/imgs/custom/list/5.png"
-              alt
-            >
-            <span class="pic_site">新加坡</span>
-          </dt>
-          <dd class="description">【一城一岛】新加坡+民丹岛</dd>
-          <dd class="clearfix">
-            <div class="fl" style="line-height:16px;">
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_empty.png"
-                alt
-              >
-              <span style="color:#ef9a1a;font-size:14px;position:relative;top: 2.5px;line-height:1px;vertical-align:middle;">4.8</span>
-            </div>
-            <div class="fr" style="color:#ef9a1a;font-size:16px;line-height:16px;">
-              <span style="font-weight:bold;color:#ef9a1a;font-size:14px;">$13800</span>/起
-            </div>
-          </dd>
-        </dl>
-      </a>
-      <a href="/custom/store?store=6">
-        <dl class="product">
-          <dt>
-            <img
-              style="width:335px;height:190px;"
-              class="pic_image"
-              src="../../assets/imgs/custom/list/6.png"
-              alt
-            >
-            <span class="pic_site">东京&关西</span>
-          </dt>
-          <dd class="description">【花开异国】东京+关西 7天6晚</dd>
-          <dd class="clearfix">
-            <div class="fl" style="line-height:16px;">
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_empty.png"
-                alt
-              >
-              <span style="color:#ef9a1a;font-size:14px;position:relative;top: 2.5px;line-height:1px;vertical-align:middle;">4.8</span>
-            </div>
-            <div class="fr" style="color:#ef9a1a;font-size:16px;line-height:16px;">
-              <span style="font-weight:bold;color:#ef9a1a;font-size:14px;">$13800</span>/起
-            </div>
-          </dd>
-        </dl>
-      </a>
-      
-      <a href="/custom/store?store=7">
-        <dl class="product">
-          <dt>
-            <img
-              style="width:335px;height:190px;"
-              class="pic_image"
-              src="../../assets/imgs/custom/list/77.png"
-              alt
-            >
-            <span class="pic_site">东京&关西</span>
-          </dt>
-          <dd class="description">【富士山下】东京.关西 7天6晚【日本美食之旅】东京+富士山 7天5晚</dd>
-          <dd class="clearfix">
-            <div class="fl" style="line-height:16px;">
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_empty.png"
-                alt
-              >
-              <span style="color:#ef9a1a;font-size:14px;position:relative;top: 2.5px;line-height:1px;vertical-align:middle;">4.8</span>
-            </div>
-            <div class="fr" style="color:#ef9a1a;font-size:16px;line-height:16px;">
-              <span style="font-weight:bold;color:#ef9a1a;font-size:14px;">$12600</span>/起
-            </div>
-          </dd>
-        </dl>
-      </a>
-      
-      <a href="/custom/store?store=8">
-        <dl class="product">
-          <dt>
-            <img
-              style="width:335px;height:190px;"
-              class="pic_image"
-              src="../../assets/imgs/custom/list/7.png"
-              alt
-            >
-            <span class="pic_site">东京&富士山</span>
-          </dt>
-          <dd class="description">【日本美食之旅】东京+富士山 7天5晚</dd>
-         <dd class="clearfix">
-            <div class="fl" style="line-height:16px;">
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_empty.png"
-                alt
-              >
-              <span style="color:#ef9a1a;font-size:14px;position:relative;top: 2.5px;line-height:1px;vertical-align:middle;">4.8</span>
-            </div>
-            <div class="fr" style="color:#ef9a1a;font-size:16px;line-height:16px;">
-              <span style="font-weight:bold;color:#ef9a1a;font-size:14px;">$12800</span>/起
-            </div>
-          </dd>
-        </dl>
-      </a>
-      <a href="/custom/store?store=9">
-        <dl class="product">
-          <dt>
-            <img
-              style="width:335px;height:190px;"
-              class="pic_image"
-              src="../../assets/imgs/custom/list/8.png"
-              alt
-            >
-            <span class="pic_site">新西兰</span>
-          </dt>
-          <dd class="description">【臻品新西兰】南北双岛11日自驾游</dd>
-          <dd class="clearfix">
-            <div class="fl" style="line-height:16px;">
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_empty.png"
-                alt
-              >
-              <span style="color:#ef9a1a;font-size:14px;position:relative;top: 2.5px;line-height:1px;vertical-align:middle;">4.8</span>
-            </div>
-            <div class="fr" style="color:#ef9a1a;font-size:16px;line-height:16px;">
-              <span style="font-weight:bold;color:#ef9a1a;font-size:14px;">$16800</span>/起
-            </div>
-          </dd>
-        </dl>
-      </a>
-      <a href="/custom/store?store=10">
-        <dl class="product">
-          <dt>
-            <img
-              style="width:335px;height:190px;"
-              class="pic_image"
-              src="../../assets/imgs/custom/list/9.png"
-              alt
-            >
-            <span class="pic_site">新西兰</span>
-          </dt>
-          <dd class="description">【臻品新西兰】南岛10日自驾游</dd>
-          <dd class="clearfix">
-            <div class="fl" style="line-height:16px;">
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_empty.png"
-                alt
-              >
-              <span style="color:#ef9a1a;font-size:14px;position:relative;top: 2.5px;line-height:1px;vertical-align:middle;">4.8</span>
-            </div>
-            <div class="fr" style="color:#ef9a1a;font-size:16px;line-height:16px;">
-              <span style="font-weight:bold;color:#ef9a1a;font-size:14px;">$13800</span>/起
-            </div>
-          </dd>
-        </dl>
-      </a>
-      <a href="/custom/store?store=11">
-        <dl class="product">
-          <dt>
-            <img
-              style="width:335px;height:190px;"
-              class="pic_image"
-              src="../../assets/imgs/custom/list/10.png"
-              alt
-            >
-            <span class="pic_site">新西兰</span>
-          </dt>
-          <dd class="description">【臻品新西兰】南岛12日自驾游</dd>
-          <dd class="clearfix">
-            <div class="fl" style="line-height:16px;">
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_empty.png"
-                alt
-              >
-              <span style="color:#ef9a1a;font-size:14px;position:relative;top: 2.5px;line-height:1px;vertical-align:middle;">4.8</span>
-            </div>
-            <div class="fr" style="color:#ef9a1a;font-size:16px;line-height:16px;">
-              <span style="font-weight:bold;color:#ef9a1a;font-size:14px;">$17800</span>/起
-            </div>
-          </dd>
-        </dl>
-      </a>
-      <a href="/custom/store?store=12">
-        <dl class="product">
-          <dt>
-            <img
-              style="width:335px;height:190px;"
-              class="pic_image"
-              src="../../assets/imgs/custom/list/11.png"
-              alt
-            >
-            <span class="pic_site">美国</span>
-          </dt>
-          <dd class="description">黄石大提顿国家公园+洛杉矶8天6晚私家小团</dd>
-          <dd class="clearfix">
-            <div class="fl" style="line-height:16px;">
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_empty.png"
-                alt
-              >
-              <span style="color:#ef9a1a;font-size:14px;position:relative;top: 2.5px;line-height:1px;vertical-align:middle;">4.8</span>
-            </div>
-            <div class="fr" style="color:#ef9a1a;font-size:16px;line-height:16px;">
-              <span style="font-weight:bold;color:#ef9a1a;font-size:14px;">$11500</span>/起
-            </div>
-          </dd>
-        </dl>
-      </a>
-      <a href="/custom/store?store=13">
-        <dl class="product">
-          <dt>
-            <img
-              style="width:335px;height:190px;"
-              class="pic_image"
-              src="../../assets/imgs/custom/list/12.png"
-              alt
-            >
-            <span class="pic_site">美国</span>
-          </dt>
-          <dd class="description">加州一号公路+锡安国家公园+羚羊彩穴发现自驾14 日</dd>
-          <dd class="clearfix">
-            <div class="fl" style="line-height:16px;">
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_empty.png"
-                alt
-              >
-              <span style="color:#ef9a1a;font-size:14px;position:relative;top: 2.5px;line-height:1px;vertical-align:middle;">4.8</span>
-            </div>
-            <div class="fr" style="color:#ef9a1a;font-size:16px;line-height:16px;">
-              <span style="font-weight:bold;color:#ef9a1a;font-size:14px;">$16800</span>/起
-            </div>
-          </dd>
-        </dl>
-      </a>
-      <a href="/custom/store?store=14">
-        <dl class="product">
-          <dt>
-            <img
-              style="width:335px;height:190px;"
-              class="pic_image"
-              src="../../assets/imgs/custom/list/13.png"
-              alt
-            >
-            <span class="pic_site">美国</span>
-          </dt>
-          <dd class="description">加州一号公路+圣地亚哥经典自驾之旅10 日</dd>
-          <dd class="clearfix">
-            <div class="fl" style="line-height:16px;">
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_empty.png"
-                alt
-              >
-              <span style="color:#ef9a1a;font-size:14px;position:relative;top: 2.5px;line-height:1px;vertical-align:middle;">4.8</span>
-            </div>
-            <div class="fr" style="color:#ef9a1a;font-size:16px;line-height:16px;">
-              <span style="font-weight:bold;color:#ef9a1a;font-size:14px;">$12800</span>/起
-            </div>
-          </dd>
-        </dl>
-      </a>
-      <a href="/custom/store?store=15">
-        <dl class="product">
-          <dt>
-            <img
-              style="width:335px;height:190px;"
-              class="pic_image"
-              src="../../assets/imgs/custom/list/14.png"
-              alt
-            >
-            <span class="pic_site">美国</span>
-          </dt>
-          <dd class="description">美西国家公园大环线全景自驾14 日</dd>
-          <dd class="clearfix">
-            <div class="fl" style="line-height:16px;">
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_empty.png"
-                alt
-              >
-              <span style="color:#ef9a1a;font-size:14px;position:relative;top: 2.5px;line-height:1px;vertical-align:middle;">4.8</span>
-            </div>
-            <div class="fr" style="color:#ef9a1a;font-size:16px;line-height:16px;">
-              <span style="font-weight:bold;color:#ef9a1a;font-size:14px;">$16500</span>/起
-            </div>
-          </dd>
-        </dl>
-      </a>
-      <a href="/custom/store?store=16">
-        <dl class="product">
-          <dt>
-            <img
-              style="width:335px;height:190px;"
-              class="pic_image"
-              src="../../assets/imgs/custom/list/15.png"
-              alt
-            >
-            <span class="pic_site">美国</span>
-          </dt>
-          <dd class="description">美西三城+双国家公园+加州一号公路精彩自驾9天7晚</dd>
-          <dd class="clearfix">
-            <div class="fl" style="line-height:16px;">
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_empty.png"
-                alt
-              >
-              <span style="color:#ef9a1a;font-size:14px;position:relative;top: 2.5px;line-height:1px;vertical-align:middle;">4.8</span>
-            </div>
-            <div class="fr" style="color:#ef9a1a;font-size:16px;line-height:16px;">
-              <span style="font-weight:bold;color:#ef9a1a;font-size:14px;">$18900</span>/起
-            </div>
-          </dd>
-        </dl>
-      </a>
-      <a href="/custom/store?store=17">
-        <dl class="product">
-          <dt>
-            <img
-              style="width:335px;height:190px;"
-              class="pic_image"
-              src="../../assets/imgs/custom/list/16.png"
-              alt
-            >
-            <span class="pic_site">澳大利亚</span>
-          </dt>
-          <dd class="description">太平洋海岸自驾之旅13天10晚</dd>
-          <dd class="clearfix">
-            <div class="fl" style="line-height:16px;">
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_empty.png"
-                alt
-              >
-              <span style="color:#ef9a1a;font-size:14px;position:relative;top: 2.5px;line-height:1px;vertical-align:middle;">4.8</span>
-            </div>
-            <div class="fr" style="color:#ef9a1a;font-size:16px;line-height:16px;">
-              <span style="font-weight:bold;color:#ef9a1a;font-size:14px;">$18900</span>/起
-            </div>
-          </dd>
-        </dl>
-      </a>
-      <a href="/custom/store?store=18">
-        <dl class="product">
-          <dt>
-            <img
-              style="width:335px;height:190px;"
-              class="pic_image"
-              src="../../assets/imgs/custom/list/17.png"
-              alt
-            >
-            <span class="pic_site">印尼</span>
-          </dt>
-          <dd class="description">
-            【童趣巴厘岛】夜游巴厘岛动物园（含晚餐）/阿勇河
-            漂流/空中漫步/百度库/香料市场/海神庙
-          </dd>
-         <dd class="clearfix">
-            <div class="fl" style="line-height:16px;">
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_empty.png"
-                alt
-              >
-              <span style="color:#ef9a1a;font-size:14px;position:relative;top: 2.5px;line-height:1px;vertical-align:middle;">4.8</span>
-            </div>
-            <div class="fr" style="color:#ef9a1a;font-size:16px;line-height:16px;">
-              <span style="font-weight:bold;color:#ef9a1a;font-size:14px;">$9050</span>/起
-            </div>
-          </dd>
-        </dl>
-      </a>
-      <a href="/custom/store?store=19">
-        <dl class="product">
-          <dt>
-            <img
-              style="width:335px;height:190px;"
-              class="pic_image"
-              src="../../assets/imgs/custom/list/18.png"
-              alt
-            >
-            <span class="pic_site">泰国</span>
-          </dt>
-          <dd class="description">
-            【童趣巴厘岛】夜游巴厘岛动物园（含晚餐）/阿勇河
-            漂流/空中漫步/百度库/香料市场/海神庙
-          </dd>
-         <dd class="clearfix">
-            <div class="fl" style="line-height:16px;">
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_empty.png"
-                alt
-              >
-              <span style="color:#ef9a1a;font-size:14px;position:relative;top: 2.5px;line-height:1px;vertical-align:middle;">4.8</span>
-            </div>
-            <div class="fr" style="color:#ef9a1a;font-size:16px;line-height:16px;">
-              <span style="font-weight:bold;color:#ef9a1a;font-size:14px;">$9050</span>/起
-            </div>
-          </dd>
-        </dl>
-      </a>
-      <a href="/custom/store?store=20">
-        <dl class="product">
-          <dt>
-            <img
-              style="width:335px;height:190px;"
-              class="pic_image"
-              src="../../assets/imgs/custom/list/19.png"
-              alt
-            >
-            <span class="pic_site">泰国</span>
-          </dt>
-          <dd class="description">
-            【网红巴厘岛】森林瀑布/网红秋千/漂浮下午茶/乌布
-            皇宫/天空之门/莲花池台/水上皇宫/滑翔伞高空飞...
-          </dd>
-          <dd class="clearfix">
-            <div class="fl" style="line-height:16px;">
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_empty.png"
-                alt
-              >
-              <span style="color:#ef9a1a;font-size:14px;position:relative;top: 2.5px;line-height:1px;vertical-align:middle;">4.8</span>
-            </div>
-            <div class="fr" style="color:#ef9a1a;font-size:16px;line-height:16px;">
-              <span style="font-weight:bold;color:#ef9a1a;font-size:14px;">$9630</span>/起
-            </div>
-          </dd>
-        </dl>
-      </a>
-      <a href="/custom/store?store=21">
-        <dl class="product">
-          <dt>
-            <img
-              style="width:335px;height:190px;"
-              class="pic_image"
-              src="../../assets/imgs/custom/list/20.png"
-              alt
-            >
-            <span class="pic_site">印尼</span>
-          </dt>
-          <dd class="description">【畅游印尼双岛】巴厘岛+吉利岛</dd>
-          <dd class="clearfix">
-            <div class="fl" style="line-height:16px;">
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_full.png"
-                alt
-              >
-              <img
-                style="width:10px;height:10px;vertical-align:middle;"
-                src="../../assets/imgs/custom/list/star_empty.png"
-                alt
-              >
-              <span style="color:#ef9a1a;font-size:14px;position:relative;top: 2.5px;line-height:1px;vertical-align:middle;">4.8</span>
-            </div>
-            <div class="fr" style="color:#ef9a1a;font-size:16px;line-height:16px;">
-              <span style="font-weight:bold;color:#ef9a1a;font-size:14px;">$7800</span>/起
-            </div>
-          </dd>
-        </dl>
-      </a>
     </div>
     <div class="btn_container clearfix">
       <a
@@ -874,11 +38,11 @@
         data-ajax="false"
         id="qa-wangqiao-btn"
       >
-        <img style="widht:.52rem;height:.52rem;" src="../../assets/imgs/custom/btn1.png" alt>
+        <img class="online" src="../../assets/imgs/custom/btn1.png" alt>
         在线咨询
       </a>
-      <a href="/custom/index" class="btn_custom fl">
-        <img style="widht:.48rem;height:.48rem;" src="../../assets/imgs/custom/btn2.png" alt>
+      <a href="/custom" class="btn_custom fl">
+        <img class="online" src="../../assets/imgs/custom/btn2.png" alt>
         立即定制
       </a>
     </div>
@@ -890,10 +54,158 @@ export default {
   data() {
     return {
       prodList: [
-        {path: '/custom/store1', country: '法国', img: require('../../assets/imgs/custom/list/1.png'), desc: '【巴黎第七章】轻奢9天7晚之旅', price: '$19980'},
-        {path: '/custom/store2', country: '希腊', img: require('../../assets/imgs/custom/list/2.png'), desc: '【爱琴.地中海】豪华游艇出海/特色海鲜大餐/浮潜/海钓/最美悬崖步道/浪漫地中海日落/梵蒂冈博物馆/圣...', price: '$22800'},
-        {path: '/custom/store3', country: '印尼', img: require('../../assets/imgs/custom/list/3.png'), desc: '【全球热恋】巴厘岛+科莫多', price: '$15600'},
-        {path: '/custom/store4', country: '泰国', img: require('../../assets/imgs/custom/list/4.png'), desc: '【快乐活】苏梅岛+涛岛', price: '$6380'},
+        {
+          path: "/custom/store1",
+          country: "法国",
+          img: require("../../assets/imgs/custom/list/1.png"),
+          desc: "【巴黎第七章】轻奢9天7晚之旅",
+          price: "$19980"
+        },
+        {
+          path: "/custom/store2",
+          country: "希腊",
+          img: require("../../assets/imgs/custom/list/2.png"),
+          desc:
+            "【爱琴.地中海】豪华游艇出海/特色海鲜大餐/浮潜/海钓/最美悬崖步道/浪漫地中海日落/梵蒂冈博物馆/圣...",
+          price: "$22800"
+        },
+        {
+          path: "/custom/store3",
+          country: "印尼",
+          img: require("../../assets/imgs/custom/list/3.png"),
+          desc: "【全球热恋】巴厘岛+科莫多",
+          price: "$15600"
+        },
+        {
+          path: "/custom/store4",
+          country: "泰国",
+          img: require("../../assets/imgs/custom/list/4.png"),
+          desc: "【快乐活】苏梅岛+涛岛",
+          price: "$6380"
+        },
+        {
+          path: "/custom/store5",
+          country: "新加坡",
+          img: require("../../assets/imgs/custom/list/5.png"),
+          desc: "【一城一岛】新加坡+民丹岛",
+          price: "$13800"
+        },
+        {
+          path: "/custom/store6",
+          country: "东京&关西",
+          img: require("../../assets/imgs/custom/list/6.png"),
+          desc: "【花开异国】东京+关西 7天6晚",
+          price: "$13800"
+        },
+        {
+          path: "/custom/store7",
+          country: "东京&关西",
+          img: require("../../assets/imgs/custom/list/77.png"),
+          desc:
+            "【富士山下】东京.关西 7天6晚【日本美食之旅】东京+富士山 7天5晚",
+          price: "$12600"
+        },
+        {
+          path: "/custom/store8",
+          country: "东京&富士山",
+          img: require("../../assets/imgs/custom/list/7.png"),
+          desc: "【日本美食之旅】东京+富士山 7天5晚",
+          price: "$12800"
+        },
+        {
+          path: "/custom/store9",
+          country: "新西兰",
+          img: require("../../assets/imgs/custom/list/8.png"),
+          desc: "【臻品新西兰】南北双岛11日自驾游",
+          price: "$16800"
+        },
+        {
+          path: "/custom/store10",
+          country: "新西兰",
+          img: require("../../assets/imgs/custom/list/9.png"),
+          desc: "【臻品新西兰】南岛10日自驾游",
+          price: "$13800"
+        },
+        {
+          path: "/custom/store11",
+          country: "新西兰",
+          img: require("../../assets/imgs/custom/list/10.png"),
+          desc: "【臻品新西兰】南岛12日自驾游",
+          price: "$17800"
+        },
+        {
+          path: "/custom/store12",
+          country: "美国",
+          img: require("../../assets/imgs/custom/list/11.png"),
+          desc: "黄石大提顿国家公园+洛杉矶8天6晚私家小团",
+          price: "$11500"
+        },
+        {
+          path: "/custom/store13",
+          country: "美国",
+          img: require("../../assets/imgs/custom/list/12.png"),
+          desc: "加州一号公路+锡安国家公园+羚羊彩穴发现自驾14 日",
+          price: "$16800"
+        },
+        {
+          path: "/custom/store14",
+          country: "美国",
+          img: require("../../assets/imgs/custom/list/13.png"),
+          desc: "加州一号公路+圣地亚哥经典自驾之旅10 日",
+          price: "$12800"
+        },
+        {
+          path: "/custom/store15",
+          country: "美国",
+          img: require("../../assets/imgs/custom/list/14.png"),
+          desc: "美西国家公园大环线全景自驾14 日",
+          price: "$16500"
+        },
+        {
+          path: "/custom/store16",
+          country: "美国",
+          img: require("../../assets/imgs/custom/list/15.png"),
+          desc: "美西三城+双国家公园+加州一号公路精彩自驾9天7晚",
+          price: "$18900"
+        },
+        {
+          path: "/custom/store17",
+          country: "澳大利亚",
+          img: require("../../assets/imgs/custom/list/16.png"),
+          desc: "太平洋海岸自驾之旅13天10晚",
+          price: "$18900"
+        },
+        {
+          path: "/custom/store18",
+          country: "印尼",
+          img: require("../../assets/imgs/custom/list/17.png"),
+          desc:
+            "【童趣巴厘岛】夜游巴厘岛动物园（含晚餐）/阿勇河漂流/空中漫步/百度库/香料市场/海神庙",
+          price: "$9050"
+        },
+        {
+          path: "/custom/store19",
+          country: "泰国",
+          img: require("../../assets/imgs/custom/list/18.png"),
+          desc:
+            "【童趣巴厘岛】夜游巴厘岛动物园（含晚餐）/阿勇河漂流/空中漫步/百度库/香料市场/海神庙",
+          price: "$9050"
+        },
+        {
+          path: "/custom/store20",
+          country: "泰国",
+          img: require("../../assets/imgs/custom/list/19.png"),
+          desc:
+            "【网红巴厘岛】森林瀑布/网红秋千/漂浮下午茶/乌布皇宫/天空之门/莲花池台/水上皇宫/滑翔伞高空飞...",
+          price: "$9630"
+        },
+        {
+          path: "/custom/store21",
+          country: "印尼",
+          img: require("../../assets/imgs/custom/list/20.png"),
+          desc: "【畅游印尼双岛】巴厘岛+吉利岛",
+          price: "$7800"
+        }
       ]
     };
   },
@@ -904,7 +216,7 @@ export default {
   }
 };
 </script>
-<style>
+<style lang="scss" scoped>
 body {
   margin: 0;
 }
@@ -1017,16 +329,51 @@ html {
   font: 32px/100px "";
 }
 
-.clearfix:after{
-    content:"";
-    display:block;
-    clear:both;
-    overflow: hidden;
-    height:0;
+.clearfix:after {
+  content: "";
+  display: block;
+  clear: both;
+  overflow: hidden;
+  height: 0;
 }
-.clearfix{
-    zoom:1;
-    margin:0;
+.clearfix {
+  zoom: 1;
+  margin: 0;
 }
-
+.com_height {
+  height: 40px;
+}
+.imgStyle {
+  width: 670px;
+  height: 380px;
+}
+.starStyle {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+}
+.star {
+  line-height: 40px;
+  vertical-align: center;
+}
+.scoreStyle {
+  color: #ef9a1a;
+  font-size: 29px;
+  line-height: 40px;
+  display: inline-block;
+}
+.priceStyle {
+  color: #ef9a1a;
+  font-size: 20px;
+  line-height: 40px;
+  span {
+    font-weight: bold;
+    color: #ef9a1a;
+    font-size: 40px;
+  }
+}
+.online {
+  width: 0.52rem;
+  height: 0.52rem;
+}
 </style>
