@@ -2,7 +2,8 @@
   <div class="local-group-page"
     ref="refLocalGroupPage">
     <!-- header -->
-    <search-header v-if="!isApp" :title="'当地跟团'"
+    <search-header v-if="!isApp"
+      :title="'当地跟团'"
       ref="refSearchHeader"
       @leftClick="leftClick" />
     <!-- body -->
@@ -52,7 +53,8 @@
           @scroll="scrollTab">
           <!-- 国家标签 -->
           <div class="hq-tags"
-            :class="{'fixed-tag': isFixedTags}">
+            :class="{'fixed-tag': isFixedTags}"
+            :style="{paddingTop: `calc(100vw * ${isApp? 40 : 90} / 375 + 24px`}">
             <hot-city-tag className="more"
               :tag="{title: '全部'}"
               @callOnTag="onCityAll" />
@@ -145,8 +147,8 @@
     },
     watch: {
       isFixedTags() {
-        console.log(this.$refs.refSearchHeader.$el.offsetHeight)
-        this.headerHeight = this.$refs.refSearchHeader.$el.offsetHeight
+        // console.log(this.$refs.refSearchHeader.$el.offsetHeight)
+        this.headerHeight = this.isApp ? 0 : this.$refs.refSearchHeader.$el.offsetHeight
       }
     },
     mounted() {
@@ -369,7 +371,6 @@
           position: fixed;
           top: 0;
           z-index: 9;
-          padding-top: calc(100vw * 90 / 375 + 24px); 
           box-shadow: 0 5px 16px rgba(0, 0, 0, 0.1);
         }
       }
