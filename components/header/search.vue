@@ -10,9 +10,12 @@
     <van-icon class="right-wrap"
       slot="right">
       <div class="big-search">
-        <div class="icon"></div>
-        <div class="text">{{searchKeyWords}}</div>
-        <div>搜索</div>
+        <div>
+          <div class="icon"></div>
+          <div class="text">{{searchKeyWords}}</div>
+        </div>
+
+        <div v-if="isSearch" class="search-btn">搜索</div>
       </div>
     </van-icon>
   </van-nav-bar>
@@ -29,6 +32,10 @@
       searchKeyWords:{
         type: String,
         default: ''
+      },
+      isSearch: {
+        type: Boolean,
+        default: false
       }
     },
     data() {
@@ -118,6 +125,9 @@
           height: 44px;
           background: url("../../assets/imgs/search_b@2x.png") no-repeat 0 5px/100%;
           margin-right: 22px;
+        }
+        .search-btn{
+
         }
       }
     }
