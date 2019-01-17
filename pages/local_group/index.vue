@@ -54,7 +54,7 @@
           <!-- 国家标签 -->
           <div class="hq-tags"
             :class="{'fixed-tag': isFixedTags}"
-            :style="{paddingTop: `calc(100vw * ${isApp? 40 : 90} / 375 + 24px`}">
+            :style="{paddingTop: isFixedTags ? `calc(100vw * ${isApp? 40 : 90} / 375 + 24px`: '24px'}">
             <hot-city-tag className="more"
               :tag="{title: '全部'}"
               @callOnTag="onCityAll" />
