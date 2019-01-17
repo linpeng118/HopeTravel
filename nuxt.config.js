@@ -89,6 +89,10 @@ module.exports = {
       src: '~/assets/js/appBridge',
       ssr: false,
     },
+    {
+      src: '~/assets/js/mixins/verifyCode',
+      ssr: false,
+    },
     '~/plugins/axios/nuxtaxios'
   ],
   /*

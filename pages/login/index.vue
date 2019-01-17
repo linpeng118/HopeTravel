@@ -62,17 +62,15 @@
   import loginHeader from '@/components/header/loginHeader'
   import AreaCodeInput from '@/components/input/areaCode'
   import {VERIFY_CODE} from '@/assets/js/consts'
-  let verifyCode
-  if (process.browser) {
-    verifyCode = require('@/assets/js/mixins/verifyCode').default
-  }
+
+  const TIME = 60 // 倒计时时间
 
   export default {
     components: {
       loginHeader,
       AreaCodeInput
     },
-    mixins: process.browser ? [verifyCode] : [],
+    // mixins: [verifyCode],
     data() {
       return {
         VERIFY_CODE,
@@ -89,10 +87,25 @@
           mobile: '',
           code: '', // 验证码
         },
+        timer: null,
+        countDownTime: TIME, // 倒计时时间
+        codeType: VERIFY_CODE.START, // 获取验证码/倒计时/重新获取
         isPhoneOk: false, // 验证手机号是否ok
       }
     },
-    computed: {},
+    computed: {
+      showText() {
+        if (this.codeType === VERIFY_CODE.START) {
+          clearInterval(this.timer)
+          return '获取验证码'
+        } else if (this.codeType === VERIFY_CODE.GETTING) {
+          return `${this.countDownTime} s`
+        } else {
+          clearInterval(this.timer)
+          return '重新获取'
+        }
+      }
+    },
     mounted() {
 
     },
@@ -116,17 +129,29 @@
         this.codeType = VERIFY_CODE.GETTING // 获取验证码
         // 提交
         try {
-           // await this.getVerifyCode({
+          // await this.getVerifyCode({
           //   mobile: this.formPhone.mobile,
           //   areaCode: this.formPhone.areaCode,
           //   code: this.formPhone.code,
           // })
-        // mixins
-        await this.countDown()
-      } catch (error) {
-        console.log(error)
-        this.codeType = VERIFY_CODE.START
-      }
+          await this.countDown()
+        } catch (error) {
+          console.log(error)
+          this.codeType = VERIFY_CODE.START
+        }
+      },
+      countDown() {
+        this.timer = setInterval(() => {
+          console.log(this.countDownTime)
+          if (this.countDownTime <= 0) {
+            this.codeType = VERIFY_CODE.AGAIN
+            this.countDownTime = TIME
+            console.log('countDownTime', this.countDownTime)
+            clearInterval(this.timer)
+          } else {
+            this.countDownTime--
+          }
+        }, 1000)
       },
       onAreaCode() {},
       login() {},
