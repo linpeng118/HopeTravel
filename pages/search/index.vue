@@ -1,8 +1,14 @@
 <template>
   <div>
-    <lay-header searchKeyWords="城市/景点/产品/关键字"></lay-header>
-    <!--左边侧边栏-->
+    <lay-header
+      searchKeyWords="城市/景点/产品/关键字"
+      :isSearch="search.isSearch"
+      @onSearch="onSearch"
+      @searchStart="searchStart"
+      @query="queryChange"
+    ></lay-header>
     <div class="search-wrap">
+      <!--左边侧边栏-->
       <van-badge-group :active-key="activeKey" @change="onChange" class="badge-bar">
         <van-badge v-for="(area,index) in areaList" :key="index" :title="area" />
       </van-badge-group>
@@ -10,6 +16,7 @@
       <recommend :data="recommendObj" :titleList="recommendObj.subTitle" v-if="activeKey === 0"></recommend>
       <country :data="countryObj" v-else></country>
     </div>
+    <div>加载中</div>
   </div>
 </template>
 
@@ -33,7 +40,11 @@ export default {
       areaList: [],
       allData: [],
       recommendObj: {},
-      countryObj: {}
+      countryObj: {},
+      search: {
+        query: '',
+        isSearch: false
+      }
     }
   },
   mounted() {
@@ -93,6 +104,19 @@ export default {
         allArea: dataArray[2] && dataArray[2].datas  // 全部目的地
       }
       return countryObj
+    },
+    // 取消按钮
+    onSearch() {
+      console.log(this.search)
+    },
+    //
+    searchStart() {
+      this.search.isSearch = true
+    },
+    // 搜索
+    queryChange (value) {
+      // console.log(value)
+      this.search.query = value
     }
   }
 }
