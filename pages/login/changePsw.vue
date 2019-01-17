@@ -4,17 +4,19 @@
       @callOnRigth="toLogin" />
     <h1 class="title">请设置你的新密码</h1>
     <div class="change-paw-wrap tours-tabs-nowrap">
-      <van-field class="mobile tours-input"
-        v-model="mobile"
-        placeholder="请输入手机号" />
-      <van-field class="password tours-input"
-        v-model="password"
-        type="password"
-        placeholder="请设置密码" />
-      <van-field class="check-password tours-input"
-        v-model="checkPassword"
-        type="password"
-        placeholder="确认密码" />
+      <van-cell-group>
+        <van-field class="mobile tours-input"
+          v-model="mobile"
+          placeholder="请输入手机号" />
+        <van-field class="password tours-input"
+          v-model="password"
+          type="password"
+          placeholder="请设置密码" />
+        <van-field class="check-password tours-input"
+          v-model="checkPassword"
+          type="password"
+          placeholder="确认密码" />
+      </van-cell-group>
       <span class="tip-text">密码为6-16位，支持数字和字母</span>
       <van-button class="btn-change-psw tours-button"
         size="large"

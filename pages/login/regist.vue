@@ -67,12 +67,12 @@
           :disabled="!canSubmit"
           @click="mobileLogin">注册</van-button>
       </van-tab>
-      <p class="text">
+      <div class="text">
         <van-checkbox class="tour-checkbox"
           v-model="checked">
           <span @click="onAgreement">我已经阅读并同意《服务协议》</span>
         </van-checkbox>
-      </p>
+      </div>
     </van-tabs>
   </div>
 </template>
