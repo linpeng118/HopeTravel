@@ -14,11 +14,11 @@
     <div class="test-list">
       <h5>页面测试</h5>
       <nuxt-link class="test-item hand"
-        v-for="item in testPages"
+        v-for="(item,idx) in testPages"
         :key="item.path"
         :to="item.path"
         :style="{color: `${item.color}`}">
-        {{item.id}} {{item.name}}
+        {{idx+1}}. {{item.name}}
       </nuxt-link>
     </div>
   </section>
