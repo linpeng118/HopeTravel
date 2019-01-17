@@ -28,7 +28,7 @@
                     早餐：自理      午餐：自理      晚餐：飞机上      住宿：飞机上<br>
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store3/d1_1.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store3/d1_1.png" alt="">
                 </div>
             </div>
             <div class="day2">
@@ -38,9 +38,9 @@
                     早餐：自理      午餐：自理      晚餐：自理      住宿：阿雅娜科莫多维艾齐洙沙滩度假村<br>
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store3/d1_2.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store3/d1_3.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store3/d1_4.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store3/d1_2.png" alt="">
+                    <img class="date-img2" src="../../assets/imgs/custom/store3/d1_3.png" alt="">
+                    <img class="date-img2" src="../../assets/imgs/custom/store3/d1_4.png" alt="">
                 </div>
             </div>
             <div class="day3">
@@ -51,9 +51,9 @@
                     早餐：酒店含早      午餐：自理      晚餐：自理      住宿：阿雅娜科莫多维艾齐洙沙滩度假村<br>
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store3/d1_5.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store3/d1_6.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store3/d1_7.png" alt="">
+                    <img class="date-img2" src="../../assets/imgs/custom/store3/d1_5.png" alt="">
+                    <img class="date-img2" src="../../assets/imgs/custom/store3/d1_6.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store3/d1_7.png" alt="">
                 </div>
             </div>
             <div class="day4">
@@ -64,7 +64,7 @@
                     早餐：酒店含早      午餐：自理      晚餐：自理      住宿：阿雅娜科莫多维艾齐洙沙滩度假村<br>
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store3/d1_8.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store3/d1_8.png" alt="">
                 </div>
             </div>
             <div class="day5">
@@ -74,14 +74,14 @@
                     早餐：酒店含早    午餐：自理    晚餐：DAVA餐厅三道式晚餐    住宿：巴厘岛阿雅娜度假村别墅<br>
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store3/d1_9.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store3/d1_10.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store3/d1_9.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store3/d1_10.png" alt="">
                 </div>
                 <p class="date_paragraph">
                     DAVA餐厅双人三道式晚餐：<br>
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store3/d1_11.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store3/d1_11.png" alt="">
                 </div>
             </div>
             <div class="day6">
@@ -91,15 +91,15 @@
                     早餐：漂浮早餐     午餐：自理     晚餐：自理    岩石酒吧：双人鸡尾酒    住宿：巴厘岛阿雅娜度假村别墅<br>
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store3/d1_12.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store3/d1_13.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store3/d1_12.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store3/d1_13.png" alt="">
                 </div>
                 <p class="date_paragraph">
                     今晚我们将入住巴黎唯一的城堡酒店。距离凯旋门和维克多雨果大街仅一街之隔，曾是拿破仑三世居所。酒店位于巴黎最时髦的第十六区，香榭丽舍大街旁边。酒店有部分城堡的感觉，还有部分家庭联排别墅的感觉，两种味道结合在一起，又是一种新形式的混搭。酒店的SPA选用的是法国奢侈护肤品牌“娇兰”。购物回来享受一下高雅尊贵的SPA，一定让你尽情的放松<br>
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store3/d1_13.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store3/d1_14.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store3/d1_13.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store3/d1_14.png" alt="">
                 </div>
             </div>
             <div class="day7">
@@ -109,10 +109,10 @@
                     早餐：酒店含早      午餐：自理      晚餐：自理    住宿：巴厘岛阿雅娜度假村别墅<br>
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store3/d1_14.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store3/d1_15.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store3/d1_16.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store3/d1_17.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store3/d1_14.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store3/d1_15.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store3/d1_16.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store3/d1_17.png" alt="">
                 </div>
             </div>
             <div class="day8">
@@ -121,8 +121,8 @@
                     酒店自由活动。随后，根据您的航班时间，送您和亲友前往巴厘岛机场，搭乘航班回国。<br>
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store3/d1_18.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store3/d1_19.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store3/d1_18.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store3/d1_19.png" alt="">
                     
                 </div>
                 
@@ -141,8 +141,8 @@
             欢迎来到阿雅娜科莫多维艾齐洙沙滩度假村。AYANA在巴厘岛和雅加达的酒店以出众的酒店设计、卓越的美食和无与伦比的服务标准闻名于世。阿雅娜科莫多维艾齐洙沙滩度假村于2018年9月开业，拥有13间套房和192间高级客房。受到光线，舒适和开放式生活的启发，每间当代风格的客房都拥有完美的海景，并设有大窗户，可欣赏热带日落的金色光芒，欣赏标志性的库库桑岛。度假村置身于联合国教科文组织世界遗产科莫多公园的环抱中，于得天独厚的地理位置尽享无与伦比的自然风光，丰富多彩的海洋美景令人心驰神往，仅存于当地的科莫多龙让人惊叹不已。
         </p>
         <div>
-            <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store3/d1_20.png" alt="">
-            <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store3/d1_21.png" alt="">   
+            <img class="date-img" src="../../assets/imgs/custom/store3/d1_20.png" alt="">
+            <img class="date-img" src="../../assets/imgs/custom/store3/d1_21.png" alt="">   
         </div>
         <h6 class="ct_subTitle">
             巴厘岛阿雅娜度假别墅
@@ -151,9 +151,9 @@
             度假村位于悬崖峭壁之畔，78栋私人悬崖边别墅均提供绝对私密的环境和具有国际资质的管家提供的贴心服务。巴厘岛阿雅娜度假别墅享有度假村提供的17所餐厅、酒吧及咖啡屋，Dava莲花餐厅供应一流的新鲜牛排和海鲜烧烤，马丁尼酒吧提供受50种经典和现代式马丁尼鸡尾酒。岩石酒吧是巴厘岛标志性日落观赏地点，入住度假村的客人皆享优先进入岩石酒吧的VIP特权。
         </p>
         <div>
-            <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store3/d1_22.png" alt="">
-            <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store3/d1_23.png" alt="">
-            <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store3/d1_24.png" alt="">   
+            <img class="date-img" src="../../assets/imgs/custom/store3/d1_22.png" alt="">
+            <img class="date-img" src="../../assets/imgs/custom/store3/d1_23.png" alt="">
+            <img class="date-img" src="../../assets/imgs/custom/store3/d1_24.png" alt="">   
         </div>
         <h5 class="ct_title">
             费用包含

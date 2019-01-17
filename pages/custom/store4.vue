@@ -22,12 +22,12 @@
           </p>
           <div>
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store4/4.1.png"
               alt
             >
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store4/4.2.png"
               alt
             >
@@ -43,17 +43,17 @@
           </p>
           <div>
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store4/4.3.png"
               alt
             >
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store4/4.4.png"
               alt
             >
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store4/4.5.png"
               alt
             >
@@ -69,12 +69,12 @@
           </p>
           <div>
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store4/4.6.png"
               alt
             >
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store4/4.7.png"
               alt
             >
@@ -88,17 +88,17 @@
           </p>
           <div>
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store4/4.8.png"
               alt
             >
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img2"
               src="../../assets/imgs/custom/store4/4.9.png"
               alt
             >
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img2"
               src="../../assets/imgs/custom/store4/4.10.png"
               alt
             >
@@ -112,17 +112,17 @@
           </p>
           <div>
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store4/4.11.png"
               alt
             >
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img2"
               src="../../assets/imgs/custom/store4/4.12.png"
               alt
             >
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img2"
               src="../../assets/imgs/custom/store4/4.13.png"
               alt
             >
@@ -136,12 +136,12 @@
           </p>
           <div>
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store4/4.14.png"
               alt
             >
             <img
-              style="width:311px;height:132px;margin-top:10px;"
+              class="date-img"
               src="../../assets/imgs/custom/store4/4.15.png"
               alt
             >
@@ -156,17 +156,17 @@
       >苏梅岛查汶海滩坎达布里诺富特度假村坐落于查汶海滩，优越的地理位置使它成为苏梅岛一个令人向往的住宿选择。 酒店距离苏梅岛机场仅有1km。在该地区观光很容易，Star Pilates & Fitness by Lisa、拉瓦那度假村SPA和艾兰达草本水疗都在酒店附近。从酒店出发可方便前往市内的众多著名景点，包括金泰菩泰式按摩、EasyFly - Indoor Skydiving和Escapade Samui。</p>
       <div style="text-align: center">
         <img
-          style="width:100%;margin-top:.2rem;"
+          class="date-img"
           src="../../assets/imgs/custom/store4/4.16.png"
           alt
         >
         <img
-          style="width:100%;margin-top:.2rem;"
+          class="date-img"
           src="../../assets/imgs/custom/store4/4.17.png"
           alt
         >
         <img
-          style="width:100%;margin-top:.2rem;"
+          class="date-img"
           src="../../assets/imgs/custom/store4/4.18.png"
           alt
         >
@@ -178,17 +178,17 @@
       >涛岛海滩度假别墅坐落在涛岛的私家海滩上，位于鲨鱼湾，周围环绕着棕榈树林。酒店靠近Mae Haad Pier码头。涛岛海滩度假别墅提供舒适私密的环境，设有宽敞的室外休息区、私人浴室、乡村风格的木制家具、电视、迷你吧和吹风机。提供带私人阳台的宽敞别墅和覆盖公共区域的免费有线网络连接。客人可在酒店内享受传统的泰式按摩服务。旅游咨询台可安排各种活动，如徒步旅行、划独木舟、山地自行车和瑜伽课程。前台可提供浮潜设备。</p>
       <div style="text-align: center">
         <img
-          style="width:100%;margin-top:.2rem;"
+          class="date-img"
           src="../../assets/imgs/custom/store4/4.19.png"
           alt
         >
         <img
-          style="width:100%;margin-top:.2rem;"
+          class="date-img"
           src="../../assets/imgs/custom/store4/4.20.png"
           alt
         >
         <img
-          style="width:100%;margin-top:.2rem;"
+          class="date-img"
           src="../../assets/imgs/custom/store4/4.21.png"
           alt
         >
@@ -197,12 +197,12 @@
       <h6 class="ct_subTitle">涛岛度假别墅潜水实拍图</h6>
       <div style="text-align: center">
         <img
-          style="width:100%;margin-top:.2rem;"
+          class="date-img"
           src="../../assets/imgs/custom/store4/4.22.png"
           alt
         >
         <img
-          style="width:100%;margin-top:.2rem;"
+          class="date-img"
           src="../../assets/imgs/custom/store4/4.23.png"
           alt
         >

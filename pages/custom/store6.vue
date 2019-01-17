@@ -29,8 +29,8 @@
                     早餐：自理      午餐：飞机上      晚餐：自理      住宿：东京王子酒店
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store6/6.1.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store6/6.2.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store6/6.1.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store6/6.2.png" alt="">
                 </div>
             </div>
             <div class="day2">
@@ -39,8 +39,8 @@
                     浅草寺-银座-皇居-台场 早餐后来到东京最著名、最古老的寺庙—浅草寺。每年都有许多人前来寺庙祈福保平安。随后前往银座享用午 餐。银座与巴黎香榭丽舍大街、纽约第五大道齐名，是世界三大繁华购物街之一。午餐后，前往皇居。皇居是日 本天皇居住的地方，位于东京中心，周围护城河环绕，风景优美。这里保留着江户城石墙遗迹，春秋季节是赏花 和红叶的好去处。最后，前往台场观光。滨海沿线有散步道可以观赏海景，还能眺望彩虹大桥、自由女神像。
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store6/6.3.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store6/6.4.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store6/6.3.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store6/6.4.png" alt="">
                 </div>
             </div>
             <div class="day3">
@@ -49,7 +49,7 @@
                     上午驱车前往富士山，车程大约 1.5 小时。 如果天气好的话，我们将上山到五合目，瞭望富士山壮阔景色。（如果因天气原因受限，我们将抵达一合目观赏） 富士山是日本第一高峰，也是世界上最大的活火山之一，海拔 3776 米，屹立于本州中南部，距东京 80 公里。这 座被日本人奉为“圣岳”的山峰自 1707 年最后一次喷发后休眠至今。山顶上的两个火山口形成了两个美丽的火山 湖，山麓处还有火山喷发后留下的千姿百态的山洞，有些仍在不断喷气。富岳风穴内的洞壁上则结满了钟乳石似 的冰柱，被称为“万年雪”。坐落在顶峰上的圣庙──久须志神社和浅间神社则是富士箱根伊豆国立公园的主要风 景区。富士山北麓有富士五湖，湖光山色十分宜人。河口湖中所映的富士山倒影，被称作富士山奇景之一。 特别为您安排河口湖缆车，欣赏富士山景色。随后回到酒店，享用温泉。
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store6/6.5.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store6/6.5.png" alt="">
                 </div>
             </div>
             <div class="day4">
@@ -58,9 +58,9 @@
                     二年坂-三年坂-清水寺-花见小路-祗园角 早餐后，驱车前往京都。抵达京都后，前往酒店。二年坂/三年坂观光。二年坂有各种日式小吃店、和风杂货店、宫 崎骏动画周边的“橡子共和国”，三年坂有玩偶店、和服店和清水烧瓷器店，是京都买手信的好地方。随后前往清水 寺，这里是京都最古老的寺院，与金阁寺、二条城并称为京都三大名胜，1994 年列入世界文化遗产名录。随后前往 花见小路，这里是日本最古老的花街，这里保留了江户时期的民宅建筑，也是现在为数不多的尚能看到艺伎的场所。 在花见小路的南端，有一处专门表演京都传统艺能的剧场——祇园角，是体验艺伎演出的好去处。同时，这里也是 电影《艺妓回忆录》的取景地之一，许多到访游客会选择和服变装后来这里拍照，颇有一番意境。
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store6/6.6.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store6/6.7.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store6/6.8.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store6/6.6.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store6/6.7.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store6/6.8.png" alt="">
                 </div>
             </div>
             <div class="day5">
@@ -70,8 +70,8 @@
                     <br><br> 早餐：酒店含早      午餐：自理      晚餐：自理      住宿：大阪帝国酒店
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store6/6.9.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store6/6.10.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store6/6.9.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store6/6.10.png" alt="">
                 </div>
             </div>
             <div class="day6">
@@ -81,9 +81,9 @@
                     <br><br> 早餐：酒店含早      午餐：自理      晚餐：自理      住宿：大阪帝国酒店
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store6/6.11.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store6/6.12.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store6/6.13.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store6/6.11.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store6/6.12.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store6/6.13.png" alt="">
                 </div>
             </div>
             <div class="day7">
@@ -92,10 +92,10 @@
                     今天为全天自由活动时间。 您可以在大阪自由购物、自由观光、自由玩耍。 傍晚时，我们的司机将在酒店接您前往机场。搭乘航班回国。参考航班为四川航空。 参考航班时间：大阪-成都  3U8088  20:25-23:35
                 </p>
                 <div>
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store6/6.14.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store6/6.15.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store6/6.16.png" alt="">
-                    <img style="width:311px;height:132px;margin-top:10px;" src="../../assets/imgs/custom/store6/6.17.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store6/6.14.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store6/6.15.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store6/6.16.png" alt="">
+                    <img class="date-img" src="../../assets/imgs/custom/store6/6.17.png" alt="">
                 </div>
             </div>
             <p>注：以上行程中所列仅为参考时间，在不减少行程景点的前提下，公司有权对上述行程的次序、景点，依照当地情况进行调整！</p>
@@ -111,8 +111,8 @@
             东京王子酒店在 2017 年 4 月新装修，提供现代化的住宿。客人可以欣赏到 3 分钟步行路程处的东京塔（Tokyo Tower）的景色。Tokyo Prince Hotel 设有额外收费的季节性室外游泳池，提供 Spa 护理服务，设有内部购物商场。 餐厅提供西式菜肴；Shimizu Japanese Restaurant 日式餐厅供应寿司和热天妇罗。酒店设有 Marronnier Chinese Restaurant 餐厅和 Garden Islands Beer Restaurant 餐厅。Windsor Main Bar 酒吧和 Pikake Tea Salon 茶苑提供饮品。
         </p>
         <div style="text-align: center">
-            <img style="width:100%;margin-top:.2rem;" src="../../assets/imgs/custom/store6/6.18.png" alt="">
-            <img style="width:100%;margin-top:.2rem;" src="../../assets/imgs/custom/store6/6.19.png" alt="">
+            <img class="date-img" src="../../assets/imgs/custom/store6/6.18.png" alt="">
+            <img class="date-img" src="../../assets/imgs/custom/store6/6.19.png" alt="">
         </div>
 
 
@@ -120,9 +120,9 @@
             鐘山苑有 106 间装修精美的客房，大部分都配有平板电视, 额外浴室, 空气净化器, 免费速溶咖啡, 免费茶水。 酒 店的娱乐设施相当齐全，包括温泉 , 室外游泳池, 水疗中心, 按摩, 花园。 钟山苑酒店地理位置优越，设施优良， 各方面均为理想之选。
         </p>
         <div style="text-align: center">
-            <img style="width:100%;margin-top:.2rem;" src="../../assets/imgs/custom/store6/6.20.png" alt="">
-            <img style="width:100%;margin-top:.2rem;" src="../../assets/imgs/custom/store6/6.21.png" alt="">
-            <img style="width:100%;margin-top:.2rem;" src="../../assets/imgs/custom/store6/6.22.png" alt="">
+            <img class="date-img" src="../../assets/imgs/custom/store6/6.20.png" alt="">
+            <img class="date-img" src="../../assets/imgs/custom/store6/6.21.png" alt="">
+            <img class="date-img" src="../../assets/imgs/custom/store6/6.22.png" alt="">
         </div>
 
         <h6 class="ct_subTitle">
@@ -132,8 +132,8 @@
             晴鸭楼日式旅馆位于京都，距离京都火车站有 7 分钟车程。所有客房都配备了熨烫设施和带有线频道的平面电视。 连接浴室提供免费洗浴用品和浴缸。公共澡堂区配有 SPA 设施和木制浴缸。旅馆亦提供行李寄存服务并设有一间礼 品店。旅馆供应日式或西式早餐。晚餐时段，客人可以在传统的日式环境中享用正宗的当地菜肴。 Ryokan 旅馆距离三十三间堂和清水寺有 5 分钟车程。京都国家博物馆和七条火车站（Shichijo Train Station）距离旅 馆约有 10 分钟步行路程。
         </p>
         <div style="text-align: center">
-            <img style="width:100%;margin-top:.2rem;" src="../../assets/imgs/custom/store6/6.23.png" alt="">
-            <img style="width:100%;margin-top:.2rem;" src="../../assets/imgs/custom/store6/6.24.png" alt="">
+            <img class="date-img" src="../../assets/imgs/custom/store6/6.23.png" alt="">
+            <img class="date-img" src="../../assets/imgs/custom/store6/6.24.png" alt="">
         </div>
 
         <h6 class="ct_subTitle">
@@ -143,8 +143,8 @@
             大阪帝国酒店是一家享有盛誉的五星级酒店，坐落在以美丽樱花而闻名的大川河（Okawa River）河畔。 酒店设有众多娱乐设施 。Les Saison 餐厅享有城市全景，供应精致的法国美食。Kamon 餐厅供应新鲜的海产品和铁 板烧风格牛排。Jasmine Garden 餐厅供应奢华的中式菜肴。
         </p>
         <div style="text-align: center">
-            <img style="width:100%;margin-top:.2rem;" src="../../assets/imgs/custom/store6/6.25.png" alt="">
-            <img style="width:100%;margin-top:.2rem;" src="../../assets/imgs/custom/store6/6.26.png" alt="">
+            <img class="date-img" src="../../assets/imgs/custom/store6/6.25.png" alt="">
+            <img class="date-img" src="../../assets/imgs/custom/store6/6.26.png" alt="">
         </div>
 
         <h5 class="ct_title">
