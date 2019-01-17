@@ -19,7 +19,7 @@
             placeholder="请输入密码"
             :type="pswInputType"
             @click-icon="toggleInputType">
-            <van-button class="tours-button-noborder"
+            <van-button class="btn-forget tours-button-noborder"
               slot="button"
               size="small"
               @click="forgetPsw">忘记密码</van-button>
@@ -41,7 +41,7 @@
             center
             clearable
             placeholder="请输入验证码">
-            <van-button class="tours-button-noborder"
+            <van-button class="btn-get-code tours-button-noborder"
               slot="button"
               size="small"
               @click="getCode">获取验证码</van-button>
@@ -78,7 +78,8 @@
         isMobileOk: false, // 验证手机号是否ok
         authCode: '', // 验证码
         areaCode: '86', // 区号
-        show: false,
+        timer: null,
+        time: 6,
       }
     },
     computed: {},
@@ -101,6 +102,10 @@
       // 获取验证码
       getCode() {
         // TODO:
+        clearInterval(this.timer)
+        this.timer = setInterval(() => {
+          this.time--
+        }, 1000)
       },
       onAreaCode() {
         (123)
@@ -113,7 +118,9 @@
       },
       // 点击服务协议
       onAgreement() {
-        ('onAgreement')
+        this.$router.push({
+          path: '/agreement'
+        })
       }
     },
   }
@@ -154,6 +161,19 @@
         .password {
           margin-top: 16px;
         }
+        .btn-forget {
+          position: relative;
+          &::after {
+            content: "";
+            display: inline-block;
+            position: absolute;
+            left: -5px;
+            top: 12px;
+            height: 60px;
+            width: 2px;
+            background: #c4c4c4;
+          }
+        }
       }
       .mobile-login {
         .mobile {
@@ -161,6 +181,18 @@
         }
         .auth-code {
           margin-top: 16px;
+        }
+        .btn-get-code {
+          &::after {
+            content: "";
+            display: inline-block;
+            position: absolute;
+            left: -10px;
+            top: 12px;
+            height: 60px;
+            width: 2px;
+            background: #c4c4c4;
+          }
         }
       }
       .text {
