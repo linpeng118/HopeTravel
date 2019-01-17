@@ -1,9 +1,9 @@
 <template>
   <div class="hot-place">
-    <div class="hot-item" v-for="list in lists" :key="list.id">
+    <div class="hot-item" v-for="list in lists" :key="list.category">
       <img :src="list.image" alt="">
-      <div class="title">{{list.title}}</div>
-      <div class="desc">{{list.desc}}</div>
+      <div class="title">{{list.subTitle}}</div>
+      <div class="desc">{{list.content}}</div>
     </div>
   </div>
 </template>
@@ -24,7 +24,7 @@ export default {
   .hot-place{
     display: flex;
     text-align: center;
-    justify-content: space-around;
+    justify-content: space-between;
     flex-wrap:wrap;
     .hot-item{
       margin-bottom: 20px;
