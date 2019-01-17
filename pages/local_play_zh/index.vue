@@ -1,7 +1,7 @@
 <template>
   <div class="local-play-zh"
     ref="refLocalPlayPage">
-    <lay-header title="当地玩乐"
+    <lay-header v-if="!isApp" title="当地玩乐"
       @leftClick="leftClick"></lay-header>
     <div v-if="showList.length">
       <!-- banner -->
@@ -69,6 +69,7 @@
     },
     data() {
       return {
+        isApp: this.$route.query.platform,
         // swiper配置
         viewedSwiperOption: {
           slidesPerView: 'auto',
@@ -99,7 +100,6 @@
         hotCity: [],
         // 热门活动
         footerAdvert: {},
-        isApp: this.$route.query.platform,
         // 收藏
       }
     },
@@ -126,7 +126,7 @@
       this.init()
       if (this.isApp) {
         this.appBridge = require('@/assets/js/appBridge.js').default
-        this.appBridge.hideNavigationBar()
+        // this.appBridge.hideNavigationBar()
         let productIds = await this.appBridge.getLocalStorage()
         if (productIds) {
           this.getViewedList(productIds)

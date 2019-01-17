@@ -1,7 +1,7 @@
 <template>
   <section class="local-play-foreign"
     ref="refLocalPlayForeign">
-    <lay-header :title="title"
+    <lay-header v-if="!isApp" :title="title"
       :isSearch="false"
       :classBg="classBg"
       :barSearch="barSearch"
@@ -115,6 +115,7 @@
     },
     data() {
       return {
+        isApp: this.$route.query.platform,
         // swiper配置
         viewedSwiperOption: {
           slidesPerView: 'auto',
@@ -138,7 +139,6 @@
         viewedList: [],
         classBg: false,
         cityInfo: {},
-        isApp: this.$route.query.platform
       }
     },
     computed: {
@@ -150,17 +150,18 @@
     created() {
     },
     async mounted() {
-      this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 100))
       this.init()
       if (this.isApp) {
         this.appBridge = require('@/assets/js/appBridge.js').default
-        this.appBridge.hideNavigationBar()
+        // this.appBridge.hideNavigationBar()
         let productIds = await this.appBridge.getLocalStorage()
         if (productIds) {
           this.getViewedList(productIds)
         }
         let token = await this.appBridge.obtainUserToken()
         this.vxChangeTokens(token)
+      } else {
+        this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 100))
       }
     },
     methods: {
@@ -267,6 +268,7 @@
       },
       // 滚动监听显示header
       scrollFn() {
+        console.log('滚动了')
         window.requestAnimationFrame(() => {
           const s1 = this.$refs.refLocalPlayForeign.scrollTop
           const s3 = this.$refs.refAreaMain.offsetHeight

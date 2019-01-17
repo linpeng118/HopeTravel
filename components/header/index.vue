@@ -89,6 +89,7 @@
     background-color: transparent;
     transition: all 0.5s;
     margin-top: env(safe-area-inset-top);
+    overflow: hidden;
     &.show-bg {
       background-color: #fff;
       color: #191919;

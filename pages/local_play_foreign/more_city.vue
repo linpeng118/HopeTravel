@@ -1,7 +1,7 @@
 <template>
   <section class="container">
-    <lay-header title="更多城市" :isSearch="false" :classBg="true" @leftClick="leftClick"></lay-header>
-    <div class="listview" v-if="cityList.length ">
+    <lay-header v-if="!isApp" title="更多城市" :isSearch="false" :classBg="true" @leftClick="leftClick"></lay-header>
+    <div class="listview" v-if="cityList.length " :style="{paddingTop: isApp ? 0: '1.173333rem'}">
       <van-collapse v-model="activeName" accordion>
         <van-collapse-item v-for="cityInfo in cityList" :key="cityInfo.countryId" :title="cityInfo.countryName" :name="cityInfo.countryId">
           <ul>
@@ -48,7 +48,7 @@
     mounted() {
       if (this.isApp) {
         this.appBridge = require('@/assets/js/appBridge.js').default
-        this.appBridge.hideNavigationBar()
+        // this.appBridge.hideNavigationBar()
       }
     },
     methods: {
@@ -97,14 +97,8 @@
   }
 </script>
 
-<style type="text/scss" lang="scss" scoped>
-  .listview{
-
-  }
-</style>
 <style type="text/scss" lang="scss">
   .listview{
-    padding-top: 88px;
     .van-cell{
       border-top: 1px solid #DEDEDE;
     }

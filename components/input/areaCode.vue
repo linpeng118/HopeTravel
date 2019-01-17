@@ -89,14 +89,24 @@
       padding-left: 20px;
       display: flex;
       align-items: center;
-      color: #555;
       max-width: 140px;
+      position: relative;
       .area-code {
         font-size: 32px;
+        color: #555;
       }
       .icon-arrow {
         margin-left: 20px;
         font-size: 24px;
+        color: #555;
+      }
+      &::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        height: 60px;
+        width: 2px;
+        background: #C4C4C4;
       }
     }
     .mobile-input {
@@ -106,13 +116,14 @@
     }
     .area-list {
       position: absolute;
-      right: 0;
+      right: -2px;
       top: 0;
       z-index: 999;
       background: #fff;
       border-radius: 0 10px 10px 10px;
       box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.16);
       padding: 0 36px;
+      width: 458px;
       max-height: 375px;
       overflow: scroll;
       &:after {
