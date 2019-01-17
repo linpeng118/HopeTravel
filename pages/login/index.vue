@@ -78,7 +78,8 @@
         isMobileOk: false, // 验证手机号是否ok
         authCode: '', // 验证码
         areaCode: '86', // 区号
-        show: false,
+        timer: null,
+        time: 6,
       }
     },
     computed: {},
@@ -101,6 +102,10 @@
       // 获取验证码
       getCode() {
         // TODO:
+        clearInterval(this.timer)
+        this.timer = setInterval(() => {
+          this.time--
+        }, 1000)
       },
       onAreaCode() {
         (123)
@@ -113,7 +118,9 @@
       },
       // 点击服务协议
       onAgreement() {
-        ('onAgreement')
+        this.$router.push({
+          path: '/agreement'
+        })
       }
     },
   }
