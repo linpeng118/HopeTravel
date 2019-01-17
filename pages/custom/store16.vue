@@ -255,7 +255,7 @@
         <img style="widht:.52rem;height:.52rem;" src="../../assets/imgs/custom/btn1.png" alt>
         在线咨询
       </a>
-      <a href="/custom/index" class="btn_custom fl">
+      <a href="/custom" class="btn_custom fl">
         <img style="widht:.48rem;height:.48rem;" src="../../assets/imgs/custom/btn2.png" alt>
         立即定制
       </a>
