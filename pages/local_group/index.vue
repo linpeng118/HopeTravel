@@ -2,14 +2,17 @@
   <div class="local-group-page"
     ref="refLocalGroupPage">
     <!-- header -->
-    <search-header :title="'当地跟团'" @leftClick="leftClick" />
+    <search-header :title="'当地跟团'"
+      ref="refSearchHeader"
+      @leftClick="leftClick" />
     <!-- body -->
     <section class="local-group"
       ref="refLocalGroup">
       <!-- banner -->
       <div class="banner"></div>
       <!-- 下标（模块）[0] -->
-      <div class="hot-swiper" v-if="localgroupData[0].data.length">
+      <div class="hot-swiper"
+        v-if="localgroupData[0].data.length">
         <h1 class="title">{{localgroupData[0].moduleName}}</h1>
         <div v-swiper:mySwiper="swiperOption">
           <div class="swiper-wrapper">
@@ -23,7 +26,8 @@
         </div>
       </div>
       <!-- 下标（模块）[1] -->
-      <div class="hot-citys" v-if="localgroupData[1].data.length">
+      <div class="hot-citys"
+        v-if="localgroupData[1].data.length">
         <h1 class="title">{{localgroupData[1].moduleName}}</h1>
         <div class="city-list">
           <hot-city-tag v-for="city in localgroupData[1].data"
@@ -36,7 +40,8 @@
         </div>
       </div>
       <!-- 下标（模块）[2] -->
-      <div class="high-quality tours-tabs" v-if="localgroupData[2].data.length">
+      <div class="high-quality tours-tabs"
+        v-if="localgroupData[2].data.length">
         <h1 class="title">{{localgroupData[2].moduleName}}</h1>
         <!-- 横向tabs -->
         <van-tabs v-model="selected"
@@ -74,7 +79,8 @@
                 v-for="product in productList"
                 :key="product.desc">
                 <hot-item :isShowTitle="false"
-                  :proData="product" @selectItem="onHot" />
+                  :proData="product"
+                  @selectItem="onHot" />
               </van-cell>
             </van-list>
           </van-tab>
@@ -121,7 +127,7 @@
         selected: 0,
         // tag是否一起吸顶
         isFixedTags: false,
-        // 距离顶部的高度
+        // 距离顶部的高度,只能通过计算属性获取。是变量。不同尺寸显示不同
         headerHeight: 44,
         // 当地跟团数据
         localgroupData: [
@@ -135,6 +141,12 @@
         prodLoading: false, // 是否处于加载状态，加载过程中不触发load事件
         prodFinished: false, // 是否已加载完成，加载完成后不再触发load事件
         isApp: this.$route.query.platform
+      }
+    },
+    watch: {
+      isFixedTags() {
+        console.log(this.$refs.refSearchHeader.$el.offsetHeight)
+        this.headerHeight = this.$refs.refSearchHeader.$el.offsetHeight
       }
     },
     mounted() {
@@ -352,13 +364,13 @@
         padding: 24px 30px;
         background: #fff;
         width: 100%;
-        max-height: 172px;
         overflow: hidden;
         &.fixed-tag {
           position: fixed;
-          top: calc(92px + 44px + 24px + 15px);
-          z-index: 999;
-          box-shadow: 0 0.053333rem 0.16rem rgba(0, 0, 0, 0.1);
+          top: 0;
+          z-index: 9;
+          padding-top: calc(100vw * 90 / 375 + 24px); 
+          box-shadow: 0 5px 16px rgba(0, 0, 0, 0.1);
         }
       }
       .tags-height {
