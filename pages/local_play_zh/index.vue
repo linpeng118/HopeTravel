@@ -67,10 +67,10 @@
           spaceBetween: 8,
           on: {
             slideChange() {
-              console.log('onSlideChangeEnd', this);
+              // console.log('onSlideChangeEnd', this);
             },
             tap() {
-              console.log('onTap', this);
+              // console.log('onTap', this);
             }
           }
         },
@@ -111,28 +111,25 @@
     },
     created() {
     },
-    mounted() {
+    async mounted() {
       // 监听滚动
-      this.$refs.refLocalPlayPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
+      this.$refs.refLocalPlayPage.addEventListener('scroll', _throttle(this.scrollFn, 100))
       this.init()
       if (this.isApp) {
         this.appBridge = require('@/assets/js/appBridge.js').default
         this.appBridge.hideNavigationBar()
-        this.appBridge.obtainUserToken().then(res => {
-          console.log('得到token')
-          console.log(res)
-        })
-        this.appBridge.getLocalStorage().then(res => {
-          if (res.length) {
-            this.getViewedList(res)
-          }
-        })
+        let productIds = await this.appBridge.getLocalStorage()
+        if (productIds) {
+          this.getViewedList(productIds)
+        }
+        let token = await this.appBridge.obtainUserToken()
+        this.vxChangeTokens(token)
       }
-      this.getViewedList('985')
     },
     methods: {
       ...mapMutations({
-        vxChangeHeaderStatus: 'header/changeStatus' // 修改头部状态
+        vxChangeHeaderStatus: 'header/changeStatus', // 修改头部状态
+        vxChangeTokens: 'common/updateToken' // 改变token
       }),
       // 头部返回按钮
       leftClick() {
@@ -148,8 +145,6 @@
       selectItem(productId) {
         if(this.isApp) {
           // app详情跳转
-          console.log('2019年1月16日14:31:01')
-          console.log('app详情跳转，跳转的产品id是' + productId )
           var json = {productID: productId.toString()}
           this.appBridge.jumpProductDetailView(json)
         } else {
@@ -239,10 +234,28 @@
         })
       },
       // 搜藏
-      callCollect(val) {
+      async callCollect(val) {
         if (this.isApp) {
+          let json = {
+            type: val.is_favorite ? '1': '0',
+            product_id: val.product_id.toString()
+          }
+          this.appBridge.userCollectProduct(json)
+          this.appBridge.collectProductResult().then(res => {
+            if (res.code == 0) {
+              this.$toast('操作成功')
+              let index = this.viewedList.findIndex(item => {
+                return item.product_id === val.product_id
+              })
+              this.viewedList[index].is_favorite = !this.viewedList[index].is_favorite
+            } else {
+              this.$toast('操作失败')
+            }
+          })
+          // let res = await this.appBridge.collectProductResult()
+        } else {
+          ('web2.0')
         }
-        console.log(val)
       }
     }
   }

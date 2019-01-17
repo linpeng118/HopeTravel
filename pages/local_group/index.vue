@@ -141,7 +141,7 @@
       // 初始化
       this.init()
       // 监听滚动
-      this.$refs.refLocalGroupPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
+      this.$refs.refLocalGroupPage.addEventListener('scroll', _throttle(this.scrollFn, 100))
       // 判断机型
       if (this.isApp) {
         // 引入appBridge
@@ -163,7 +163,6 @@
       async getLocalgroupData() {
         try {
           const res = await getLocalgroup()
-          console.log('getLocalgroupData', res.data)
           // 初始化本地跟团数据
           this.localgroupData = res.data
         } catch (error) {
@@ -184,7 +183,6 @@
         // 初始化产品列表
         this.productList = res.data
         this.prodPagination = res.pagination
-        console.log('getProductListData', this.productList, this.prodPagination)
       },
       // 返回上一级页面
       leftClick() {
@@ -196,7 +194,6 @@
       },
       // 点击当季热门item
       onHot(productId) {
-        console.log('product_id：' + productId)
         if (this.isApp) {
           this.appBridge.jumpProductDetailView({
             productID: productId.toString()
@@ -206,7 +203,6 @@
         }
       },
       onHotCity(hotCity) {
-        console.log(hotCity)
         if (this.isApp) {
           const params = {
             'itemType': LIST_TYPE.LOCAL_GROUP,
@@ -219,7 +215,6 @@
         }
       },
       onMoreCity() {
-        console.log('更多')
         if (this.isApp) {
           this.appBridge.jumpDestinationView()
         } else {
@@ -231,7 +226,6 @@
        * @param title 标题
        */
       clickTab(index, title) {
-        console.log(index, title, this.localgroupData[2].data[index])
         this.selected = index
         const submitData = {
           category: this.localgroupData[2].data[index].category,
@@ -255,7 +249,6 @@
        * @param val { scrollTop: 距离顶部位置, isFixed: 是否吸顶 }
        */
       scrollTab(val) {
-        // console.log(val)
         if (val.isFixed) {
           this.isFixedTags = true
         } else {
@@ -273,13 +266,10 @@
           const s2 = this.$refs.refLocalGroupPage.scrollTop
           const direct = s2 - s1
           if (s1 === 0) {
-            console.log('处于顶部')
             this.vxChangeHeaderStatus(HEADER_TYPE.TOP)
           } else if (direct > 0) {
-            console.log('向下滚动')
             this.vxChangeHeaderStatus(HEADER_TYPE.DOWN)
           } else if (direct < 0) {
-            console.log('向上滚动')
             this.vxChangeHeaderStatus(HEADER_TYPE.UP)
           }
         }, 17)

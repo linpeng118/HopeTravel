@@ -23,31 +23,28 @@
             <!-- 地点 -->
             <div class="form-input">
               <div class="left-icon icon-addr"></div>
-              <div class="transparent-input">
-                <van-field class="tours-input-no-bg"
-                  v-model="address"
+              <van-cell-group class="transparent-input tours-input-no-bg">
+                <van-field v-model="address"
                   placeholder="请填写您想去的目的地或景点" />
-              </div>
+              </van-cell-group>
               <div class="right">*</div>
             </div>
             <!-- 手机号码 -->
             <div class="form-input phone">
               <div class="left-icon icon-phone"></div>
-              <div class="transparent-input">
-                <van-field class="tours-input-no-bg"
-                  v-model="phone"
+              <van-cell-group class="transparent-input tours-input-no-bg">
+                <van-field v-model="phone"
                   placeholder="请填写您的电话号码" />
-              </div>
+              </van-cell-group>
               <div class="right">*</div>
             </div>
             <!-- 微信 -->
             <div class="form-input wechat">
               <div class="left-icon icon-wx"></div>
-              <div class="transparent-input">
-                <van-field class="tours-input-no-bg"
-                  v-model="wechat"
+              <van-cell-group class="transparent-input tours-input-no-bg">
+                <van-field v-model="wechat"
                   placeholder="请填写您的微信号码" />
-              </div>
+              </van-cell-group>
               <div class="right">*</div>
             </div>
             <!-- 定制按钮 -->
@@ -158,9 +155,9 @@
         canSubmit: false,
         submiting: false,
         seasonList: [
-          {path: '/custom/store1', url: require('../../assets/imgs/custom/story_1.png'), title: '巴黎九天七晚街拍之旅', desc: '巴黎是法国的首都，也是这个国家的心脏。大多数游客心中向往的，是一个古老而浪漫的巴黎，一个极具历史感的巴黎，还有一个充满前卫与波西米亚气息的巴黎。', price: '￥ 19980'},
-          {path: '/custom/store2', url: require('../../assets/imgs/custom/story_1.png'), title: '22巴黎九天七晚街拍之旅', desc: '巴黎是法国的首都，也是这个国家的心脏。大多数游客心中向往的，是一个古老而浪漫的巴黎，一个极具历史感的巴黎，还有一个充满前卫与波西米亚气息的巴黎。', price: '￥ 19980'},
-          {path: '/custom/store3', url: require('../../assets/imgs/custom/story_1.png'), title: '33巴黎九天七晚街拍之旅', desc: '巴黎是法国的首都，也是这个国家的心脏。大多数游客心中向往的，是一个古老而浪漫的巴黎，一个极具历史感的巴黎，还有一个充满前卫与波西米亚气息的巴黎。', price: '￥ 19980'},
+          {path: '/custom/store6', url: require('../../assets/imgs/custom/season/season_1@2x.png'), title: '东京+关西7天6晚 花开之旅', desc: '如果是第一次去日本，更推荐经典的关西线大阪-京都-奈良。大阪，有关西最大购物圣地心斋桥，亲子游可以去环球影城玩个痛快；京都，漫步在花见小路偶遇风情艺妓，适合穿和服出游。', price: '￥ 13800'},
+          {path: '/custom/store3', url: require('../../assets/imgs/custom/season/season_2@2x.png'), title: '巴厘岛+科莫多8天6晚 热恋之旅', desc: '就在拥有180°海景的房间中醒来，拉开窗帘，让清晨的光和你问候早安！上山下海，采蝶追鱼，与史前巨蜥——科莫多龙，亲密接触。还有那少女心炸裂的粉色沙滩，完整整个完美假期。', price: '￥ 15600'},
+          {path: '/custom/store1', url: require('../../assets/imgs/custom/season/season_3@2x.png'), title: '巴黎9天7晚 浪漫之旅', desc: '巴黎是法国的首都，也是这个国家的心脏。大多数游客心中向往的，是一个古老而浪漫的巴黎，一个极具历史感的巴黎，还有一个充满前卫与波西米亚气息的巴黎。', price: '￥ 19980'},
         ],
         featureList: [
           {img: require('../../assets/imgs/custom/features_1@2x.png'), title: '全球出发一人成团'},
@@ -177,13 +174,13 @@
             desc: '卸下工作的我，突然想去脚踏实地的感受一下旅行的意义。一般的旅行团都不会有这样的行程，旅行一次独属于我的私人旅行。',
             imgs: [
               {
-                path: 'custom/gushi1', url: require('../../assets/imgs/custom/story_1.png'), id: '1'
+                path: 'custom/gushi1', url: require('../../assets/imgs/custom/story1/banner1@2x.png'), id: '1'
               },
               {
-                path: 'custom/gushi1', url: require('../../assets/imgs/custom/story_1.png'), id: '2'
+                path: 'custom/gushi1', url: require('../../assets/imgs/custom/story1/banner2@2x.png'), id: '2'
               },
               {
-                path: 'custom/gushi1', url: require('../../assets/imgs/custom/story_1.png'), id: '3'
+                path: 'custom/gushi1', url: require('../../assets/imgs/custom/story1/banner3@2x.png'), id: '3'
               },
             ]
           },
@@ -193,13 +190,13 @@
             desc: '2卸下工作的我，突然想去脚踏实地的感受一下旅行的意义。一般的旅行团都不会有这样的行程，旅行一次独属于我的私人旅行。',
             imgs: [
               {
-                path: 'custom/gushi2', url: require('../../assets/imgs/custom/story_1.png'), id: '4'
+                path: 'custom/gushi2', url: require('../../assets/imgs/custom/story2/banner1@2x.png'), id: '4'
               },
               {
-                path: 'custom/gushi2', url: require('../../assets/imgs/custom/story_1.png'), id: '5'
+                path: 'custom/gushi2', url: require('../../assets/imgs/custom/story2/banner2@2x.png'), id: '5'
               },
               {
-                path: 'custom/gushi2', url: require('../../assets/imgs/custom/story_1.png'), id: '6'
+                path: 'custom/gushi2', url: require('../../assets/imgs/custom/story2/banner3@2x.png'), id: '6'
               },
             ]
           },
@@ -209,13 +206,13 @@
             desc: '3卸下工作的我，突然想去脚踏实地的感受一下旅行的意义。一般的旅行团都不会有这样的行程，旅行一次独属于我的私人旅行。',
             imgs: [
               {
-                path: 'custom/gushi3', url: require('../../assets/imgs/custom/story_1.png'), id: '7'
+                path: 'custom/gushi3', url: require('../../assets/imgs/custom/story3/banner1@2x.png'), id: '7'
               },
               {
-                path: 'custom/gushi3', url: require('../../assets/imgs/custom/story_1.png'), id: '8'
+                path: 'custom/gushi3', url: require('../../assets/imgs/custom/story3/banner2@2x.png'), id: '8'
               },
               {
-                path: 'custom/gushi3', url: require('../../assets/imgs/custom/story_1.png'), id: '9'
+                path: 'custom/gushi3', url: require('../../assets/imgs/custom/story3/banner3@2x.png'), id: '9'
               },
             ]
           }
@@ -225,7 +222,7 @@
     },
     mounted() {
       // 监听滚动
-      this.$refs.refCustomPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
+      this.$refs.refCustomPage.addEventListener('scroll', _throttle(this.scrollFn, 200))
     },
     methods: {
       // 热门景点tag

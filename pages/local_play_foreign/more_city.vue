@@ -44,7 +44,6 @@
     },
     created() {
       this.init()
-      console.log(this.cityList)
     },
     mounted() {
       if (this.isApp) {

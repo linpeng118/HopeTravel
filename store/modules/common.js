@@ -1,16 +1,13 @@
-import {
-  TOKEN_KEY
-} from '@/assets/js/config'
-
-const user = {
+export default {
+  namespaced: true,
   state: {
-    token: process.client ? process.client : ''
+    token: ''
+  },
+  actions: {
   },
   mutations: {
-    updateToken: (state, token) => {
+    updateToken(state, token) {
       state.token = token
     }
   }
 }
-
-export default user

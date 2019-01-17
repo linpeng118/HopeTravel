@@ -57,12 +57,9 @@
         }
       }
     },
-    created() {
-       //初始化
-       this.mGetDate(this.dateprice.years,this.dateprice.month)
-    },
     mounted(){
-
+      //初始化
+      this.mGetDate(this.dateprice.years,this.dateprice.month);
     },
     methods: {
       mGetDate(year, month){

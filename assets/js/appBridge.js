@@ -43,8 +43,7 @@ function callApi(funcName, isAndroid, args) {;
       }
     } else {
       // iOS只能传入一个参数，多的必须装到数组里
-      console.log('参数参数222' + args)
-      console.log(args)
+      // console.log(args)
       window.webkit.messageHandlers[funcName].postMessage(args)
     }
   } catch (e) {
@@ -128,14 +127,11 @@ export const getLocalStorage = (() => {
     }
   }
   if (browserVersion.isIos() && testApi('getLocalStorage', false)) {
-    console.log('iosiosiosios调用')
     return () => {
       return new Promise(resolve => {
         const oldFunc = window.getLocalStorage
         window.getLocalStorage = localStorage => {
           window.getLocalStorage = oldFunc
-          // console.log('2019年1月16日13:04:10')
-          // console.log(localStorage)
           resolve(localStorage)
         }
         callApi('getLocalStorage', false)
@@ -145,27 +141,26 @@ export const getLocalStorage = (() => {
   return null
 })()
 
-// 收藏
-export const userCollectProduct = (() => {
-  if (browserVersion.isAndroid() && testApi('getLocalStorage', true)) {
+// 收藏返回给app
+export const collectProductResult = (() => {
+  if (browserVersion.isAndroid() && testApi('collectProductResult', true)) {
     return () => {
       return new Promise(resolve => {
         const funcName = `__API__${randomString(6)}`
         window[funcName] = resolve
-        callApi('getLocalStorage', true, funcName)
+        callApi('collectProductResult', true, funcName)
       })
     }
   }
-  if (browserVersion.isIos() && testApi('getLocalStorage', false)) {
-    console.log('iosiosiosios调用')
+  if (browserVersion.isIos() && testApi('collectProductResult', false)) {
     return () => {
       return new Promise(resolve => {
-        const oldFunc = window.userCollectProduct
-        window.userCollectProduct = localStorage => {
-          window.userCollectProduct = oldFunc
-          resolve(localStorage)
+        const oldFunc = window.collectProductResult
+        window.collectProductResult = collectResult => {
+          window.collectProductResult = oldFunc
+          resolve(collectResult)
         }
-        callApi('userCollectProduct', false)
+        callApi('collectProductResult', false)
       })
     }
   }
@@ -184,13 +179,12 @@ export const obtainUserToken = (() => {
     }
   }
   if (browserVersion.isIos() && testApi('obtainUserToken', false)) {
-    console.log('iosiosiosios，obtainUserToken')
     return () => {
       return new Promise(resolve => {
         const oldFunc = window.obtainUserToken
-        window.obtainUserToken = localStorage => {
+        window.obtainUserToken = token => {
           window.obtainUserToken = oldFunc
-          resolve(localStorage)
+          resolve(token)
         }
         callApi('obtainUserToken', false)
       })
@@ -210,6 +204,11 @@ export const jumpProductListView = createArgApi('jumpProductListView', 'jumpProd
  * 跳转列表详情界面
  */
 export const jumpProductDetailView = createArgApi('jumpProductDetailView', 'jumpProductDetailView')
+
+/**
+ * 收藏
+ */
+export const userCollectProduct = createArgApi('userCollectProduct', 'userCollectProduct')
 
 /*  =========================== 不需要参数的方法 ===========================  */
 /**
@@ -242,11 +241,13 @@ export const jumpDestinationView = createNoArgApi('jumpDestinationView', 'jumpDe
  */
 export const backPreviousView = createNoArgApi('jumpDestinationView', 'jumpDestinationView')
 
+
 export default {
   // 以下接口需传参调用
   jumpProductListView,
   jumpProductDetailView,
   userCollectProduct,
+  collectProductResult,
   // 以下接口无需参数
   hideNavigationBar,
   showNavigationBar,
