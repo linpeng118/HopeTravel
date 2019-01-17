@@ -1,7 +1,7 @@
 <template>
   <div class="tag"
     :class="className"
-    @click="onTag(tag)">{{tag.title || tag.content}}
+    @click="onTag(tag)">{{tag.title || tag.content || tag.name}}
   </div>
 </template>
 

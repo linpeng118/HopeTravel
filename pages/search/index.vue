@@ -2,7 +2,7 @@
   <div>
     <lay-header
       searchKeyWords="城市/景点/产品/关键字"
-      :isSearch="search.isSearch"
+      :isSearch="isSearch"
       @onSearch="onSearch"
       @searchStart="searchStart"
       @query="queryChange"
@@ -16,7 +16,7 @@
       <recommend :data="recommendObj" :titleList="recommendObj.subTitle" v-if="activeKey === 0"></recommend>
       <country :data="countryObj" v-else></country>
     </div>
-    <div>加载中</div>
+    <!--<loading v-if="searchLoading" loading="数据加载中..."></loading>-->
   </div>
 </template>
 
@@ -24,14 +24,16 @@
 import LayHeader from '@/components/header/search.vue'
 import Recommend from '@/components/search/recommend.vue'
 import Country from '@/components/search/country.vue'
-import {getDestination} from '@/api/search'
+import Loading from '@/components/loading/whiteBg'
+import {getDestination, getAssociateSearch} from '@/api/search'
 
 export default {
   name: 'search',
   components: {
     LayHeader,
     Recommend,
-    Country
+    Country,
+    Loading
   },
   data() {
     return {
@@ -41,10 +43,13 @@ export default {
       allData: [],
       recommendObj: {},
       countryObj: {},
-      search: {
-        query: '',
-        isSearch: false
-      }
+      searchWords: '', // 搜索内容
+      isSearch: false, // 是否搜索
+    }
+  },
+  watch: {
+    searchWords() {
+      this.search()
     }
   },
   mounted() {
@@ -111,12 +116,18 @@ export default {
     },
     //
     searchStart() {
-      this.search.isSearch = true
+      this.isSearch = true
     },
-    // 搜索
+    // 获取搜索字段
     queryChange (value) {
       // console.log(value)
-      this.search.query = value
+      this.searchWords = value
+    },
+    // 搜索执行
+    async search() {
+      let {code, data} = await getAssociateSearch(this.searchWords)
+      if (code === 0) {
+      }
     }
   }
 }
