@@ -150,7 +150,6 @@
     created() {
     },
     async mounted() {
-      this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 100))
       this.init()
       if (this.isApp) {
         this.appBridge = require('@/assets/js/appBridge.js').default
@@ -161,6 +160,8 @@
         }
         let token = await this.appBridge.obtainUserToken()
         this.vxChangeTokens(token)
+      } else {
+        this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 100))
       }
     },
     methods: {
@@ -267,6 +268,7 @@
       },
       // 滚动监听显示header
       scrollFn() {
+        console.log('滚动了')
         window.requestAnimationFrame(() => {
           const s1 = this.$refs.refLocalPlayForeign.scrollTop
           const s3 = this.$refs.refAreaMain.offsetHeight
