@@ -1,6 +1,6 @@
 <template>
   <section class="container">
-    <lay-header title="更多城市" :isSearch="false" :classBg="true" @leftClick="leftClick"></lay-header>
+    <lay-header v-if="!isApp" title="更多城市" :isSearch="false" :classBg="true" @leftClick="leftClick"></lay-header>
     <div class="listview" v-if="cityList.length ">
       <van-collapse v-model="activeName" accordion>
         <van-collapse-item v-for="cityInfo in cityList" :key="cityInfo.countryId" :title="cityInfo.countryName" :name="cityInfo.countryId">
@@ -48,7 +48,7 @@
     mounted() {
       if (this.isApp) {
         this.appBridge = require('@/assets/js/appBridge.js').default
-        this.appBridge.hideNavigationBar()
+        // this.appBridge.hideNavigationBar()
       }
     },
     methods: {

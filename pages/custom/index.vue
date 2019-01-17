@@ -3,7 +3,8 @@
     ref="refCustomPage">
     <div class="custom-content">
       <!-- header -->
-      <normal-header :title="'私人定制'"
+      <normal-header v-if="!isApp"
+        :title="'私人定制'"
         :transparent="isTransparent"
         fixed />
       <!-- banner -->
@@ -132,6 +133,7 @@
     },
     data() {
       return {
+        isApp: this.$route.query.platform,
         isTransparent: true, // 导航头是否透明
         swiperOption: {
           loop: true,

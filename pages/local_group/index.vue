@@ -2,7 +2,7 @@
   <div class="local-group-page"
     ref="refLocalGroupPage">
     <!-- header -->
-    <search-header :title="'当地跟团'"
+    <search-header v-if="!isApp" :title="'当地跟团'"
       ref="refSearchHeader"
       @leftClick="leftClick" />
     <!-- body -->
@@ -110,6 +110,7 @@
     },
     data() {
       return {
+        isApp: this.$route.query.platform,
         LIST_TYPE,
         // swiper配置
         swiperOption: {
@@ -140,7 +141,6 @@
         prodPagination: {}, // 分页数据
         prodLoading: false, // 是否处于加载状态，加载过程中不触发load事件
         prodFinished: false, // 是否已加载完成，加载完成后不再触发load事件
-        isApp: this.$route.query.platform
       }
     },
     watch: {
@@ -158,7 +158,7 @@
       if (this.isApp) {
         // 引入appBridge
         this.appBridge = require('@/assets/js/appBridge').default
-        this.appBridge.hideNavigationBar()
+        // this.appBridge.hideNavigationBar()
       } else {
         console.log('web操作')
       }
