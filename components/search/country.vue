@@ -1,17 +1,17 @@
 <template>
   <div class="search-main">
     <div class="country-bg">
-      <img :src="data.image" alt="">
-      <div class="desc">{{data.country}}全部线路 {{data.num}}条</div>
+      <img src="../../assets/imgs/search_bg.jpg" alt="">
+      <div class="desc">{{data.cityName}}{{data.title}} {{data.num}}条</div>
     </div>
-    <div class="hot-box">
+    <div class="hot-box" v-if="data.hotTarget && data.hotTarget.length">
       <h2>热门目的地</h2>
-      <hot-place :lists="data.hotTarget"></hot-place>
+      <hot-place :lists="data.hotTarget" :isDesc="false"></hot-place>
     </div>
-    <div class="result-line">
+    <div class="result-line" v-if="data.allArea && data.allArea.length">
       <h2>全部目的地</h2>
       <div class="line">
-        <hot-city-tag v-for="line in data.lineList" :key="line.id" :className="line.active ? 'active' : 'normal'" :tag="line" />
+        <hot-city-tag v-for="line in data.allArea" :key="line.id" :className="line.active ? 'active' : 'normal'" :tag="line" />
       </div>
     </div>
   </div>

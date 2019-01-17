@@ -1,9 +1,9 @@
 <template>
   <div class="hot-place">
-    <div class="hot-item" v-for="list in lists" :key="list.category">
+    <div class="hot-item" v-for="(list, index) in lists" :key="index">
       <img :src="list.image" alt="">
-      <div class="title">{{list.subTitle}}</div>
-      <div class="desc">{{list.content}}</div>
+      <div class="title">{{list.content}}</div>
+      <div class="desc" v-if="isDesc">{{list.subTitle}}</div>
     </div>
   </div>
 </template>
@@ -15,6 +15,10 @@ export default {
     lists: {
       type: Array,
       default: null
+    },
+    isDesc: {
+      type: Boolean,
+      type: true
     }
   }
 }
@@ -24,10 +28,10 @@ export default {
   .hot-place{
     display: flex;
     text-align: center;
-    justify-content: space-between;
     flex-wrap:wrap;
     .hot-item{
       margin-bottom: 20px;
+      margin-right: 14px;
     }
     .title{
       font-size: 24px;
