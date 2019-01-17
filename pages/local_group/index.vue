@@ -351,7 +351,9 @@
       .hq-tags {
         padding: 24px 30px;
         background: #fff;
-        height: 172px;
+        width: 100%;
+        max-height: 172px;
+        overflow: hidden;
         &.fixed-tag {
           position: fixed;
           top: calc(92px + 44px + 24px + 15px);
