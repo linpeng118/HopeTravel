@@ -7,7 +7,7 @@
       @searchStart="searchStart"
       @query="queryChange"
     ></lay-header>
-    <div class="search-wrap" style="display: none;">
+    <div class="search-wrap" v-if="!searchCategory.length || !searchProduct.length">
       <!--左边侧边栏-->
       <van-badge-group :active-key="activeKey" @change="onChange" class="badge-bar">
         <van-badge v-for="(area,index) in areaList" :key="index" :title="area" />
@@ -17,12 +17,12 @@
       <country :data="countryObj" v-else></country>
     </div>
     <!--<loading v-if="searchLoading" loading="数据加载中..."></loading>-->
-    <div class="search-result">
-      <template v-if="searchResultLists.category && searchResultLists.category.length">
+    <div class="search-result" v-if="searchCategory.length || searchProduct.length">
+      <template v-if="searchCategory.length">
         <h2 class="title">{{searchWords}} 的产品</h2>
-        <square-tag :lists="searchResultLists.category"></square-tag>
+        <square-tag :lists="searchCategory"></square-tag>
       </template>
-
+      <search-result :lists="searchProduct"></search-result>
     </div>
   </div>
 </template>
@@ -33,6 +33,7 @@ import Recommend from '@/components/search/recommend.vue'
 import Country from '@/components/search/country.vue'
 import SquareTag from '@/components/tags/square.vue'
 import Loading from '@/components/loading/whiteBg'
+import SearchResult from '@/components/items/searchResult.vue'
 import {getDestination, getAssociateSearch} from '@/api/search'
 
 export default {
@@ -42,7 +43,8 @@ export default {
     Recommend,
     Country,
     Loading,
-    SquareTag
+    SquareTag,
+    SearchResult
   },
   data() {
     return {
@@ -54,20 +56,8 @@ export default {
       countryObj: {},
       searchWords: '', // 搜索内容
       isSearch: false, // 是否搜索
-      searchResultLists: {
-        category: [
-          {title: "当地跟团",
-          total: 9,
-          type: 1}
-          ],
-        product: [
-          {
-            image: "http://m2.tourscool.net/images/product/5be02acbb98e2_600_338.jpg",
-            name: "法国巴黎 凡尔赛宫半日游 (免排队门票+免打印+中/英文语音讲解器)",
-            product_id: 1719
-          }
-        ]
-      }, // 搜索结果
+      searchCategory: [], // 搜索结果
+      searchProduct: []
     }
   },
   watch: {
@@ -148,8 +138,13 @@ export default {
     },
     // 搜索执行
     async search() {
-      let {code, data} = await getAssociateSearch(this.searchWords)
+      let {code, data: {category, product}} = await getAssociateSearch(this.searchWords)
       if (code === 0) {
+        this.searchCategory = category
+        this.searchProduct = product
+      } else {
+        this.searchCategory = []
+        this.searchProduct = []
       }
     }
   }
