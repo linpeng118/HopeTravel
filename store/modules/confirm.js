@@ -12,7 +12,11 @@ export default {
       product_departure: '',//出发地点，接驳服务
       attributes:[],//行程/升级选择对象
       is_point: false,//是否使用积分
+
+      adult:0,
+      child:0,
     },
+
   },
 
   mutations: {
@@ -35,6 +39,10 @@ export default {
         product_departure: '',//出发地点，接驳服务
         attributes:[],//行程/升级选择对象
         is_point: false,//是否使用积分
+
+        adult:0,
+        child:0,
+
       }
       localStorage.setItem('countprice', JSON.stringify(state[mut.countprice]))
     },
@@ -48,6 +56,8 @@ export default {
         product_departure: '',//出发地点，接驳服务
         attributes:[],//行程/升级选择对象
         is_point: false,//是否使用积分
+        adult:0,
+        child:0,
       },
       console.log('成功执行init')
     },
