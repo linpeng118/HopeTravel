@@ -11,15 +11,25 @@
     <section>
       <div class="confirm-item">
         <p class="item-title">接送时间和地点</p>
-        <p class="item-con">
+        <p class="item-con" @click="showchecktime=true">
           <span>13:30 PMLas Vegas International Airport(拉斯维加斯国际机场LAS), 5757 Wayne Newton Blvd, Las Vegas, NV 89119</span>
           <span>
             $23212.20/人
           </span>
           <van-icon color="#404040" name="arrow" size="1.2em"/>
         </p>
-
       </div>
+      <!--接送时间和地点弹出层-->
+      <van-popup v-model="showchecktime" position="center" :overlay="true">
+        <van-radio-group v-model="countprice.product_departure">
+          <template v-for="(item,ind) in pricelist.transfer">
+            <van-radio :key="ind" :name="item.product_departure_id">
+             {{item.time}} {{item.full_address}}
+            </van-radio>
+          </template>
+
+        </van-radio-group>
+      </van-popup>
     </section>
     <!--行程选择-->
     <section>
@@ -75,10 +85,9 @@
           </div>
           <div class="van-cell__value">
             <div class="van-field__body">
-              <i class="setvan">+86
-                <van-icon name="arrow"/>
-              </i>
-              <input type="text" placeholder="必填，用于接收信息" class="van-field__control">
+
+            <i class="setvan" @click="showsel=true">+86<van-icon name="arrow" /></i>
+            <input type="text" placeholder="必填，用于接收信息" class="van-field__control">
             </div>
           </div>
         </div>
@@ -86,45 +95,53 @@
           label="邮箱"
           placeholder="必填，用于接收电子客票"
         />
+        <van-popup v-model="showsel" position="bottom" :overlay="true">
+          <van-picker :columns="columns"
+                      show-toolbar
+                      title="选择区号"
+          />
+        </van-popup>
       </div>
     </section>
     <!--优惠信息-->
     <section>
       <div class="confirm-item">
         <p class="item-title">优惠信息</p>
-        <p class="item-con">
+        <div class="item-con">
          <span>
            <i class="seti">米粒</i>
            <i class="seti" style="color: #bbb">共有米粒574，本次可用500米粒抵用$5</i>
          </span>
-          <van-switch
-            v-model="checked"
-            style="float: right"
-            size="2em"
-          />
-        </p>
+
+           <van-switch
+             v-model="checked"
+             style="float: right"
+             size="2em"
+           />
+        </div>
+
       </div>
     </section>
     <!--预定留言-->
     <section>
       <div class="confirm-item">
         <p class="item-title">预定留言</p>
-        <p class="item-con">
+        <div class="item-con">
           <van-field
             type="textarea"
             placeholder="选填，你可备注预定相关要求"
             rows="2"
             autosize
           />
-        </p>
+        </div>
       </div>
     </section>
     <!--同意用户协议-->
     <section>
       <div class="confirm-item">
-        <p class="item-con">
+        <div class="item-con">
           <van-checkbox v-model="checked">我已阅读并接受<a style="color: #216BFF">《稀饭旅行用户服务条款》</a></van-checkbox>
-        </p>
+        </div>
       </div>
     </section>
     <!--foot-->
@@ -146,8 +163,21 @@
 
     data() {
       return {
-        countprice: {},//vuex里面的价格计算参数
-        checked: true,
+
+        countprice:{},//vuex里面的价格计算参数
+        pricelist:{},//vuex里面的价格返回参数
+        showchecktime:false,//是否显示选择出发时间组件
+
+
+
+
+
+
+        // 静态参数
+        checked:true,
+        columns: ['杭州', '宁波', '温州', '嘉兴', '湖州','杭州', '宁波', '温州', '嘉兴', '湖州','杭州', '宁波', '温州', '嘉兴', '湖州'],
+        showsel:false,
+
 
       }
     },
@@ -157,70 +187,24 @@
         return this.$store.state.confirm.countprice;
       },
       //产品
-      product() {
-        return {
-          "product_id": 141,
-          "default_price": "$238",
-          "code": "US119",
-          "product_entity_type": 1,
-          "product_type": 1,
-          "max_num_guest": 4,
-          "min_num_guest": 9,
-          "max_child_age": 2,
-          "sales": 3,
-          "self_support": 1,
-          "name": "(5天)【华盛顿出发美东豪华游】<纽约+费城+康宁玻璃中心+华盛顿特区+尼亚加拉大瀑布+波士顿>",
-          "small_description": "★ 畅游名城：纽约，费城，华盛顿，尼加拉瓜大瀑布，波士顿。 ★ 震撼体验：多种角度欣赏尼亚加拉瀑布的风采，体验视觉与听觉的双震撼； ★ 独特文化：虽一眼看完的景物，却可以让人深深感受到背后的历史渊源，费城独立厅带你感受人们对民主和自由的向往； ★ 特色风味：波士顿当地龙虾卷+特制面包里的新英格兰蛤蜊巧达浓汤； ",
-          "icons_show": [
-            "限时",
-            "满减"
-          ],
-          "icons_tour": [
-            {
-              "title": "买二送一",
-              "content": "是指三人共同享用一个酒店标准间的价格，不提供加床"
-            },
-            {
-              "title": "买二送二",
-              "content": "是指四人共同享用一个酒店标准间的价格，不提供加床"
-            },
-            {
-              "title": "畅销行程",
-              "content": ""
-            },
-            {
-              "title": "低价保证",
-              "content": ""
-            },
-            {
-              "title": "即时确认",
-              "content": "该产品下单即可确认出行"
-            }
-          ],
-          "images": [
-            "http://www.24.tourscool.net/images/product/5b6176857cfd5_600_338.jpg",
-            "http://www.24.tourscool.net/images/product/5b6176857d077_600_338.png",
-            "http://www.24.tourscool.net/images/product/5b6176857d228_600_338.jpg",
-            "http://www.24.tourscool.net/images/product/5b6176857d2a7_600_338.jpg"
-          ],
-          "departure_city": "华盛顿",
-          "end_city": "纽约",
-          "special_price": "",
-          "feature_images": [
-            "http://www.24.tourscool.net/images/product/5ba9aede9f341_600_338.jpg",
-            "http://www.24.tourscool.net/images/product/5ba9aede9ed93_600_338.jpg"
-          ],
-          "is_kids": true,
-          "is_single_pu": true,
-          "is_favorite": false,
-          "duration_days": 5
-        }
-      }
+
+      product(){
+        return this.$store.state.confirm.product;
+      },
+      //获取价格数据
+      get_vuex_pricelist() {
+        return this.$store.state.confirm.pricelist;
+      },
     },
-    watch: {
-      get_vuex_countprice(val) {
-        console.log('本地数据更新1次')
-        this.countprice = val;
+    watch:{
+      get_vuex_countprice(val){
+        console.log('vuex数据更新1次')
+        this.countprice=val;
+
+      },
+      get_vuex_pricelist(val){
+        console.log('vuex价格返回数据更新1次')
+        this.pricelist=val;
       },
     },
     mounted() {
@@ -412,7 +396,8 @@
 
   .seti {
     font-style: normal;
-    display: block;
+    display: inline-block;
+    width: 100%;
   }
 
 

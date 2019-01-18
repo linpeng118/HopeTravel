@@ -47,10 +47,15 @@
 
         </li>
 
-        <li class="paysection" v-if="payData.points">
+        <li class="paysection" v-if="payData.discount">
           <p class="payitem">
             <span>优惠:</span>
-            <span>数据变动</span>
+            <span>{{payData.discount}}</span>
+          </p>
+          <p class="payitem2" v-if="payData.points" >
+            <span>积分抵扣</span>
+            <span><i :style="'color:#D51D28'">-</i>
+                {{payData.points.discount}}</span>
           </p>
         </li>
 
