@@ -34,6 +34,16 @@
       <div class="destination"></div>
       <!-- 团期价格 -->
       <div class="group-price"></div>
+      <!-- 稀饭推荐 -->
+      <div class="recommend"></div>
+      <!-- 产品特色 -->
+      <div class="features"></div>
+      <!-- 行程概要 -->
+      <div class="profile"></div>
+      <!-- 费用明细 -->
+      <div class="cost"></div>
+      <!-- 其他 -->
+      <div class="other"></div>
     </div>
   </div>
 </template>

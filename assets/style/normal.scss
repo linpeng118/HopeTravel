@@ -1,5 +1,5 @@
 // normal.scss用于存放通用样式, 能方法生成就方法生成。
-/* 字体大小 font-size: 10,12,14,16,18... */
+/** 字体大小 font-size: 10,12,14,16,18... */
 $font-size: (10, 12, 14, 16, 18, 20, 22, 24, 28, 30, 32, 34, 36, 40, 48);
 
 @mixin font-size {
@@ -12,7 +12,7 @@ $font-size: (10, 12, 14, 16, 18, 20, 22, 24, 28, 30, 32, 34, 36, 40, 48);
 
 @include font-size;
 
-/* 字体粗细 font-weight: 100-900 */
+/** 字体粗细 font-weight: 100-900 */
 $font-weight: (400, 700, 100, 200, 300, 500, 600, 800, 900);
 
 @mixin font-weight {
@@ -25,12 +25,12 @@ $font-weight: (400, 700, 100, 200, 300, 500, 600, 800, 900);
 
 @include font-weight;
 
-/* 圆角 border-radius 0-12 */
+/** 圆角 border-radius 0-12 */
 $border-radius: (0, 2, 4, 6, 8, 10, 12, 14);
 
 @mixin border-radius {
   @each $value in $border-radius {
-    .b-r-#{$value} {
+    .br-#{$value} {
       border-radius: $value+px;
     }
   }
@@ -42,13 +42,12 @@ $border-radius: (0, 2, 4, 6, 8, 10, 12, 14);
   border-radius: 100%;
 }
 
-/* 外边距 margin */
-
-$margin-top: (0, 2, 5, 10, 15, 20, 26, 30, 50);
+/** 外边距 margin */
+$margin-top: (0, 2, 5, 10, 15, 20, 24, 26, 30, 50);
 
 @mixin margin-top {
   @each $value in $margin-top {
-    .m-t-#{$value} {
+    .mt-#{$value} {
       margin-top: $value+px;
     }
   }
@@ -60,13 +59,12 @@ $margin-top: (0, 2, 5, 10, 15, 20, 26, 30, 50);
   margin: 0;
 }
 
-/* 外边距 padding */
-
+/** 外边距 padding */
 $padding-top: (0, 2, 5, 10, 15, 20, 26, 30, 50);
 
 @mixin padding-top {
   @each $value in $padding-top {
-    .p-t-#{$value} {
+    .pt-#{$value} {
       padding-top: $value+px;
     }
   }
@@ -78,19 +76,32 @@ $padding-top: (0, 2, 5, 10, 15, 20, 26, 30, 50);
   margin: 0;
 }
 
-/* 行高 line-height */
-
+/** 行高 line-height */
 $line-height: (0, 1.2, 1.5, 10, 15, 20, 26, 30, 50);
 
 @mixin line-height {
   @each $value in $line-height {
-    .l-h-#{$value} {
+    .lh-#{$value} {
       line-height: $value;
     }
   }
 }
 
 @include line-height;
+
+/** 间距 letter-spacing */
+
+$letter-spacing: (1, 2, 3);
+
+@mixin letter-spacing {
+  @each $value in $letter-spacing {
+    .ls-#{$value} {
+      letter-spacing: $value;
+    }
+  }
+}
+
+@include letter-spacing;
 
 // display
 .block {
@@ -124,19 +135,19 @@ $line-height: (0, 1.2, 1.5, 10, 15, 20, 26, 30, 50);
 }
 
 // 定位
-.pos-rlt {
+.pos-r {
   position: relative;
 }
 
-.pos-stc {
+.pos-s {
   position: static !important;
 }
 
-.pos-abt {
+.pos-a {
   position: absolute;
 }
 
-.pos-fix {
+.pos-f {
   position: fixed;
 }
 
@@ -145,24 +156,13 @@ $line-height: (0, 1.2, 1.5, 10, 15, 20, 26, 30, 50);
   width: 100%;
 }
 
-.w-auto {
-  width: auto;
+
+// 背景色 background
+.bg-transparent {
+  background: transparent !important;
 }
 
-// letter-spacing间距
-.l-s-1x {
-  letter-spacing: 1;
-}
-
-.l-s-2x {
-  letter-spacing: 2;
-}
-
-.l-s-3x {
-  letter-spacing: 3;
-}
-
-// color
+// 颜色 color
 .text-primary {
   color: #27c24c;
 }
@@ -183,27 +183,6 @@ $line-height: (0, 1.2, 1.5, 10, 15, 20, 26, 30, 50);
   color: #aaa;
 }
 
-.text-muted {
-  color: #999;
-}
-
-.text-desc {
-  color: #666666;
-}
-
-.text-color {
-  color: #333;
-}
-
 .text-black {
   color: #000;
-}
-
-/* 背景色 background */
-.bg-gray {
-  background: #f8f9fa !important;
-}
-
-.bg-transparent {
-  background: transparent !important;
 }
