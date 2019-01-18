@@ -1,9 +1,11 @@
 // index.scss 只引入公共样式。这些样式会在全局生效
 @import './reset';
 @import './consts';
+@import './normal'; // 通用样式，可直接在行内使用的类名
 @import './tours';
 @import './animate';
 @import './animate_vue';
+
 // vue编译结束前不显示带v-cloak的标签
 [v-cloak] {
   display: none !important;
