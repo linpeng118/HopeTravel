@@ -1,7 +1,7 @@
 <template>
   <section class="container">
     <lay-header v-if="!isApp" title="更多城市" :isSearch="false" :classBg="true" @leftClick="leftClick"></lay-header>
-    <div class="listview" v-if="cityList.length ">
+    <div class="listview" v-if="cityList.length" :style="{marginTop: isApp ? '1.76rem' : '1.173333rem'}">
       <!--:style="{paddingTop: isApp ? 0 : '1.173333rem'}"-->
       <van-collapse v-model="activeName" accordion>
         <van-collapse-item v-for="cityInfo in cityList" :key="cityInfo.countryId" :title="cityInfo.countryName" :name="cityInfo.countryId">
@@ -105,13 +105,14 @@
 
 <style type="text/scss" lang="scss">
   .listview{
-    margin-top: 88px;
+    margin-top: 132px;
     .van-cell{
       border-top: 1px solid #DEDEDE;
     }
     .van-collapse-item__content{
       padding: 0;
     }
+
     .van-cell__title{
       font-weight: bold;
     }
