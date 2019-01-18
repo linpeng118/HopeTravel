@@ -145,6 +145,11 @@
         prodFinished: false, // 是否已加载完成，加载完成后不再触发load事件
       }
     },
+    head() {
+      return {
+        title: '当地跟团'
+      }
+    },
     watch: {
       isFixedTags() {
         // console.log(this.$refs.refSearchHeader.$el.offsetHeight)

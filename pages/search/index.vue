@@ -7,7 +7,7 @@
       @searchStart="searchStart"
       @query="queryChange"
     ></lay-header>
-    <div class="search-wrap">
+    <div class="search-wrap" style="display: none;">
       <!--左边侧边栏-->
       <van-badge-group :active-key="activeKey" @change="onChange" class="badge-bar">
         <van-badge v-for="(area,index) in areaList" :key="index" :title="area" />
@@ -17,6 +17,13 @@
       <country :data="countryObj" v-else></country>
     </div>
     <!--<loading v-if="searchLoading" loading="数据加载中..."></loading>-->
+    <div class="search-result">
+      <template v-if="searchResultLists.category && searchResultLists.category.length">
+        <h2 class="title">{{searchWords}} 的产品</h2>
+        <square-tag :lists="searchResultLists.category"></square-tag>
+      </template>
+
+    </div>
   </div>
 </template>
 
@@ -24,6 +31,7 @@
 import LayHeader from '@/components/header/search.vue'
 import Recommend from '@/components/search/recommend.vue'
 import Country from '@/components/search/country.vue'
+import SquareTag from '@/components/tags/square.vue'
 import Loading from '@/components/loading/whiteBg'
 import {getDestination, getAssociateSearch} from '@/api/search'
 
@@ -33,7 +41,8 @@ export default {
     LayHeader,
     Recommend,
     Country,
-    Loading
+    Loading,
+    SquareTag
   },
   data() {
     return {
@@ -45,6 +54,20 @@ export default {
       countryObj: {},
       searchWords: '', // 搜索内容
       isSearch: false, // 是否搜索
+      searchResultLists: {
+        category: [
+          {title: "当地跟团",
+          total: 9,
+          type: 1}
+          ],
+        product: [
+          {
+            image: "http://m2.tourscool.net/images/product/5be02acbb98e2_600_338.jpg",
+            name: "法国巴黎 凡尔赛宫半日游 (免排队门票+免打印+中/英文语音讲解器)",
+            product_id: 1719
+          }
+        ]
+      }, // 搜索结果
     }
   },
   watch: {
@@ -170,6 +193,16 @@ export default {
       .result-line{
         padding-top: 22px;
       }
+    }
+  }
+  .search-result{
+    padding: 88px 14px 10px 32px;
+    background-color: #fff;
+    h2.title{
+      padding:32px 0 24px;
+      font-size: 28px;
+      font-weight: 400;
+      color: #BEBEBE;
     }
   }
 </style>
