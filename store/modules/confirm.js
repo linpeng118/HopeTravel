@@ -12,7 +12,6 @@ export default {
       product_departure: '',//出发地点，接驳服务
       attributes:[],//行程/升级选择对象
       is_point: false,//是否使用积分
-
       adult:0,
       child:0,
     },
@@ -39,7 +38,6 @@ export default {
         product_departure: '',//出发地点，接驳服务
         attributes:[],//行程/升级选择对象
         is_point: false,//是否使用积分
-
         adult:0,
         child:0,
 

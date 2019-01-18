@@ -2,10 +2,10 @@
 <template>
   <section>
 
-    <div class="paylist" >
+    <div class="paylist">
       <p class="paytitle">
-      费用明细
-          <van-icon @click="closepops()" name="cross"/>
+        费用明细
+        <van-icon @click="closepops()" name="cross"/>
       </p>
       <ul>
         <li class="paysection">
@@ -37,7 +37,7 @@
             <span>{{payData.attributes_selected.total_price}}</span>
           </p>
           <template v-for="(item,ind) in payData.attributes_selected.items">
-            <p class="payitem2" :key="ind" >
+            <p class="payitem2" :key="ind">
               <span>{{item.name}}</span>
               <span>
                  <i :style="item.prefix=='+'?'color:#24E44A':'color:#D51D28'">{{item.prefix}} </i>
@@ -69,31 +69,27 @@
 <script>
 
   export default {
-    props:{
+    props: {
 
-      payData: Object ,
+      payData: Object,
 
     },
 
     data() {
-      return {
-
-      }
+      return {}
     },
-    watch:{
-
-    },
+    watch: {},
     created() {
 
     },
-    mounted(){
+    mounted() {
 
       console.log(this.payData)
 
     },
     methods: {
-      closepops(){
-        this.$emit("closepops",'false')
+      closepops() {
+        this.$emit("closepops", 'false')
       }
 
 
@@ -106,14 +102,16 @@
 
 <style scoped>
 
-  .paylist{
-    width:750px;
-    background:rgba(255,255,255,1);
-    opacity:1;
-    overflow: hidden; border-radius:24px 24px 0px 0px;
+  .paylist {
+    width: 750px;
+    background: rgba(255, 255, 255, 1);
+    opacity: 1;
+    overflow: hidden;
+    border-radius: 24px 24px 0px 0px;
 
   }
-  .paytitle{
+
+  .paytitle {
     font-size: 36px;
     color: #191919;
     height: 106px;
@@ -123,11 +121,13 @@
     font-weight: bold;
     text-align: left;
   }
-  .paytitle i{
+
+  .paytitle i {
     line-height: 106px;
     float: right;
   }
-  .payall{
+
+  .payall {
     width: 750px;
     padding: 0 32px;
     box-sizing: border-box;
@@ -136,62 +136,75 @@
     border-top: 2px solid #E4E4E4;
 
   }
-  .payall span:nth-child(1){
+
+  .payall span:nth-child(1) {
     color: #A1A1A1;
     font-size: 24px;
     display: inline-block;
     float: left;
     line-height: 94px;
   }
-  .payall span:nth-child(2){
+
+  .payall span:nth-child(2) {
     color: #FF5454;
     display: inline-block;
     line-height: 94px;
     float: right;
     font-size: 32px;
   }
+
   .paysection {
     border-top: 2px solid #E4E4E4;
   }
-  .payitem{
+
+  .payitem {
     width: 750px;
     padding: 0 32px;
     box-sizing: border-box;
     height: 78px;
     font-weight: bold;
   }
-  .payitem span:nth-child(1){
+
+  .payitem span:nth-child(1) {
     color: #191919;
     font-size: 28px;
     display: inline-block;
     float: left;
     line-height: 78px;
     width: 450px;
-    overflow: hidden;white-space: nowrap;text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
-  .payitem span:nth-child(2){
+
+  .payitem span:nth-child(2) {
     color: #FB605D;
     display: inline-block;
     line-height: 78px;
     float: right;
     font-size: 28px;
   }
-  .payitem2{
+
+  .payitem2 {
     width: 750px;
     padding: 0 32px;
     box-sizing: border-box;
     height: 60px;
   }
-  .payitem2 span:nth-child(1){
+
+  .payitem2 span:nth-child(1) {
     color: #191919;
     font-size: 28px;
     display: inline-block;
     float: left;
     line-height: 60px;
     width: 450px;
-    overflow: hidden;white-space: nowrap;text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
-  .payitem2 span:nth-child(2){
+
+  .payitem2 span:nth-child(2) {
     color: #303030;
     font-size: 28px;
     display: inline-block;
