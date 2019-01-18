@@ -1,15 +1,28 @@
 <template>
   <div>
-    <lay-header searchKeyWords="城市/景点/产品/关键字"></lay-header>
-    <div class="search-wrap">
+    <lay-header
+      searchKeyWords="城市/景点/产品/关键字"
+      :isSearch="isSearch"
+      @onSearch="onSearch"
+      @searchStart="searchStart"
+      @query="queryChange"
+    ></lay-header>
+    <div class="search-wrap" style="display: none;">
+      <!--左边侧边栏-->
       <van-badge-group :active-key="activeKey" @change="onChange" class="badge-bar">
-        <van-badge title="热门推荐" />
-        <van-badge title="美东"/>
-        <van-badge title="美东"/>
-        <van-badge title="美东"/>
+        <van-badge v-for="(area,index) in areaList" :key="index" :title="area" />
       </van-badge-group>
-      <recommend :data="recommendObj" v-if="activeKey === 0"></recommend>
-      <country :data="countryObj"></country>
+      <!--热门推荐的内容-->
+      <recommend :data="recommendObj" :titleList="recommendObj.subTitle" v-if="activeKey === 0"></recommend>
+      <country :data="countryObj" v-else></country>
+    </div>
+    <!--<loading v-if="searchLoading" loading="数据加载中..."></loading>-->
+    <div class="search-result">
+      <template v-if="searchResultLists.category && searchResultLists.category.length">
+        <h2 class="title">{{searchWords}} 的产品</h2>
+        <square-tag :lists="searchResultLists.category"></square-tag>
+      </template>
+
     </div>
   </div>
 </template>
@@ -18,72 +31,126 @@
 import LayHeader from '@/components/header/search.vue'
 import Recommend from '@/components/search/recommend.vue'
 import Country from '@/components/search/country.vue'
+import SquareTag from '@/components/tags/square.vue'
+import Loading from '@/components/loading/whiteBg'
+import {getDestination, getAssociateSearch} from '@/api/search'
+
 export default {
   name: 'search',
   components: {
     LayHeader,
     Recommend,
-    Country
+    Country,
+    Loading,
+    SquareTag
   },
   data() {
     return {
       isApp: this.$route.query.platform,
       activeKey: 0,
-      recommendObj: {
-        lineList: [
-          {title: '美国全景',id:1},
-          {title: '纽约+阿拉斯加+洛杉矶',id:2,active: true},
-          {title: '美国+墨西哥',id:3, active:true},
-          {title: '美国+加拿大',id:4},
-          {title: '纽约+阿拉斯加+洛杉矶',id:5}
-        ],
-        hotPlace: [
-          {id: 1, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '黄石国家公园', desc: '惊艳黄石'},
-          {id: 2, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '黄石国家公园', desc: '惊艳黄石'},
-          {id: 3, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '黄石国家公园', desc: '惊艳黄石'},
-        ],
-        hotTarget: [
-          {id: 1, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '纽约'},
-          {id: 2, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '洛杉矶'},
-          {id: 3, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '塞班'},
-          {id: 4, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '纽约'},
-          {id: 5, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '洛杉矶'},
-          {id: 6, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '塞班'},
-        ],
-        playWaysList: [
-          {id: 1, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg', title: '极限体验w', desc: '挑战自己，突破极限'},
-          {id: 2, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg', title: '极限体验2', desc: '挑战自己，突破极限'},
-          {id: 3, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg', title: '极限体验3', desc: '挑战自己，突破极限'},
+      areaList: [],
+      allData: [],
+      recommendObj: {},
+      countryObj: {},
+      searchWords: '', // 搜索内容
+      isSearch: false, // 是否搜索
+      searchResultLists: {
+        category: [
+          {title: "当地跟团",
+          total: 9,
+          type: 1}
+          ],
+        product: [
+          {
+            image: "http://m2.tourscool.net/images/product/5be02acbb98e2_600_338.jpg",
+            name: "法国巴黎 凡尔赛宫半日游 (免排队门票+免打印+中/英文语音讲解器)",
+            product_id: 1719
+          }
         ]
-      },
-      countryObj: {
-        image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',
-        num: 10,
-        country: '北美',
-        hotTarget: [
-          {id: 1, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '纽约'},
-          {id: 2, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '洛杉矶'},
-          {id: 3, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '塞班'},
-          {id: 4, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '纽约'},
-          {id: 5, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '洛杉矶'},
-          {id: 6, image: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg',title: '塞班'},
-        ],
-        lineList: [
-          {title: '美国全景',id:1},
-          {title: '纽约',id:2,},
-          {title: '墨西哥',id:3,},
-          {title: '美国',id:4},
-          {title: '纽洛杉矶',id:5}
-        ]
-      }
-      // searchKeyWords: ''
+      }, // 搜索结果
+    }
+  },
+  watch: {
+    searchWords() {
+      this.search()
     }
   },
   mounted() {
+    this.init()
   },
   methods: {
     onChange(key) {
-      this.activeKey = key;
+      this.activeKey = key
+      if (key)  {
+        this.countryObj = this._nomalLizesAreaList(this.allData[key])
+      }
+    },
+    // 获取页面需要的数据
+    async init() {
+      let {data, code} = await getDestination()
+      if(code === 0) {
+        this.areaList = this._nomalLizeshowList(data)
+        this.allData = data
+        this._nomalLizesHotRecommend(data[0])
+      }
+    },
+    // 序列化数据
+    _nomalLizeshowList(data) {
+      let areaList = []
+      for(let i = 0, len = data.length; i < len; i++) {
+        areaList.push(data[i].cityName)
+      }
+      return areaList
+    },
+    // 热门推荐序列化
+    _nomalLizesHotRecommend(data) {
+      const {dataArray} = data
+      this.recommendObj = {
+        lineList: dataArray[0].datas, //经典路线
+        hotPlace: dataArray[1].datas, //热门景点
+        hotTarget: dataArray[2].datas, //热门目的地
+        playWaysList: dataArray[3].datas, //top6玩法
+        subTitle: {
+          lineTitle: dataArray[0].title,
+          hotTitle: dataArray[1].title,
+          targetTitle: dataArray[2].title,
+          playTitle: dataArray[3].title
+        }
+      }
+    },
+    // 其他区域热门城市
+    _nomalLizesAreaList(data) {
+      let countryObj = {}
+      let {cityName, dataArray} = data
+      countryObj = {
+        cityName: cityName, // 城市的名字
+        title: dataArray[0].title, // title
+        num: dataArray[0].datas.length, // 路线的数量
+        hotTargetTitle: dataArray[1].title, // 热门目的地名字
+        allAreaTitle: dataArray[2] && dataArray[2].title, // 全部目的地名字
+        hotTarget: dataArray[1].datas, // 热门目的地
+        allArea: dataArray[2] && dataArray[2].datas  // 全部目的地
+      }
+      return countryObj
+    },
+    // 取消按钮
+    onSearch() {
+      console.log(this.search)
+    },
+    //
+    searchStart() {
+      this.isSearch = true
+    },
+    // 获取搜索字段
+    queryChange (value) {
+      // console.log(value)
+      this.searchWords = value
+    },
+    // 搜索执行
+    async search() {
+      let {code, data} = await getAssociateSearch(this.searchWords)
+      if (code === 0) {
+      }
     }
   }
 }
@@ -113,12 +180,29 @@ export default {
     }
     .search-main {
       flex: 1;
-      padding-left: 210px;
-      padding-right: 32px;
-      padding-top:20px;
+      padding: 20px 10px 0 210px;
+      h2{
+        padding: 10px 0 20px 0;
+        font-size:28px;
+        color: #9A9A9A;
+      }
+      .active{
+        background-color: #00ABF9;
+        color: #fff;
+      }
       .result-line{
         padding-top: 22px;
       }
+    }
+  }
+  .search-result{
+    padding: 88px 14px 10px 32px;
+    background-color: #fff;
+    h2.title{
+      padding:32px 0 24px;
+      font-size: 28px;
+      font-weight: 400;
+      color: #BEBEBE;
     }
   }
 </style>

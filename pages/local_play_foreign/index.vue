@@ -1,6 +1,12 @@
 <template>
-  <section class="local-play-foreign" ref="refLocalPlayForeign">
-    <lay-header :title="title" :isSearch="false" :classBg="classBg" :barSearch="barSearch" :searchKeyWords="searchKeyWords" @leftClick="leftClick"></lay-header>
+  <section class="local-play-foreign"
+    ref="refLocalPlayForeign">
+    <lay-header v-if="!isApp" :title="title"
+      :isSearch="false"
+      :classBg="classBg"
+      :barSearch="barSearch"
+      :searchKeyWords="searchKeyWords"
+      @leftClick="leftClick"></lay-header>
     <div v-if="showList.length">
       <div class="area-play">
         <!---->
@@ -8,24 +14,32 @@
           <div class="icon"></div>
           <div class="name">{{cityInfo.name}}</div>
         </div>
-        <div class="area-main" ref="refAreaMain">
+        <div class="area-main"
+          ref="refAreaMain">
           <div class="area-info">
             {{cityInfo.description}}
           </div>
-          <div class="area-search" ref="refAreaSeach" @click="selectSearch">
+          <div class="area-search"
+            ref="refAreaSeach"
+            @click="selectSearch">
             <span class="icon-search">
-              <van-icon name="search" color="white" size="0.6rem" />
+              <van-icon name="search"
+                color="white"
+                size="0.6rem" />
             </span>
             <span class="search-box">查找{{cityInfo.name}}的活动</span>
           </div>
           <div class="area-entrance">
-            <div class="c-title" @click="selectProductList(null)">
+            <div class="c-title"
+              @click="selectProductList(null)">
               <div class="link">查看全部</div>
               <span>当地玩乐</span>
             </div>
             <div class="guide-list">
               <ul>
-                <li v-for="category in categoryList" :key="category.type" @click="selectProductList(category.type_id)">
+                <li v-for="category in categoryList"
+                  :key="category.type"
+                  @click="selectProductList(category.type_id)">
                   <span :class="iconChow(category.type)"></span>
                   <span class="text">{{category.name}}</span>
                 </li>
@@ -34,21 +48,24 @@
           </div>
         </div>
       </div>
-      <div class="area-image-bg" v-if="cityInfo" :style="bgStyle">
+      <div class="area-image-bg"
+        v-if="cityInfo"
+        :style="bgStyle">
         <!--<img :src="cityInfo.image" alt="" @load="imageLoaded">-->
         <!--<img src="../../assets/imgs/local_regiment/bg_banner@2x.png" alt="" @load="imageLoaded">-->
       </div>
       <!-- 最近浏览 -->
-      <div class="recently-viewed" v-if="viewedList.length">
+      <div class="recently-viewed"
+        v-if="viewedList.length">
         <h1 class="title">最近浏览</h1>
         <div v-swiper:mySwiper="viewedSwiperOption">
           <div class="swiper-wrapper">
             <div class="swiper-slide"
-                 v-for="viewed in viewedList"
-                 :key="viewed.product_id">
+              v-for="viewed in viewedList"
+              :key="viewed.product_id">
               <snap-up-item :proData="viewed"
-                            @selectDetail="selectItem"
-                            @callCollect="callCollect"/>
+                @selectDetail="selectItem"
+                @callCollect="callCollect" />
             </div>
           </div>
         </div>
@@ -56,29 +73,30 @@
       <!--列表数据-->
       <div class="show-list">
         <div class="show-item"
-             v-for="showItem in showList"
-             :key="showItem.title"
-             v-if="showItem.list.length">
-          <swipe-item :proData="showItem" @selectItems="selectItem" />
+          v-show="showItem.list.length"
+          v-for="showItem in showList"
+          :key="showItem.title">
+          <swipe-item :proData="showItem"
+            @selectItems="selectItem" />
         </div>
       </div>
     </div>
-    <loading v-if="!showList.length "></loading>
+    <loading v-if="!showList.length"></loading>
   </section>
 </template>
 
 <script>
   import SwipeItem from '@/components/items/swipeItem'
-  import {getCityInfo,getProductList} from '@/api/local_play'
+  import {getCityInfo, getProductList} from '@/api/local_play'
   import LayHeader from '@/components/header/index.vue'
   import Loading from '@/components/loading'
   import {throttle as _throttle} from 'lodash'
   import {mapMutations} from 'vuex'
   import {HEADER_TYPE} from '@/assets/js/consts/headerType'
   import SnapUpItem from '@/components/items/snapUpItem'
-  import { Toast } from 'vant'
+  import {Toast} from 'vant'
   export default {
-    // layout: 'defaultHeader',
+    // layout: 'default',
     transition: 'page',
     components: {
       SwipeItem,
@@ -86,7 +104,7 @@
       Loading,
       SnapUpItem
     },
-    validate({ query }) { // 判断路由是否正确
+    validate({query}) { // 判断路由是否正确
       return query.touCityId
     },
     async asyncData({query, $axios}) {
@@ -97,6 +115,7 @@
     },
     data() {
       return {
+        isApp: this.$route.query.platform,
         // swiper配置
         viewedSwiperOption: {
           slidesPerView: 'auto',
@@ -115,12 +134,16 @@
         title: '当地玩乐',
         barSearch: false,
         showList: [],
-        searchKeyWords:'',
+        searchKeyWords: '',
         categoryList: [],
         viewedList: [],
         classBg: false,
         cityInfo: {},
-        isApp: this.$route.query.platform
+      }
+    },
+    head() {
+      return {
+        title: ''
       }
     },
     computed: {
@@ -132,17 +155,18 @@
     created() {
     },
     async mounted() {
-      this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 100))
       this.init()
       if (this.isApp) {
         this.appBridge = require('@/assets/js/appBridge.js').default
-        this.appBridge.hideNavigationBar()
+        // this.appBridge.hideNavigationBar()
         let productIds = await this.appBridge.getLocalStorage()
         if (productIds) {
           this.getViewedList(productIds)
         }
         let token = await this.appBridge.obtainUserToken()
         this.vxChangeTokens(token)
+      } else {
+        this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 100))
       }
     },
     methods: {
@@ -150,7 +174,7 @@
         vxChangeHeaderStatus: 'header/changeStatus' // 修改头部状态
       }),
       // 返回上一级菜单
-      leftClick () {
+      leftClick() {
         if (this.isApp) {
           this.appBridge.backPreviousView()
         } else {
@@ -161,16 +185,16 @@
       iconChow(type) {
         if (type === 1) { // 门票演出
           return 'icon-guide-ticket'
-        } else if(type === 2) { // 一日游
+        } else if (type === 2) { // 一日游
           return 'icon-guide-car'
-        } else if(type === 3) { // 特色体验
+        } else if (type === 3) { // 特色体验
           return 'icon-guide-special'
         }
       },
       // 初始化数据
       async init() {
         let {data, code} = await getCityInfo(this.touCityId)
-        if(code === 0) {
+        if (code === 0) {
           this.cityInfo = data.city
           this.categoryList = data.category
           this.showList = this._nomalLizeshowList(data)
@@ -191,7 +215,7 @@
       // 跳转到详情页面
       selectItem(productId) {
         // console.log(productId)
-        if(this.isApp) {
+        if (this.isApp) {
           // app详情跳转
           console.log('app详情跳转')
           this.appBridge.jumpProductDetailView({
@@ -210,7 +234,7 @@
       },
       // 跳转search
       selectSearch() {
-        if(this.isApp) {
+        if (this.isApp) {
           console.log('app搜索')
           this.appBridge.jumpSearchView()
         } else {
@@ -222,13 +246,13 @@
       _nomalLizeshowList(data) {
         if (!data) return []
         let obj = {
-          activity : '最新活动',
+          activity: '最新活动',
           boutique: '稀饭精选',
           welcome: '最受欢迎'
         }
 
         // if(data) return false
-        let {activity,boutique,welcome} = data
+        let {activity, boutique, welcome} = data
         let showList = [
           {
             name: obj.boutique,
@@ -249,6 +273,7 @@
       },
       // 滚动监听显示header
       scrollFn() {
+        console.log('滚动了')
         window.requestAnimationFrame(() => {
           const s1 = this.$refs.refLocalPlayForeign.scrollTop
           const s3 = this.$refs.refAreaMain.offsetHeight
@@ -274,7 +299,7 @@
         })
       },
       selectProductList(typeId) {
-        if(this.isApp) {
+        if (this.isApp) {
           let data = {
             'itemType': '2'
           }
@@ -291,7 +316,7 @@
       async callCollect(val) {
         if (this.isApp) {
           let json = {
-            type: val.is_favorite ? '1': '0',
+            type: val.is_favorite ? '1' : '0',
             product_id: val.product_id.toString()
           }
           this.appBridge.userCollectProduct(json)
@@ -316,7 +341,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .local-play-foreign{
+  .local-play-foreign {
     font-size: 0;
     height: 100vh;
     background: #f1f1f1;
@@ -347,129 +372,130 @@
       }
     }
   }
-  .area-play{
+  .area-play {
     position: relative;
     z-index: 1;
-    .city-img{
+    .city-img {
       position: absolute;
       height: 786px;
       width: 100%;
-      top:0;
+      top: 0;
       left: 0;
-      background: url('../../assets/imgs/local_regiment/bg_banner@2x.png') no-repeat;
+      background: url("../../assets/imgs/local_regiment/bg_banner@2x.png")
+        no-repeat;
       background-size: cover;
       z-index: 0;
     }
-    .area-location{
+    .area-location {
       padding-top: 156px;
       display: flex;
       justify-content: center;
       align-items: center;
-      .icon{
+      .icon {
         width: 52px;
         height: 62px;
-        background: url('../../assets/imgs/icon_location@2x.png') no-repeat 0 10px;
+        background: url("../../assets/imgs/icon_location@2x.png") no-repeat 0 10px;
         background-size: 100%;
-        padding-top:10px;
+        padding-top: 10px;
       }
-      .name{
+      .name {
         height: 86px;
-        font-size:64px;
-        font-weight:300;
-        color:#fff;
+        font-size: 64px;
+        font-weight: 300;
+        color: #fff;
         line-height: 86px;
       }
     }
-    .area-main{
+    .area-main {
       margin: 0 32px;
-      .area-info{
+      .area-info {
         padding: 20px;
         margin-top: 198px;
-        background:rgba(0,0,0,0.4);
-        border-radius:8px;
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 8px;
         color: #fff;
-        font-size:22px;
+        font-size: 22px;
       }
-      .area-search{
-        height:94px;
-        background:rgba(255,255,255,0.45);
-        border-radius:8px;
+      .area-search {
+        height: 94px;
+        background: rgba(255, 255, 255, 0.45);
+        border-radius: 8px;
         margin: 20px 0 14px 0;
         padding: 24px;
         display: flex;
-        .icon-search{
-          width:44px;
-          height:44px;
+        .icon-search {
+          width: 44px;
+          height: 44px;
         }
-        .search-box{
+        .search-box {
           flex: 1;
-          font-size:32px;
-          font-weight:300;
+          font-size: 32px;
+          font-weight: 300;
           color: #fff;
-          padding-left:10px;
+          padding-left: 10px;
         }
       }
-      .area-entrance{
-        border-radius:8px;
+      .area-entrance {
+        border-radius: 8px;
         background: #fff;
         padding-bottom: 17px;
-        .c-title{
+        .c-title {
           padding-left: 20px;
-          font-size:24px;
-          font-weight:300;
-          color:#989898;
+          font-size: 24px;
+          font-weight: 300;
+          color: #989898;
           line-height: 72px;
-          .link{
+          .link {
             float: right;
             padding: 0 20px;
-            color: #399EF6;
+            color: #399ef6;
             text-decoration: none;
           }
         }
-        .guide-list{
-          li{
+        .guide-list {
+          li {
             height: 68px;
             padding: 13px 24px;
             display: flex;
             align-items: center;
-            [class^=icon-guide]{
+            [class^="icon-guide"] {
               height: 32px;
               width: 32px;
               margin-right: 14px;
             }
-            .icon-guide-ticket{
-              background: url('../../assets/imgs/icon_ticket@2x.png') no-repeat;
+            .icon-guide-ticket {
+              background: url("../../assets/imgs/icon_ticket@2x.png") no-repeat;
               background-size: 100%;
             }
-            .icon-guide-car{
-              background: url('../../assets/imgs/icon_car@2x.png') no-repeat;
+            .icon-guide-car {
+              background: url("../../assets/imgs/icon_car@2x.png") no-repeat;
               background-size: 100%;
             }
-            .icon-guide-special{
-              background: url('../../assets/imgs/icon_special@2x.png') no-repeat;
+            .icon-guide-special {
+              background: url("../../assets/imgs/icon_special@2x.png") no-repeat;
               background-size: 100%;
             }
-            .text{
+            .text {
               color: #989898;
-              font-size:32px;
-              font-weight:300;
+              font-size: 32px;
+              font-weight: 300;
             }
           }
         }
       }
     }
   }
-  .area-image-bg{
+  .area-image-bg {
     position: absolute;
     width: 100%;
-    height:874px;
+    height: 874px;
     top: 0;
     z-index: 0;
     background-size: cover;
     background-position: center;
     background-color: #ccc;
-    img{
-      display:none;
+    img {
+      display: none;
     }
   }
   .show-list {

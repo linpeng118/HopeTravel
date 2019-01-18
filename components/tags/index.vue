@@ -1,7 +1,7 @@
 <template>
   <div class="tag"
     :class="className"
-    @click="onTag(tag)">{{tag.title}}
+    @click="onTag(tag)">{{tag.title || tag.content || tag.name}}
   </div>
 </template>
 
@@ -36,10 +36,10 @@
 <style lang="scss" scoped>
   .tag {
     display: inline-block;
-    margin: 0 32px 20px 0;
-    padding: 10px 20px;
-    font-size: 28px;
-    border-radius: 26px;
+    margin: 0 15px 16px 0;
+    padding: 14px 20px;
+    font-size: 24px;
+    border-radius: 30px;
     &.normal {
       color: #191919;
       background: #f1f1f1;

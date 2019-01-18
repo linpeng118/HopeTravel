@@ -1,12 +1,24 @@
 <template>
   <section class="test-page">
-    <h4>测试页面 version 1.0</h4>
+    <h4>version 1.0</h4>
     <div class="test-list">
+      <h5>功能调试</h5>
       <nuxt-link class="test-item hand"
         v-for="item in testList"
         :key="item.path"
-        :to="item.path">
-        {{item.id}}.{{item.name}}
+        :to="item.path"
+        :style="{color: `${item.color}`}">
+        {{item.id}} {{item.name}}
+      </nuxt-link>
+    </div>
+    <div class="test-list">
+      <h5>页面测试</h5>
+      <nuxt-link class="test-item hand"
+        v-for="(item,idx) in testPages"
+        :key="item.path"
+        :to="item.path"
+        :style="{color: `${item.color}`}">
+        {{idx+1}}. {{item.name}}
       </nuxt-link>
     </div>
   </section>
@@ -18,15 +30,17 @@
     data() {
       return {
         testList: [
-          {id: 1, path: '/test/vant', name: '测试vant UI'},
-          {id: 2, path: '/test/appBridge', name: '测试调用移动端接口'},
-          {id: 3, path: '/local_group?platform=app', name: '测试local_group'},
-          {id: 4, path: '/local_play_zh?platform=app', name: '测试local_play_zh'},
-          {id: 5, path: '/local_play_foreign?platform=app', name: '测试local_play_foreign'},
-          {id: 5, path: '/custom', name: '测试custom'},
-          {id: 6, path: '/login', name: '测试login'},
-          {id: 7, path: '/order', name: '测试order'},
-          {id: 5, path: '/product', name: 'product'},
+          {path: '/test/vant', name: '测试vant UI', color: '#EEC900'},
+          {path: '/test/appBridge', name: '测试调用移动端接口', color: '#EEC900'},
+        ],
+        testPages: [
+          {path: '/local_group?platform=app', name: '测试当地跟团页面', color: '#40E0D0'},
+          {path: '/local_play_zh?platform=app', name: '测试当地玩乐页面（国内）', color: '#40E0D0'},
+          {path: '/local_play_foreign/more_city', name: '更多城市', color: '#40E0D0'},
+          {path: '/custom?platform=app', name: '私人定制页面', color: '#40E0D0'},
+          {path: '/login', name: '登录页面', color: '#40E0D0'},
+          {path: '/order', name: '订单页面', color: '#40E0D0'},
+          {path: '/product', name: '产品页面', color: '#40E0D0'},
         ]
       }
     }
@@ -43,10 +57,9 @@
         display: inline-block;
         width: 100%;
         margin: 10px 0;
-        padding: 20px;
+        padding: 15px;
         border: 2px solid #abcdef;
         border-radius: 8px;
-        color: teal;
         font-size: 40px;
       }
     }

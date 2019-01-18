@@ -26,11 +26,14 @@
         </p>
         <!-- 价格 -->
         <div class="price-wrap">
-          <span class="price">{{product.special_price ? product.special_price: product.default_price}}<span class="unit">&nbsp;起</span></span>
+          <span class="price fs-48 fw-800">{{product.special_price ? product.special_price: product.default_price}}<span class="unit">&nbsp;起</span></span>
           <span class="default-price">{{product.special_price ? product.default_price: ''}}</span>
         </div>
       </div>
       <!-- 出发地结束地 -->
+      <div class="destination"></div>
+      <!-- 团期价格 -->
+      <div class="group-price"></div>
     </div>
   </div>
 </template>
@@ -526,10 +529,8 @@
         .price-wrap {
           margin-top: 2px;
           .price {
-            font-size: 48px;
-            font-weight: 800;
             color: #fb605d;
-            .unit{
+            .unit {
               font-size: 24px;
             }
           }

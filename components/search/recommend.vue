@@ -1,22 +1,22 @@
 <template>
   <div class="search-main">
     <div class="result-line">
-      <h2>经典线路</h2>
+      <h2 v-if="titleList">{{titleList.lineTitle}}</h2>
       <div class="line">
-        <hot-city-tag v-for="line in data.lineList" :key="line.id" :className="line.active ? 'active' : 'normal'" :tag="line" />
+        <hot-city-tag v-for="line in data.lineList" :key="line.id" :className="line.is_hot ? 'active' : 'normal'" :tag="line" />
       </div>
     </div>
     <!--热门景点-->
     <div class="hot-box">
-      <h2>热门景点</h2>
+      <h2 v-if="titleList">{{titleList.hotTitle}}</h2>
       <hot-place :lists="data.hotPlace"></hot-place>
     </div>
     <div class="hot-box">
-      <h2>热门目的地</h2>
+      <h2 v-if="titleList">{{titleList.targetTitle}}</h2>
       <hot-place :lists="data.hotTarget"></hot-place>
     </div>
     <div class="play-box">
-      <h2>Top6玩法</h2>
+      <h2 v-if="titleList">{{titleList.playTitle}}</h2>
       <play-ways v-for="play in data.playWaysList" :key="play.id" :item="play"></play-ways>
     </div>
   </div>
@@ -42,7 +42,13 @@ export default {
         hotTarget: [],
         playWaysList: []
       })
+    },
+    titleList: {
+      type: Object,
+      default: null
     }
+  },
+  mounted () {
   }
 }
 </script>

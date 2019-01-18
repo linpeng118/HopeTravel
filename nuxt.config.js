@@ -35,7 +35,7 @@ module.exports = {
    ** Headers of the page
    */
   head: {
-    title: pkg.name,
+    title: '',
     meta: [{
         charset: 'utf-8',
       },
@@ -89,11 +89,11 @@ module.exports = {
       src: '~/assets/js/appBridge',
       ssr: false,
     },
-    '~/plugins/axios/nuxtaxios',
     {
-      src: '~/plugins/vconsole',
+      src: '~/assets/js/mixins/verifyCode',
       ssr: false,
-    }
+    },
+    '~/plugins/axios/nuxtaxios'
   ],
   /*
    ** middleware

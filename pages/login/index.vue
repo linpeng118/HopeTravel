@@ -9,17 +9,17 @@
         title="普通登陆">
         <van-cell-group>
           <van-field class="username tours-input"
-            v-model="username"
+            v-model="formData.username"
             placeholder="请输入用户名" />
           <van-field class="password tours-input"
-            v-model="password"
+            v-model="formData.password"
             center
             clearable
             icon="eye-o"
             placeholder="请输入密码"
             :type="pswInputType"
             @click-icon="toggleInputType">
-            <van-button class="tours-button-noborder"
+            <van-button class="btn-forget tours-button-noborder"
               slot="button"
               size="small"
               @click="forgetPsw">忘记密码</van-button>
@@ -35,21 +35,22 @@
         title="手机验证码登陆">
         <van-cell-group>
           <area-code-input class="mobile"
-            :proMobile.sync="mobile" />
+            :proMobile.sync="formPhone.mobile" />
           <van-field class="auth-code tours-input"
-            v-model="authCode"
+            v-model="formPhone.authCode"
             center
             clearable
             placeholder="请输入验证码">
-            <van-button class="tours-button-noborder"
+            <van-button class="btn-get-code tours-button-noborder"
               slot="button"
               size="small"
-              @click="getCode">获取验证码</van-button>
+              :disabled="codeType===VERIFY_CODE.GETTING"
+              @click="getCode">{{showText}}</van-button>
           </van-field>
         </van-cell-group>
         <van-button class="btn-login tours-button"
           size="large"
-          :disabled="!isMobileOk"
+          :disabled="!isPhoneOk"
           @click="mobileLogin">登录</van-button>
       </van-tab>
       <p class="text">登陆即代表您已同意我们的<span @click="onAgreement">&nbsp;服务协议</span></p>
@@ -60,29 +61,54 @@
 <script>
   import loginHeader from '@/components/header/loginHeader'
   import AreaCodeInput from '@/components/input/areaCode'
+  import {VERIFY_CODE} from '@/assets/js/consts'
+
+  const TIME = 60 // 倒计时时间
 
   export default {
     components: {
       loginHeader,
       AreaCodeInput
     },
+    // mixins: [verifyCode],
     data() {
       return {
+        VERIFY_CODE,
         // 用户登录
-        username: '',
-        password: '',
+        formData: {
+          username: '',
+          password: '',
+        },
         pswInputType: 'password', // 密码输入框类型
         isNameOk: false, // 验证用户名是否ok
         // 手机登录
-        mobile: '',
-        isMobileOk: false, // 验证手机号是否ok
-        authCode: '', // 验证码
-        areaCode: '86', // 区号
-        show: false,
+        formPhone: {
+          areaCode: '86', // 区号
+          mobile: '',
+          code: '', // 验证码
+        },
+        timer: null,
+        countDownTime: TIME, // 倒计时时间
+        codeType: VERIFY_CODE.START, // 获取验证码/倒计时/重新获取
+        isPhoneOk: false, // 验证手机号是否ok
       }
     },
-    computed: {},
-    mounted() {},
+    computed: {
+      showText() {
+        if (this.codeType === VERIFY_CODE.START) {
+          clearInterval(this.timer)
+          return '获取验证码'
+        } else if (this.codeType === VERIFY_CODE.GETTING) {
+          return `${this.countDownTime} s`
+        } else {
+          clearInterval(this.timer)
+          return '重新获取'
+        }
+      }
+    },
+    mounted() {
+
+    },
     methods: {
       // 跳转至注册页
       toRegist() {
@@ -99,21 +125,42 @@
         })
       },
       // 获取验证码
-      getCode() {
-        // TODO:
+      async getCode() {
+        this.codeType = VERIFY_CODE.GETTING // 获取验证码
+        // 提交
+        try {
+          // await this.getVerifyCode({
+          //   mobile: this.formPhone.mobile,
+          //   areaCode: this.formPhone.areaCode,
+          //   code: this.formPhone.code,
+          // })
+          await this.countDown()
+        } catch (error) {
+          console.log(error)
+          this.codeType = VERIFY_CODE.START
+        }
       },
-      onAreaCode() {
-        (123)
+      countDown() {
+        this.timer = setInterval(() => {
+          console.log(this.countDownTime)
+          if (this.countDownTime <= 0) {
+            this.codeType = VERIFY_CODE.AGAIN
+            this.countDownTime = TIME
+            console.log('countDownTime', this.countDownTime)
+            clearInterval(this.timer)
+          } else {
+            this.countDownTime--
+          }
+        }, 1000)
       },
-      login() {
-        (1)
-      },
-      mobileLogin() {
-        (2, this.mobile)
-      },
+      onAreaCode() {},
+      login() {},
+      mobileLogin() {},
       // 点击服务协议
       onAgreement() {
-        ('onAgreement')
+        this.$router.push({
+          path: '/agreement'
+        })
       }
     },
   }
@@ -154,6 +201,19 @@
         .password {
           margin-top: 16px;
         }
+        .btn-forget {
+          position: relative;
+          &::after {
+            content: "";
+            display: inline-block;
+            position: absolute;
+            left: -5px;
+            top: 12px;
+            height: 60px;
+            width: 2px;
+            background: #c4c4c4;
+          }
+        }
       }
       .mobile-login {
         .mobile {
@@ -161,6 +221,18 @@
         }
         .auth-code {
           margin-top: 16px;
+        }
+        .btn-get-code {
+          &::after {
+            content: "";
+            display: inline-block;
+            position: absolute;
+            left: -10px;
+            top: 12px;
+            height: 60px;
+            width: 2px;
+            background: #c4c4c4;
+          }
         }
       }
       .text {

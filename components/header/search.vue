@@ -10,18 +10,23 @@
     <van-icon class="right-wrap"
       slot="right">
       <div class="big-search">
-        <div class="icon"></div>
-        <div class="text">{{searchKeyWords}}</div>
-        <div>搜索</div>
+        <van-search
+          :placeholder="searchKeyWords"
+          v-model="query" v-if="!isSearch" @click="searchChange"></van-search>
+        <van-search
+          :placeholder="searchKeyWords"
+          v-model="query"
+          show-action
+          @search="onSearch" v-if="isSearch">
+          <div slot="action" @click="onSearch">搜索</div>
+        </van-search>
       </div>
     </van-icon>
   </van-nav-bar>
 </template>
 
 <script>
-  import {mapState} from 'vuex'
-  import {HEADER_TYPE} from '@/assets/js/consts/headerType'
-
+  import {throttle as _throttle} from 'lodash'
   export default {
     components: {
     },
@@ -29,28 +34,34 @@
       searchKeyWords:{
         type: String,
         default: ''
+      },
+      isSearch: {
+        type: Boolean,
+        default: false
       }
     },
     data() {
       return {
-        HEADER_TYPE,
-        isFixed: true,
+        query: ''
       }
     },
-    computed: {
-      ...mapState({
-        vxHeaderStatus: state => state.header.headerStatus,
-      })
+    created() {
+      this.$watch('query', _throttle((newValue) => {
+        this.$emit('query', newValue)
+      }, 500))
     },
     methods: {
       onClickLeft() {
         // this.$router.go(-1)
         this.$emit('leftClick')
       },
-      onClickRight() {
-        ('按钮');
+      onSearch() {
+        this.$emit('onSearch', false)
+      },
+      searchChange(){
+        this.$emit('searchStart', true)
       }
-    },
+    }
   }
 </script>
 
@@ -61,7 +72,6 @@
     color: #eee;
     background-color: transparent;
     transition: all 0.5s;
-    margin-top: env(safe-area-inset-top);
     &.show-bg {
       background-color: #fff;
       color: #191919;
@@ -69,64 +79,42 @@
       .left-wrap {
         color: #191919;
       }
-      .right-wrap {
-        .search {
-          background: #399ef6 !important;
-          color: #fff;
-        }
-      }
-    }
-    .left-wrap {
-      color: #fff;
     }
     .right-wrap {
-      .search {
-        width: 118px;
-        height: 100%;
-        background: rgba(255, 255, 255, 0.4);
-        border-radius: 22px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        .icon {
-          display: inline-block;
-          width: 32px;
-          height: 44px;
-          background: url("../../assets/imgs/search@2x.png") no-repeat 0 5px/100%;
-        }
-        .text {
-          margin-left: 5px;
-          font-size: 22px;
-          color: #fff;
-        }
-      }
       .big-search{
         width: 634px;
         height: 72px;
-        padding: 0 26px;
-        text-align: left;
-        color: #fff;
+      }
+      .van-search{
+        background: #fff !important;
         border-radius:36px;
-        font-size:30px;
-        background: #DBDBDB;
-        display: flex;
-        align-items: center;
-        line-height: 72px;
-        .icon {
-          display: inline-block;
-          width: 32px;
-          height: 44px;
-          background: url("../../assets/imgs/search_b@2x.png") no-repeat 0 5px/100%;
-          margin-right: 22px;
-        }
+        height: 72px;
+        padding: 0;
       }
     }
   }
-  .bg-color{
-    background: #fff !important;
-    color: #3E3E3E !important;
-    .left-wrap{
-      color: #3E3E3E !important;
+</style>
+<style lang="scss">
+  .right-wrap {
+    .van-search{
+      .van-cell{
+        background: #DBDBDB !important;
+        border-radius:36px;
+      }
+      .van-cell__left-icon{
+        color: #fff;
+      }
+      .van-field__body {
+        input::-webkit-input-placeholder {
+          color: #fff !important;
+        }
+        .van-field__clear{
+          color: #000000;
+        }
+      }
+      .van-search__action{
+        color: #00ABF9;
+      }
     }
   }
 </style>
