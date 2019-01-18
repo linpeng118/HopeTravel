@@ -120,6 +120,11 @@
     },
     created() {
     },
+    head() {
+      return {
+        title: '当地玩乐'
+      }
+    },
     async mounted() {
       // 监听滚动
       this.$refs.refLocalPlayPage.addEventListener('scroll', _throttle(this.scrollFn, 100))

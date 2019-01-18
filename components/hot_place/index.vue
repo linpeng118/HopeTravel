@@ -31,7 +31,7 @@ export default {
     flex-wrap:wrap;
     .hot-item{
       margin-bottom: 20px;
-      margin-right: 14px;
+      margin-right: 12px;
     }
     .title{
       font-size: 24px;

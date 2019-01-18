@@ -141,6 +141,11 @@
         cityInfo: {},
       }
     },
+    head() {
+      return {
+        title: ''
+      }
+    },
     computed: {
       // 城市背景图片处理
       bgStyle() {
