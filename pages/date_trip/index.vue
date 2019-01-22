@@ -1,5 +1,8 @@
 <template>
   <section class="section0">
+    <section>
+      <header-date :title="'下单'" ></header-date>
+    </section>
     <section class="section1">
       <!--日历head-->
       <ul class="trip-head">
@@ -95,11 +98,11 @@
 <script>
   import dateTrip from './dateTrip'
   import ConfirmFoot from '@/components/confirm_foot/foot.vue'
+  import headerDate from '@/components/header/dateTrap.vue'
   import {getdateTrip} from '@/api/date_trip'
-
   export default {
     components: {
-      dateTrip, ConfirmFoot
+      dateTrip, ConfirmFoot , headerDate
     },
     data() {
       return {
