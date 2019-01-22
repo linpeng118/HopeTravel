@@ -32,7 +32,8 @@
       </div>
       <!-- 出发地结束地 -->
       <div class="destination mt-24">
-        <div class="header" @click="onServerNode">
+        <div class="header"
+          @click="onServerNode">
           <div class="item">
             <img src="../../assets/imgs/product/tick@2x.png"
               alt="icon">
@@ -94,7 +95,6 @@
           </div>
         </div>
       </div>
-
       <!-- 稀饭推荐 -->
       <div class="recommend mt-24">
         <div class="title">
@@ -112,7 +112,7 @@
           </ul>
         </div>
       </div>
-      <!-- tab-list -->
+      <!-- tab触发则滚动 -->
       <div class="tab-list mt-24">
         <div class="tab-item"
           v-for="tab in tabList"
@@ -159,6 +159,7 @@
               <span class="title-s">{{item.title}}</span>
             </div>
             <div class="detail">
+              <!-- 概况 -->
               <div class="summarize-wrap">
                 <h3 class="title">
                   <img src="../../assets/imgs/product/text@2x.png"
@@ -168,6 +169,7 @@
                   {{item.content}}
                 </div>
               </div>
+              <!-- 地点 -->
               <div class="attractions-wrap"
                 v-for="attr in item.attractions"
                 :key="attr.tour_city_id">
@@ -184,16 +186,94 @@
                   </div>
                 </div>
               </div>
+              <!-- 酒店 -->
+              <div class="hotel-wrap">
+                <h3 class="title">
+                  <img src="../../assets/imgs/product/text@2x.png"
+                    alt="icon">&nbsp;酒店
+                </h3>
+                <div class="body">
+                  {{item.hotel}}
+                </div>
+              </div>
+              <!-- 餐食 -->
+              <div class="meals-wrap">
+                <h3 class="title">
+                  <img src="../../assets/imgs/product/text@2x.png"
+                    alt="icon">&nbsp;餐食
+                </h3>
+                <div class="body">
+                  <p class="breakfast"
+                    v-if="item.meal.breakfast.contain_meal==1">
+                    早餐：{{item.meal.breakfast.remark}}
+                  </p>
+                  <p class="lunch"
+                    v-if="item.meal.breakfast.contain_meal==1">
+                    午饭：{{item.meal.breakfast.remark}}
+                  </p>
+                  <p class="dinner"
+                    v-if="item.meal.breakfast.contain_meal==1">
+                    晚饭：{{item.meal.breakfast.remark}}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <!-- AD -->
+      <div class="ad-custom">
+        <span>行程不满意？您还可以找</span>
+        <span class="custom"
+          @click="onAdCustom">稀饭旅行定制师</span>
+      </div>
       <!-- 费用明细 -->
       <div class="cost"
-        ref="refCost"></div>
+        ref="refCost">
+        <h1 class="title">
+          费用明细
+        </h1>
+        <div class="price-detail">
+          <h3 class="title-s"></h3>
+        </div>
+      </div>
       <!-- 其他 -->
-      <div class="other"
-        ref="refOther"></div>
+      <van-collapse class="other"
+        ref="refOther"
+        v-model="activeNames">
+        <van-collapse-item title="接送机"
+          name="1">
+          <h3 class="title">上车地点</h3>
+          <div class="text">
+            10:45am 波士頓昆西市场 Quincy Market（195 State St, B oston, MA 02109）.
+          </div>
+          <h3 class="title mt-26">送机提示</h3>
+          <div class="text">
+            1.波士顿机场BOS，请选择1:00pm后航班；
+            2.纽约三大机场JFK/LGA/EWR，请选择7:00pm后航班；
+            3. 法拉盛和曼哈顿也可以离团。
+          </div>
+          <div class="tip mt-20">
+            **请订团时，提供离团机场和航班起飞时间，以便我们安排您和同一个机场的 旅客一辆车，节省您在送机路上的时间，让您的旅途更轻松。延住纽约机场酒 店者，免费送回酒店并办理入
+          </div>
+        </van-collapse-item>
+        <van-collapse-item title="预定须知"
+          name="2">
+          预定须知
+        </van-collapse-item>
+        <van-collapse-item title="注意事项"
+          name="3">
+          注意事项
+        </van-collapse-item>
+        <van-collapse-item title="预定程序及电子发票"
+          name="4">
+          预定程序及电子发票
+        </van-collapse-item>
+        <van-collapse-item title="订购条例"
+          name="5">
+          订购条例
+        </van-collapse-item>
+      </van-collapse>
     </div>
   </div>
 </template>
@@ -219,6 +299,7 @@
         ],
         activeTab: 1, // 选中的tab
         showServiceNode: false, // 显示服务说明
+        activeNames: ['1'], // 折叠面板
         product: {
           'product_id': 141,
           'default_price': '$238',
@@ -708,7 +789,10 @@
         console.log('tab', tab)
         this.activeTab = tab.id
         // TODO:滚动到相应位置
-      }
+      },
+      onAdCustom() {
+        console.log('onAdCustom')
+      },
     },
   }
 </script>
@@ -717,8 +801,9 @@
   .product-detail-page {
     height: 100vh;
     font-size: 0;
-    background: #f2f2f2;
     .product-detail {
+      background: #f2f2f2;
+      padding-bottom: 144px;
       .banner {
         height: 434px;
         width: 100%;
@@ -879,10 +964,12 @@
         display: flex;
         justify-content: space-around;
         align-items: center;
+        background: #fff;
         .tab-item {
           flex: 0 0 25%;
           text-align: center;
           height: 80px;
+          line-height: 80px;
           font-size: 28px;
           font-family: PingFang SC;
           font-weight: 300;
@@ -898,6 +985,7 @@
           100%;
       }
       .trip {
+        background: #fff;
         .header-wrap {
           padding: 34px 28px 0 32px;
           text-align: center;
@@ -965,7 +1053,9 @@
             }
             .detail {
               .summarize-wrap,
-              .attractions-wrap {
+              .attractions-wrap,
+              .hotel-wrap,
+              .meals-wrap {
                 .title {
                   height: 40px;
                   font-size: 28px;
@@ -979,6 +1069,10 @@
                     height: 28px;
                   }
                 }
+              }
+              .summarize-wrap,
+              .attractions-wrap,
+              .hotel-wrap {
                 .body {
                   font-size: 24px;
                   font-family: PingFang SC;
@@ -1020,13 +1114,71 @@
                   }
                 }
               }
+              .hotel-wrap {
+                .body {
+                  padding: 12px 18px 24px 33px;
+                }
+              }
+              .meals-wrap {
+                .body {
+                  padding: 12px 18px 24px 33px;
+                  font-size: 24px;
+                  font-family: Microsoft YaHei UI;
+                  font-weight: 400;
+                  line-height: 40px;
+                  color: #5e5e5e;
+                  .breakfast {
+                  }
+                  .lunch {
+                  }
+                  .dinner {
+                  }
+                }
+              }
             }
           }
         }
       }
+      .ad-custom {
+        padding: 20px 0;
+        text-align: center;
+        span {
+          height: 34px;
+          font-size: 24px;
+          font-family: PingFang SC;
+          font-weight: 400;
+          line-height: 40px;
+          color: rgba(193, 193, 193, 1);
+          letter-spacing: 2px;
+          &.custom {
+            color: #399ef6;
+          }
+        }
+      }
       .cost {
+        background: #fff;
+        .title {
+        }
       }
       .other {
+        font-family: Microsoft YaHei UI;
+        font-weight: 400;
+        .title {
+          font-size: 28px;
+          line-height: 44px;
+          color: rgba(25, 25, 25, 1);
+        }
+        .text {
+          margin-top: 18px;
+          font-size: 24px;
+          line-height: 40px;
+          color: #3e3e3e;
+        }
+        .tip {
+          font-size: 20px;
+          line-height: 36px;
+          color: #bcbcbc;
+        }
       }
     }
   }

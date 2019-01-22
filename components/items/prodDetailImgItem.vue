@@ -38,9 +38,7 @@
       }
     },
     computed: {},
-    mounted() {
-      console.log(this.proData)
-    },
+    mounted() {},
     methods: {
       onItem(item) {
         this.$emit('callOnSlide', item)
