@@ -64,11 +64,11 @@ export default {
         "duration_days":5
       },//产品详情
       countprice: {
-      product_id: '',//产品id
-      departure_date: '',//出发日期
-      room_total: 0,//房间总数
-      room_attributes: [],//房间数据,
-      product_departure: '',//出发地点，接驳服务
+        product_id: '',//产品id
+        departure_date: '',//出发日期
+        room_total: 0,//房间总数
+        room_attributes: [],//房间数据,
+        product_departure: '',//出发地点，接驳服务
       attributes:[],//行程/升级选择对象
       is_point: false,//是否使用积分
       adult:0,
@@ -136,6 +136,10 @@ export default {
       },
       console.log('成功执行init')
     },
+    initpricelist(state) {
+      state[mut.countprice]=localStorage.getItem('pricelist') ? JSON.parse(localStorage.getItem('pricelist')) : {},
+        console.log('成功执行init')
+    },
   },
   actions: {
     emptyprice({commit}) {
@@ -143,6 +147,9 @@ export default {
     },
     initprice({commit}) {
       commit('initprice')
+    },
+    initpricelist({commit}) {
+      commit('initpricelist')
     }
   },
 }
