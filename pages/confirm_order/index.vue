@@ -12,45 +12,69 @@
       <div class="confirm-item">
         <p class="item-title">接送时间和地点</p>
         <p class="item-con" @click="showchecktime=true">
-          <span>13:30 PMLas Vegas International Airport(拉斯维加斯国际机场LAS), 5757 Wayne Newton Blvd, Las Vegas, NV 89119</span>
-          <span>
-            $23212.20/人
-          </span>
+          <span>{{checktimeval}}</span>
+          <span></span>
           <van-icon color="#404040" name="arrow" size="1.2em"/>
         </p>
       </div>
       <!--接送时间和地点弹出层-->
       <van-popup v-model="showchecktime" position="center" :overlay="true">
-        <van-radio-group v-model="countprice.product_departure">
+       <div class="item-title">
+         <p>
+           <span>接送时间和地点</span>
+           <span style="float:right;color:#399EF6" @click="checktime()">确认</span>
+         </p>
+       </div>
+        <van-radio-group v-model="countprice.product_departure" class="radiobox">
+          <van-radio name="" class="radioitem">不选择接送机</van-radio>
           <template v-for="(item,ind) in pricelist.transfer">
-            <van-radio :key="ind" :name="item.product_departure_id">
-             {{item.time}} {{item.full_address}}
+            <van-radio class="radioitem" :key="ind" :name="item.product_departure_id">
+              {{item.time}} {{item.full_address}}
             </van-radio>
           </template>
-
         </van-radio-group>
       </van-popup>
     </section>
+
     <!--行程选择-->
     <section>
-      <div class="confirm-item">
+      <div class="confirm-item" v-if="pricelist.attributes">
         <p class="item-title">行程选项</p>
-        <p class="item-tip">1日游-大峡谷南峡豪华巴士团 午餐和直升机观光升级套餐峡谷南峡豪华巴士团 午餐和直升机观光升级套餐</p>
-        <p class="item-con">
-          <span>13:30 PMLas Vegas International Airport(拉斯维加斯国际机场LAS), 5757 Wayne Newton Blvd, Las Vegas, NV 89119</span>
-          <span>
-            $23212.20/人
-          </span>
-          <van-icon color="#404040" name="arrow" size="1.2em"/>
-        </p>
-        <p class="item-tip">行程三选一</p>
-        <p class="item-con">
-          <span>13:30 PMLas Vegas International Airport(拉斯维加斯国际机场LAS), 5757 Wayne Newton Blvd, Las Vegas, NV 89119</span>
-          <span>
-            $23212.20/人
-          </span>
-          <van-icon color="#404040" name="arrow" size="1.2em"/>
-        </p>
+        <template v-for="(attrx,ind) in showtrvel">
+          <div :key="ind">
+              <p class="item-tip">{{attrx.title}}</p>
+              <p class="item-con" @click="checktrver(attrx,ind)">
+                <template v-if="!attrx.itemsx">
+                  <span>暂未选择行程</span>
+                  <span></span>
+                </template>
+                <template v-else>
+                  <span>{{attrx.itemsx.title}}</span>
+                  <span><i :style="attrx.itemsx.prefix=='+'?'color:#24E44A':'color:#D51D28'">{{attrx.itemsx.prefix}} </i>{{attrx.itemsx.price}}</span>
+                </template>
+                <van-icon color="#404040" name="arrow" size="1.2em"></van-icon>
+              </p>
+          </div>
+        </template>
+        <!--行程选择弹出层-->
+        <van-popup v-model="showchecktrver" position="center" :overlay="true">
+          <div class="item-title">
+            <p>
+              <span>{{seltrvel.title}}</span>
+              <span @click="checktrverend()" style="float:right;color:#399EF6">确认</span>
+            </p>
+          </div>
+          <van-radio-group v-model="checktrvel" class="radiobox">
+
+            <van-radio name="" class="radioitem">暂不选择行程</van-radio>
+            <template v-for="(item,index) in seltrvel.items">
+              <van-radio class="radioitem" :key="index" :name="item.id">
+                {{item.title}}
+              </van-radio>
+            </template>
+          </van-radio-group>
+        </van-popup>
+
       </div>
     </section>
     <!--游客信息-->
@@ -91,15 +115,10 @@
             </div>
           </div>
         </div>
-        <van-field
-          label="邮箱"
-          placeholder="必填，用于接收电子客票"
-        />
+        <van-field label="邮箱" placeholder="必填，用于接收电子客票"/>
+
         <van-popup v-model="showsel" position="bottom" :overlay="true">
-          <van-picker :columns="columns"
-                      show-toolbar
-                      title="选择区号"
-          />
+          <van-picker :columns="columns" show-toolbar title="选择区号"/>
         </van-popup>
       </div>
     </section>
@@ -112,7 +131,6 @@
            <i class="seti">米粒</i>
            <i class="seti" style="color: #bbb">共有米粒574，本次可用500米粒抵用$5</i>
          </span>
-
            <van-switch
              v-model="checked"
              style="float: right"
@@ -160,25 +178,22 @@
     components: {
       ConfirmFoot
     },
-
     data() {
       return {
-
         countprice:{},//vuex里面的价格计算参数
         pricelist:{},//vuex里面的价格返回参数
         showchecktime:false,//是否显示选择出发时间组件
-
-
-
-
-
-
+        checktimeval:'暂未选择接送机服务',
+        showchecktrver:false,//是否显示行程组件
+        seltrvel:{},//某一组行程数据的值
+        checktrvel:'',//弹层临时选择的trvel
+        checkedtrvel:[],//所选择的所有行程数据的值
+        showtrvel:[],//行程选项页面显示值
+        activeind:0,
         // 静态参数
         checked:true,
         columns: ['杭州', '宁波', '温州', '嘉兴', '湖州','杭州', '宁波', '温州', '嘉兴', '湖州','杭州', '宁波', '温州', '嘉兴', '湖州'],
         showsel:false,
-
-
       }
     },
     computed: {
@@ -187,7 +202,6 @@
         return this.$store.state.confirm.countprice;
       },
       //产品
-
       product(){
         return this.$store.state.confirm.product;
       },
@@ -198,22 +212,24 @@
     },
     watch:{
       get_vuex_countprice(val){
-        console.log('vuex数据更新1次')
         this.countprice=val;
+      },
+
+      'get_vuex_pricelist' : {
+        handler:function(val) {
+          this.pricelist=val;
+          this.setshowtrvel();
+        },
+        deep: true    //深度监听
 
       },
-      get_vuex_pricelist(val){
-        console.log('vuex价格返回数据更新1次')
-        this.pricelist=val;
-      },
+    },
+    created(){
+      this.pricelist=this.get_vuex_pricelist;
+
     },
     mounted() {
-      //获得价格日历数据
-      this.getpricedate(this.product.product_id);
-      //
-
     },
-
     methods: {
       //获得价格日历数据
       async getpricedate(id) {
@@ -229,7 +245,6 @@
       settitletip() {
         let date = new Date(this.countprice.departure_date).getTime();
         let date1 = this.timeFormat(date);
-
         if (this.product.product_entity_type == 1 && this.product.self_support == 0) {
           return date1 + '  ' + this.countprice.adult + '成人  ' + this.countprice.child + '儿童  ' + this.countprice.room_total + '房间  '
         } else {
@@ -242,7 +257,78 @@
         let month = time.getMonth() + 1;
         let date = time.getDate();
         return year + '年' + (month < 10 ? '0' + month : month) + '月' + (date < 10 ? '0' + date : date) + '日';
-      }
+      },
+      //选择行程以后
+      checktime(){
+        if(this.countprice.product_departure==''){
+          this.checktimeval='暂不需要接送机服务'
+        }
+        else{
+          for(let i=0;i<this.pricelist.transfer.length;i++){
+            var obj=this.pricelist.transfer[i];
+            if(obj.product_departure_id==this.countprice.product_departure){
+              this.checktimeval=obj.time+"  "+obj.full_address
+            }
+          }
+        }
+        this.$store.commit("countprice", {product_departure:this.countprice.product_departure});
+        this.showchecktime=false;
+      },
+      //选择行程之前
+      checktrver(item){
+        this.seltrvel=item;
+        let this_=this;
+        this.checktrvel='';
+        for(let i=0;i<this_.checkedtrvel.length;i++){
+          if(this_.checkedtrvel[i].id==this_.seltrvel.id){
+           this.checktrvel=this_.checkedtrvel[i].option_val_id
+          }
+        }
+        this.showchecktrver=true;
+      },
+      //确认选择形成之后
+      checktrverend(){
+        var this_=this;
+        let obj={
+          option_id:this_.seltrvel.id,
+          option_val_id:this_.checktrvel
+        }
+        for(let i=0;i<this_.checkedtrvel.length;i++){
+          if(this_.checkedtrvel[i].option_id==this_.seltrvel.id){
+            this_.checkedtrvel.splice(i, 1);
+          }
+        }
+        this_.checkedtrvel.push(obj);
+        this_.$store.commit("countprice", {attributes:this.checkedtrvel});
+        this.showchecktrver=false;
+      },
+      //设置页面显示行程
+      setshowtrvel(){
+
+        var obj=[];
+        var this_=this;
+         for(let i=0;i<this_.pricelist.attributes.length;i++){
+           let item=this_.pricelist.attributes[i];
+           item.itemsx=null;
+           obj.push(item);
+          }
+         this_.showtrvel=obj;
+         for(let i=0;i<this_.showtrvel.length;i++){
+          let itemx=this_.showtrvel[i];
+          for(let j=0;j<this_.checkedtrvel.length;j++){
+            if(itemx.id==this_.checkedtrvel[j].option_id){
+              let kitem=this_.pricelist.attributes[i].items;
+              for(let k=0;k<kitem.length;k++){
+                if(kitem[k].id==this_.checkedtrvel[j].option_val_id){
+                  this_.showtrvel[i].itemsx=kitem[k]
+                }
+              }
+            }
+          }
+        }
+        console.log(this_.showtrvel)
+        }
+
 
     }
   }
@@ -314,6 +400,7 @@
     font-size: 24px;
     display: inline-block;
     color: #FF9100;
+    text-align: right;
   }
 
   .item-con i {
@@ -358,6 +445,10 @@
     float: right;
     color: #399EF6;
   }
+  .user-item>span:nth-child(2)  {
+   font-size: 48px;
+    line-height: 250%;
+  }
 
   .item-title > span {
     color: #989898;
@@ -381,6 +472,11 @@
   .btnbox {
     text-align: center;
   }
+  .radioitem{
+    font-size: 24px;
+    width: 500px;
+    padding: 20px 24px;
+  }
 
   .setvan {
     width: 120px;
@@ -398,6 +494,11 @@
     font-style: normal;
     display: inline-block;
     width: 100%;
+  }
+  .radiobox{
+    max-height: 800px;
+    overflow-y: scroll;
+
   }
 
 

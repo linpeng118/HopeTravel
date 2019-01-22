@@ -154,3 +154,7 @@
 .layout-header{
   margin-top: env(safe-area-inset-top)
 }
+//确认订单页面覆盖样式
+.radioitem .van-radio__label{
+  display: initial!important;
+}
