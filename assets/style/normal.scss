@@ -43,7 +43,7 @@ $border-radius: (0, 2, 4, 6, 8, 10, 12, 14);
 }
 
 /** 外边距 margin */
-$margin-top: (0, 2, 5, 10, 15, 20, 24, 26, 30, 50);
+$margin-top: (0, 2, 5, 10, 12, 15, 20, 24, 26, 30, 50);
 
 @mixin margin-top {
   @each $value in $margin-top {
