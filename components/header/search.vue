@@ -12,11 +12,12 @@
       <div class="big-search">
         <van-search
           :placeholder="searchKeyWords"
-          v-model="query" v-if="!isSearch" @click="searchChange"></van-search>
+          v-model="query" v-if="!isSearch" @click.stop="searchChange"></van-search>
         <van-search
           :placeholder="searchKeyWords"
           v-model="query"
           show-action
+          @cancel="onCancel"
           @search="onSearch" v-if="isSearch">
           <div slot="action" @click="onSearch">搜索</div>
         </van-search>
@@ -59,7 +60,10 @@
         this.$emit('onSearch', false)
       },
       searchChange(){
-        this.$emit('searchStart', true)
+        // this.$emit('searchStart', true)
+      },
+      onCancel() {
+        console.log('onCancel')
       }
     }
   }

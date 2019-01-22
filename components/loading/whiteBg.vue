@@ -1,5 +1,6 @@
 <template>
   <div class="white-bg">
+    <van-loading color="white" />
     <div class="text">{{loading}}</div>
   </div>
 </template>

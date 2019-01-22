@@ -20,3 +20,9 @@ export const getProductList = (data) => {
     }
   })
 }
+
+export const getProductLists = (data) => {
+  return axios.get('/api/products', {
+    params: data
+  })
+}
