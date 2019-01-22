@@ -233,45 +233,47 @@
         <h1 class="title">
           费用明细
         </h1>
-        <div class="price-detail">
-          <h3 class="title-s"></h3>
+        <div class="group-price-desc">
+          <h3 class="title-s">团费说明</h3>
+          <div class="price-item-wrap">
+            <div class="price-item"
+              v-for="item in 8"
+              :key="item">
+              <p class="num">双人一间</p>
+              <p class="price">$456.98/人</p>
+            </div>
+          </div>
         </div>
+        <div class="price-desc">
+          <h3 class="title-s">价格说明</h3>
+          <div class="text">
+            {{expense.price_notice}}
+          </div>
+        </div>
+        <div class="price-include">
+          <h3 class="title-s">费用包含</h3>
+          <div class="text">
+            {{expense.package_include}}
+          </div>
+        </div>
+
+        <van-collapse v-model="priceExclude">
+          <van-collapse-item title="费用不含"
+            name="exclude">
+            {{expense.package_exclude}}
+          </van-collapse-item>
+        </van-collapse>
       </div>
       <!-- 其他 -->
-      <van-collapse class="other"
-        ref="refOther"
-        v-model="activeNames">
-        <van-collapse-item title="接送机"
-          name="1">
-          <h3 class="title">上车地点</h3>
-          <div class="text">
-            10:45am 波士頓昆西市场 Quincy Market（195 State St, B oston, MA 02109）.
-          </div>
-          <h3 class="title mt-26">送机提示</h3>
-          <div class="text">
-            1.波士顿机场BOS，请选择1:00pm后航班；
-            2.纽约三大机场JFK/LGA/EWR，请选择7:00pm后航班；
-            3. 法拉盛和曼哈顿也可以离团。
-          </div>
-          <div class="tip mt-20">
-            **请订团时，提供离团机场和航班起飞时间，以便我们安排您和同一个机场的 旅客一辆车，节省您在送机路上的时间，让您的旅途更轻松。延住纽约机场酒 店者，免费送回酒店并办理入
-          </div>
-        </van-collapse-item>
-        <van-collapse-item title="预定须知"
-          name="2">
-          预定须知
-        </van-collapse-item>
-        <van-collapse-item title="注意事项"
-          name="3">
-          注意事项
-        </van-collapse-item>
-        <van-collapse-item title="预定程序及电子发票"
-          name="4">
-          预定程序及电子发票
-        </van-collapse-item>
-        <van-collapse-item title="订购条例"
-          name="5">
-          订购条例
+      <van-collapse class="notice mt-24"
+        ref="refNotice"
+        v-model="activeNames"
+        accordion>
+        <van-collapse-item v-for="(item, index) in notice"
+          :key="item.title"
+          :title="item.title"
+          :name="index+1">
+          {{item.content}}
         </van-collapse-item>
       </van-collapse>
     </div>
@@ -295,10 +297,11 @@
           {id: 1, name: '产品特色', ref: 'refFeatures'},
           {id: 2, name: '3天行程', ref: 'refTrip'},
           {id: 3, name: '费用明细', ref: 'refCost'},
-          {id: 4, name: '注意事项', ref: 'refOther'},
+          {id: 4, name: '注意事项', ref: 'refNotice'},
         ],
         activeTab: 1, // 选中的tab
         showServiceNode: false, // 显示服务说明
+        priceExclude: [], // 不包含面板
         activeNames: ['1'], // 折叠面板
         product: {
           'product_id': 141,
@@ -995,7 +998,7 @@
             font-family: PingFang SC;
             font-weight: 400;
             line-height: 44px;
-            color: rgba(25, 25, 25, 1);
+            color: #191919;
           }
           .header-content {
             padding: 54px 0 28px;
@@ -1028,7 +1031,7 @@
             font-family: PingFang SC;
             font-weight: 400;
             line-height: 44px;
-            color: rgba(25, 25, 25, 1);
+            color: #191919;
           }
           .content {
             margin-top: 46px;
@@ -1048,7 +1051,7 @@
                 font-family: PingFang SC;
                 font-weight: 400;
                 line-height: 40px;
-                color: rgba(25, 25, 25, 1);
+                color: #191919;
               }
             }
             .detail {
@@ -1158,15 +1161,82 @@
       .cost {
         background: #fff;
         .title {
+          padding-top: 36px;
+          text-align: center;
+          font-size: 32px;
+          font-weight: 400;
+          line-height: 44px;
+          color: #191919;
+        }
+        .group-price-desc,
+        .price-desc,
+        .price-include {
+          margin: 0 auto;
+          padding: 24px 0 28px;
+          width: 686px;
+          border-bottom: 2px solid #e4e4e4;
+          .title-s {
+            font-size: 28px;
+            font-family: PingFang SC;
+            font-weight: 400;
+            line-height: 44px;
+            color: #191919;
+          }
+          .text {
+            font-size: 24px;
+            font-weight: 300;
+            line-height: 40px;
+            color: #3e3e3e;
+          }
+        }
+        .group-price-desc {
+          margin: 56px auto 0;
+          .price-item-wrap {
+            padding: 0 8px;
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            flex-wrap: wrap;
+            .price-item {
+              margin-top: 20px;
+              flex: 0 0 146px;
+              width: 146px;
+              text-align: center;
+              position: relative;
+              &:not(:nth-child(4)):not(:nth-child(8)) {
+                &::after {
+                  position: absolute;
+                  right: -6px;
+                  top: 8px;
+                  content: "";
+                  height: 60px;
+                  width: 2px;
+                  background: #e4e4e4;
+                }
+              }
+              .num {
+                font-size: 24px;
+                font-weight: 400;
+                line-height: 44px;
+                color: #989898;
+              }
+              .price {
+                font-size: 24px;
+                font-weight: 400;
+                line-height: 44px;
+                color: rgba(251, 96, 93, 1);
+              }
+            }
+          }
         }
       }
-      .other {
+      .notice {
         font-family: Microsoft YaHei UI;
         font-weight: 400;
         .title {
           font-size: 28px;
           line-height: 44px;
-          color: rgba(25, 25, 25, 1);
+          color: #191919;
         }
         .text {
           margin-top: 18px;
