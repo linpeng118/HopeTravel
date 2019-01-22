@@ -89,9 +89,8 @@
           </li>
         </ul>
         <div class="btnbox">
-          <button class="changeuser-btn">
-            选择出行人
-          </button>
+          <nuxt-link class="changeuser-btn" tag="button" to="/personal/contactsList">选择出行人</nuxt-link>
+
         </div>
       </div>
     </section>
@@ -286,7 +285,7 @@
         }
         this.showchecktrver=true;
       },
-      //确认选择形成之后
+      //确认行程形成之后
       checktrverend(){
         var this_=this;
         let obj={
@@ -304,7 +303,6 @@
       },
       //设置页面显示行程
       setshowtrvel(){
-
         var obj=[];
         var this_=this;
          for(let i=0;i<this_.pricelist.attributes.length;i++){
