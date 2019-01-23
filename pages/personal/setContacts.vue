@@ -82,8 +82,8 @@
 
     </div>
     <!--<van-popup v-model="shownationality" position="right" :overlay="false" style="width: 100%">-->
-      <!--等待开发-->
-      <!--&lt;!&ndash;<more-city :pageparent="'/personal/addContacts'" @countryName="countryName" ></more-city>&ndash;&gt;-->
+    <!--等待开发-->
+    <!--&lt;!&ndash;<more-city :pageparent="'/personal/addContacts'" @countryName="countryName" ></more-city>&ndash;&gt;-->
     <!--</van-popup>-->
     <van-popup v-model="showdate" position="bottom" :overlay="true" style="width: 100%">
       <van-datetime-picker
@@ -98,7 +98,7 @@
 </template>
 
 <script>
-  import {addcontanct} from '@/api/contacts'
+  import {setcontanct} from '@/api/contacts'
   export default {
     components: {
 
@@ -106,24 +106,21 @@
     data() {
       return {
         userform:{
-         "name_cn":"",
-         "firstname":"",
-         "lastname":"",
-         "gender":"",
-         "phone":"",
-         "dob":"",
-         "email":"",
-         "passport":"",
-         "nationality":"中国",
-         "six":0,
-         "phone_country":null,
-         "identity":null,
-         "isuser":false
-       },
+          "name_cn":"王五",
+          "firstname":"jack",
+          "lastname":"zhao",
+          "phone":"86-18100000001",
+          "dob":"1985-05-01",
+          "email":"zhaos@163.com",
+          "passport":"1234",
+          "nationality":"中国",
+          "gender":"m",
+          "identity":"510123456789123456"
+        },
         shownationality: false,
         datedob:new Date('1990-01-01'),
         showdate:false,
-        title:'新增出行人'
+        title:'编辑出行人'
       }
     },
     computed: {},
@@ -138,8 +135,8 @@
         this.shownationality=false
       },
       setval(val){
-       this.userform.dob=this.sedate("yyyy-MM-dd",val);
-       this.showdate=false;
+        this.userform.dob=this.sedate("yyyy-MM-dd",val);
+        this.showdate=false;
       },
       sedate (fmt,date) {
         var o = {
@@ -160,9 +157,9 @@
         this.$router.go(-1)
       },
       async onClickRight() {
-        let {data, code} = await addcontanct(this.userform)
-        if (code === 0) {
-          console.log(data)
+        let id='';
+        let {data, code} = await setcontanct(this.userform,id)
+        if (code === 0) {console.log(data)
         }
         else {
         }
@@ -177,41 +174,41 @@
 </script>
 
 <style lang="scss" scoped>
- .new-connect{
-   padding: 24px 32px;
- }
- .connet-title{
-   line-height: 48px;
-   background:rgba(241,241,241,1);
-   padding-left: 20px;
-   color: #5e5e5e;
-   font-size: 24px;
+  .new-connect{
+    padding: 24px 32px;
+  }
+  .connet-title{
+    line-height: 48px;
+    background:rgba(241,241,241,1);
+    padding-left: 20px;
+    color: #5e5e5e;
+    font-size: 24px;
   }
   .setcheckbox{
     padding: 20px 30px;
     font-size: 28px;
   }
- .login-header {
-   height: 88px;
-   font-size: 32px;
-   color: #191919;
-   background-color: #fff;
-   box-shadow:0px 4px 12px rgba(0,0,0,0.14);
-   border-bottom:1px solid rgb(238, 238, 238);
-   transition: all 0.5s;
-   .left-wrap {
-     color: #404040;
-     font-size: 32px;
-   }
-   .right-wrap {
-     .search {
-       width:92px;
-       height:36px;
-       background:rgba(57,158,246,1);
-       opacity:1;
-       color: #fff;
-       border-radius:18px;
-     }
-   }
- }
+  .login-header {
+    height: 88px;
+    font-size: 32px;
+    color: #191919;
+    background-color: #fff;
+    box-shadow:0px 4px 12px rgba(0,0,0,0.14);
+    border-bottom:1px solid rgb(238, 238, 238);
+    transition: all 0.5s;
+    .left-wrap {
+      color: #404040;
+      font-size: 32px;
+    }
+    .right-wrap {
+      .search {
+        width:92px;
+        height:36px;
+        background:rgba(57,158,246,1);
+        opacity:1;
+        color: #fff;
+        border-radius:18px;
+      }
+    }
+  }
 </style>

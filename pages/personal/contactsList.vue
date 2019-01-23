@@ -1,17 +1,33 @@
 <template>
   <section>
-    <van-checkbox-group v-model="checkuser" :max="2">
+    <p v-if="adult" class="contancts-title">请选择{{adult}}位出行人</p>
+    <van-checkbox-group v-model="checkuser" class="checkboxall" :max="adult">
       <van-checkbox
         v-for="(item, index) in list"
         :key="index"
+        :disabled="item.phone&&item.passport?false:true"
         :name="item">
         <span class="objitem">
-            <i> {{item.name_cn}} </i>
-            <i> {{item.phone}} </i>
+            <i>
+              {{item.lastname}}&nbsp;{{item.firstname}}
+              <a>{{(item.six==0)?'女':'男'}}</a>
+            </i>
+            <template v-if="item.phone&&item.passport">
+               <i>护照号&nbsp;&nbsp;{{item.passport}} </i>
+               <i>手机号&nbsp;&nbsp;{{item.phone}} </i>
+            </template>
+           <template v-else>
+               <i style="color: red">信息不全，请补充</i>
+            </template>
         </span>
-
+        <b class="bicon"><van-icon name="edit" color="#399EF6;"/></b>
       </van-checkbox>
     </van-checkbox-group>
+
+    <div class="btnbox">
+      <nuxt-link class="changeuser-btn" tag="button" to="/personal/addContacts" ><van-icon name="plus" color="#fff;"/>&nbsp;新增旅客</nuxt-link>
+
+    </div>
   </section>
 </template>
 
@@ -24,12 +40,14 @@
     data() {
       return {
         checkuser:[],
-        list: ['a', 'b', 'c'],
+        list: [],
+        adult:this.$route.query.adult
+
+
       }
     },
     computed: {},
     created(){
-
     },
     mounted(){
      this.getlist();
@@ -57,7 +75,7 @@
             "email":"zhaos@163.com",
             "weight":null,
             "height":null,
-            "passport":"1234",
+            "passport":"",
             "nationality":"中国",
             "created":"2018-12-21 16:15:08",
             "last_updated":"2018-12-21 17:00:17",
@@ -110,6 +128,68 @@
 </script>
 
 <style lang="scss" scoped>
+  .checkboxall{
+    padding: 34px;
+  }
+  .checkboxall>div{
+    margin-bottom: 20px;
+  }
+  .objitem{
+    display: inline-block;
+    font-size: 28px;
+    color: #9F9F9F;
+    width: 550px;
+  }
+  .objitem i {
+    display: inline-block;
+    font-size: 28px;
+    font-style: normal;
+    width: 550px;
+    line-height: 40px;
+   }
+  .objitem i:first-child{
+    color: #191919;
+    font-weight: bold;
+    line-height: 70px;
 
+  }
+  .objitem>i:first-child>a {
+    display: inline-block;
+    font-size: 28px;
+    color: #9F9F9F;
+    font-weight: normal;
+    font-style: normal;
+
+  }
+  .bicon {
+    display: inline-block;
+    font-size: 42px;
+    line-height: 70px;
+    color: #399EF6;
+    font-weight: normal;
+    font-style: normal;
+    float: right;
+    width: 50px;
+
+  }
+  .btnbox {
+    text-align: center;
+  }
+  .changeuser-btn {
+    width: 464px;
+    height: 72px;
+    background: rgba(57, 158, 246, 1);
+    opacity: 1;
+    line-height: 72px;
+    font-size: 24px;
+    color: #fff;
+    margin: 28px 0;
+    border-radius: 8px;
+  }
+  .contancts-title{
+    font-size: 28px;
+    color: #EF9A1A;
+    padding: 0 34px;
+  }
 
 </style>
