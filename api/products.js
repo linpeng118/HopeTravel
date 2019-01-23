@@ -30,9 +30,5 @@ export const getProductList = (data) => {
  * @param {Object} data
  */
 export const getProductDetail = (data) => {
-  return axios.get('/api/product', {
-    params: {
-      product_id: data.product_id || null
-    }
-  })
+  return axios.get(`/api/product/${data.product_id}`)
 }
