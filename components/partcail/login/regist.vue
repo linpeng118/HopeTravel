@@ -32,7 +32,7 @@
       title="请输入邮箱">
       <van-cell-group>
         <van-field class="email tours-input"
-          v-model="email"
+          v-model="mobileForm.email"
           placeholder="请输入邮箱" />
         <van-field class="password tours-input"
           v-model="mobileForm.password"
