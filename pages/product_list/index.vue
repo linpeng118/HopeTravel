@@ -34,13 +34,11 @@
     </div>
     <!--筛选排序-->
     <van-popup v-model="showFilter" position="right" :overlay="true" class="filter-select">
-      <!--<div class="shade-layer" @click="filterSelect"></div>-->
-      <!--<filters :data="startCity" @filterClick="filterClick"></filters>-->
       <div class="filter-content">
         <div class="filter-list">
           <div class="filter-items" v-for="(item, key) in filterLists" :key="key">
-            <van-cell :title="showTitle(key)" :value="item.desc" is-link />
-            <div class="filter-tags">
+            <van-cell :title="showTitle(key)" :value="item.desc" is-link @click="showMoreFilter(key)" />
+            <div class="filter-tags" :ref="'tags' + key">
               <div class="item"
                    v-for="(city,index) in item.items"
                    :key="city.id + city.name"
@@ -130,7 +128,6 @@ export default {
     // 筛选条件
     filterSelect () {
       this.showFilter = !this.showFilter
-      // console.log('筛选条件')
     },
     // 显示隐藏排序列表
     sortChange() {
@@ -195,6 +192,7 @@ export default {
     // 切换tab加载数据
     async changeTypeClick() {
       this.prodPagination = {}
+      this.filterResult = {}
       const submitData = {
         type: this.currentType,
         page: (this.prodPagination.page || 0) + 1,
@@ -210,6 +208,7 @@ export default {
     },
     async againSearch () {
       console.log('选好了')
+      console.log('初始值', this.filterResult)
       this.prodPagination = {}
       const submitData = {
         type: this.currentType,
@@ -218,11 +217,6 @@ export default {
         order: this.sortResult.order || null,
         ...this.filterResult
       }
-
-      // if(this.prodFinished) {
-      //   console.log('prodFinished的值改变了')
-      //   this.prodFinished = false
-      // }
       const res = await getProductList(submitData)
       this.productList = res.data
       this.prodPagination = res.pagination
@@ -242,43 +236,14 @@ export default {
           this.$set(this.filterLists[key].items, index, filter)
         }
       })
-      this.filterLists[key].desc = item.name
-      this.filterResult[key] = item.id
-    },
-    // 序列化城市筛选数据
-    _nomalLizeFilterData(data) {
-      let obj = []
-      obj[0] = {
-        type: 'start_city',
-        name: '出发城市',
-        list: data.start_city.items
+      if (item.active) {
+        this.filterLists[key].desc = item.name
+        this.filterResult[key] = item.id
+      } else {
+        this.filterLists[key].desc = ''
+        this.filterResult[key] = ''
       }
-      obj[1] = {
-        type: 'stop_city',
-        name: '结束城市',
-        list: data.stop_city.items
-      }
-      obj[2] = {
-        type: 'span_city',
-        name: '途径景点',
-        list: data.span_city.items
-      }
-      obj[3] = {
-        type: 'tag',
-        name: '行程特色',
-        list: data.tag.items
-      }
-      obj[4] = {
-        type: 'duration',
-        name: '行程天数',
-        list: data.duration.items
-      }
-      obj[5] = {
-        type: 'prices',
-        name: '价格预算',
-        list: data.price.items
-      }
-      return obj
+      console.log(this.filterResult)
     },
     // 显示title
     showTitle(name) {
@@ -292,6 +257,17 @@ export default {
         product_type: '玩乐分类'
       }
       return obj[name]
+    },
+    // 显示更多的标签
+    showMoreFilter(key) {
+      // console.log(this.$refs['tags' + key])
+      console.log()
+      let name = this.$refs['tags' + key][0].className
+      if (name.indexOf('all') >= 0) {
+        this.$refs['tags' + key][0].className = 'filter-tags'
+      } else {
+        this.$refs['tags' + key][0].className = 'filter-tags all'
+      }
     }
   }
 }
@@ -355,8 +331,11 @@ export default {
       display: flex;
       flex-wrap: wrap;
       padding: 0 32px;
-      /*height: 144px;*/
+      max-height: 144px;
       overflow: hidden;
+      &.all{
+        height: auto;
+      }
       .item{
         width:186px;
         height:60px;
