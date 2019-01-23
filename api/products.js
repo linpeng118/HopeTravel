@@ -20,12 +20,7 @@ export const getProductList = (data) => {
     }
   })
 }
-// 产品列表搜素
-export const getProductLists = (data) => {
-  return axios.get('/api/products', {
-    params: data
-  })
-}
+
 // 产品筛选条件
 export const getFilterList = (data) => {
   return axios.get('/api/filter', {

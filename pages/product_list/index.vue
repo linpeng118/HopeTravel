@@ -9,7 +9,7 @@
     ></lay-header>
     <div class="list-wrap">
       <div class="tabs-box">
-        <van-tabs>
+        <van-tabs v-model="active">
           <van-tab v-for="item in tagsList" :title="item.title" :key="item.type">
             <van-list v-model="prodLoading" :finished="prodFinished" finished-text="没有更多了" @load="onLoad">
               <div class="filter-box">
@@ -67,7 +67,7 @@ import sortItem from '@/components/search/sortItem'
 // import Filters from '@/components/search/filters'
 import Filters from '@/components/search/filters1'
 import ProductList from '@/components/list/productList'
-import {getProductLists, getFilterList} from '@/api/products'
+import {getProductList, getFilterList} from '@/api/products'
 export default {
   name: 'product_list',
   components: {
@@ -98,7 +98,8 @@ export default {
       sortResult:{id:1, order: '', order_by: '', name: '默认排序'}, // 排序的选择条件
       sortShow: false,
       filterLists: {},
-      startCity: []
+      startCity: [],
+      active: 0, // 当前搜索的type值
     }
   },
   created() {
@@ -112,7 +113,6 @@ export default {
   mounted() {
     // 初始化
     this.getFilterList()
-    // this.getData()
   },
   methods: {
     onSearch() {},
@@ -142,7 +142,7 @@ export default {
         this.onLoad()
       }
     },
-    // 初始化产品列表
+    // 初始化筛选列表
     async getFilterList(obj) {
       const submitData = {
         type: 3
@@ -150,7 +150,6 @@ export default {
       let {code, data} = await getFilterList(submitData)
       if (code === 0) {
         this.filterLists = data
-        this.startCity = data.start_city.items
       }
     },
     // 滑动会请求数据
@@ -163,7 +162,7 @@ export default {
         order_by: this.sortResult.order_by || null,
         order: this.sortResult.order || null,
       }
-      const res = await getProductLists(submitData)
+      const res = await getProductList(submitData)
       this.productList.push(...res.data)
       this.prodPagination = res.pagination
       // 加载状态结束
@@ -175,7 +174,7 @@ export default {
     },
     // 获取产品列表数据
     async getData(data) {
-      const res = await getProductLists(data)
+      const res = await getProductList(data)
       this.productList.push(...res.data)
       this.prodPagination = res.pagination
     },
