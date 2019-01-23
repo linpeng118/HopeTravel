@@ -1,47 +1,56 @@
 <template>
-  <section class="section0">
-    <!--页头信息-->
-    <section>
-      <div class="confirm-title">
-        <p>{{product.name}}</p>
-        <p v-html="settitletip()"></p>
-      </div>
-    </section>
-    <!--接送服务-->
-    <section>
-      <div class="confirm-item">
-        <p class="item-title">接送时间和地点</p>
-        <p class="item-con" @click="showchecktime=true">
-          <span>{{checktimeval}}</span>
-          <span></span>
-          <van-icon color="#404040" name="arrow" size="1.2em"/>
-        </p>
-      </div>
-      <!--接送时间和地点弹出层-->
-      <van-popup v-model="showchecktime" position="center" :overlay="true">
-       <div class="item-title">
-         <p>
-           <span>接送时间和地点</span>
-           <span style="float:right;color:#399EF6" @click="checktime()">确认</span>
-         </p>
-       </div>
-        <van-radio-group v-model="countprice.product_departure" class="radiobox">
-          <van-radio name="" class="radioitem">不选择接送机</van-radio>
-          <template v-for="(item,ind) in pricelist.transfer">
-            <van-radio class="radioitem" :key="ind" :name="item.product_departure_id">
-              {{item.time}} {{item.full_address}}
-            </van-radio>
-          </template>
-        </van-radio-group>
-      </van-popup>
-    </section>
+  <section>
+    <van-nav-bar class="login-header tours-no-bb"
+                 ref="loginHeader"
+                 title="确认订单"
+                 :z-index="999"
+                 @click-left="onClickLeft">
+      <van-icon class="left-wrap" name="arrow-left" slot="left" />
+    </van-nav-bar>
+    <section class="section0">
 
-    <!--行程选择-->
-    <section>
-      <div class="confirm-item" v-if="pricelist.attributes">
-        <p class="item-title">行程选项</p>
-        <template v-for="(attrx,ind) in showtrvel">
-          <div :key="ind">
+      <!--页头信息-->
+      <section>
+        <div class="confirm-title">
+          <p>{{product.name}}</p>
+          <p v-html="settitletip()"></p>
+        </div>
+      </section>
+      <!--接送服务-->
+      <section>
+        <div class="confirm-item">
+          <p class="item-title">接送时间和地点</p>
+          <p class="item-con" @click="showchecktime=true">
+            <span>{{checktimeval}}</span>
+            <span></span>
+            <van-icon color="#404040" name="arrow" size="1.2em"/>
+          </p>
+        </div>
+        <!--接送时间和地点弹出层-->
+        <van-popup v-model="showchecktime" position="center" :overlay="true">
+          <div class="item-title">
+            <p>
+              <span>接送时间和地点</span>
+              <span style="float:right;color:#399EF6" @click="checktime()">确认</span>
+            </p>
+          </div>
+          <van-radio-group v-model="countprice.product_departure" class="radiobox">
+            <van-radio name="" class="radioitem">不选择接送机</van-radio>
+            <template v-for="(item,ind) in pricelist.transfer">
+              <van-radio class="radioitem" :key="ind" :name="item.product_departure_id">
+                {{item.time}} {{item.full_address}}
+              </van-radio>
+            </template>
+          </van-radio-group>
+        </van-popup>
+      </section>
+
+      <!--行程选择-->
+      <section>
+        <div class="confirm-item" v-if="pricelist.attributes">
+          <p class="item-title">行程选项</p>
+          <template v-for="(attrx,ind) in showtrvel">
+            <div :key="ind">
               <p class="item-tip">{{attrx.title}}</p>
               <p class="item-con" @click="checktrver(attrx,ind)">
                 <template v-if="!attrx.itemsx">
@@ -54,118 +63,120 @@
                 </template>
                 <van-icon color="#404040" name="arrow" size="1.2em"></van-icon>
               </p>
-          </div>
-        </template>
-        <!--行程选择弹出层-->
-        <van-popup v-model="showchecktrver" position="center" :overlay="true">
-          <div class="item-title">
-            <p>
-              <span>{{seltrvel.title}}</span>
-              <span @click="checktrverend()" style="float:right;color:#399EF6">确认</span>
-            </p>
-          </div>
-          <van-radio-group v-model="checktrvel" class="radiobox">
+            </div>
+          </template>
+          <!--行程选择弹出层-->
+          <van-popup v-model="showchecktrver" position="center" :overlay="true">
+            <div class="item-title">
+              <p>
+                <span>{{seltrvel.title}}</span>
+                <span @click="checktrverend()" style="float:right;color:#399EF6">确认</span>
+              </p>
+            </div>
+            <van-radio-group v-model="checktrvel" class="radiobox">
 
-            <van-radio name="" class="radioitem">暂不选择行程</van-radio>
-            <template v-for="(item,index) in seltrvel.items">
-              <van-radio class="radioitem" :key="index" :name="item.id">
-                {{item.title}}
-              </van-radio>
-            </template>
-          </van-radio-group>
-        </van-popup>
-
-      </div>
-    </section>
-    <!--游客信息-->
-    <section>
-      <div class="confirm-item">
-        <p class="item-title">游客信息
-          <span>务必确认填写信息与出游证件一致</span></p>
-        <ul>
-          <li class="user-item">
-            <span>出行人1<i>张三</i></span>
-            <span><i><van-icon name="edit"/></i></span>
-          </li>
-        </ul>
-        <div class="btnbox">
-          <nuxt-link class="changeuser-btn" tag="button" to="/personal/contactsList">选择出行人</nuxt-link>
+              <van-radio name="" class="radioitem">暂不选择行程</van-radio>
+              <template v-for="(item,index) in seltrvel.items">
+                <van-radio class="radioitem" :key="index" :name="item.id">
+                  {{item.title}}
+                </van-radio>
+              </template>
+            </van-radio-group>
+          </van-popup>
 
         </div>
-      </div>
-    </section>
-    <!--联系人信息-->
-    <section>
-      <div class="confirm-item">
-        <p class="item-title">联系人信息</p>
-        <van-field
-          label="联系人"
-          placeholder="填写联系人姓名"
-        />
-        <div data-v-0ea3802e="" class="van-cell van-field">
-          <div class="van-cell__title">
-            <span>手机号码</span>
+      </section>
+      <!--游客信息-->
+      <section>
+        <div class="confirm-item">
+          <p class="item-title">游客信息
+            <span>务必确认填写信息与出游证件一致</span></p>
+          <ul>
+            <li class="user-item">
+              <span>出行人1<i>张三</i></span>
+              <span><i><van-icon name="edit"/></i></span>
+            </li>
+          </ul>
+          <div class="btnbox">
+            <nuxt-link class="changeuser-btn" tag="button"
+                       :to="{path:'/personal/contactsList',query:{'adult':countprice.adult}}" >选择出行人</nuxt-link>
           </div>
-          <div class="van-cell__value">
-            <div class="van-field__body">
+        </div>
+      </section>
+      <!--联系人信息-->
+      <section>
+        <div class="confirm-item">
+          <p class="item-title">联系人信息</p>
+          <van-field
+            label="联系人"
+            placeholder="填写联系人姓名"
+          />
+          <div data-v-0ea3802e="" class="van-cell van-field">
+            <div class="van-cell__title">
+              <span>手机号码</span>
+            </div>
+            <div class="van-cell__value">
+              <div class="van-field__body">
 
-            <i class="setvan" @click="showsel=true">+86<van-icon name="arrow" /></i>
-            <input type="text" placeholder="必填，用于接收信息" class="van-field__control">
+                <i class="setvan" @click="showsel=true">+86<van-icon name="arrow" /></i>
+                <input type="text" placeholder="必填，用于接收信息" class="van-field__control">
+              </div>
             </div>
           </div>
-        </div>
-        <van-field label="邮箱" placeholder="必填，用于接收电子客票"/>
+          <van-field label="邮箱" placeholder="必填，用于接收电子客票"/>
 
-        <van-popup v-model="showsel" position="bottom" :overlay="true">
-          <van-picker :columns="columns" show-toolbar title="选择区号"/>
-        </van-popup>
-      </div>
-    </section>
-    <!--优惠信息-->
-    <section>
-      <div class="confirm-item">
-        <p class="item-title">优惠信息</p>
-        <div class="item-con">
+          <van-popup v-model="showsel" position="bottom" :overlay="true">
+            <van-picker :columns="columns" show-toolbar title="选择区号"/>
+          </van-popup>
+        </div>
+      </section>
+      <!--优惠信息-->
+      <section>
+        <div class="confirm-item">
+          <p class="item-title">优惠信息</p>
+          <div class="item-con">
          <span>
            <i class="seti">米粒</i>
            <i class="seti" style="color: #bbb">共有米粒574，本次可用500米粒抵用$5</i>
          </span>
-           <van-switch
-             v-model="checked"
-             style="float: right"
-             size="2em"
-           />
-        </div>
+            <van-switch
+              v-model="checked"
+              style="float: right"
+              size="2em"
+            />
+          </div>
 
-      </div>
-    </section>
-    <!--预定留言-->
-    <section>
-      <div class="confirm-item">
-        <p class="item-title">预定留言</p>
-        <div class="item-con">
-          <van-field
-            type="textarea"
-            placeholder="选填，你可备注预定相关要求"
-            rows="2"
-            autosize
-          />
         </div>
-      </div>
-    </section>
-    <!--同意用户协议-->
-    <section>
-      <div class="confirm-item">
-        <div class="item-con">
-          <van-checkbox v-model="checked">我已阅读并接受<a style="color: #216BFF">《稀饭旅行用户服务条款》</a></van-checkbox>
+      </section>
+      <!--预定留言-->
+      <section>
+        <div class="confirm-item">
+          <p class="item-title">预定留言</p>
+          <div class="item-con">
+            <van-field
+              type="textarea"
+              placeholder="选填，你可备注预定相关要求"
+              rows="2"
+              autosize
+            />
+          </div>
         </div>
-      </div>
-    </section>
-    <!--foot-->
-    <section>
-      <confirm-foot></confirm-foot>
+      </section>
+      <!--同意用户协议-->
+      <section>
+        <div class="confirm-item">
+          <div class="item-con">
+            <van-checkbox v-model="checked">我已阅读并接受<a style="color: #216BFF">《稀饭旅行用户服务条款》</a></van-checkbox>
+          </div>
+        </div>
+      </section>
+      <!--foot-->
+      <section>
+        <confirm-foot></confirm-foot>
+      </section>
     </section>
   </section>
+
 
 </template>
 
@@ -325,7 +336,10 @@
           }
         }
         console.log(this_.showtrvel)
-        }
+        },
+      onClickLeft(){
+        this.$router.go(-1)
+      },
 
 
     }
@@ -333,7 +347,7 @@
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
   .section0 {
     background-color: #f3f3f3;
@@ -343,6 +357,7 @@
   }
 
   .confirm-title p:nth-child(1) {
+    padding-top: 10px;
     width: 100%;
     font-size: 24px;
     font-weight: 700;
@@ -498,6 +513,27 @@
     overflow-y: scroll;
 
   }
-
+  .login-header {
+    height: 88px;
+    font-size: 32px;
+    color: #191919;
+    background-color: #fff;
+    border-bottom:1px solid rgb(238, 238, 238);
+    transition: all 0.5s;
+  .left-wrap {
+    color: #404040;
+    font-size: 32px;
+  }
+  .right-wrap {
+  .search {
+    width:92px;
+    height:36px;
+    background:rgba(57,158,246,1);
+    opacity:1;
+    color: #fff;
+    border-radius:18px;
+  }
+  }
+  }
 
 </style>
