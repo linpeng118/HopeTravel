@@ -9,7 +9,7 @@
     ></lay-header>
     <div class="list-wrap">
       <div class="tabs-box">
-        <van-tabs v-model="active">
+        <van-tabs v-model="active" @click="changeTypeClick">
           <van-tab v-for="item in tagsList" :title="item.title" :key="item.type">
             <van-list v-model="prodLoading" :finished="prodFinished" finished-text="没有更多了" @load="onLoad">
               <div class="filter-box">
@@ -22,16 +22,18 @@
                   <van-icon name="filter-o" />
                 </div>
               </div>
-              <van-cell v-for="item in productList" :key="item.product_id + Math.random()">
-                <product-list :data="item"></product-list>
-              </van-cell>
+              <template v-if="productList.length">
+                <van-cell v-for="item in productList" :key="item.product_id + Math.random()">
+                  <product-list :data="item"></product-list>
+                </van-cell>
+              </template>
             </van-list>
           </van-tab>
         </van-tabs>
       </div>
     </div>
     <!--筛选排序-->
-    <van-popup v-model="showFilter" position="right" :overlay="true" class="filter-select" @click-overlay="clickOverlay">
+    <van-popup v-model="showFilter" position="right" :overlay="true" class="filter-select">
       <!--<div class="shade-layer" @click="filterSelect"></div>-->
       <!--<filters :data="startCity" @filterClick="filterClick"></filters>-->
       <div class="filter-content">
@@ -43,13 +45,13 @@
                    v-for="(city,index) in item.items"
                    :key="city.id + city.name"
                    :class="city.active ? 'active': ''"
-                   @click="filterClick(city, key, index)">{{city.name}}</div>
+                   @click="filterClick(city, key, index)" :ref="key + currentType">{{city.name}}</div>
             </div>
           </div>
         </div>
         <div class="bottom-btn">
           <div class="left">重置</div>
-          <div class="right">选好了</div>
+          <div class="right" @click="againSearch">选好了</div>
         </div>
       </div>
     </van-popup>
@@ -81,13 +83,13 @@ export default {
       isSearch: false,
       searchKeyWords: this.$route.query.keyWords || '',
       tagsList: [
-        {type: 3,title: '稀饭推荐'},
-        {type: 1,title: '当地跟团'},
-        {type: 2,title: '当地玩乐'},
-        {type: 4,title: '门票演出'},
-        {type: 5,title: '一日游'},
-        {type: 6,title: '接驳服务'},
-        {type: 7,title: '邮轮'},
+        {id:0,type: 3,title: '稀饭推荐'},
+        {id:1,type: 1,title: '当地跟团'},
+        {id:2,type: 2,title: '当地玩乐'},
+        {id:3,type: 4,title: '门票演出'},
+        {id:4,type: 5,title: '一日游'},
+        {id:5,type: 6,title: '接驳服务'},
+        {id:6,type: 7,title: '邮轮'}
       ],
       criteria: {}, // 筛选条件数据
       prodPagination: {}, // 分页数据
@@ -100,6 +102,13 @@ export default {
       filterLists: {},
       startCity: [],
       active: 0, // 当前搜索的type值
+      filterResult: {} // 筛选的结果
+    }
+  },
+  computed: {
+    currentType() {
+      let _arr = [3,1,2,4,5,6,7]
+      return _arr[this.active]
     }
   },
   created() {
@@ -129,23 +138,25 @@ export default {
     },
     // 条件查询选择
     async selectSortItem (item) {
-      let len = this.productList.length
-      let page = this.prodPagination.page
       this.sortResult = item
+      let len = this.productList.length
+      let total = this.prodPagination.total_record
       // 把下面控制列表的数据重置
       this.productList = []
       this.prodPagination = {}
-      this.prodLoading= false
+      // this.prodLoading= false
       this.prodFinished= false
-      if (len !== page) {
-        console.log('进行加载了')
+      if (len !== total) {
+        console.log('进行onLoad')
         this.onLoad()
+      } else {
+        console.log('没有执行onLoad')
       }
     },
     // 初始化筛选列表
-    async getFilterList(obj) {
+    async getFilterList() {
       const submitData = {
-        type: 3
+        type: this.currentType
       }
       let {code, data} = await getFilterList(submitData)
       if (code === 0) {
@@ -157,41 +168,82 @@ export default {
       // 获取数据
       console.log('onload')
       const submitData = {
-        type: 3,
+        type: this.currentType,
         page: (this.prodPagination.page || 0) + 1,
         order_by: this.sortResult.order_by || null,
         order: this.sortResult.order || null,
+        ...this.filterResult
       }
-      const res = await getProductList(submitData)
-      this.productList.push(...res.data)
-      this.prodPagination = res.pagination
-      // 加载状态结束
-      this.prodLoading = false;
+      console.log(this.productList.length, this.prodPagination.total_record)
+      if (this.productList.length && this.productList.length === this.prodPagination.total_record) {
+        console.log('已经是全部数据')
+        this.prodLoading = false;
+        this.prodFinished = true;
+      } else {
+        console.log('再次请求')
+        const res = await getProductList(submitData)
+        this.productList.push(...res.data)
+        this.prodPagination = res.pagination
+        // 加载状态结束
+        this.prodLoading = false;
+      }
       // 数据全部加载完成
       if (!this.prodPagination.more) {
         this.prodFinished = true;
       }
     },
-    // 获取产品列表数据
-    async getData(data) {
-      const res = await getProductList(data)
-      this.productList.push(...res.data)
+    // 切换tab加载数据
+    async changeTypeClick() {
+      this.prodPagination = {}
+      const submitData = {
+        type: this.currentType,
+        page: (this.prodPagination.page || 0) + 1,
+        order_by: this.sortResult.order_by || null,
+        order: this.sortResult.order || null
+      }
+      if(this.prodFinished) {this.prodFinished = false}
+      const res = await getProductList(submitData)
+      this.productList = res.data
       this.prodPagination = res.pagination
+      // 筛选列表更新
+      this.getFilterList()
     },
-    // 关闭蒙层
-    clickOverlay() {
-      // console.log('蒙层')
+    async againSearch () {
+      console.log('选好了')
+      this.prodPagination = {}
+      const submitData = {
+        type: this.currentType,
+        page: (this.prodPagination.page || 0) + 1,
+        order_by: this.sortResult.order_by || null,
+        order: this.sortResult.order || null,
+        ...this.filterResult
+      }
+
+      // if(this.prodFinished) {
+      //   console.log('prodFinished的值改变了')
+      //   this.prodFinished = false
+      // }
+      const res = await getProductList(submitData)
+      this.productList = res.data
+      this.prodPagination = res.pagination
+      console.log(this.prodPagination)
+      // 关闭蒙层
+      this.showFilter = false
     },
     // 选中筛选
     filterClick(item, key, index) {
       this.filterLists[key].items.forEach((filter) => {
+        let _filter = filter.active
         filter.active = false
         if(filter.id === item.id) {
-          filter.active = true
+          if (!_filter) {
+            filter.active = true
+          }
           this.$set(this.filterLists[key].items, index, filter)
         }
       })
       this.filterLists[key].desc = item.name
+      this.filterResult[key] = item.id
     },
     // 序列化城市筛选数据
     _nomalLizeFilterData(data) {
@@ -236,7 +288,8 @@ export default {
         stop_city: '结束城市',
         duration: '行程天数',
         price: '价格预算',
-        tag: '行程特色'
+        tag: '行程特色',
+        product_type: '玩乐分类'
       }
       return obj[name]
     }
@@ -302,7 +355,7 @@ export default {
       display: flex;
       flex-wrap: wrap;
       padding: 0 32px;
-      height: 144px;
+      /*height: 144px;*/
       overflow: hidden;
       .item{
         width:186px;

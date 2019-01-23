@@ -159,7 +159,7 @@
       // 点击服务协议
       onAgreement() {
         this.$router.push({
-          path: '/agreement'
+          path: '/protocol'
         })
       }
     },
