@@ -277,17 +277,21 @@
         </van-collapse-item>
       </van-collapse>
     </div>
+    <loading v-if="loading"></loading>
   </div>
 </template>
 
 <script>
   import ProductDetailHeader from '@/components/header/productDetail'
   import ProdDetailImgItem from '@/components/items/prodDetailImgItem'
-
+  import Loading from '@/components/loading'
+  import {getProductDetail} from '@/api/products'
+  
   export default {
     components: {
       ProductDetailHeader,
-      ProdDetailImgItem
+      ProdDetailImgItem,
+      Loading
     },
     data() {
       return {
@@ -303,6 +307,7 @@
         showServiceNode: false, // 显示服务说明
         priceExclude: [], // 不包含面板
         activeNames: ['1'], // 折叠面板
+        loading: true,
         product: {
           'product_id': 141,
           'default_price': '$238',
@@ -741,8 +746,16 @@
       }
     },
     computed: {},
-    mounted() {},
+    mounted() {
+      this.init()
+    },
     methods: {
+      async init() {
+        await getProductDetail({
+          product_id: 1398,
+        })
+        this.loading = false
+      },
       // 跳转至注册页
       toRegist() {
         this.$router.push({
