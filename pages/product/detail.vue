@@ -1,6 +1,7 @@
 <template>
   <div class="product-detail-page"
     ref="refProductDetailPage">
+    <!-- 头部 -->
     <product-detail-header :transparent="isTransparent"
       fixed />
     <div class="product-detail">
@@ -34,20 +35,12 @@
       <div class="destination mt-24">
         <div class="header"
           @click="onServerNode">
-          <div class="item">
-            <img src="../../assets/imgs/product/tick@2x.png"
+          <div class="item"
+            v-for="item in serviceNote"
+            :key="item.name">
+            <img :src="item.icon"
               alt="icon">
-            成团保障
-          </div>
-          <div class="item">
-            <img src="../../assets/imgs/product/tick@2x.png"
-              alt="icon">
-            限时特价
-          </div>
-          <div class="item">
-            <img src="../../assets/imgs/product/tick@2x.png"
-              alt="icon">
-            低价保证
+            {{item.name}}
           </div>
           <div class="item">
             <van-icon name="arrow" />
@@ -68,9 +61,19 @@
           </div>
         </div>
       </div>
+      <!-- 服务说明 -->
       <van-actionsheet v-model="showServiceNode"
-        title="服务说明">
-        <p>一些内容</p>
+        title="服务说明"
+        class="service-note">
+        <div class="servive-item mt-50"
+          v-for="item in serviceNote"
+          :key="item.name">
+          <h3 class="title">
+            <img :src="item.icon"
+              alt="icon">&nbsp;{{item.name}}
+          </h3>
+          <p class="desc">{{item.desc}}</p>
+        </div>
       </van-actionsheet>
       <!-- 团期价格 -->
       <div class="group-price mt-24">
@@ -218,7 +221,7 @@
           </div>
         </div>
       </div>
-      <!-- AD -->
+      <!-- AD-custom -->
       <div class="ad-custom">
         <span>行程不满意？您还可以找</span>
         <span class="custom"
@@ -234,10 +237,11 @@
           <h3 class="title-s">团费说明</h3>
           <div class="price-item-wrap">
             <div class="price-item"
-              v-for="item in 8"
-              :key="item">
-              <p class="num">双人一间</p>
-              <p class="price">$456.98/人</p>
+              v-for="item in standartPrice"
+              :key="item.name"
+              v-show="item.price">
+              <p class="num">{{item.name}}</p>
+              <p class="price">{{item.price}}/人</p>
             </div>
           </div>
         </div>
@@ -271,7 +275,24 @@
           </van-collapse-item>
         </van-collapse>
       </div>
+      <!-- 底部按钮 -->
+      <div class="footer-tabbar mt-24">
+        <div class="operate">
+          <div class="btn-operate"
+            v-for="item in operateTabbar"
+            :key="item.name">
+            <img :src="item.icon"
+              alt="icon">
+            <p class="operate-name">{{item.name}}</p>
+          </div>
+        </div>
+        <div class="reserve">
+          <van-button class="btn-reserve"
+            size="large">立即预定</van-button>
+        </div>
+      </div>
     </div>
+    <!-- 加载态 -->
     <loading v-if="loading"></loading>
   </div>
 </template>
@@ -292,11 +313,21 @@
       return {
         isTransparent: true, // 导航头是否透明
         current: 0, // 导航页数
+        serviceNote: [
+          {name: '成团保障', desc: '该产品下单即可确认出行', icon: require('../../assets/imgs/product/tick@2x.png')},
+          {name: '限时特价', desc: '该产品享受买贵退差', icon: require('../../assets/imgs/product/tick@2x.png')},
+          {name: '低价保证', desc: '', icon: require('../../assets/imgs/product/tick@2x.png')},
+        ],
         tabList: [
           {id: 1, name: '产品特色', ref: 'refFeatures'},
           {id: 2, name: '3天行程', ref: 'refTrip'},
           {id: 3, name: '费用明细', ref: 'refCost'},
           {id: 4, name: '注意事项', ref: 'refNotice'},
+        ],
+        operateTabbar: [
+          {name: '关注', icon: require('../../assets/imgs/product/attention@2x.png')},
+          {name: '电话咨询', icon: require('../../assets/imgs/product/phone@2x.png')},
+          {name: '在线咨询', icon: require('../../assets/imgs/product/phone@2x.png')},
         ],
         activeTab: 1, // 选中的tab
         activeTabRef: 'refFeatures',
@@ -306,7 +337,7 @@
         loading: true,
         // 产品
         product: {},
-        // 费用明细
+        // 费用说明对象
         expense: {},
         // 注意事项
         notice: [],
@@ -319,7 +350,30 @@
         top_price: []
       }
     },
-    computed: {},
+    computed: {
+      standartPrice() {
+        let newData = [
+          {name: '单人一间', type: 'price_single', price: ''},
+          {name: '单人标配', type: 'price_single_pu', price: ''},
+          {name: '双人一间', type: 'price_double', price: ''},
+          {name: '三人一间', type: 'price_triple', price: ''},
+          {name: '四人一间', type: 'price_quad', price: ''},
+          {name: '小孩价格', type: 'price_kids', price: ''},
+          {name: '五人一间', type: 'price_five', price: ''},
+          {name: '六人一间', type: 'price_six', price: ''},
+          {name: '七人一间', type: 'price_seven', price: ''},
+          {name: '八人一间', type: 'price_eight', price: ''},
+          {name: '成人价格', type: 'price_adult', price: ''},
+        ]
+        newData.forEach(item => {
+          if (this.expense.standard_price && this.expense.standard_price[item.type]) {
+            item.price = this.expense.standard_price[item.type]
+          }
+        })
+        console.log(111, newData)
+        return newData
+      }
+    },
     mounted() {
       this.init()
     },
@@ -427,7 +481,6 @@
     -webkit-overflow-scrolling: touch;
     .product-detail {
       background: #f2f2f2;
-      padding-bottom: 144px;
       .banner {
         height: 434px;
         width: 100%;
@@ -480,7 +533,7 @@
             font-size: 28px;
             font-weight: 300;
             color: rgba(91, 91, 91, 1);
-            letter-spacing: 4px;
+            letter-spacing: 2px;
             img {
               vertical-align: middle;
               width: 28px;
@@ -515,6 +568,24 @@
               color: rgba(91, 91, 91, 1);
               letter-spacing: 4px;
             }
+          }
+        }
+      }
+      .service-note {
+        padding: 0 26px;
+        height: 686px;
+        .servive-item {
+          font-size: 28px;
+          font-family: Microsoft YaHei UI;
+          font-weight: 400;
+          color: #4d4d4d;
+          img {
+            width: 28px;
+            height: 28px;
+          }
+          .desc {
+            margin-top: 8px;
+            padding: 0 40px;
           }
         }
       }
@@ -751,12 +822,6 @@
                   font-weight: 400;
                   line-height: 40px;
                   color: #5e5e5e;
-                  .breakfast {
-                  }
-                  .lunch {
-                  }
-                  .dinner {
-                  }
                 }
               }
             }
@@ -813,7 +878,7 @@
         .group-price-desc {
           margin: 56px auto 0;
           .price-item-wrap {
-            padding: 0 8px;
+            padding: 0 6px;
             display: flex;
             justify-content: space-around;
             text-align: center;
@@ -869,6 +934,43 @@
           font-size: 20px;
           line-height: 36px;
           color: #bcbcbc;
+        }
+      }
+      .footer-tabbar {
+        height: 120px;
+        margin-bottom: 68px;
+        display: flex;
+        align-items: center;
+        background: #fff;
+        .operate,
+        .reserve {
+          flex: 0 0 50%;
+        }
+        .operate {
+          display: flex;
+          justify-content: space-around;
+          .btn-operate {
+            text-align: center;
+            img {
+              width: 60px;
+              height: 60px;
+            }
+            .operate-name {
+              font-size: 20px;
+              font-weight: 300;
+              color: rgba(62, 62, 62, 1);
+            }
+          }
+        }
+        .reserve {
+          padding: 0 20px;
+          .btn-reserve {
+            background: #fb605d;
+            color: #fff;
+            font-size: 40px;
+            font-family: Microsoft YaHei UI;
+            font-weight: 400;
+          }
         }
       }
     }
