@@ -27,8 +27,13 @@
         </p>
         <!-- 价格 -->
         <div class="price-wrap">
-          <span class="price fs-48 fw-800">{{product.special_price ? product.special_price: product.default_price}}<span class="unit">&nbsp;起</span></span>
-          <span class="default-price">{{product.special_price ? product.default_price: ''}}</span>
+          <span class="price fs-48 fw-800">
+            {{product.special_price ? product.special_price: product.default_price}}
+            <span class="unit">&nbsp;起</span>
+          </span>
+          <span class="default-price">
+            {{product.special_price ? product.default_price: ''}}
+          </span>
         </div>
       </div>
       <!-- 出发地结束地 -->
@@ -276,19 +281,21 @@
         </van-collapse>
       </div>
       <!-- 底部按钮 -->
-      <div class="footer-tabbar mt-24">
-        <div class="operate">
-          <div class="btn-operate"
-            v-for="item in operateTabbar"
-            :key="item.name">
-            <img :src="item.icon"
-              alt="icon">
-            <p class="operate-name">{{item.name}}</p>
+      <div :class="{'footer-fixed': showServiceNode}">
+        <div class="footer-tabbar mt-24">
+          <div class="operate">
+            <div class="btn-operate"
+              v-for="item in operateTabbar"
+              :key="item.name">
+              <img :src="item.icon"
+                alt="icon">
+              <p class="operate-name">{{item.name}}</p>
+            </div>
           </div>
-        </div>
-        <div class="reserve">
-          <van-button class="btn-reserve"
-            size="large">立即预定</van-button>
+          <div class="reserve">
+            <van-button class="btn-reserve"
+              size="large">立即预定</van-button>
+          </div>
         </div>
       </div>
     </div>
@@ -370,7 +377,6 @@
             item.price = this.expense.standard_price[item.type]
           }
         })
-        console.log(111, newData)
         return newData
       }
     },
@@ -935,6 +941,14 @@
           line-height: 36px;
           color: #bcbcbc;
         }
+      }
+      // fixed
+      .footer-fixed {
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+        z-index: 5000;
+        transition: all 0.3s;
       }
       .footer-tabbar {
         height: 120px;
