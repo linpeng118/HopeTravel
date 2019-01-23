@@ -13,7 +13,7 @@ export const getProductList = (data) => {
       page_size: data.page_size || 9,
       start_city: data.start_city || null,
       stop_city: data.stop_city || null,
-      span_city: data.span_city || '34',
+      span_city: data.span_city || null,
       tag: data.tag || null,
       duration: data.duration || null,
       price: data.price || null,
@@ -25,6 +25,13 @@ export const getProductList = (data) => {
   })
 }
 
+// 产品筛选条件
+export const getFilterList = (data) => {
+  return axios.get('/api/filter', {
+    params: data
+  })
+}
+
 /**
  * 获取产品详情
  * @param {Object} data
@@ -32,3 +39,4 @@ export const getProductList = (data) => {
 export const getProductDetail = (data) => {
   return axios.get(`/api/product/${data.product_id}`)
 }
+

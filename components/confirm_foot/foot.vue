@@ -73,7 +73,6 @@
     },
     mounted() {
       this.$store.dispatch("initprice");
-
       this.checkrouter();//判断当前位置
 
     },
@@ -422,9 +421,10 @@
               "total_point":5000
             }
       };
-        this.$store.commit("pricelist", this.pricelist);
+
         this.pricelist.adult=this.get_vuex_countprice.adult;
-        this.pricelist.child=this.get_vuex_countprice.child
+        this.pricelist.child=this.get_vuex_countprice.child;
+        this.$store.commit("pricelist", this.pricelist);
 
       },
       closepops(data) {
