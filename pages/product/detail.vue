@@ -110,15 +110,8 @@
             alt="icon">
           稀饭推荐
         </div>
-        <div class="content mt-12">
-          <ul>
-            <li>提供买二送二优惠， 四人一房享受“买二</li>
-            <li>三大接团点：唐人街，法拉盛，纽泽西</li>
-            <li>畅游：美加两国8大名城</li>
-            <li>三大接团点：唐人街，法拉盛，纽泽西</li>
-            <li>畅游：美加两国8大名城</li>
-          </ul>
-        </div>
+        <div class="content mt-12"
+          v-html="product.small_description"></div>
       </div>
       <!-- tab触发则滚动 -->
       <div class="tab-list mt-24">
@@ -650,15 +643,11 @@
       }
       .recommend {
         .content {
-          padding: 0 34px;
-          ul > li {
-            list-style: disc;
-            font-size: 24px;
-            font-family: PingFang SC;
-            font-weight: 300;
-            line-height: 40px;
-            color: rgba(57, 158, 246, 1);
-          }
+          font-size: 24px;
+          font-family: PingFang SC;
+          font-weight: 300;
+          line-height: 40px;
+          color: rgba(57, 158, 246, 1);
         }
       }
       .tab-list {
