@@ -573,6 +573,7 @@
       .service-note {
         padding: 0 26px;
         height: 686px;
+        border-radius: 24px 24px 0 0;
         .servive-item {
           font-size: 28px;
           font-family: Microsoft YaHei UI;
