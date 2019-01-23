@@ -129,13 +129,18 @@ export default {
     },
     // 条件查询选择
     async selectSortItem (item) {
+      let len = this.productList.length
+      let page = this.prodPagination.page
       this.sortResult = item
       // 把下面控制列表的数据重置
       this.productList = []
       this.prodPagination = {}
       this.prodLoading= false
       this.prodFinished= false
-      this.onLoad()
+      if (len !== page) {
+        console.log('进行加载了')
+        this.onLoad()
+      }
     },
     // 初始化产品列表
     async getFilterList(obj) {
@@ -151,7 +156,6 @@ export default {
     // 滑动会请求数据
     async onLoad() {
       // 获取数据
-      // this.getData()
       console.log('onload')
       const submitData = {
         type: 3,
@@ -162,7 +166,6 @@ export default {
       const res = await getProductLists(submitData)
       this.productList.push(...res.data)
       this.prodPagination = res.pagination
-      console.log(res.pagination)
       // 加载状态结束
       this.prodLoading = false;
       // 数据全部加载完成
