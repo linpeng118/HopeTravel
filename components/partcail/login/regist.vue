@@ -4,10 +4,10 @@
     <van-tab class="regist"
       title="手机号注册">
       <van-cell-group>
-        <area-code-input class="mobile"
-          :proMobile.sync="mobile" />
+        <area-code-input class="phone"
+          :proMobile.sync="phoneForm.phone" />
         <van-field class="password tours-input"
-          v-model="password"
+          v-model="phoneForm.password"
           center
           clearable
           icon="eye-o"
@@ -16,7 +16,7 @@
           @click-icon="toggleInputType">
         </van-field>
         <van-field class="password tours-input"
-          v-model="smsCode"
+          v-model="phoneForm.smsCode"
           center
           clearable
           placeholder="请输入验证码">
@@ -35,7 +35,7 @@
           v-model="email"
           placeholder="请输入邮箱" />
         <van-field class="password tours-input"
-          v-model="password"
+          v-model="mobileForm.password"
           center
           clearable
           icon="eye-o"
@@ -44,7 +44,7 @@
           @click-icon="toggleInputType">
         </van-field>
         <van-field class="auth-code tours-input"
-          v-model="emailCode"
+          v-model="mobileForm.emailCode"
           center
           clearable
           placeholder="请输入验证码">
@@ -89,17 +89,22 @@
     data() {
       return {
         // 手机注册
-        mobile: '',
+        phoneForm: {
+          areaCode: '86', // 区号
+          smsCode: '', // 短信验证码
+          phone: '',
+          password: '',
+        },
         canSubmit: false, // 是否可提交
-        areaCode: '86', // 区号
-        smsCode: '', // 短信验证码
-        emailCode: '', // 邮箱验证码
+        // 邮箱注册
+        mobileForm: {
+          email: '',
+          password: '',
+          emailCode: '', // 邮箱验证码
+        },
         show: false,
         checked: false,
         pswInputType: 'password',
-        // 邮箱注册
-        email: '',
-        password: '',
       }
     },
     computed: {
@@ -140,7 +145,7 @@
         console.log(1)
       },
       mobileLogin() {
-        console.log(2, this.mobile)
+        console.log(2, this.phoneForm.phone)
       },
       // 点击服务协议
       onAgreement() {
@@ -164,7 +169,7 @@
       }
     }
     .regist {
-      .mobile {
+      .phone {
         margin-top: 54px;
       }
       .password {
