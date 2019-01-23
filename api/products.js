@@ -1,5 +1,9 @@
 import axios from '@/plugins/axios/axios'
 
+/**
+ * 获取产品列表
+ * @param {Object} data
+ */
 export const getProductList = (data) => {
   return axios.get('/api/products', {
     params: {
@@ -27,3 +31,12 @@ export const getFilterList = (data) => {
     params: data
   })
 }
+
+/**
+ * 获取产品详情
+ * @param {Object} data
+ */
+export const getProductDetail = (data) => {
+  return axios.get(`/api/product/${data.product_id}`)
+}
+
