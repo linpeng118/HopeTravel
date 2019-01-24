@@ -5,9 +5,9 @@
     <h1 class="title">请设置你的新密码</h1>
     <div class="change-paw-wrap tours-tabs-nowrap">
       <van-cell-group>
-        <van-field class="mobile tours-input"
-          v-model="mobile"
-          placeholder="请输入手机号" />
+        <van-field class="phone tours-input"
+          v-model="account"
+          placeholder="请输入" />
         <van-field class="password tours-input"
           v-model="password"
           type="password"
@@ -17,35 +17,54 @@
           type="password"
           placeholder="确认密码" />
       </van-cell-group>
-      <span class="tip-text">密码为6-16位，支持数字和字母</span>
+      <span class="tip-text">密码为6-20位，支持数字和字母</span>
       <van-button class="btn-change-psw tours-button"
         size="large"
-        :disabled="!canSubmit"
+        :loading="submiting"
         @click="changePsw">完成</van-button>
     </div>
   </div>
 </template>
 
 <script>
+  import {mapState} from 'vuex'
   import loginHeader from '@/components/header/loginHeader'
   import areaCodeInput from '@/components/input/areaCode'
+  import {LOGIN_WAY} from '@/assets/js/consts'
 
   export default {
+    layout: 'default',
     components: {
       loginHeader,
       areaCodeInput
     },
     data() {
       return {
-        // 手机注册
-        mobile: '',
+        formData: this.$route.params.formData || {},
+        type: this.$route.params.type || LOGIN_WAY.PHONE,
+        // 修改密码
+        account: '',
         password: '',
         checkPassword: '',
+        submiting: false, // 正在提交
         canSubmit: false, // 是否可提交
       }
     },
-    computed: {},
+    computed: {
+      ...mapState({
+        vxForgetForm: state => state.login.forgetForm
+      })
+    },
+    mounted() {
+      this.init()
+    },
     methods: {
+      init() {
+        console.log(111, this.vxForgetForm)
+        if (this.type === LOGIN_WAY.PHONE) {
+          this.phone = this.formData.phone
+        }
+      },
       // 跳转至登录页
       toLogin() {
         this.$router.push({
@@ -53,9 +72,31 @@
         })
       },
       // 修改密码
-      changePsw() {
+      async changePsw() {
         console.log('changePsw')
+        if (!this.phone) {
+          this.$toast('请输入手机号码')
+          return
+        }
+        if (!this.password) {
+          this.$toast('请输入密码')
+        }
+        if (this.checkPassword !== this.password) {
+          this.$toast('密码不一致，请重新输入')
+        }
+        try {
+          const {code, data, msg} = await changePwd({
+
+          })
+        } catch (error) {
+
+        }
       },
+      toForget() {
+        this.$router.push({
+          path: '/login/forget'
+        })
+      }
     },
   }
 </script>

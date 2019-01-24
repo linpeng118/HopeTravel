@@ -5,4 +5,7 @@ export default {
   setToken(state, data) {
     state.token = data
   },
+  updateToken(state, token) {
+    state.token = token
+  }
 }

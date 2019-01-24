@@ -197,7 +197,7 @@
           })
           if (code === 0) {
             console.log(data.token)
-            await vxSetToken(data.token)
+            await this.vxSetToken(data.token)
             this.toHomepage()
           }
         } catch (error) {
@@ -223,7 +223,7 @@
           })
           if (code === 0) {
             console.log(data.token)
-            await vxSetToken(data.token)
+            await this.vxSetToken(data.token)
             this.toHomepage()
           }
         } catch (error) {
