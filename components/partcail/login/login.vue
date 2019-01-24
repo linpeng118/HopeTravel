@@ -42,7 +42,7 @@
       </van-cell-group>
     </van-tab>
     <!-- 按钮 -->
-    <div class="to-regist" v-if="showRegist">
+    <div class="to-regist" v-if="showRegistTip">
       <span>还没有账号？</span>
       <span class="blue" @click="showRegistDlg">去注册</span>
     </div>
@@ -65,7 +65,7 @@
       AreaCodeInput,
     },
     props: {
-      showRegist: {
+      showRegistTip: {
         type: Boolean,
         default: false
       }

@@ -94,7 +94,7 @@ const errorHandle = (status, other) => {
       tip('请求的资源不存在');
       break;
     default:
-      console.log(other);
+      tip(`错误码：${status}，${other}`);
   }
 }
 

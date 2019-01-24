@@ -1,11 +1,15 @@
 <template>
-  <van-tabs class="regist-comp tours-tabs-nowrap">
+  <van-tabs class="regist-comp tours-tabs-nowrap"
+    @change="changeTabs">
     <!-- 手机号注册 -->
     <van-tab class="regist"
       title="手机号注册">
       <van-cell-group>
+        <!-- 手机号 -->
         <area-code-input class="phone"
+          :proAreaCode.sync="phoneForm.areaCode"
           :proMobile.sync="phoneForm.phone" />
+        <!-- 密码 -->
         <van-field class="password tours-input"
           v-model="phoneForm.password"
           center
@@ -15,6 +19,7 @@
           :type="pswInputType"
           @click-icon="toggleInputType">
         </van-field>
+        <!-- 验证码 -->
         <van-field class="password tours-input"
           v-model="phoneForm.smsCode"
           center
@@ -23,7 +28,7 @@
           <van-button class="tours-button-noborder"
             slot="button"
             size="small"
-            @click="getCode">获取验证码</van-button>
+            @click="getCode(TEGIST_TYPE.PHONE)">{{showText}}</van-button>
         </van-field>
       </van-cell-group>
     </van-tab>
@@ -32,10 +37,10 @@
       title="请输入邮箱">
       <van-cell-group>
         <van-field class="email tours-input"
-          v-model="mobileForm.email"
+          v-model="emailForm.email"
           placeholder="请输入邮箱" />
         <van-field class="password tours-input"
-          v-model="mobileForm.password"
+          v-model="emailForm.password"
           center
           clearable
           icon="eye-o"
@@ -44,20 +49,28 @@
           @click-icon="toggleInputType">
         </van-field>
         <van-field class="auth-code tours-input"
-          v-model="mobileForm.emailCode"
+          v-model="emailForm.emailCode"
           center
           clearable
           placeholder="请输入验证码">
           <van-button class="tours-button-noborder"
             slot="button"
             size="small"
-            @click="getCode">获取验证码</van-button>
+            @click="getCode(TEGIST_TYPE.WMAIL)">{{showText}}</van-button>
         </van-field>
       </van-cell-group>
     </van-tab>
+    <!-- 按钮 -->
+    <div class="to-regist"
+      v-if="showLoginTip">
+      <span>已有账号？</span>
+      <span class="blue"
+        @click="showLoginDlg">马上登录</span>
+    </div>
     <van-button class="btn-regist tours-button"
       size="large"
-      :disabled="!canSubmit"
+      :disabled="!checked"
+      :loading="subminting"
       @click="regist">注册</van-button>
     <div class="text">
       <van-checkbox class="tour-checkbox"
@@ -71,7 +84,8 @@
 <script>
   import AreaCodeInput from '@/components/input/areaCode'
   import areaCodeInput from '@/components/input/areaCode'
-  import {VERIFY_CODE} from '@/assets/js/consts'
+  import {TEGIST_TYPE, VERIFY_CODE, SMS_SCENE, EMAIL_SCENE} from '@/assets/js/consts'
+  import {getSmsCode, getEmailCode, register} from '@/api/member'
 
   const TIME = 60 // 倒计时时间
 
@@ -81,30 +95,37 @@
       areaCodeInput,
     },
     props: {
-      showRegist: {
+      showLoginTip: {
         type: Boolean,
         default: false
       }
     },
     data() {
       return {
+        // 注册类型（phone/email）
+        TEGIST_TYPE,
+        // 默认注册方式
+        type: TEGIST_TYPE.PHONE,
         // 手机注册
         phoneForm: {
           areaCode: '86', // 区号
+          password: '', // 密码
+          phone: '', // 手机号
           smsCode: '', // 短信验证码
-          phone: '',
-          password: '',
         },
-        canSubmit: false, // 是否可提交
         // 邮箱注册
-        mobileForm: {
+        emailForm: {
           email: '',
           password: '',
           emailCode: '', // 邮箱验证码
         },
-        show: false,
+        subminting: false, // 是否可提交
         checked: false,
-        pswInputType: 'password',
+        pswInputType: 'password', // 密码显示与否
+        // 定时器
+        timer: null,
+        countDownTime: TIME, // 倒计时时间
+        codeType: VERIFY_CODE.START, // 获取验证码/倒计时/重新获取
       }
     },
     computed: {
@@ -134,22 +155,138 @@
           path: '/regist/forget'
         })
       },
+      // 切换tab
+      changeTabs(index, title) {
+        console.log(index, title)
+        // 清除定时器
+        this.resetTimer()
+        if (index === 1) {
+          this.type = TEGIST_TYPE.EMAIL
+        } else {
+          this.type = TEGIST_TYPE.PHONE
+        }
+      },
       // 获取验证码
-      getCode() {
-        // TODO:
+      async getCode(type) {
+        if (type === TEGIST_TYPE.PHONE && !this.phoneForm.phone) {
+          this.$toast('请输入手机号码')
+          return
+        }
+        if (type === TEGIST_TYPE.EMAIL && !this.emailForm.email) {
+          this.$toast('请输入邮箱')
+          return
+        }
+        // 定时器
+        this.codeType = VERIFY_CODE.GETTING // 获取验证码
+        try {
+          if (type === TEGIST_TYPE.PHONE) {
+            await getSmsCode({
+              phone: `${this.phoneForm.areaCode}-${this.phoneForm.phone}`,
+              scene: SMS_SCENE.RGISTER
+            })
+          } else {
+            await getEmailCode({
+              email: this.emailForm.email,
+              scene: EMAIL_SCENE.RGISTER
+            })
+          }
+          await this.countDown()
+        } catch (error) {
+          console.log(error)
+          this.codeType = VERIFY_CODE.START
+        }
       },
-      onAreaCode() {
-        console.log(123)
+      countDown() {
+        this.timer = setInterval(() => {
+          console.log(this.countDownTime)
+          if (this.countDownTime <= 0) {
+            this.codeType = VERIFY_CODE.AGAIN
+            this.countDownTime = TIME
+            console.log('countDownTime', this.countDownTime)
+            clearInterval(this.timer)
+          } else {
+            this.countDownTime--
+          }
+        }, 1000)
       },
+      // 点击注册
       regist() {
-        console.log(1)
+        if (this.type === TEGIST_TYPE.PHONE) {
+          this.phoneRegist()
+        } else {
+          this.emailRegist()
+        }
       },
-      mobileLogin() {
-        console.log(2, this.phoneForm.phone)
+      // 手机注册
+      async phoneRegist() {
+        if (!this.phoneForm.smsCode) {
+          this.$toast('请输入短信验证码')
+          return
+        }
+        if (!this.phoneForm.password) {
+          this.$toast('请输入密码')
+          return
+        }
+        if (this.phoneForm.password.length < 6 || this.phoneForm.password.length > 20) {
+          this.$toast('请输入6-20位密码')
+          return
+        }
+        this.subminting = true // 开始提交
+        const {code, data, msg} = await register({
+          type: this.type,
+          account: `${this.phoneForm.areaCode}-${this.phoneForm.phone}`,
+          password: this.phoneForm.password,
+          password_confirm: this.phoneForm.password,
+          code: this.phoneForm.smsCode
+        })
+        this.subminting = false
+        if (code === 0) {
+          this.$toast('手机号注册成功！')
+        } else {
+          this.$toast(msg)
+        }
+      },
+      // 邮箱注册
+      async emailRegist() {
+        if (!this.emailForm.emailCode) {
+          this.$toast('请输入邮箱验证码')
+          return
+        }
+        if (!this.emailForm.password) {
+          this.$toast('请输入密码')
+          return
+        }
+        if (this.emailForm.password.length < 6 || this.emailForm.password.length > 20) {
+          this.$toast('请输入6-20位密码')
+          return
+        }
+        this.subminting = true // 开始提交
+        try {
+          const {code, data, msg} = await register({
+            type: this.type,
+            account: this.emailForm.email,
+            password: this.emailForm.password,
+            password_confirm: this.emailForm.password,
+            code: this.emailForm.emailCode
+          })
+          if (code === 0) {
+            this.$toast('邮箱注册成功！')
+          } else {
+            this.$toast(msg)
+          }
+        } catch (error) {
+          console.log(error)
+        }
+        this.subminting = false
       },
       // 点击服务协议
       onAgreement() {
         console.log('onAgreement')
+      },
+      resetTimer() {
+        clearInterval(this.timer)
+        this.codeType = VERIFY_CODE.START
+        this.countDownTime = 60
       }
     },
   }
