@@ -157,7 +157,7 @@ export default {
     async init() {
       // 1. 是否有token。有就请求个人信息；无则return
       let res = await getProfile();
-      console.log(111, res);
+      console.log(111111, res);
       let {code , data , msg} = res;
       this.prifile = data
       // let res = await this.vxGetProfile()
