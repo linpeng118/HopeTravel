@@ -28,7 +28,7 @@
           <van-button class="tours-button-noborder"
             slot="button"
             size="small"
-            @click="getCode(TEGIST_TYPE.PHONE)">{{showText}}</van-button>
+            @click="getCode(LOGIN_WAY.PHONE)">{{showText}}</van-button>
         </van-field>
       </van-cell-group>
     </van-tab>
@@ -56,7 +56,8 @@
           <van-button class="tours-button-noborder"
             slot="button"
             size="small"
-            @click="getCode(TEGIST_TYPE.WMAIL)">{{showText}}</van-button>
+            :disabled="codeType===VERIFY_CODE.GETTING"
+            @click="getCode(LOGIN_WAY.WMAIL)">{{showText}}</van-button>
         </van-field>
       </van-cell-group>
     </van-tab>
@@ -84,7 +85,7 @@
 <script>
   import AreaCodeInput from '@/components/input/areaCode'
   import areaCodeInput from '@/components/input/areaCode'
-  import {TEGIST_TYPE, VERIFY_CODE, SMS_SCENE, EMAIL_SCENE} from '@/assets/js/consts'
+  import {LOGIN_WAY, VERIFY_CODE, SMS_SCENE, EMAIL_SCENE} from '@/assets/js/consts'
   import {getSmsCode, getEmailCode, register} from '@/api/member'
 
   const TIME = 60 // 倒计时时间
@@ -102,10 +103,11 @@
     },
     data() {
       return {
+        VERIFY_CODE,
         // 注册类型（phone/email）
-        TEGIST_TYPE,
+        LOGIN_WAY,
         // 默认注册方式
-        type: TEGIST_TYPE.PHONE,
+        type: LOGIN_WAY.PHONE,
         // 手机注册
         phoneForm: {
           areaCode: '86', // 区号
@@ -149,9 +151,9 @@
         // 清除定时器
         this.resetTimer()
         if (index === 1) {
-          this.type = TEGIST_TYPE.EMAIL
+          this.type = LOGIN_WAY.EMAIL
         } else {
-          this.type = TEGIST_TYPE.PHONE
+          this.type = LOGIN_WAY.PHONE
         }
       },
       // 显示登录弹窗
@@ -164,18 +166,18 @@
       },
       // 获取验证码
       async getCode(type) {
-        if (type === TEGIST_TYPE.PHONE && !this.phoneForm.phone) {
+        if (type === LOGIN_WAY.PHONE && !this.phoneForm.phone) {
           this.$toast('请输入手机号码')
           return
         }
-        if (type === TEGIST_TYPE.EMAIL && !this.emailForm.email) {
+        if (type === LOGIN_WAY.EMAIL && !this.emailForm.email) {
           this.$toast('请输入邮箱')
           return
         }
         // 定时器
         this.codeType = VERIFY_CODE.GETTING // 获取验证码
         try {
-          if (type === TEGIST_TYPE.PHONE) {
+          if (type === LOGIN_WAY.PHONE) {
             await getSmsCode({
               phone: `${this.phoneForm.areaCode}-${this.phoneForm.phone}`,
               scene: SMS_SCENE.RGISTER
@@ -207,7 +209,7 @@
       },
       // 点击注册
       btnRegist() {
-        if (this.type === TEGIST_TYPE.PHONE) {
+        if (this.type === LOGIN_WAY.PHONE) {
           this.registByPhone()
         } else {
           this.registByEmail()

@@ -12,6 +12,8 @@ import localPlay from './modules/localPlay'
 import confirm from './modules/confirm'
 // 个人信息
 import profile from './modules/profile'
+// login模块
+import login from './modules/login'
 
 Vue.use(Vuex)
 
@@ -26,7 +28,8 @@ const createStore = () => {
       header,
       localPlay,
       confirm,
-      profile
+      profile,
+      login,
     },
   })
 }
@@ -43,6 +46,7 @@ if (module.hot) {
     './modules/localPlay',
     './modules/confirm',
     './modules/profile',
+    './modules/login',
   ], () => {
     store.hotUpdate({
       // 获取更新后的模块。因为 babel 6 的模块编译格式问题，这里需要加上 .default
@@ -55,6 +59,7 @@ if (module.hot) {
         localPlay: require('./modules/localPlay').default,
         confirm: require('./modules/confirm').default,
         profile: require('./modules/profile').default,
+        login: require('./modules/login').default,
       }
     })
   })

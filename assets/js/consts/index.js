@@ -5,8 +5,8 @@ const VERIFY_CODE = {
   AGAIN: 2, // 重新获取
 }
 
-// 注册类型
-const TEGIST_TYPE = {
+// 注册类型/修改密码类型
+const LOGIN_WAY = {
   PHONE: 'phone',
   EMAIL: 'email'
 }
@@ -22,17 +22,18 @@ const SMS_SCENE = {
   RGISTER: 'register', // 注册
   LOGIN: 'login', // 登陆
   VALIDATE: 'validate', // 验证手机号码
+  RSPWD: 'resetPassword', // 找回密码
 }
 
 // 邮件使用场景
 const EMAIL_SCENE = {
   RGISTER: 'register', // 注册
-  RSPWD: 'resetPasswrod', // 找回密码
+  RSPWD: 'resetPassword', // 找回密码
 }
 
 export {
   VERIFY_CODE,
-  TEGIST_TYPE,
+  LOGIN_WAY,
   LOGIN_TYPE,
   SMS_SCENE,
   EMAIL_SCENE
