@@ -44,7 +44,6 @@
           </van-radio-group>
         </van-popup>
       </section>
-
       <!--行程选择-->
       <section>
         <div class="confirm-item" v-if="pricelist.attributes">

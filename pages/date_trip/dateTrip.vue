@@ -3,13 +3,13 @@
   <section>
     <div class="date-price">
       <ul class="date-head">
-        <li>日</li>
         <li>一</li>
         <li>二</li>
         <li>三</li>
         <li>四</li>
         <li>五</li>
         <li>六</li>
+        <li>日</li>
       </ul>
       <ul class="date-con">
         <template v-for="(item,ind) in dayprice">
@@ -127,7 +127,7 @@
     text-align: center;
     color: #434343;
   }
-  .date-head li:nth-child(6n+1){
+  .date-head li:nth-child(6n):nth-child(2),.date-head li:nth-child(7n){
     color: #399EF6;
   }
   .date-con{
@@ -153,7 +153,7 @@
       display: inline-block;
       height: 40px;
       line-height: 40px;
-      font-size: 24px;
+      font-size: 20px;
     }
   .activebg{
     background-color: #399EF6;

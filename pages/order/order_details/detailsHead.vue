@@ -118,6 +118,7 @@
     color: #3E3E3E;
     line-height: 60px;
     font-size: 32px;
+    font-weight: bold;
   }
   .head-left p:nth-child(2){
     color: #399EF6;

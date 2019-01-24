@@ -7,16 +7,16 @@ const mut = {
 export default {
   state: {
       product:{
-        "product_id":141,
+        "product_id":138,
         "default_price":"$238",
         "code":"US119",
         "product_entity_type":1,
         "product_type":1,
         "max_num_guest":4,
-        "min_num_guest":9,
+        "min_num_guest":1,
         "max_child_age":2,
         "sales":3,
-        "self_support":1,
+        "self_support":0,
         "name":"(5天)【华盛顿出发美东豪华游】<纽约+费城+康宁玻璃中心+华盛顿特区+尼亚加拉大瀑布+波士顿>",
         "small_description":"★ 畅游名城：纽约，费城，华盛顿，尼加拉瓜大瀑布，波士顿。 ★ 震撼体验：多种角度欣赏尼亚加拉瀑布的风采，体验视觉与听觉的双震撼； ★ 独特文化：虽一眼看完的景物，却可以让人深深感受到背后的历史渊源，费城独立厅带你感受人们对民主和自由的向往； ★ 特色风味：波士顿当地龙虾卷+特制面包里的新英格兰蛤蜊巧达浓汤； ",
         "icons_show":[

@@ -13,11 +13,11 @@
             <span>基本团费:</span>
             <span>{{payData.base_price}}</span>
           </p>
-          <p class="payitem2" v-if="payData.adult">
+          <p class="payitem2" >
             <span>成人:</span>
             <span>{{payData.adult}}</span>
           </p>
-          <p class="payitem2" v-if="payData.child">
+          <p class="payitem2" >
             <span>儿童:</span>
             <span>{{payData.child}}</span>
           </p>
@@ -32,7 +32,7 @@
         </li>
 
         <li class="paysection" v-if="payData.attributes_selected">
-          <p class="payitem" v-if="payData.attributes_selected">
+          <p class="payitem" >
             <span>行程费用:</span>
             <span>{{payData.attributes_selected.total_price}}</span>
           </p>

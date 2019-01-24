@@ -1,5 +1,18 @@
 <template>
   <section>
+    <van-nav-bar class="login-header tours-no-bb"
+                 ref="loginHeader"
+                 :title="title"
+                 :z-index="999"
+                 @click-left="onClickLeft"
+                 @click-right="onClickRight">
+      <van-icon class="left-wrap" name="arrow-left" slot="left" />
+      <van-icon class="right-wrap" slot="right">
+        <div class="search">
+          <div class="text">完成</div>
+        </div>
+      </van-icon>
+    </van-nav-bar>
     <p v-if="adult" class="contancts-title">请选择{{adult}}位出行人</p>
     <van-checkbox-group v-model="checkuser" class="checkboxall" :max="adult">
       <van-checkbox
@@ -41,7 +54,8 @@
       return {
         checkuser:[],
         list: [],
-        adult:this.$route.query.adult
+        title:'选择出行人',
+        adult:this.$route.query.adult||1,
 
 
       }
@@ -56,13 +70,13 @@
     methods: {
       //获得价格日历数据
       async getlist() {
-        // let {data, code} = await getcontacts()
-        // if(code === 0) {
-        //   // this.pricedate = data;
-        //   console.log(data)
-        // } else {
-        //   // this.pricedate = []
-        // }
+        let {data, code} = await getcontacts()
+        if(code === 0) {
+          // this.pricedate = data;
+          console.log(data)
+        } else {
+          // this.pricedate = []
+        }
         this.list=[
           {
             "customer_contract_id":907,
@@ -123,6 +137,12 @@
           }
         ]
       },
+      onClickLeft(){
+        this.$router.go(-1)
+      },
+      onClickRight(){
+
+      },
     },
   }
 </script>
@@ -151,7 +171,6 @@
     color: #191919;
     font-weight: bold;
     line-height: 70px;
-
   }
   .objitem>i:first-child>a {
     display: inline-block;
@@ -159,7 +178,6 @@
     color: #9F9F9F;
     font-weight: normal;
     font-style: normal;
-
   }
   .bicon {
     display: inline-block;
@@ -170,7 +188,6 @@
     font-style: normal;
     float: right;
     width: 50px;
-
   }
   .btnbox {
     text-align: center;
@@ -190,6 +207,30 @@
     font-size: 28px;
     color: #EF9A1A;
     padding: 0 34px;
+    line-height: 50px;
+    padding-top: 20px;
   }
-
+  .login-header {
+    height: 88px;
+    font-size: 32px;
+    color: #191919;
+    background-color: #fff;
+    box-shadow:0px 4px 12px rgba(0,0,0,0.14);
+    border-bottom:1px solid rgb(238, 238, 238);
+    transition: all 0.5s;
+    .left-wrap {
+      color: #404040;
+      font-size: 32px;
+    }
+    .right-wrap {
+      .search {
+        width:92px;
+        height:36px;
+        background:rgba(57,158,246,1);
+        opacity:1;
+        color: #fff;
+        border-radius:18px;
+      }
+    }
+  }
 </style>

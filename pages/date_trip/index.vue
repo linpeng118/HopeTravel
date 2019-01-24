@@ -3,7 +3,7 @@
     <section>
       <header-date :title="'下单'" ></header-date>
     </section>
-    <section class="section1">
+    <section class="section1" >
       <!--日历head-->
       <ul class="trip-head">
         <template v-for="(item,ind) in pricedate">
@@ -49,7 +49,7 @@
               />
             </span>
             </div>
-            <van-checkbox class="checkitem-btn" v-if="product.is_single_pu&&item.adult==1" v-model="item.pair"><span
+            <van-checkbox class="checkitem-btn" v-if="product.is_single_pu&&item.adult==1&&item.child==0" v-model="item.pair"><span
               style="color:#399EF6;">接受单人配房</span></van-checkbox>
           </li>
         </template>
@@ -108,115 +108,7 @@
       return {
         //价格日历数据
         pricedate: [
-          {
-            "years": "2018",
-            "month": "12",
-            "days": [
-              {
-                "day": 23,
-                "price": "$798.4",
-                "is_special": 1,
-                "status": true
-              },
-              {
-                "day": 25,
-                "price": "$798.4",
-                "is_special": 1,
-                "is_soldout": 1,
-                "status": true
-              },
-              {
-                "day": 28,
-                "price": "$998",
-                "is_override": 1,
-                "status": true
-              },
-              {
-                "day": 29,
-                "price": "$998",
-                "remaining": 3,
-                "status": true
-              },
-              {
-                "day": 30,
-                "price": "$998",
-                "status": true
-              }
-            ]
-          },
-          {
-            "years": "2019",
-            "month": "1",
-            "days": [
-              {
-                "day": 12,
-                "price": "$998",
-                "status": true
-              },
-              {
-                "day": 19,
-                "price": "$998",
-                "status": true
-              },
-              {
-                "day": 26,
-                "price": "$998",
-                "status": true
-              }
-            ]
-          },
-          {
-            "years": "2019",
-            "month": "2",
-            "days": [
-              {
-                "day": 1,
-                "price": "$998",
-                "status": true
-              },
-              {
-                "day": 2,
-                "price": "$998",
-                "status": true
-              },
-              {
-                "day": 3,
-                "price": "$998",
-                "status": true
-              },
-              {
-                "day": 5,
-                "price": "$998",
-                "status": true
-              },
-              {
-                "day": 7,
-                "price": "$998",
-                "status": true
-              },
-              {
-                "day": 16,
-                "price": "$998",
-                "status": true
-              },
-              {
-                "day": 23,
-                "price": "$998",
-                "status": true
-              }
-            ]
-          },
-          {
-            "years": "2019",
-            "month": "3",
-            "days": [
-              {
-                "day": 2,
-                "price": "$998",
-                "status": true
-              }
-            ]
-          }
+
         ],
         //选中的月份
         activeMonth: 0,
@@ -253,15 +145,9 @@
       }
     },
     watch: {
-      get_vuex_countprice(val) {
-
-        console.log('vuex数据更新1次')
-
-      },
       'rooms': {
         handler: function (val, oldval) {   //特别注意，不能用箭头函数，箭头函数，this指向全局
-          if (this.product.product_entity_type == 1 && this.product.self_support == 0) {
-
+          if (this.product.product_entity_type == 1 && this.product.self_support == 0 ) {
             let countchind = 0;
             let countadult = 0;
             for (let i = 0; i < val.length; i++) {
@@ -272,17 +158,16 @@
               this.$store.commit("countprice", {
                 room_total: val.length,//房间总数
                 room_attributes: val,//房间数据,
-                adult: 0,
-                child: 0
-
+                adult: countadult,
+                child: countchind
               });
-            } else {
+            }
+            else {
               this.$store.commit("countprice", {
                 room_total: 0,//房间总数
                 room_attributes: [],//房间数据,
-
-                adult: countadult,
-                child: countchind
+                adult: 0,
+                child: 0
 
               });
               this.$dialog.alert({
@@ -295,11 +180,11 @@
         },
         deep: true
       },
-      'total_adult'(val) {
+      'total_adult'(val,oldval) {
         if (this.product.product_entity_type == 1 && this.product.self_support == 0) {
-        } else {
-          let countperson = val + this.total_kids;
+        } else if(oldval!=0) {
 
+          let countperson = val + this.total_kids;
           if (countperson >= this.product.min_num_guest) {
             this.$store.commit("countprice", {
               room_total: 1,//房间总数
@@ -313,7 +198,8 @@
               child: this.total_kids
 
             });
-          } else {
+          }
+          else {
             this.$store.commit("countprice", {
               room_total: 0,//房间总数
               room_attributes: [],//房间数据,
@@ -323,7 +209,7 @@
 
             });
             this.$dialog.alert({
-              message: '总人数不足最少成团人数，请添加'
+              message: '总人数不足最少成团人数，请添加2'
             });
           }
         }
@@ -340,16 +226,14 @@
                 child: val,
                 pair: false,
               }],//房间数据,
-
               adult: this.total_adult,
               child: val
-
             });
-          } else {
+          }
+          else {
             this.$store.commit("countprice", {
               room_total: 0,//房间总数
               room_attributes: [],//房间数据,
-
               adult: 0,
               child: 0
 
@@ -360,6 +244,8 @@
           }
         }
       },
+    },
+    created() {
 
     },
     mounted() {
@@ -367,23 +253,23 @@
       this.$store.dispatch("emptyprice");
       //获得价格日历数据
       this.getpricedate(this.product.product_id);
-      //初始化选择第一条给子组件的数据和第一个月份数据
-      this.datedata = this.pricedate[0];
-      this.activeMonth = this.pricedate[0].month;
-      //初始化生成房间
-      this.roomint();
+
     },
 
     methods: {
       //获得价格日历数据
       async getpricedate(id) {
-        // let {data, code} = await getdateTrip(id)
-        // if(code === 0) {
-        //   // this.pricedate = data;
-        //   console.log(this.pricedate)
-        // } else {
-        //   // this.pricedate = []
-        // }
+        let {data, code} = await getdateTrip(id)
+        if(code === 0) {
+          this.pricedate = data;
+          //初始化选择第一条给子组件的数据和第一个月份数据
+          this.datedata = this.pricedate[0];
+          this.activeMonth = this.pricedate[0].month;
+          //初始化生成房间
+          this.roomint();
+        } else {
+
+        }
       },
       setMonth(val, ind) {
         this.activeMonth = val;
@@ -437,7 +323,8 @@
             proroom.push(objroom)
           }
           this.rooms = proroom;
-        } else {
+        }
+        else {
           this.total_adult = this.product.min_num_guest;
         }
       },

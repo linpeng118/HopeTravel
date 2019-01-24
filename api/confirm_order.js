@@ -1,8 +1,7 @@
 import axios from '@/plugins/axios/axios'
 
 export const countprice = (data) => {
-  console.log('发起了一次请求')
-  return axios.post(`/api/tour/v1/product/${data.product_id}/budget`, {
+  return axios.post(`/api/product/${data.product_id}/budget`, {
     product: {
       product_id: data.product_id||'',
       departure_date: data.departure_date||'',
