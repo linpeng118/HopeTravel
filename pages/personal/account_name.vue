@@ -1,0 +1,77 @@
+<template>
+  <div>
+    <van-nav-bar title="姓名" left-arrow @click-left="onClickLeft"/>
+    <div class="line">
+      <label class="tit">英文</label>
+      <input class="en-f-name" type="text" placeholder="名:">
+      <span class="cut">|</span>
+      <input class="en-l-name" type="text" placeholder="姓:">
+    </div>
+    <div class="line">
+      <label class="tit">中文名</label>
+      <input class="ch-name" type="text" placeholder="请输入中文名">
+    </div>
+    <div class="btn_container">
+      <button class="sure">确定</button>
+    </div>
+  </div>
+</template>
+<script>
+import { Toast } from "vant";
+
+export default {
+  name: "component_name",
+  data() {
+    return {};
+  },
+  methods: {
+    onClickLeft() {
+      window.history.go(-1);
+    }
+  }
+};
+</script>
+<style lang="scss" scoped>
+.line {
+  padding:5px 10px 5px  40px;
+  height:80px;
+  font: 28px/80px "";
+  border-bottom: 1px solid rgba($color: #ccc, $alpha: 0.5);
+  .tit {
+    width: 100px;
+    text-align: right;
+    margin-right: 30px;
+    display: inline-block;
+  }
+  .en-f-name {
+    width: 200px;
+    border: none;
+  }
+  .cut {
+    font: 40px/80px "";
+    color: #ccc;
+    margin: 0 30px;
+  }
+  .en-l-name {
+    width: 200px;
+    border: none;
+  }
+  .ch-name {
+    width: 500px;
+    border: none;
+  }
+}
+.btn_container {
+    margin-top:50px;
+  text-align: center;
+  .sure {
+    width: 596px;
+    height: 84px;
+    background: rgba(57, 158, 246, 1);
+    opacity: 1;
+    border-radius: 10px;
+    color:#fff;
+    font:36px/84px "";
+  }
+}
+</style>
