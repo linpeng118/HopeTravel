@@ -3,6 +3,7 @@
     <van-nav-bar class="login-header tours-no-bb" ref="loginHeader" title="订单详情" :z-index="999" @click-left="onClickLeft">
         <van-icon class="left-wrap" name="arrow-left" slot="left" />
     </van-nav-bar>
+<<<<<<< HEAD
     <details-head></details-head>
     <section class="section0">
 
@@ -78,6 +79,12 @@
       <section style="text-align: center;width: 100%">
         <button class="pay-btn">去支付</button>
       </section>
+=======
+    <details-head>
+    </details-head>
+    <section class="section0">
+
+>>>>>>> develop
     </section>
   </section>
 
@@ -94,6 +101,7 @@
     },
     data() {
       return {
+<<<<<<< HEAD
         details:{
           "order_id":1111,
           "created":"2018-07-13 01:18:33",
@@ -150,6 +158,9 @@
             }
           ]
         }
+=======
+
+>>>>>>> develop
       }
     },
     computed: {
@@ -180,7 +191,11 @@
     background-color: #f3f3f3;
     width: 750px;
     box-sizing: border-box;
+<<<<<<< HEAD
     padding: 20px 32px 50px 32px;
+=======
+    padding: 20px 32px 200px 32px;
+>>>>>>> develop
   }
 
   .confirm-title p:nth-child(1) {
@@ -214,9 +229,15 @@
     width: 100%;
     padding: 0 24px;
     line-height: 70px;
+<<<<<<< HEAD
     font-weight: bold;
     box-sizing: border-box;
     color: rgba(19, 19, 19, 1);
+=======
+    box-sizing: border-box;
+    color: rgba(19, 19, 19, 1);
+    font-weight: bold;
+>>>>>>> develop
     font-size: 24px;
     border-bottom: 2px solid #DEDEDE;
   }
@@ -232,7 +253,10 @@
     display: inline-block;
     width: 430px;
     font-size: 24px;
+<<<<<<< HEAD
     padding-top: 10px;
+=======
+>>>>>>> develop
     color: rgba(19, 19, 19, 1);
   }
 
@@ -313,7 +337,10 @@
   .btnbox {
     text-align: center;
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> develop
   .radioitem{
     font-size: 24px;
     width: 500px;
@@ -337,13 +364,19 @@
     display: inline-block;
     width: 100%;
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> develop
   .radiobox{
     max-height: 800px;
     overflow-y: scroll;
 
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> develop
   .login-header {
     height: 88px;
     font-size: 32px;
@@ -367,6 +400,7 @@
     }
   }
 
+<<<<<<< HEAD
   .item-conx  {
     width: 100%;
     padding: 0 20px;
@@ -462,4 +496,6 @@
     font-size: 32px;
   }
 
+=======
+>>>>>>> develop
 </style>

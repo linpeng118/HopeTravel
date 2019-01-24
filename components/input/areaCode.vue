@@ -7,8 +7,7 @@
     <van-col class="area-code-wrap"
       span="6"
       @click.native="toggleAreaList">
-      <span class="area-code">+ {{areaCode}}
-      </span>
+      <span class="area-code">+ {{areaCode}}</span>
       <van-icon class="icon-arrow"
         name="arrow" />
     </van-col>
@@ -39,6 +38,10 @@
   export default {
     components: {},
     props: {
+      proAreaCode: {
+        type: [Number, String],
+        default: '86'
+      },
       proMobile: {
         type: [Number, String],
         default: ''
@@ -47,7 +50,7 @@
     data() {
       return {
         isShowList: false, // 是否显示列表
-        areaCode: '86',
+        areaCode: this.proAreaCode,
         mobile: '',
         araeList: [
           {code: '86', addr: '中国大陆'},
@@ -70,6 +73,7 @@
       },
       selectArea(area) {
         this.areaCode = area.code
+        this.$emit('update:proAreaCode', area.code)
         this.toggleAreaList()
       }
     },

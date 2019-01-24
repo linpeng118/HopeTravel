@@ -1,5 +1,6 @@
 <template>
   <section>
+
     <van-nav-bar class="login-header tours-no-bb"
                  ref="loginHeader"
                  :title="title"
@@ -56,6 +57,7 @@
         list: [],
         title:'选择出行人',
         adult:this.$route.query.adult||1,
+
 
 
       }
@@ -178,6 +180,7 @@
     color: #9F9F9F;
     font-weight: normal;
     font-style: normal;
+
   }
   .bicon {
     display: inline-block;
@@ -188,6 +191,7 @@
     font-style: normal;
     float: right;
     width: 50px;
+
   }
   .btnbox {
     text-align: center;
@@ -233,4 +237,7 @@
       }
     }
   }
+
+
+
 </style>

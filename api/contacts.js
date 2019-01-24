@@ -1,4 +1,5 @@
 import axios from '@/plugins/axios/axios'
+
 export const getcontacts = () => {
   return axios.get(`/api/contacts`)
 }
@@ -47,3 +48,4 @@ export const setcontanct = (data,id) => {
     }
   )
 }
+

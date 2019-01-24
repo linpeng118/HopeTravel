@@ -37,7 +37,14 @@
       <div class="filter-content">
         <div class="filter-list">
           <div class="filter-items" v-for="(item, key) in filterLists" :key="key">
-            <van-cell :title="showTitle(key)" :value="item.desc" is-link @click="showMoreFilter(key)" />
+            <!--<van-cell :title="showTitle(key)" :value="item.desc" is-link arrow-direction="down" />-->
+            <div class="cell-list" @click="showMoreFilter(key, item)">
+              <div class="left">{{showTitle(key)}}</div>
+              <div class="right">
+                <span class="text">{{item.desc}}</span>
+                <i class="van-icon van-icon-arrow" :ref="'filter' + key"></i>
+              </div>
+            </div>
             <div class="filter-tags" :ref="'tags' + key">
               <div class="item"
                    v-for="(city,index) in item.items"
@@ -58,15 +65,22 @@
     <div class="sort-box" v-if="sortShow" @click.capture="sortChange">
       <sort-item :sortShow="sortShow" :sortResult="sortResult" @selectSort="selectSortItem"></sort-item>
     </div>
+    <!--更多列表的选择-->
+    <van-popup v-model="showList" position="right" :overlay="true" class="filter-select">
+      <div class="filter-content">
+        <div class="show-list">
+          <city-list :multiple="true" title="sadasdas" :dataList="listtt" @slectItem="slectItem"></city-list>
+        </div>
+      </div>
+    </van-popup>
   </section>
 </template>
 
 <script>
 import LayHeader from '@/components/header/search'
 import sortItem from '@/components/search/sortItem'
-// import Filters from '@/components/search/filters'
-import Filters from '@/components/search/filters1'
 import ProductList from '@/components/list/productList'
+import CityList from '@/components/list/cityList'
 import {getProductList, getFilterList} from '@/api/products'
 export default {
   name: 'product_list',
@@ -74,7 +88,7 @@ export default {
     LayHeader,
     ProductList,
     sortItem,
-    Filters
+    CityList
   },
   data() {
     return {
@@ -94,13 +108,23 @@ export default {
       prodLoading: false, // 是否处于加载状态，加载过程中不触发load事件
       prodFinished: false, // 是否已加载完成，加载完成后不再触发load事件
       productList: [], // 产品列表数据
-      showFilter: false,
+      showFilter: false, // 显示筛选条件
+      showList: false, // 更多列表的选择
       sortResult:{id:1, order: '', order_by: '', name: '默认排序'}, // 排序的选择条件
       sortShow: false,
       filterLists: {},
       startCity: [],
       active: 0, // 当前搜索的type值
-      filterResult: {} // 筛选的结果
+      filterResult: {}, // 筛选的结果
+      activeNames: ['1'],
+      listtt: [{
+        key: 'D',
+        list: [{id: 33, name:'打扮'},{id: 213, name:'打扮'},{id: 23, name:'打扮'},{id: 243, name:'打扮'}]
+      },
+        {
+          key: 'E',
+          list: [{id: 12, name:'打扮'},{id: 233, name:'打扮'},{id: 45, name:'打扮'},{id: 565, name:'打扮'}]
+        }]
     }
   },
   computed: {
@@ -259,15 +283,19 @@ export default {
       return obj[name]
     },
     // 显示更多的标签
-    showMoreFilter(key) {
-      // console.log(this.$refs['tags' + key])
-      console.log()
+    showMoreFilter(key, item) {
+      let filterName = this.$refs['filter' + key][0].className
       let name = this.$refs['tags' + key][0].className
-      if (name.indexOf('all') >= 0) {
-        this.$refs['tags' + key][0].className = 'filter-tags'
+      if(item.items.length > 15) {
+        this.showList = true
       } else {
-        this.$refs['tags' + key][0].className = 'filter-tags all'
+        this.$refs['tags' + key][0].className = name.indexOf('all') >= 0 ? 'filter-tags': 'filter-tags all'
+        this.$refs['filter' + key][0].className = filterName.indexOf('down')>= 0 ? 'van-icon van-icon-arrow': 'van-icon van-icon-arrow-down'
       }
+    },
+    slectItem(lists) {
+      console.log(lists)
+      this.showList = false
     }
   }
 }
@@ -297,13 +325,6 @@ export default {
     }
   }
   .filter-select{
-    /*.shade-layer{*/
-      /*position: relative;*/
-      /*top: 264px;*/
-      /*width: 100%;*/
-      /*height: 100%;*/
-      /*background:rgba(0,0,0,.45);*/
-    /*}*/
     &.van-popup--right{
       width: 650px;
       height: 100%;
@@ -334,7 +355,7 @@ export default {
       max-height: 144px;
       overflow: hidden;
       &.all{
-        height: auto;
+        max-height: none;
       }
       .item{
         width:186px;
@@ -353,6 +374,21 @@ export default {
           background-color: #399EF6;
           color: #fff;
         }
+      }
+    }
+    .cell-list{
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size:28px;
+      height: 80px;
+      color: #5E5E5E;
+      .text{
+        color: #399EF6;
+      }
+      i{
+        vertical-align: middle;
       }
     }
     .bottom-btn{
@@ -375,6 +411,8 @@ export default {
         background-color: #399EF6;
         color: #fff;
       }
+    }
+    .show-list{
     }
   }
 </style>

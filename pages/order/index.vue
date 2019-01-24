@@ -1,7 +1,15 @@
 <template>
   <!---->
   <section>
+<<<<<<< HEAD
     <van-nav-bar class="login-header tours-no-bb" ref="loginHeader" title="我的订单" :z-index="999" @click-left="onClickLeft">
+=======
+    <van-nav-bar class="login-header tours-no-bb"
+                 ref="loginHeader"
+                 title="我的订单"
+                 :z-index="999"
+                 @click-left="onClickLeft">
+>>>>>>> develop
       <van-icon class="left-wrap" name="arrow-left" slot="left" />
     </van-nav-bar>
     <section>
