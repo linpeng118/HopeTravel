@@ -1,5 +1,6 @@
 <template>
-  <van-tabs class="login-comp tours-tabs-nowrap">
+  <van-tabs class="login-comp tours-tabs-nowrap"
+    @change="changeTabs">
     <!-- 普通登陆 -->
     <van-tab class="login"
       title="普通登陆">
@@ -26,10 +27,11 @@
     <van-tab class="mobile-login"
       title="手机验证码登陆">
       <van-cell-group>
-        <area-code-input class="mobile"
-          :proMobile.sync="formPhone.mobile" />
+        <area-code-input class="phone"
+          :proAreaCode.sync="phoneForm.areaCode"
+          :proMobile.sync="phoneForm.phone" />
         <van-field class="auth-code tours-input"
-          v-model="formPhone.authCode"
+          v-model="phoneForm.smsCode"
           center
           clearable
           placeholder="请输入验证码">
@@ -42,21 +44,25 @@
       </van-cell-group>
     </van-tab>
     <!-- 按钮 -->
-    <div class="to-regist" v-if="showRegistTip">
+    <div class="to-regist"
+      v-if="showRegistTip">
       <span>还没有账号？</span>
-      <span class="blue" @click="showRegistDlg">去注册</span>
+      <span class="blue"
+        @click="showRegistDlg">去注册</span>
     </div>
     <van-button class="btn-login tours-button"
       size="large"
-      :disabled="!isNameOk"
-      @click="login">登录</van-button>
+      :loading="submiting"
+      @click="btnLogin">登录</van-button>
     <p class="text">登陆即代表您已同意我们的<span @click="onAgreement">&nbsp;服务协议</span></p>
   </van-tabs>
 </template>
 
 <script>
+  import {mapMutations} from 'vuex'
   import AreaCodeInput from '@/components/input/areaCode'
-  import {VERIFY_CODE} from '@/assets/js/consts'
+  import {LOGIN_TYPE, VERIFY_CODE, SMS_SCENE} from '@/assets/js/consts'
+  import {getSmsCode, login} from '@/api/member'
 
   const TIME = 60 // 倒计时时间
 
@@ -73,22 +79,23 @@
     data() {
       return {
         VERIFY_CODE,
+        type: LOGIN_TYPE.GENERAL, // 默认登陆模式
         formData: {
           username: '',
           password: '',
         },
         pswInputType: 'password', // 密码输入框类型
-        isNameOk: false, // 验证用户名是否ok
         // 手机登录
-        formPhone: {
+        phoneForm: {
           areaCode: '86', // 区号
-          mobile: '',
-          code: '', // 验证码
+          phone: '',
+          smsCode: '', // 短信验证码
         },
+        submiting: false, // 是否可提交
+        // 定时器
         timer: null,
         countDownTime: TIME, // 倒计时时间
         codeType: VERIFY_CODE.START, // 获取验证码/倒计时/重新获取
-        isPhoneOk: false, // 验证手机号是否ok
       }
     },
     computed: {
@@ -106,6 +113,20 @@
     },
     mounted() {},
     methods: {
+      ...mapMutations({
+        vxSetToken: 'setToken'
+      }),
+      // 切换登陆模式
+      changeTabs(index, title) {
+        console.log(index, title)
+        // 清除定时器
+        this.resetTimer()
+        if (index === 1) {
+          this.type = LOGIN_TYPE.PHONE
+        } else {
+          this.type = LOGIN_TYPE.GENERAL
+        }
+      },
       // 显示注册弹窗
       showRegistDlg() {
         this.$emit('showRegistDlg')
@@ -120,14 +141,17 @@
       },
       // 获取验证码
       async getCode() {
+        if (!this.phoneForm.phone) {
+          this.$toast('请输入手机号码')
+          return
+        }
+        // 倒计时状态修改
         this.codeType = VERIFY_CODE.GETTING // 获取验证码
-        // 提交
         try {
-          // await this.getVerifyCode({
-          //   mobile: this.formPhone.mobile,
-          //   areaCode: this.formPhone.areaCode,
-          //   code: this.formPhone.code,
-          // })
+          await getSmsCode({
+            phone: `${this.phoneForm.areaCode}-${this.phoneForm.phone}`,
+            scene: SMS_SCENE.LOGIN
+          })
           await this.countDown()
         } catch (error) {
           console.log(error)
@@ -147,14 +171,81 @@
           }
         }, 1000)
       },
-      onAreaCode() {},
-      login() {},
-      mobileLogin() {},
+      // 登陆
+      btnLogin() {
+        if (this.type === LOGIN_TYPE.PHONE) {
+          this.loginByPhone()
+        } else {
+          this.login()
+        }
+      },
+      // 普通登陆
+      async login() {
+        if (!this.formData.username) {
+          this.$toast('请输入用户名')
+          return
+        }
+        if (!this.formData.password) {
+          this.$toast('请输入密码')
+          return
+        }
+        try {
+          const {code, data, msg} = await login({
+            type: this.type,
+            account: this.formData.username,
+            password: this.formData.password,
+          })
+          if (code === 0) {
+            console.log(data.token)
+            await vxSetToken(data.token)
+            this.toHomepage()
+          }
+        } catch (error) {
+          console.log(error)
+        }
+      },
+      async loginByPhone() {
+        if (!this.phoneForm.phone) {
+          this.$toast('请输入手机号码')
+          return
+        }
+        if (!this.phoneForm.smsCode) {
+          this.$toast('请输入手机验证码')
+          return
+        }
+        try {
+          const {code, data, msg} = await login({
+            type: this.type,
+            account: `${this.phoneForm.areaCode}-${this.phoneForm.phone}`,
+            password: this.phoneForm.password,
+            code: this.phoneForm.smsCode
+          })
+          if (code === 0) {
+            console.log(data.token)
+            await vxSetToken(data.token)
+            this.toHomepage()
+          }
+        } catch (error) {
+          console.log(error)
+        }
+      },
+      // 跳转至首页
+      toHomepage() {
+        this.$router.push({
+          path: '/custom'
+        })
+      },
       // 点击服务协议
       onAgreement() {
         this.$router.push({
           path: '/protocol'
         })
+      },
+      // 重置定时器
+      resetTimer() {
+        clearInterval(this.timer)
+        this.codeType = VERIFY_CODE.START
+        this.countDownTime = 60
       }
     },
   }
@@ -195,7 +286,7 @@
       }
     }
     .mobile-login {
-      .mobile {
+      .phone {
         margin-top: 54px;
       }
       .auth-code {

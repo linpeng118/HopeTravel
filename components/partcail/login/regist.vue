@@ -70,8 +70,8 @@
     <van-button class="btn-regist tours-button"
       size="large"
       :disabled="!checked"
-      :loading="subminting"
-      @click="regist">注册</van-button>
+      :loading="submiting"
+      @click="btnRegist">注册</van-button>
     <div class="text">
       <van-checkbox class="tour-checkbox"
         v-model="checked">
@@ -119,7 +119,7 @@
           password: '',
           emailCode: '', // 邮箱验证码
         },
-        subminting: false, // 是否可提交
+        submiting: false, // 是否可提交
         checked: false,
         pswInputType: 'password', // 密码显示与否
         // 定时器
@@ -143,19 +143,7 @@
     },
     mounted() {},
     methods: {
-      // 显示登录弹窗
-      showLoginDlg() {
-        this.$emit('showLoginDlg')
-      },
-      toggleInputType(val) {
-        this.pswInputType = this.pswInputType === 'password' ? 'text' : 'password'
-      },
-      forgetPsw() {
-        this.$router.push({
-          path: '/regist/forget'
-        })
-      },
-      // 切换tab
+      // 切换注册模式
       changeTabs(index, title) {
         console.log(index, title)
         // 清除定时器
@@ -165,6 +153,14 @@
         } else {
           this.type = TEGIST_TYPE.PHONE
         }
+      },
+      // 显示登录弹窗
+      showLoginDlg() {
+        this.$emit('showLoginDlg')
+      },
+      // 输入是否可见
+      toggleInputType(val) {
+        this.pswInputType = this.pswInputType === 'password' ? 'text' : 'password'
       },
       // 获取验证码
       async getCode(type) {
@@ -210,15 +206,15 @@
         }, 1000)
       },
       // 点击注册
-      regist() {
+      btnRegist() {
         if (this.type === TEGIST_TYPE.PHONE) {
-          this.phoneRegist()
+          this.registByPhone()
         } else {
-          this.emailRegist()
+          this.registByEmail()
         }
       },
       // 手机注册
-      async phoneRegist() {
+      async registByPhone() {
         if (!this.phoneForm.smsCode) {
           this.$toast('请输入短信验证码')
           return
@@ -231,7 +227,7 @@
           this.$toast('请输入6-20位密码')
           return
         }
-        this.subminting = true // 开始提交
+        this.submiting = true // 开始提交
         const {code, data, msg} = await register({
           type: this.type,
           account: `${this.phoneForm.areaCode}-${this.phoneForm.phone}`,
@@ -239,7 +235,7 @@
           password_confirm: this.phoneForm.password,
           code: this.phoneForm.smsCode
         })
-        this.subminting = false
+        this.submiting = false
         if (code === 0) {
           this.$toast('手机号注册成功！')
         } else {
@@ -247,7 +243,7 @@
         }
       },
       // 邮箱注册
-      async emailRegist() {
+      async registByEmail() {
         if (!this.emailForm.emailCode) {
           this.$toast('请输入邮箱验证码')
           return
@@ -260,7 +256,7 @@
           this.$toast('请输入6-20位密码')
           return
         }
-        this.subminting = true // 开始提交
+        this.submiting = true // 开始提交
         try {
           const {code, data, msg} = await register({
             type: this.type,
@@ -277,12 +273,13 @@
         } catch (error) {
           console.log(error)
         }
-        this.subminting = false
+        this.submiting = false
       },
       // 点击服务协议
       onAgreement() {
         console.log('onAgreement')
       },
+      // 重置定时器
       resetTimer() {
         clearInterval(this.timer)
         this.codeType = VERIFY_CODE.START

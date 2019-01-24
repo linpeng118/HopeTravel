@@ -1,6 +1,8 @@
 export default {
-  setDeviceType(state, data) {
-    state.deviceType = data
-    ('setDeviceType', state.deviceType)
+  // setDeviceType(state, data) {
+  //   state.deviceType = data
+  // },
+  setToken(state, data) {
+    state.token = data
   },
 }
