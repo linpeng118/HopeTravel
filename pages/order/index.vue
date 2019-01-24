@@ -1,16 +1,12 @@
 <template>
   <!---->
   <section>
-<<<<<<< HEAD
-    <van-nav-bar class="login-header tours-no-bb" ref="loginHeader" title="我的订单" :z-index="999" @click-left="onClickLeft">
-=======
     <van-nav-bar class="login-header tours-no-bb"
                  ref="loginHeader"
                  title="我的订单"
                  :z-index="999"
                  @click-left="onClickLeft">
->>>>>>> develop
-      <van-icon class="left-wrap" name="arrow-left" slot="left" />
+      <van-icon class="left-wrap" name="arrow-left" slot="left"/>
     </van-nav-bar>
     <section>
       <ul class="nav-item-box">
@@ -29,27 +25,24 @@
 
 <script>
   import orderList from './orderList';
+
   export default {
     components: {
       orderList
     },
     data() {
       return {
-        status:''//unpaid 待付款 wait未出行 finish已出行
+        status: ''//unpaid 待付款 wait未出行 finish已出行
       }
     },
-    computed: {
-
-    },
-    watch:{
-
-    },
-    created(){
+    computed: {},
+    watch: {},
+    created() {
     },
     mounted() {
     },
     methods: {
-      onClickLeft(){
+      onClickLeft() {
         this.$router.go(-1)
       },
 
@@ -65,24 +58,27 @@
     font-size: 32px;
     color: #191919;
     background-color: #fff;
-    border-bottom:1px solid rgb(238, 238, 238);
+    border-bottom: 1px solid rgb(238, 238, 238);
     transition: all 0.5s;
-  .left-wrap {
-    color: #404040;
-    font-size: 32px;
+
+    .left-wrap {
+      color: #404040;
+      font-size: 32px;
+    }
+
+    .right-wrap {
+      .search {
+        width: 92px;
+        height: 36px;
+        background: rgba(57, 158, 246, 1);
+        opacity: 1;
+        color: #fff;
+        border-radius: 18px;
+      }
+    }
   }
-  .right-wrap {
-  .search {
-    width:92px;
-    height:36px;
-    background:rgba(57,158,246,1);
-    opacity:1;
-    color: #fff;
-    border-radius:18px;
-  }
-  }
-  }
-  .nav-item{
+
+  .nav-item {
     font-size: 26px;
     color: #191919;
     text-align: center;
@@ -92,16 +88,19 @@
     line-height: 88px;
     box-sizing: border-box;
   }
-  .nav-item-box{
-    background:rgba(255,255,255,1);
-    box-shadow:0px 2px 6px rgba(0,0,0,0.15);
+
+  .nav-item-box {
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
     width: 100%;
     height: 88px;
   }
-  .setbg{
+
+  .setbg {
     background-color: #f1f1f1;
   }
-  .active-item{
-    color: #399EF6!important;
+
+  .active-item {
+    color: #399EF6 !important;
   }
 </style>
