@@ -6,6 +6,7 @@
       @onSearch="onSearch"
       @searchStart="searchStart"
       @query="queryChange"
+      @leftClick="leftClick"
     ></lay-header>
     <div class="list-wrap">
       <div class="tabs-box">
@@ -27,6 +28,7 @@
                   <product-list :data="item"></product-list>
                 </van-cell>
               </template>
+              <!--<div v-else>暂无数据</div>-->
             </van-list>
           </van-tab>
         </van-tabs>
@@ -37,11 +39,10 @@
       <div class="filter-content">
         <div class="filter-list">
           <div class="filter-items" v-for="(item, key) in filterLists" :key="key">
-            <!--<van-cell :title="showTitle(key)" :value="item.desc" is-link arrow-direction="down" />-->
             <div class="cell-list" @click="showMoreFilter(key, item)">
               <div class="left">{{showTitle(key)}}</div>
               <div class="right">
-                <span class="text">{{item.desc}}</span>
+                <span class="text">{{selectNameShow(key)}}</span>
                 <i class="van-icon van-icon-arrow" :ref="'filter' + key"></i>
               </div>
             </div>
@@ -49,13 +50,13 @@
               <div class="item"
                    v-for="(city,index) in item.items"
                    :key="city.id + city.name"
-                   :class="city.active ? 'active': ''"
+                   :class="filterActive(city.id, key)"
                    @click="filterClick(city, key, index)" :ref="key + currentType">{{city.name}}</div>
             </div>
           </div>
         </div>
         <div class="bottom-btn">
-          <div class="left">重置</div>
+          <div class="left" @click="resetFilter">重置</div>
           <div class="right" @click="againSearch">选好了</div>
         </div>
       </div>
@@ -69,7 +70,7 @@
     <van-popup v-model="showList" position="right" :overlay="true" class="filter-select">
       <div class="filter-content">
         <div class="show-list">
-          <city-list :multiple="true" title="sadasdas" :dataList="listtt" @slectItem="slectItem"></city-list>
+          <city-list :multiple="multipleTag" :showBar="true" :dataObj="moreLists" @selectItem="selectItem" ref="moreList" @back="moreListBack"></city-list>
         </div>
       </div>
     </van-popup>
@@ -93,16 +94,7 @@ export default {
   data() {
     return {
       isSearch: false,
-      searchKeyWords: this.$route.query.keyWords || '',
-      tagsList: [
-        {id:0,type: 3,title: '稀饭推荐'},
-        {id:1,type: 1,title: '当地跟团'},
-        {id:2,type: 2,title: '当地玩乐'},
-        {id:3,type: 4,title: '门票演出'},
-        {id:4,type: 5,title: '一日游'},
-        {id:5,type: 6,title: '接驳服务'},
-        {id:6,type: 7,title: '邮轮'}
-      ],
+      searchKeyWords: this.$route.query.keyWords || null,
       criteria: {}, // 筛选条件数据
       prodPagination: {}, // 分页数据
       prodLoading: false, // 是否处于加载状态，加载过程中不触发load事件
@@ -117,20 +109,41 @@ export default {
       active: 0, // 当前搜索的type值
       filterResult: {}, // 筛选的结果
       activeNames: ['1'],
-      listtt: [{
-        key: 'D',
-        list: [{id: 33, name:'打扮'},{id: 213, name:'打扮'},{id: 23, name:'打扮'},{id: 243, name:'打扮'}]
+      moreLists: {}, // 更多的列表
+      moreListsTitle: '',
+      sureSearchList: {
+        start_city: [],
+        stop_city: [],
+        price: [],
+        span_city: [],
+        tag: [],
+        duration: [],
+        product_type: [],
+        category: []
       },
-        {
-          key: 'E',
-          list: [{id: 12, name:'打扮'},{id: 233, name:'打扮'},{id: 45, name:'打扮'},{id: 565, name:'打扮'}]
-        }]
     }
   },
   computed: {
-    currentType() {
+    currentType() { // 当前的type类型
       let _arr = [3,1,2,4,5,6,7]
       return _arr[this.active]
+    },
+    multipleTag() {
+      return this.moreLists.type !== 'start_city' && this.moreLists.type !== 'stop_city'
+    }
+  },
+  watch: {
+    searchKeyWords(newValue, oldValue) {
+      this.productList = []
+      this.prodPagination = {}
+      console.log(this.prodFinished)
+      if(this.prodFinished) { // 如果这个值为true，则不会触发onLoad, 所以要手动初始化一下
+        this.prodFinished = false
+      } else { // 如果为false则会触发onLoad
+        this.onLoad()
+      }
+      // 筛选条件更新
+      this.getFilterList()
     }
   },
   created() {
@@ -140,15 +153,30 @@ export default {
       {id:3, order: 'desc', order_by: 'price', name: '价格从高到底'},
       {id:4, order: '', order_by: 'sales', name: '最受欢迎'}
     ]
+    this.tagsList = [
+      {id:0,type: 3,title: '稀饭推荐'},
+      {id:1,type: 1,title: '当地跟团'},
+      {id:2,type: 2,title: '当地玩乐'},
+      {id:3,type: 4,title: '门票演出'},
+      {id:4,type: 5,title: '一日游'},
+      {id:5,type: 6,title: '接驳服务'},
+      {id:6,type: 7,title: '邮轮'}
+    ]
   },
   mounted() {
     // 初始化
     this.getFilterList()
   },
   methods: {
+    // 返回上一级
+    leftClick() {
+      this.$router.go(-1)
+    },
     onSearch() {},
     searchStart() {},
-    queryChange() {},
+    queryChange(value) {
+      this.searchKeyWords = value
+    },
     // 筛选条件
     filterSelect () {
       this.showFilter = !this.showFilter
@@ -177,7 +205,8 @@ export default {
     // 初始化筛选列表
     async getFilterList() {
       const submitData = {
-        type: this.currentType
+        type: this.currentType,
+        keyword: this.searchKeyWords
       }
       let {code, data} = await getFilterList(submitData)
       if (code === 0) {
@@ -193,21 +222,14 @@ export default {
         page: (this.prodPagination.page || 0) + 1,
         order_by: this.sortResult.order_by || null,
         order: this.sortResult.order || null,
+        keyword: this.searchKeyWords,
         ...this.filterResult
       }
-      console.log(this.productList.length, this.prodPagination.total_record)
-      if (this.productList.length && this.productList.length === this.prodPagination.total_record) {
-        console.log('已经是全部数据')
-        this.prodLoading = false;
-        this.prodFinished = true;
-      } else {
-        console.log('再次请求')
-        const res = await getProductList(submitData)
-        this.productList.push(...res.data)
-        this.prodPagination = res.pagination
-        // 加载状态结束
-        this.prodLoading = false;
-      }
+      const res = await getProductList(submitData)
+      this.productList.push(...res.data)
+      this.prodPagination = res.pagination
+      // 加载状态结束
+      this.prodLoading = false
       // 数据全部加载完成
       if (!this.prodPagination.more) {
         this.prodFinished = true;
@@ -215,57 +237,47 @@ export default {
     },
     // 切换tab加载数据
     async changeTypeClick() {
+      this.productList = []
       this.prodPagination = {}
       this.filterResult = {}
-      const submitData = {
-        type: this.currentType,
-        page: (this.prodPagination.page || 0) + 1,
-        order_by: this.sortResult.order_by || null,
-        order: this.sortResult.order || null
+      if(this.prodFinished) { // 如果这个值为true，则不会触发onLoad, 所以要手动初始化一下
+        this.prodFinished = false
+      } else { // 如果为false则会触发onLoad
+        this.onLoad()
       }
-      if(this.prodFinished) {this.prodFinished = false}
-      const res = await getProductList(submitData)
-      this.productList = res.data
-      this.prodPagination = res.pagination
       // 筛选列表更新
       this.getFilterList()
     },
     async againSearch () {
-      console.log('选好了')
-      console.log('初始值', this.filterResult)
       this.prodPagination = {}
-      const submitData = {
-        type: this.currentType,
-        page: (this.prodPagination.page || 0) + 1,
-        order_by: this.sortResult.order_by || null,
-        order: this.sortResult.order || null,
-        ...this.filterResult
+      this.productList = []
+      if(this.prodFinished) { // 如果这个值为true，则不会触发onLoad, 所以要手动初始化一下
+        this.prodFinished = false
+      } else { // 如果为false则会触发onLoad
+        this.onLoad()
       }
-      const res = await getProductList(submitData)
-      this.productList = res.data
-      this.prodPagination = res.pagination
       console.log(this.prodPagination)
       // 关闭蒙层
       this.showFilter = false
     },
     // 选中筛选
-    filterClick(item, key, index) {
-      this.filterLists[key].items.forEach((filter) => {
-        let _filter = filter.active
-        filter.active = false
-        if(filter.id === item.id) {
-          if (!_filter) {
-            filter.active = true
-          }
-          this.$set(this.filterLists[key].items, index, filter)
-        }
-      })
-      if (item.active) {
-        this.filterLists[key].desc = item.name
-        this.filterResult[key] = item.id
+    filterClick(item, key) {
+      let index = this.sureSearchList[key].findIndex(list => (item.id === list.id))
+      if(index >= 0) {
+        this.sureSearchList[key].splice(index, 1)
       } else {
-        this.filterLists[key].desc = ''
-        this.filterResult[key] = ''
+        if(key === 'span_city' || key === 'tag' || key === 'duration' || key === 'product_type'|| key === 'category') {
+          this.sureSearchList[key].push(item) // 多选项
+        } else if (key === 'start_city' || key === 'stop_city' || key === 'price'){
+          this.sureSearchList[key] = [item] // 单选项
+        }
+      }
+      console.log(item)
+      let id = item.id
+      if(!this.filterResult[key]) {
+        this.filterResult[key] = item.id + ''
+      } else {
+        this.filterResult[key] += ',' + id
       }
       console.log(this.filterResult)
     },
@@ -287,20 +299,69 @@ export default {
       let filterName = this.$refs['filter' + key][0].className
       let name = this.$refs['tags' + key][0].className
       if(item.items.length > 15) {
+        let _obj = this._nomalLizePinyin(item.pinyin)
         this.showList = true
+        _obj.title = this.showTitle(key)
+        _obj.type = key
+        this.moreLists = _obj
+        console.log(this.moreLists)
+        if(this.$refs['moreList']) {
+          this.$refs['moreList'].activeList = []
+        }
       } else {
         this.$refs['tags' + key][0].className = name.indexOf('all') >= 0 ? 'filter-tags': 'filter-tags all'
         this.$refs['filter' + key][0].className = filterName.indexOf('down')>= 0 ? 'van-icon van-icon-arrow': 'van-icon van-icon-arrow-down'
       }
     },
-    slectItem(lists) {
-      console.log(lists)
+    // 更多列表返回
+    moreListBack() {
       this.showList = false
+    },
+    selectItem(lists,type) { // 关闭更多选择层
+      console.log(lists,type)
+      this.sureSearchList[type] = lists
+      this.showList = false
+    },
+    // 格式化拼音列表
+    _nomalLizePinyin(data) {
+      let len = data.length
+      let obj = {}
+      for(let i= 0; i<len; i++) {
+        if(!obj[data[i].key]) {
+          obj[data[i].key] = []
+        }
+        obj[data[i].key].push({...data[i]})
+      }
+      return obj
+    },
+    // 视觉判断tag是否选中
+    filterActive(id,key) {
+      let index = this.sureSearchList[key].findIndex(list => (id === list.id))
+      return index >=0 ? 'active' : ''
+    },
+    // 展示显示的name
+    selectNameShow(key) {
+      let names = this.sureSearchList[key].map(item => {
+        return item.name
+      })
+      return names.length > 3 ? names.splice(0,3).join(',') + '...' : names.join(',')
+    },
+    // 重置筛选条件
+    resetFilter() {
+      this.sureSearchList = {
+        start_city: '',
+        stop_city: '',
+        price: '',
+        span_city: [],
+        tag: [],
+        duration: [],
+        product_type: [],
+        category: []
+      }
     }
   }
 }
 </script>
-
 <style type="text/scss" lang="scss" scoped>
   .list-wrap{
     padding-top:88px;

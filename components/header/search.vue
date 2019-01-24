@@ -11,7 +11,7 @@
       slot="right">
       <div class="big-search">
         <van-search
-          :placeholder="searchKeyWords"
+          :placeholder="query || searchKeyWords"
           v-model="query" v-if="!isSearch" @click.stop="searchChange"></van-search>
         <van-search
           :placeholder="searchKeyWords"
@@ -43,7 +43,7 @@
     },
     data() {
       return {
-        query: ''
+        query: this.$route.query.keyWords || ''
       }
     },
     created() {
