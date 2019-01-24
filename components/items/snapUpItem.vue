@@ -21,7 +21,8 @@
           <!--<span>23</span>-->
           <!--<span class="colon">:</span>-->
           <!--<span>56</span>-->
-          {{proData.special_end_date | showTime}}
+          <span v-if="proData.special_end_date < 0" class="over">已结束</span>
+          {{getTime(proData.special_end_date)}}
         </div>
       </div>
       <div class="title"
@@ -174,6 +175,15 @@
           line-height: 48px;
           background-color: #FF0000;
           text-align: center;
+        }
+        .over{
+          height:48px;
+          width: 96px;
+          line-height: 48px;
+          background-color: #000;
+          text-align: center;
+          display: block;
+          border-radius: 0 8px 8px 0;
         }
         /*.time {*/
           /*flex: 1;*/
