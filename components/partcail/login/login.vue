@@ -204,6 +204,7 @@
           console.log(error)
         }
       },
+      // 手机登陆
       async loginByPhone() {
         if (!this.phoneForm.phone) {
           this.$toast('请输入手机号码')
