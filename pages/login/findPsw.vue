@@ -7,7 +7,8 @@
       <van-cell-group>
         <van-field class="phone tours-input"
           v-model="account"
-          placeholder="请输入" />
+          placeholder="请输入"
+          disabled />
         <van-field class="password tours-input"
           v-model="password"
           type="password"
@@ -31,6 +32,7 @@
   import loginHeader from '@/components/header/loginHeader'
   import areaCodeInput from '@/components/input/areaCode'
   import {LOGIN_WAY} from '@/assets/js/consts'
+  import {findPwd} from '@/api/member'
 
   export default {
     layout: 'default',
@@ -40,8 +42,6 @@
     },
     data() {
       return {
-        formData: this.$route.params.formData || {},
-        type: this.$route.params.type || LOGIN_WAY.PHONE,
         // 修改密码
         account: '',
         password: '',
@@ -60,9 +60,12 @@
     },
     methods: {
       init() {
-        console.log(111, this.vxForgetForm)
-        if (this.type === LOGIN_WAY.PHONE) {
-          this.phone = this.formData.phone
+        if (this.vxForgetForm.type === LOGIN_WAY.PHONE) {
+          this.account = this.vxForgetForm.phone
+        } else if (this.vxForgetForm.type === LOGIN_WAY.EMAIL) {
+          this.account = this.vxForgetForm.email
+        } else {
+          this.toForget()
         }
       },
       // 跳转至登录页
@@ -73,23 +76,37 @@
       },
       // 修改密码
       async changePsw() {
-        console.log('changePsw')
-        if (!this.phone) {
-          this.$toast('请输入手机号码')
-          return
-        }
         if (!this.password) {
           this.$toast('请输入密码')
         }
         if (this.checkPassword !== this.password) {
           this.$toast('密码不一致，请重新输入')
         }
+        // 构造数据
+        let subData = {}
+        if (this.vxForgetForm.type === LOGIN_WAY.PHONE) {
+          subData = {
+            account: `${this.vxForgetForm.areaCode}-${this.vxForgetForm.phone}`,
+            code: this.vxForgetForm.smsCode,
+            password: this.password,
+          }
+        } else {
+          subData = {
+            account: this.vxForgetForm.areaCode,
+            code: this.vxForgetForm.emailCode,
+            password: this.password,
+          }
+        }
+        // 请求接口
         try {
-          const {code, data, msg} = await changePwd({
-
-          })
+          const {code, data, msg} = await findPwd(subData)
+          if (code === 0) {
+            this.$toast('修改密码成功！')
+          } else {
+            this.$toast(msg)
+          }
         } catch (error) {
-
+          console.log(error)
         }
       },
       toForget() {

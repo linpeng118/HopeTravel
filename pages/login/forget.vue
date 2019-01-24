@@ -229,7 +229,7 @@
       },
       toChangePsw() {
         this.$router.push({
-          path: '/login/changePsw',
+          path: '/login/findPsw',
         })
       },
       // 重置定时器
