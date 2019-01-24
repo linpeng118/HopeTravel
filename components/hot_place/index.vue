@@ -1,8 +1,8 @@
 <template>
   <div class="hot-place">
     <div class="hot-item" v-for="(list, index) in lists" :key="index">
-      <img :src="list.image" alt="">
-      <div class="title">{{list.content}}</div>
+      <img :src="list.image || list.image_url" alt="">
+      <div class="title">{{list.content || list.name}}</div>
       <div class="desc" v-if="isDesc">{{list.subTitle}}</div>
     </div>
   </div>

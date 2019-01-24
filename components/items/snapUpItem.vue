@@ -3,20 +3,7 @@
     <div class="banner">
       <img :src="proData.image"
         alt="banner">
-      <div class="time-wrap" @click.stop="OnCollect(proData)">
-        <!--<div class="text">-->
-          <!--抢购中-->
-        <!--</div>-->
-        <!--<span class="time">-->
-          <!--<span>0</span>-->
-          <!--<span>0</span>-->
-          <!--<span class="colon">:</span>-->
-          <!--<span>2</span>-->
-          <!--<span>3</span>-->
-          <!--<span class="colon">:</span>-->
-          <!--<span>5</span>-->
-          <!--<span>6</span>-->
-        <!--</span>-->
+      <div class="collect-wrap" @click.stop="OnCollect(proData)" v-if="isCollect">
         <img v-if="proData.is_favorite"
              src="../../assets/imgs/star_active@2x.png"
              alt="">
@@ -24,14 +11,26 @@
              src="../../assets/imgs/star@2x.png"
              alt="">
       </div>
+      <div class="time-wrap" v-if="isShowTime">
+        <div class="text">
+          抢购中
+        </div>
+        <div class="time">
+          <!--<span>00</span>-->
+          <!--<span class="colon">:</span>-->
+          <!--<span>23</span>-->
+          <!--<span class="colon">:</span>-->
+          <!--<span>56</span>-->
+          {{proData.special_end_date | showTime}}
+        </div>
+      </div>
       <div class="title"
         v-if="isShowTitle">
         {{proData.name}}
       </div>
     </div>
     <div class="desc">
-      <div class="tags-wrap"
-        :class="tagPos">
+      <div class="tags-wrap" :class="tagPos">
         <!--<div class="tag"-->
           <!--:class="`tag${item}`"-->
           <!--v-for="item in proData.type"-->
@@ -61,8 +60,18 @@
 </template>
 
 <script>
+  import {resetTime} from '@/assets/js/utils'
   export default {
     components: {},
+    filters: {
+      showTime (value) {
+        console.log(value)
+        setInterval(() => {
+          value = value - 1000
+        }, 1000)
+        return value
+      }
+    },
     props: {
       proData: {
         type: Object,
@@ -75,7 +84,7 @@
       },
       isShowTime: {
         type: Boolean,
-        default: true,
+        default: false,
       },
       isShowTitle: {
         type: Boolean,
@@ -83,7 +92,7 @@
       },
       isCollect: {
         type: Boolean,
-        default: false,
+        default: true,
       },
       tagPos: {
         type: String,
@@ -92,16 +101,22 @@
     },
     data() {
       return {
+        time: {h:0,m:0,s:0}
       }
     },
     computed: {},
-    mounted() {},
+    mounted() {
+
+    },
     methods: {
       OnCollect(val) {
         this.$emit('callCollect', val)
       },
       selectItem(product) {
         this.$emit('selectDetail', product.product_id)
+      },
+      getTime(leftTime) {
+
       }
     },
   }
@@ -109,9 +124,10 @@
 
 <style lang="scss" scoped>
   .snap-up-item {
-    // width: 100%;
     width: 686px;
     height: 554px;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
     .banner {
       position: relative;
       height: 368px;
@@ -132,50 +148,55 @@
         font-size: 20px;
         border-radius: 0 0 6px 6px;
       }
-      .time-wrap {
+      .collect-wrap {
         width: 100px;
         height: 100px;
         position: absolute;
         top: 10px;
         right: 10px;
         text-align: right;
-        .text {
-          flex: 0 0 96px;
-          width: 96px;
-          height: 48px;
-          line-height: 48px;
-          font-size: 24px;
-          color: rgba(255, 255, 255, 1);
-          background: #ff0000;
-          text-align: center;
-          border-radius: 6px 0 0 0;
-        }
-        .time {
-          flex: 1;
-          font-size: 0;
-          margin-top: 6px;
-          span:not(.colon) {
-            display: inline-block;
-            color: rgba(255, 255, 255, 1);
-            background: rgba(0, 0, 0, 0.6);
-            width: 28px;
-            height: 40px;
-            line-height: 40px;
-            font-size: 26px;
-            text-align: center;
-            font-size: 24px;
-            border-radius: 6px;
-          }
-          .colon {
-            padding: 0 5px;
-            color: rgba(255, 255, 255, 1);
-            font-size: 24px;
-          }
-        }
         img {
           width: 50px;
           height: 50px;
         }
+      }
+      .time-wrap{
+        width: 300px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-size: 24px;
+        color: #fff;
+        display: flex;
+        .text{
+          height:48px;
+          width: 96px;
+          line-height: 48px;
+          background-color: #FF0000;
+          text-align: center;
+        }
+        /*.time {*/
+          /*flex: 1;*/
+          /*font-size: 0;*/
+          /*margin-top: 6px;*/
+          /*span:not(.colon) {*/
+            /*display: inline-block;*/
+            /*color: rgba(255, 255, 255, 1);*/
+            /*background: rgba(0, 0, 0, 0.6);*/
+            /*width: 28px;*/
+            /*height: 40px;*/
+            /*line-height: 40px;*/
+            /*font-size: 26px;*/
+            /*text-align: center;*/
+            /*font-size: 24px;*/
+            /*border-radius: 6px;*/
+          /*}*/
+          /*.colon {*/
+            /*padding: 0 5px;*/
+            /*color: rgba(255, 255, 255, 1);*/
+            /*font-size: 24px;*/
+          /*}*/
+        /*}*/
       }
     }
     .desc {
