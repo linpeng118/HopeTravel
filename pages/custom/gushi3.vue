@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="banner">
-      <a class="return" @click="goBack" href="javascript:;"></a>
-      <span class="title">旅行故事</span>
+      <a v-if="!isApp" class="return" @click="goBack" href="javascript:;"></a>
+      <span v-if="!isApp" class="title">旅行故事</span>
       <span class="site">目的地：日本</span>
     </div>
     <div class="ct">
@@ -185,7 +185,9 @@
 export default {
   name: "component_name",
   data() {
-    return {};
+    return {
+      isApp: this.$route.query.platform,
+    };
   },
   methods: {
     goBack() {

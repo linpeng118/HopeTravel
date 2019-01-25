@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="banner">
-      <a class="return" @click="goBack" href="javascript:;"></a>
-      <span class="title">旅行故事</span>
+      <a class="return" @click="goBack" href="javascript:;" v-if="!isApp"></a>
+      <span class="title" v-if="!isApp">旅行故事</span>
       <span class="recommend">稀饭推荐·旅行正当季</span>
     </div>
     <div class="ct">
       <!-- 产品 -->
-      <nuxt-link v-for="item in prodList" :key="item.path" :to="item.path">
+      <nuxt-link v-for="item in prodList" :key="item.path" :to="{path: item.path, query: {platform: isApp ? isApp : ''}}">
         <dl class="product">
           <dt>
             <img class="pic_image imgStyle" :src="item.img" alt>
@@ -50,9 +50,11 @@
 </template>
 <script>
 export default {
-  name: "component_name",
+  name: "custom-list",
   data() {
     return {
+      isApp: this.$route.query.platform, // 有就是app
+      // tsst: this.$route.params.tst, // 有就是app
       prodList: [
         {
           path: "/custom/store1",
@@ -208,6 +210,9 @@ export default {
         }
       ]
     };
+  },
+  mounted() {
+    console.log(this.tsst,4444)
   },
   methods: {
     goBack() {
