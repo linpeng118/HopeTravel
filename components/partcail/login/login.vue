@@ -196,9 +196,11 @@
             password: this.formData.password,
           })
           if (code === 0) {
-            console.log(data.token)
             await this.vxSetToken(data.token)
-            this.toHomepage()
+            this.resetTimer()
+            this.$emit('loginCallBack')
+          } else {
+            this.$toast(msg)
           }
         } catch (error) {
           console.log(error)
@@ -224,22 +226,19 @@
           if (code === 0) {
             console.log(data.token)
             await this.vxSetToken(data.token)
-            this.toHomepage()
+            this.resetTimer()
+            this.$emit('loginCallBack')
+          } else {
+            this.$toast(msg)
           }
         } catch (error) {
           console.log(error)
         }
       },
-      // 跳转至首页
-      toHomepage() {
-        this.$router.push({
-          path: '/custom'
-        })
-      },
       // 点击服务协议
       onAgreement() {
         this.$router.push({
-          path: '/protocol'
+          path: '/protocol/xifan'
         })
       },
       // 重置定时器
