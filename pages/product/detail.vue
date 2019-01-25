@@ -3,7 +3,9 @@
     ref="refProductDetailPage">
     <!-- 头部 -->
     <product-detail-header :transparent="isTransparent"
-      fixed />
+      title="产品详情"
+      fixed
+      ref="refProdctDetailHeader" />
     <div class="product-detail">
       <!-- banner -->
       <van-swipe class="banner"
@@ -114,15 +116,22 @@
           v-html="product.small_description"></div>
       </div>
       <!-- tab触发则滚动 -->
-      <div class="tab-list mt-24">
-        <div class="tab-item"
-          v-for="tab in tabList"
-          :key="tab.name"
-          :class="{'active': activeTab===tab.id}"
-          @click="clickTab(tab)">
-          {{tab.name}}
+      <div class="tab-list-wrap"
+        :class="{'fixed-tab': isTabFixed}">
+        <div class="tab-list"
+          ref="refTabList">
+          <div class="tab-item"
+            v-for="tab in tabList"
+            :key="tab.name"
+            :class="{'active': activeTab===tab.id}"
+            @click="clickTab(tab)">
+            <span>{{tab.name}}</span>
+          </div>
         </div>
       </div>
+      <div class="tab-height mt-24"
+        ref="refTabHeight"
+        v-show="isTabFixed"></div>
       <!-- 产品特色 -->
       <div class="features"
         ref="refFeatures">
@@ -136,7 +145,7 @@
             <div class="item">
               <img src="../../assets/imgs/product/trip_1@2x.png"
                 alt="trip">
-              <p>3天行程</p>
+              <p>{{itinerary.duration_days}}天行程</p>
             </div>
             <div class="item">
               <img src="../../assets/imgs/product/trip_2@2x.png"
@@ -156,7 +165,7 @@
             v-for="item in itinerary.items"
             :key="item.product_itinerary_id">
             <div class="title-wrap">
-              <span class="icon">D1</span>
+              <span class="icon">D{{item.sort_order}}</span>
               <span class="title-s">{{item.title}}</span>
             </div>
             <div class="detail">
@@ -179,7 +188,8 @@
                 </h3>
                 <div class="body">
                   <div class="attr-imgs">
-                    <prod-detail-img-item :proData="attr.images" />
+                    <prod-detail-img-item :proData="attr.images"
+                      @callOnSlide="onImgSlide" />
                   </div>
                   <div class="desc"
                     v-html="attr.content"></div>
@@ -274,8 +284,8 @@
         </van-collapse>
       </div>
       <!-- 底部按钮 -->
-      <div :class="{'footer-fixed': showServiceNode}">
-        <div class="footer-tabbar mt-24">
+      <div class="footer-fixed" :style="{'z-index': showServiceNode ? 5000 : 1000}">
+        <div class="footer-tabbar">
           <div class="operate">
             <div class="btn-operate"
               v-for="item in operateTabbar"
@@ -298,6 +308,8 @@
 </template>
 
 <script>
+  import {throttle as _throttle} from 'lodash'
+  import { ImagePreview } from 'vant';
   import ProductDetailHeader from '@/components/header/productDetail'
   import ProdDetailImgItem from '@/components/items/prodDetailImgItem'
   import Loading from '@/components/loading'
@@ -318,12 +330,6 @@
           {name: '成团保障', desc: '该产品下单即可确认出行', icon: require('../../assets/imgs/product/tick@2x.png')},
           {name: '限时特价', desc: '该产品享受买贵退差', icon: require('../../assets/imgs/product/tick@2x.png')},
           {name: '低价保证', desc: '', icon: require('../../assets/imgs/product/tick@2x.png')},
-        ],
-        tabList: [
-          {id: 1, name: '产品特色', ref: 'refFeatures'},
-          {id: 2, name: '3天行程', ref: 'refTrip'},
-          {id: 3, name: '费用明细', ref: 'refCost'},
-          {id: 4, name: '注意事项', ref: 'refNotice'},
         ],
         operateTabbar: [
           {name: '关注', icon: require('../../assets/imgs/product/attention@2x.png')},
@@ -348,7 +354,8 @@
         attributes_override: [],
         transfer: [],
         // 团期价格
-        top_price: []
+        top_price: [],
+        isTabFixed: false,
       }
     },
     computed: {
@@ -372,10 +379,19 @@
           }
         })
         return newData
+      },
+      tabList() {
+        return [
+          {id: 1, name: '产品特色', ref: 'refFeatures'},
+          {id: 2, name: this.itinerary.duration_days + '天行程', ref: 'refTrip'},
+          {id: 3, name: '费用明细', ref: 'refCost'},
+          {id: 4, name: '注意事项', ref: 'refNotice'},
+        ]
       }
     },
     mounted() {
       this.init()
+      this.$refs.refProductDetailPage.addEventListener("scroll", _throttle(this.scrollFn, 200));
     },
     methods: {
       async init() {
@@ -449,15 +465,21 @@
         this.timer = setInterval(this.backFn, 20)
       },
       backFn() {
-        let scrollTo = this.$refs[this.activeTabRef].offsetTop // 滚动到的元素
+        // 滚动到的元素(减去2个fixed的高度)
+        let scrollTo = this.$refs[this.activeTabRef].offsetTop
+          - this.$refs.refTabList.offsetHeight
+          - this.$refs.refProdctDetailHeader.$el.offsetHeight
+        // 已滚动的高度
         let scrollTop = this.$refs.refProductDetailPage.scrollTop
-        let scrollHeight = this.$refs.refProductDetailPage.scrollHeight // 能滚动的body的高度
-        let clientHeight = this.$refs.refProductDetailPage.clientHeight // 视窗高度
+        // 能滚动的body的高度
+        let scrollHeight = this.$refs.refProductDetailPage.scrollHeight
+        // 视窗高度
+        let clientHeight = this.$refs.refProductDetailPage.clientHeight
         // console.log(this.activeTabRef, '需要滚动到：', scrollTo, '只能滚到：', scrollTop, '能滚的body高度：', scrollHeight, '窗口（100vh）：', clientHeight)
         // 这里向上取整是确保差距小于5的时候，ispeed为0
         let ispeed = Math.ceil((scrollTo - scrollTop) / 5)
         this.$refs.refProductDetailPage.scrollTop = scrollTop + ispeed
-        // console.log(scrollTop === scrollTo)
+        console.log('清除', scrollTop === scrollTo)
         if (scrollTop === scrollTo) {
           clearInterval(this.timer)
         }
@@ -465,10 +487,48 @@
         if (scrollTop + clientHeight === scrollHeight) {
           clearInterval(this.timer)
         }
+        // 容错处理
+        if (Math.abs(scrollTo - scrollTop) < 5) {
+          clearInterval(this.timer)
+        }
       },
       onAdCustom() {
         console.log('onAdCustom')
       },
+      // 滚动函数
+      scrollFn() {
+        const s1 = this.$refs.refProductDetailPage.scrollTop;
+        let tabListH = this.$refs.refTabList.offsetTop - this.$refs.refTabList.offsetHeight;
+        let tabHeightH = this.$refs.refTabHeight.offsetTop - this.$refs.refTabList.offsetHeight;
+        // console.log(s1, tabListH, tabHeightH)
+        if (s1 > 0) {
+          this.isTransparent = false
+        } else {
+          this.isTransparent = true
+        }
+        if (s1 >= tabListH) {
+          this.isTabFixed = true
+        }
+        if (s1 <= tabHeightH) {
+          this.isTabFixed = false
+        }
+        console.log(11, this.isTabFixed)
+        // 判断方向
+        // setTimeout(() => {
+        //   const s2 = this.$refs.refProductDetailPage.scrollTop;
+        //   const direct = s2 - s1;
+        //   console.log("direct", direct);
+        // }, 17);
+      },
+      onImgSlide(data) {
+        console.log(data)
+        const index = data.arr.findIndex(item => item === data.item)
+        console.log(index)
+        ImagePreview({
+          images: data.arr,
+          startPosition: index,
+        });
+      }
     },
   }
 </script>
@@ -480,6 +540,7 @@
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     .product-detail {
+      padding-bottom: 144px;
       background: #f2f2f2;
       .banner {
         height: 434px;
@@ -652,7 +713,25 @@
           color: rgba(57, 158, 246, 1);
         }
       }
+      .tab-list-wrap {
+        background: #fff;
+        transition: all 0.3s;
+      }
+      .fixed-tab {
+        position: fixed;
+        z-index: 999;
+        top: 88px;
+        width: 100%;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.14);
+        .tab-list {
+          margin-top: 0 !important;
+        }
+      }
+      .tab-height {
+        height: 80px;
+      }
       .tab-list {
+        margin-top: 24px;
         display: flex;
         justify-content: space-around;
         align-items: center;
@@ -666,8 +745,9 @@
           font-family: PingFang SC;
           font-weight: 300;
           color: rgba(64, 64, 64, 1);
+          background: #fff;
           &.active {
-            border-bottom: 2px dashed #1592e6;
+            border-bottom: 4px solid #4bb1f5;
           }
         }
       }
@@ -938,12 +1018,12 @@
         position: fixed;
         width: 100%;
         bottom: 0;
-        z-index: 5000;
         transition: all 0.3s;
+        background: #fff;
+        box-shadow: 0px -4px 12px rgba(0, 0, 0, 0.14);
       }
       .footer-tabbar {
         height: 120px;
-        margin-bottom: 68px;
         display: flex;
         align-items: center;
         background: #fff;
