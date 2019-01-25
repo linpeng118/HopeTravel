@@ -1,17 +1,21 @@
 <template>
   <div class="search-main">
-    <div class="country-bg">
-      <img src="../../assets/imgs/search_bg.jpg" alt="">
-      <div class="desc">{{data.cityName}}{{data.title}} {{data.num}}条</div>
+    <div class="country-bg" @click="selectCountryLine(data.allLines)">
+      <img :src="data.allLines.image" alt="">
+      <div class="desc">{{data.cityName}}{{data.allLines.content}}</div>
     </div>
     <div class="hot-box" v-if="data.hotTarget && data.hotTarget.length">
       <h2>热门目的地</h2>
-      <hot-place :lists="data.hotTarget" :isDesc="false"></hot-place>
+      <hot-place :lists="data.hotTarget" :isDesc="false" @selectDetail="selectDetail"></hot-place>
     </div>
     <div class="result-line" v-if="data.allArea && data.allArea.length">
       <h2>全部目的地</h2>
       <div class="line">
-        <hot-city-tag v-for="line in data.allArea" :key="line.id" :className="line.active ? 'active' : 'normal'" :tag="line" />
+        <hot-city-tag v-for="line in data.allArea"
+                      :key="line.id"
+                      :className="line.active ? 'active' : 'normal'"
+                      @callOnTag="callOnTag"
+                      :tag="line" />
       </div>
     </div>
   </div>
@@ -30,6 +34,24 @@ export default {
     data: {
       type: Object,
       default: null
+    }
+  },
+  created() {
+    console.log(this.data)
+  },
+  methods: {
+    selectDetail(item){
+      this.$emit('selectDetail', item)
+    },
+    callOnTag(item){
+      let obj = {
+        start_city: item.id
+      }
+      this.$emit('selectOnTag', obj)
+    },
+    selectCountryLine(line) {
+      let {category} = line
+      this.$emit('selectCountryLine', {category})
     }
   }
 }

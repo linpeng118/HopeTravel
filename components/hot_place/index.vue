@@ -1,6 +1,6 @@
 <template>
   <div class="hot-place">
-    <div class="hot-item" v-for="(list, index) in lists" :key="index">
+    <div class="hot-item" v-for="(list, index) in lists" :key="index" @click="selectDetail(list)">
       <img :src="list.image || list.image_url" alt="">
       <div class="title">{{list.content || list.name}}</div>
       <div class="desc" v-if="isDesc">{{list.subTitle}}</div>
@@ -19,6 +19,12 @@ export default {
     isDesc: {
       type: Boolean,
       type: true
+    }
+  },
+  methods: {
+    selectDetail(detail){
+      let {category, product_type, span_city, start_city} = detail
+      this.$emit('selectDetail', {category, product_type, span_city, start_city})
     }
   }
 }

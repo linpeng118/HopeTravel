@@ -6,6 +6,7 @@
       @onSearch="onSearch"
       @searchStart="searchStart"
       @query="queryChange"
+      @leftClick="leftClick"
     ></lay-header>
     <div class="search-wrap" v-if="searchWrapShow">
       <!--左边侧边栏-->
@@ -13,9 +14,19 @@
         <van-badge v-for="(area,index) in areaList" :key="index" :title="area" />
       </van-badge-group>
       <!--热门推荐的内容 默认显示热门推荐-->
-      <recommend :data="recommendObj" :titleList="recommendObj.subTitle" v-if="activeKey === 0"></recommend>
+      <recommend :data="recommendObj"
+                 :titleList="recommendObj.subTitle"
+                 v-if="activeKey === 0"
+                 @selectDetail="selectDetail"
+                 @selectPlay="selectDetail"
+                 @selectTag="selectDetail"
+      ></recommend>
       <!--其他地区的推荐-->
-      <country :data="countryObj" v-else></country>
+      <country :data="countryObj"
+               @selectDetail="selectDetail"
+               @selectCountryLine="selectDetail"
+               @selectOnTag="selectDetail"
+               v-else></country>
     </div>
     <div class="search-result" v-if="searchResult">
       <template v-if="searchResultList.searchCategory.length">
@@ -96,6 +107,10 @@ export default {
     this.init()
   },
   methods: {
+    // 返回上一级
+    leftClick() {
+      this.$router.go(-1)
+    },
     onChange(key) {
       this.activeKey = key
       if (key)  {
@@ -143,6 +158,7 @@ export default {
       countryObj = {
         cityName: cityName, // 城市的名字
         title: dataArray[0].title, // title
+        allLines: dataArray[0].datas[0], // 总体线路
         num: dataArray[0].datas.length, // 路线的数量
         hotTargetTitle: dataArray[1].title, // 热门目的地名字
         allAreaTitle: dataArray[2] && dataArray[2].title, // 全部目的地名字
@@ -186,6 +202,18 @@ export default {
       } else {
         this.searchResultList = {}
       }
+    },
+    selectDetail(item){
+      this.$router.push({
+        name: 'product_list',
+        params: {
+          itemType: 1,
+          ...item
+        }
+      })
+    },
+    selectCountryLine(item){
+      console.log(item)
     }
   }
 }

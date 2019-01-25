@@ -2,8 +2,8 @@
   <div class="play-ways">
     <img :src="item.image" alt="">
     <div class="title">
-      <span>{{item.title}}</span>
-      <span class="desc">{{item.desc}}</span>
+      <span>{{item.subTitle}}</span>
+      <span class="desc">{{item.content}}</span>
     </div>
   </div>
 </template>

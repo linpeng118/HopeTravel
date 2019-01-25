@@ -1,15 +1,25 @@
 <template>
   <div class="home-wrap">
     <!--头部-->
-    <div class="header"></div>
-    <!--下载广告-->
-    <div class="down-box" v-if="closeDown">
-      <div class="left" @click="closeDown = false">
-        <van-icon name="close" />
-        <span>下载稀饭APP，领新人福利</span>
+    <div class="header">
+      <!--下载广告-->
+      <div class="down-box" v-if="closeDown">
+        <div class="left" @click="closeDown = false">
+          <van-icon name="close" />
+          <span>下载稀饭APP，领新人福利</span>
+        </div>
+        <div class="right">
+          <a href="https://www.baidu.com/">去下载</a>
+        </div>
       </div>
-      <div class="right">
-        <a href="https://www.baidu.com/">去下载</a>
+      <!--搜索-->
+      <div class="search-box">
+        <nuxt-link tag="div" class="left" to="/search">
+          <van-icon name="search" />
+        </nuxt-link>
+        <nuxt-link tag="div" class="right" to="/personal" >
+          <van-icon name="user-circle-o" />
+        </nuxt-link>
       </div>
     </div>
     <!--banner-->
@@ -24,33 +34,33 @@
     </div>
     <!--标签-->
     <div class="entry-block">
-      <div class="entry-tourism">
+      <nuxt-link tag="div" class="entry-tourism" :to="{ name: 'product_list', params: { itemType: 3 }}">
         <img src="../assets/imgs/home/icon_group.png" alt="">
         <p class="title">精品小团</p>
-      </div>
-      <div class="entry-tourism">
+      </nuxt-link>
+      <nuxt-link tag="div" class="entry-tourism" to="/local_group">
         <img src="../assets/imgs/home/icon_play.png" alt="">
         <p class="title">当地玩乐</p>
-      </div>
-      <div class="entry-tourism">
+      </nuxt-link>
+      <nuxt-link tag="div" class="entry-tourism" to="/local_play_zh">
         <img src="../assets/imgs/home/icon_local.png" alt="">
         <p class="title">当地跟团</p>
-      </div>
-      <div class="entry-tourism">
+      </nuxt-link>
+      <nuxt-link tag="div" class="entry-tourism" to="/custom">
         <img src="../assets/imgs/home/icon_day.png" alt="">
         <p class="title">一日游</p>
-      </div>
+      </nuxt-link>
     </div>
     <!--热门目的地-->
     <div class="hot-target">
       <div class="title">
         <div class="name">热门目的地</div>
-        <div class="link-all">
+        <nuxt-link tag="div" class="link-all" to="/search">
           查看全部
           <van-icon name="arrow"/>
-        </div>
+        </nuxt-link>
       </div>
-      <hot-place :lists="hotList"></hot-place>
+      <hot-place :lists="hotList" @selectDetail="selectDetail"></hot-place>
     </div>
     <!--限时抢购-->
     <div class="sale-time-box"
@@ -83,7 +93,7 @@
                   :key="product.desc">
           <hot-item :isShowTitle="false"
                     :proData="product"
-                    @selectItem="onHot" />
+                    @selectItem="selectItem" />
         </van-cell>
       </van-list>
     </div>
@@ -131,10 +141,27 @@ export default {
   },
   mounted() {
     this.getHomeInitData()
-    this.getHomeHotListData()
   },
   methods: {
-    selectItem() {}, // 跳转详情
+    // 跳转商品详情
+    selectItem(item) {
+      this.$router.push({
+        name: 'product-detail',
+        params: {
+          productId: item
+        }
+      })
+    },
+    // 目的地跳转列表
+    selectDetail(detail) {
+      this.$router.push({
+        name: 'product_list',
+        params: {
+          itemType: 1,
+          ...detail
+        }
+      })
+    },
     async getHomeInitData() {
       let {code, data} = await getHomeData()
       if(code === 0) {
@@ -143,9 +170,6 @@ export default {
         this.hotList = hot.data[0].destination
         this.timeSalesList = special.data
       }
-    },
-    async getHomeHotListData() {
-      let {code, data} = await getHomeHotList()
     },
     async onLoad() {
       console.log('onload')
@@ -177,35 +201,64 @@ export default {
         width: 100%;
       }
     }
-    .down-box{
+    .header{
       position: fixed;
       width: 100%;
       top: 0;
-      height: 80px;
-      padding:0 32px;
-      background-color: #398BF6;
-      color: #fff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size:24px;
       z-index: 2100;
-      i{
-        vertical-align: text-top;
+      .down-box{
+        width: 100%;
+        height: 80px;
+        padding:0 32px;
+        background-color: #398BF6;
+        color: #fff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size:24px;
+        i{
+          vertical-align: text-top;
+        }
+        .right{
+          a{
+            height:40px;
+            width:114px;
+            display: block;
+            line-height: 40px;
+            background-color: #EFA11A;
+            border-radius:20px;
+            text-align: center;
+            color: #fff;
+          }
+        }
       }
-      .right{
-        a{
-          height:40px;
-          width:114px;
-          display: block;
-          line-height: 40px;
-          background-color: #EFA11A;
-          border-radius:20px;
-          text-align: center;
+      .search-box{
+        height:88px;
+        background-color: rgba(255,255,255,.7);
+        padding: 0 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .left{
+          width:618px;
+          height:72px;
+          padding: 12px 14px;
+          border-radius:36px;
+          background-color: rgba(255,255,255,0.81);
+          color: #989898;
+          font-size: 48px;
+        }
+        .right {
           color: #fff;
+          font-weight: bold;
+          i{
+            font-size: 60px;
+            vertical-align: middle;
+          }
         }
       }
     }
+
     .entry-block{
       display: flex;
       justify-content: space-between;
