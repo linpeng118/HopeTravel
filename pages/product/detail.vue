@@ -2,7 +2,7 @@
   <div class="product-detail-page"
     ref="refProductDetailPage">
     <!-- 头部 -->
-    <product-detail-header :transparent="isTransparent" 
+    <product-detail-header :transparent="isTransparent"
       title="产品详情"
       fixed
       ref="refProdctDetailHeader" />
@@ -188,7 +188,8 @@
                 </h3>
                 <div class="body">
                   <div class="attr-imgs">
-                    <prod-detail-img-item :proData="attr.images" />
+                    <prod-detail-img-item :proData="attr.images"
+                      @callOnSlide="onImgSlide" />
                   </div>
                   <div class="desc"
                     v-html="attr.content"></div>
@@ -283,7 +284,7 @@
         </van-collapse>
       </div>
       <!-- 底部按钮 -->
-      <div class="footer-fixed">
+      <div class="footer-fixed" :style="{'z-index': showServiceNode ? 5000 : 1000}">
         <div class="footer-tabbar">
           <div class="operate">
             <div class="btn-operate"
@@ -308,6 +309,7 @@
 
 <script>
   import {throttle as _throttle} from 'lodash'
+  import { ImagePreview } from 'vant';
   import ProductDetailHeader from '@/components/header/productDetail'
   import ProdDetailImgItem from '@/components/items/prodDetailImgItem'
   import Loading from '@/components/loading'
@@ -518,6 +520,15 @@
         //   console.log("direct", direct);
         // }, 17);
       },
+      onImgSlide(data) {
+        console.log(data)
+        const index = data.arr.findIndex(item => item === data.item)
+        console.log(index)
+        ImagePreview({
+          images: data.arr,
+          startPosition: index,
+        });
+      }
     },
   }
 </script>
@@ -1007,7 +1018,6 @@
         position: fixed;
         width: 100%;
         bottom: 0;
-        z-index: 5000;
         transition: all 0.3s;
         background: #fff;
         box-shadow: 0px -4px 12px rgba(0, 0, 0, 0.14);

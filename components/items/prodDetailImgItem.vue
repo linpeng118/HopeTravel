@@ -41,7 +41,7 @@
     mounted() {},
     methods: {
       onItem(item) {
-        this.$emit('callOnSlide', item)
+        this.$emit('callOnSlide', {arr: this.proData, item})
       }
     },
   }
