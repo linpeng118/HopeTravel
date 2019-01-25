@@ -1,5 +1,7 @@
+// index.scss 只引入公共样式。这些样式会在全局生效
 @import './reset';
 @import './consts';
+@import './normal'; // 通用样式，可直接在行内使用的类名
 @import './tours';
 @import './animate';
 @import './animate_vue';
@@ -30,6 +32,8 @@
 .fr {
   float: right;
 }
+.clearfix:after{content:"";display:block;clear:both;height:0;overflow:hidden;visibility:hidden;}
+.clearfix{zoom:1;}
 
 // 行高
 .no-highlight {
@@ -141,9 +145,18 @@
 }
 
 
-.page-enter-active, .page-leave-active {
-  transition: all .5s;
+.page-enter-active {
+  transition: all .3s;
 }
-.page-enter, .page-leave-active {
+.page-enter {
   transform :translate3d(100%,0,0)
+}
+
+// ios头部处理
+.layout-header{
+  margin-top: env(safe-area-inset-top)
+}
+//确认订单页面覆盖样式
+.radioitem .van-radio__label{
+  display: initial!important;
 }

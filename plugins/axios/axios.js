@@ -1,11 +1,11 @@
 import axios from 'axios'
+import store from '@/store'
 import {
   TOKEN_KEY
 } from '@/assets/js/config'
-import store from '../../store'
 // 使用UI库的弹窗
 import {
-  Toast
+  Notify
 } from 'vant';
 
 // 创建axios实例
@@ -15,20 +15,22 @@ let httprequest = axios.create({
   headers: {
     'Content-Type': 'application/json; charset=utf-8', // json格式通信
     'platform': 'APP',
+    'phoneType': 'iOS'
   }
 })
 
 // 修改默认配置-post请求头的设置
 httprequest.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 
-
 // 请求拦截器（有些请求需要登录态才能访问）
 httprequest.interceptors.request.use(
   config => {
-    // 可以设置请求头参数
-    let token = store().getters.token;
-    if (token) {
-      config.headers[TOKEN_KEY] = token // 请求头带上token
+    if (process.client) {
+      // 可以设置请求头参数
+      let token = store().state.token;
+      if (token) {
+        config.headers[TOKEN_KEY] = token
+      }
     }
     return config
   },
@@ -40,7 +42,12 @@ httprequest.interceptors.request.use(
 // 相应拦截器
 httprequest.interceptors.response.use(
   // 请求成功
-  res => res.status === 200 ? Promise.resolve(res.data) : Promise.reject(res.data),
+  res => {
+    if (res.status === 200) {
+      return Promise.resolve(res.data)
+    }
+    return Promise.reject(res.data)
+  },
   // 请求失败
   error => {
     const {
@@ -72,7 +79,7 @@ const errorHandle = (status, other) => {
   switch (status) {
     // 401: 未登录状态，跳转登录页
     case 401:
-      // toLogin();
+      toLogin();
       break;
       // 403 token过期
       // 清除token并跳转登录页
@@ -89,7 +96,7 @@ const errorHandle = (status, other) => {
       tip('请求的资源不存在');
       break;
     default:
-      (other);
+      tip(`错误码：${status}，${other}`);
   }
 }
 
@@ -98,11 +105,9 @@ const errorHandle = (status, other) => {
  * 禁止点击蒙层、显示三秒后关闭
  */
 const tip = msg => {
-  Toast({
-    type: 'fail',
+  Notify({
     message: msg,
     duration: 3000,
-    forbidClick: true
   });
 }
 

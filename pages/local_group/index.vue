@@ -2,14 +2,18 @@
   <div class="local-group-page"
     ref="refLocalGroupPage">
     <!-- header -->
-    <search-header :title="'当地跟团'" />
+    <search-header v-if="!isApp"
+      :title="'当地跟团'"
+      ref="refSearchHeader"
+      @leftClick="leftClick" />
     <!-- body -->
     <section class="local-group"
       ref="refLocalGroup">
       <!-- banner -->
       <div class="banner"></div>
       <!-- 下标（模块）[0] -->
-      <div class="hot-swiper">
+      <div class="hot-swiper"
+        v-if="localgroupData[0].data.length">
         <h1 class="title">{{localgroupData[0].moduleName}}</h1>
         <div v-swiper:mySwiper="swiperOption">
           <div class="swiper-wrapper">
@@ -17,13 +21,14 @@
               v-for="module0 in localgroupData[0].data"
               :key="module0.title">
               <hot-item :proData="module0"
-                @click.native="onHot(module0)" />
+                @click.native="onHot(module0.product_id)" />
             </div>
           </div>
         </div>
       </div>
       <!-- 下标（模块）[1] -->
-      <div class="hot-citys">
+      <div class="hot-citys"
+        v-if="localgroupData[1].data.length">
         <h1 class="title">{{localgroupData[1].moduleName}}</h1>
         <div class="city-list">
           <hot-city-tag v-for="city in localgroupData[1].data"
@@ -36,7 +41,8 @@
         </div>
       </div>
       <!-- 下标（模块）[2] -->
-      <div class="high-quality tours-tabs">
+      <div class="high-quality tours-tabs"
+        v-if="localgroupData[2].data.length">
         <h1 class="title">{{localgroupData[2].moduleName}}</h1>
         <!-- 横向tabs -->
         <van-tabs v-model="selected"
@@ -47,7 +53,8 @@
           @scroll="scrollTab">
           <!-- 国家标签 -->
           <div class="hq-tags"
-            :class="{'fixed-tag': isFixedTags}">
+            :class="{'fixed-tag': isFixedTags}"
+            :style="{paddingTop: isFixedTags ? `calc(100vw * ${isApp? 40 : 90} / 375 + 24px`: '24px'}">
             <hot-city-tag className="more"
               :tag="{title: '全部'}"
               @callOnTag="onCityAll" />
@@ -74,7 +81,8 @@
                 v-for="product in productList"
                 :key="product.desc">
                 <hot-item :isShowTitle="false"
-                  :proData="product" />
+                  :proData="product"
+                  @selectItem="onHot" />
               </van-cell>
             </van-list>
           </van-tab>
@@ -104,6 +112,7 @@
     },
     data() {
       return {
+        isApp: this.$route.query.platform,
         LIST_TYPE,
         // swiper配置
         swiperOption: {
@@ -121,7 +130,7 @@
         selected: 0,
         // tag是否一起吸顶
         isFixedTags: false,
-        // 距离顶部的高度
+        // 距离顶部的高度,只能通过计算属性获取。是变量。不同尺寸显示不同
         headerHeight: 44,
         // 当地跟团数据
         localgroupData: [
@@ -136,15 +145,30 @@
         prodFinished: false, // 是否已加载完成，加载完成后不再触发load事件
       }
     },
+    head() {
+      return {
+        title: '当地跟团'
+      }
+    },
+    watch: {
+      isFixedTags() {
+        // console.log(this.$refs.refSearchHeader.$el.offsetHeight)
+        this.headerHeight = this.isApp ? 0 : this.$refs.refSearchHeader.$el.offsetHeight
+      }
+    },
     mounted() {
-      // 引入appBridge
-      this.appBridge = require('@/assets/js/appBridge').default
       // 初始化
       this.init()
       // 监听滚动
-      this.$refs.refLocalGroupPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
-      //
-      this.appBridge.hideNavigationBar()
+      this.$refs.refLocalGroupPage.addEventListener('scroll', _throttle(this.scrollFn, 100))
+      // 判断机型
+      if (this.isApp) {
+        // 引入appBridge
+        this.appBridge = require('@/assets/js/appBridge').default
+        // this.appBridge.hideNavigationBar()
+      } else {
+        console.log('web操作')
+      }
     },
     methods: {
       ...mapMutations({
@@ -158,7 +182,6 @@
       async getLocalgroupData() {
         try {
           const res = await getLocalgroup()
-          console.log('getLocalgroupData', res.data)
           // 初始化本地跟团数据
           this.localgroupData = res.data
         } catch (error) {
@@ -179,34 +202,49 @@
         // 初始化产品列表
         this.productList = res.data
         this.prodPagination = res.pagination
-        console.log('getProductListData', this.productList, this.prodPagination)
+      },
+      // 返回上一级页面
+      leftClick() {
+        if (this.isApp) {
+          this.appBridge.backPreviousView()
+        } else {
+          this.$router.go(-1)
+        }
       },
       // 点击当季热门item
-      onHot(item) {
-        const params = {
-          'itemType': LIST_TYPE.LOCAL_GROUP,
+      onHot(productId) {
+        if (this.isApp) {
+          this.appBridge.jumpProductDetailView({
+            productID: productId.toString()
+          })
+        } else {
+          console.log('web操作')
         }
-        this.appBridge.jumpProductListView(params)
       },
       onHotCity(hotCity) {
-        console.log(hotCity)
-        const params = {
-          'itemType': LIST_TYPE.LOCAL_GROUP,
-          'category': hotCity.category,
-          'span_city': hotCity.span_city,
+        if (this.isApp) {
+          const params = {
+            'itemType': LIST_TYPE.LOCAL_GROUP,
+            'category': hotCity.category,
+            'span_city': hotCity.span_city,
+          }
+          this.appBridge.jumpProductListView(params)
+        } else {
+          console.log('web操作')
         }
-        this.appBridge.jumpProductListView(params)
       },
       onMoreCity() {
-        console.log('更多')
-        this.appBridge.jumpDestinationView()
+        if (this.isApp) {
+          this.appBridge.jumpDestinationView()
+        } else {
+          console.log('web操作')
+        }
       },
       /**
        * @param index 标签索引
        * @param title 标题
        */
       clickTab(index, title) {
-        console.log(index, title, this.localgroupData[2].data[index])
         this.selected = index
         const submitData = {
           category: this.localgroupData[2].data[index].category,
@@ -230,7 +268,6 @@
        * @param val { scrollTop: 距离顶部位置, isFixed: 是否吸顶 }
        */
       scrollTab(val) {
-        // console.log(val)
         if (val.isFixed) {
           this.isFixedTags = true
         } else {
@@ -248,13 +285,10 @@
           const s2 = this.$refs.refLocalGroupPage.scrollTop
           const direct = s2 - s1
           if (s1 === 0) {
-            console.log('处于顶部')
             this.vxChangeHeaderStatus(HEADER_TYPE.TOP)
           } else if (direct > 0) {
-            console.log('向下滚动')
             this.vxChangeHeaderStatus(HEADER_TYPE.DOWN)
           } else if (direct < 0) {
-            console.log('向上滚动')
             this.vxChangeHeaderStatus(HEADER_TYPE.UP)
           }
         }, 17)
@@ -336,12 +370,13 @@
       .hq-tags {
         padding: 24px 30px;
         background: #fff;
-        height: 172px;
+        width: 100%;
+        overflow: hidden;
         &.fixed-tag {
           position: fixed;
-          top: calc(92px + 44px + 24px + 15px);
-          z-index: 999;
-          box-shadow: 0 0.053333rem 0.16rem rgba(0, 0, 0, 0.1);
+          top: 0;
+          z-index: 9;
+          box-shadow: 0 5px 16px rgba(0, 0, 0, 0.1);
         }
       }
       .tags-height {

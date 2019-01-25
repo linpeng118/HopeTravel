@@ -1,7 +1,8 @@
 <template>
   <section class="container">
-    <lay-header title="更多城市" :isSearch="false" :classBg="true" @leftClick="leftClick"></lay-header>
-    <div class="listview">
+    <lay-header v-if="!isApp" title="更多城市" :isSearch="false" :classBg="true" @leftClick="leftClick"></lay-header>
+    <div class="listview" v-if="cityList.length" :style="{marginTop: isApp ? '1.76rem' : '1.173333rem'}">
+      <!--:style="{paddingTop: isApp ? 0 : '1.173333rem'}"-->
       <van-collapse v-model="activeName" accordion>
         <van-collapse-item v-for="cityInfo in cityList" :key="cityInfo.countryId" :title="cityInfo.countryName" :name="cityInfo.countryId">
           <ul>
@@ -15,6 +16,7 @@
         </van-collapse-item>
       </van-collapse>
     </div>
+    <loading v-if="!cityList.length "></loading>
   </section>
 </template>
 
@@ -22,56 +24,53 @@
   import LayHeader from '@/components/header/index.vue'
   import Scroll from '@/components/sroll/index.vue'
   import {getCityList} from '@/api/local_play'
-  import {getUrlParam} from '@/assets/js/utils'
+  import Loading from '@/components/loading'
   export default {
     name: 'moreCity',
     transition: 'page',
     components: {
       LayHeader,
-      Scroll
+      Scroll,
+      Loading
     },
     data() {
       return {
         activeName: 1,
-        cityList: []
+        cityList: [],
+        isApp: this.$route.query.platform
       }
     },
     async asyncData({$axios}) {
-      let {data, code} = await getCityList($axios)
-      if (code === 0) {
-        return {
-          original: data
-        }
+
+    },
+    head() {
+      return {
+        title: '更多城市'
       }
     },
     created() {
-      this.cityList = this._nomalLizeCityList(this.original)
+      this.init()
     },
     mounted() {
-      if (this.getPlatForm()) {
+      if (this.isApp) {
         this.appBridge = require('@/assets/js/appBridge.js').default
-        this.appBridge.hideNavigationBar()
+        // this.appBridge.hideNavigationBar()
       }
-      console.log('2019年1月15日11:04:26')
     },
     methods: {
-      // 判断是app还是web
-      getPlatForm() {
-        return getUrlParam('platform') ? true : false
-      },
       // 返回上一级页面
       leftClick() {
-        this.$router.go(-1)
+        if (this.isApp) {
+          this.appBridge.backPreviousView()
+        } else {
+          this.$router.go(-1)
+        }
       },
       // 初始化数据
-      async getInit() {
-        try {
-          let {data, code} = await getCityList()
-          if (code === 0) {
-            this.cityList = this._nomalLizeCityList(data)
-          }
-        } catch (e) {
-          console.log(e)
+      async init() {
+        let {data, code} = await getCityList()
+        if (code === 0) {
+          this.cityList = this._nomalLizeCityList(data)
         }
       },
       // 格式化aip得到的数据
@@ -92,7 +91,7 @@
         let query = {
           touCityId: cityId
         }
-        if (this.getPlatForm()) {
+        if (this.isApp) {
           query.platform = 'app'
         }
         this.$router.push({
@@ -104,20 +103,16 @@
   }
 </script>
 
-<style type="text/scss" lang="scss" scoped>
-  .listview{
-
-  }
-</style>
 <style type="text/scss" lang="scss">
   .listview{
-    padding-top: 88px;
+    margin-top: 132px;
     .van-cell{
       border-top: 1px solid #DEDEDE;
     }
     .van-collapse-item__content{
       padding: 0;
     }
+
     .van-cell__title{
       font-weight: bold;
     }

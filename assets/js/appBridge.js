@@ -22,24 +22,29 @@ export function testApi(funcName, isAndroid) {
  * 调用native接口
  * @param {string} funcName 机型相关的api接口名
  * @param {boolean} isAndroid 是否是安卓机型
- * @param {...*} args 传给api接口的参数列表
+ * @param {Object} args 传给api接口的参数对象
  */
-function callApi(funcName, isAndroid, ...args) {
-  (`call ${isAndroid ? 'Android' : 'iOS'} api: ${funcName} args: ${args}`)
-  // iOS接口必须有且仅有一个参数，否则会调用失败。如果业务没传就随便传一个参数进去
-  if (!args.length && !isAndroid) {
-    args = ['ignore']
-  }
-  if (args.length > 1 && !isAndroid) {
-    console.error('only accept one parameter for ios api')
+function callApi(funcName, isAndroid, args) {;
+  `call ${isAndroid ? 'Android' : 'iOS'} api: ${funcName} args: ${args}`
+  // 无参iOS（iOS接口必须有且仅有一个参数，否则会调用失败, 这里随意创建一个参数)
+  if (!args && !isAndroid) {
+    args = {}
   }
   try {
     // 这里不能使用提前获取好的函数对象，也不是bind的问题
     if (isAndroid) {
-      window.android[funcName](...args)
+      if (args) {
+        // 有参安卓
+        const strJson = JSON.stringify(args)
+        window.android[funcName](strJson)
+      } else {
+        // 无参安卓
+        window.android[funcName]()
+      }
     } else {
       // iOS只能传入一个参数，多的必须装到数组里
-      window.webkit.messageHandlers[funcName].postMessage(args[0])
+      // console.log(args)
+      window.webkit.messageHandlers[funcName].postMessage(args)
     }
   } catch (e) {
     console.error(e)
@@ -54,10 +59,10 @@ function callApi(funcName, isAndroid, ...args) {
  */
 function createArgApi(androidFuncName, iosFuncName) {
   if (browserVersion.isAndroid() && androidFuncName && testApi(androidFuncName, true)) {
-    return (data) => callApi(androidFuncName, true, data)
+    return data => callApi(androidFuncName, true, data)
   }
   if (browserVersion.isIos() && iosFuncName && testApi(iosFuncName, false)) {
-    return (data) => callApi(iosFuncName, false, data)
+    return data => callApi(iosFuncName, false, data)
   }
   return null
 }
@@ -70,10 +75,10 @@ function createArgApi(androidFuncName, iosFuncName) {
  */
 function createNoArgApi(androidFuncName, iosFuncName) {
   if (browserVersion.isAndroid() && androidFuncName && testApi(androidFuncName, true)) {
-    return () => callApi(androidFuncName, true)
+    return () => callApi(androidFuncName, true, null)
   }
   if (browserVersion.isIos() && iosFuncName && testApi(iosFuncName, false)) {
-    return () => callApi(iosFuncName, false)
+    return () => callApi(iosFuncName, false, null)
   }
   return null
 }
@@ -122,13 +127,12 @@ export const getLocalStorage = (() => {
     }
   }
   if (browserVersion.isIos() && testApi('getLocalStorage', false)) {
-    console.log('getLocalStorage调用')
     return () => {
       return new Promise(resolve => {
         const oldFunc = window.getLocalStorage
-          window.getLocalStorage = localStorage => {
-            window.getLocalStorage = oldFunc
-            resolve(localStorage)
+        window.getLocalStorage = localStorage => {
+          window.getLocalStorage = oldFunc
+          resolve(localStorage)
         }
         callApi('getLocalStorage', false)
       })
@@ -136,6 +140,59 @@ export const getLocalStorage = (() => {
   }
   return null
 })()
+
+// 收藏返回给app
+export const collectProductResult = (() => {
+  if (browserVersion.isAndroid() && testApi('collectProductResult', true)) {
+    return () => {
+      return new Promise(resolve => {
+        const funcName = `__API__${randomString(6)}`
+        window[funcName] = resolve
+        callApi('collectProductResult', true, funcName)
+      })
+    }
+  }
+  if (browserVersion.isIos() && testApi('collectProductResult', false)) {
+    return () => {
+      return new Promise(resolve => {
+        const oldFunc = window.collectProductResult
+        window.collectProductResult = collectResult => {
+          window.collectProductResult = oldFunc
+          resolve(collectResult)
+        }
+        callApi('collectProductResult', false)
+      })
+    }
+  }
+  return null
+})()
+
+// 获取token
+export const obtainUserToken = (() => {
+  if (browserVersion.isAndroid() && testApi('obtainUserToken', true)) {
+    return () => {
+      return new Promise(resolve => {
+        const funcName = `__API__${randomString(6)}`
+        window[funcName] = resolve
+        callApi('obtainUserToken', true, funcName)
+      })
+    }
+  }
+  if (browserVersion.isIos() && testApi('obtainUserToken', false)) {
+    return () => {
+      return new Promise(resolve => {
+        const oldFunc = window.obtainUserToken
+        window.obtainUserToken = token => {
+          window.obtainUserToken = oldFunc
+          resolve(token)
+        }
+        callApi('obtainUserToken', false)
+      })
+    }
+  }
+  return null
+})()
+
 /*  =========================== 需要参数的方法 ===========================  */
 
 /**
@@ -147,6 +204,11 @@ export const jumpProductListView = createArgApi('jumpProductListView', 'jumpProd
  * 跳转列表详情界面
  */
 export const jumpProductDetailView = createArgApi('jumpProductDetailView', 'jumpProductDetailView')
+
+/**
+ * 收藏
+ */
+export const userCollectProduct = createArgApi('userCollectProduct', 'userCollectProduct')
 
 /*  =========================== 不需要参数的方法 ===========================  */
 /**
@@ -179,10 +241,13 @@ export const jumpDestinationView = createNoArgApi('jumpDestinationView', 'jumpDe
  */
 export const backPreviousView = createNoArgApi('jumpDestinationView', 'jumpDestinationView')
 
+
 export default {
   // 以下接口需传参调用
   jumpProductListView,
   jumpProductDetailView,
+  userCollectProduct,
+  collectProductResult,
   // 以下接口无需参数
   hideNavigationBar,
   showNavigationBar,
@@ -190,5 +255,6 @@ export default {
   jumpSearchView,
   jumpDestinationView,
   backPreviousView,
-  getLocalStorage
+  getLocalStorage,
+  obtainUserToken
 }

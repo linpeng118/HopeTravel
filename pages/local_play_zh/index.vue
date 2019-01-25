@@ -1,22 +1,27 @@
 <template>
-  <div class="local-play-zh" ref="refLocalPlayPage">
-    <lay-header title="当地玩乐" @leftClick="leftClick"></lay-header>
+  <div class="local-play-zh"
+    ref="refLocalPlayPage">
+    <lay-header v-if="!isApp" title="当地玩乐"
+      @leftClick="leftClick"></lay-header>
     <div v-if="showList.length">
       <!-- banner -->
       <div class="banner"></div>
       <!-- 热门城市 -->
-      <hot-city :hotCityList="hotCity" @clickItem="linkCityHandle" @selectMore="selectMore"></hot-city>
+      <hot-city :hotCityList="hotCity"
+        @clickItem="linkCityHandle"
+        @selectMore="selectMore"></hot-city>
       <!-- 最近浏览 -->
-      <div class="recently-viewed" v-if="viewedList.length">
+      <div class="recently-viewed"
+        v-if="viewedList.length">
         <h1 class="title">最近浏览</h1>
         <div v-swiper:mySwiper="viewedSwiperOption">
           <div class="swiper-wrapper">
             <div class="swiper-slide"
-                 v-for="viewed in viewedList"
-                 :key="viewed.product_id">
+              v-for="viewed in viewedList"
+              :key="viewed.product_id">
               <snap-up-item :proData="viewed"
-                            :isShowTime="false"
-                            @selectDetail="selectItem" />
+                @selectDetail="selectItem"
+                @callCollect="callCollect" />
             </div>
           </div>
         </div>
@@ -25,13 +30,17 @@
       <!-- <swiper-list :proData="showList" /> -->
       <div class="show-list">
         <div class="show-item"
-             v-for="showItem in showList"
-             :key="showItem.title" v-if="showItem.list.length">
-          <swipe-item :proData="showItem" @selectItem="selectItem" />
+          v-show="showItem.list.length"
+          v-for="showItem in showList"
+          :key="showItem.title">
+          <swipe-item :proData="showItem"
+            @selectItems="selectItem" />
         </div>
       </div>
       <!-- 底部广告 -->
-      <lay-footer :imageInfo="footerAdvert" class="footer-margin"></lay-footer>
+      <lay-footer :imageInfo="footerAdvert"
+        class="footer-margin"
+        v-if="JSON.stringify(footerAdvert) === '{}'"></lay-footer>
     </div>
     <loading v-if="!showList.length"></loading>
   </div>
@@ -49,7 +58,6 @@
   import Loading from '@/components/loading'
   import {HEADER_TYPE} from '@/assets/js/consts/headerType'
   import {PRODUCTIDS} from '@/assets/js/config'
-  import {getUrlParam} from '@/assets/js/utils'
   export default {
     components: {
       HotCity,
@@ -61,6 +69,7 @@
     },
     data() {
       return {
+        isApp: this.$route.query.platform,
         // swiper配置
         viewedSwiperOption: {
           slidesPerView: 'auto',
@@ -68,10 +77,10 @@
           spaceBetween: 8,
           on: {
             slideChange() {
-              console.log('onSlideChangeEnd', this);
+              // console.log('onSlideChangeEnd', this);
             },
             tap() {
-              console.log('onTap', this);
+              // console.log('onTap', this);
             }
           }
         },
@@ -90,44 +99,55 @@
         // 热门城市
         hotCity: [],
         // 热门活动
-        footerAdvert:{}
+        footerAdvert: {},
+        // 收藏
       }
     },
-    async asyncData({$axios}) {
-      let {data, code} = await getPlay($axios)
-      if (code === 0) {
-        return {
-          original: data
-        }
-      } else {
-        return {
-          original: []
-        }
-      }
-    },
-    fetch ({store}) {
+    // async asyncData({$axios}) {
+    //   let {data, code} = await getPlay($axios)
+    //   console.log(data)
+    //   if (code === 0) {
+    //     return {
+    //       original: data
+    //     }
+    //   } else {
+    //     return {
+    //       original: []
+    //     }
+    //   }
+    // },
+    fetch({store}) {
     },
     created() {
-      this.showList = this._nomalLizeshowList(this.original)
-      // console.log(this.showList)
     },
-    mounted() {
+    head() {
+      return {
+        title: '当地玩乐'
+      }
+    },
+    async mounted() {
       // 监听滚动
-      this.$refs.refLocalPlayPage.addEventListener('scroll', _throttle(this.scrollFn, 500))
-      this.appBridge = require('@/assets/js/appBridge.js').default
-
+      this.$refs.refLocalPlayPage.addEventListener('scroll', _throttle(this.scrollFn, 100))
+      this.init()
+      if (this.isApp) {
+        this.appBridge = require('@/assets/js/appBridge.js').default
+        // this.appBridge.hideNavigationBar()
+        let productIds = await this.appBridge.getLocalStorage()
+        if (productIds) {
+          this.getViewedList(productIds)
+        }
+        let token = await this.appBridge.obtainUserToken()
+        this.vxChangeTokens(token)
+      }
     },
     methods: {
       ...mapMutations({
-        vxChangeHeaderStatus: 'header/changeStatus' // 修改头部状态
+        vxChangeHeaderStatus: 'header/changeStatus', // 修改头部状态
+        vxChangeTokens: 'common/updateToken' // 改变token
       }),
-      // 判断是app还是web
-      getPlatForm() {
-        return getUrlParam('platform') ? true : false
-      },
       // 头部返回按钮
       leftClick() {
-        if (this.getPlatForm()) {
+        if (this.isApp) {
           //app
           this.appBridge.backPreviousView()
         } else {
@@ -137,44 +157,34 @@
       },
       // 跳转到详情页面
       selectItem(productId) {
-        console.log(productId)
-        // this.appBridge.jumpProductDetailView({
-        //   productID: productId
-        // })
-        // if(this.getPlatForm()) {
-        //   // app详情跳转
-        //   console.log('app详情跳转')
-        //   this.appBridge.jumpProductDetailView({
-        //     productID: productId
-        //   })
-        // } else {
-        //   // m跳转
-        //   console.log('m跳转')
-        //   this.$router.push({
-        //     path: '/product/detail',
-        //     query: {
-        //       productId
-        //     }
-        //   })
-        // }
+        if (this.isApp) {
+          // app详情跳转
+          var json = {productID: productId.toString()}
+          this.appBridge.jumpProductDetailView(json)
+        } else {
+          // m跳转
+          console.log('m跳转')
+          this.$router.push({
+            path: '/product/detail',
+            query: {
+              productId
+            }
+          })
+        }
       },
       // 获取最近浏览
-     async getViewedList(ids) {
-       let {data, code} = await getProductList(ids)
-       if(code === 0) {
-         this.viewedList = data
-       } else {
-         this.viewedList = []
-       }
+      async getViewedList(ids) {
+        let {data, code} = await getProductList(ids)
+        if (code === 0) {
+          this.viewedList = data
+        } else {
+          this.viewedList = []
+        }
       },
       async init() {
-        try {
-          let {data, code} = await getPlay()
-          if (code === 0) {
-            this.showList = this._nomalLizeshowList(data)
-          }
-        } catch (e) {
-          console.log(e)
+        let {data, code} = await getPlay()
+        if (code === 0) {
+          this.showList = this._nomalLizeshowList(data)
         }
       },
       // 序列化数据
@@ -182,8 +192,8 @@
         let showList = []
         let len = data.length
         this.hotCity = data[0].data
-        this.footerAdvert = data[len-1].data
-        for(let i = 1; i < len - 1;i++){
+        this.footerAdvert = data[len - 1].data[0]
+        for (let i = 1; i < len - 1; i++) {
           let obj = {}
           obj.name = data[i].moduleName
           obj.list = data[i].data
@@ -214,11 +224,11 @@
           }, 17)
         })
       },
-      linkCityHandle(cityId){
+      linkCityHandle(cityId) {
         let query = {
           touCityId: cityId
         }
-        if (this.getPlatForm()) {
+        if (this.isApp) {
           query.platform = 'app'
         }
         this.$router.push({
@@ -229,13 +239,37 @@
       // 更多城市
       selectMore() {
         let query = {}
-        if (this.getPlatForm()) {
+        if (this.isApp) {
           query.platform = 'app'
         }
         this.$router.push({
           path: `/local_play_foreign/more_city`,
           query
         })
+      },
+      // 搜藏
+      async callCollect(val) {
+        if (this.isApp) {
+          let json = {
+            type: val.is_favorite ? '1' : '0',
+            product_id: val.product_id.toString()
+          }
+          this.appBridge.userCollectProduct(json)
+          this.appBridge.collectProductResult().then(res => {
+            if (res.code == 0) {
+              this.$toast('操作成功')
+              let index = this.viewedList.findIndex(item => {
+                return item.product_id === val.product_id
+              })
+              this.viewedList[index].is_favorite = !this.viewedList[index].is_favorite
+            } else {
+              this.$toast('操作失败')
+            }
+          })
+          // let res = await this.appBridge.collectProductResult()
+        } else {
+          ('web2.0')
+        }
       }
     }
   }
@@ -250,7 +284,7 @@
     -webkit-overflow-scrolling: touch;
     .banner {
       height: 312px;
-      background: url("../../assets/imgs/local_regiment/bg_banner@2x.png")
+      background: url("../../assets/imgs/local_regiment/bg_play_local2x.png")
         no-repeat 0 0/100%;
     }
     .recently-viewed {
@@ -285,7 +319,7 @@
       }
     }
     .footer-margin {
-      margin-top:24px;
+      margin-top: 24px;
     }
   }
 </style>

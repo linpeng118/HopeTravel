@@ -1,0 +1,15 @@
+import axios from '@/plugins/axios/axios'
+
+export const countprice = (data) => {
+  return axios.post(`/api/product/${data.product_id}/budget`, {
+    product: {
+      product_id: data.product_id||'',
+      departure_date: data.departure_date||'',
+      room_total: data.room_total||0,
+      room_attributes: data.room_attributes||[],
+      product_departure: data.product_departure||'',
+      attributes: data.attributes||[],
+      is_point: data.is_point||false,
+    }
+  })
+}

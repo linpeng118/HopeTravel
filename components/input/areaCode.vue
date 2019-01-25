@@ -7,8 +7,7 @@
     <van-col class="area-code-wrap"
       span="6"
       @click.native="toggleAreaList">
-      <span class="area-code">+ {{areaCode}}
-      </span>
+      <span class="area-code">+ {{areaCode}}</span>
       <van-icon class="icon-arrow"
         name="arrow" />
     </van-col>
@@ -39,6 +38,10 @@
   export default {
     components: {},
     props: {
+      proAreaCode: {
+        type: [Number, String],
+        default: '86'
+      },
       proMobile: {
         type: [Number, String],
         default: ''
@@ -47,7 +50,7 @@
     data() {
       return {
         isShowList: false, // 是否显示列表
-        areaCode: '86',
+        areaCode: this.proAreaCode,
         mobile: '',
         araeList: [
           {code: '86', addr: '中国大陆'},
@@ -70,6 +73,7 @@
       },
       selectArea(area) {
         this.areaCode = area.code
+        this.$emit('update:proAreaCode', area.code)
         this.toggleAreaList()
       }
     },
@@ -89,14 +93,24 @@
       padding-left: 20px;
       display: flex;
       align-items: center;
-      color: #555;
       max-width: 140px;
+      position: relative;
       .area-code {
         font-size: 32px;
+        color: #555;
       }
       .icon-arrow {
         margin-left: 20px;
         font-size: 24px;
+        color: #555;
+      }
+      &::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        height: 60px;
+        width: 2px;
+        background: #C4C4C4;
       }
     }
     .mobile-input {
@@ -106,13 +120,14 @@
     }
     .area-list {
       position: absolute;
-      right: 0;
+      right: -2px;
       top: 0;
       z-index: 999;
       background: #fff;
       border-radius: 0 10px 10px 10px;
       box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.16);
       padding: 0 36px;
+      width: 458px;
       max-height: 375px;
       overflow: scroll;
       &:after {

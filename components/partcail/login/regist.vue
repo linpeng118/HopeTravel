@@ -1,0 +1,344 @@
+<template>
+  <van-tabs class="regist-comp tours-tabs-nowrap"
+    @change="changeTabs">
+    <!-- 手机号注册 -->
+    <van-tab class="regist"
+      title="手机号注册">
+      <van-cell-group>
+        <!-- 手机号 -->
+        <area-code-input class="phone"
+          :proAreaCode.sync="phoneForm.areaCode"
+          :proMobile.sync="phoneForm.phone" />
+        <!-- 密码 -->
+        <van-field class="password tours-input"
+          v-model="phoneForm.password"
+          center
+          clearable
+          icon="eye-o"
+          placeholder="请输入密码"
+          :type="pswInputType"
+          @click-icon="toggleInputType">
+        </van-field>
+        <!-- 验证码 -->
+        <van-field class="password tours-input"
+          v-model="phoneForm.smsCode"
+          center
+          clearable
+          placeholder="请输入验证码">
+          <van-button class="tours-button-noborder"
+            slot="button"
+            size="small"
+            @click="getCode(LOGIN_WAY.PHONE)">{{showText}}</van-button>
+        </van-field>
+      </van-cell-group>
+    </van-tab>
+    <!-- 请输入邮箱 -->
+    <van-tab class="email-regist"
+      title="请输入邮箱">
+      <van-cell-group>
+        <van-field class="email tours-input"
+          v-model="emailForm.email"
+          placeholder="请输入邮箱" />
+        <van-field class="password tours-input"
+          v-model="emailForm.password"
+          center
+          clearable
+          icon="eye-o"
+          placeholder="请输入密码"
+          :type="pswInputType"
+          @click-icon="toggleInputType">
+        </van-field>
+        <van-field class="auth-code tours-input"
+          v-model="emailForm.emailCode"
+          center
+          clearable
+          placeholder="请输入验证码">
+          <van-button class="tours-button-noborder"
+            slot="button"
+            size="small"
+            :disabled="codeType===VERIFY_CODE.GETTING"
+            @click="getCode(LOGIN_WAY.WMAIL)">{{showText}}</van-button>
+        </van-field>
+      </van-cell-group>
+    </van-tab>
+    <!-- 按钮 -->
+    <div class="to-regist"
+      v-if="showLoginTip">
+      <span>已有账号？</span>
+      <span class="blue"
+        @click="showLoginDlg">马上登录</span>
+    </div>
+    <van-button class="btn-regist tours-button"
+      size="large"
+      :disabled="!checked"
+      :loading="submiting"
+      @click="btnRegist">注册</van-button>
+    <div class="text">
+      <van-checkbox class="tour-checkbox"
+        v-model="checked">
+        <span @click="onAgreement">我已经阅读并同意《服务协议》</span>
+      </van-checkbox>
+    </div>
+  </van-tabs>
+</template>
+
+<script>
+  import AreaCodeInput from '@/components/input/areaCode'
+  import areaCodeInput from '@/components/input/areaCode'
+  import {LOGIN_WAY, VERIFY_CODE, SMS_SCENE, EMAIL_SCENE} from '@/assets/js/consts'
+  import {getSmsCode, getEmailCode, register} from '@/api/member'
+
+  const TIME = 60 // 倒计时时间
+
+  export default {
+    components: {
+      AreaCodeInput,
+      areaCodeInput,
+    },
+    props: {
+      showLoginTip: {
+        type: Boolean,
+        default: false
+      }
+    },
+    data() {
+      return {
+        VERIFY_CODE,
+        // 注册类型（phone/email）
+        LOGIN_WAY,
+        // 默认注册方式
+        type: LOGIN_WAY.PHONE,
+        // 手机注册
+        phoneForm: {
+          areaCode: '86', // 区号
+          password: '', // 密码
+          phone: '', // 手机号
+          smsCode: '', // 短信验证码
+        },
+        // 邮箱注册
+        emailForm: {
+          email: '',
+          password: '',
+          emailCode: '', // 邮箱验证码
+        },
+        submiting: false, // 是否可提交
+        checked: false,
+        pswInputType: 'password', // 密码显示与否
+        // 定时器
+        timer: null,
+        countDownTime: TIME, // 倒计时时间
+        codeType: VERIFY_CODE.START, // 获取验证码/倒计时/重新获取
+      }
+    },
+    computed: {
+      showText() {
+        if (this.codeType === VERIFY_CODE.START) {
+          clearInterval(this.timer)
+          return '获取验证码'
+        } else if (this.codeType === VERIFY_CODE.GETTING) {
+          return `${this.countDownTime} s`
+        } else {
+          clearInterval(this.timer)
+          return '重新获取'
+        }
+      }
+    },
+    mounted() {},
+    methods: {
+      // 切换注册模式
+      changeTabs(index, title) {
+        console.log(index, title)
+        // 清除定时器
+        this.resetTimer()
+        if (index === 1) {
+          this.type = LOGIN_WAY.EMAIL
+        } else {
+          this.type = LOGIN_WAY.PHONE
+        }
+      },
+      // 显示登录弹窗
+      showLoginDlg() {
+        this.$emit('showLoginDlg')
+      },
+      // 输入是否可见
+      toggleInputType(val) {
+        this.pswInputType = this.pswInputType === 'password' ? 'text' : 'password'
+      },
+      // 获取验证码
+      async getCode(type) {
+        if (type === LOGIN_WAY.PHONE && !this.phoneForm.phone) {
+          this.$toast('请输入手机号码')
+          return
+        }
+        if (type === LOGIN_WAY.EMAIL && !this.emailForm.email) {
+          this.$toast('请输入邮箱')
+          return
+        }
+        // 定时器
+        this.codeType = VERIFY_CODE.GETTING // 获取验证码
+        try {
+          if (type === LOGIN_WAY.PHONE) {
+            await getSmsCode({
+              phone: `${this.phoneForm.areaCode}-${this.phoneForm.phone}`,
+              scene: SMS_SCENE.RGISTER
+            })
+          } else {
+            await getEmailCode({
+              email: this.emailForm.email,
+              scene: EMAIL_SCENE.RGISTER
+            })
+          }
+          await this.countDown()
+        } catch (error) {
+          console.log(error)
+          this.codeType = VERIFY_CODE.START
+        }
+      },
+      countDown() {
+        this.timer = setInterval(() => {
+          console.log(this.countDownTime)
+          if (this.countDownTime <= 0) {
+            this.codeType = VERIFY_CODE.AGAIN
+            this.countDownTime = TIME
+            console.log('countDownTime', this.countDownTime)
+            clearInterval(this.timer)
+          } else {
+            this.countDownTime--
+          }
+        }, 1000)
+      },
+      // 点击注册
+      btnRegist() {
+        if (this.type === LOGIN_WAY.PHONE) {
+          this.registByPhone()
+        } else {
+          this.registByEmail()
+        }
+      },
+      // 手机注册
+      async registByPhone() {
+        if (!this.phoneForm.phone) {
+          this.$toast('请输入手机号码')
+          return
+        }
+        if (!this.phoneForm.smsCode) {
+          this.$toast('请输入短信验证码')
+          return
+        }
+        if (!this.phoneForm.password) {
+          this.$toast('请输入密码')
+          return
+        }
+        if (this.phoneForm.password.length < 6 || this.phoneForm.password.length > 20) {
+          this.$toast('请输入6-20位密码')
+          return
+        }
+        this.submiting = true // 开始提交
+        const {code, data, msg} = await register({
+          type: this.type,
+          account: `${this.phoneForm.areaCode}-${this.phoneForm.phone}`,
+          password: this.phoneForm.password,
+          password_confirm: this.phoneForm.password,
+          code: this.phoneForm.smsCode
+        })
+        this.submiting = false
+        if (code === 0) {
+          this.$toast('手机号注册成功！')
+        } else {
+          this.$toast(msg)
+        }
+      },
+      // 邮箱注册
+      async registByEmail() {
+        if (!this.emailForm.emailCode) {
+          this.$toast('请输入邮箱验证码')
+          return
+        }
+        if (!this.emailForm.password) {
+          this.$toast('请输入密码')
+          return
+        }
+        if (this.emailForm.password.length < 6 || this.emailForm.password.length > 20) {
+          this.$toast('请输入6-20位密码')
+          return
+        }
+        this.submiting = true // 开始提交
+        try {
+          const {code, data, msg} = await register({
+            type: this.type,
+            account: this.emailForm.email,
+            password: this.emailForm.password,
+            password_confirm: this.emailForm.password,
+            code: this.emailForm.emailCode
+          })
+          if (code === 0) {
+            this.$toast('邮箱注册成功！')
+          } else {
+            this.$toast(msg)
+          }
+        } catch (error) {
+          console.log(error)
+        }
+        this.submiting = false
+      },
+      // 点击服务协议
+      onAgreement() {
+        console.log('onAgreement')
+      },
+      // 重置定时器
+      resetTimer() {
+        clearInterval(this.timer)
+        this.codeType = VERIFY_CODE.START
+        this.countDownTime = 60
+      }
+    },
+  }
+</script>
+
+<style lang="scss" scoped>
+  .regist-comp {
+    margin-top: 100px;
+    .regist,
+    .email-regist {
+      padding: 0 76px;
+      .icon-arrow {
+        position: absolute;
+        top: 0;
+        left: 50px;
+        z-index: 999;
+      }
+    }
+    .regist {
+      .phone {
+        margin-top: 54px;
+      }
+      .password {
+        margin-top: 16px;
+      }
+    }
+    .email-regist {
+      .email {
+        margin-top: 54px;
+      }
+      .password {
+        margin-top: 16px;
+      }
+      .auth-code {
+        margin-top: 16px;
+      }
+    }
+    .btn-regist {
+      margin-top: 20px;
+      width: 596px;
+    }
+    .text {
+      margin-top: 30px;
+      padding: 0 76px;
+      text-align: left;
+      font-size: 22px;
+      span {
+        color: rgba(57, 158, 246, 1);
+      }
+    }
+  }
+</style>

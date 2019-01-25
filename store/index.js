@@ -8,6 +8,12 @@ import mutations from './mutations'
 import common from './modules/common'
 import header from './modules/header'
 import localPlay from './modules/localPlay'
+// 确认订单
+import confirm from './modules/confirm'
+// 个人信息
+import profile from './modules/profile'
+// login模块
+import login from './modules/login'
 
 Vue.use(Vuex)
 
@@ -20,7 +26,10 @@ const createStore = () => {
     modules: {
       common,
       header,
-      localPlay
+      localPlay,
+      confirm,
+      profile,
+      login,
     },
   })
 }
@@ -35,6 +44,9 @@ if (module.hot) {
     './modules/common',
     './modules/header',
     './modules/localPlay',
+    './modules/confirm',
+    './modules/profile',
+    './modules/login',
   ], () => {
     store.hotUpdate({
       // 获取更新后的模块。因为 babel 6 的模块编译格式问题，这里需要加上 .default
@@ -45,6 +57,9 @@ if (module.hot) {
         common: require('./modules/common').default,
         header: require('./modules/header').default,
         localPlay: require('./modules/localPlay').default,
+        confirm: require('./modules/confirm').default,
+        profile: require('./modules/profile').default,
+        login: require('./modules/login').default,
       }
     })
   })

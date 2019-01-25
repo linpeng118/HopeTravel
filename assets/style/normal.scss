@@ -1,0 +1,188 @@
+// normal.scss用于存放通用样式, 能方法生成就方法生成。
+/** 字体大小 font-size: 10,12,14,16,18... */
+$font-size: (10, 12, 14, 16, 18, 20, 22, 24, 28, 30, 32, 34, 36, 40, 48);
+
+@mixin font-size {
+  @each $value in $font-size {
+    .fs-#{$value} {
+      font-size: $value+px;
+    }
+  }
+}
+
+@include font-size;
+
+/** 字体粗细 font-weight: 100-900 */
+$font-weight: (400, 700, 100, 200, 300, 500, 600, 800, 900);
+
+@mixin font-weight {
+  @each $value in $font-weight {
+    .fw-#{$value} {
+      font-weight: $value;
+    }
+  }
+}
+
+@include font-weight;
+
+/** 圆角 border-radius 0-12 */
+$border-radius: (0, 2, 4, 6, 8, 10, 12, 14);
+
+@mixin border-radius {
+  @each $value in $border-radius {
+    .br-#{$value} {
+      border-radius: $value+px;
+    }
+  }
+}
+
+@include border-radius;
+
+.b-r-full {
+  border-radius: 100%;
+}
+
+/** 外边距 margin */
+$margin-top: (0, 2, 5, 10, 12, 15, 20, 24, 26, 28, 30, 50);
+
+@mixin margin-top {
+  @each $value in $margin-top {
+    .mt-#{$value} {
+      margin-top: $value+px;
+    }
+  }
+}
+
+@include margin-top;
+
+.no-margin {
+  margin: 0;
+}
+
+/** 外边距 padding */
+$padding-top: (0, 2, 5, 10, 15, 20, 26, 30, 50);
+
+@mixin padding-top {
+  @each $value in $padding-top {
+    .pt-#{$value} {
+      padding-top: $value+px;
+    }
+  }
+}
+
+@include padding-top;
+
+.no-padding {
+  margin: 0;
+}
+
+/** 行高 line-height */
+$line-height: (0, 1.2, 1.5, 10, 15, 20, 26, 30, 50);
+
+@mixin line-height {
+  @each $value in $line-height {
+    .lh-#{$value} {
+      line-height: $value;
+    }
+  }
+}
+
+@include line-height;
+
+/** 间距 letter-spacing */
+
+$letter-spacing: (1, 2, 3);
+
+@mixin letter-spacing {
+  @each $value in $letter-spacing {
+    .ls-#{$value} {
+      letter-spacing: $value;
+    }
+  }
+}
+
+@include letter-spacing;
+
+// display
+.block {
+  display: block !important;
+}
+
+.hide {
+  display: none !important;
+}
+
+.inline {
+  display: inline-block !important;
+}
+
+// 居中
+.text-center {
+  text-align: center !important;
+}
+
+// vertical-align
+.v-middle {
+  vertical-align: middle !important;
+}
+
+.v-top {
+  vertical-align: top !important;
+}
+
+.v-bottom {
+  vertical-align: bottom !important;
+}
+
+// 定位
+.pos-r {
+  position: relative;
+}
+
+.pos-s {
+  position: static !important;
+}
+
+.pos-a {
+  position: absolute;
+}
+
+.pos-f {
+  position: fixed;
+}
+
+// 宽度
+.w-full {
+  width: 100%;
+}
+
+
+// 背景色 background
+.bg-transparent {
+  background: transparent !important;
+}
+
+// 颜色 color
+.text-primary {
+  color: #27c24c;
+}
+
+.text-warning {
+  color: #f70 !important;
+}
+
+.text-error {
+  color: #D50000 !important;
+}
+
+.text-white {
+  color: #fff;
+}
+
+.text-gray {
+  color: #aaa;
+}
+
+.text-black {
+  color: #000;
+}

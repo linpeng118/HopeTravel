@@ -3,28 +3,26 @@
     <div class="banner">
       <img :src="proData.image"
         alt="banner">
-      <div class="time-wrap"
-        v-if="isShowTime">
+      <div class="collect-wrap" @click.stop="OnCollect(proData)" v-if="isCollect">
+        <img v-if="proData.is_favorite"
+             src="../../assets/imgs/star_active@2x.png"
+             alt="">
+        <img v-else
+             src="../../assets/imgs/star@2x.png"
+             alt="">
+      </div>
+      <div class="time-wrap" v-if="isShowTime">
         <div class="text">
           抢购中
         </div>
-        <span class="time">
-          <span>0</span>
-          <span>0</span>
-          <span class="colon">:</span>
-          <span>2</span>
-          <span>3</span>
-          <span class="colon">:</span>
-          <span>5</span>
-          <span>6</span>
-        </span>
-        <div class="collect" @click="OnCollect(proData)">
-          <img v-if="isCollect"
-            src="../../assets/imgs/star_active@2x.png"
-            alt="">
-          <img v-else
-            src="../../assets/imgs/star@2x.png"
-            alt="">
+        <div class="time">
+          <!--<span>00</span>-->
+          <!--<span class="colon">:</span>-->
+          <!--<span>23</span>-->
+          <!--<span class="colon">:</span>-->
+          <!--<span>56</span>-->
+          <span v-if="proData.special_end_date < 0" class="over">已结束</span>
+          <!--{{getTime(proData.special_end_date)}}-->
         </div>
       </div>
       <div class="title"
@@ -33,8 +31,7 @@
       </div>
     </div>
     <div class="desc">
-      <div class="tags-wrap"
-        :class="tagPos">
+      <div class="tags-wrap" :class="tagPos">
         <!--<div class="tag"-->
           <!--:class="`tag${item}`"-->
           <!--v-for="item in proData.type"-->
@@ -64,8 +61,18 @@
 </template>
 
 <script>
+  import {resetTime} from '@/assets/js/utils'
   export default {
     components: {},
+    filters: {
+      showTime (value) {
+        console.log(value)
+        setInterval(() => {
+          value = value - 1000
+        }, 1000)
+        return value
+      }
+    },
     props: {
       proData: {
         type: Object,
@@ -78,7 +85,7 @@
       },
       isShowTime: {
         type: Boolean,
-        default: true,
+        default: false,
       },
       isShowTitle: {
         type: Boolean,
@@ -86,7 +93,7 @@
       },
       isCollect: {
         type: Boolean,
-        default: false,
+        default: true,
       },
       tagPos: {
         type: String,
@@ -95,16 +102,42 @@
     },
     data() {
       return {
+        time: {h:0,m:0,s:0}
       }
     },
     computed: {},
-    mounted() {},
+    mounted() {
+
+    },
     methods: {
       OnCollect(val) {
         this.$emit('callCollect', val)
       },
       selectItem(product) {
         this.$emit('selectDetail', product.product_id)
+      },
+      getTime() {
+        var date = new Date();
+        var now = date.getTime();
+        //设置截止时间
+        var end = new Date().getTime() + 2297215;
+        //时间差
+        var differTime = end - now;
+        //定义变量,h,m,s保存倒计时的时间
+        var h, m, s;
+        if (differTime >= 0) {
+          h = Math.floor(differTime / 1000 / 60 / 60);
+          m = Math.floor(differTime / 1000 / 60 % 60);
+          s = Math.floor(differTime / 1000 % 60);
+          h = h < 10 ? ("0" + h) : h;
+          m = m < 10 ? ("0" + m) : m;
+          s = s < 10 ? ("0" + s) : s;
+          // console.log(h + "时" + m + "分" + s + "秒")
+          setInterval(this.getTime, 1000)
+          // return h + "时" + m + "分" +  s + "秒"
+        } else {
+          console.log("00时" + "00分" + "00秒")
+        }
       }
     },
   }
@@ -112,12 +145,14 @@
 
 <style lang="scss" scoped>
   .snap-up-item {
-    // width: 100%;
     width: 686px;
     height: 554px;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
     .banner {
       position: relative;
       height: 368px;
+      background: #eee;
       img {
         width: 100%;
         height: 368px;
@@ -134,53 +169,64 @@
         font-size: 20px;
         border-radius: 0 0 6px 6px;
       }
-      .time-wrap {
+      .collect-wrap {
+        width: 100px;
+        height: 100px;
         position: absolute;
+        top: 10px;
+        right: 10px;
+        text-align: right;
+        img {
+          width: 50px;
+          height: 50px;
+        }
+      }
+      .time-wrap{
+        width: 300px;
+        position: absolute;
+        left: 0;
         top: 0;
-        width: 100%;
+        font-size: 24px;
+        color: #fff;
         display: flex;
-        justify-content: space-between;
-        .text {
-          flex: 0 0 96px;
+        .text{
+          height:48px;
           width: 96px;
-          height: 48px;
           line-height: 48px;
-          font-size: 24px;
-          color: rgba(255, 255, 255, 1);
-          background: #ff0000;
+          background-color: #FF0000;
           text-align: center;
-          border-radius: 6px 0 0 0;
         }
-        .time {
-          flex: 1;
-          font-size: 0;
-          margin-top: 6px;
-          span:not(.colon) {
-            display: inline-block;
-            color: rgba(255, 255, 255, 1);
-            background: rgba(0, 0, 0, 0.6);
-            width: 28px;
-            height: 40px;
-            line-height: 40px;
-            font-size: 26px;
-            text-align: center;
-            font-size: 24px;
-            border-radius: 6px;
-          }
-          .colon {
-            padding: 0 5px;
-            color: rgba(255, 255, 255, 1);
-            font-size: 24px;
-          }
+        .over{
+          height:48px;
+          width: 96px;
+          line-height: 48px;
+          background-color: #000;
+          text-align: center;
+          display: block;
+          border-radius: 0 8px 8px 0;
         }
-        .collect {
-          flex: 0 0 60px;
-          padding: 10px;
-          img {
-            width: 50px;
-            height: 50px;
-          }
-        }
+        /*.time {*/
+          /*flex: 1;*/
+          /*font-size: 0;*/
+          /*margin-top: 6px;*/
+          /*span:not(.colon) {*/
+            /*display: inline-block;*/
+            /*color: rgba(255, 255, 255, 1);*/
+            /*background: rgba(0, 0, 0, 0.6);*/
+            /*width: 28px;*/
+            /*height: 40px;*/
+            /*line-height: 40px;*/
+            /*font-size: 26px;*/
+            /*text-align: center;*/
+            /*font-size: 24px;*/
+            /*border-radius: 6px;*/
+          /*}*/
+          /*.colon {*/
+            /*padding: 0 5px;*/
+            /*color: rgba(255, 255, 255, 1);*/
+            /*font-size: 24px;*/
+          /*}*/
+        /*}*/
       }
     }
     .desc {
@@ -200,7 +246,7 @@
           line-height: 36px;
           text-align: center;
           color: #fff;
-          font-size: 12px;
+          font-size: 22px;
           border-radius: 6px;
         }
         .tag1 {

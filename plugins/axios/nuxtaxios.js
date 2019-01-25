@@ -3,7 +3,7 @@ import {
 } from '@/assets/js/config'
 import store from '../../store'
 export default function ({ $axios, redirect }) {
-  $axios.defaults.timeout = 1000 * 10
+  // $axios.defaults.timeout = 1000 * 10
   $axios.setHeader('Content-Type', 'application/json; charset=utf-8')
   $axios.setHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8', [
     'post'

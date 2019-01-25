@@ -88,6 +88,8 @@
     color: #eee;
     background-color: transparent;
     transition: all 0.5s;
+    margin-top: env(safe-area-inset-top);
+    overflow: hidden;
     &.show-bg {
       background-color: #fff;
       color: #191919;
@@ -131,10 +133,10 @@
         height: 72px;
         padding: 0 26px;
         text-align: left;
-        color: #fff;
+        color: #989898;
         border-radius:36px;
         font-size:30px;
-        background: #DBDBDB;
+        background: #EBEBEB;
         display: flex;
         align-items: center;
         line-height: 72px;

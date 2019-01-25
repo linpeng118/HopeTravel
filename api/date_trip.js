@@ -1,5 +1,5 @@
 import axios from '@/plugins/axios/axios'
 
-export const getdateTrip = () => {
-  return axios.get('/paly/localgroup')
+export const getdateTrip = (id) => {
+  return axios.get(`/api/product/${id}/calendar`)
 }

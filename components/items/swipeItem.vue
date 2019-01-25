@@ -1,13 +1,13 @@
 <template>
   <div class="part-show-item">
-    <h1 class="title">{{proData.name}}</h1>
+    <h1 class="part-title">{{proData.name}}</h1>
     <div class="swiper-container"
       v-swiper:mySwiper="swiperOption">
       <div class="swiper-wrapper">
         <div class="swiper-slide"
           v-for="cItem in proData.list"
           :key="cItem.product_id">
-          <hot-item :proData="cItem" />
+          <hot-item :proData="cItem" @selectItem="selectItem" />
         </div>
       </div>
     </div>
@@ -41,7 +41,8 @@
             },
             tap(e) {
               // console.log('onTap', this);
-              vm.$emit('selectItem', e.target.getAttribute('productId'))
+              // console.log(e.target.getAttribute('productId'))
+              // vm.$emit('selectItem', e.target.getAttribute('productId'))
             }
           }
         }
@@ -51,13 +52,18 @@
     mounted() {
       console.log(this.proData)
     },
-    methods: {},
+    methods: {
+      selectItem(productId) {
+        console.log(productId)
+        this.$emit('selectItems', productId)
+      }
+    },
   }
 </script>
 
 <style lang="scss" scoped>
   .part-show-item {
-    .title {
+    .part-title {
       padding-left: 32px;
       height: 54px;
       font-size: 40px;
