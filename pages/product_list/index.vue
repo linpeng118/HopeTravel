@@ -25,7 +25,7 @@
               </div>
               <template v-if="productList.length">
                 <van-cell v-for="item in productList" :key="item.product_id + Math.random()">
-                  <product-list :data="item"></product-list>
+                  <product-list :data="item" @selectItem="selectProductDetail"></product-list>
                 </van-cell>
               </template>
               <!--<div v-else>暂无数据</div>-->
@@ -106,8 +106,13 @@ export default {
       sortShow: false,
       filterLists: {},
       startCity: [],
-      active: 0, // 当前搜索的type值
-      filterResult: {}, // 筛选的结果
+      active: this.$route.params.itemType === 3 ? 0: this.$route.params.itemType, // 当前搜索的type值
+      filterResult: {
+        product_type: this.$route.params.product_type || null,
+        category: this.$route.params.category || null,
+        span_city: this.$route.params.span_city || null,
+        start_city: this.$route.params.start_city || null
+      }, // 筛选的结果
       activeNames: ['1'],
       moreLists: {}, // 更多的列表
       moreListsTitle: '',
@@ -162,6 +167,7 @@ export default {
       {id:5,type: 6,title: '接驳服务'},
       {id:6,type: 7,title: '邮轮'}
     ]
+    console.log(this.$route.params)
   },
   mounted() {
     // 初始化
@@ -171,6 +177,15 @@ export default {
     // 返回上一级
     leftClick() {
       this.$router.go(-1)
+    },
+    // 跳转到详情页面
+    selectProductDetail(productId) {
+      this.$router.push({
+        name: 'product-detail',
+        params: {
+          productId
+        }
+      })
     },
     onSearch() {},
     searchStart() {},
@@ -217,6 +232,7 @@ export default {
     async onLoad() {
       // 获取数据
       console.log('onload')
+      console.log(this.filterResult)
       const submitData = {
         type: this.currentType,
         page: (this.prodPagination.page || 0) + 1,
@@ -272,14 +288,14 @@ export default {
           this.sureSearchList[key] = [item] // 单选项
         }
       }
-      console.log(item)
+      console.log(this.sureSearchList)
       let id = item.id
       if(!this.filterResult[key]) {
         this.filterResult[key] = item.id + ''
       } else {
         this.filterResult[key] += ',' + id
       }
-      console.log(this.filterResult)
+      // console.log(this.filterResult)
     },
     // 显示title
     showTitle(name) {
@@ -349,9 +365,9 @@ export default {
     // 重置筛选条件
     resetFilter() {
       this.sureSearchList = {
-        start_city: '',
-        stop_city: '',
-        price: '',
+        start_city: [],
+        stop_city: [],
+        price: [],
         span_city: [],
         tag: [],
         duration: [],

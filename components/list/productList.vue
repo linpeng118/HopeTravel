@@ -1,6 +1,6 @@
 <template>
   <div class="product-list">
-    <div class="product-item">
+    <div class="product-item" @click="selectDetail(data.product_id)">
       <div class="img-show">
         <img :src="data.image" alt="">
         <div class="tags">{{data.product_type | productTypeValue}}</div>
@@ -72,6 +72,11 @@ export default {
       } else {
         return this.data.icons_tour
       }
+    }
+  },
+  methods: {
+    selectDetail(productId) {
+      this.$emit('selectItem', productId)
     }
   }
 }

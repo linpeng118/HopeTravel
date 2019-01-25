@@ -304,6 +304,7 @@
   import {getProductDetail} from '@/api/products'
 
   export default {
+    name: 'product_detail',
     components: {
       ProductDetailHeader,
       ProdDetailImgItem,

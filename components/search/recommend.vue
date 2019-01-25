@@ -3,21 +3,32 @@
     <div class="result-line">
       <h2 v-if="titleList">{{titleList.lineTitle}}</h2>
       <div class="line">
-        <hot-city-tag v-for="line in data.lineList" :key="line.id" :className="line.is_hot ? 'active' : 'normal'" :tag="line" />
+        <hot-city-tag v-for="line in data.lineList"
+                      :key="line.id"
+                      :className="line.is_hot ? 'active' : 'normal'"
+                      @callOnTag="callOnTag"
+                      :tag="line" />
       </div>
     </div>
     <!--热门景点-->
     <div class="hot-box">
       <h2 v-if="titleList">{{titleList.hotTitle}}</h2>
-      <hot-place :lists="data.hotPlace"></hot-place>
+      <hot-place :lists="data.hotPlace" @selectDetail="selectDetail"></hot-place>
     </div>
     <div class="hot-box">
       <h2 v-if="titleList">{{titleList.targetTitle}}</h2>
-      <hot-place :lists="data.hotTarget"></hot-place>
+      <hot-place :lists="data.hotTarget" @selectDetail="selectDetail"></hot-place>
     </div>
     <div class="play-box">
       <h2 v-if="titleList">{{titleList.playTitle}}</h2>
-      <play-ways v-for="play in data.playWaysList" :key="play.id" :item="play"></play-ways>
+      <div class="play-ways" v-for="play in data.playWaysList" :key="play.id" @click="selectPlay(play)">
+        <img :src="play.image" alt="">
+        <div class="title">
+          <span>{{play.subTitle}}</span>
+          <span class="desc">{{play.content}}</span>
+        </div>
+      </div>
+      <!--<play-ways v-for="play in data.playWaysList" :key="play.id" :item="play"></play-ways>-->
     </div>
   </div>
 </template>
@@ -49,6 +60,19 @@ export default {
     }
   },
   mounted () {
+  },
+  methods: {
+    selectDetail(item){
+      this.$emit('selectDetail', item)
+    },
+    selectPlay(play) {
+      let {category, product_type, span_city, start_city} = play
+      this.$emit('selectPlay', {category, product_type, span_city, start_city})
+    },
+    callOnTag(item) {
+      let {category, product_type, span_city, start_city} = item
+      this.$emit('selectTag', {category, product_type, span_city, start_city})
+    }
   }
 }
 </script>
@@ -63,6 +87,23 @@ export default {
     .active{
       background-color: #00ABF9;
       color: #fff;
+    }
+    .play-ways{
+      padding: 12px 0 20px 0;
+      img {
+        width:506px;
+        height:120px;
+        border-radius:8px;
+      }
+      .title{
+        font-size:24px;
+        color: #000;
+        font-weight: 400;
+        span.desc{
+          font-size:22px;
+          color: #BEBEBE;
+        }
+      }
     }
   }
 </style>

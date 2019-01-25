@@ -22,7 +22,7 @@
           <!--<span class="colon">:</span>-->
           <!--<span>56</span>-->
           <span v-if="proData.special_end_date < 0" class="over">已结束</span>
-          {{getTime(proData.special_end_date)}}
+          <!--{{getTime(proData.special_end_date)}}-->
         </div>
       </div>
       <div class="title"
@@ -116,8 +116,28 @@
       selectItem(product) {
         this.$emit('selectDetail', product.product_id)
       },
-      getTime(leftTime) {
-
+      getTime() {
+        var date = new Date();
+        var now = date.getTime();
+        //设置截止时间
+        var end = new Date().getTime() + 2297215;
+        //时间差
+        var differTime = end - now;
+        //定义变量,h,m,s保存倒计时的时间
+        var h, m, s;
+        if (differTime >= 0) {
+          h = Math.floor(differTime / 1000 / 60 / 60);
+          m = Math.floor(differTime / 1000 / 60 % 60);
+          s = Math.floor(differTime / 1000 % 60);
+          h = h < 10 ? ("0" + h) : h;
+          m = m < 10 ? ("0" + m) : m;
+          s = s < 10 ? ("0" + s) : s;
+          // console.log(h + "时" + m + "分" + s + "秒")
+          setInterval(this.getTime, 1000)
+          // return h + "时" + m + "分" +  s + "秒"
+        } else {
+          console.log("00时" + "00分" + "00秒")
+        }
       }
     },
   }
