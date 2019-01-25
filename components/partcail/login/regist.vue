@@ -217,6 +217,10 @@
       },
       // 手机注册
       async registByPhone() {
+        if (!this.phoneForm.phone) {
+          this.$toast('请输入手机号码')
+          return
+        }
         if (!this.phoneForm.smsCode) {
           this.$toast('请输入短信验证码')
           return

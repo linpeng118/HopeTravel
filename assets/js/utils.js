@@ -1,3 +1,41 @@
+/**
+ * 设置cookie
+ * @param {string} key 传入的键名
+ * @param {string} value 传入数据
+ * @param {string} exdays 保存的天数
+ */
+function setCookieByKey(key, value, exdays = 365) {
+  let d = new Date();
+  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+  let expires = `expires=${d.toUTCString()}`
+  document.cookie = `${key}=${value};expires=${expires}`;
+}
+
+/**
+ * 获取cookie
+ * @param {string} key 传入的键名
+ */
+function getCookieByKey(key) {
+  if (document.cookie.length > 0) {
+    let cStart = document.cookie.indexOf(`${key}=`); // 获取字符串的起点
+    if (cStart !== -1) {
+      cStart = cStart + key.length + 1; // 获取值的起点
+      let cEnd = document.cookie.indexOf(';', cStart); // 获取结尾处
+      if (cEnd === -1) cEnd = document.cookie.length; // 如果是最后一个，结尾就是cookie字符串的结尾
+      return decodeURI(document.cookie.substring(cStart, cEnd)); // 截取字符串返回
+    }
+  }
+  return '';
+}
+
+/**
+ * 清除cookie
+ * @param {string} key 传入的键名
+ */
+function clearCookieByKey(key) {
+  setCookieByKey(key, '', -1)
+}
+
 /*
  * 设备检测
  * @return {{isIos:Function, isAndroid:Function}}
@@ -85,7 +123,11 @@ function resetTime(time){
     console.log(m+"分钟"+s+"秒");
   },1000);
 }
+
 export {
+  setCookieByKey,
+  getCookieByKey,
+  clearCookieByKey,
   getBrowserVersion,
   randomString,
   getUrlParam,

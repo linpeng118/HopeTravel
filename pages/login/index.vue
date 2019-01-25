@@ -3,8 +3,8 @@
     <login-header rightText="注册"
       @callOnRigth="toRegist" />
     <h1 class="title">稀饭旅行账号登录</h1>
-    <!-- 输入框 -->
-    <login-comp/>
+    <!-- 登录框 -->
+    <login-comp @loginCallBack="toHomepage" />
   </div>
 </template>
 
@@ -20,12 +20,17 @@
     data() {
       return {}
     },
-    mounted() {},
     methods: {
       // 跳转至注册页
       toRegist() {
         this.$router.push({
           path: '/login/regist'
+        })
+      },
+      // 跳转至首页
+      toHomepage() {
+        this.$router.push({
+          path: '/'
         })
       },
     },
