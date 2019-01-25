@@ -534,9 +534,8 @@
         console.log(this.showDayList)
         const listLen = this.showDayList.length
         const showHeight = s1 + this.$refs.refTabList.offsetHeight + this.$refs.refProdctDetailHeader.$el.offsetHeight
-        console.log(showHeight)
         let idx = this.showDayList.findIndex(item => item > showHeight)
-        console.log(idx)
+        console.log('index：', idx)
         if (idx === 0) {
           this.showDay = `D1`
         } else if (idx > 0) {
@@ -544,7 +543,6 @@
         } else if (idx === -1) {
           this.showDay = `D${listLen}`
         }
-        console.log(this.showDay)
       },
       onImgSlide(data) {
         console.log(data)
