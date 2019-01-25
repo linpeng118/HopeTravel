@@ -124,7 +124,8 @@
             v-for="tab in tabList"
             :key="tab.name"
             :class="{'active': activeTab===tab.id}"
-            @click="clickTab(tab)">
+            @click="clickTab(tab)"
+            v-show="tab.isShow">
             <span>{{tab.name}}</span>
             <span class="tab-day"
               v-show="tab.id===2">{{showDay}}</span>
@@ -293,7 +294,8 @@
           <div class="operate">
             <div class="btn-operate"
               v-for="item in operateTabbar"
-              :key="item.name">
+              :key="item.name"
+              @click="onOperate(item)">
               <img :src="item.icon"
                 alt="icon">
               <p class="operate-name">{{item.name}}</p>
@@ -336,9 +338,9 @@
           {name: '低价保证', desc: '', icon: require('../../assets/imgs/product/tick@2x.png')},
         ],
         operateTabbar: [
-          {name: '关注', icon: require('../../assets/imgs/product/attention@2x.png')},
-          {name: '电话咨询', icon: require('../../assets/imgs/product/phone@2x.png')},
-          {name: '在线咨询', icon: require('../../assets/imgs/product/consult@2x.png')},
+          {id: 1, name: '关注', icon: require('../../assets/imgs/product/attention@2x.png')},
+          {id: 2, name: '电话咨询', icon: require('../../assets/imgs/product/phone@2x.png')},
+          {id: 3, name: '在线咨询', icon: require('../../assets/imgs/product/consult@2x.png')},
         ],
         activeTab: 1, // 选中的tab
         activeTabRef: 'refFeatures',
@@ -387,10 +389,10 @@
       },
       tabList() {
         return [
-          {id: 1, name: '产品特色', ref: 'refFeatures'},
-          {id: 2, name: this.itinerary.duration_days + '天行程', ref: 'refTrip'},
-          {id: 3, name: '费用明细', ref: 'refCost'},
-          {id: 4, name: '注意事项', ref: 'refNotice'},
+          {id: 1, name: '产品特色', ref: 'refFeatures', isShow: true},
+          {id: 2, name: this.itinerary.duration_days + '天行程', ref: 'refTrip', isShow: true},
+          {id: 3, name: '费用明细', ref: 'refCost', isShow: true},
+          {id: 4, name: '注意事项', ref: 'refNotice', isShow: true},
         ]
       },
       showDayList() {
@@ -524,14 +526,13 @@
         if (s1 <= tabHeightH) {
           this.isTabFixed = false
         }
-        console.log(11, this.isTabFixed)
         // 判断方向
         // setTimeout(() => {
         //   const s2 = this.$refs.refProductDetailPage.scrollTop;
         //   const direct = s2 - s1;
         //   console.log("direct", direct);
         // }, 17);
-        console.log(this.showDayList)
+        // D1-Dn变化
         const listLen = this.showDayList.length
         const showHeight = s1 + this.$refs.refTabList.offsetHeight + this.$refs.refProdctDetailHeader.$el.offsetHeight
         let idx = this.showDayList.findIndex(item => item > showHeight)
@@ -551,6 +552,10 @@
           images: data.arr,
           startPosition: index,
         });
+      },
+      // 点击操作按钮
+      onOperate(item) {
+        console.log(item)
       }
     },
   }
