@@ -55,13 +55,13 @@
         </div>
         <div class="city">
           <div class="from">
-            <img src="../../assets/imgs/product/attention@2x.png"
+            <img src="../../assets/imgs/product/from@2x.png"
               alt="from">
             <span class="title">出发地</span>
             <span class="addr">{{product.departure_city}}</span>
           </div>
           <div class="to">
-            <img src="../../assets/imgs/product/attention@2x.png"
+            <img src="../../assets/imgs/product/to@2x.png"
               alt="from">
             <span class="title">结束地</span>
             <span class="addr">{{product.end_city}}</span>
@@ -334,7 +334,7 @@
         operateTabbar: [
           {name: '关注', icon: require('../../assets/imgs/product/attention@2x.png')},
           {name: '电话咨询', icon: require('../../assets/imgs/product/phone@2x.png')},
-          {name: '在线咨询', icon: require('../../assets/imgs/product/phone@2x.png')},
+          {name: '在线咨询', icon: require('../../assets/imgs/product/consult@2x.png')},
         ],
         activeTab: 1, // 选中的tab
         activeTabRef: 'refFeatures',
@@ -612,6 +612,7 @@
               vertical-align: top;
             }
             .title {
+              margin-left: 4px;
               height: 38px;
               font-size: 28px;
               font-weight: 400;
