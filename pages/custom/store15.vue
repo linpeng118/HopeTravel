@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="banner">
-      <a class="return" @click="goBack" href="javascript:;"></a>
+      <a v-if="!isApp" class="return" @click="goBack" href="javascript:;"></a>
       <span class="title" style="line-height:.8rem;text-align:center;">美西国家公园
         <br>大环线全景自驾14日
       </span>
@@ -414,7 +414,9 @@
 export default {
   name: "component_name",
   data() {
-    return {};
+    return {
+       isApp: this.$route.query.platform,
+    };
   },
   methods: {
     goBack() {

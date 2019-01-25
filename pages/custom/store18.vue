@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="banner">
-      <a class="return" @click="goBack" href="javascript:;"></a>
+      <a v-if="!isApp" class="return" @click="goBack" href="javascript:;"></a>
       <span class="title" style="line-height:.8rem;text-align:center;">热恋巴厘岛 总价：9670 元/人</span>
     </div>
     <div class="ct">
@@ -273,7 +273,9 @@
 export default {
   name: "component_name",
   data() {
-    return {};
+    return {
+         isApp: this.$route.query.platform,
+    };
   },
   methods: {
     goBack() {

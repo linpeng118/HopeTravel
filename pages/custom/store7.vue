@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="banner">
-        <a class="return" @click="goBack" href="javascript:;"></a>
+        <a v-if="!isApp" class="return" @click="goBack" href="javascript:;"></a>
         <span class="title" style="line-height:.8rem;text-align:center;">（富士山下）<br>东京.关西 7D6N</span>
     </div>
     <div class="ct">
@@ -209,7 +209,9 @@
 export default {
   name: "component_name",
   data() {
-    return {};
+    return {
+         isApp: this.$route.query.platform,
+    };
   },
   methods: {
     goBack() {
