@@ -9,107 +9,63 @@
       <div class="usable-rice">
         <div class="usable-left">
           <h6>当前可用米粒</h6>
-          <div class="num">145</div>
+          <div class="num">{{profile.total_points}}</div>
         </div>
-        <div class="usable-right">等值于$1.45</div>
+        <div class="usable-right">等值于{{profile.exchange_price}}</div>
       </div>
     </div>
     <div class="body">
       <!-- 次级菜单 -->
       <div class="sub-menu">
-        <div class="line clearfix">
-          <div class="line-left fl">
-            <h6>交易米粒</h6>  
-            <p>积分将在订单完成后到账</p>
-          </div>
-          <div class="line-right fr">
-            <h5 class="color1">
-              +315
-            </h5>
-          </div>    
-        </div>
-        <div class="line clearfix">
-          <div class="line-left fl">
-            <h6>支付成功</h6>  
-            <p>积分将在订单完成后到账</p>
-          </div>
-          <div class="line-right fr">
-            <h5 class="color1">
-              +5
-            </h5>
-          </div>    
-        </div>
-        <div class="line clearfix">
-          <div class="line-left fl">
-            <h6>支付抵现</h6>  
-            <p>积分将在订单完成后到账</p>
-          </div>
-          <div class="line-right fr">
-            <h5 class="color2">
-              -100
-            </h5>
-          </div>    
-        </div>
-        <div class="line clearfix">
-          <div class="line-left fl">
-            <h6>交易米粒</h6>  
-            <p>积分将在订单完成后到账</p>
-          </div>
-          <div class="line-right fr">
-            <h5 class="color1">
-              +315
-            </h5>
-          </div>    
-        </div>
-        <div class="line clearfix">
-          <div class="line-left fl">
-            <h6>交易米粒</h6>  
-            <p>积分将在订单完成后到账</p>
-          </div>
-          <div class="line-right fr">
-            <h5 class="color1">
-              +315
-            </h5>
-          </div>    
-        </div>
-        <div class="line clearfix">
-          <div class="line-left fl">
-            <h6>交易米粒</h6>  
-            <p>积分将在订单完成后到账</p>
-          </div>
-          <div class="line-right fr">
-            <h5 class="color1">
-              +315
-            </h5>
-          </div>    
-        </div>
-        <div class="line clearfix">
-          <div class="line-left fl">
-            <h6>交易米粒</h6>  
-            <p>积分将在订单完成后到账</p>
-          </div>
-          <div class="line-right fr">
-            <h5 class="color1">
-              +315
-            </h5>
-          </div>    
-        </div>
-        
+        <!--<van-list class="half" v-model="prodLoading" :prodFinished="prodFinished" finished-text="没有更多了" @load="onLoad">-->
+          <!--<van-cell class="half-item" tagPos="bottom" v-for="(points,index) in pointsList" :key="index">-->
 
-       
+          <!--</van-cell>-->
+        <!--</van-list>-->
+        <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+          <van-cell class="half-item" tagPos="bottom" v-for="(points,index) in pointsList" :key="index">
+            <div class="line clearfix">
+              <div class="line-left fl">
+                <h6>{{points.comment}}</h6>
+                <p>{{points.date}}</p>
+              </div>
+              <div class="line-right fr">
+                <h5 class="color1">
+                  {{points.pending}}
+                </h5>
+              </div>
+            </div>
+          </van-cell>
+        </van-list>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { Toast } from "vant";
-
+import { getPoints } from "@/api/profile"
+import {mapGetters} from 'vuex'
 export default {
   name: "component_name",
   data() {
-    return {};
+    return {
+      pointsList: [],
+      loading:false,
+      finished:false,
+      prodPagination: {},
+      list: []
+    };
+  },
+  computed: {
+    ...mapGetters([
+      'profile'
+    ])
+  },
+  mounted() {
   },
   methods: {
+    getRodom() {
+      return Math.random()
+    },
     onClickLeft() {
      window.history.go(-1);
     },
@@ -117,6 +73,21 @@ export default {
       this.$router.push({
         path:"/personal/rice_detail"
       })
+    },
+    async onLoad() {
+      console.log('onload')
+      const submitData = {
+        page: (this.prodPagination.page || 0) + 1
+      }
+      // 异步更新数据
+      const res = await getPoints(submitData)
+      this.pointsList.push(...res.data)
+      this.prodPagination = res.pagination
+      // 加载状态结束
+      this.loading = false;
+      if (!this.prodPagination.more) {
+        this.finished = true;
+      }
     }
   }
 };
@@ -127,7 +98,6 @@ export default {
   background: #f1f1f1;
   height:100vh;
   .header {
-    width: 750px;
     height: 318px;
     background: rgba(57, 158, 246, 1);
     opacity: 1;

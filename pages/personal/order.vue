@@ -5,260 +5,103 @@
     </div>
     <div class="tab">
       <van-tabs @click="onClick" v-model="active">
-        <van-tab title="全部订单" class="layout">
+        <van-tab v-for="title in orderTile" :key="title.id" :title="title.title" class="layout">
+          <loading v-if="firstEnter"></loading>
+          <div v-if="!firstEnter && !orderList.length">暂无数据</div>
           <!-- 产品 -->
-          <div class="prodect">
-            <div class="header clearfix">
-              <span class="fl">订单号： 286-5682</span>
-              <i class="fr">产品编号：1-334</i>
-            </div>
-            <div class="content clearfix">
-              <div class="pro-pic fl">
-                <img class="pro-img" src="../../assets/imgs/personal/order/prodect.png" alt>
+          <template v-if="orderList.length">
+            <div class="prodect" v-for="order in orderList" :key="order.order_id" @click="selectProduct(order)">
+              <div class="header clearfix">
+                <span class="fl">订单号： {{order.order_id}}</span>
+                <i class="fr">产品编号：{{order.product_id}}</i>
               </div>
-              <dl class="pro-content fl">
-                <dt class="no-wrap-line3">旧金山深度游：圣塔芭芭拉拉篮峡谷”丹麦村拉篮啦加州风圣塔芭芭拉拉篮峡谷”丹...</dt>
-                <dd>出行日期:2018-08-23</dd>
-              </dl>
-            </div>
-            <div class="footer clearfix">
-              <div class="fl left-f">
-                <span>共计：</span>
-                <strong>￥408.00</strong>
+              <div class="content">
+                <div class="pro-pic">
+                  <img v-lazy="order.image" alt>
+                </div>
+                <dl class="pro-content">
+                  <dt class="no-wrap-line3">{{order.product_name}}</dt>
+                  <dd>出行日期:{{order.product_departure_date.split(' ')[0]}}</dd>
+                </dl>
               </div>
-              <div class="fr right-f">
-                <button class="go-pay">去支付</button>
-              </div>
-            </div>
-          </div>
-          <!-- 产品 -->
-          <div class="prodect">
-            <div class="header clearfix">
-              <span class="fl">订单号： 286-5682</span>
-              <i class="fr">产品编号：1-334</i>
-            </div>
-            <div class="content clearfix">
-              <div class="pro-pic fl">
-                <img class="pro-img" src="../../assets/imgs/personal/order/prodect.png" alt>
-              </div>
-              <dl class="pro-content fl">
-                <dt class="no-wrap-line3">旧金山深度游：圣塔芭芭拉拉篮峡谷”丹麦村拉篮啦加州风圣塔芭芭拉拉篮峡谷”丹...</dt>
-                <dd>出行日期:2018-08-23</dd>
-              </dl>
-            </div>
-            <div class="footer clearfix">
-              <div class="fl left-f">
-                <span>共计：</span>
-                <strong>￥408.00</strong>
-              </div>
-              <div class="fr right-f">
-                <button class="other-state">取消</button>
+              <div class="footer clearfix">
+                <div class="fl left-f">
+                  <span>共计：</span>
+                  <strong>￥{{order.cny_price}}</strong>
+                </div>
+                <div class="fr right-f">
+                  <button :class="getPayClassName(order.status)">{{order.status.name}}</button>
+                </div>
               </div>
             </div>
-          </div>
-        </van-tab>
-        <van-tab title="待付款" class="layout">
-          <!-- 产品 -->
-          <div class="prodect">
-            <div class="header clearfix">
-              <span class="fl">订单号： 286-5682</span>
-              <i class="fr">产品编号：1-334</i>
-            </div>
-            <div class="content clearfix">
-              <div class="pro-pic fl">
-                <img class="pro-img" src="../../assets/imgs/personal/order/prodect.png" alt>
-              </div>
-              <dl class="pro-content fl">
-                <dt class="no-wrap-line3">旧金山深度游：圣塔芭芭拉拉篮峡谷”丹麦村拉篮啦加州风圣塔芭芭拉拉篮峡谷”丹...</dt>
-                <dd>出行日期:2018-08-23</dd>
-              </dl>
-            </div>
-            <div class="footer clearfix">
-              <div class="fl left-f">
-                <span>共计：</span>
-                <strong>￥408.00</strong>
-              </div>
-              <div class="fr right-f">
-                <button class="go-pay">去支付</button>
-              </div>
-            </div>
-          </div>
-          <!-- 产品 -->
-          <div class="prodect">
-            <div class="header clearfix">
-              <span class="fl">订单号： 286-5682</span>
-              <i class="fr">产品编号：1-334</i>
-            </div>
-            <div class="content clearfix">
-              <div class="pro-pic fl">
-                <img class="pro-img" src="../../assets/imgs/personal/order/prodect.png" alt>
-              </div>
-              <dl class="pro-content fl">
-                <dt class="no-wrap-line3">旧金山深度游：圣塔芭芭拉拉篮峡谷”丹麦村拉篮啦加州风圣塔芭芭拉拉篮峡谷”丹...</dt>
-                <dd>出行日期:2018-08-23</dd>
-              </dl>
-            </div>
-            <div class="footer clearfix">
-              <div class="fl left-f">
-                <span>共计：</span>
-                <strong>￥408.00</strong>
-              </div>
-              <div class="fr right-f">
-                <button class="other-state">取消</button>
-              </div>
-            </div>
-          </div>
-          <!-- 产品 -->
-          <div class="prodect">
-            <div class="header clearfix">
-              <span class="fl">订单号： 286-5682</span>
-              <i class="fr">产品编号：1-334</i>
-            </div>
-            <div class="content clearfix">
-              <div class="pro-pic fl">
-                <img class="pro-img" src="../../assets/imgs/personal/order/prodect.png" alt>
-              </div>
-              <dl class="pro-content fl">
-                <dt class="no-wrap-line3">旧金山深度游：圣塔芭芭拉拉篮峡谷”丹麦村拉篮啦加州风圣塔芭芭拉拉篮峡谷”丹...</dt>
-                <dd>出行日期:2018-08-23</dd>
-              </dl>
-            </div>
-            <div class="footer clearfix">
-              <div class="fl left-f">
-                <span>共计：</span>
-                <strong>￥408.00</strong>
-              </div>
-              <div class="fr right-f">
-                <button class="other-state">已作废</button>
-              </div>
-            </div>
-          </div>
-        </van-tab>
-        <van-tab title="待出行" class="layout">
-          <!-- 产品 -->
-          <div class="prodect">
-            <div class="header clearfix">
-              <span class="fl">订单号： 286-5682</span>
-              <i class="fr">产品编号：1-334</i>
-            </div>
-            <div class="content clearfix">
-              <div class="pro-pic fl">
-                <img class="pro-img" src="../../assets/imgs/personal/order/prodect.png" alt>
-              </div>
-              <dl class="pro-content fl">
-                <dt class="no-wrap-line3">旧金山深度游：圣塔芭芭拉拉篮峡谷”丹麦村拉篮啦加州风圣塔芭芭拉拉篮峡谷”丹...</dt>
-                <dd>出行日期:2018-08-23</dd>
-              </dl>
-            </div>
-            <div class="footer clearfix">
-              <div class="fl left-f">
-                <span>共计：</span>
-                <strong>￥408.00</strong>
-              </div>
-              <div class="fr right-f">
-                <button class="go-pay">去支付</button>
-              </div>
-            </div>
-          </div>
-          <!-- 产品 -->
-          <div class="prodect">
-            <div class="header clearfix">
-              <span class="fl">订单号： 286-5682</span>
-              <i class="fr">产品编号：1-334</i>
-            </div>
-            <div class="content clearfix">
-              <div class="pro-pic fl">
-                <img class="pro-img" src="../../assets/imgs/personal/order/prodect.png" alt>
-              </div>
-              <dl class="pro-content fl">
-                <dt class="no-wrap-line3">旧金山深度游：圣塔芭芭拉拉篮峡谷”丹麦村拉篮啦加州风圣塔芭芭拉拉篮峡谷”丹...</dt>
-                <dd>出行日期:2018-08-23</dd>
-              </dl>
-            </div>
-            <div class="footer clearfix">
-              <div class="fl left-f">
-                <span>共计：</span>
-                <strong>￥408.00</strong>
-              </div>
-              <div class="fr right-f">
-                <button class="other-state">取消</button>
-              </div>
-            </div>
-          </div>
-        </van-tab>
-        <van-tab title="已出行" class="layout">
-          <!-- 产品 -->
-          <div class="prodect">
-            <div class="header clearfix">
-              <span class="fl">订单号： 286-5682</span>
-              <i class="fr">产品编号：1-334</i>
-            </div>
-            <div class="content clearfix">
-              <div class="pro-pic fl">
-                <img class="pro-img" src="../../assets/imgs/personal/order/prodect.png" alt>
-              </div>
-              <dl class="pro-content fl">
-                <dt class="no-wrap-line3">旧金山深度游：圣塔芭芭拉拉篮峡谷”丹麦村拉篮啦加州风圣塔芭芭拉拉篮峡谷”丹...</dt>
-                <dd>出行日期:2018-08-23</dd>
-              </dl>
-            </div>
-            <div class="footer clearfix">
-              <div class="fl left-f">
-                <span>共计：</span>
-                <strong>￥408.00</strong>
-              </div>
-              <div class="fr right-f">
-                <button class="go-pay">去支付</button>
-              </div>
-            </div>
-          </div>
-          <!-- 产品 -->
-          <div class="prodect">
-            <div class="header clearfix">
-              <span class="fl">订单号： 286-5682</span>
-              <i class="fr">产品编号：1-334</i>
-            </div>
-            <div class="content clearfix">
-              <div class="pro-pic fl">
-                <img class="pro-img" src="../../assets/imgs/personal/order/prodect.png" alt>
-              </div>
-              <dl class="pro-content fl">
-                <dt class="no-wrap-line3">旧金山深度游：圣塔芭芭拉拉篮峡谷”丹麦村拉篮啦加州风圣塔芭芭拉拉篮峡谷”丹...</dt>
-                <dd>出行日期:2018-08-23</dd>
-              </dl>
-            </div>
-            <div class="footer clearfix">
-              <div class="fl left-f">
-                <span>共计：</span>
-                <strong>￥408.00</strong>
-              </div>
-              <div class="fr right-f">
-                <button class="other-state">取消</button>
-              </div>
-            </div>
-          </div>
+          </template>
         </van-tab>
       </van-tabs>
     </div>
   </div>
 </template>
 <script>
+import {getOrderInfo} from '@/api/profile'
+import Loading from '@/components/loading/list'
 export default {
   name: "component_name",
+  components: {
+    Loading
+  },
   data() {
     return {
-        active:0,//tab切换的默认值和选中值
-    };
+      status: this.$route.query.status || null,
+      active: 0,
+      userId: this.$route.query.userId,
+      orderList: [],
+      firstEnter: true
+    }
   },
-  created(){
-      
+  created() {
+    this.orderTile = [
+      {status: '', title: '全部订单', id: 0},
+      {status: 'unpaid', title: '待付款', id: 1},
+      {status: 'wait', title: '待出行', id: 2},
+      {status: 'finish', title: '已出行', id: 3},
+    ]
+  },
+  mounted(){
+    let _obj = {
+      'null': 0,
+      'unpaid': 1,
+      'wait': 2,
+      'finish':3
+    }
+    this.active = _obj[this.status]
+    this.getOrderData(this.userId, this.status)
   },
   methods: {
     onClickLeft() {
       window.history.go(-1);
     },
-    onClick(index, title) {
-      this.$toast(title);
+    onClick(index) {
+      this.firstEnter = true
+      let _arr = [null, 'unpaid', 'wait','finish']
+      this.getOrderData(this.userId, _arr[index])
+    },
+    async getOrderData(userId, status) {
+      let {code, data} = await getOrderInfo(userId, status)
+      if (code === 0) {
+        this.firstEnter = false
+        this.orderList = data
+      }
+    },
+    getPayClassName(status) {
+      let _arr = ['go-pay','un-go','other-state','other-state']
+      return _arr[status.code]
+    },
+    selectProduct(order){
+      this.$router.push({
+        name: 'product-detail',
+        params: {
+          productId: order.product_id
+        }
+      })
     }
   },
   
@@ -269,7 +112,7 @@ export default {
   .tab {
     .layout {
       padding: 24px;
-      height: 100vh;
+      /*height: 100vh;*/
       .prodect {
         width: 686px;
         height: 342px;
@@ -293,13 +136,17 @@ export default {
         .content {
           font: 24px/32px "";
           padding: 20px 32px;
-          box-sizing: border-box;
           border-bottom: 1px solid #f1f1f1;
+          display: flex;
+          justify-content: space-between;
           .pro-pic {
             margin-right: 26px;
-            .pro-img {
-              width: 208px;
-              height: 144px;
+            width: 208px;
+            height: 144px;
+            background: #ddd;
+            img {
+              width: 208px !important;
+              height: 144px !important;
             }
           }
           .pro-content {
@@ -342,28 +189,23 @@ export default {
             }
           }
           .right-f {
-            .go-pay {
+            .go-pay,.other-state,.un-go {
               width: 120px;
               height: 44px;
-              background: rgba(255, 84, 84, 1);
-              opacity: 1;
               border-radius: 22px;
               font-size: 24px;
-              font-family: PingFang SC;
               font-weight: 400;
               line-height: 34px;
               color: rgba(255, 255, 255, 1);
             }
-            .other-state {
-              width: 120px;
-              height: 44px;
-              background: rgba(152, 152, 152, 1);
-              border-radius: 22px;
-              font-size: 24px;
-              font-family: PingFang SC;
-              font-weight: 400;
-              line-height: 34px;
-              color: rgba(255, 255, 255, 1);
+            .go-pay{
+              background: rgba(255, 84, 84, 1);
+            }
+            .other-state{
+              background: rgba(152, 152, 152, 1)
+            }
+            .un-go{
+              background: #399EF6;
             }
           }
         }

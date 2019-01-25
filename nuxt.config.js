@@ -132,6 +132,13 @@ module.exports = {
       },
       changeOrigin: true,
     },
+    '/order': {
+      target: 'http://www.htw.tourscool.net/api/v1', // api主机
+      pathRewrite: {
+        '^/order': '/',
+      },
+      changeOrigin: true,
+    },
   },
   /*
    ** Build configuration
