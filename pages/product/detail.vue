@@ -126,6 +126,8 @@
             :class="{'active': activeTab===tab.id}"
             @click="clickTab(tab)">
             <span>{{tab.name}}</span>
+            <span class="tab-day"
+              v-show="tab.id===2">{{showDay}}</span>
           </div>
         </div>
       </div>
@@ -163,7 +165,8 @@
           <div class="content-title">行程详情</div>
           <div class="content"
             v-for="item in itinerary.items"
-            :key="item.product_itinerary_id">
+            :key="item.product_itinerary_id"
+            :ref="`refContent${item.sort_order}`">
             <div class="title-wrap">
               <span class="icon">D{{item.sort_order}}</span>
               <span class="title-s">{{item.title}}</span>
@@ -284,7 +287,8 @@
         </van-collapse>
       </div>
       <!-- 底部按钮 -->
-      <div class="footer-fixed" :style="{'z-index': showServiceNode ? 5000 : 1000}">
+      <div class="footer-fixed"
+        :style="{'z-index': showServiceNode ? 5000 : 1000}">
         <div class="footer-tabbar">
           <div class="operate">
             <div class="btn-operate"
@@ -309,7 +313,7 @@
 
 <script>
   import {throttle as _throttle} from 'lodash'
-  import { ImagePreview } from 'vant';
+  import {ImagePreview} from 'vant';
   import ProductDetailHeader from '@/components/header/productDetail'
   import ProdDetailImgItem from '@/components/items/prodDetailImgItem'
   import Loading from '@/components/loading'
@@ -356,6 +360,7 @@
         // 团期价格
         top_price: [],
         isTabFixed: false,
+        showDay: 'D1'
       }
     },
     computed: {
@@ -387,6 +392,13 @@
           {id: 3, name: '费用明细', ref: 'refCost'},
           {id: 4, name: '注意事项', ref: 'refNotice'},
         ]
+      },
+      showDayList() {
+        if (!this.itinerary) {
+          return
+        }
+        let newData = this.itinerary.items.map(item => this.$refs[`refContent${item.sort_order}`][0].offsetTop)
+        return newData
       }
     },
     mounted() {
@@ -479,7 +491,7 @@
         // 这里向上取整是确保差距小于5的时候，ispeed为0
         let ispeed = Math.ceil((scrollTo - scrollTop) / 5)
         this.$refs.refProductDetailPage.scrollTop = scrollTop + ispeed
-        console.log('清除', scrollTop === scrollTo)
+        // console.log('清除', scrollTop === scrollTo)
         if (scrollTop === scrollTo) {
           clearInterval(this.timer)
         }
@@ -519,11 +531,24 @@
         //   const direct = s2 - s1;
         //   console.log("direct", direct);
         // }, 17);
+        console.log(this.showDayList)
+        const listLen = this.showDayList.length
+        const showHeight = s1 + this.$refs.refTabList.offsetHeight + this.$refs.refProdctDetailHeader.$el.offsetHeight
+        console.log(showHeight)
+        let idx = this.showDayList.findIndex(item => item > showHeight)
+        console.log(idx)
+        if (idx === 0) {
+          this.showDay = `D1`
+        } else if (idx > 0) {
+          this.showDay = `D${idx}`
+        } else if (idx === -1) {
+          this.showDay = `D${listLen}`
+        }
+        console.log(this.showDay)
       },
       onImgSlide(data) {
         console.log(data)
         const index = data.arr.findIndex(item => item === data.item)
-        console.log(index)
         ImagePreview({
           images: data.arr,
           startPosition: index,
@@ -749,6 +774,15 @@
           background: #fff;
           &.active {
             border-bottom: 4px solid #4bb1f5;
+          }
+          .tab-day {
+            padding: 6px 8px;
+            width: 48px;
+            height: 42px;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 24px;
+            background: rgba(75, 177, 245, 1);
           }
         }
       }
