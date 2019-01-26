@@ -14,7 +14,7 @@ let httprequest = axios.create({
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json; charset=utf-8', // json格式通信
-    'platform': 'APP',
+    'platform': 'APP'
   }
 })
 
@@ -53,7 +53,7 @@ httprequest.interceptors.response.use(
     } = error;
     ('err response', response)
     if (response) {
-      // 请求已发出，但是不在2xx的范围 
+      // 请求已发出，但是不在2xx的范围
       errorHandle(response.status, response.data.message);
       return Promise.reject(response);
     } else {
@@ -68,8 +68,8 @@ httprequest.interceptors.response.use(
 
 export default httprequest
 
-/** 
- * 请求失败后的错误统一处理 
+/**
+ * 请求失败后的错误统一处理
  * @param {Number} status 请求失败的状态码
  */
 const errorHandle = (status, other) => {
@@ -98,8 +98,8 @@ const errorHandle = (status, other) => {
   }
 }
 
-/** 
- * 提示函数 
+/**
+ * 提示函数
  * 禁止点击蒙层、显示三秒后关闭
  */
 const tip = msg => {
@@ -109,7 +109,7 @@ const tip = msg => {
   });
 }
 
-/** 
+/**
  * 跳转登录页
  * 携带当前页面路由，以期在登录页面完成登录后返回当前页面
  */
