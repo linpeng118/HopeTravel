@@ -18,7 +18,6 @@ export default {
   },
   mutations: {
     setHotActvie(state, res) {
-      ('setHotActvie', res)
       state.activityList = (res || []).map(item => ({
         productId: _get(item, 'product_id'),
         siteId: _get(item, 'defaultPrice'),
@@ -28,7 +27,6 @@ export default {
         name: _get(item, 'name'),
         price: _get(item, 'price'),
       }))
-      (state.activityList)
     }
   }
 }
