@@ -67,7 +67,6 @@
     },
     methods: {
       async init() {
-        console.log(1)
         const {code, data, msg} = await getCountryTelcodes()
         if (code === 0) {
           this.araeList = data.map(item => ({
