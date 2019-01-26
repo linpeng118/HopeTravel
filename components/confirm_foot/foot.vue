@@ -18,7 +18,8 @@
       <nuxt-link v-if="thisrouter=='date_trip'" class="confirm-next-btn" :class="showbtn?'showbtn':''" tag="span"
                  to="/confirm_order">下一步
       </nuxt-link>
-      <span v-else class="confirm-next-btn" :class="showbtn?'showbtn':''">下一步</span>
+      <span v-else-if="showbtn2==false" class="confirm-next-btn">下一步</span>
+      <span v-else class="confirm-next-btn showbtn" @click="addOrderx()" >下一步</span>
       <span class="contact-service">
         <i><van-icon name="service-o" color="#399EF6" size="1.5em"/></i>
         <i>联系客服</i>
@@ -35,17 +36,21 @@
 
   import paylist from './paylist'
   import {countprice} from '@/api/confirm_order'
+  import {addorder} from '@/api/confirm_order'
   export default {
     components: {
       paylist
     },
+    props:{'addorder':Object},
     data() {
       return {
         //价格明细列表
         pricelist: [],
         showbtn: false,
         showpops: false,
+        showbtn2:false,
         thisrouter: '',//当前路由
+        //添加订单数据
       }
     },
     computed: {
@@ -65,6 +70,11 @@
           this.showbtn = false;
         }
       },
+      'addorder'(val){
+        if(val.tongyi&&val.contact.phone&&val.contact.name&&val.contact.email&&val.user){
+          this.showbtn2=true;
+        }
+      }
     },
     mounted() {
       this.$store.dispatch("initprice");
@@ -101,6 +111,19 @@
         }
         console.log(this.thisrouter)
       },
+      async addOrderx(){
+        let {data, code , msg} = await addorder(this.addorder)
+        if (code === 0) {
+          console.log(data)
+        }
+        else {
+          console.log(data)
+          this.$dialog.alert({
+            message: msg
+          });
+          this.$store.commit("countprice", {attributes:[]});
+        }
+      }
 
     }
   }
