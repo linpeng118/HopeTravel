@@ -3,7 +3,9 @@ import axios from '@/plugins/axios/axios'
 export const getcontacts = () => {
   return axios.get(`/api/contacts`)
 }
-
+export const getquhao = () => {
+  return axios.get(`/api/country/telcodes`)
+}
 export const addcontanct = (data) => {
   console.log('发起了一次请求')
   return axios.post(`/api/tour/v1/contact`,

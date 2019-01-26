@@ -39,7 +39,7 @@
     components: {
     },
     prop:{
-      status:String,
+      listx : Object,
     },
     data() {
       return {
