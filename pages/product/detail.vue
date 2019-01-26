@@ -333,6 +333,7 @@
     },
     data() {
       return {
+        productId: this.$route.query.productId || null,
         isTransparent: true, // 导航头是否透明
         current: 0, // 导航页数
         serviceNote: [
@@ -416,7 +417,7 @@
       }),
       async init() {
         const {code, data, msg} = await getProductDetail({
-          product_id: 1398,
+          product_id: this.productId,
         })
         console.log(code, data, msg)
         if (code === 0) {
