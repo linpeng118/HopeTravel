@@ -31,10 +31,17 @@ const EMAIL_SCENE = {
   RSPWD: 'resetPassword', // 找回密码
 }
 
+const OPERATE_TYPE = {
+  ATTR: 'attention',
+  TEL: 'tel',
+  ONLINE: 'online',
+}
+
 export {
   VERIFY_CODE,
   LOGIN_WAY,
   LOGIN_TYPE,
   SMS_SCENE,
-  EMAIL_SCENE
+  EMAIL_SCENE,
+  OPERATE_TYPE
 }
