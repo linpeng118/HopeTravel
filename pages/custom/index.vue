@@ -92,7 +92,7 @@
         </div>
       </div>
     </div>
-    <div class="back-top" @click="backTop"></div>
+    <div class="back-top" v-show="!isTransparent" @click="backTop"></div>
   </div>
 </template>
 
