@@ -47,7 +47,7 @@
         this.$router.go(-1)
       },
       onClickRight() {
-        this.$emit('callOnRigth')
+        this.$emit('callOnRight')
       }
     },
   }
