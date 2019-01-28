@@ -1,72 +1,77 @@
 <template>
-  <van-tabs class="login-comp tours-tabs-nowrap"
-    @change="changeTabs">
-    <!-- 普通登陆 -->
-    <van-tab class="login"
-      title="普通登陆">
-      <van-cell-group>
-        <van-field class="username tours-input"
-          v-model="formData.username"
-          placeholder="请输入用户名" />
-        <van-field class="password tours-input"
-          v-model="formData.password"
-          center
-          clearable
-          icon="eye-o"
-          placeholder="请输入密码"
-          :type="pswInputType"
-          @click-icon="toggleInputType">
-          <van-button class="btn-forget tours-button-noborder"
-            slot="button"
-            size="small"
-            @click="forgetPsw">忘记密码</van-button>
-        </van-field>
-      </van-cell-group>
-    </van-tab>
-    <!-- 手机验证码登陆 -->
-    <van-tab class="mobile-login"
-      title="手机验证码登陆">
-      <van-cell-group>
-        <area-code-input class="phone"
-          :proAreaCode.sync="phoneForm.areaCode"
-          :proMobile.sync="phoneForm.phone" />
-        <van-field class="auth-code tours-input"
-          v-model="phoneForm.smsCode"
-          center
-          clearable
-          placeholder="请输入验证码">
-          <van-button class="btn-get-code tours-button-noborder"
-            slot="button"
-            size="small"
-            :disabled="codeType===VERIFY_CODE.GETTING"
-            @click="getCode">{{showText}}</van-button>
-        </van-field>
-      </van-cell-group>
-    </van-tab>
-    <!-- 按钮 -->
-    <div class="to-regist"
-      v-if="showRegistTip">
-      <span>还没有账号？</span>
-      <span class="blue"
-        @click="showRegistDlg">去注册</span>
-    </div>
-    <van-button class="btn-login tours-button"
-      size="large"
-      :loading="submiting"
-      @click="btnLogin">登录</van-button>
-    <p class="text">登陆即代表您已同意我们的<span @click="onAgreement">&nbsp;服务协议</span></p>
-  </van-tabs>
+  <div class="login-comp">
+    <h1 class="title">稀饭旅行账号登录</h1>
+    <van-tabs class="content tours-tabs-nowrap"
+      @change="changeTabs">
+      <!-- 普通登陆 -->
+      <van-tab class="login"
+        title="普通登陆">
+        <van-cell-group>
+          <van-field class="username tours-input"
+            v-model="formData.username"
+            placeholder="请输入用户名" />
+          <van-field class="password tours-input"
+            v-model="formData.password"
+            center
+            clearable
+            icon="eye-o"
+            placeholder="请输入密码"
+            :type="pswInputType"
+            @click-icon="toggleInputType">
+            <van-button class="btn-forget tours-button-noborder"
+              slot="button"
+              size="small"
+              @click="forgetPsw">忘记密码</van-button>
+          </van-field>
+        </van-cell-group>
+      </van-tab>
+      <!-- 手机验证码登陆 -->
+      <van-tab class="mobile-login"
+        title="手机验证码登陆">
+        <van-cell-group>
+          <area-code-input class="phone"
+            :proAreaCode.sync="phoneForm.areaCode"
+            :proMobile.sync="phoneForm.phone" />
+          <van-field class="auth-code tours-input"
+            v-model="phoneForm.smsCode"
+            center
+            clearable
+            placeholder="请输入验证码">
+            <van-button class="btn-get-code tours-button-noborder"
+              slot="button"
+              size="small"
+              :disabled="codeType===VERIFY_CODE.GETTING"
+              @click="getCode">{{showText}}</van-button>
+          </van-field>
+        </van-cell-group>
+      </van-tab>
+      <!-- 按钮 -->
+      <div class="to-regist"
+        v-if="showRegistTip">
+        <span>还没有账号？</span>
+        <span class="blue"
+          @click="showRegistDlg">去注册</span>
+      </div>
+      <van-button class="btn-login tours-button"
+        size="large"
+        :loading="submiting"
+        @click="btnLogin">登录</van-button>
+      <p class="text">登陆即代表您已同意我们的<span @click="onAgreement">&nbsp;服务协议</span></p>
+    </van-tabs>
+  </div>
 </template>
 
 <script>
   import {mapMutations} from 'vuex'
   import AreaCodeInput from '@/components/input/areaCode'
   import {LOGIN_TYPE, VERIFY_CODE, SMS_SCENE} from '@/assets/js/consts'
+  import {DLG_TYPE} from '@/assets/js/consts/dialog'
   import {getSmsCode, login} from '@/api/member'
 
   const TIME = 60 // 倒计时时间
 
   export default {
+    name: 'login-comp',
     components: {
       AreaCodeInput,
     },
@@ -129,7 +134,7 @@
       },
       // 显示注册弹窗
       showRegistDlg() {
-        this.$emit('showRegistDlg')
+        this.$emit('showRegistDlg', DLG_TYPE.REGIST)
       },
       toggleInputType(val) {
         this.pswInputType = this.pswInputType === 'password' ? 'text' : 'password'
@@ -253,10 +258,19 @@
 
 <style lang="scss" scoped>
   .login-comp {
-    margin-top: 100px;
+    .title {
+      font-size: 40px;
+      font-family: PingFang SC;
+      font-weight: 400;
+      line-height: 56px;
+      color: rgba(85, 85, 85, 1);
+      opacity: 1;
+    }
+    .content{
+      margin-top: 100px;
+    }
     .login,
     .mobile-login {
-      padding: 0 76px;
       .icon-arrow {
         position: absolute;
         top: 0;
@@ -317,7 +331,6 @@
     }
     .btn-login {
       margin-top: 20px;
-      width: 596px;
     }
     .text {
       margin-top: 30px;

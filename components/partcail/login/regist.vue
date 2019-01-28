@@ -1,96 +1,101 @@
 <template>
-  <van-tabs class="regist-comp tours-tabs-nowrap"
-    @change="changeTabs">
-    <!-- 手机号注册 -->
-    <van-tab class="regist"
-      title="手机号注册">
-      <van-cell-group>
-        <!-- 手机号 -->
-        <area-code-input class="phone"
-          :proAreaCode.sync="phoneForm.areaCode"
-          :proMobile.sync="phoneForm.phone" />
-        <!-- 密码 -->
-        <van-field class="password tours-input"
-          v-model="phoneForm.password"
-          center
-          clearable
-          icon="eye-o"
-          placeholder="请输入密码"
-          :type="pswInputType"
-          @click-icon="toggleInputType">
-        </van-field>
-        <!-- 验证码 -->
-        <van-field class="password tours-input"
-          v-model="phoneForm.smsCode"
-          center
-          clearable
-          placeholder="请输入验证码">
-          <van-button class="tours-button-noborder"
-            slot="button"
-            size="small"
-            @click="getCode(LOGIN_WAY.PHONE)">{{showText}}</van-button>
-        </van-field>
-      </van-cell-group>
-    </van-tab>
-    <!-- 请输入邮箱 -->
-    <van-tab class="email-regist"
-      title="请输入邮箱">
-      <van-cell-group>
-        <van-field class="email tours-input"
-          v-model="emailForm.email"
-          placeholder="请输入邮箱" />
-        <van-field class="password tours-input"
-          v-model="emailForm.password"
-          center
-          clearable
-          icon="eye-o"
-          placeholder="请输入密码"
-          :type="pswInputType"
-          @click-icon="toggleInputType">
-        </van-field>
-        <van-field class="auth-code tours-input"
-          v-model="emailForm.emailCode"
-          center
-          clearable
-          placeholder="请输入验证码">
-          <van-button class="tours-button-noborder"
-            slot="button"
-            size="small"
-            :disabled="codeType===VERIFY_CODE.GETTING"
-            @click="getCode(LOGIN_WAY.WMAIL)">{{showText}}</van-button>
-        </van-field>
-      </van-cell-group>
-    </van-tab>
-    <!-- 按钮 -->
-    <div class="to-regist"
-      v-if="showLoginTip">
-      <span>已有账号？</span>
-      <span class="blue"
-        @click="showLoginDlg">马上登录</span>
-    </div>
-    <van-button class="btn-regist tours-button"
-      size="large"
-      :disabled="!checked"
-      :loading="submiting"
-      @click="btnRegist">注册</van-button>
-    <div class="text">
-      <van-checkbox class="tour-checkbox"
-        v-model="checked">
-        <span @click="onAgreement">我已经阅读并同意《服务协议》</span>
-      </van-checkbox>
-    </div>
-  </van-tabs>
+  <div class="regist-comp">
+    <h1 class="title">稀饭旅行账号注册</h1>
+    <van-tabs class="content tours-tabs-nowrap"
+      @change="changeTabs">
+      <!-- 手机号注册 -->
+      <van-tab class="regist"
+        title="手机号注册">
+        <van-cell-group>
+          <!-- 手机号 -->
+          <area-code-input class="phone"
+            :proAreaCode.sync="phoneForm.areaCode"
+            :proMobile.sync="phoneForm.phone" />
+          <!-- 密码 -->
+          <van-field class="password tours-input"
+            v-model="phoneForm.password"
+            center
+            clearable
+            icon="eye-o"
+            placeholder="请输入密码"
+            :type="pswInputType"
+            @click-icon="toggleInputType">
+          </van-field>
+          <!-- 验证码 -->
+          <van-field class="password tours-input"
+            v-model="phoneForm.smsCode"
+            center
+            clearable
+            placeholder="请输入验证码">
+            <van-button class="tours-button-noborder"
+              slot="button"
+              size="small"
+              @click="getCode(LOGIN_WAY.PHONE)">{{showText}}</van-button>
+          </van-field>
+        </van-cell-group>
+      </van-tab>
+      <!-- 请输入邮箱 -->
+      <van-tab class="email-regist"
+        title="请输入邮箱">
+        <van-cell-group>
+          <van-field class="email tours-input"
+            v-model="emailForm.email"
+            placeholder="请输入邮箱" />
+          <van-field class="password tours-input"
+            v-model="emailForm.password"
+            center
+            clearable
+            icon="eye-o"
+            placeholder="请输入密码"
+            :type="pswInputType"
+            @click-icon="toggleInputType">
+          </van-field>
+          <van-field class="auth-code tours-input"
+            v-model="emailForm.emailCode"
+            center
+            clearable
+            placeholder="请输入验证码">
+            <van-button class="tours-button-noborder"
+              slot="button"
+              size="small"
+              :disabled="codeType===VERIFY_CODE.GETTING"
+              @click="getCode(LOGIN_WAY.WMAIL)">{{showText}}</van-button>
+          </van-field>
+        </van-cell-group>
+      </van-tab>
+      <!-- 按钮 -->
+      <div class="to-login"
+        v-if="showLoginTip">
+        <span>已有账号？</span>
+        <span class="blue"
+          @click="showLoginDlg">马上登录</span>
+      </div>
+      <van-button class="btn-regist tours-button"
+        size="large"
+        :disabled="!checked"
+        :loading="submiting"
+        @click="btnRegist">注册</van-button>
+      <div class="text">
+        <van-checkbox class="tour-checkbox"
+          v-model="checked">
+          <span @click="onAgreement">我已经阅读并同意《服务协议》</span>
+        </van-checkbox>
+      </div>
+    </van-tabs>
+  </div>
 </template>
 
 <script>
   import AreaCodeInput from '@/components/input/areaCode'
   import areaCodeInput from '@/components/input/areaCode'
   import {LOGIN_WAY, VERIFY_CODE, SMS_SCENE, EMAIL_SCENE} from '@/assets/js/consts'
+  import {DLG_TYPE} from '@/assets/js/consts/dialog'
   import {getSmsCode, getEmailCode, register} from '@/api/member'
 
   const TIME = 60 // 倒计时时间
 
   export default {
+    name: 'regsit-comp',
     components: {
       AreaCodeInput,
       areaCodeInput,
@@ -158,7 +163,7 @@
       },
       // 显示登录弹窗
       showLoginDlg() {
-        this.$emit('showLoginDlg')
+        this.$emit('showLoginDlg', DLG_TYPE.LOGIN)
       },
       // 输入是否可见
       toggleInputType(val) {
@@ -297,10 +302,20 @@
 
 <style lang="scss" scoped>
   .regist-comp {
-    margin-top: 100px;
+    .title {
+      font-size: 40px;
+      font-family: PingFang SC;
+      font-weight: 400;
+      line-height: 56px;
+      color: rgba(85, 85, 85, 1);
+      opacity: 1;
+    }
+    .content {
+      margin-top: 100px;
+      // padding: 0 76px;
+    }
     .regist,
     .email-regist {
-      padding: 0 76px;
       .icon-arrow {
         position: absolute;
         top: 0;
@@ -327,13 +342,21 @@
         margin-top: 16px;
       }
     }
+    .to-login {
+      margin-top: 44px;
+      font-size: 24px;
+      font-family: PingFang SC;
+      font-weight: 300;
+      color: #5e5e5e;
+      .blue {
+        color: rgba(57, 158, 246, 1);
+      }
+    }
     .btn-regist {
       margin-top: 20px;
-      width: 596px;
     }
     .text {
       margin-top: 30px;
-      padding: 0 76px;
       text-align: left;
       font-size: 22px;
       span {
