@@ -183,15 +183,23 @@
         this.codeType = VERIFY_CODE.GETTING // 获取验证码
         try {
           if (type === LOGIN_WAY.PHONE) {
-            await getSmsCode({
+            const {code, msg} = await getSmsCode({
               phone: `${this.phoneForm.areaCode}-${this.phoneForm.phone}`,
               scene: SMS_SCENE.RGISTER
             })
+            if (code !== 0) {
+              this.$toast(msg)
+              this.resetTimer()
+            }
           } else {
-            await getEmailCode({
+            const {code, msg} = await getEmailCode({
               email: this.emailForm.email,
               scene: EMAIL_SCENE.RGISTER
             })
+            if (code !== 0) {
+              this.$toast(msg)
+              this.resetTimer()
+            }
           }
           await this.countDown()
         } catch (error) {

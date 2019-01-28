@@ -102,6 +102,9 @@
           const {code, data, msg} = await findPwd(subData)
           if (code === 0) {
             this.$toast('修改密码成功！')
+            setTimeout(() => {
+              this.toLogin()
+            }, 1500)
           } else {
             this.$toast(msg)
           }
