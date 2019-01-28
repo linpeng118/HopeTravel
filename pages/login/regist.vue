@@ -1,7 +1,7 @@
 <template>
   <div class="regist-page">
     <login-header rightText="登录"
-      @callOnRigth="toLogin" />
+      @callOnRight="toLogin" />
     <!-- 注册框 -->
     <regist-comp class="regist-comp-wrap"
       @registCallBack="toLogin" />
