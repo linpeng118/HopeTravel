@@ -15,7 +15,8 @@ let httprequest = axios.create({
   headers: {
     'Content-Type': 'application/json; charset=utf-8', // json格式通信
     'platform': 'APP',
-    'phoneType': 'iOS'
+    'phoneType': 'iOS',
+    'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tMjAudG91cnNjb29sLm5ldFwvYXBpXC90b3VyXC92MVwvbG9naW4iLCJpYXQiOjE1NDg2MzkwMDUsImV4cCI6MTU0ODY0MjYwNSwibmJmIjoxNTQ4NjM5MDA1LCJqdGkiOiJDRTB6WExWZ21kRDlLNVM2Iiwic3ViIjoxMDk3LCJwcnYiOiIxZDBhMDIwYWNmNWM0YjZjNDk3OTg5ZGYxYWJmMGZiZDRlOGM4ZDYzIiwidWlkIjoxMDk3fQ.UUPNkBW50uLJHSQbhs70622RXxnNQ523eSppLHPUFbo'
 
   }
 })

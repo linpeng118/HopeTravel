@@ -48,7 +48,7 @@
 </template>
 
 <script>
-  import {getcontacts} from '@/api/contacts'
+  import {getcontants} from '@/api/contacts'
 
   export default {
     components: {
@@ -72,7 +72,7 @@
     methods: {
       //获得价格日历数据
       async getlist() {
-        let {data, code, msg} = await getcontacts()
+        let {data, code, msg} = await getcontants()
         if(code === 0) {
           this.list = data;
         }
@@ -93,7 +93,7 @@
             name:this.checkuser[i].lastname + this.checkuser[i].firstname,
           })
         }
-        if(objarr.length>0){
+        if(objarrx.length>0){
           this.$router.replace({ path: '/confirm_order', query: { checker: objarrx }})
         }
         else{

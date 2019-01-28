@@ -44,7 +44,6 @@
           </van-radio-group>
         </van-popup>
       </section>
-
       <!--行程选择-->
       <section>
         <div class="confirm-item" v-if="pricelist.attributes">
@@ -93,10 +92,10 @@
             <span>务必确认填写信息与出游证件一致</span></p>
           <ul>
             <template v-for="(item,ind) in paramcontanct">
-              <li :key="ind" class="user-item" >
+              <nuxt-link v-if="item.name" :key="ind" class="user-item" tag="li" :to="{path:'/personal/addContacts',query:{'id':item.id}}" >
                 <span>出行人{{ind+1}}<i>{{item.name}}</i></span>
                 <span><i><van-icon name="edit"/></i></span>
-              </li>
+              </nuxt-link>
             </template>
 
           </ul>
@@ -139,7 +138,7 @@
           <div class="item-con">
          <span>
            <i class="seti">米粒</i>
-           <i class="seti" style="color: #bbb">共有米粒{{points.total_point}}，本次可用{{points.point}}米粒抵用{{points.discount}}</i>
+           <i class="seti" style="color: #bbb">共有米粒{{pricelist.points.total_point}}，本次可用{{pricelist.points.point}}米粒抵用{{pricelist.points.discount}}</i>
          </span>
             <van-switch
               v-model="checkedmili"
@@ -223,7 +222,8 @@
       },
       //产品
       product(){
-        return this.$store.state.confirm.product;
+        return this.$store.state.profile.profile;
+        // return this.$store.state.confirm.product;
       },
       //获取价格数据
       get_vuex_pricelist() {
@@ -374,7 +374,7 @@
       getaddoder(){
          var objarr=[];
          for(let i=0;i<this.paramcontanct.length;i++){
-           obj.push(this.paramcontanct[i].id)
+           objarr.push(this.paramcontanct[i].id)
          }
         var addorder={
           product_id:this.product.product_id,
