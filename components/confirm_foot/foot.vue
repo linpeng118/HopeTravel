@@ -90,6 +90,7 @@
         }
       },
       'addorder'(val){
+
         if(val.tongyi&&val.contact.phone&&val.contact.name&&val.contact.email&&val.users){
           this.showbtn2=true;
         }
