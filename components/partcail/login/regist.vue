@@ -17,7 +17,7 @@
             center
             clearable
             icon="eye-o"
-            placeholder="请输入密码"
+            placeholder="登陆密码"
             :type="pswInputType"
             @click-icon="toggleInputType">
           </van-field>
@@ -26,7 +26,7 @@
             v-model="phoneForm.smsCode"
             center
             clearable
-            placeholder="请输入验证码">
+            placeholder="验证码">
             <van-button class="tours-button-noborder"
               slot="button"
               size="small"
@@ -40,13 +40,13 @@
         <van-cell-group>
           <van-field class="email tours-input"
             v-model="emailForm.email"
-            placeholder="请输入邮箱" />
+            placeholder="邮箱" />
           <van-field class="password tours-input"
             v-model="emailForm.password"
             center
             clearable
             icon="eye-o"
-            placeholder="请输入密码"
+            placeholder="登陆密码"
             :type="pswInputType"
             @click-icon="toggleInputType">
           </van-field>
@@ -54,7 +54,7 @@
             v-model="emailForm.emailCode"
             center
             clearable
-            placeholder="请输入验证码">
+            placeholder="验证码">
             <van-button class="tours-button-noborder"
               slot="button"
               size="small"
@@ -183,15 +183,23 @@
         this.codeType = VERIFY_CODE.GETTING // 获取验证码
         try {
           if (type === LOGIN_WAY.PHONE) {
-            await getSmsCode({
+            const {code, msg} = await getSmsCode({
               phone: `${this.phoneForm.areaCode}-${this.phoneForm.phone}`,
               scene: SMS_SCENE.RGISTER
             })
+            if (code !== 0) {
+              this.$toast(msg)
+              this.resetTimer()
+            }
           } else {
-            await getEmailCode({
+            const {code, msg} = await getEmailCode({
               email: this.emailForm.email,
               scene: EMAIL_SCENE.RGISTER
             })
+            if (code !== 0) {
+              this.$toast(msg)
+              this.resetTimer()
+            }
           }
           await this.countDown()
         } catch (error) {
