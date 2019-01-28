@@ -48,7 +48,11 @@
 </template>
 
 <script>
+<<<<<<< HEAD
   import {getcontacts} from '@/api/contacts'
+=======
+  import {getcontants} from '@/api/contacts'
+>>>>>>> xm
 
   export default {
     components: {
@@ -72,7 +76,7 @@
     methods: {
       //获得价格日历数据
       async getlist() {
-        let {data, code, msg} = await getcontacts()
+        let {data, code, msg} = await getcontants()
         if(code === 0) {
           this.list = data;
         }
@@ -93,7 +97,11 @@
             name:this.checkuser[i].lastname + this.checkuser[i].firstname,
           })
         }
+<<<<<<< HEAD
         if(objarr.length>0){
+=======
+        if(objarrx.length>0){
+>>>>>>> xm
           this.$router.replace({ path: '/confirm_order', query: { checker: objarrx }})
         }
         else{

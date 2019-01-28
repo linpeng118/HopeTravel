@@ -140,7 +140,8 @@
       //产品
 
       product(){
-        return this.$store.state.confirm.product;
+        return this.$store.state.profile.profile;
+        // return this.$store.state.confirm.product;
 
       }
     },

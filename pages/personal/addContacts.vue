@@ -99,6 +99,7 @@
 
 <script>
   import {addcontanct} from '@/api/contacts'
+  import {getcontants} from '@/api/contacts'
   export default {
     components: {
 
@@ -116,20 +117,24 @@
          "passport":"",
          "nationality":"中国",
          "six":0,
-         "phone_country":null,
+         "phone_country":'86',
          "identity":null,
          "isuser":false
        },
         shownationality: false,
         datedob:new Date('1990-01-01'),
         showdate:false,
-        title:'新增出行人'
+        title:'新增出行人',
+        queryid:this.$route.query.id||0,
       }
     },
     computed: {},
     created(){
     },
     mounted(){
+      if(this.queryid!=0){
+        this.title='编辑出行人'
+      }
     },
 
     methods: {
@@ -166,8 +171,6 @@
         }
         else {
         }
-
-
       },
 
 
