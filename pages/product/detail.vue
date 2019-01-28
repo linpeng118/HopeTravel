@@ -2,7 +2,8 @@
   <div class="product-detail-page"
     ref="refProductDetailPage">
     <!-- 头部 -->
-    <product-detail-header :transparent="isTransparent"
+    <product-detail-header class="product-detail-header"
+      :transparent="isTransparent"
       title="产品详情"
       fixed
       ref="refProdctDetailHeader" />
@@ -503,20 +504,20 @@
         let scrollHeight = this.$refs.refProductDetailPage.scrollHeight
         // 视窗高度
         let clientHeight = this.$refs.refProductDetailPage.clientHeight
-        // console.log(this.activeTabRef, '需要滚动到：', scrollTo, '只能滚到：', scrollTop, '能滚的body高度：', scrollHeight, '窗口（100vh）：', clientHeight)
+        console.log(this.activeTabRef, '需要滚动到：', scrollTo, '只能滚到：', scrollTop, '能滚的body高度：', scrollHeight, '窗口（100vh）：', clientHeight)
         // 这里向上取整是确保差距小于5的时候，ispeed为0
         let ispeed = Math.ceil((scrollTo - scrollTop) / 5)
         this.$refs.refProductDetailPage.scrollTop = scrollTop + ispeed
         // console.log('清除', scrollTop === scrollTo)
         if (scrollTop === scrollTo) {
           clearInterval(this.timer)
+        } else if (Math.abs(scrollTo - scrollTop) < 5) {
+          // 容错处理
+          this.$refs.refProductDetailPage.scrollTop = scrollTo
+          clearInterval(this.timer)
         }
         // 是否已滚动到底
         if (scrollTop + clientHeight === scrollHeight) {
-          clearInterval(this.timer)
-        }
-        // 容错处理
-        if (Math.abs(scrollTo - scrollTop) < 5) {
           clearInterval(this.timer)
         }
       },
@@ -559,13 +560,13 @@
         let refCostH = this.$refs.refCost.offsetTop
         let refNoticeH = this.$refs.refNotice.offsetTop
         // console.log('refFeaturesH', showHeight, refCostH)
-        if (showHeight > refFeaturesH) {
+        if (showHeight >= refFeaturesH) {
           this.activeTab = 1
         }
-        if (showHeight > refTripH) {
+        if (showHeight >= refTripH) {
           this.activeTab = 2
         }
-        if (showHeight > refCostH) {
+        if (showHeight >= refCostH) {
           this.activeTab = 3
         }
         // 到底部
@@ -665,6 +666,9 @@
     font-size: 0;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    .product-detail-header {
+      height: 88px;
+    }
     .product-detail {
       padding-bottom: 144px;
       background: #f2f2f2;
