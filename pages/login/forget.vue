@@ -1,7 +1,7 @@
 <template>
   <div class="forget-page">
     <login-header rightText="登录"
-      @callOnRigth="toLogin" />
+      @callOnRight="toLogin" />
     <h1 class="title">别担心，在这里找回密码</h1>
     <van-tabs class="forget-wrap tours-tabs-nowrap"
       @change="changeTabs">

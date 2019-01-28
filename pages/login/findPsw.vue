@@ -1,7 +1,7 @@
 <template>
   <div class="change-psw-page">
     <login-header rightText="登录"
-      @callOnRigth="toLogin" />
+      @callOnRight="toLogin" />
     <h1 class="title">请设置你的新密码</h1>
     <div class="change-paw-wrap tours-tabs-nowrap">
       <van-cell-group>
