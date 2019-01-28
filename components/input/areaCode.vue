@@ -17,7 +17,7 @@
       <van-field class="mobile"
         style=""
         v-model="mobile"
-        placeholder="请输入手机号">
+        placeholder="手机号">
       </van-field>
     </van-col>
     <van-col v-show="isShowList"

@@ -9,13 +9,13 @@
         <van-cell-group>
           <van-field class="username tours-input"
             v-model="formData.username"
-            placeholder="请输入用户名" />
+            placeholder="用户名 / 邮箱" />
           <van-field class="password tours-input"
             v-model="formData.password"
             center
             clearable
             icon="eye-o"
-            placeholder="请输入密码"
+            placeholder="登陆密码"
             :type="pswInputType"
             @click-icon="toggleInputType">
             <van-button class="btn-forget tours-button-noborder"
@@ -36,7 +36,7 @@
             v-model="phoneForm.smsCode"
             center
             clearable
-            placeholder="请输入验证码">
+            placeholder="验证码">
             <van-button class="btn-get-code tours-button-noborder"
               slot="button"
               size="small"

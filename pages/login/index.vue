@@ -4,7 +4,6 @@
       @callOnRight="toRegist" />
     <!-- 登录框 -->
     <login-comp class="login-comp-wrap"
-      showRegistTip
       @loginCallBack="toHomepage" />
   </div>
 </template>
