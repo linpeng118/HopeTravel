@@ -93,6 +93,7 @@ module.exports = {
       src: '~/assets/js/mixins/verifyCode',
       ssr: false,
     },
+    { src: '~/plugins/vue-cropper', ssr: false },
     '~/plugins/axios/nuxtaxios'
   ],
   /*

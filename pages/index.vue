@@ -69,8 +69,8 @@
       <div v-swiper:mySwiper="viewedSwiperOption">
         <div class="swiper-wrapper">
           <div class="swiper-slide"
-               v-for="sales in timeSalesList"
-               :key="sales.product_id">
+               v-for="(sales,index) in timeSalesList"
+               :key="sales.product_id + index">
             <snap-up-item :proData="sales"
                           :isCollect="false"
                           :isShowTime="true"
@@ -147,7 +147,7 @@ export default {
     selectItem(item) {
       this.$router.push({
         name: 'product-detail',
-        params: {
+        query: {
           productId: item
         }
       })

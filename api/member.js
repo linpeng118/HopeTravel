@@ -53,25 +53,26 @@ export const getSmsCode = (data) => {
 }
 
 // 验证手机号码
-// export const validatePhone = (data) => {
-//   return axios.post('/api/phone/validate', {
-//     phone: data.phone,
-//     code: data.code
-//   })
-// }
+export const validatePhone = (data) => {
+  return axios.post('/api/phone/validate', {
+    phone: data.phone,
+    code: data.code
+  })
+}
 
 // 获取邮箱验证码
-export const getEmailCode = (data) => {
-  return axios.post('/api/email/send', {
-    email: data.email,
-    scene: data.scene
+export const getEmailCode = (email) => {
+  return axios.get('/api/email/captcha', {
+    params: {
+      email
+    }
   })
 }
 
 // 验证邮箱地址
-// export const validateEmail = (data) => {
-//   return axios.post('/api/email/validate', {
-//     email: data.email,
-//     code: data.code
-//   })
-// }
+export const validateEmail = (data) => {
+  return axios.post('/api/email/validate', {
+    email: data.email,
+    code: data.code
+  })
+}
