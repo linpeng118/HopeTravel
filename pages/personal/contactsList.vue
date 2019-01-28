@@ -1,6 +1,5 @@
 <template>
   <section>
-
     <van-nav-bar class="login-header tours-no-bb"
                  ref="loginHeader"
                  :title="title"
@@ -9,13 +8,16 @@
                  @click-right="onClickRight">
       <van-icon class="left-wrap" name="arrow-left" slot="left" />
       <van-icon class="right-wrap" slot="right">
-        <div class="search">
-          <div class="text">完成</div>
+        <div class="search active " v-if="checkuser.length==adult" >
+          <div class="text ">完成</div>
+        </div>
+        <div class="search " v-else>
+          <div class="text ">完成</div>
         </div>
       </van-icon>
     </van-nav-bar>
     <p v-if="adult" class="contancts-title">请选择{{adult}}位出行人</p>
-    <van-checkbox-group v-model="checkuser" class="checkboxall" :max="adult">
+    <van-checkbox-group v-model="checkuser" class="checkboxall" :max="parseInt(adult)">
       <van-checkbox
         v-for="(item, index) in list"
         :key="index"
@@ -30,7 +32,7 @@
                <i>护照号&nbsp;&nbsp;{{item.passport}} </i>
                <i>手机号&nbsp;&nbsp;{{item.phone}} </i>
             </template>
-           <template v-else>
+            <template v-else>
                <i style="color: red">信息不全，请补充</i>
             </template>
         </span>
@@ -46,7 +48,8 @@
 </template>
 
 <script>
-  import {getcontacts} from '@/api/contacts'
+  import {getcontants} from '@/api/contacts'
+
   export default {
     components: {
 
@@ -57,9 +60,6 @@
         list: [],
         title:'选择出行人',
         adult:this.$route.query.adult||1,
-
-
-
       }
     },
     computed: {},
@@ -72,79 +72,35 @@
     methods: {
       //获得价格日历数据
       async getlist() {
-        let {data, code} = await getcontacts()
+        let {data, code, msg} = await getcontants()
         if(code === 0) {
-          // this.pricedate = data;
-          console.log(data)
-        } else {
-          // this.pricedate = []
+          this.list = data;
         }
-        this.list=[
-          {
-            "customer_contract_id":907,
-            "name_cn":"王五",
-            "firstname":"si",
-            "lastname":"green",
-            "gender":"f",
-            "phone":"86-18100000001",
-            "dob":"1985-05-01",
-            "email":"zhaos@163.com",
-            "weight":null,
-            "height":null,
-            "passport":"",
-            "nationality":"中国",
-            "created":"2018-12-21 16:15:08",
-            "last_updated":"2018-12-21 17:00:17",
-            "customer_id":953,
-            "six":0,
-            "identity":"510123456789123456"
-          },
-          {
-            "customer_contract_id":906,
-            "name_cn":"赵四",
-            "firstname":"vick",
-            "lastname":"zhao",
-            "gender":"f",
-            "phone":"86-18100000001",
-            "dob":"1985-05-01",
-            "email":"zhaos@163.com",
-            "weight":null,
-            "height":null,
-            "passport":"1234",
-            "nationality":"中国",
-            "created":"2018-12-21 16:10:02",
-            "last_updated":"2018-12-21 16:44:41",
-            "customer_id":953,
-            "six":0,
-            "identity":null
-          },
-          {
-            "customer_contract_id":896,
-            "name_cn":null,
-            "firstname":"zhang",
-            "lastname":"chunhua",
-            "gender":null,
-            "phone":"86-",
-            "dob":"",
-            "email":"",
-            "weight":null,
-            "height":null,
-            "passport":"1234",
-            "nationality":"",
-            "created":"2000-01-01 00:00:00",
-            "last_updated":"2018-11-29 12:29:20",
-            "customer_id":953,
-            "six":0,
-            "identity":null
-          }
-        ]
+        else {
+          this.$dialog.alert({
+            message: msg
+          });
+        }
       },
       onClickLeft(){
         this.$router.go(-1)
       },
       onClickRight(){
-
+        var objarrx=[];
+        for(let i=0;i<this.checkuser.length;i++){
+          objarrx.push({
+            id:this.checkuser[i].customer_contract_id,
+            name:this.checkuser[i].lastname + this.checkuser[i].firstname,
+          })
+        }
+        if(objarrx.length>0){
+          this.$router.replace({ path: '/confirm_order', query: { checker: objarrx }})
+        }
+        else{
+          this.$router.replace({ path: '/confirm_order'})
+        }
       },
+
     },
   }
 </script>
@@ -230,14 +186,14 @@
       .search {
         width:92px;
         height:36px;
-        background:rgba(57,158,246,1);
+        background:#D2D2D2;
         opacity:1;
         color: #fff;
         border-radius:18px;
       }
     }
   }
-
-
-
+  .active{
+    background-color: #399EF6!important;
+  }
 </style>

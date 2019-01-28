@@ -16,7 +16,7 @@
           <img src="../../assets/imgs/personal/index/edit.png" alt>
         </div>
       </div>
-      <nuxt-link tag="div" to="/login" class="go-login"v-else>登录/注册</nuxt-link>
+      <nuxt-link tag="div" to="/login" class="go-login" v-else>登录/注册</nuxt-link>
     </div>
     <div class="body">
       <!-- 主要菜单 -->
@@ -68,7 +68,7 @@
             <img class="icon-size" src="../../assets/imgs/personal/index/service.png">
           </template>
         </van-cell>
-        <van-cell title="设置" is-link to>
+        <van-cell title="设置" is-link to="/personal/setting">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/setting.png">
           </template>
@@ -79,40 +79,41 @@
         <van-button class="sign-out-btn">退出登录</van-button>
       </div>
     </div>
-    <div class="footer">
-      <dl class="f-el">
-        <dt>
-          <van-icon name="wap-home"></van-icon>
-        </dt>
-        <dd>
-          <span>主页</span>
-        </dd>
-      </dl>
-      <dl class="f-el">
-        <dt>
-          <van-icon name="location-o"></van-icon>
-        </dt>
-        <dd>
-          <span>目的地</span>
-        </dd>
-      </dl>
-      <dl class="f-el">
-        <dt>
-          <van-icon name="chat-o"></van-icon>
-        </dt>
-        <dd>
-          <span>在线咨询</span>
-        </dd>
-      </dl>
-      <dl class="f-el active">
-        <dt>
-          <van-icon name="user-o"></van-icon>
-        </dt>
-        <dd>
-          <span>我的</span>
-        </dd>
-      </dl>
-    </div>
+    <!--这期取消-->
+    <!--<div class="footer">-->
+      <!--<dl class="f-el">-->
+        <!--<dt>-->
+          <!--<van-icon name="wap-home"></van-icon>-->
+        <!--</dt>-->
+        <!--<dd>-->
+          <!--<span>主页</span>-->
+        <!--</dd>-->
+      <!--</dl>-->
+      <!--<dl class="f-el">-->
+        <!--<dt>-->
+          <!--<van-icon name="location-o"></van-icon>-->
+        <!--</dt>-->
+        <!--<dd>-->
+          <!--<span>目的地</span>-->
+        <!--</dd>-->
+      <!--</dl>-->
+      <!--<dl class="f-el">-->
+        <!--<dt>-->
+          <!--<van-icon name="chat-o"></van-icon>-->
+        <!--</dt>-->
+        <!--<dd>-->
+          <!--<span>在线咨询</span>-->
+        <!--</dd>-->
+      <!--</dl>-->
+      <!--<dl class="f-el active">-->
+        <!--<dt>-->
+          <!--<van-icon name="user-o"></van-icon>-->
+        <!--</dt>-->
+        <!--<dd>-->
+          <!--<span>我的</span>-->
+        <!--</dd>-->
+      <!--</dl>-->
+    <!--</div>-->
   </div>
 </template>
 

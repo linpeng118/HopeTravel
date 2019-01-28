@@ -2,11 +2,13 @@
   <div class="product-detail-page"
     ref="refProductDetailPage">
     <!-- 头部 -->
-    <product-detail-header :transparent="isTransparent"
+    <product-detail-header class="product-detail-header"
+      :transparent="isTransparent"
       title="产品详情"
       fixed
       ref="refProdctDetailHeader" />
-    <div class="product-detail">
+    <div class="product-detail"
+      ref="refProductDetail">
       <!-- banner -->
       <van-swipe class="banner"
         :autoplay="4000"
@@ -14,7 +16,7 @@
         <van-swipe-item v-for="image in product.images"
           :key="image">
           <div class="banner-img"
-            :style="{background: `url(${image}) no-repeat 0 0/100% 100%`}"></div>
+            :style="{'background': `url(${image}) no-repeat 0 0/100% 100%`}"></div>
         </van-swipe-item>
         <div class="custom-indicator"
           slot="indicator">
@@ -124,7 +126,8 @@
             v-for="tab in tabList"
             :key="tab.name"
             :class="{'active': activeTab===tab.id}"
-            @click="clickTab(tab)">
+            @click="clickTab(tab)"
+            v-show="tab.isShow">
             <span>{{tab.name}}</span>
             <span class="tab-day"
               v-show="tab.id===2">{{showDay}}</span>
@@ -136,7 +139,8 @@
         v-show="isTabFixed"></div>
       <!-- 产品特色 -->
       <div class="features"
-        ref="refFeatures">
+        ref="refFeatures"
+        :style="{'background': `url(${bgFeat}) no-repeat 0 0/100% 100%`}">
       </div>
       <!-- 行程概要 -->
       <div class="trip"
@@ -293,7 +297,8 @@
           <div class="operate">
             <div class="btn-operate"
               v-for="item in operateTabbar"
-              :key="item.name">
+              :key="item.name"
+              @click="onOperate(item)">
               <img :src="item.icon"
                 alt="icon">
               <p class="operate-name">{{item.name}}</p>
@@ -301,7 +306,8 @@
           </div>
           <div class="reserve">
             <van-button class="btn-reserve"
-              size="large">立即预定</van-button>
+              size="large"
+              @click="btnReserve">立即预定</van-button>
           </div>
         </div>
       </div>
@@ -312,14 +318,18 @@
 </template>
 
 <script>
+  import {mapMutations, mapState} from 'vuex';
   import {throttle as _throttle} from 'lodash'
   import {ImagePreview} from 'vant';
   import ProductDetailHeader from '@/components/header/productDetail'
   import ProdDetailImgItem from '@/components/items/prodDetailImgItem'
   import Loading from '@/components/loading'
-  import {getProductDetail} from '@/api/products'
+  import {OPERATE_TYPE} from '@/assets/js/consts'
+  import {DLG_TYPE} from '@/assets/js/consts/dialog'
+  import {getProductDetail, addFavorite, delFavorite} from '@/api/products'
 
   export default {
+    layout: 'default',
     name: 'product_detail',
     components: {
       ProductDetailHeader,
@@ -328,17 +338,19 @@
     },
     data() {
       return {
+        productId: this.$route.query.productId || null,
         isTransparent: true, // 导航头是否透明
         current: 0, // 导航页数
+        bgFeat: require('../../assets/imgs/product/bg_features.png'),
         serviceNote: [
           {name: '成团保障', desc: '该产品下单即可确认出行', icon: require('../../assets/imgs/product/tick@2x.png')},
           {name: '限时特价', desc: '该产品享受买贵退差', icon: require('../../assets/imgs/product/tick@2x.png')},
           {name: '低价保证', desc: '', icon: require('../../assets/imgs/product/tick@2x.png')},
         ],
         operateTabbar: [
-          {name: '关注', icon: require('../../assets/imgs/product/attention@2x.png')},
-          {name: '电话咨询', icon: require('../../assets/imgs/product/phone@2x.png')},
-          {name: '在线咨询', icon: require('../../assets/imgs/product/consult@2x.png')},
+          {type: OPERATE_TYPE.ATTR, name: '关注', icon: require('../../assets/imgs/product/attention@2x.png')},
+          {type: OPERATE_TYPE.PHONE, name: '电话咨询', icon: require('../../assets/imgs/product/phone@2x.png')},
+          {type: OPERATE_TYPE.ONLINE, name: '在线咨询', icon: require('../../assets/imgs/product/consult@2x.png')},
         ],
         activeTab: 1, // 选中的tab
         activeTabRef: 'refFeatures',
@@ -387,10 +399,10 @@
       },
       tabList() {
         return [
-          {id: 1, name: '产品特色', ref: 'refFeatures'},
-          {id: 2, name: this.itinerary.duration_days + '天行程', ref: 'refTrip'},
-          {id: 3, name: '费用明细', ref: 'refCost'},
-          {id: 4, name: '注意事项', ref: 'refNotice'},
+          {id: 1, name: '产品特色', ref: 'refFeatures', isShow: true},
+          {id: 2, name: this.itinerary.duration_days + '天行程', ref: 'refTrip', isShow: true},
+          {id: 3, name: '费用明细', ref: 'refCost', isShow: true},
+          {id: 4, name: '注意事项', ref: 'refNotice', isShow: true},
         ]
       },
       showDayList() {
@@ -406,9 +418,14 @@
       this.$refs.refProductDetailPage.addEventListener("scroll", _throttle(this.scrollFn, 200));
     },
     methods: {
+      ...mapMutations({
+        vxSaveReservePro: 'product/saveReservePro',
+        vxToggleDialog: 'toggleDialog', // 是否显示弹窗
+        vxSetDlgType: 'setDlgType', // 设置弹窗类型
+      }),
       async init() {
         const {code, data, msg} = await getProductDetail({
-          product_id: 1398,
+          product_id: this.productId,
         })
         console.log(code, data, msg)
         if (code === 0) {
@@ -472,10 +489,10 @@
         console.log('tab', tab)
         this.activeTab = tab.id
         this.activeTabRef = tab.ref
-        // TODO:滚动到相应位置
         clearInterval(this.timer)
         this.timer = setInterval(this.backFn, 20)
       },
+      // 滚动到相应位置
       backFn() {
         // 滚动到的元素(减去2个fixed的高度)
         let scrollTo = this.$refs[this.activeTabRef].offsetTop
@@ -487,29 +504,33 @@
         let scrollHeight = this.$refs.refProductDetailPage.scrollHeight
         // 视窗高度
         let clientHeight = this.$refs.refProductDetailPage.clientHeight
-        // console.log(this.activeTabRef, '需要滚动到：', scrollTo, '只能滚到：', scrollTop, '能滚的body高度：', scrollHeight, '窗口（100vh）：', clientHeight)
+        console.log(this.activeTabRef, '需要滚动到：', scrollTo, '只能滚到：', scrollTop, '能滚的body高度：', scrollHeight, '窗口（100vh）：', clientHeight)
         // 这里向上取整是确保差距小于5的时候，ispeed为0
         let ispeed = Math.ceil((scrollTo - scrollTop) / 5)
         this.$refs.refProductDetailPage.scrollTop = scrollTop + ispeed
         // console.log('清除', scrollTop === scrollTo)
         if (scrollTop === scrollTo) {
           clearInterval(this.timer)
+        } else if (Math.abs(scrollTo - scrollTop) < 5) {
+          // 容错处理
+          this.$refs.refProductDetailPage.scrollTop = scrollTo
+          clearInterval(this.timer)
         }
         // 是否已滚动到底
         if (scrollTop + clientHeight === scrollHeight) {
           clearInterval(this.timer)
         }
-        // 容错处理
-        if (Math.abs(scrollTo - scrollTop) < 5) {
-          clearInterval(this.timer)
-        }
       },
       onAdCustom() {
-        console.log('onAdCustom')
+        this.$router.push({
+          path: '/custom'
+        })
       },
       // 滚动函数
       scrollFn() {
         const s1 = this.$refs.refProductDetailPage.scrollTop;
+        const s1H = this.$refs.refProductDetailPage.offsetHeight;
+        const allH = this.$refs.refProductDetail.offsetHeight;
         let tabListH = this.$refs.refTabList.offsetTop - this.$refs.refTabList.offsetHeight;
         let tabHeightH = this.$refs.refTabHeight.offsetTop - this.$refs.refTabList.offsetHeight;
         // console.log(s1, tabListH, tabHeightH)
@@ -524,18 +545,37 @@
         if (s1 <= tabHeightH) {
           this.isTabFixed = false
         }
-        console.log(11, this.isTabFixed)
         // 判断方向
         // setTimeout(() => {
         //   const s2 = this.$refs.refProductDetailPage.scrollTop;
         //   const direct = s2 - s1;
         //   console.log("direct", direct);
         // }, 17);
-        console.log(this.showDayList)
+        // D1-Dn变化
         const listLen = this.showDayList.length
         const showHeight = s1 + this.$refs.refTabList.offsetHeight + this.$refs.refProdctDetailHeader.$el.offsetHeight
+        // 根据tabList的高度,修改选中的tab
+        let refFeaturesH = this.$refs.refFeatures.offsetTop
+        let refTripH = this.$refs.refTrip.offsetTop
+        let refCostH = this.$refs.refCost.offsetTop
+        let refNoticeH = this.$refs.refNotice.offsetTop
+        // console.log('refFeaturesH', showHeight, refCostH)
+        if (showHeight >= refFeaturesH) {
+          this.activeTab = 1
+        }
+        if (showHeight >= refTripH) {
+          this.activeTab = 2
+        }
+        if (showHeight >= refCostH) {
+          this.activeTab = 3
+        }
+        // 到底部
+        if (s1 + s1H === allH) {
+          this.activeTab = 4
+        }
+        console.log(this.activeTab, showHeight, refNoticeH)
         let idx = this.showDayList.findIndex(item => item > showHeight)
-        console.log('index：', idx)
+        // console.log('index：', idx)
         if (idx === 0) {
           this.showDay = `D1`
         } else if (idx > 0) {
@@ -544,6 +584,7 @@
           this.showDay = `D${listLen}`
         }
       },
+      // 点击预览图片
       onImgSlide(data) {
         console.log(data)
         const index = data.arr.findIndex(item => item === data.item)
@@ -551,10 +592,73 @@
           images: data.arr,
           startPosition: index,
         });
+      },
+      // 点击操作按钮
+      onOperate(item) {
+        switch (item.type) {
+          case OPERATE_TYPE.ATTR:
+            this.attentionProduct()
+            break;
+          case OPERATE_TYPE.PHONE:
+            this.telCounsel()
+            break;
+          case OPERATE_TYPE.ONLINE:
+            this.onlineCounsel()
+            break;
+          default:
+            console.log(`${item.type} is not found`)
+            break;
+        }
+      },
+      // 关注与取关
+      async attentionProduct() {
+        console.log(this.product)
+        if (this.product.is_favorite) {
+          const {code, data, msg} = await delFavorite({
+            product_id: this.product.product_id
+          })
+          if (code === 0) {
+            this.$toast('取关成功')
+          } else {
+            this.$toast('取关失败')
+          }
+        } else {
+          const {code, data, msg} = await addFavorite({
+            product_id: this.product.product_id
+          })
+          if (code === 0) {
+            this.$toast('关注成功')
+          } else {
+            this.$toast('关注失败')
+          }
+        }
+      },
+      telCounsel() {
+        console.log(this.product)
+        window.location.href = "tel:10086";
+      },
+      onlineCounsel() {
+        console.log(this.product)
+        if (!this.$store.state.token) {
+          this.vxToggleDialog(true)
+          this.vxSetDlgType(DLG_TYPE.LOGIN)
+        }
+      },
+      // 立即定制
+      async btnReserve() {
+        // 暂存需要定制的商品信息
+        await this.vxSaveReservePro({
+          ...this.product
+        })
+        // 跳转至订单页面
+        this.$router.push({
+          path: '/date_trip'
+        })
       }
     },
   }
 </script>
+
 
 <style lang="scss" scoped>
   .product-detail-page {
@@ -562,6 +666,9 @@
     font-size: 0;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    .product-detail-header {
+      height: 88px;
+    }
     .product-detail {
       padding-bottom: 144px;
       background: #f2f2f2;
@@ -786,8 +893,8 @@
       }
       .features {
         height: 1520px;
-        background: url("../../assets/imgs/product/bg_features.png") no-repeat 0 0/100%
-          100%;
+        // background: url("../../assets/imgs/product/bg_features.png") no-repeat 0 0/100%
+        //   100%;
       }
       .trip {
         background: #fff;

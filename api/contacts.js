@@ -1,11 +1,15 @@
 import axios from '@/plugins/axios/axios'
 
-export const getcontacts = () => {
+export const getcontants = () => {
   return axios.get(`/api/contacts`)
 }
-
+export const getcontant = (id) => {
+  return axios.get(`/api/contact/${id}`)
+}
+export const getquhao = () => {
+  return axios.get(`/api/country/telcodes`)
+}
 export const addcontanct = (data) => {
-  console.log('发起了一次请求')
   return axios.post(`/api/tour/v1/contact`,
     {
       "name_cn":data.name_cn||'',
@@ -19,15 +23,10 @@ export const addcontanct = (data) => {
       "gender":data.gender||'',
       "identity":data.identity||'',
       "phone_country":data.phone_country||''
-    },{
-      headers: {
-        'Authorization': 'token'
-      }
     }
     )
 }
 export const setcontanct = (data,id) => {
-  console.log('发起了一次请求')
   return axios.put(`/api/tour/v1/contact/${id}`,
     {
       "name_cn":data.name_cn||'',

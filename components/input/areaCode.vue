@@ -3,11 +3,11 @@
   <van-row class="area-code-input"
     type="flex"
     align="center"
-    :class="isShowList">
+    :class="className">
     <van-col class="area-code-wrap"
       span="6"
       @click.native="toggleAreaList">
-      <span class="area-code">+ {{areaCode}}</span>
+      <span class="area-code">+&nbsp;{{areaCode}}</span>
       <van-icon class="icon-arrow"
         name="arrow" />
     </van-col>
@@ -17,15 +17,15 @@
       <van-field class="mobile"
         style=""
         v-model="mobile"
-        placeholder="请输入手机号">
+        placeholder="手机号">
       </van-field>
     </van-col>
     <van-col v-show="isShowList"
       class="area-list"
       span="18">
       <div class="area-item"
-        v-for="area in araeList"
-        :key="area.code"
+        v-for="(area,index) in araeList"
+        :key="index"
         @click="selectArea(area)">
         <div class="addr">{{area.addr}}</div>
         <div class="code">{{area.code}}</div>
@@ -35,6 +35,8 @@
 </template>
 
 <script>
+  import {getCountryTelcodes} from '@/api'
+
   export default {
     components: {},
     props: {
@@ -46,19 +48,17 @@
         type: [Number, String],
         default: ''
       },
+      className:{
+        type: String,
+        default: ''
+      }
     },
     data() {
       return {
         isShowList: false, // 是否显示列表
         areaCode: this.proAreaCode,
         mobile: '',
-        araeList: [
-          {code: '86', addr: '中国大陆'},
-          {code: '87', addr: '美国'},
-          {code: '88', addr: '日本'},
-          {code: '89', addr: '香港'},
-          {code: '90', addr: '台湾'},
-        ]
+        araeList: []
       }
     },
     watch: {
@@ -66,8 +66,21 @@
         this.$emit('update:proMobile', val)
       }
     },
-    mounted() {},
+    mounted() {
+      this.init()
+    },
     methods: {
+      async init() {
+        const {code, data, msg} = await getCountryTelcodes()
+        if (code === 0) {
+          this.araeList = data.map(item => ({
+            code: item.tel_code,
+            addr: item.countryName,
+          }))
+        } else {
+          this.$toast(msg)
+        }
+      },
       toggleAreaList() {
         this.isShowList = !this.isShowList
       },
@@ -98,19 +111,20 @@
       .area-code {
         font-size: 32px;
         color: #555;
+        overflow: hidden;
       }
       .icon-arrow {
-        margin-left: 20px;
+        margin-left: 10px;
         font-size: 24px;
         color: #555;
       }
       &::after {
-        content: '';
+        content: "";
         position: absolute;
         right: 0;
         height: 60px;
         width: 2px;
-        background: #C4C4C4;
+        background: #c4c4c4;
       }
     }
     .mobile-input {

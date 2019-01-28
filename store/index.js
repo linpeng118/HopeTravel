@@ -10,6 +10,8 @@ import header from './modules/header'
 import localPlay from './modules/localPlay'
 // 确认订单
 import confirm from './modules/confirm'
+// 产品模块
+import product from './modules/product'
 // 个人信息
 import profile from './modules/profile'
 // login模块
@@ -28,6 +30,7 @@ const createStore = () => {
       header,
       localPlay,
       confirm,
+      product,
       profile,
       login,
     },
@@ -45,6 +48,7 @@ if (module.hot) {
     './modules/header',
     './modules/localPlay',
     './modules/confirm',
+    './modules/product',
     './modules/profile',
     './modules/login',
   ], () => {
@@ -58,6 +62,7 @@ if (module.hot) {
         header: require('./modules/header').default,
         localPlay: require('./modules/localPlay').default,
         confirm: require('./modules/confirm').default,
+        product: require('./modules/product').default,
         profile: require('./modules/profile').default,
         login: require('./modules/login').default,
       }

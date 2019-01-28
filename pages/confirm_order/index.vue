@@ -44,7 +44,6 @@
           </van-radio-group>
         </van-popup>
       </section>
-
       <!--行程选择-->
       <section>
         <div class="confirm-item" v-if="pricelist.attributes">
@@ -92,10 +91,13 @@
           <p class="item-title">游客信息
             <span>务必确认填写信息与出游证件一致</span></p>
           <ul>
-            <li class="user-item">
-              <span>出行人1<i>张三</i></span>
-              <span><i><van-icon name="edit"/></i></span>
-            </li>
+            <template v-for="(item,ind) in paramcontanct">
+              <nuxt-link v-if="item.name" :key="ind" class="user-item" tag="li" :to="{path:'/personal/addContacts',query:{'id':item.id}}" >
+                <span>出行人{{ind+1}}<i>{{item.name}}</i></span>
+                <span><i><van-icon name="edit"/></i></span>
+              </nuxt-link>
+            </template>
+
           </ul>
           <div class="btnbox">
             <nuxt-link class="changeuser-btn" tag="button"
@@ -109,6 +111,7 @@
           <p class="item-title">联系人信息</p>
           <van-field
             label="联系人"
+            v-model="contact.name"
             placeholder="填写联系人姓名"
           />
           <div data-v-0ea3802e="" class="van-cell van-field">
@@ -117,30 +120,28 @@
             </div>
             <div class="van-cell__value">
               <div class="van-field__body">
-
-                <i class="setvan" @click="showsel=true">+86<van-icon name="arrow" /></i>
-                <input type="text" placeholder="必填，用于接收信息" class="van-field__control">
+                <i class="setvan" @click="showsel=true">+{{checkqu}}<van-icon name="arrow" /></i>
+                <input type="text" v-model="contact.phone" placeholder="必填，用于接收信息" class="van-field__control">
               </div>
             </div>
           </div>
-          <van-field label="邮箱" placeholder="必填，用于接收电子客票"/>
-
+          <van-field label="邮箱" v-model="contact.email" placeholder="必填，用于接收电子客票"/>
           <van-popup v-model="showsel" position="bottom" :overlay="true">
-            <van-picker :columns="columns" show-toolbar title="选择区号"/>
+            <van-picker :columns="columns" @confirm="onChangequ" show-toolbar title="选择区号"/>
           </van-popup>
         </div>
       </section>
       <!--优惠信息-->
-      <section>
+      <section v-if="pricelist.points&&pricelist.points.point">
         <div class="confirm-item">
           <p class="item-title">优惠信息</p>
           <div class="item-con">
          <span>
            <i class="seti">米粒</i>
-           <i class="seti" style="color: #bbb">共有米粒574，本次可用500米粒抵用$5</i>
+           <i class="seti" style="color: #bbb">共有米粒{{pricelist.points.total_point}}，本次可用{{pricelist.points.point}}米粒抵用{{pricelist.points.discount}}</i>
          </span>
             <van-switch
-              v-model="checked"
+              v-model="checkedmili"
               style="float: right"
               size="2em"
             />
@@ -158,6 +159,7 @@
               placeholder="选填，你可备注预定相关要求"
               rows="2"
               autosize
+              v-model="comment"
             />
           </div>
         </div>
@@ -166,13 +168,13 @@
       <section>
         <div class="confirm-item">
           <div class="item-con">
-            <van-checkbox v-model="checked">我已阅读并接受<a style="color: #216BFF">《稀饭旅行用户服务条款》</a></van-checkbox>
+            <van-checkbox v-model="tongyi">我已阅读并接受<a style="color: #216BFF">《稀饭旅行用户服务条款》</a></van-checkbox>
           </div>
         </div>
       </section>
       <!--foot-->
       <section>
-        <confirm-foot></confirm-foot>
+        <confirm-foot :addorder="getaddoder()"></confirm-foot>
       </section>
     </section>
   </section>
@@ -183,7 +185,7 @@
 <script>
 
   import ConfirmFoot from '@/components/confirm_foot/foot.vue'
-
+  import {getquhao} from '@/api/contacts'
   export default {
     components: {
       ConfirmFoot
@@ -201,9 +203,16 @@
         showtrvel:[],//行程选项页面显示值
         activeind:0,
         // 静态参数
-        checked:true,
-        columns: ['杭州', '宁波', '温州', '嘉兴', '湖州','杭州', '宁波', '温州', '嘉兴', '湖州','杭州', '宁波', '温州', '嘉兴', '湖州'],
+        checkedmili:false,//抵扣积分
+        columns: [],
         showsel:false,
+        paramcontanct:this.$route.query.checker||[],
+        checkqu:'86',
+        tongyi:true,
+        comment:'',
+        contact:{"name":"","phone":"","email":""},
+
+
       }
     },
     computed: {
@@ -213,7 +222,8 @@
       },
       //产品
       product(){
-        return this.$store.state.confirm.product;
+        return this.$store.state.product.reservePro;
+        // return this.$store.state.confirm.product;
       },
       //获取价格数据
       get_vuex_pricelist() {
@@ -224,7 +234,6 @@
       get_vuex_countprice(val){
         this.countprice=val;
       },
-
       'get_vuex_pricelist' : {
         handler:function(val) {
           this.pricelist=val;
@@ -236,6 +245,7 @@
     },
     created(){
       this.pricelist=this.get_vuex_pricelist;
+      this.getqu();
 
     },
     mounted() {
@@ -243,13 +253,13 @@
     methods: {
       //获得价格日历数据
       async getpricedate(id) {
-        // let {data, code} = await getdateTrip(id)
-        // if(code === 0) {
-        //   // this.pricedate = data;
-        //   console.log(this.pricedate)
-        // } else {
-        //   // this.pricedate = []
-        // }
+        let {data, code} = await getdateTrip(id)
+        if(code === 0) {
+          this.pricedate = data;
+          console.log(this.pricedate)
+        } else {
+          // this.pricedate = []
+        }
       },
       //设置页头数据
       settitletip() {
@@ -340,6 +350,53 @@
       onClickLeft(){
         this.$router.go(-1)
       },
+      // 得到区号
+      async getqu() {
+        let {data, code, msg} = await getquhao();
+        if(code === 0) {
+          this.columns = data.map(v => {
+            this.$set(v, 'text',  '+'+v.tel_code)
+            return v
+          })
+
+        }
+        else {
+          this.$dialog.alert({
+            message: msg
+          });
+        }
+      },
+      onChangequ(picker){
+       this.checkqu=picker.tel_code;
+
+       this.showsel=false
+      },
+      getaddoder(){
+         var objarr=[];
+         for(let i=0;i<this.paramcontanct.length;i++){
+           objarr.push(this.paramcontanct[i].id)
+         }
+         var date=null;
+         if(this.countprice.departure_date){
+           date=this.countprice.departure_date.substr(0,10);
+         }
+        var addorder={
+          product_id:this.product.product_id,
+          depart_date:date,
+          rooms:this.countprice.room_attributes,
+          value_added_services:this.countprice.attributes,
+          flight_id:this.countprice.product_departure,
+          total_kids:this.countprice.child,
+          total_adult:this.countprice.adult,
+          tongyi:this.tongyi,//用户协议
+          comment:this.comment,
+          users:objarr,
+          contact:this.contact,
+          integral:this.checkedmili?this.pricelist.points.point:'',//积分
+        }
+         return addorder
+      }
+
 
 
     }
@@ -460,7 +517,7 @@
   }
   .user-item>span:nth-child(2)  {
    font-size: 48px;
-    line-height: 250%;
+    line-height: 220%;
   }
 
   .item-title > span {

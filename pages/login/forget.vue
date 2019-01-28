@@ -1,7 +1,7 @@
 <template>
   <div class="forget-page">
     <login-header rightText="登录"
-      @callOnRigth="toLogin" />
+      @callOnRight="toLogin" />
     <h1 class="title">别担心，在这里找回密码</h1>
     <van-tabs class="forget-wrap tours-tabs-nowrap"
       @change="changeTabs">
@@ -16,7 +16,7 @@
             v-model="phoneForm.smsCode"
             center
             clearable
-            placeholder="请输入验证码">
+            placeholder="验证码">
             <van-button class="tours-button-noborder"
               slot="button"
               size="small"
@@ -35,12 +35,12 @@
         <van-cell-group>
           <van-field class="email tours-input"
             v-model="emailForm.email"
-            placeholder="请输入邮箱" />
+            placeholder="邮箱" />
           <van-field class="auth-code tours-input"
             v-model="emailForm.emailCode"
             center
             clearable
-            placeholder="请输入验证码">
+            placeholder="验证码">
             <van-button class="tours-button-noborder"
               slot="button"
               size="small"

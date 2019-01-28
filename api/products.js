@@ -40,3 +40,36 @@ export const getProductDetail = (data) => {
   return axios.get(`/api/product/${data.product_id}`)
 }
 
+/**
+ * 添加收藏
+ * @param {Object} data {product_id}
+ */
+export const addFavorite = (data) => {
+  return axios.post(`/api/favorite`, {
+    product_id: data.product_id
+  })
+}
+
+/**
+ * 取消收藏
+ * @param {Object} data {product_id}
+ */
+export const delFavorite = (data) => {
+  return axios.delete(`/api/favorite`, {
+    params: {
+      product_id: data.product_id
+    }
+  })
+}
+
+/**
+ * 获取收藏列表
+ * @param {Object} data {page_size}
+ */
+export const getFavoriteList = (data) => {
+  return axios.get(`/api/favorite`, {
+    params: {
+      page_size: data.page_size
+    }
+  })
+}

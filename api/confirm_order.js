@@ -13,3 +13,6 @@ export const countprice = (data) => {
     }
   })
 }
+export const addorder = (data) => {
+  return axios.post(`/api/order`, data)
+}
