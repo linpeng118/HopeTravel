@@ -252,6 +252,7 @@
         this.$store.commit("countprice", {is_point:val});
       }
     },
+
     beforeRouteEnter(to, from, next) {
       console.log(from)
       next(vm=>{
@@ -267,6 +268,7 @@
 
 
     },
+
 
     created(){
       this.pricelist=this.get_vuex_pricelist;
@@ -393,7 +395,6 @@
       },
       onChangequ(picker){
        this.checkqu=picker.tel_code;
-
        this.showsel=false
       },
       getaddoder(){
@@ -401,11 +402,12 @@
          for(let i=0;i<this.paramcontanct.length;i++){
            objarr.push(this.paramcontanct[i].id)
          }
-         var date=null;
+         let date=null;
          if(this.countprice.departure_date){
            date=this.countprice.departure_date.substr(0,10);
          }
-        var addorder={
+         let point=this.pricelist.points?this.pricelist.points.point:0;
+         var addorder={
           product_id:this.product.product_id,
           depart_date:date,
           rooms:this.countprice.room_attributes,
