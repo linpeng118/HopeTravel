@@ -16,7 +16,7 @@
             v-model="phoneForm.smsCode"
             center
             clearable
-            placeholder="请输入验证码">
+            placeholder="验证码">
             <van-button class="tours-button-noborder"
               slot="button"
               size="small"
@@ -35,12 +35,12 @@
         <van-cell-group>
           <van-field class="email tours-input"
             v-model="emailForm.email"
-            placeholder="请输入邮箱" />
+            placeholder="邮箱" />
           <van-field class="auth-code tours-input"
             v-model="emailForm.emailCode"
             center
             clearable
-            placeholder="请输入验证码">
+            placeholder="验证码">
             <van-button class="tours-button-noborder"
               slot="button"
               size="small"
