@@ -48,11 +48,7 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-  import {getcontacts} from '@/api/contacts'
-=======
   import {getcontants} from '@/api/contacts'
->>>>>>> xm
 
   export default {
     components: {
@@ -97,11 +93,7 @@
             name:this.checkuser[i].lastname + this.checkuser[i].firstname,
           })
         }
-<<<<<<< HEAD
-        if(objarr.length>0){
-=======
         if(objarrx.length>0){
->>>>>>> xm
           this.$router.replace({ path: '/confirm_order', query: { checker: objarrx }})
         }
         else{
