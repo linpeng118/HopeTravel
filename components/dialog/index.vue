@@ -3,6 +3,9 @@
     :position="proPos"
     :overlay="true"
     class="normal-dialog-comp">
+    <div class="btn-close" @click="close">
+      <van-icon name="cross" />
+    </div>
     <div class="dialog-content">
       <component :is="currComp"
         showRegistTip
@@ -14,7 +17,7 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex'
+  import {mapState, mapMutations} from 'vuex'
   import NormalComp from './normal'
   import LoginComp from '@/components/partcail/login/login'
   import RegistComp from '@/components/partcail/login/regist'
@@ -70,9 +73,16 @@
     },
     mounted() {},
     methods: {
+      ...mapMutations({
+        vxToggleDialog: 'toggleDialog'
+      }),
       setDlgType(val) {
         console.log('val', val)
         this.$emit('callSetDlgType', val)
+      },
+      // 关闭弹窗
+      close(){
+        this.vxToggleDialog(false)
       }
     },
   }
@@ -82,6 +92,12 @@
   .normal-dialog-comp {
     width: 90%;
     border-radius: 12px;
+    .btn-close {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      color: #D8D8D8;
+    }
     .dialog-content {
       text-align: center;
       padding: 50px 30px;

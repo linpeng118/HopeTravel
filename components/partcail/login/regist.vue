@@ -249,6 +249,7 @@
         this.submiting = false
         if (code === 0) {
           this.$toast('手机号注册成功！')
+          this.$emit('registCallBack')
         } else {
           this.$toast(msg)
         }
@@ -278,6 +279,7 @@
           })
           if (code === 0) {
             this.$toast('邮箱注册成功！')
+            this.$emit('registCallBack')
           } else {
             this.$toast(msg)
           }

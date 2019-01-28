@@ -4,8 +4,8 @@
       @callOnRigth="toLogin" />
     <!-- 注册框 -->
     <regist-comp class="regist-comp-wrap"
-      showRegistTip
-      @loginCallBack="toHomepage" />
+      showLoginTip
+      @registCallBack="toLogin" />
   </div>
 </template>
 

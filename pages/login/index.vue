@@ -1,7 +1,7 @@
 <template>
   <div class="login-page">
     <login-header rightText="注册"
-      @callOnRigth="toRegist" />
+      @callOnRight="toRegist" />
     <!-- 登录框 -->
     <login-comp class="login-comp-wrap"
       showRegistTip
