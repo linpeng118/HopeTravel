@@ -20,11 +20,21 @@
       <section>
         <div class="confirm-item">
           <p class="item-title">接送时间和地点</p>
-          <p class="item-con" @click="showchecktime=true">
-            <span>{{checktimeval}}</span>
+          <template v-for="(item,ind) in pricelist.transfer">
+            <p v-if="countprice.product_departure==item.product_departure_id" :key="ind" class="item-con" @click="showchecktime=true">
+              <span> {{item.full_address}}</span>
+              <span></span>
+              <van-icon color="#404040" name="arrow" size="1.2em"/>
+            </p>
+          </template>
+          <p class="item-con" v-if="countprice.product_departure==''" @click="showchecktime=true">
+            <span>暂未选择接送机服务</span>
             <span></span>
             <van-icon color="#404040" name="arrow" size="1.2em"/>
           </p>
+
+
+
         </div>
         <!--接送时间和地点弹出层-->
         <van-popup v-model="showchecktime" position="center" :overlay="true">
@@ -141,7 +151,7 @@
            <i class="seti" style="color: #bbb">共有米粒{{pricelist.points.total_point}}，本次可用{{pricelist.points.point}}米粒抵用{{pricelist.points.discount}}</i>
          </span>
             <van-switch
-              v-model="checkedmili"
+              v-model="countprice.is_point"
               style="float: right"
               size="2em"
             />
@@ -203,7 +213,6 @@
         showtrvel:[],//行程选项页面显示值
         activeind:0,
         // 静态参数
-        checkedmili:false,//抵扣积分
         columns: [],
         showsel:false,
         paramcontanct:this.$route.query.checker||[],
@@ -211,8 +220,6 @@
         tongyi:true,
         comment:'',
         contact:{"name":"","phone":"","email":""},
-
-
       }
     },
     computed: {
@@ -242,7 +249,11 @@
         deep: true    //深度监听
 
       },
+      'countprice.is_point'(val){
+        this.$store.commit("countprice", {is_point:val});
+      }
     },
+
     created(){
       this.pricelist=this.get_vuex_pricelist;
       this.getqu();
@@ -372,15 +383,16 @@
        this.showsel=false
       },
       getaddoder(){
-         var objarr=[];
+         let objarr=[];
          for(let i=0;i<this.paramcontanct.length;i++){
            objarr.push(this.paramcontanct[i].id)
          }
-         var date=null;
+         let date=null;
          if(this.countprice.departure_date){
            date=this.countprice.departure_date.substr(0,10);
          }
-        var addorder={
+         let point=this.pricelist.points?this.pricelist.points.point:0;
+         var addorder={
           product_id:this.product.product_id,
           depart_date:date,
           rooms:this.countprice.room_attributes,
@@ -392,7 +404,7 @@
           comment:this.comment,
           users:objarr,
           contact:this.contact,
-          integral:this.checkedmili?this.pricelist.points.point:'',//积分
+          integral:this.countprice.is_point?point:'',//积分
         }
          return addorder
       }
