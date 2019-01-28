@@ -222,7 +222,7 @@
       },
       //产品
       product(){
-        return this.$store.state.profile.profile;
+        return this.$store.state.product.reservePro;
         // return this.$store.state.confirm.product;
       },
       //获取价格数据
@@ -376,9 +376,13 @@
          for(let i=0;i<this.paramcontanct.length;i++){
            objarr.push(this.paramcontanct[i].id)
          }
+         var date=null;
+         if(this.countprice.departure_date){
+           date=this.countprice.departure_date.substr(0,10);
+         }
         var addorder={
           product_id:this.product.product_id,
-          depart_date:this.countprice.departure_date,
+          depart_date:date,
           rooms:this.countprice.room_attributes,
           value_added_services:this.countprice.attributes,
           flight_id:this.countprice.product_departure,

@@ -98,8 +98,10 @@
 </template>
 
 <script>
+  import {setcontanct} from '@/api/contacts'
   import {addcontanct} from '@/api/contacts'
   import {getcontants} from '@/api/contacts'
+  import {getcontant} from '@/api/contacts'
   export default {
     components: {
 
@@ -133,7 +135,8 @@
     },
     mounted(){
       if(this.queryid!=0){
-        this.title='编辑出行人'
+        this.title='编辑出行人';
+        this.getcontant();
       }
     },
 
@@ -165,9 +168,31 @@
         this.$router.go(-1)
       },
       async onClickRight() {
-        let {data, code} = await addcontanct(this.userform)
+        if(  this.title=='编辑出行人'){
+          let {data, code} = await setcontanct(this.userform,this.queryid)
+          if (code === 0) {
+            console.log(data)
+            this.$router.go(-1)
+          }
+          else {
+          }
+        }
+        else{
+          let {data, code} = await addcontanct(this.userform)
+          if (code === 0) {
+            console.log(data)
+            this.$router.go(-1)
+          }
+          else {
+          }
+        }
+
+
+      },
+      async getcontant() {
+        let {data, code} = await getcontant(this.queryid)
         if (code === 0) {
-          console.log(data)
+         this.userform=data;
         }
         else {
         }
