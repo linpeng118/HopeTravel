@@ -55,13 +55,13 @@
         </div>
         <div class="city">
           <div class="from">
-            <img src="../../assets/imgs/product/attention@2x.png"
+            <img src="../../assets/imgs/product/from@2x.png"
               alt="from">
             <span class="title">出发地</span>
             <span class="addr">{{product.departure_city}}</span>
           </div>
           <div class="to">
-            <img src="../../assets/imgs/product/attention@2x.png"
+            <img src="../../assets/imgs/product/to@2x.png"
               alt="from">
             <span class="title">结束地</span>
             <span class="addr">{{product.end_city}}</span>
@@ -124,8 +124,11 @@
             v-for="tab in tabList"
             :key="tab.name"
             :class="{'active': activeTab===tab.id}"
-            @click="clickTab(tab)">
+            @click="clickTab(tab)"
+            v-show="tab.isShow">
             <span>{{tab.name}}</span>
+            <span class="tab-day"
+              v-show="tab.id===2">{{showDay}}</span>
           </div>
         </div>
       </div>
@@ -163,7 +166,8 @@
           <div class="content-title">行程详情</div>
           <div class="content"
             v-for="item in itinerary.items"
-            :key="item.product_itinerary_id">
+            :key="item.product_itinerary_id"
+            :ref="`refContent${item.sort_order}`">
             <div class="title-wrap">
               <span class="icon">D{{item.sort_order}}</span>
               <span class="title-s">{{item.title}}</span>
@@ -284,12 +288,14 @@
         </van-collapse>
       </div>
       <!-- 底部按钮 -->
-      <div class="footer-fixed" :style="{'z-index': showServiceNode ? 5000 : 1000}">
+      <div class="footer-fixed"
+        :style="{'z-index': showServiceNode ? 5000 : 1000}">
         <div class="footer-tabbar">
           <div class="operate">
             <div class="btn-operate"
               v-for="item in operateTabbar"
-              :key="item.name">
+              :key="item.name"
+              @click="onOperate(item)">
               <img :src="item.icon"
                 alt="icon">
               <p class="operate-name">{{item.name}}</p>
@@ -297,7 +303,8 @@
           </div>
           <div class="reserve">
             <van-button class="btn-reserve"
-              size="large">立即预定</van-button>
+              size="large"
+              @click="btnReserve">立即预定</van-button>
           </div>
         </div>
       </div>
@@ -308,12 +315,14 @@
 </template>
 
 <script>
+  import {mapMutations} from 'vuex';
   import {throttle as _throttle} from 'lodash'
-  import { ImagePreview } from 'vant';
+  import {ImagePreview} from 'vant';
   import ProductDetailHeader from '@/components/header/productDetail'
   import ProdDetailImgItem from '@/components/items/prodDetailImgItem'
   import Loading from '@/components/loading'
-  import {getProductDetail} from '@/api/products'
+  import {OPERATE_TYPE} from '@/assets/js/consts'
+  import {getProductDetail, addFavorite, delFavorite} from '@/api/products'
 
   export default {
     name: 'product_detail',
@@ -324,6 +333,7 @@
     },
     data() {
       return {
+        productId: this.$route.query.productId || null,
         isTransparent: true, // 导航头是否透明
         current: 0, // 导航页数
         serviceNote: [
@@ -332,9 +342,9 @@
           {name: '低价保证', desc: '', icon: require('../../assets/imgs/product/tick@2x.png')},
         ],
         operateTabbar: [
-          {name: '关注', icon: require('../../assets/imgs/product/attention@2x.png')},
-          {name: '电话咨询', icon: require('../../assets/imgs/product/phone@2x.png')},
-          {name: '在线咨询', icon: require('../../assets/imgs/product/phone@2x.png')},
+          {type: OPERATE_TYPE.ATTR, name: '关注', icon: require('../../assets/imgs/product/attention@2x.png')},
+          {type: OPERATE_TYPE.PHONE, name: '电话咨询', icon: require('../../assets/imgs/product/phone@2x.png')},
+          {type: OPERATE_TYPE.ONLINE, name: '在线咨询', icon: require('../../assets/imgs/product/consult@2x.png')},
         ],
         activeTab: 1, // 选中的tab
         activeTabRef: 'refFeatures',
@@ -356,6 +366,7 @@
         // 团期价格
         top_price: [],
         isTabFixed: false,
+        showDay: 'D1'
       }
     },
     computed: {
@@ -382,11 +393,18 @@
       },
       tabList() {
         return [
-          {id: 1, name: '产品特色', ref: 'refFeatures'},
-          {id: 2, name: this.itinerary.duration_days + '天行程', ref: 'refTrip'},
-          {id: 3, name: '费用明细', ref: 'refCost'},
-          {id: 4, name: '注意事项', ref: 'refNotice'},
+          {id: 1, name: '产品特色', ref: 'refFeatures', isShow: true},
+          {id: 2, name: this.itinerary.duration_days + '天行程', ref: 'refTrip', isShow: true},
+          {id: 3, name: '费用明细', ref: 'refCost', isShow: true},
+          {id: 4, name: '注意事项', ref: 'refNotice', isShow: true},
         ]
+      },
+      showDayList() {
+        if (!this.itinerary) {
+          return
+        }
+        let newData = this.itinerary.items.map(item => this.$refs[`refContent${item.sort_order}`][0].offsetTop)
+        return newData
       }
     },
     mounted() {
@@ -394,9 +412,12 @@
       this.$refs.refProductDetailPage.addEventListener("scroll", _throttle(this.scrollFn, 200));
     },
     methods: {
+      ...mapMutations({
+        vxSaveReservePro: 'product/saveReservePro'
+      }),
       async init() {
         const {code, data, msg} = await getProductDetail({
-          product_id: 1398,
+          product_id: this.productId,
         })
         console.log(code, data, msg)
         if (code === 0) {
@@ -479,7 +500,7 @@
         // 这里向上取整是确保差距小于5的时候，ispeed为0
         let ispeed = Math.ceil((scrollTo - scrollTop) / 5)
         this.$refs.refProductDetailPage.scrollTop = scrollTop + ispeed
-        console.log('清除', scrollTop === scrollTo)
+        // console.log('清除', scrollTop === scrollTo)
         if (scrollTop === scrollTo) {
           clearInterval(this.timer)
         }
@@ -493,7 +514,9 @@
         }
       },
       onAdCustom() {
-        console.log('onAdCustom')
+        this.$router.push({
+          path: '/custom'
+        })
       },
       // 滚动函数
       scrollFn() {
@@ -512,26 +535,95 @@
         if (s1 <= tabHeightH) {
           this.isTabFixed = false
         }
-        console.log(11, this.isTabFixed)
         // 判断方向
         // setTimeout(() => {
         //   const s2 = this.$refs.refProductDetailPage.scrollTop;
         //   const direct = s2 - s1;
         //   console.log("direct", direct);
         // }, 17);
+        // D1-Dn变化
+        const listLen = this.showDayList.length
+        const showHeight = s1 + this.$refs.refTabList.offsetHeight + this.$refs.refProdctDetailHeader.$el.offsetHeight
+        let idx = this.showDayList.findIndex(item => item > showHeight)
+        // console.log('index：', idx)
+        if (idx === 0) {
+          this.showDay = `D1`
+        } else if (idx > 0) {
+          this.showDay = `D${idx}`
+        } else if (idx === -1) {
+          this.showDay = `D${listLen}`
+        }
       },
+      // 点击预览图片
       onImgSlide(data) {
         console.log(data)
         const index = data.arr.findIndex(item => item === data.item)
-        console.log(index)
         ImagePreview({
           images: data.arr,
           startPosition: index,
         });
+      },
+      // 点击操作按钮
+      onOperate(item) {
+        switch (item.type) {
+          case OPERATE_TYPE.ATTR:
+            this.attentionProduct()
+            break;
+          case OPERATE_TYPE.PHONE:
+            this.telCounsel()
+            break;
+          case OPERATE_TYPE.ONLINE:
+            this.onlineCounsel()
+            break;
+          default:
+            console.log(`${item.type} is not found`)
+            break;
+        }
+      },
+      // 关注与取关
+      async attentionProduct() {
+        console.log(this.product)
+        if (this.product.is_favorite) {
+          const {code, data, msg} = await delFavorite({
+            product_id: this.product.product_id
+          })
+          if (code === 0) {
+            this.$toast('取关成功')
+          } else {
+            this.$toast('取关失败')
+          }
+        } else {
+          const {code, data, msg} = await addFavorite({
+            product_id: this.product.product_id
+          })
+          if (code === 0) {
+            this.$toast('关注成功')
+          } else {
+            this.$toast('关注失败')
+          }
+        }
+      },
+      telCounsel() {
+        console.log(this.product)
+      },
+      onlineCounsel() {
+        console.log(this.product)
+      },
+      // 立即定制
+      async btnReserve() {
+        // 暂存需要定制的商品信息
+        await this.vxSaveReservePro({
+          ...this.product
+        })
+        // 跳转至订单页面
+        this.$router.push({
+          path: '/date_trip'
+        })
       }
     },
   }
 </script>
+
 
 <style lang="scss" scoped>
   .product-detail-page {
@@ -612,6 +704,7 @@
               vertical-align: top;
             }
             .title {
+              margin-left: 4px;
               height: 38px;
               font-size: 28px;
               font-weight: 400;
@@ -748,6 +841,15 @@
           background: #fff;
           &.active {
             border-bottom: 4px solid #4bb1f5;
+          }
+          .tab-day {
+            padding: 6px 8px;
+            width: 48px;
+            height: 42px;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 24px;
+            background: rgba(75, 177, 245, 1);
           }
         }
       }

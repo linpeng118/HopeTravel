@@ -19,10 +19,6 @@ export const addcontanct = (data) => {
       "gender":data.gender||'',
       "identity":data.identity||'',
       "phone_country":data.phone_country||''
-    },{
-      headers: {
-        'Authorization': 'token'
-      }
     }
     )
 }
