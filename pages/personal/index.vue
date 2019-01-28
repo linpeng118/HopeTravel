@@ -16,7 +16,7 @@
           <img src="../../assets/imgs/personal/index/edit.png" alt>
         </div>
       </div>
-      <nuxt-link tag="div" to="/login" class="go-login"v-else>登录/注册</nuxt-link>
+      <nuxt-link tag="div" to="/login" class="go-login" v-else>登录/注册</nuxt-link>
     </div>
     <div class="body">
       <!-- 主要菜单 -->
@@ -68,7 +68,7 @@
             <img class="icon-size" src="../../assets/imgs/personal/index/service.png">
           </template>
         </van-cell>
-        <van-cell title="设置" is-link to>
+        <van-cell title="设置" is-link to="/personal/setting">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/setting.png">
           </template>
