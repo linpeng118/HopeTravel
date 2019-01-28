@@ -3,7 +3,7 @@
   <van-row class="area-code-input"
     type="flex"
     align="center"
-    :class="isShowList">
+    :class="className">
     <van-col class="area-code-wrap"
       span="6"
       @click.native="toggleAreaList">
@@ -48,6 +48,10 @@
         type: [Number, String],
         default: ''
       },
+      className:{
+        type: String,
+        default: ''
+      }
     },
     data() {
       return {

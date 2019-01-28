@@ -79,40 +79,41 @@
         <van-button class="sign-out-btn">退出登录</van-button>
       </div>
     </div>
-    <div class="footer">
-      <dl class="f-el">
-        <dt>
-          <van-icon name="wap-home"></van-icon>
-        </dt>
-        <dd>
-          <span>主页</span>
-        </dd>
-      </dl>
-      <dl class="f-el">
-        <dt>
-          <van-icon name="location-o"></van-icon>
-        </dt>
-        <dd>
-          <span>目的地</span>
-        </dd>
-      </dl>
-      <dl class="f-el">
-        <dt>
-          <van-icon name="chat-o"></van-icon>
-        </dt>
-        <dd>
-          <span>在线咨询</span>
-        </dd>
-      </dl>
-      <dl class="f-el active">
-        <dt>
-          <van-icon name="user-o"></van-icon>
-        </dt>
-        <dd>
-          <span>我的</span>
-        </dd>
-      </dl>
-    </div>
+    <!--这期取消-->
+    <!--<div class="footer">-->
+      <!--<dl class="f-el">-->
+        <!--<dt>-->
+          <!--<van-icon name="wap-home"></van-icon>-->
+        <!--</dt>-->
+        <!--<dd>-->
+          <!--<span>主页</span>-->
+        <!--</dd>-->
+      <!--</dl>-->
+      <!--<dl class="f-el">-->
+        <!--<dt>-->
+          <!--<van-icon name="location-o"></van-icon>-->
+        <!--</dt>-->
+        <!--<dd>-->
+          <!--<span>目的地</span>-->
+        <!--</dd>-->
+      <!--</dl>-->
+      <!--<dl class="f-el">-->
+        <!--<dt>-->
+          <!--<van-icon name="chat-o"></van-icon>-->
+        <!--</dt>-->
+        <!--<dd>-->
+          <!--<span>在线咨询</span>-->
+        <!--</dd>-->
+      <!--</dl>-->
+      <!--<dl class="f-el active">-->
+        <!--<dt>-->
+          <!--<van-icon name="user-o"></van-icon>-->
+        <!--</dt>-->
+        <!--<dd>-->
+          <!--<span>我的</span>-->
+        <!--</dd>-->
+      <!--</dl>-->
+    <!--</div>-->
   </div>
 </template>
 
