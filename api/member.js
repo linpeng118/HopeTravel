@@ -36,13 +36,13 @@ export const findPwd = (data) => {
 }
 
 // 修改密码（用户中心里修改密码使用）
-// export const changePwd = (data) => {
-//   return axios.put('/api/user/password/change', {
-//     old_password: data.old_password,
-//     password: data.password,
-//     password_confirm: data.password_confirm
-//   })
-// }
+export const changePwd = (data) => {
+  return axios.put('/api/user/password/change', {
+    old_password: data.oldPsw,
+    password: data.password,
+    password_confirm: data.checkPsw
+  })
+}
 
 // 获取手机验证码
 export const getSmsCode = (data) => {

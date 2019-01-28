@@ -14,7 +14,7 @@
         <van-swipe-item v-for="image in product.images"
           :key="image">
           <div class="banner-img"
-            :style="{background: `url(${image}) no-repeat 0 0/100% 100%`}"></div>
+            :style="{'background': `url(${image}) no-repeat 0 0/100% 100%`}"></div>
         </van-swipe-item>
         <div class="custom-indicator"
           slot="indicator">
@@ -137,7 +137,8 @@
         v-show="isTabFixed"></div>
       <!-- 产品特色 -->
       <div class="features"
-        ref="refFeatures">
+        ref="refFeatures"
+        :style="{'background': `url(${bgFeat}) no-repeat 0 0/100% 100%`}">
       </div>
       <!-- 行程概要 -->
       <div class="trip"
@@ -315,16 +316,18 @@
 </template>
 
 <script>
-  import {mapMutations} from 'vuex';
+  import {mapMutations, mapState} from 'vuex';
   import {throttle as _throttle} from 'lodash'
   import {ImagePreview} from 'vant';
   import ProductDetailHeader from '@/components/header/productDetail'
   import ProdDetailImgItem from '@/components/items/prodDetailImgItem'
   import Loading from '@/components/loading'
   import {OPERATE_TYPE} from '@/assets/js/consts'
+  import {DLG_TYPE} from '@/assets/js/consts/dialog'
   import {getProductDetail, addFavorite, delFavorite} from '@/api/products'
 
   export default {
+    layout: 'default',
     name: 'product_detail',
     components: {
       ProductDetailHeader,
@@ -336,6 +339,7 @@
         productId: this.$route.query.productId || null,
         isTransparent: true, // 导航头是否透明
         current: 0, // 导航页数
+        bgFeat: require('../../assets/imgs/product/bg_features.png'),
         serviceNote: [
           {name: '成团保障', desc: '该产品下单即可确认出行', icon: require('../../assets/imgs/product/tick@2x.png')},
           {name: '限时特价', desc: '该产品享受买贵退差', icon: require('../../assets/imgs/product/tick@2x.png')},
@@ -413,7 +417,9 @@
     },
     methods: {
       ...mapMutations({
-        vxSaveReservePro: 'product/saveReservePro'
+        vxSaveReservePro: 'product/saveReservePro',
+        vxToggleDialog: 'toggleDialog', // 是否显示弹窗
+        vxSetDlgType: 'setDlgType', // 设置弹窗类型
       }),
       async init() {
         const {code, data, msg} = await getProductDetail({
@@ -605,9 +611,14 @@
       },
       telCounsel() {
         console.log(this.product)
+        window.location.href = "tel:10086";
       },
       onlineCounsel() {
         console.log(this.product)
+        if (!this.$store.state.token) {
+          this.vxToggleDialog(true)
+          this.vxSetDlgType(DLG_TYPE.LOGIN)
+        }
       },
       // 立即定制
       async btnReserve() {
@@ -855,8 +866,8 @@
       }
       .features {
         height: 1520px;
-        background: url("../../assets/imgs/product/bg_features.png") no-repeat 0 0/100%
-          100%;
+        // background: url("../../assets/imgs/product/bg_features.png") no-repeat 0 0/100%
+        //   100%;
       }
       .trip {
         background: #fff;

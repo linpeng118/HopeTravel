@@ -1,8 +1,14 @@
 import {
   getCookieByKey
 } from '@/assets/js/utils'
+import {
+  DLG_TYPE
+}
+from '@/assets/js/consts/dialog'
 
 export default {
   token: process.client ? getCookieByKey('token') : '',
-  deviceType: {}
+  deviceType: {},
+  isShowDlg: false, // 是否显示弹窗
+  dlgType: DLG_TYPE.NORMAL, // 显示的弹窗类型
 }

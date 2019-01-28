@@ -13,5 +13,13 @@ export default {
   },
   updateToken(state, token) {
     state.token = token
-  }
+  },
+  // 显示/隐藏弹窗
+  toggleDialog(state, data) {
+    state.isShowDlg = data
+  },
+  // 设置显示的弹窗类型
+  setDlgType(state, data) {
+    state.dlgType = data
+  },
 }
