@@ -186,8 +186,6 @@
           else {
           }
         }
-
-
       },
       async getcontant() {
         let {data, code} = await getcontant(this.queryid)
