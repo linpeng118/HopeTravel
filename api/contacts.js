@@ -3,6 +3,9 @@ import axios from '@/plugins/axios/axios'
 export const getcontants = () => {
   return axios.get(`/api/contacts`)
 }
+export const getcontant = (id) => {
+  return axios.get(`/api/contact/${id}`)
+}
 export const getquhao = () => {
   return axios.get(`/api/country/telcodes`)
 }

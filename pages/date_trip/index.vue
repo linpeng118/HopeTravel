@@ -138,11 +138,8 @@
         return this.$store.state.confirm.countprice;
       },
       //产品
-
       product(){
-        return this.$store.state.profile.profile;
-        // return this.$store.state.confirm.product;
-
+        return this.$store.state.product.reservePro;
       }
     },
     watch: {
@@ -250,10 +247,12 @@
 
     },
     mounted() {
-      //进来清空一次之前的价格日历vuex，之后可能要考虑返回的情况
-      this.$store.dispatch("emptyprice");
+      // //进来清空一次之前的价格日历vuex，之后可能要考虑返回的情况
+      // this.$store.dispatch("emptyprice");
       //获得价格日历数据
-      this.getpricedate(this.product.product_id);
+      if(this.product.product_id){
+        this.getpricedate(this.product.product_id);
+      }
 
     },
 
