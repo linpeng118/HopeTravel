@@ -250,15 +250,9 @@
         this.$store.commit("countprice", {is_point:val});
       }
     },
-<<<<<<< HEAD
-=======
-    
-
->>>>>>> xm
     created(){
       this.pricelist=this.get_vuex_pricelist;
       this.getqu();
-
     },
     mounted() {},
     methods: {
