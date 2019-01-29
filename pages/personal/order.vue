@@ -73,7 +73,7 @@ export default {
       'finish':3
     }
     this.active = _obj[this.status]
-    this.getOrderData(this.userId, this.status)
+    this.getOrderData(this.status)
   },
   methods: {
     onClickLeft() {
@@ -84,8 +84,8 @@ export default {
       let _arr = [null, 'unpaid', 'wait','finish']
       this.getOrderData(this.userId, _arr[index])
     },
-    async getOrderData(userId, status) {
-      let {code, data} = await getOrderInfo(userId, status)
+    async getOrderData(status) {
+      let {code, data} = await getOrderInfo(status)
       if (code === 0) {
         this.firstEnter = false
         this.orderList = data
