@@ -84,7 +84,7 @@
     data() {
       return {
         VERIFY_CODE,
-        type: LOGIN_TYPE.GENERAL, // 默认登陆模式
+        type: LOGIN_TYPE.PASSWORD, // 默认登陆模式
         formData: {
           username: '',
           password: '',
@@ -129,7 +129,7 @@
         if (index === 1) {
           this.type = LOGIN_TYPE.PHONE
         } else {
-          this.type = LOGIN_TYPE.GENERAL
+          this.type = LOGIN_TYPE.PASSWORD
         }
       },
       // 显示注册弹窗
