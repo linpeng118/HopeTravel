@@ -34,8 +34,8 @@
     data() {
       return {
         settingList: [
-          {type: SETTING.CHANGE_PSW, icon: require('~/assets/imgs/personal/setting_1@2x.png'), title: '修改密码', isRightIcon: true, value: '', path: '/personal/changePsw'},
-          {type: SETTING.ABOUT, icon: require('~/assets/imgs/personal/setting_2@2x.png'), title: '关于稀饭', isRightIcon: true, value: '', path: '/personal/about'},
+          {type: SETTING.CHANGE_PSW, icon: require('~/assets/imgs/personal/setting_1@2x.png'), title: '微信公众号', isRightIcon: true, value: '', path: '/personal/wx'},
+          {type: SETTING.ABOUT, icon: require('~/assets/imgs/personal/setting_2@2x.png'), title: '关于稀饭', isRightIcon: true, value: '', path: '/protocol/about'},
           // {type: SETTING.VERSION, icon: require('~/assets/imgs/personal/setting_3@2x.png'), title: '当前系统版本', isRightIcon: false, value: 'V1.0', path: '/personal/version'},
           // {type: SETTING.GRADE, icon: require('~/assets/imgs/personal/setting_4@2x.png'), title: '给我们评分', isRightIcon: true, value: '', path: '/personal/grade'},
           // {type: SETTING.CLEAR_CACHE, icon: require('~/assets/imgs/personal/setting_5@2x.png'), title: '清除缓存', isRightIcon: true, value: '', path: '/personal/clearCache'},
@@ -46,9 +46,32 @@
     mounted() {},
     methods: {
       onCell(item) {
-        this.$router.push({
-          path: item.path
-        })
+        switch (item.type) {
+          case SETTING.CHANGE_PSW:
+            this.$router.push({
+              path: item.path
+            })
+            break;
+          case SETTING.ABOUT:
+            this.$router.push({
+              path: item.path
+            })
+            break;
+          case SETTING.VERSION:
+
+            break;
+          case SETTING.GRADE:
+
+            break;
+          case SETTING.CLEAR_CACHE:
+
+            break;
+          default:
+            this.$router.push({
+              path: item.path
+            })
+            break;
+        }
       }
     },
   }
