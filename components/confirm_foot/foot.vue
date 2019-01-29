@@ -18,7 +18,8 @@
       <nuxt-link v-if="thisrouter=='date_trip'" class="confirm-next-btn" :class="showbtn?'showbtn':''" tag="span"
                  to="/confirm_order">下一步
       </nuxt-link>
-      <span v-else class="confirm-next-btn" :class="showbtn?'showbtn':''">下一步</span>
+      <span v-else-if="showbtn2==false" class="confirm-next-btn">下一步</span>
+      <span v-else class="confirm-next-btn showbtn" @click="addOrderx()" >下一步</span>
       <span class="contact-service">
         <i><van-icon name="service-o" color="#399EF6" size="1.5em"/></i>
         <i>联系客服</i>
@@ -27,6 +28,19 @@
     <van-popup v-model="showpops" class="setbottom" position="bottom" :overlay="true">
       <paylist :payData="pricelist" @closepops="closepops"></paylist>
     </van-popup>
+    <div style="display: none" v-if="showbtn2==true">
+      <form action="http://www.htw.tourscool.net/payment/mobile/checkout" method="post">
+        <input type="text" name="order_id" value="" ref="order_id">
+        <input type="text" name="order_title" value="" ref="order_title">
+        <input type="text" name="total_fee[CNY]" value="" ref="total_feecny">
+        <input type="text" name="total_fee[USD]" value="" ref="total_feeusd">
+        <input type="text" name="client_type" value="tourscool">
+        <input type="text" name="jwt" value="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiI2IiwiZ2lkIjoiMSIsImV4cCI6MTU0OTI2MDIxMX0.q4c3ooX8GD_b0GmDceWO-GdburBpBGTpKbhBVRvaKpY" readonly="">
+        <input type="text" name="success_url" value="http://www.htw.tourscool.net/payment/example/success?order_id=123456" readonly="">
+        <input type="text" name="failure_url" value="http://www.htw.tourscool.net/payment/example/order" readonly="">
+        <input type="submit" ref="submitform">
+      </form>
+    </div>
 
   </section>
 </template>
@@ -35,17 +49,27 @@
 
   import paylist from './paylist'
   import {countprice} from '@/api/confirm_order'
+  import {addorder} from '@/api/confirm_order'
   export default {
     components: {
       paylist
     },
+    props:{'addorder':Object},
     data() {
       return {
         //价格明细列表
         pricelist: [],
         showbtn: false,
         showpops: false,
+        showbtn2:false,
         thisrouter: '',//当前路由
+        submitdata:{
+          order_id:'',
+          order_title:'',
+          'total_feecny':'',
+          'total_feeusd':'',
+        },
+        //添加订单数据
       }
     },
     computed: {
@@ -65,11 +89,15 @@
           this.showbtn = false;
         }
       },
+      'addorder'(val){
+        if(val.tongyi&&val.contact.phone&&val.contact.name&&val.contact.email&&val.users){
+          this.showbtn2=true;
+        }
+      }
     },
     mounted() {
       this.$store.dispatch("initprice");
       this.checkrouter();//判断当前位置
-
     },
     methods: {
       // 获取价格明细
@@ -101,6 +129,26 @@
         }
         console.log(this.thisrouter)
       },
+      subData(){
+        console.log()
+        this.$refs.submitform.click();
+      },
+      async addOrderx(){
+        let {data, code , msg} = await addorder(this.addorder)
+        if (code === 0) {
+          this.$refs.order_id.value=data.order_id;
+          this.$refs.order_title.value=data.product_name;
+          this.$refs.total_feecny.value=data.cny_price;
+          this.$refs.total_feeusd.value=data.price;
+          this.subData();
+        }
+        else {
+          this.$dialog.alert({
+            message: msg
+          });
+          this.$store.commit("countprice", {attributes:[]});
+        }
+      }
 
     }
   }

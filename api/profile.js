@@ -17,5 +17,12 @@ export const getPoints = (data) => {
   })
 }
 
+// 修改个人信息
 
-
+export const modifyProfile = (data) => {
+  return axios({
+    url: '/api/profile',
+    method:'put',
+    data
+  })
+}

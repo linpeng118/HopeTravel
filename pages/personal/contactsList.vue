@@ -48,7 +48,8 @@
 </template>
 
 <script>
-  import {getcontacts} from '@/api/contacts'
+  import {getcontants} from '@/api/contacts'
+
   export default {
     components: {
 
@@ -71,7 +72,7 @@
     methods: {
       //获得价格日历数据
       async getlist() {
-        let {data, code, msg} = await getcontacts()
+        let {data, code, msg} = await getcontants()
         if(code === 0) {
           this.list = data;
         }
@@ -85,8 +86,21 @@
         this.$router.go(-1)
       },
       onClickRight(){
-        console.log(this.checkuser)
+        var objarrx=[];
+        for(let i=0;i<this.checkuser.length;i++){
+          objarrx.push({
+            id:this.checkuser[i].customer_contract_id,
+            name:this.checkuser[i].lastname + this.checkuser[i].firstname,
+          })
+        }
+        if(objarrx.length>0){
+          this.$router.replace({ path: '/confirm_order', query: { checker: objarrx }})
+        }
+        else{
+          this.$router.replace({ path: '/confirm_order'})
+        }
       },
+
     },
   }
 </script>

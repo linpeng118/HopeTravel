@@ -3,15 +3,15 @@
     <van-nav-bar title="姓名" left-arrow @click-left="onClickLeft"/>
     <div class="line">
       <label class="tit">英文</label>
-      <input class="en-f-name" type="text" placeholder="名:">
+      <input class="en-f-name" type="text" placeholder="名:" v-model="last_name" >
       <span class="cut">|</span>
-      <input class="en-l-name" type="text" placeholder="姓:">
+      <input class="en-l-name" type="text" placeholder="姓:" v-model="first_name" >
     </div>
     <div class="line">
       <label class="tit">中文名</label>
-      <input class="ch-name" type="text" placeholder="请输入中文名">
+      <input class="ch-name" type="text" placeholder="请输入中文名" v-model="chinese_name">
     </div>
-    <div class="btn_container">
+    <div class="btn_container" @click="nameChange">
       <button class="sure">确定</button>
     </div>
   </div>
@@ -20,13 +20,30 @@
 import { Toast } from "vant";
 
 export default {
-  name: "component_name",
+  name: "account_name",
+  props: {
+    names: {
+      type: Object,
+      default: null
+    }
+  },
   data() {
-    return {};
+    return {
+      last_name: '',
+      first_name: '',
+      chinese_name: ''
+    };
   },
   methods: {
     onClickLeft() {
-      window.history.go(-1);
+      this.$router.go(-1)
+    },
+    nameChange(){
+      this.$emit('nameChange', {
+        last_name: this.last_name,
+        first_name: this.first_name,
+        chinese_name: this.chinese_name
+      })
     }
   }
 };

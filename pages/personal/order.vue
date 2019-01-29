@@ -7,7 +7,7 @@
       <van-tabs @click="onClick" v-model="active">
         <van-tab v-for="title in orderTile" :key="title.id" :title="title.title" class="layout">
           <loading v-if="firstEnter"></loading>
-          <div v-if="!firstEnter && !orderList.length">暂无数据</div>
+          <div class="no-data" v-if="!firstEnter && !orderList.length">暂无数据</div>
           <!-- 产品 -->
           <template v-if="orderList.length">
             <div class="prodect" v-for="order in orderList" :key="order.order_id" @click="selectProduct(order)">
@@ -97,14 +97,14 @@ export default {
     },
     selectProduct(order){
       this.$router.push({
-        name: 'product-detail',
-        params: {
-          productId: order.product_id
+        path: '/order/order_details',
+        query: {
+          order_id: order.order_id
         }
       })
     }
   },
-  
+
 };
 </script>
 <style lang="scss" scoped>
@@ -197,6 +197,7 @@ export default {
               font-weight: 400;
               line-height: 34px;
               color: rgba(255, 255, 255, 1);
+              margin-top: 20px;
             }
             .go-pay{
               background: rgba(255, 84, 84, 1);
@@ -210,6 +211,18 @@ export default {
           }
         }
       }
+    }
+    .no-data{
+      position: fixed;
+      top: 180px;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      padding-top: 50px;
+      text-align: center;
+      color: #aaa;
+      font-size: 28px;
+      background: #fff;
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="change-psw-page">
     <login-header rightText="登录"
-      @callOnRigth="toLogin" />
+      @callOnRight="toLogin" />
     <h1 class="title">请设置你的新密码</h1>
     <div class="change-paw-wrap tours-tabs-nowrap">
       <van-cell-group>
@@ -102,6 +102,9 @@
           const {code, data, msg} = await findPwd(subData)
           if (code === 0) {
             this.$toast('修改密码成功！')
+            setTimeout(() => {
+              this.toLogin()
+            }, 1500)
           } else {
             this.$toast(msg)
           }

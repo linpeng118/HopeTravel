@@ -3,7 +3,7 @@
   <van-row class="area-code-input"
     type="flex"
     align="center"
-    :class="isShowList">
+    :class="className">
     <van-col class="area-code-wrap"
       span="6"
       @click.native="toggleAreaList">
@@ -17,7 +17,7 @@
       <van-field class="mobile"
         style=""
         v-model="mobile"
-        placeholder="请输入手机号">
+        placeholder="手机号">
       </van-field>
     </van-col>
     <van-col v-show="isShowList"
@@ -48,6 +48,10 @@
         type: [Number, String],
         default: ''
       },
+      className:{
+        type: String,
+        default: ''
+      }
     },
     data() {
       return {

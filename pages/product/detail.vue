@@ -2,11 +2,13 @@
   <div class="product-detail-page"
     ref="refProductDetailPage">
     <!-- 头部 -->
-    <product-detail-header :transparent="isTransparent"
+    <product-detail-header class="product-detail-header"
+      :transparent="isTransparent"
       title="产品详情"
       fixed
       ref="refProdctDetailHeader" />
-    <div class="product-detail">
+    <div class="product-detail"
+      ref="refProductDetail">
       <!-- banner -->
       <van-swipe class="banner"
         :autoplay="4000"
@@ -14,7 +16,7 @@
         <van-swipe-item v-for="image in product.images"
           :key="image">
           <div class="banner-img"
-            :style="{background: `url(${image}) no-repeat 0 0/100% 100%`}"></div>
+            :style="{'background': `url(${image}) no-repeat 0 0/100% 100%`}"></div>
         </van-swipe-item>
         <div class="custom-indicator"
           slot="indicator">
@@ -137,7 +139,8 @@
         v-show="isTabFixed"></div>
       <!-- 产品特色 -->
       <div class="features"
-        ref="refFeatures">
+        ref="refFeatures"
+        :style="{'background': `url(${bgFeat}) no-repeat 0 0/100% 100%`}">
       </div>
       <!-- 行程概要 -->
       <div class="trip"
@@ -315,16 +318,18 @@
 </template>
 
 <script>
-  import {mapMutations} from 'vuex';
+  import {mapMutations, mapState} from 'vuex';
   import {throttle as _throttle} from 'lodash'
   import {ImagePreview} from 'vant';
   import ProductDetailHeader from '@/components/header/productDetail'
   import ProdDetailImgItem from '@/components/items/prodDetailImgItem'
   import Loading from '@/components/loading'
   import {OPERATE_TYPE} from '@/assets/js/consts'
+  import {DLG_TYPE} from '@/assets/js/consts/dialog'
   import {getProductDetail, addFavorite, delFavorite} from '@/api/products'
 
   export default {
+    layout: 'default',
     name: 'product_detail',
     components: {
       ProductDetailHeader,
@@ -336,6 +341,7 @@
         productId: this.$route.query.productId || null,
         isTransparent: true, // 导航头是否透明
         current: 0, // 导航页数
+        bgFeat: require('../../assets/imgs/product/bg_features.png'),
         serviceNote: [
           {name: '成团保障', desc: '该产品下单即可确认出行', icon: require('../../assets/imgs/product/tick@2x.png')},
           {name: '限时特价', desc: '该产品享受买贵退差', icon: require('../../assets/imgs/product/tick@2x.png')},
@@ -413,7 +419,9 @@
     },
     methods: {
       ...mapMutations({
-        vxSaveReservePro: 'product/saveReservePro'
+        vxSaveReservePro: 'product/saveReservePro',
+        vxToggleDialog: 'toggleDialog', // 是否显示弹窗
+        vxSetDlgType: 'setDlgType', // 设置弹窗类型
       }),
       async init() {
         const {code, data, msg} = await getProductDetail({
@@ -481,10 +489,10 @@
         console.log('tab', tab)
         this.activeTab = tab.id
         this.activeTabRef = tab.ref
-        // TODO:滚动到相应位置
         clearInterval(this.timer)
         this.timer = setInterval(this.backFn, 20)
       },
+      // 滚动到相应位置
       backFn() {
         // 滚动到的元素(减去2个fixed的高度)
         let scrollTo = this.$refs[this.activeTabRef].offsetTop
@@ -503,13 +511,13 @@
         // console.log('清除', scrollTop === scrollTo)
         if (scrollTop === scrollTo) {
           clearInterval(this.timer)
+        } else if (Math.abs(scrollTo - scrollTop) < 5) {
+          // 容错处理
+          this.$refs.refProductDetailPage.scrollTop = scrollTo
+          clearInterval(this.timer)
         }
         // 是否已滚动到底
         if (scrollTop + clientHeight === scrollHeight) {
-          clearInterval(this.timer)
-        }
-        // 容错处理
-        if (Math.abs(scrollTo - scrollTop) < 5) {
           clearInterval(this.timer)
         }
       },
@@ -521,6 +529,8 @@
       // 滚动函数
       scrollFn() {
         const s1 = this.$refs.refProductDetailPage.scrollTop;
+        const s1H = this.$refs.refProductDetailPage.offsetHeight;
+        const allH = this.$refs.refProductDetail.offsetHeight;
         let tabListH = this.$refs.refTabList.offsetTop - this.$refs.refTabList.offsetHeight;
         let tabHeightH = this.$refs.refTabHeight.offsetTop - this.$refs.refTabList.offsetHeight;
         // console.log(s1, tabListH, tabHeightH)
@@ -544,6 +554,26 @@
         // D1-Dn变化
         const listLen = this.showDayList.length
         const showHeight = s1 + this.$refs.refTabList.offsetHeight + this.$refs.refProdctDetailHeader.$el.offsetHeight
+        // 根据tabList的高度,修改选中的tab
+        let refFeaturesH = this.$refs.refFeatures.offsetTop
+        let refTripH = this.$refs.refTrip.offsetTop
+        let refCostH = this.$refs.refCost.offsetTop
+        let refNoticeH = this.$refs.refNotice.offsetTop
+        // console.log('refFeaturesH', showHeight, refCostH)
+        if (showHeight >= refFeaturesH) {
+          this.activeTab = 1
+        }
+        if (showHeight >= refTripH) {
+          this.activeTab = 2
+        }
+        if (showHeight >= refCostH) {
+          this.activeTab = 3
+        }
+        // 到底部
+        if (s1 + s1H === allH) {
+          this.activeTab = 4
+        }
+        // console.log(this.activeTab, showHeight, refNoticeH)
         let idx = this.showDayList.findIndex(item => item > showHeight)
         // console.log('index：', idx)
         if (idx === 0) {
@@ -605,9 +635,14 @@
       },
       telCounsel() {
         console.log(this.product)
+        window.location.href = "tel:10086";
       },
       onlineCounsel() {
         console.log(this.product)
+        if (!this.$store.state.token) {
+          this.vxToggleDialog(true)
+          this.vxSetDlgType(DLG_TYPE.LOGIN)
+        }
       },
       // 立即定制
       async btnReserve() {
@@ -631,6 +666,9 @@
     font-size: 0;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    .product-detail-header {
+      height: 88px;
+    }
     .product-detail {
       padding-bottom: 144px;
       background: #f2f2f2;
@@ -652,7 +690,7 @@
         .name {
           height: 138px;
           color: #3e3e3e;
-          letter-spacing: 8px;
+          letter-spacing: 2px;
           font-size: 32px;
           font-family: Microsoft YaHei UI;
         }
@@ -766,6 +804,8 @@
       .group-price {
         // height: 272px;
         .content {
+          overflow: hidden;
+          font-size: 0;
           .item {
             display: inline-block;
             margin: 10px 6px 0 0;
@@ -855,8 +895,8 @@
       }
       .features {
         height: 1520px;
-        background: url("../../assets/imgs/product/bg_features.png") no-repeat 0 0/100%
-          100%;
+        // background: url("../../assets/imgs/product/bg_features.png") no-repeat 0 0/100%
+        //   100%;
       }
       .trip {
         background: #fff;

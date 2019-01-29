@@ -17,7 +17,7 @@
       </ul>
     </section>
     <section class="setbg">
-      <order-list :status="status"></order-list>
+      <order-list :listx="listx"></order-list>
     </section>
 
   </section>
@@ -25,6 +25,7 @@
 
 <script>
   import orderList from './orderList';
+  import {getorderlist} from '@/api/order'
 
   export default {
     components: {
@@ -40,8 +41,19 @@
     created() {
     },
     mounted() {
+      this.getorderlist();
     },
     methods: {
+      async getorderlist(){
+        let {data, code} = await getorderlist({
+          user_id:'953',
+          status:this.status
+        })
+        if(code === 0) {
+          this.listx = data;
+        }
+      }
+      ,
       onClickLeft() {
         this.$router.go(-1)
       },

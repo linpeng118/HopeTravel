@@ -1,54 +1,49 @@
 <template>
-    <div>
-        <van-nav-bar title="验证邮箱号码" left-arrow @click-left="onClickLeft"/>
-        <van-field
-            v-model="email"
-            placeholder="请输入邮箱地址"
-        ></van-field>
-        <van-field
-            v-model="email"
-            placeholder="请输入邮箱验证码"
-        >
-            <van-button class="btn" slot="button" size="small" type="primary">获取邮箱验证码</van-button>
-        </van-field>
-
-        <div class="btn_container">
-            <button class="sure">验证</button>
-        </div>
+  <div class="card vue-avatar-cropper-demo text-center">
+    <van-uploader :after-read="onRead">
+      <van-icon name="photograph" />
+    </van-uploader>
+    <div v-if="imgShow" class="imgShow">
+      <vue-cropper
+        ref="cropper"
+        :img="option.img"
+      ></vue-cropper>
     </div>
+  </div>
 </template>
-<script>
-export default {
-  name: "component_name",
-  data () {
-    return {
-        email:"",//邮箱地址
-    };
-  },
-  methods: {
-    onClickLeft() {
-      window.history.go(-1);
-    },
-   
 
+<script>
+  export default {
+    data() {
+      return {
+        file: '',
+        imgShow: false,
+        option: {
+
+        }
+      }
+    },
+    methods: {
+      onRead(file) {
+        console.log(file)
+        this.imgShow = true
+        this.option.img = file.content
+      }
+    }
   }
-}
 </script>
+
 <style lang="scss" scoped>
-    .btn{
-        border-radius:8px;
+  .imgShow{
+    position: fixed;
+    top:0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.5);
+    img{
+      width: 100%;
+      height: 100%;
     }
-    .btn_container {
-        margin-top:50px;
-    text-align: center;
-    .sure {
-        width: 596px;
-        height: 84px;
-        background: rgba(57, 158, 246, 1);
-        opacity: 1;
-        border-radius: 10px;
-        color:#fff;
-        font:36px/84px "";
-    }
-    }
+  }
 </style>

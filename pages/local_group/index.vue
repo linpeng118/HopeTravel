@@ -192,11 +192,11 @@
       async getProductListData(data = {}) {
         const submitData = {
           type: LIST_TYPE.LOCAL_GROUP,
-          start_city: data.start_city || 0,
-          stop_city: data.stop_city || 0,
-          span_city: data.span_city || '34',
-          product_type: data.product_type || 0,
-          category: data.category || '', // 横向tag
+          start_city: data.start_city || null,
+          stop_city: data.stop_city || null,
+          span_city: data.span_city || null,
+          product_type: data.product_type || null,
+          category: data.category || null, // 横向tag
         }
         const res = await getProductList(submitData)
         // 初始化产品列表
@@ -248,7 +248,10 @@
         this.selected = index
         const submitData = {
           category: this.localgroupData[2].data[index].category,
+          start_city: this.localgroupData[2].data[index].start_city,
+          span_city: this.localgroupData[2].data[index].span_city,
         }
+        console.log(submitData)
         this.getProductListData(submitData)
       },
       // 精选下的城市

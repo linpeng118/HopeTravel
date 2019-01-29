@@ -1,9 +1,10 @@
 <template>
   <div class="regist-page">
     <login-header rightText="登录"
-      @callOnRigth="toLogin" />
-    <h1 class="title">稀饭旅行账号注册</h1>
-    <regist-comp />
+      @callOnRight="toLogin" />
+    <!-- 注册框 -->
+    <regist-comp class="regist-comp-wrap"
+      @registCallBack="toLogin" />
   </div>
 </template>
 
@@ -35,14 +36,8 @@
 <style lang="scss" scoped>
   .regist-page {
     text-align: center;
-    .title {
-      padding-top: 136px;
-      font-size: 40px;
-      font-family: PingFang SC;
-      font-weight: 400;
-      line-height: 56px;
-      color: rgba(85, 85, 85, 1);
-      opacity: 1;
+    .regist-comp-wrap {
+      padding: 136px 76px 0;
     }
   }
 </style>
