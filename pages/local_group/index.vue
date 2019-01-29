@@ -5,7 +5,8 @@
     <search-header v-if="!isApp"
       :title="'当地跟团'"
       ref="refSearchHeader"
-      @leftClick="leftClick" />
+      @leftClick="leftClick"
+      @rightClick="rightClick"/>
     <!-- body -->
     <section class="local-group"
       ref="refLocalGroup">
@@ -174,6 +175,12 @@
       ...mapMutations({
         vxChangeHeaderStatus: 'header/changeStatus' // 修改头部状态
       }),
+      // rightClick
+      rightClick() {
+        this.$router.push({
+          path: '/search'
+        })
+      },
       async init() {
         await this.getLocalgroupData()
         await this.getProductListData()

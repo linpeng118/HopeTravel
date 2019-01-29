@@ -11,5 +11,5 @@ export default {
   deviceType: {},
   isShowDlg: false, // 是否显示弹窗
   dlgType: DLG_TYPE.NORMAL, // 显示的弹窗类型
-  currency: process.client ? getCookieByKey('currency') : '', // 货币类型
+  currency: process.client ? getCookieByKey('currency') : 'CNY', // 货币类型
 }

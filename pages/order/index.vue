@@ -16,9 +16,7 @@
         <li class="nav-item" :class="status=='finish'?'active-item':''" @click="status='finish'">已出行</li>
       </ul>
     </section>
-    <section class="setbg">
-      <order-list :listx="listx"></order-list>
-    </section>
+   
 
   </section>
 </template>
@@ -33,7 +31,8 @@
     },
     data() {
       return {
-        status: ''//unpaid 待付款 wait未出行 finish已出行
+        status: '',//unpaid 待付款 wait未出行 finish已出行
+        listx:[],
       }
     },
     computed: {},
@@ -41,14 +40,10 @@
     created() {
     },
     mounted() {
-      this.getorderlist();
     },
     methods: {
       async getorderlist(){
-        let {data, code} = await getorderlist({
-          user_id:'953',
-          status:this.status
-        })
+        let {data, code} = await getorderlist(this.status)
         if(code === 0) {
           this.listx = data;
         }

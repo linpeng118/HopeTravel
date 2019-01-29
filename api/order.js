@@ -1,7 +1,7 @@
 import axios from '@/plugins/axios/axios'
 
-export const getorderlist = (userId,status) => {
-  return axios.get(`/order/user/${userId}/order?type=tour&status=${status}`)
+export const getorderlist = (status) => {
+  return axios.get(`/order/user/order?type=tour&status=${status}`)
 }
 
 export const orderdetails = (id) => {

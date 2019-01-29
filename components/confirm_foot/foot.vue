@@ -20,7 +20,7 @@
       </nuxt-link>
       <span v-else-if="showbtn2==false" class="confirm-next-btn">下一步</span>
       <span v-else class="confirm-next-btn showbtn" @click="addOrderx()" >下一步</span>
-      <span class="contact-service">
+      <span class="contact-service" @click="contactCustom()">
         <i><van-icon name="service-o" color="#399EF6" size="1.5em"/></i>
         <i>联系客服</i>
       </span>
@@ -37,12 +37,13 @@
         <input type="text" name="total_fee[USD]" value="" ref="total_feeusd">
         <input type="text" name="client_type" value="tourscool">
         <input type="text" name="jwt" value="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiI2IiwiZ2lkIjoiMSIsImV4cCI6MTU0OTI2MDIxMX0.q4c3ooX8GD_b0GmDceWO-GdburBpBGTpKbhBVRvaKpY" readonly="">
-        <input type="text" name="success_url" value="http://www.htw.tourscool.net/payment/example/success?order_id=123456" readonly="">
-        <input type="text" name="failure_url" value="http://www.htw.tourscool.net/payment/example/order" readonly="">
+        <input type="text" name="success_url"
+               value="" ref="success_url">
+        <input type="text" name="failure_url"
+               value="" ref="failure_url">
         <input type="submit" ref="submitform">
       </form>
     </div>
-
   </section>
 </template>
 
@@ -72,7 +73,6 @@
           'total_feeusd':'',
         },
         loading:false,
-
         //添加订单数据
       }
     },
@@ -145,6 +145,8 @@
           this.$refs.order_title.value=data.product_name;
           this.$refs.total_feecny.value=data.cny_price*100;
           this.$refs.total_feeusd.value=data.price*100;
+          this.$refs.success_url.value=window.location.host+"/personal/order_des?order_id="+data.order_id;
+          this.$refs.failure_url.value=window.location.host+"/personal/order?status=null";
           this.subData();
         }
         else {
@@ -154,6 +156,9 @@
           });
           this.$store.commit("countprice", {attributes:[]});
         }
+      },
+      contactCustom() {
+        window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226'
       }
 
     }
