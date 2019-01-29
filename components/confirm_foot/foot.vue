@@ -27,7 +27,8 @@
     </div>
     <van-popup v-model="showpops" class="setbottom" position="bottom" :overlay="true">
       <paylist :payData="pricelist" @closepops="closepops"></paylist>
-    </van-popup>
+    </van-popup><!-- 加载态 -->
+    <loading v-if="loading"></loading>
     <div style="display: none" v-if="showbtn2==true">
       <form action="http://www.htw.tourscool.net/payment/mobile/checkout" method="post">
         <input type="text" name="order_id" value="" ref="order_id">
@@ -50,9 +51,10 @@
   import paylist from './paylist'
   import {countprice} from '@/api/confirm_order'
   import {addorder} from '@/api/confirm_order'
+  import Loading from '@/components/loading'
   export default {
     components: {
-      paylist
+      paylist,Loading
     },
     props:{'addorder':Object},
     data() {
@@ -69,6 +71,8 @@
           'total_feecny':'',
           'total_feeusd':'',
         },
+        loading:false,
+
         //添加订单数据
       }
     },
@@ -130,19 +134,21 @@
         console.log(this.thisrouter)
       },
       subData(){
-        console.log()
         this.$refs.submitform.click();
+        this.loading = false;
       },
       async addOrderx(){
+        this.loading = true;
         let {data, code , msg} = await addorder(this.addorder)
         if (code === 0) {
           this.$refs.order_id.value=data.order_id;
           this.$refs.order_title.value=data.product_name;
-          this.$refs.total_feecny.value=data.cny_price;
-          this.$refs.total_feeusd.value=data.price;
+          this.$refs.total_feecny.value=data.cny_price*100;
+          this.$refs.total_feeusd.value=data.price*100;
           this.subData();
         }
         else {
+          this.loading = false;
           this.$dialog.alert({
             message: msg
           });
