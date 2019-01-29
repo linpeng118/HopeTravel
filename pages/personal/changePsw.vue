@@ -63,16 +63,21 @@
       async onChangePsw() {
         if (!this.oldPsw) {
           this.$toast('请输入旧密码')
+          return
         }
         if (!this.password) {
           this.$toast('请输入新密码')
+          return
         }
         if (!this.checkPsw) {
           this.$toast('请输入确认密码')
+          return
         }
         if (this.password !== this.checkPsw) {
           this.$toast('密码不一致，请重新输入')
+          return
         }
+        this.submiting = true
         const {code, data, msg} = await changePwd({
           oldPsw: this.oldPsw,
           password: this.password,
@@ -83,6 +88,7 @@
         } else {
           this.$toast(msg)
         }
+        this.submiting = false
       },
     },
   }
