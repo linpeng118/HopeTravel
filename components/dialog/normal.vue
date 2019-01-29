@@ -18,7 +18,6 @@
 <style lang="scss" scoped>
   .normal-dialog-comp {
     margin: 0 auto;
-    width: 90%;
     background: transparent;
   }
 </style>

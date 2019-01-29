@@ -2,8 +2,11 @@
   <van-popup v-model="isShow"
     :position="proPos"
     :overlay="true"
+    :style="{'width': dlgWidth}"
     class="normal-dialog-comp">
-    <div class="btn-close" @click="close">
+    <div class="btn-close"
+      @click="close"
+      v-show="isShowClose">
       <van-icon name="cross" />
     </div>
     <div class="dialog-content">
@@ -11,7 +14,8 @@
         showRegistTip
         showLoginTip
         @showLoginDlg="setDlgType"
-        @showRegistDlg="setDlgType"></component>
+        @showRegistDlg="setDlgType">
+      </component>
     </div>
   </van-popup>
 </template>
@@ -19,6 +23,7 @@
 <script>
   import {mapState, mapMutations} from 'vuex'
   import NormalComp from './normal'
+  import PhoneComp from './phone'
   import LoginComp from '@/components/partcail/login/login'
   import RegistComp from '@/components/partcail/login/regist'
   import {DLG_TYPE} from '@/assets/js/consts/dialog'
@@ -26,6 +31,7 @@
   export default {
     components: {
       NormalComp,
+      PhoneComp,
       LoginComp,
       RegistComp
     },
@@ -69,9 +75,27 @@
         set(val) {
           this.$emit('callSetDlgType', val)
         }
-      }
+      },
+      // 是否显示关闭按钮
+      isShowClose() {
+        const noCloseArr = [
+          DLG_TYPE.PHONE
+        ]
+        const index = noCloseArr.findIndex(item => item === this.currComp)
+        return index > -1 ? false : true
+      },
+      // 显示弹窗的宽度
+      dlgWidth() {
+        const arrW60 = [
+          DLG_TYPE.PHONE
+        ]
+        const index = arrW60.findIndex(item => item === this.currComp)
+        if(index > -1) {
+          return '60%'
+        }
+        return '86%'
+      },
     },
-    mounted() {},
     methods: {
       ...mapMutations({
         vxToggleDialog: 'toggleDialog'
@@ -81,7 +105,7 @@
         this.$emit('callSetDlgType', val)
       },
       // 关闭弹窗
-      close(){
+      close() {
         this.vxToggleDialog(false)
       }
     },
@@ -90,13 +114,12 @@
 
 <style lang="scss" scoped>
   .normal-dialog-comp {
-    width: 90%;
     border-radius: 12px;
     .btn-close {
       position: absolute;
       right: 10px;
       top: 10px;
-      color: #D8D8D8;
+      color: #d8d8d8;
     }
     .dialog-content {
       text-align: center;
