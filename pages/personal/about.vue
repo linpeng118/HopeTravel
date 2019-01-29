@@ -1,5 +1,5 @@
 <template>
-  <div class="personal-setting-page">
+  <div class="personal-about-page">
     <normal-header title="关于稀饭" />
     <div class="banner"></div>
     <van-cell v-for="item in aboutList"
@@ -55,7 +55,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .personal-setting-page {
+  .personal-about-page {
     .banner {
       margin: 0 auto;
       padding: 44px 0;
