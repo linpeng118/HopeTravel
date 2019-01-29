@@ -46,30 +46,6 @@
     mounted() {},
     methods: {
       onCell(item) {
-        switch (item.type) {
-          case SETTING.CHANGE_PSW:
-            this.$router.push({
-              path: item.path
-            })
-            break;
-          case SETTING.ABOUT:
-            this.$router.push({
-              path: item.path
-            })
-            break;
-          case SETTING.VERSION:
-
-            break;
-          case SETTING.GRADE:
-
-            break;
-          case SETTING.CLEAR_CACHE:
-
-            break;
-          default:
-            console.log(`${item.type} is not found`)
-            break;
-        }
         this.$router.push({
           path: item.path
         })
