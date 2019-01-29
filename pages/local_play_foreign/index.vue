@@ -10,7 +10,7 @@
     <div v-if="showList.length">
       <div class="area-play">
         <!---->
-        <div class="area-location">
+        <div class="area-location" @click="moreCity">
           <div class="icon"></div>
           <div class="name">{{cityInfo.name}}</div>
         </div>
@@ -204,13 +204,13 @@
       },
       // 获取最近浏览
       async getViewedList(ids) {
-        // let {data, code} = await getProductList(ids)
-        // if(code === 0) {
-        //   this.viewedList = data
-        //   console.log(this.viewedList)
-        // } else {
-        //   this.viewedList = []
-        // }
+        let {data, code} = await getProductList(ids)
+        if(code === 0) {
+          this.viewedList = data
+          console.log(this.viewedList)
+        } else {
+          this.viewedList = []
+        }
       },
       // 跳转到详情页面
       selectItem(productId) {
@@ -301,7 +301,8 @@
       selectProductList(typeId) {
         if (this.isApp) {
           let data = {
-            'itemType': '2'
+            'itemType': '2',
+            'keyword': this.cityInfo && this.cityInfo.name
           }
           if (typeId !== null) {
             data.product_type = typeId.toString()
@@ -335,6 +336,16 @@
         } else {
           ('web2.0')
         }
+      },
+      moreCity() {
+        let query = {}
+        if (this.isApp) {
+          query.platform = 'app'
+        }
+        this.$router.push({
+          path: `/local_play_foreign/more_city`,
+          query
+        })
       }
     }
   }

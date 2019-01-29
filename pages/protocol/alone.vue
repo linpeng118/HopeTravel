@@ -27,7 +27,6 @@ export default {
 <style>
   .out-layer-con{
     position: relative;
-    top: 88px;
     border-top: 2px solid #D8D8D8;
   }
 </style>

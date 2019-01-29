@@ -125,7 +125,6 @@ export default {
 <style type="text/scss" lang="scss" scoped>
   .out-layer-con{
     position: relative;
-    top: 88px;
     border-top: 2px solid #D8D8D8;
   }
   .weituo{
