@@ -6,8 +6,8 @@ export const getProfile = (data) => {
   return axios.get(`/api/profile`)
 }
 // 获取订单
-export const getOrderInfo = (userId, status) => {
-  return axios.get(`/order/user/${userId}/order?type=tour&status=${status}`)
+export const getOrderInfo = (status) => {
+  return axios.get(`/order/user/order?type=tour&status=${status}`)
 }
 
 // 获取米粒信息
@@ -44,7 +44,7 @@ export const deleteFavorites = (productIds) => {
 
 // 意见反馈
 export const submitContent = (content) => {
-  return axios.post(`/api/favorites`,{
+  return axios.post(`/api/feedback`,{
     data: {
       content
     }

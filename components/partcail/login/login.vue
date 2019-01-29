@@ -153,10 +153,14 @@
         // 倒计时状态修改
         this.codeType = VERIFY_CODE.GETTING // 获取验证码
         try {
-          await getSmsCode({
+          const {code, msg} = await getSmsCode({
             phone: `${this.phoneForm.areaCode}-${this.phoneForm.phone}`,
             scene: SMS_SCENE.LOGIN
           })
+          if (code !== 0) {
+            this.$toast(msg)
+            this.resetTimer()
+          }
           await this.countDown()
         } catch (error) {
           console.log(error)
@@ -266,7 +270,7 @@
       color: rgba(85, 85, 85, 1);
       opacity: 1;
     }
-    .content{
+    .content {
       margin-top: 100px;
     }
     .login,

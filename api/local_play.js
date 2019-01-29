@@ -17,7 +17,7 @@ export const getHotActivities = () => {
 //   return axios.get(`/api/localPlay/city/${id}`)
 // }
 // export const getPlay = () => {
-//   return axios.get('/paly/localplay')
+//   return axios.get('/play/localplay')
 // }
 
 export const getCityInfo = (id) => {

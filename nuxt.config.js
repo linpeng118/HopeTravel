@@ -133,10 +133,10 @@ module.exports = {
       },
       changeOrigin: true,
     },
-    '/paly': {
+    '/play': {
       target: 'http://192.168.1.91:8888/api/tour/v1', // api主机
       pathRewrite: {
-        '^/paly': '/',
+        '^/play': '/',
       },
       changeOrigin: true,
     },
