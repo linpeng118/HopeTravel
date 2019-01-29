@@ -6,9 +6,9 @@
         <img class="pro-img1" src="../../assets/imgs/activity/newyear2019/title/3.png" alt>
       </div>
       <div style="text-align:center;">
-        <nuxt-link to="tourscool://open/LineDetailsVC?productID=910">
+        <a href="tourscool://open/LineDetailsVC?productID=910">
           <img class="pro-img2" src="../../assets/imgs/activity/newyear2019/product/27.png" alt>
-        </nuxt-link>
+        </a>
       </div>
       <div class="pro">
         <nuxt-link to="tourscool://open/LineDetailsVC?productID=1600">

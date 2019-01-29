@@ -33,8 +33,6 @@
             <van-icon color="#404040" name="arrow" size="1.2em"/>
           </p>
 
-
-
         </div>
         <!--接送时间和地点弹出层-->
         <van-popup v-model="showchecktime" position="center" :overlay="true">
@@ -102,7 +100,7 @@
             <span>务必确认填写信息与出游证件一致</span></p>
           <ul>
             <template v-for="(item,ind) in paramcontanct">
-              <nuxt-link v-if="item.name" :key="ind" class="user-item" tag="li" :to="{path:'/personal/addContacts',query:{'id':item.id}}" >
+              <nuxt-link v-if="item.name" :key="ind" class="user-item" tag="li" :to="{path:'/personal/addContacts',query:{'id':item.id,'checker':paramcontanct}}" >
                 <span>出行人{{ind+1}}<i>{{item.name}}</i></span>
                 <span><i><van-icon name="edit"/></i></span>
               </nuxt-link>
@@ -111,7 +109,7 @@
           </ul>
           <div class="btnbox">
             <nuxt-link class="changeuser-btn" tag="button"
-                       :to="{path:'/personal/contactsList',query:{'adult':countprice.adult}}" >选择出行人</nuxt-link>
+                       :to="{path:'/personal/contactsList',query:{'adult':countprice.adult,'checker':paramcontanct}}" >选择出行人</nuxt-link>
           </div>
         </div>
       </section>
@@ -255,6 +253,21 @@
     beforeRouteEnter(to, from, next) {
       console.log(from)
       next(vm=>{
+        if(from.name==null){
+          next({
+            path: '/personal'
+          });
+        }
+        else{
+          next();
+        }
+      })
+    },
+
+
+    beforeRouteEnter(to, from, next) {
+      console.log(from)
+      next(vm=>{
         if(from.name!='date_trip'){
           next({
             path: '/personal'
@@ -273,15 +286,13 @@
       this.getqu();
 
     },
-    mounted() {
-    },
+    mounted() {},
     methods: {
       //获得价格日历数据
       async getpricedate(id) {
         let {data, code} = await getdateTrip(id)
         if(code === 0) {
           this.pricedate = data;
-          console.log(this.pricedate)
         } else {
           // this.pricedate = []
         }
@@ -370,7 +381,6 @@
             }
           }
         }
-        console.log(this_.showtrvel)
         },
       onClickLeft(){
         this.$router.go(-1)
@@ -393,7 +403,6 @@
       },
       onChangequ(picker){
        this.checkqu=picker.tel_code;
-
        this.showsel=false
       },
       getaddoder(){

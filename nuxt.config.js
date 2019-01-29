@@ -147,6 +147,10 @@ module.exports = {
       },
       changeOrigin: true,
     },
+<<<<<<< HEAD
+=======
+
+>>>>>>> 支付
     '/payment': {
       target: 'http://www.htw.tourscool.net/payment', // api主机
       pathRewrite: {

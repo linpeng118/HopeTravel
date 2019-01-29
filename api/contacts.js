@@ -10,7 +10,7 @@ export const getquhao = () => {
   return axios.get(`/api/country/telcodes`)
 }
 export const addcontanct = (data) => {
-  return axios.post(`/api/tour/v1/contact`,
+  return axios.post(`/api/contact`,
     {
       "name_cn":data.name_cn||'',
       "firstname":data.firstname||'',
@@ -27,7 +27,7 @@ export const addcontanct = (data) => {
     )
 }
 export const setcontanct = (data,id) => {
-  return axios.put(`/api/tour/v1/contact/${id}`,
+  return axios.put(`/api/contact/${id}`,
     {
       "name_cn":data.name_cn||'',
       "firstname":data.firstname||'',

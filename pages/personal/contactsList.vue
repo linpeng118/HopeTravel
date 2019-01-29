@@ -57,9 +57,12 @@
     data() {
       return {
         checkuser:[],
+        checker:this.$route.query.checker||[],
+
         list: [],
         title:'选择出行人',
         adult:this.$route.query.adult||1,
+
       }
     },
     computed: {},
@@ -67,6 +70,7 @@
     },
     mounted(){
      this.getlist();
+
     },
 
     methods: {
@@ -75,6 +79,7 @@
         let {data, code, msg} = await getcontants()
         if(code === 0) {
           this.list = data;
+          this.setcheck();
         }
         else {
           this.$dialog.alert({
@@ -84,6 +89,21 @@
       },
       onClickLeft(){
         this.$router.go(-1)
+      },
+      setcheck(){
+        let objarr=[];
+        var this_=this;
+        this.checker=this.$route.query.checker;
+        if(this.checker&&this.checker.length>0){
+          for(let i=0;i<this_.checker.length;i++){
+            for(let j=0;j<this_.list.length;j++){
+             if(this_.list[j].customer_contract_id==this_.checker[i].id){
+                this_.checkuser.push(this_.list[j]);
+             }
+            }
+          }
+        }
+
       },
       onClickRight(){
         var objarrx=[];
@@ -100,7 +120,6 @@
           this.$router.replace({ path: '/confirm_order'})
         }
       },
-
     },
   }
 </script>
