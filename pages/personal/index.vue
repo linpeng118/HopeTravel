@@ -63,7 +63,7 @@
             <img class="icon-size" src="../../assets/imgs/personal/index/feedback.png">
           </template>
         </van-cell>
-        <van-cell title="联系客服" is-link to>
+        <van-cell title="联系客服" is-link to="http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/service.png">
           </template>
