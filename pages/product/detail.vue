@@ -92,7 +92,7 @@
           团期价格
         </div>
         <div class="content mt-12">
-          <div class="item"
+          <div class="g-price-item"
             v-for="(item,index) in top_price[0]&&top_price[0].days"
             :key="index">
             <p class="time">
@@ -102,7 +102,7 @@
               {{item.price}}
             </span>
           </div>
-          <div class="item more">
+          <div class="g-price-item more">
             更多团期
           </div>
         </div>
@@ -818,18 +818,17 @@
       .group-price {
         // height: 272px;
         .content {
-          overflow: hidden;
-          font-size: 0;
-          .item {
-            display: inline-block;
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          .g-price-item {
             margin: 10px 6px 0 0;
+            flex: 0 0 166px;
             width: 166px;
             height: 80px;
             border: 2px solid #e0e0e0;
             border-radius: 12px;
             text-align: center;
-            font-family: PingFang SC;
-            overflow: hidden;
             &.more {
               color: #1592e6;
               font-size: 24px;
