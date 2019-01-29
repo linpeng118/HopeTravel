@@ -309,8 +309,17 @@
           }
           this.appBridge.jumpProductListView(data)
         } else {
-          // web页面跳转
-          console.log('web页面跳转')
+          let query = {
+            keyword: encodeURIComponent(this.cityInfo.name),
+            itemType: '2',
+          }
+          if(typeId !== null) {
+            query.product_type = typeId.toString()
+          }
+          this.$router.push({
+            name: 'product_list-play_foreign',
+            query
+          })
         }
       },
       // 搜藏

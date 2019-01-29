@@ -61,7 +61,7 @@ export default {
           country: "法国",
           img: require("../../assets/imgs/custom/list/1.png"),
           desc: "【巴黎第七章】轻奢9天7晚之旅",
-          price: "$19980"
+          price: "￥19980"
         },
         {
           path: "/custom/store2",
@@ -69,35 +69,35 @@ export default {
           img: require("../../assets/imgs/custom/list/2.png"),
           desc:
             "【爱琴.地中海】豪华游艇出海/特色海鲜大餐/浮潜/海钓/最美悬崖步道/浪漫地中海日落/梵蒂冈博物馆/圣...",
-          price: "$22800"
+          price: "￥22800"
         },
         {
           path: "/custom/store3",
           country: "印尼",
           img: require("../../assets/imgs/custom/list/3.png"),
           desc: "【全球热恋】巴厘岛+科莫多",
-          price: "$15600"
+          price: "￥15600"
         },
         {
           path: "/custom/store4",
           country: "泰国",
           img: require("../../assets/imgs/custom/list/4.png"),
           desc: "【快乐活】苏梅岛+涛岛",
-          price: "$6380"
+          price: "￥6380"
         },
         {
           path: "/custom/store5",
           country: "新加坡",
           img: require("../../assets/imgs/custom/list/5.png"),
           desc: "【一城一岛】新加坡+民丹岛",
-          price: "$13800"
+          price: "￥13800"
         },
         {
           path: "/custom/store6",
           country: "东京&关西",
           img: require("../../assets/imgs/custom/list/6.png"),
           desc: "【花开异国】东京+关西 7天6晚",
-          price: "$13800"
+          price: "￥13800"
         },
         {
           path: "/custom/store7",
@@ -105,77 +105,77 @@ export default {
           img: require("../../assets/imgs/custom/list/77.png"),
           desc:
             "【富士山下】东京.关西 7天6晚【日本美食之旅】东京+富士山 7天5晚",
-          price: "$12600"
+          price: "￥12600"
         },
         {
           path: "/custom/store8",
           country: "东京&富士山",
           img: require("../../assets/imgs/custom/list/7.png"),
           desc: "【日本美食之旅】东京+富士山 7天5晚",
-          price: "$12800"
+          price: "￥12800"
         },
         {
           path: "/custom/store9",
           country: "新西兰",
           img: require("../../assets/imgs/custom/list/8.png"),
           desc: "【臻品新西兰】南北双岛11日自驾游",
-          price: "$16800"
+          price: "￥16800"
         },
         {
           path: "/custom/store10",
           country: "新西兰",
           img: require("../../assets/imgs/custom/list/9.png"),
           desc: "【臻品新西兰】南岛10日自驾游",
-          price: "$13800"
+          price: "￥13800"
         },
         {
           path: "/custom/store11",
           country: "新西兰",
           img: require("../../assets/imgs/custom/list/10.png"),
           desc: "【臻品新西兰】南岛12日自驾游",
-          price: "$17800"
+          price: "￥17800"
         },
         {
           path: "/custom/store12",
           country: "美国",
           img: require("../../assets/imgs/custom/list/11.png"),
           desc: "黄石大提顿国家公园+洛杉矶8天6晚私家小团",
-          price: "$11500"
+          price: "￥11500"
         },
         {
           path: "/custom/store13",
           country: "美国",
           img: require("../../assets/imgs/custom/list/12.png"),
           desc: "加州一号公路+锡安国家公园+羚羊彩穴发现自驾14 日",
-          price: "$16800"
+          price: "￥16800"
         },
         {
           path: "/custom/store14",
           country: "美国",
           img: require("../../assets/imgs/custom/list/13.png"),
           desc: "加州一号公路+圣地亚哥经典自驾之旅10 日",
-          price: "$12800"
+          price: "￥12800"
         },
         {
           path: "/custom/store15",
           country: "美国",
           img: require("../../assets/imgs/custom/list/14.png"),
           desc: "美西国家公园大环线全景自驾14 日",
-          price: "$16500"
+          price: "￥16500"
         },
         {
           path: "/custom/store16",
           country: "美国",
           img: require("../../assets/imgs/custom/list/15.png"),
           desc: "美西三城+双国家公园+加州一号公路精彩自驾9天7晚",
-          price: "$18900"
+          price: "￥18900"
         },
         {
           path: "/custom/store17",
           country: "澳大利亚",
           img: require("../../assets/imgs/custom/list/16.png"),
           desc: "太平洋海岸自驾之旅13天10晚",
-          price: "$18900"
+          price: "￥18900"
         },
         {
           path: "/custom/store18",
@@ -183,7 +183,7 @@ export default {
           img: require("../../assets/imgs/custom/list/17.png"),
           desc:
             "【童趣巴厘岛】夜游巴厘岛动物园（含晚餐）/阿勇河漂流/空中漫步/百度库/香料市场/海神庙",
-          price: "$9050"
+          price: "￥9050"
         },
         {
           path: "/custom/store19",
@@ -191,7 +191,7 @@ export default {
           img: require("../../assets/imgs/custom/list/18.png"),
           desc:
             "【童趣巴厘岛】夜游巴厘岛动物园（含晚餐）/阿勇河漂流/空中漫步/百度库/香料市场/海神庙",
-          price: "$9050"
+          price: "￥9050"
         },
         {
           path: "/custom/store20",
@@ -199,14 +199,14 @@ export default {
           img: require("../../assets/imgs/custom/list/19.png"),
           desc:
             "【网红巴厘岛】森林瀑布/网红秋千/漂浮下午茶/乌布皇宫/天空之门/莲花池台/水上皇宫/滑翔伞高空飞...",
-          price: "$9630"
+          price: "￥9630"
         },
         {
           path: "/custom/store21",
           country: "印尼",
           img: require("../../assets/imgs/custom/list/20.png"),
           desc: "【畅游印尼双岛】巴厘岛+吉利岛",
-          price: "$7800"
+          price: "￥7800"
         }
       ]
     };
