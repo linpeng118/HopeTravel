@@ -163,7 +163,7 @@ export default {
     return {};
   },
   mounted(){
-    window.document.title = "稀饭旅行网2019旅行过年好礼送"
+    window.document.title = "旅行过年好礼送"
   },
 };
 </script>
