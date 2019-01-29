@@ -180,7 +180,7 @@
       },
       'total_adult'(val,oldval) {
         if (this.product.product_entity_type == 1 && this.product.self_support == 0) {
-        } else if(oldval!=0) {
+        } else  {
 
           let countperson = val + this.total_kids;
           if (countperson >= this.product.min_num_guest) {
@@ -247,13 +247,12 @@
 
     },
     mounted() {
-      // //进来清空一次之前的价格日历vuex，之后可能要考虑返回的情况
-      // this.$store.dispatch("emptyprice");
+      //进来清空一次之前的价格日历vuex，之后可能要考虑返回的情况
+      this.$store.dispatch("emptyprice");
       //获得价格日历数据
       if(this.product.product_id){
         this.getpricedate(this.product.product_id);
       }
-
     },
 
     methods: {

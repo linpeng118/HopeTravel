@@ -83,8 +83,21 @@
           </div>
         </div>
       </section>
-      <section style="text-align: center;width: 100%">
-        <button class="pay-btn">去支付</button>
+      <section v-show="details.status&&details.status.code==0" style="text-align: center;width: 100%">
+        <div style="display: none" >
+          <form action="http://www.htw.tourscool.net/payment/mobile/checkout" method="post">
+            <input type="text" name="order_id" value="" ref="order_id">
+            <input type="text" name="order_title" value="" ref="order_title">
+            <input type="text" name="total_fee[CNY]" value="" ref="total_feecny">
+            <input type="text" name="total_fee[USD]" value="" ref="total_feeusd">
+            <input type="text" name="client_type" value="tourscool">
+            <input type="text" name="jwt" value="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiI2IiwiZ2lkIjoiMSIsImV4cCI6MTU0OTI2MDIxMX0.q4c3ooX8GD_b0GmDceWO-GdburBpBGTpKbhBVRvaKpY" readonly="">
+            <input type="text" name="success_url" value="http://www.htw.tourscool.net/payment/example/success?order_id=123456" readonly="">
+            <input type="text" name="failure_url" value="http://www.htw.tourscool.net/payment/example/order" readonly="">
+            <input type="submit" ref="submitform">
+          </form>
+        </div>
+        <button class="pay-btn" @click="subData()">去支付</button>
       </section>
     </section>
   </section>
@@ -179,6 +192,13 @@
       },
       onClickLeft() {
         this.$router.go(-1)
+      },
+      subData(){
+        this.$refs.order_id.value=this.details.order_id;
+        this.$refs.order_title.value=this.details.product_name;
+        this.$refs.total_feeusd.value=this.details.price.substr(1)*100||0;
+        this.$refs.total_feecny.value=this.details.cny_price*100||0;
+        this.$refs.submitform.click();
       },
 
     }
@@ -364,7 +384,7 @@
     line-height: 72px;
     font-size: 24px;
     color: #fff;
-    margin: 28px 0;
+    margin: 28px 100px;
     border-radius: 8px;
 
   }
