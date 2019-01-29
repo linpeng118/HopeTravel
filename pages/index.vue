@@ -38,11 +38,11 @@
         <img src="../assets/imgs/home/icon_group.png" alt="">
         <p class="title">精品小团</p>
       </nuxt-link>
-      <nuxt-link tag="div" class="entry-tourism" to="/local_group">
+      <nuxt-link tag="div" class="entry-tourism" to="/local_play_zh">
         <img src="../assets/imgs/home/icon_play.png" alt="">
         <p class="title">当地玩乐</p>
       </nuxt-link>
-      <nuxt-link tag="div" class="entry-tourism" to="/local_play_zh">
+      <nuxt-link tag="div" class="entry-tourism" to="/local_group">
         <img src="../assets/imgs/home/icon_local.png" alt="">
         <p class="title">当地跟团</p>
       </nuxt-link>

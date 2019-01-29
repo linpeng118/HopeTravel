@@ -75,7 +75,7 @@
         this.$emit('leftClick')
       },
       onClickRight() {
-        ('按钮');
+        this.$emit('rightClick')
       }
     },
   }

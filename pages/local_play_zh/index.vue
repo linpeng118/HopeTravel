@@ -2,7 +2,7 @@
   <div class="local-play-zh"
     ref="refLocalPlayPage">
     <lay-header v-if="!isApp" title="当地玩乐"
-      @leftClick="leftClick"></lay-header>
+      @leftClick="leftClick" @rightClick="rightClick"></lay-header>
     <div v-if="showList.length">
       <!-- banner -->
       <div class="banner"></div>
@@ -86,14 +86,6 @@
         },
         // 最近浏览列表
         viewedList: [
-          // {
-          //   type: [1, 2],
-          //   title: '标题1',
-          //   src: require('~/assets/imgs/local_regiment/hot_1@2x.png'),
-          //   desc: '1最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览最近浏览',
-          //   price: 1001,
-          //   oriPrice: 2002
-          // },
         ],
         showList: [],
         // 热门城市
@@ -154,6 +146,12 @@
           //web
           this.$router.go(-1)
         }
+      },
+      //
+      rightClick(){
+        this.$router.push({
+          path: '/search'
+        })
       },
       // 跳转到详情页面
       selectItem(productId) {
