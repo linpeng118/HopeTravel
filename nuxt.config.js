@@ -93,7 +93,14 @@ module.exports = {
       src: '~/assets/js/mixins/verifyCode',
       ssr: false,
     },
-    { src: '~/plugins/vue-cropper', ssr: false },
+    {
+      src: '~/plugins/vue-cropper',
+      ssr: false
+    },
+    {
+      src: '~/plugins/vue-clipboard',
+      ssr: false
+    },
     '~/plugins/axios/nuxtaxios'
   ],
   /*
@@ -152,7 +159,7 @@ module.exports = {
    ** Build configuration
    */
   build: {
-    vendor: ['axios', 'lodash', '~/plugins/vant', '~/plugins/vue-swiper'],
+    vendor: ['axios', 'lodash', '~/plugins/vant', '~/plugins/vue-swiper', '~/plugins/vue-clipboard', '~/plugins/vue-cropper'],
     postcss: [
       require('postcss-px2rem-exclude')({
         remUnit: 75, // 转换基本单位
