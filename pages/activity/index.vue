@@ -158,9 +158,13 @@
 <script>
 export default {
   name: "",
+  
   data() {
     return {};
-  }
+  },
+  mounted(){
+    window.document.title = "稀饭旅行网2019旅行过年好礼送"
+  },
 };
 </script>
 <style lang="scss" scoped>
