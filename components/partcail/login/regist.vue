@@ -36,7 +36,7 @@
       </van-tab>
       <!-- 请输入邮箱 -->
       <van-tab class="email-regist"
-        title="请输入邮箱">
+        title="邮箱注册">
         <van-cell-group>
           <van-field class="email tours-input"
             v-model="emailForm.email"

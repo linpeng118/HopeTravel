@@ -4,10 +4,17 @@
                  @click-left="onClickLeft">
       <van-icon class="left-wrap" name="arrow-left" slot="left"/>
     </van-nav-bar>
-
-    <details-head></details-head>
+    <div class="details-head">
+      <div class="head-left">
+        <p>{{details.status.name}}</p>
+        <p>订单号：{{details.order_id}}</p>
+        <p>下单时间：{{details.created.substr(0,10)}}</p>
+      </div>
+      <div class="head-right">
+        <p>{{details.price}}</p>
+      </div>
+    </div>
     <section class="section0">
-
       <section>
         <div class="confirm-item">
           <p class="item-con">
@@ -61,8 +68,6 @@
               </div>
             </div>
           </template>
-
-
         </div>
       </section>
       <section>
@@ -78,8 +83,21 @@
           </div>
         </div>
       </section>
-      <section style="text-align: center;width: 100%">
-        <button class="pay-btn">去支付</button>
+      <section v-show="details.status&&details.status.code==0" style="text-align: center;width: 100%">
+        <div style="display: none" >
+          <form action="http://www.htw.tourscool.net/payment/mobile/checkout" method="post">
+            <input type="text" name="order_id" value="" ref="order_id">
+            <input type="text" name="order_title" value="" ref="order_title">
+            <input type="text" name="total_fee[CNY]" value="" ref="total_feecny">
+            <input type="text" name="total_fee[USD]" value="" ref="total_feeusd">
+            <input type="text" name="client_type" value="tourscool">
+            <input type="text" name="jwt" value="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiI2IiwiZ2lkIjoiMSIsImV4cCI6MTU0OTI2MDIxMX0.q4c3ooX8GD_b0GmDceWO-GdburBpBGTpKbhBVRvaKpY" readonly="">
+            <input type="text" name="success_url" value="http://www.htw.tourscool.net/payment/example/success?order_id=123456" readonly="">
+            <input type="text" name="failure_url" value="http://www.htw.tourscool.net/payment/example/order" readonly="">
+            <input type="submit" ref="submitform">
+          </form>
+        </div>
+        <button class="pay-btn" @click="subData()">去支付</button>
       </section>
     </section>
   </section>
@@ -90,15 +108,13 @@
 <script>
 
 
-  import detailsHead from './detailsHead.vue'
-
+  import {orderdetails} from '@/api/order'
   export default {
+    name: "order_details",
     components: {
-      detailsHead
     },
     data() {
       return {
-
         details: {
           "order_id": 1111,
           "created": "2018-07-13 01:18:33",
@@ -154,8 +170,8 @@
               "value": "736.41"
             }
           ]
-        }
-
+        },
+        order_id: this.$route.query.order_id,
       }
     },
     computed: {},
@@ -164,11 +180,25 @@
 
     },
     mounted() {
+      console.log(this.order_id)
+      this.getOrderData()
     },
     methods: {
-
+      async getOrderData() {
+        let {code, data} = await orderdetails(this.order_id)
+        if (code === 0) {
+          this.details = data
+        }
+      },
       onClickLeft() {
         this.$router.go(-1)
+      },
+      subData(){
+        this.$refs.order_id.value=this.details.order_id;
+        this.$refs.order_title.value=this.details.product_name;
+        this.$refs.total_feeusd.value=this.details.price.substr(1)*100||0;
+        this.$refs.total_feecny.value=this.details.cny_price*100||0;
+        this.$refs.submitform.click();
       },
 
     }
@@ -177,6 +207,53 @@
 </script>
 
 <style lang="scss" scoped>
+  .details-head {
+    width: 100%;
+    height: 160px;
+    background: rgba(255, 255, 255, 1);
+  }
+
+  .head-left {
+    width: 60%;
+    height: 160px;
+    float: left;
+    padding-left: 32px;
+
+  }
+
+  .head-right {
+    width: 40%;
+    height: 160px;
+    float: right;
+    text-align: right;
+    padding-right: 32px;
+  }
+
+  .head-right p {
+    color: #FF5454;
+    font-weight: bold;
+    line-height: 60px;
+    font-size: 32px;
+  }
+
+  .head-left p:nth-child(1) {
+    color: #3E3E3E;
+    line-height: 60px;
+    font-size: 32px;
+    font-weight: bold;
+  }
+
+  .head-left p:nth-child(2) {
+    color: #399EF6;
+    line-height: 50px;
+    font-size: 22px;
+  }
+
+  .head-left p:nth-child(3) {
+    color: #989898;
+    line-height: 50px;
+    font-size: 22px;
+  }
 
   .section0 {
     background-color: #f3f3f3;
@@ -307,7 +384,7 @@
     line-height: 72px;
     font-size: 24px;
     color: #fff;
-    margin: 28px 0;
+    margin: 28px 100px;
     border-radius: 8px;
 
   }

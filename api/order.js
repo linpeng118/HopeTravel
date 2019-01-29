@@ -1,12 +1,9 @@
 import axios from '@/plugins/axios/axios'
 
-export const getorderlist = (data) => {
- var obj=(data.status=='')?{}:{status:data.status}
-  return axios.get(`/api/v1/user/${data.user_id}/order?type=tour`,{
-    params:obj
-  })
+export const getorderlist = (userId,status) => {
+  return axios.get(`/order/user/${userId}/order?type=tour&status=${status}`)
 }
 
-export const orderdetails = (data) => {
-  return axios.get(`http://www.htw.tourscool.net/api/v1/order/${data.order_id}/tour`)
+export const orderdetails = (id) => {
+  return axios.get(`/order/order/${id}/tour`)
 }

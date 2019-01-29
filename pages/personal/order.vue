@@ -98,14 +98,18 @@ export default {
     selectProduct(order){
       console.log(order)
       this.$router.push({
+<<<<<<< HEAD
         name: 'product-detail',
+=======
+        path: '/order/order_details',
+>>>>>>> 551ff5ce6bcc6f449d711b12bd12b70a4770dd8c
         query: {
           order_id: order.order_id
         }
       })
     }
   },
-  
+
 };
 </script>
 <style lang="scss" scoped>
@@ -198,6 +202,7 @@ export default {
               font-weight: 400;
               line-height: 34px;
               color: rgba(255, 255, 255, 1);
+              margin-top: 20px;
             }
             .go-pay{
               background: rgba(255, 84, 84, 1);

@@ -128,6 +128,8 @@
         showdate:false,
         title:'新增出行人',
         queryid:this.$route.query.id||0,
+        checker:this.$route.query.checker||[],
+        pushpath:"",
       }
     },
     computed: {},
@@ -140,6 +142,13 @@
       }
     },
 
+    beforeRouteEnter(to, from, next) {
+      console.log(from)
+      next(vm=>{
+        vm.pushpath=from.path;
+        next();
+      })
+    },
     methods: {
       countryName(data){
         this.userform.nationality=data;
@@ -169,25 +178,36 @@
       },
       async onClickRight() {
         if(  this.title=='编辑出行人'){
-          let {data, code} = await setcontanct(this.userform,this.queryid)
+          let {data, code, msg} = await setcontanct(this.userform,this.queryid)
           if (code === 0) {
             console.log(data)
-            this.$router.go(-1)
+
+            this.$router.replace({
+              path:this.pushpath,
+              query:{checker:this.$route.query.checker||[]}
+            })
           }
           else {
+            this.$dialog.alert({
+              message: msg
+            });
           }
         }
         else{
-          let {data, code} = await addcontanct(this.userform)
+          let {data, code, msg} = await addcontanct(this.userform)
           if (code === 0) {
             console.log(data)
-            this.$router.go(-1)
+            this.$router.replace({
+              path:this.pushpath,
+              query:{checker:this.$route.query.checker||[]}
+            })
           }
           else {
+            this.$dialog.alert({
+              message: msg
+            });
           }
         }
-
-
       },
       async getcontant() {
         let {data, code} = await getcontant(this.queryid)

@@ -92,7 +92,7 @@
         </div>
       </div>
     </div>
-    <div class="back-top" @click="backTop"></div>
+    <div class="back-top" v-show="!isTransparent" @click="backTop"></div>
   </div>
 </template>
 
@@ -295,7 +295,7 @@ export default {
     // 提交定制
     async doCustom(subData) {
       this.submiting = true;
-      console.log(1, subData);
+      // console.log(1, subData);
       let { code, data, msg } = await custom(subData);
       this.$toast(msg);
       this.submiting = false;

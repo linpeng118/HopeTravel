@@ -20,11 +20,19 @@
       <section>
         <div class="confirm-item">
           <p class="item-title">接送时间和地点</p>
-          <p class="item-con" @click="showchecktime=true">
-            <span>{{checktimeval}}</span>
+          <template v-for="(item,ind) in pricelist.transfer">
+            <p v-if="countprice.product_departure==item.product_departure_id" :key="ind" class="item-con" @click="showchecktime=true">
+              <span> {{item.full_address}}</span>
+              <span></span>
+              <van-icon color="#404040" name="arrow" size="1.2em"/>
+            </p>
+          </template>
+          <p class="item-con" v-if="countprice.product_departure==''" @click="showchecktime=true">
+            <span>暂未选择接送机服务</span>
             <span></span>
             <van-icon color="#404040" name="arrow" size="1.2em"/>
           </p>
+
         </div>
         <!--接送时间和地点弹出层-->
         <van-popup v-model="showchecktime" position="center" :overlay="true">
@@ -92,7 +100,7 @@
             <span>务必确认填写信息与出游证件一致</span></p>
           <ul>
             <template v-for="(item,ind) in paramcontanct">
-              <nuxt-link v-if="item.name" :key="ind" class="user-item" tag="li" :to="{path:'/personal/addContacts',query:{'id':item.id}}" >
+              <nuxt-link v-if="item.name" :key="ind" class="user-item" tag="li" :to="{path:'/personal/addContacts',query:{'id':item.id,'checker':paramcontanct}}" >
                 <span>出行人{{ind+1}}<i>{{item.name}}</i></span>
                 <span><i><van-icon name="edit"/></i></span>
               </nuxt-link>
@@ -101,7 +109,7 @@
           </ul>
           <div class="btnbox">
             <nuxt-link class="changeuser-btn" tag="button"
-                       :to="{path:'/personal/contactsList',query:{'adult':countprice.adult}}" >选择出行人</nuxt-link>
+                       :to="{path:'/personal/contactsList',query:{'adult':countprice.adult,'checker':paramcontanct}}" >选择出行人</nuxt-link>
           </div>
         </div>
       </section>
@@ -141,7 +149,7 @@
            <i class="seti" style="color: #bbb">共有米粒{{pricelist.points.total_point}}，本次可用{{pricelist.points.point}}米粒抵用{{pricelist.points.discount}}</i>
          </span>
             <van-switch
-              v-model="checkedmili"
+              v-model="countprice.is_point"
               style="float: right"
               size="2em"
             />
@@ -203,7 +211,6 @@
         showtrvel:[],//行程选项页面显示值
         activeind:0,
         // 静态参数
-        checkedmili:false,//抵扣积分
         columns: [],
         showsel:false,
         paramcontanct:this.$route.query.checker||[],
@@ -211,8 +218,6 @@
         tongyi:true,
         comment:'',
         contact:{"name":"","phone":"","email":""},
-
-
       }
     },
     computed: {
@@ -240,23 +245,54 @@
           this.setshowtrvel();
         },
         deep: true    //深度监听
-
       },
+      'countprice.is_point'(val){
+        this.$store.commit("countprice", {is_point:val});
+      }
     },
+    beforeRouteEnter(to, from, next) {
+      console.log(from)
+      next(vm=>{
+        if(from.name==null){
+          next({
+            path: '/personal'
+          });
+        }
+        else{
+          next();
+        }
+      })
+    },
+
+
+    beforeRouteEnter(to, from, next) {
+      console.log(from)
+      next(vm=>{
+        if(from.name!='date_trip'){
+          next({
+            path: '/personal'
+          });
+        }
+        else{
+          next();
+        }
+      })
+
+
+    },
+
     created(){
       this.pricelist=this.get_vuex_pricelist;
       this.getqu();
 
     },
-    mounted() {
-    },
+    mounted() {},
     methods: {
       //获得价格日历数据
       async getpricedate(id) {
         let {data, code} = await getdateTrip(id)
         if(code === 0) {
           this.pricedate = data;
-          console.log(this.pricedate)
         } else {
           // this.pricedate = []
         }
@@ -345,7 +381,6 @@
             }
           }
         }
-        console.log(this_.showtrvel)
         },
       onClickLeft(){
         this.$router.go(-1)
@@ -368,19 +403,19 @@
       },
       onChangequ(picker){
        this.checkqu=picker.tel_code;
-
        this.showsel=false
       },
       getaddoder(){
-         var objarr=[];
+         let objarr=[];
          for(let i=0;i<this.paramcontanct.length;i++){
            objarr.push(this.paramcontanct[i].id)
          }
-         var date=null;
+         let date=null;
          if(this.countprice.departure_date){
            date=this.countprice.departure_date.substr(0,10);
          }
-        var addorder={
+         let point=this.pricelist.points?this.pricelist.points.point:0;
+         var addorder={
           product_id:this.product.product_id,
           depart_date:date,
           rooms:this.countprice.room_attributes,
@@ -392,7 +427,7 @@
           comment:this.comment,
           users:objarr,
           contact:this.contact,
-          integral:this.checkedmili?this.pricelist.points.point:'',//积分
+          integral:this.countprice.is_point?point:'',//积分
         }
          return addorder
       }
