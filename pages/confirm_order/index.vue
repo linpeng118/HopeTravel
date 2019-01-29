@@ -250,36 +250,7 @@
         this.$store.commit("countprice", {is_point:val});
       }
     },
-    beforeRouteEnter(to, from, next) {
-      console.log(from)
-      next(vm=>{
-        if(from.name==null){
-          next({
-            path: '/personal'
-          });
-        }
-        else{
-          next();
-        }
-      })
-    },
-
-
-    beforeRouteEnter(to, from, next) {
-      console.log(from)
-      next(vm=>{
-        if(from.name!='date_trip'){
-          next({
-            path: '/personal'
-          });
-        }
-        else{
-          next();
-        }
-      })
-
-
-    },
+    
 
     created(){
       this.pricelist=this.get_vuex_pricelist;
