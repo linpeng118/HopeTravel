@@ -35,7 +35,7 @@
       </div>
       <!-- 次级菜单 -->
       <div class="sub-menu">
-        <van-cell title="我的关注" is-link to>
+        <van-cell title="我的收藏" is-link to="/personal/follow">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/attention.png">
           </template>
@@ -45,12 +45,13 @@
             <img class="icon-size" src="../../assets/imgs/personal/index/passenger.png">
           </template>
         </van-cell>
-        <van-cell title="我的分销" is-link to>
-          <template slot="icon">
-            <img class="icon-size" src="../../assets/imgs/personal/index/sales.png">
-          </template>
-        </van-cell>
-        <van-cell title="切换货币" is-link to>
+        <!--这期不做-->
+        <!--<van-cell title="我的分销" is-link to>-->
+          <!--<template slot="icon">-->
+            <!--<img class="icon-size" src="../../assets/imgs/personal/index/sales.png">-->
+          <!--</template>-->
+        <!--</van-cell>-->
+        <van-cell title="切换货币" is-link to="/personal/money">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/currency.png">
           </template>
@@ -58,7 +59,7 @@
       </div>
       <!-- 次级菜单 -->
       <div class="sub-menu">
-        <van-cell title="意见反馈" is-link to>
+        <van-cell title="意见反馈" is-link to="/personal/content">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/feedback.png">
           </template>
@@ -76,7 +77,7 @@
       </div>
       <!-- 退出登录 -->
       <div class="sign-out-btn-con" v-if="JSON.stringify(profile) !== '{}'">
-        <van-button class="sign-out-btn">退出登录</van-button>
+        <van-button class="sign-out-btn" @click="logout">退出登录</van-button>
       </div>
     </div>
     <!--这期取消-->
@@ -120,6 +121,7 @@
 <script>
 import {mapMutations} from 'vuex'
 import { getProfile } from "@/api/profile";
+import {clearCookieByKey} from '@/assets/js/utils'
 
 export default {
   name: "component_name",
@@ -169,6 +171,16 @@ export default {
           userId: this.profile.customer_id,
           status: item.status
         }
+      });
+    },
+    // 退出登录
+    logout() {
+      this.$dialog.confirm({
+        message: '是否退出登录'
+      }).then(() => {
+        clearCookieByKey('token')
+        location = location
+      }).catch(() => {
       });
     },
     ...mapMutations({

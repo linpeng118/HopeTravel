@@ -11,6 +11,10 @@ export default {
     state.token = data
     setCookieByKey('token', state.token)
   },
+  setCurrency(state, data) {
+    state.currency = data
+    setCookieByKey('currency', state.currency)
+  },
   updateToken(state, token) {
     state.token = token
   },

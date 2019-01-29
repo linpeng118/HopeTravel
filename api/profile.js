@@ -18,7 +18,6 @@ export const getPoints = (data) => {
 }
 
 // 修改个人信息
-
 export const modifyProfile = (data) => {
   return axios({
     url: '/api/profile',
@@ -26,3 +25,29 @@ export const modifyProfile = (data) => {
     data
   })
 }
+
+// 我的收藏
+export const getFavorites = (data) => {
+  return axios.get(`/api/favorites`,{
+    params: data
+  })
+}
+
+// 删除收藏
+export const deleteFavorites = (productIds) => {
+  return axios.delete(`/api/favorites`,{
+    data: {
+      product_id: productIds
+    }
+  })
+}
+
+// 意见反馈
+export const submitContent = (content) => {
+  return axios.post(`/api/favorites`,{
+    data: {
+      content
+    }
+  })
+}
+

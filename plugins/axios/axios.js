@@ -28,8 +28,10 @@ httprequest.interceptors.request.use(
     if (process.client) {
       // 可以设置请求头参数
       let token = store().state.token;
-      if (token) {
+      let currency = store().state.currency; // 货币类型获取
+      if (token || currency) {
         config.headers[TOKEN_KEY] = token
+        config.headers.currency = currency
       }
     }
     return config

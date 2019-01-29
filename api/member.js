@@ -76,3 +76,12 @@ export const validateEmail = (data) => {
     code: data.code
   })
 }
+
+// 上传头像
+export const saveProfile = (data) => {
+  return axios({
+    url:'http://www.htw.tourscool.net/upload.php',
+    method: 'post',
+    data: data
+  })
+}

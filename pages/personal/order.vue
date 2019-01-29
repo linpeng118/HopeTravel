@@ -96,10 +96,11 @@ export default {
       return _arr[status.code]
     },
     selectProduct(order){
+      console.log(order)
       this.$router.push({
         name: 'product-detail',
-        params: {
-          productId: order.product_id
+        query: {
+          order_id: order.order_id
         }
       })
     }
