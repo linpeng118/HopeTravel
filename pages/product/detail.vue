@@ -314,6 +314,16 @@
     </div>
     <!-- 加载态 -->
     <loading v-if="loading"></loading>
+    <!-- 弹出咨询层 -->
+    <!-- <van-popup class="show-consult"
+      v-model="showConsult"
+      position="bottom"
+      :overlay="true">
+      <iframe src="http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226"
+        frameborder="0"
+        width="100%"
+        height="100%"></iframe>
+    </van-popup> -->
   </div>
 </template>
 
@@ -374,7 +384,8 @@
         isTabFixed: false,
         showDay: 'D1',
         // 显示电话弹窗
-        showPhone: false
+        showPhone: false,
+        // showConsult: false,
       }
     },
     computed: {
@@ -640,11 +651,12 @@
         this.vxSetDlgType(DLG_TYPE.PHONE)
       },
       onlineCounsel() {
-        window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226'
         // if (!this.$store.state.token) {
         //   this.vxToggleDialog(true)
         //   this.vxSetDlgType(DLG_TYPE.LOGIN)
         // }
+        window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226'
+        // this.showConsult = true
       },
       // 立即定制
       async btnReserve() {
@@ -1202,6 +1214,11 @@
           }
         }
       }
+    }
+    .show-consult {
+      height: 86vh;
+      overflow: hidden;
+      bottom: 0;
     }
   }
 </style>
