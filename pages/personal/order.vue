@@ -98,11 +98,7 @@ export default {
     selectProduct(order){
       console.log(order)
       this.$router.push({
-<<<<<<< HEAD
-        name: 'product-detail',
-=======
         path: '/order/order_details',
->>>>>>> 551ff5ce6bcc6f449d711b12bd12b70a4770dd8c
         query: {
           order_id: order.order_id
         }
