@@ -37,7 +37,7 @@
         </a>
       </div>
       <div class="more-list">
-        <a href="tourscool://open/ProductListVC?itemType=1&start_city=%E6%97%A5%E6%9C%AC">
+        <a href="tourscool://open/ProductListVC?itemType=1&keyword=%E6%97%A5%E6%9C%AC">
           <img class="tit-img2" src="../../assets/imgs/activity/newyear2019/title/1.png" alt>
         </a>
       </div>
@@ -70,7 +70,7 @@
         </a>
       </div>
       <div class="more-list">
-        <a href="tourscool://open/ProductListVC?itemType=1&start_city=%E7%BE%8E%E5%9B%BD">
+        <a href="tourscool://open/ProductListVC?itemType=1&keyword=%E7%BE%8E%E5%9B%BD">
           <img class="pro-img3" src="../../assets/imgs/activity/newyear2019/title/2.png" alt>
         </a>
       </div>
@@ -93,7 +93,7 @@
       </div>
       <div class="more-list">
         <a
-          href="tourscool://open/ProductListVC?itemType=1&start_city=%E6%96%B0%E8%A5%BF%E5%85%B0 "
+          href="tourscool://open/ProductListVC?itemType=1&keyword=%E6%96%B0%E8%A5%BF%E5%85%B0 "
         >
           <img class="pro-img3" src="../../assets/imgs/activity/newyear2019/title/2.png" alt>
         </a>
@@ -119,7 +119,7 @@
       </div>
       <div class="more-list">
         <a
-          href="tourscool://open/ProductListVC?itemType=1&start_city=%E6%BE%B3%E5%A4%A7%E5%88%A9%E4%BA%9A"
+          href="tourscool://open/ProductListVC?itemType=1&keyword=%E6%BE%B3%E5%A4%A7%E5%88%A9%E4%BA%9A"
         >
           <img class="pro-img3" src="../../assets/imgs/activity/newyear2019/title/2.png" alt>
         </a>
@@ -148,7 +148,7 @@
         </a>
       </div>
       <div class="a_line">
-        <a href="tourscool://open/ProductListVC?itemType=1&start_city=%E6%99%AE%E5%90%89">
+        <a href="tourscool://open/ProductListVC?itemType=1&keyword=%E6%99%AE%E5%90%89">
           <img class="pro-img3" src="../../assets/imgs/activity/newyear2019/title/2.png" alt>
         </a>
       </div>
