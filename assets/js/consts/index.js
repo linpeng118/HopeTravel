@@ -14,7 +14,7 @@ const LOGIN_WAY = {
 // 登录类型
 const LOGIN_TYPE = {
   PHONE: 'phone', // 手机登录
-  GENERAL: 'general' // 普通登录
+  PASSWORD: 'password' // 普通登录
 }
 
 // 短信使用场景
