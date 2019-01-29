@@ -96,6 +96,7 @@ export default {
       return _arr[status.code]
     },
     selectProduct(order){
+      console.log(order)
       this.$router.push({
         path: '/order/order_details',
         query: {

@@ -5,7 +5,7 @@
         class="bar-shadow"
         title="我的账号"
         @click-left="onClickLeft"
-        @click-right="saveProfile"
+        @click-right="savePersonalInfo"
         left-arrow
       >
         <span class="header-btn" slot="right">保存</span>
@@ -16,10 +16,9 @@
       <van-cell>
         <template slot="title">
           <span class="custom-text">头像</span>
-          <div>
-            <img v-if="newProfile.face" :src="newProfile.face">
-            <button id="pick-avatar">Select an image</button>
-          </div>
+          <van-uploader :after-read="onRead">
+            <img v-if="newProfile.face" :src="newProfile.face" class="avatar">
+          </van-uploader>
           <!--<div><img class="user-pic" slot="right-icon" :src="newProfile.face" alt></div>-->
         </template>
       </van-cell>
@@ -87,20 +86,27 @@
     <van-popup v-model="showEmail" position="right" :overlay="false" class="show-popup">
       <account-email @closeNameLayer="showEmail=!showEmail" @validatePhone="validatePhone" @sendEmail="sendEmail"></account-email>
     </van-popup>
+    <!--头像-->
+    <van-popup v-model="showAvatar" position="right" :overlay="false" class="show-popup">
+      <account-avatar @closeNameLayer="showAvatar=!showAvatar" :avatar="avatar" :nickname="newProfile.nickname" @uploadAvatar="uploadAvatar"></account-avatar>
+    </van-popup>
   </div>
 </template>
 <script>
-import {mapGetters} from 'vuex'
 import {modifyProfile} from '@/api/profile'
 import AccountName from '@/components/account/name'
 import AccountPhone from '@/components/account/phone'
 import AccountEmail from '@/components/account/email'
+import AccountAvatar from '@/components/account/avatar'
+import { getProfile } from "@/api/profile";
+import {mapMutations,mapGetters} from 'vuex'
 export default {
   name: "component_name",
   components: {
     AccountName,
     AccountPhone,
     AccountEmail,
+    AccountAvatar
   },
   data() {
     return {
@@ -112,6 +118,8 @@ export default {
       showBirthday: false, // 生日
       showPhone: false, // 手机号码
       showEmail: false, // 邮箱
+      showAvatar: false, // 头像框
+      avatar: '', // 头像
     };
   },
   computed: {
@@ -129,26 +137,65 @@ export default {
       'profile'
     ])
   },
-  created() {
-    // console.log(this.profile)
+  mounted() {
+    if(JSON.stringify(this.profile) === '{}') {
+      this.init()
+    }
   },
   methods: {
+    async init() {
+      // 1. 是否有token。有就请求个人信息；无则return
+      let res = await getProfile()
+      let {code, data} = res
+      if(code === 0) {
+        this.vxSetProfile(data)
+      }
+    },
     onClickLeft() {
       this.$router.go(-1)
     },
-    async saveProfile() {
+    async savePersonalInfo() {
+      let {chinese_name,first_name,last_name,gender,dob,nickname,face} = this.newProfile
       const _data = {
-
+        chinese_name,first_name,last_name,gender,dob,nickname,face
+    }
+      let {code, data,msg} = await modifyProfile(_data)
+      if(code === 0) {
+        let obj = {
+          chinese_name: data.chinese_name,
+          customer_id: data.customer_id,
+          dob: data.dob,
+          email: data.email,
+          exchange_price: data.exchange_price,
+          face: data.face,
+          first_name: data.first_name,
+          gender: data.gender,
+          last_name: data.last_name,
+          nickname: data.nickname,
+          phone: data.phone,
+          tel_code: data.tel_code,
+          total_points: data.total_points,
+        }
+        this.vxSetProfile(obj)
+        this.$toast('保存成功')
+      } else {
+        this.$toast(msg)
       }
-      let {code, data} = await modifyProfile(_data)
-
     },
     modifyNames() {
       this.nameShow = !this.nameShow
     },
-    // 头像
-    handleUploaded(resp) {
-      console.log(resp);
+    // 获取头像图片
+    onRead(file) {
+      console.log('sdasd')
+      this.avatar = file.content
+      this.showAvatar = !this.showAvatar
+    },
+    // 获得头像
+    uploadAvatar(avatar) {
+      this.newProfile.face = avatar
+      this.showAvatar = !this.showAvatar
+      console.log(this.newProfile)
     },
     // 绑定手机号
     changePhone() {
@@ -192,7 +239,10 @@ export default {
         }
       }
       return _arr.join('-')
-    }
+    },
+    ...mapMutations({
+      vxSetProfile: 'profile/setProfile'
+    })
   }
 };
 </script>
@@ -212,6 +262,11 @@ export default {
   }
 }
 .body {
+  .avatar{
+    height: 52px;
+    width: 52px;
+    vertical-align: middle;
+  }
   .user-pic {
     width: 52px;
     height: 52px;

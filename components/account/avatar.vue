@@ -3,7 +3,7 @@
     <div class="header">
       <van-nav-bar
         class="bar-shadow"
-        title="我的账号"
+        title="上传头像"
         @click-left="onClickLeft"
         @click-right="saveProfile"
         left-arrow
@@ -11,30 +11,37 @@
         <span class="header-btn" slot="right">保存</span>
       </van-nav-bar>
     </div>
-    <vue-cropper ref="cropper"
-                 :img="img"
-                 :info="true"
-                 :full="option.full"
-                 :can-move="option.canMove"
-                 :can-move-box="option.canMoveBox"
-                 :fixed-box="option.fixedBox"
-                 :original="option.original"
-                 :auto-crop="option.autoCrop"
-                 :auto-crop-width="option.autoCropWidth"
-                 :auto-crop-height="option.autoCropHeight"
-                 :center-box="option.centerBox"
-    ></vue-cropper>
+    <div class="imgShow">
+      <vue-cropper ref="cropper"
+                   :img="avatar"
+                   :info="true"
+                   :full="option.full"
+                   :can-move="option.canMove"
+                   :can-move-box="option.canMoveBox"
+                   :fixed-box="option.fixedBox"
+                   :original="option.original"
+                   :auto-crop="option.autoCrop"
+                   :auto-crop-width="option.autoCropWidth"
+                   :auto-crop-height="option.autoCropHeight"
+                   :center-box="option.centerBox"
+      ></vue-cropper>
+    </div>
     <div></div>
   </div>
 </template>
 
 <script>
+  import {saveProfile} from '@/api/member'
   import axios from 'axios'
   export default {
     props: {
-      img: {
+      avatar: {
         type: String,
         default: ''
+      },
+      nickname: {
+        type: String,
+        default: 'avatar'
       }
     },
     data() {
@@ -60,20 +67,22 @@
       onClickLeft() {
         this.$emit('closeNameLayer')
       },
-      startCrop() {
-        this.$refs.cropper.getCropBlob((data) => {
-          console.log(data)
+      saveProfile() {
+        this.$refs.cropper.getCropBlob((image) => {
+          console.log(image)
           let fmData = new FormData()
-          fmData.append('uploadFile', data, 'avatar.jpg')
+          fmData.append('uploadFile', image, this.nickname + Math.random() + 'avatar.jpg')
           fmData.append('jwt', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiI2IiwiZ2lkIjoiMSIsImV4cCI6MTU0OTMzMDUwM30.lXnR3iGDgZ8ziaxw0sBX9_wF4xdD6d1ULLMe4Xaf6ko')
-
           axios({
             url:'http://www.htw.tourscool.net/upload.php',
             method: 'post',
             data: fmData
-          }).then(res => {
-            console.log(res)
+          }).then(({data}) => {
+            if (data.code === 0) {
+              this.$emit('uploadAvatar', data.data.url)
+            }
           })
+
         })
 
       },
@@ -101,5 +110,14 @@
     .vue-cropper{
       background-image: none;
     }
+  }
+  .header-btn {
+    color: #fff;
+    width: 92px;
+    height: 36px;
+    background: rgba(57, 158, 246, 1);
+    border-radius: 18px;
+    font-size: 22px;
+    padding: 2px 20px;
   }
 </style>

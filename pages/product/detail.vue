@@ -334,7 +334,7 @@
     components: {
       ProductDetailHeader,
       ProdDetailImgItem,
-      Loading
+      Loading,
     },
     data() {
       return {
@@ -372,7 +372,9 @@
         // 团期价格
         top_price: [],
         isTabFixed: false,
-        showDay: 'D1'
+        showDay: 'D1',
+        // 显示电话弹窗
+        showPhone: false
       }
     },
     computed: {
@@ -634,15 +636,15 @@
         }
       },
       telCounsel() {
-        console.log(this.product)
-        window.location.href = "tel:10086";
+        this.vxToggleDialog(true)
+        this.vxSetDlgType(DLG_TYPE.PHONE)
       },
       onlineCounsel() {
-        console.log(this.product)
-        if (!this.$store.state.token) {
-          this.vxToggleDialog(true)
-          this.vxSetDlgType(DLG_TYPE.LOGIN)
-        }
+        window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226'
+        // if (!this.$store.state.token) {
+        //   this.vxToggleDialog(true)
+        //   this.vxSetDlgType(DLG_TYPE.LOGIN)
+        // }
       },
       // 立即定制
       async btnReserve() {
