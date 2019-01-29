@@ -140,6 +140,14 @@ module.exports = {
       },
       changeOrigin: true,
     },
+
+    '/payment': {
+      target: 'http://www.htw.tourscool.net/payment', // api主机
+      pathRewrite: {
+        '^/payment': '/',
+      },
+      changeOrigin: true,
+    },
   },
   /*
    ** Build configuration

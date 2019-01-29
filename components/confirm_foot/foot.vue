@@ -28,6 +28,19 @@
     <van-popup v-model="showpops" class="setbottom" position="bottom" :overlay="true">
       <paylist :payData="pricelist" @closepops="closepops"></paylist>
     </van-popup>
+    <div style="display: none" v-if="showbtn2==true">
+      <form action="http://www.htw.tourscool.net/payment/mobile/checkout" method="post">
+        <input type="text" name="order_id" value="" ref="order_id">
+        <input type="text" name="order_title" value="" ref="order_title">
+        <input type="text" name="total_fee[CNY]" value="" ref="total_feecny">
+        <input type="text" name="total_fee[USD]" value="" ref="total_feeusd">
+        <input type="text" name="client_type" value="tourscool">
+        <input type="text" name="jwt" value="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiI2IiwiZ2lkIjoiMSIsImV4cCI6MTU0OTI2MDIxMX0.q4c3ooX8GD_b0GmDceWO-GdburBpBGTpKbhBVRvaKpY" readonly="">
+        <input type="text" name="success_url" value="http://www.htw.tourscool.net/payment/example/success?order_id=123456" readonly="">
+        <input type="text" name="failure_url" value="http://www.htw.tourscool.net/payment/example/order" readonly="">
+        <input type="submit" ref="submitform">
+      </form>
+    </div>
 
   </section>
 </template>
@@ -50,6 +63,12 @@
         showpops: false,
         showbtn2:false,
         thisrouter: '',//当前路由
+        submitdata:{
+          order_id:'',
+          order_title:'',
+          'total_feecny':'',
+          'total_feeusd':'',
+        },
         //添加订单数据
       }
     },
@@ -71,7 +90,6 @@
         }
       },
       'addorder'(val){
-
         if(val.tongyi&&val.contact.phone&&val.contact.name&&val.contact.email&&val.users){
           this.showbtn2=true;
         }
@@ -80,7 +98,6 @@
     mounted() {
       this.$store.dispatch("initprice");
       this.checkrouter();//判断当前位置
-
     },
     methods: {
       // 获取价格明细
@@ -112,13 +129,20 @@
         }
         console.log(this.thisrouter)
       },
+      subData(){
+        console.log()
+        this.$refs.submitform.click();
+      },
       async addOrderx(){
         let {data, code , msg} = await addorder(this.addorder)
         if (code === 0) {
-          console.log(data)
+          this.$refs.order_id.value=data.order_id;
+          this.$refs.order_title.value=data.product_name;
+          this.$refs.total_feecny.value=data.cny_price;
+          this.$refs.total_feeusd.value=data.price;
+          this.subData();
         }
         else {
-          console.log(data)
           this.$dialog.alert({
             message: msg
           });
