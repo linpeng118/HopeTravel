@@ -504,7 +504,7 @@
         let scrollHeight = this.$refs.refProductDetailPage.scrollHeight
         // 视窗高度
         let clientHeight = this.$refs.refProductDetailPage.clientHeight
-        console.log(this.activeTabRef, '需要滚动到：', scrollTo, '只能滚到：', scrollTop, '能滚的body高度：', scrollHeight, '窗口（100vh）：', clientHeight)
+        // console.log(this.activeTabRef, '需要滚动到：', scrollTo, '只能滚到：', scrollTop, '能滚的body高度：', scrollHeight, '窗口（100vh）：', clientHeight)
         // 这里向上取整是确保差距小于5的时候，ispeed为0
         let ispeed = Math.ceil((scrollTo - scrollTop) / 5)
         this.$refs.refProductDetailPage.scrollTop = scrollTop + ispeed
@@ -573,7 +573,7 @@
         if (s1 + s1H === allH) {
           this.activeTab = 4
         }
-        console.log(this.activeTab, showHeight, refNoticeH)
+        // console.log(this.activeTab, showHeight, refNoticeH)
         let idx = this.showDayList.findIndex(item => item > showHeight)
         // console.log('index：', idx)
         if (idx === 0) {
@@ -690,7 +690,7 @@
         .name {
           height: 138px;
           color: #3e3e3e;
-          letter-spacing: 8px;
+          letter-spacing: 2px;
           font-size: 32px;
           font-family: Microsoft YaHei UI;
         }
@@ -804,6 +804,8 @@
       .group-price {
         // height: 272px;
         .content {
+          overflow: hidden;
+          font-size: 0;
           .item {
             display: inline-block;
             margin: 10px 6px 0 0;

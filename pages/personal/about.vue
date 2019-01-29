@@ -1,7 +1,8 @@
 <template>
   <div class="personal-setting-page">
-    <normal-header title="设置" />
-    <van-cell v-for="item in settingList"
+    <normal-header title="关于稀饭" />
+    <div class="banner"></div>
+    <van-cell v-for="item in aboutList"
       :key="item.type"
       :value="item.value"
       :is-link="item.isRightIcon"
@@ -33,12 +34,11 @@
     },
     data() {
       return {
-        settingList: [
-          {type: SETTING.CHANGE_PSW, icon: require('~/assets/imgs/personal/setting_1@2x.png'), title: '修改密码', isRightIcon: true, value: '', path: '/personal/changePsw'},
-          {type: SETTING.ABOUT, icon: require('~/assets/imgs/personal/setting_2@2x.png'), title: '关于稀饭', isRightIcon: true, value: '', path: '/personal/about'},
-          // {type: SETTING.VERSION, icon: require('~/assets/imgs/personal/setting_3@2x.png'), title: '当前系统版本', isRightIcon: false, value: 'V1.0', path: '/personal/version'},
-          // {type: SETTING.GRADE, icon: require('~/assets/imgs/personal/setting_4@2x.png'), title: '给我们评分', isRightIcon: true, value: '', path: '/personal/grade'},
-          // {type: SETTING.CLEAR_CACHE, icon: require('~/assets/imgs/personal/setting_5@2x.png'), title: '清除缓存', isRightIcon: true, value: '', path: '/personal/clearCache'},
+        aboutList: [
+          {type: SETTING.CHANGE_PSW, icon: require('~/assets/imgs/personal/about_1@2x.png'), title: '微信公众号', isRightIcon: true, value: '', path: '/personal/wx'},
+          {type: SETTING.ABOUT, icon: require('~/assets/imgs/personal/about_2@2x.png'), title: '关于稀饭', isRightIcon: true, value: '', path: '/protocol/about'},
+          {type: SETTING.VERSION, icon: require('~/assets/imgs/personal/about_3@2x.png'), title: '用户服务协议', isRightIcon: true, value: '', path: '/protocol/user'},
+          {type: SETTING.GRADE, icon: require('~/assets/imgs/personal/about_4@2x.png'), title: '隐私保护', isRightIcon: true, value: '', path: '/protocol/xifan'},
         ]
       }
     },
@@ -56,6 +56,14 @@
 
 <style lang="scss" scoped>
   .personal-setting-page {
+    .banner {
+      margin: 0 auto;
+      padding: 44px 0;
+      width: 484px;
+      height: 200px;
+      background: url("../../assets/imgs/personal/xifan@2x.png") no-repeat 0 0/100%
+        100%;
+    }
     .cell-icon {
       vertical-align: middle;
       width: 48px;
