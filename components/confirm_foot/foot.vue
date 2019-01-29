@@ -20,7 +20,7 @@
       </nuxt-link>
       <span v-else-if="showbtn2==false" class="confirm-next-btn">下一步</span>
       <span v-else class="confirm-next-btn showbtn" @click="addOrderx()" >下一步</span>
-      <span class="contact-service" @click="contactCustom()">
+      <span class="contact-service">
         <i><van-icon name="service-o" color="#399EF6" size="1.5em"/></i>
         <i>联系客服</i>
       </span>
@@ -146,7 +146,7 @@
           this.$refs.total_feecny.value=data.cny_price*100;
           this.$refs.total_feeusd.value=data.price*100;
           this.$refs.success_url.value=window.location.host+"/order/order_details?order_id="+data.order_id;
-          this.$refs.failure_url.value=window.location.host+"/personal/order?status=null";
+          this.$refs.failure_url.value=window.location.host+"/personal";
           this.subData();
         }
         else {
