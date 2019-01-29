@@ -247,11 +247,25 @@
           this.setshowtrvel();
         },
         deep: true    //深度监听
-
       },
       'countprice.is_point'(val){
         this.$store.commit("countprice", {is_point:val});
       }
+    },
+    beforeRouteEnter(to, from, next) {
+      console.log(from)
+      next(vm=>{
+        if(from.name!='date_trip'){
+          next({
+            path: '/personal'
+          });
+        }
+        else{
+          next();
+        }
+      })
+
+
     },
 
     created(){
