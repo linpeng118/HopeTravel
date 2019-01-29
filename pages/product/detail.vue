@@ -805,6 +805,7 @@
         // height: 272px;
         .content {
           overflow: hidden;
+          font-size: 0;
           .item {
             display: inline-block;
             margin: 10px 6px 0 0;
