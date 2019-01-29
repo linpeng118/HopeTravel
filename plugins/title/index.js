@@ -26,11 +26,9 @@ export default {
 
 function setTitle(title) {
   document.title = title
-
   // 解决 iOS 微信加载网页title不更新的问题
   if (/ip(hone|od|ad)/i.test(navigator.userAgent)) {
     const i = document.createElement('iframe');
-    i.src = '//spacdn.hellobyebye.com/imgs/favicon-196fec48ce.ico';
     i.style.display = 'none';
     i.onload = () => {
       setTimeout(() => i.remove(), 9)
