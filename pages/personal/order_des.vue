@@ -92,8 +92,8 @@
             <input type="text" name="total_fee[USD]" value="" ref="total_feeusd">
             <input type="text" name="client_type" value="tourscool">
             <input type="text" name="jwt" value="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiI2IiwiZ2lkIjoiMSIsImV4cCI6MTU0OTI2MDIxMX0.q4c3ooX8GD_b0GmDceWO-GdburBpBGTpKbhBVRvaKpY" readonly="">
-            <input type="text" name="success_url" value="http://www.htw.tourscool.net/payment/example/success?order_id=123456" readonly="">
-            <input type="text" name="failure_url" value="http://www.htw.tourscool.net/payment/example/order" readonly="">
+            <input type="text" name="success_url" ref="success_url">
+            <input type="text" name="failure_url" ref="failure_url">
             <input type="submit" ref="submitform">
           </form>
         </div>
@@ -196,8 +196,13 @@
       subData(){
         this.$refs.order_id.value=this.details.order_id;
         this.$refs.order_title.value=this.details.product_name;
-        this.$refs.total_feeusd.value=this.details.price.substr(1)*100||0;
-        this.$refs.total_feecny.value=this.details.cny_price*100||0;
+        // this.$refs.total_feeusd.value=this.details.price.substr(1)*100||0;
+        // this.$refs.total_feecny.value=this.details.cny_price*100||0;
+        this.$refs.total_feeusd.value=1;
+        this.$refs.total_feecny.value=1;
+        this.$refs.success_url.value=window.location.host+"/personal/order_des?order_id="+this.details.order_id;
+        this.$refs.failure_url.value=window.location.host+"/personal/order?status=null";
+
         this.$refs.submitform.click();
       },
 
