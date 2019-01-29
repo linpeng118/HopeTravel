@@ -200,6 +200,7 @@
         this.$refs.total_feecny.value=this.details.cny_price*100||0;
         this.$refs.success_url.value=window.location.host+"/order/order_details?order_id="+this.details.order_id;
         this.$refs.failure_url.value=window.location.host+"/personal/order?status=null";
+
         this.$refs.submitform.click();
       },
 
