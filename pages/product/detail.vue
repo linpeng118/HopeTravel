@@ -699,10 +699,8 @@
       }
       .product {
         padding: 20px 24px;
-        height: 236px;
         background: #fff;
         .name {
-          height: 138px;
           color: #3e3e3e;
           letter-spacing: 2px;
           font-size: 32px;
