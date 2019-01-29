@@ -145,7 +145,7 @@
           this.$refs.order_title.value=data.product_name;
           this.$refs.total_feecny.value=data.cny_price*100;
           this.$refs.total_feeusd.value=data.price*100;
-          this.$refs.success_url.value=window.location.host+"/order/order_details?order_id="+data.order_id;
+          this.$refs.success_url.value=window.location.host+"/personal/order_des?order_id="+data.order_id;
           this.$refs.failure_url.value=window.location.host+"/personal/order?status=null";
           this.subData();
         }
