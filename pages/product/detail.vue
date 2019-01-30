@@ -92,17 +92,18 @@
           团期价格
         </div>
         <div class="content mt-12">
-          <div class="g-price-item"
-            v-for="(item,index) in top_price[0]&&top_price[0].days"
-            :key="index">
+          <div v-for="(item,index) in topPrice"
+            :key="index"
+            class="g-price-item"
+            @click="onGroupPriceDate(item)">
             <p class="time">
-              {{top_price[0].month}}/{{item.day}}&nbsp;{{getWeek(top_price[0].years, top_price[0].month, item.day)}}
+              {{item.month}}/{{item.day}}&nbsp;{{getWeek(item.years, item.month, item.day)}}
             </p>
             <span class="price">
               {{item.price}}
             </span>
           </div>
-          <div class="g-price-item more">
+          <div class="g-price-item more" @click="onGroupPriceMore">
             更多团期
           </div>
         </div>
@@ -433,6 +434,22 @@
         }
         let newData = this.itinerary.items.map(item => this.$refs[`refContent${item.sort_order}`][0].offsetTop)
         return newData
+      },
+      topPrice() {
+        let newData = []
+        this.top_price.map(item => {
+          if (item.days && item.days.length) {
+            item.days.forEach(day => {
+              newData.push({
+                year: item.years,
+                month: item.month,
+                ...day
+              })
+            })
+          }
+        })
+        console.log(newData)
+        return newData
       }
     },
     mounted() {
@@ -678,6 +695,26 @@
         this.$router.push({
           path: '/date_trip'
         })
+      },
+      // 期团选中日期跳转
+      async onGroupPriceDate(data) {
+        // 暂存需要定制的商品信息
+        await this.vxSaveReservePro({
+          ...this.product
+        })
+        // 跳转至订单页面
+        this.$router.push({
+          path: '/date_trip',
+          query: {
+            year: data.year,
+            month: data.month,
+            day: data.day,
+          }
+        })
+      },
+      // 更多期团
+      onGroupPriceMore() {
+        this.btnReserve()
       }
     },
   }
