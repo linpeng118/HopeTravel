@@ -63,15 +63,12 @@ export default {
   mounted() {
   },
   methods: {
-    getRodom() {
-      return Math.random()
-    },
     onClickLeft() {
      window.history.go(-1);
     },
     riceDetail(){
       this.$router.push({
-        path:"/personal/rice_detail"
+        path:"/integral"
       })
     },
     async onLoad() {

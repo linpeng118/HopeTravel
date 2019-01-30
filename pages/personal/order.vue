@@ -82,7 +82,8 @@ export default {
     onClick(index) {
       this.firstEnter = true
       let _arr = [null, 'unpaid', 'wait','finish']
-      this.getOrderData(this.userId, _arr[index])
+      console.log(123)
+      this.getOrderData(_arr[index])
     },
     async getOrderData(status) {
       let {code, data} = await getOrderInfo(status)
