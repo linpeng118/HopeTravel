@@ -38,7 +38,9 @@
                <i style="color: red">信息不全，请补充</i>
             </template>
         </span>
-        <b class="bicon"><van-icon name="edit" color="#399EF6;"/></b>
+        <nuxt-link :to="{path:'/personal/addContacts',query:{'id':item.customer_contract_id}}">
+          <b class="bicon"><van-icon name="edit" color="#399EF6;"/></b>
+        </nuxt-link>
       </van-checkbox>
     </van-checkbox-group>
 
