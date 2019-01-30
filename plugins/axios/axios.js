@@ -1,6 +1,10 @@
 import axios from 'axios'
 import store from '@/store'
 import {
+  getCookieByKey
+}
+from '@/assets/js/utils'
+import {
   TOKEN_KEY
 } from '@/assets/js/config'
 // 使用UI库的弹窗
@@ -26,9 +30,10 @@ httprequest.defaults.headers.post['Content-Type'] = 'application/x-www-form-urle
 httprequest.interceptors.request.use(
   config => {
     if (process.client) {
-      // 可以设置请求头参数
-      let token = store().state.token;
-      let currency = store().state.currency; // 货币类型获取
+      // TODO:这里不能动态获取到store中的数据
+      let token = getCookieByKey('token');
+      let currency = getCookieByKey('currency') || store().state.currency; // 货币类型获取
+      // console.log(token, currency)
       if (token || currency) {
         config.headers[TOKEN_KEY] = token
         config.headers.currency = currency

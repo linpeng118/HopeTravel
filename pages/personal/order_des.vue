@@ -101,8 +101,6 @@
       </section>
     </section>
   </section>
-
-
 </template>
 
 <script>
@@ -202,7 +200,6 @@
         this.$refs.total_feecny.value=1;
         this.$refs.success_url.value=window.location.host+"/personal/order_des?order_id="+this.details.order_id;
         this.$refs.failure_url.value=window.location.host+"/personal/order?status=null";
-
         this.$refs.submitform.click();
       },
 

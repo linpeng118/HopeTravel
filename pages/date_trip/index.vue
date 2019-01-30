@@ -96,6 +96,7 @@
 </template>
 
 <script>
+
   import dateTrip from './dateTrip'
   import ConfirmFoot from '@/components/confirm_foot/foot.vue'
   import headerDate from '@/components/header/dateTrap.vue'
@@ -244,7 +245,6 @@
       },
     },
     created() {
-
     },
     mounted() {
       //进来清空一次之前的价格日历vuex，之后可能要考虑返回的情况
@@ -256,6 +256,7 @@
     },
 
     methods: {
+
       //获得价格日历数据
       async getpricedate(id) {
         let {data, code} = await getdateTrip(id)
@@ -283,7 +284,7 @@
       //监听选择出发日期
       setcheckday(val) {
         this.checkday = val;
-        let sday1 = new Date(parseInt(this.datedata.years) + '-' + parseInt(this.datedata.month) + '-' + parseInt(this.checkday));
+        let sday1 = new Date(parseInt(this.datedata.years) + '/' + parseInt(this.datedata.month) + '/' + parseInt(this.checkday));
         console.log(sday1)
         let day1en = sday1.getTime() + (this.product.duration_days) * 24 * 60 * 60 * 1000;
         let eday1 = new Date(day1en);
@@ -327,7 +328,6 @@
           this.total_adult = this.product.min_num_guest;
         }
       },
-
       //添加房间
       roomadd() {
         this.rooms.push(
@@ -342,7 +342,6 @@
       roomdel(ind) {
         this.rooms.splice(ind, 1)
       },
-      //计算价格熟悉参数重置
 
 
     }
