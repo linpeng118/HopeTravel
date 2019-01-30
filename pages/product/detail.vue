@@ -1156,7 +1156,7 @@
           .price-item-wrap {
             padding: 0 6px;
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
             text-align: center;
             flex-wrap: wrap;
             .price-item {
@@ -1165,7 +1165,7 @@
               width: 220px;
               text-align: center;
               position: relative;
-              &:not(:nth-child(3n)) {
+              &:not(:nth-child(3n)):not(:last-child) {
                 &::after {
                   position: absolute;
                   right: -6px;
