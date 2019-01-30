@@ -139,8 +139,15 @@
         v-show="isTabFixed"></div>
       <!-- 产品特色 -->
       <div class="features"
-        ref="refFeatures"
-        :style="{'background': `url(${bgFeat}) no-repeat 0 0/100% 100%`}">
+        ref="refFeatures">
+        <!-- :style="{'background': `url(${bgFeat}) no-repeat 0 0/100% 100%`}"> -->
+        <div v-if="hasFeature">
+          <img v-for="item in product.feature_images"
+            :key="item"
+            :src="item"
+            alt="img"
+            width="100%">
+        </div>
       </div>
       <!-- 行程概要 -->
       <div class="trip"
@@ -253,8 +260,7 @@
           <div class="price-item-wrap">
             <div class="price-item"
               v-for="item in standartPrice"
-              :key="item.name"
-              v-show="item.price">
+              :key="item.name">
               <p class="num">{{item.name}}</p>
               <p class="price">{{item.price}}/人</p>
             </div>
@@ -351,7 +357,7 @@
         productId: this.$route.query.productId || null,
         isTransparent: true, // 导航头是否透明
         current: 0, // 导航页数
-        bgFeat: require('../../assets/imgs/product/bg_features.png'),
+        // bgFeat: require('../../assets/imgs/product/bg_features.png'),
         serviceNote: [
           {name: '成团保障', desc: '该产品下单即可确认出行', icon: require('../../assets/imgs/product/tick@2x.png')},
           {name: '限时特价', desc: '该产品享受买贵退差', icon: require('../../assets/imgs/product/tick@2x.png')},
@@ -363,7 +369,7 @@
           {type: OPERATE_TYPE.ONLINE, name: '在线咨询', icon: require('../../assets/imgs/product/consult@2x.png')},
         ],
         activeTab: 1, // 选中的tab
-        activeTabRef: 'refFeatures',
+        activeTabRef: this.hasFeature ? 'refFeatures' : 'refTrip',
         showServiceNode: false, // 显示服务说明
         priceExclude: [], // 不包含面板
         activeNotice: [1], // 注意事项折叠面板
@@ -408,11 +414,14 @@
             item.price = this.expense.standard_price[item.type]
           }
         })
-        return newData
+        return newData.filter(item => item.price)
+      },
+      hasFeature() {
+        return this.product && this.product.feature_images && this.product.feature_images.length
       },
       tabList() {
         return [
-          {id: 1, name: '产品特色', ref: 'refFeatures', isShow: true},
+          {id: 1, name: '产品特色', ref: 'refFeatures', isShow: this.hasFeature},
           {id: 2, name: this.itinerary.duration_days + '天行程', ref: 'refTrip', isShow: true},
           {id: 3, name: '费用明细', ref: 'refCost', isShow: true},
           {id: 4, name: '注意事项', ref: 'refNotice', isShow: true},
@@ -632,6 +641,7 @@
           })
           if (code === 0) {
             this.$toast('取关成功')
+            this.init()
           } else {
             this.$toast('取关失败')
           }
@@ -641,6 +651,7 @@
           })
           if (code === 0) {
             this.$toast('关注成功')
+            this.init()
           } else {
             this.$toast('关注失败')
           }
@@ -656,7 +667,6 @@
         //   this.vxSetDlgType(DLG_TYPE.LOGIN)
         // }
         window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226'
-        // this.showConsult = true
       },
       // 立即定制
       async btnReserve() {
@@ -821,8 +831,8 @@
           align-items: center;
           .g-price-item {
             margin: 10px 6px 0 0;
-            flex: 0 0 166px;
-            width: 166px;
+            flex: 0 0 220px;
+            width: 220px;
             height: 80px;
             border: 2px solid #e0e0e0;
             border-radius: 12px;
@@ -843,7 +853,6 @@
               font-size: 24px;
               font-weight: 400;
               color: rgba(251, 96, 93, 1);
-              letter-spacing: 2px;
             }
           }
         }
@@ -905,7 +914,7 @@
         }
       }
       .features {
-        height: 1520px;
+        // height: 1520px;
         // background: url("../../assets/imgs/product/bg_features.png") no-repeat 0 0/100%
         //   100%;
       }
@@ -1115,11 +1124,11 @@
             flex-wrap: wrap;
             .price-item {
               margin-top: 20px;
-              flex: 0 0 146px;
-              width: 146px;
+              flex: 0 0 220px;
+              width: 220px;
               text-align: center;
               position: relative;
-              &:not(:nth-child(4)):not(:nth-child(8)) {
+              &:not(:nth-child(3n)) {
                 &::after {
                   position: absolute;
                   right: -6px;
