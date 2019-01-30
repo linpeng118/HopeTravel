@@ -148,12 +148,10 @@
         if (code === 0) {
           this.$refs.order_id.value=data.order_id;
           this.$refs.order_title.value=data.product_name;
-          this.$refs.total_feecny.value=1;
-          this.$refs.total_feeusd.value=1;
-          // this.$refs.total_feecny.value=data.cny_price*100;
-          // this.$refs.total_feeusd.value=data.price*100;
-          this.$refs.success_url.value=window.location.host+"/personal/order_des?order_id="+data.order_id;
-          this.$refs.failure_url.value=window.location.host+"/personal/order?status=null";
+          this.$refs.total_feecny.value=data.cny_price*100;
+          this.$refs.total_feeusd.value=data.price*100;
+          this.$refs.success_url.value='//'+window.location.host+"/personal/order_des?order_id="+data.order_id;
+          this.$refs.failure_url.value='//'+window.location.host+"/personal/order?status=null";
           this.subData();
         }
         else {
@@ -167,7 +165,7 @@
       contactCustom() {
         window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226'
       },
-      //是否需要登陆弹窗
+      //是否需要登录弹窗
       islogin() {
         if (!this.$store.state.token) {
           this.vxToggleDialog(true)

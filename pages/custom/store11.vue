@@ -124,7 +124,7 @@
         </div>
         <div class="day6">
           <h6 class="date_h6">瓦纳卡湖-皇后镇</h6>
-          <p class="date_paragraph">早餐后前往【箭镇】，参观70年代首批华人登陆【奥塔哥淘金遗址】。傍晚入住【皇后镇】。
+          <p class="date_paragraph">早餐后前往【箭镇】，参观70年代首批华人登录【奥塔哥淘金遗址】。傍晚入住【皇后镇】。
             <br>
             <br>用餐：客人自理
             <br>参考酒店：Pinewood Lodge

@@ -17,7 +17,7 @@
             center
             clearable
             icon="eye-o"
-            placeholder="登陆密码"
+            placeholder="登录密码"
             :type="pswInputType"
             @click-icon="toggleInputType">
           </van-field>
@@ -46,7 +46,7 @@
             center
             clearable
             icon="eye-o"
-            placeholder="登陆密码"
+            placeholder="登录密码"
             :type="pswInputType"
             @click-icon="toggleInputType">
           </van-field>
