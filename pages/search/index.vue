@@ -206,7 +206,7 @@ export default {
     selectDetail(item){
       this.$router.push({
         name: 'product_list',
-        params: {
+        query: {
           itemType: 1,
           ...item
         }

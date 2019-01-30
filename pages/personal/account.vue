@@ -90,6 +90,12 @@
     <van-popup v-model="showAvatar" position="right" :overlay="false" class="show-popup">
       <account-avatar @closeNameLayer="showAvatar=!showAvatar" :avatar="avatar" :nickname="newProfile.nickname" @uploadAvatar="uploadAvatar"></account-avatar>
     </van-popup>
+
+    <!-- 退出登录 -->
+    <div class="sign-out-btn-con">
+      <van-button class="sign-out-btn" @click="logout" block>退出登录</van-button>
+    </div>
+
   </div>
 </template>
 <script>
@@ -153,6 +159,16 @@ export default {
     },
     onClickLeft() {
       this.$router.go(-1)
+    },
+    // 退出登录
+    logout() {
+      this.$dialog.confirm({
+        message: '是否退出登录'
+      }).then(() => {
+        clearCookieByKey('token')
+        location = location
+      }).catch(() => {
+      });
     },
     async savePersonalInfo() {
       let {chinese_name,first_name,last_name,gender,dob,nickname,face} = this.newProfile
@@ -309,5 +325,17 @@ export default {
 .show-popup{
   width: 100%;
   height: 100%;
+}
+.sign-out-btn-con {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 30px 142px;
+  .sign-out-btn {
+    background: rgba(57, 158, 246, 1);
+    color: #fff;
+    border-radius: 8px;
+  }
 }
 </style>

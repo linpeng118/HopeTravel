@@ -75,10 +75,6 @@
           </template>
         </van-cell>
       </div>
-      <!-- 退出登录 -->
-      <div class="sign-out-btn-con" v-if="JSON.stringify(profile) !== '{}'">
-        <van-button class="sign-out-btn" @click="logout">退出登录</van-button>
-      </div>
     </div>
 
     <div>
@@ -149,16 +145,6 @@ export default {
         }
       });
     },
-    // 退出登录
-    logout() {
-      this.$dialog.confirm({
-        message: '是否退出登录'
-      }).then(() => {
-        clearCookieByKey('token')
-        location = location
-      }).catch(() => {
-      });
-    },
     ...mapMutations({
       vxSetProfile: 'profile/setProfile'
     })
@@ -221,7 +207,6 @@ export default {
             opacity: 1;
           }
           button {
-            width: 78px;
             height: 32px;
             background: rgba(255, 255, 255, 1);
             opacity: 1;
@@ -288,18 +273,6 @@ export default {
     .icon-size {
       width: 48px;
       height: 48px;
-    }
-    .sign-out-btn-con {
-      text-align: center;
-      position: relative;
-      top: -60px;
-      .sign-out-btn {
-        width: 464px;
-        height: 80px;
-        background: rgba(57, 158, 246, 1);
-        border-radius: 8px;
-        color: #fff;
-      }
     }
   }
   .footer {

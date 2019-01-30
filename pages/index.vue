@@ -160,10 +160,11 @@ export default {
     },
     // 目的地跳转列表
     selectDetail(detail) {
+      console.log(detail)
       this.$router.push({
         name: 'product_list',
-        params: {
-          itemType: 1,
+        query: {
+          itemType: 3,
           ...detail
         }
       })
@@ -275,7 +276,6 @@ export default {
         width: 96px;
         .title{
           color: #191919;
-          margin-top: 12px;
           font-size: 24px;
         }
         img{

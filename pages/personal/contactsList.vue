@@ -16,7 +16,9 @@
         </div>
       </van-icon>
     </van-nav-bar>
-    <p v-if="adult" class="contancts-title">请选择{{adult}}位出行人</p>
+    <div v-if="$route.query.adult">
+      <p v-if="adult" class="contancts-title">请选择{{adult}}位出行人</p>
+    </div>
     <van-checkbox-group v-model="checkuser" class="checkboxall" :max="parseInt(adult)">
       <van-checkbox
         v-for="(item, index) in list"

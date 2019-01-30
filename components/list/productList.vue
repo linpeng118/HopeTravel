@@ -3,7 +3,7 @@
     <div class="product-item" @click="selectDetail(data.product_id)">
       <div class="img-show">
         <img :src="data.image" alt="">
-        <div class="tags">{{data.product_type | productTypeValue}}</div>
+        <!--<div class="tags">{{data.product_type | productTypeValue}}</div>-->
       </div>
       <div class="product-desc">
         <div class="title">
@@ -95,7 +95,6 @@ export default {
         border-radius:12px;
         overflow: hidden;
         img{
-          width: 100%;
           height: 100%;
         }
         .tags{

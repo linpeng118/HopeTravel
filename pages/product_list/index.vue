@@ -13,16 +13,18 @@
         <van-tabs v-model="active" @click="changeTypeClick">
           <van-tab v-for="item in tagsList" :title="item.title" :key="item.type">
             <van-list v-model="prodLoading" :finished="prodFinished" finished-text="没有更多了" @load="onLoad">
-              <div class="filter-box">
-                <div class="sort-left" @click="sortChange">
-                  {{sortResult.name}}
-                  <van-icon name="arrow-down" />
+              <template v-if="active !== 0">
+                <div class="filter-box">
+                  <div class="sort-left" @click="sortChange">
+                    {{sortResult.name}}
+                    <van-icon name="arrow-down" />
+                  </div>
+                  <div class="right" @click="filterSelect">
+                    筛选
+                    <van-icon name="filter-o" />
+                  </div>
                 </div>
-                <div class="right" @click="filterSelect">
-                  筛选
-                  <van-icon name="filter-o" />
-                </div>
-              </div>
+              </template>
               <template v-if="productList.length">
                 <van-cell v-for="item in productList" :key="item.product_id + Math.random()">
                   <product-list :data="item" @selectItem="selectProductDetail"></product-list>
@@ -55,10 +57,10 @@
             </div>
           </div>
         </div>
-        <div class="bottom-btn">
-          <div class="left" @click="resetFilter">重置</div>
-          <div class="right" @click="againSearch">选好了</div>
-        </div>
+      </div>
+      <div class="bottom-btn">
+        <div class="left" @click="resetFilter">重置</div>
+        <div class="right" @click="againSearch">选好了</div>
       </div>
     </van-popup>
 
@@ -109,12 +111,12 @@ export default {
       sortShow: false,
       filterLists: {},
       startCity: [],
-      active: this.$route.params.itemType === 3 ? 0: this.$route.params.itemType, // 当前搜索的type值
+      active: this.$route.query.itemType === 3 ? 0: this.$route.query.itemType, // 当前搜索的type值
       filterResult: {
-        product_type: this.$route.params.product_type || null,
-        category: this.$route.params.category || null,
-        span_city: this.$route.params.span_city || null,
-        start_city: this.$route.params.start_city || null
+        product_type: this.$route.query.product_type || null,
+        category: this.$route.query.category || null,
+        span_city: this.$route.query.span_city || null,
+        start_city: this.$route.query.start_city || null
       }, // 筛选的结果
       activeNames: ['1'],
       moreLists: {}, // 更多的列表
@@ -129,6 +131,7 @@ export default {
         product_type: [],
         category: []
       },
+      isFilterShow: false
     }
   },
   computed: {
@@ -167,10 +170,9 @@ export default {
       {id:2,type: 2,title: '当地玩乐'},
       {id:3,type: 4,title: '门票演出'},
       {id:4,type: 5,title: '一日游'},
-      {id:5,type: 6,title: '接驳服务'},
       {id:6,type: 7,title: '邮轮'}
     ]
-    console.log(this.$route.params)
+    console.log(this.$route.query)
   },
   mounted() {
     // 初始化
@@ -258,7 +260,12 @@ export default {
     async changeTypeClick() {
       this.productList = []
       this.prodPagination = {}
-      this.filterResult = {}
+      this.filterResult = {
+        product_type: this.$route.query.product_type || null,
+        category: this.$route.query.category || null,
+        span_city: this.$route.query.span_city || null,
+        start_city: this.$route.query.start_city || null
+      }
       if(this.prodFinished) { // 如果这个值为true，则不会触发onLoad, 所以要手动初始化一下
         this.prodFinished = false
       } else { // 如果为false则会触发onLoad
@@ -473,7 +480,7 @@ export default {
     }
     .bottom-btn{
       height:100px;
-      position: fixed;
+      position: absolute;
       bottom: 88px;
       left: 0;
       right: 0;
