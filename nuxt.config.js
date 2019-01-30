@@ -102,7 +102,10 @@ module.exports = {
       src: '~/plugins/vue-clipboard',
       ssr: false
     },
-    '~/plugins/axios/nuxtaxios'
+    {
+      src: '~/plugins/axios',
+      ssr: false
+    },
   ],
   /*
    ** middleware
