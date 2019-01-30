@@ -8,8 +8,8 @@ export default function ({
   })
 
   // 响应回调
-  $axios.onResponse(config => {
-    console.log('Making request to ' + config.url)
+  $axios.onResponse(res => {
+    console.log('Making response to ' + res.url)
   })
 
   // 错误回调
