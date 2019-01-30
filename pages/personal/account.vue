@@ -106,6 +106,8 @@ import AccountEmail from '@/components/account/email'
 import AccountAvatar from '@/components/account/avatar'
 import { getProfile } from "@/api/profile";
 import {mapMutations,mapGetters} from 'vuex'
+import {clearCookieByKey} from '@/assets/js/utils'
+
 export default {
   name: "component_name",
   components: {
@@ -166,7 +168,9 @@ export default {
         message: '是否退出登录'
       }).then(() => {
         clearCookieByKey('token')
-        location = location
+        this.$router.push({
+          path: '/'
+        })
       }).catch(() => {
       });
     },

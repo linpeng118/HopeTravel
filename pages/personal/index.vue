@@ -92,7 +92,6 @@
 <script>
 import {mapMutations} from 'vuex'
 import { getProfile } from "@/api/profile";
-import {clearCookieByKey} from '@/assets/js/utils'
 
 export default {
   name: "component_name",
