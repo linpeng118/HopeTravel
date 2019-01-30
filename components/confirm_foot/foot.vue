@@ -15,9 +15,7 @@
         <i style="color: #bbb">0.00</i>
         <i style="color: #bbb">请选择相关信息</i>
       </span>
-      <nuxt-link v-if="thisrouter=='date_trip'" class="confirm-next-btn" :class="showbtn?'showbtn':''" tag="span"
-                 to="/confirm_order">下一步
-      </nuxt-link>
+      <span :class="showbtn?'showbtn':''" class="confirm-next-btn" v-if="thisrouter=='date_trip'" @click="islogin()">下一步</span>
       <span v-else-if="showbtn2==false" class="confirm-next-btn">下一步</span>
       <span v-else class="confirm-next-btn showbtn" @click="addOrderx()" >下一步</span>
       <span class="contact-service" @click="contactCustom()">
@@ -48,12 +46,14 @@
 </template>
 
 <script>
-
+  import {mapMutations} from 'vuex'
+  import {DLG_TYPE} from '@/assets/js/consts/dialog'
   import paylist from './paylist'
   import {countprice} from '@/api/confirm_order'
   import {addorder} from '@/api/confirm_order'
   import Loading from '@/components/loading'
   export default {
+    layout: 'default',
     components: {
       paylist,Loading
     },
@@ -104,6 +104,11 @@
       this.checkrouter();//判断当前位置
     },
     methods: {
+      ...mapMutations({
+        // vxSaveReservePro: 'product/saveReservePro',
+        vxToggleDialog: 'toggleDialog', // 是否显示弹窗
+        vxSetDlgType: 'setDlgType', // 设置弹窗类型
+      }),
       // 获取价格明细
       async getpricelist(objdata) {
         let {data, code ,msg} = await countprice(objdata)
@@ -159,7 +164,19 @@
       },
       contactCustom() {
         window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226'
-      }
+      },
+      //是否需要登陆弹窗
+      islogin() {
+        if (!this.$store.state.token) {
+          this.vxToggleDialog(true)
+          this.vxSetDlgType(DLG_TYPE.LOGIN)
+        }
+        else{
+          this.$router.push({
+            path:"/confirm_order"
+          })
+        }
+      },
 
     }
   }
