@@ -10,6 +10,9 @@
     <van-icon class="left-wrap"
       name="arrow-left"
       slot="left" />
+    <van-icon class="right-wrap"
+      name="ellipsis"
+      slot="right" />
   </van-nav-bar>
 </template>
 
@@ -41,7 +44,7 @@
         this.$router.go(-1)
       },
       onClickRight() {
-        this.$emit('callOnRigth')
+        this.$emit('callOnRight')
       }
     },
   }
@@ -53,14 +56,16 @@
     font-size: 32px;
     transition: all 0.5s;
     background-color: #fff;
-    .left-wrap {
+    .left-wrap,
+    .right-wrap {
       color: #404040;
       font-size: 32px;
     }
     &.transparent {
       background-color: transparent;
       color: #fff;
-      .left-wrap {
+      .left-wrap,
+      .right-wrap {
         color: #fff;
         font-size: 32px;
       }

@@ -4,8 +4,9 @@
     <!-- 头部 -->
     <product-detail-header class="product-detail-header"
       :transparent="isTransparent"
-      title="产品详情"
+      :title="product.name"
       fixed
+      @onClickRight="onHeaderRight"
       ref="refProdctDetailHeader" />
     <div class="product-detail"
       ref="refProductDetail">
@@ -733,7 +734,10 @@
       // 更多期团
       onGroupPriceMore() {
         this.btnReserve()
-      }
+      },
+      onHeaderRight() {
+        console.log('onHeaderRight')
+      },
     },
   }
 </script>
