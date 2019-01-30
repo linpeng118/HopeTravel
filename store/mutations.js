@@ -10,7 +10,6 @@ export default {
   setToken(state, data) {
     state.token = data
     setCookieByKey('token', state.token)
-    console.log(11, state)
   },
   setCurrency(state, data) {
     state.currency = data
