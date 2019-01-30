@@ -55,13 +55,13 @@
     .phone-item {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
       height: 140px;
       &:not(:last-child) {
         border-bottom: 2px solid #b1b1b1;
       }
       .left {
-        flex: 0 0 100px;
+        flex: 0 0 80px;
         img {
           width: 60px;
           height: 60px;

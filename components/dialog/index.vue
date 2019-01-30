@@ -92,7 +92,7 @@
           DLG_TYPE.PHONE
         ]
         const index = arrW60.findIndex(item => item === this.currComp)
-        if(index > -1) {
+        if (index > -1) {
           return '60%'
         }
         return '86%'
@@ -107,7 +107,7 @@
         this.$emit('callSetDlgType', val)
       },
       // 显示登录弹窗
-      showLogin(){
+      showLogin() {
         this.$emit('callSetDlgType', DLG_TYPE.LOGIN)
       },
       loginSuc() {
@@ -125,6 +125,7 @@
 <style lang="scss" scoped>
   .normal-dialog-comp {
     border-radius: 12px;
+    padding: 30px;
     .btn-close {
       position: absolute;
       right: 10px;
@@ -133,7 +134,6 @@
     }
     .dialog-content {
       text-align: center;
-      padding: 50px 30px;
     }
   }
 </style>
