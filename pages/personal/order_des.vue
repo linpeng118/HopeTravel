@@ -194,7 +194,7 @@
       subData(){
         this.$refs.order_id.value=this.details.order_id;
         this.$refs.order_title.value=this.details.product_name;
-        this.$refs.total_feeusd.value=this.details.price.substr(1)*100||0;
+        this.$refs.total_feeusd.value=(this.details.price.substr(1))*100||0;
         this.$refs.total_feecny.value=this.details.cny_price*100||0;
         this.$refs.success_url.value='//'+window.location.host+"/personal/order_des?order_id="+this.details.order_id;
         this.$refs.failure_url.value='//'+window.location.host+"/personal/order?status=null";
