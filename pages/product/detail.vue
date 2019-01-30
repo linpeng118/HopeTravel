@@ -97,7 +97,7 @@
             class="g-price-item"
             @click="onGroupPriceDate(item)">
             <p class="time">
-              {{item.month}}/{{item.day}}&nbsp;{{getWeek(item.years, item.month, item.day)}}
+              {{item.month}}/{{item.day}}&nbsp;{{getWeek(item.year, item.month, item.day)}}
             </p>
             <span class="price">
               {{item.price}}
@@ -492,7 +492,7 @@
        * @params day
        */
       getWeek(year, month, day) {
-        const date = `${year}/${month}/${day}`
+        let date = `${year}/${month}/${day}`
         let week = new Date(date).getDay()
         switch (week) {
           case 0:
