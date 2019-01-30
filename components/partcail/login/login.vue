@@ -3,9 +3,9 @@
     <h1 class="title">稀饭旅行账号登录</h1>
     <van-tabs class="content tours-tabs-nowrap"
       @change="changeTabs">
-      <!-- 普通登陆 -->
+      <!-- 普通登录 -->
       <van-tab class="login"
-        title="普通登陆">
+        title="普通登录">
         <van-cell-group>
           <van-field class="username tours-input"
             v-model="formData.username"
@@ -15,7 +15,7 @@
             center
             clearable
             icon="eye-o"
-            placeholder="登陆密码"
+            placeholder="登录密码"
             :type="pswInputType"
             @click-icon="toggleInputType">
             <van-button class="btn-forget tours-button-noborder"
@@ -25,9 +25,9 @@
           </van-field>
         </van-cell-group>
       </van-tab>
-      <!-- 手机验证码登陆 -->
+      <!-- 手机验证码登录 -->
       <van-tab class="mobile-login"
-        title="手机验证码登陆">
+        title="手机验证码登录">
         <van-cell-group>
           <area-code-input class="phone"
             :proAreaCode.sync="phoneForm.areaCode"
@@ -56,7 +56,7 @@
         size="large"
         :loading="submiting"
         @click="btnLogin">登录</van-button>
-      <p class="text">登陆即代表您已同意我们的<span @click="onAgreement">&nbsp;服务协议</span></p>
+      <p class="text">登录即代表您已同意我们的<span @click="onAgreement">&nbsp;服务协议</span></p>
     </van-tabs>
   </div>
 </template>
@@ -84,7 +84,7 @@
     data() {
       return {
         VERIFY_CODE,
-        type: LOGIN_TYPE.PASSWORD, // 默认登陆模式
+        type: LOGIN_TYPE.PASSWORD, // 默认登录模式
         formData: {
           username: '',
           password: '',
@@ -121,7 +121,7 @@
       ...mapMutations({
         vxSetToken: 'setToken'
       }),
-      // 切换登陆模式
+      // 切换登录模式
       changeTabs(index, title) {
         console.log(index, title)
         // 清除定时器
@@ -180,7 +180,7 @@
           }
         }, 1000)
       },
-      // 登陆
+      // 登录
       btnLogin() {
         if (this.type === LOGIN_TYPE.PHONE) {
           this.loginByPhone()
@@ -188,7 +188,7 @@
           this.login()
         }
       },
-      // 普通登陆
+      // 普通登录
       async login() {
         if (!this.formData.username) {
           this.$toast('请输入用户名')
@@ -215,7 +215,7 @@
           console.log(error)
         }
       },
-      // 手机登陆
+      // 手机登录
       async loginByPhone() {
         if (!this.phoneForm.phone) {
           this.$toast('请输入手机号码')

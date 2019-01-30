@@ -167,7 +167,7 @@
       contactCustom() {
         window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226'
       },
-      //是否需要登陆弹窗
+      //是否需要登录弹窗
       islogin() {
         if (!this.$store.state.token) {
           this.vxToggleDialog(true)

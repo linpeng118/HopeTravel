@@ -20,7 +20,7 @@ const LOGIN_TYPE = {
 // 短信使用场景
 const SMS_SCENE = {
   RGISTER: 'register', // 注册
-  LOGIN: 'login', // 登陆
+  LOGIN: 'login', // 登录
   VALIDATE: 'validate', // 验证手机号码
   RSPWD: 'resetPassword', // 找回密码
 }
