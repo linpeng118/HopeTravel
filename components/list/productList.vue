@@ -87,7 +87,6 @@ export default {
     .product-item{
       display: flex;
       padding: 24px 0;
-      border-bottom: 1px solid #E4E4E4;
       .img-show{
         position:relative;
         width:182px;

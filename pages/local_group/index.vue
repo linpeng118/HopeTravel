@@ -209,6 +209,7 @@
         // 初始化产品列表
         this.productList = res.data
         this.prodPagination = res.pagination
+        console.log(this.productList)
       },
       // 返回上一级页面
       leftClick() {
@@ -225,7 +226,12 @@
             productID: productId.toString()
           })
         } else {
-          console.log('web操作')
+          this.$router.push({
+            path: '/product/detail',
+            query: {
+              productId
+            }
+          })
         }
       },
       onHotCity(hotCity) {
@@ -237,14 +243,29 @@
           }
           this.appBridge.jumpProductListView(params)
         } else {
-          console.log('web操作')
+          let query = {
+            keyword: encodeURIComponent(hotCity.title),
+            itemType: '1',
+            category: hotCity.category || null,
+            product_type: hotCity.product_type || null,
+            span_city: hotCity.span_city || null,
+            start_city: hotCity.start_city || null,
+          }
+          this.$router.push({
+            name: 'product_list-play_foreign',
+            query
+          })
+          console.log(hotCity)
         }
       },
       onMoreCity() {
         if (this.isApp) {
           this.appBridge.jumpDestinationView()
         } else {
-          console.log('web操作')
+          console.log('web操作更多城市')
+          this.$router.push({
+            path: '/search'
+          })
         }
       },
       /**

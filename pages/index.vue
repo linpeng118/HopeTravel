@@ -74,7 +74,9 @@
             <snap-up-item :proData="sales"
                           :isCollect="false"
                           :isShowTime="true"
-                          @selectDetail="selectItem"/>
+                          @selectDetail="selectItem">
+              <div class="count-down" v-html="sales.time"></div>
+            </snap-up-item>
           </div>
         </div>
       </div>
@@ -147,8 +149,39 @@ export default {
   },
   mounted() {
     this.getHomeInitData()
+    this.getTime()
   },
   methods: {
+    // 转化为两位数
+    numChangeT(n) {
+      return n < 10 ? '0' + n : '' + n
+    },
+    // 倒计时时间转化
+    timeToData( maxtime ) {
+      let second = Math.floor( maxtime % 60);       //计算秒
+      let minite = Math.floor((maxtime / 60) % 60); //计算分
+      let hour = Math.floor((maxtime / 3600) % 24 ); //计算小时
+      let day = Math.floor((maxtime / 3600) / 24);//计算天
+      return `<span>${this.numChangeT(day)}</span>:<span>${this.numChangeT(hour)}</span>:<span>${this.numChangeT(minite)}</span>:<span>${this.numChangeT(second)}</span>`
+      // return day+':'+this.numChangeT(hour)+':'+this.numChangeT(minite)+':'+this.numChangeT(second)
+    },
+    getTime() {
+      setInterval(() => {
+        this.timeSalesList.forEach(value => {
+          var time = this.timeToData(value.special_end_date);
+          if( typeof value.jishi == 'undefined' ) {
+            this.$set(value,'time',time);
+          } else {
+            value.time = time
+          }
+          if( value.special_end_date ) {
+            -- value.special_end_date
+          } else {
+            value.special_end_date = 0
+          }
+        })
+      },1000)
+    },
     // 跳转商品详情
     selectItem(item) {
       this.$router.push({
@@ -193,7 +226,6 @@ export default {
         this.prodFinished = true
       }
     },
-    onHot() {},
   },
 }
 </script>
@@ -333,6 +365,9 @@ export default {
         width: 50%;
       }
     }
+    .count-down{
+      margin-left: 10px;
+    }
   }
 </style>
 <style>
@@ -340,5 +375,15 @@ export default {
     width: 32px;
     height:12px;
     border-radius: 6px;
+  }
+  .home-wrap .count-down span{
+    width: 40px;
+    display: inline-block;
+    background-color: rgba(0,0,0,0.6);
+    border-radius:6px;
+    line-height: 40px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 6px;
   }
 </style>

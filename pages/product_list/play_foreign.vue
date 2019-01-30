@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="play-foreign">
     <div class="header">
       <van-nav-bar
         class="bar-shadow"
-        :title="keyword + '-全部玩乐'"
+        :title="title"
         @click-left="onClickLeft"
         left-arrow
       >
@@ -41,6 +41,10 @@ export default {
     }
   },
   computed: {
+    title() {
+      let tit = this.$route.query.itemType == 1 ? '-全部跟团' : '-全部玩乐'
+      return this.keyword + tit
+    }
   },
   methods: {
     onClickLeft() {
@@ -78,8 +82,20 @@ export default {
 </script>
 
 <style type="text/scss" lang="scss" scoped>
+  .play-foreign{
+    .van-cell{
+      padding: 0 15px;
+    }
+    .product-box{
+      padding: 90px 15px 0 15px;
+    }
+  }
   .header{
-    border-bottom: 2px solid #E4E4E4;
+    border-bottom: 1px solid #E4E4E4;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
   }
   .no-data{}
 </style>
