@@ -15,7 +15,7 @@
         <i style="color: #bbb">0.00</i>
         <i style="color: #bbb">请选择相关信息</i>
       </span>
-      <span :class="showbtn?'showbtn':''" class="confirm-next-btn" v-if="thisrouter=='date_trip'" @click="islogin()">下一步</span>
+      <span :class="showbtn?'showbtn':''" class="confirm-next-btn" v-if="thisrouter=='date_trip'" @click="showbtn?islogin():''">下一步</span>
       <span v-else-if="showbtn2==false" class="confirm-next-btn">下一步</span>
       <span v-else class="confirm-next-btn showbtn" @click="addOrderx()" >下一步</span>
       <span class="contact-service" @click="contactCustom()">
@@ -122,7 +122,11 @@
           this.$dialog.alert({
             message: msg
           });
-          this.$store.commit("countprice", {attributes:[]});
+          this.$store.commit("pricelist", {});
+          console.log('1')
+          this.showbtn2=false;
+          this.showbtn=false;
+
         }
       },
       closepops(data) {
@@ -158,7 +162,7 @@
           this.$dialog.alert({
             message: msg
           });
-          this.$store.commit("countprice", {attributes:[]});
+
         }
       },
       contactCustom() {
