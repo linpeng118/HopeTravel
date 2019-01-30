@@ -21,7 +21,8 @@
           <!--<span>23</span>-->
           <!--<span class="colon">:</span>-->
           <!--<span>56</span>-->
-          <span v-if="proData.special_end_date < 0" class="over">已结束</span>
+          <slot></slot>
+          <!--<span v-if="proData.special_end_date < 0" class="over">已结束</span>-->
           <!--{{getTime(proData.special_end_date)}}-->
         </div>
       </div>
@@ -31,19 +32,10 @@
       </div>
     </div>
     <div class="desc">
-      <div class="tags-wrap" :class="tagPos">
-        <!--<div class="tag"-->
-          <!--:class="`tag${item}`"-->
-          <!--v-for="item in proData.type"-->
-          <!--:key="item">-->
-          <!--<span v-if="item===1">自营</span>-->
-          <!--<span v-if="item===2">精选</span>-->
-        <!--</div>-->
-        <div class="tag tag1">
-          <span v-if="proData.self_support===0">自营</span>
-          <!--<span v-if="item===2">精选</span>-->
-        </div>
-      </div>
+      <span class="tag tag1" v-if="proData.self_support===0">自营</span>
+      <!--<div class="tags-wrap" :class="tagPos">-->
+        <!--<span class="tag tag1" v-if="proData.self_support===0">自营</span>-->
+      <!--</div>-->
       <span>{{proData.name}}</span>
     </div>
     <div class="price-wrap">
@@ -115,29 +107,6 @@
       },
       selectItem(product) {
         this.$emit('selectDetail', product.product_id)
-      },
-      getTime() {
-        var date = new Date();
-        var now = date.getTime();
-        //设置截止时间
-        var end = new Date().getTime() + 2297215;
-        //时间差
-        var differTime = end - now;
-        //定义变量,h,m,s保存倒计时的时间
-        var h, m, s;
-        if (differTime >= 0) {
-          h = Math.floor(differTime / 1000 / 60 / 60);
-          m = Math.floor(differTime / 1000 / 60 % 60);
-          s = Math.floor(differTime / 1000 % 60);
-          h = h < 10 ? ("0" + h) : h;
-          m = m < 10 ? ("0" + m) : m;
-          s = s < 10 ? ("0" + s) : s;
-          // console.log(h + "时" + m + "分" + s + "秒")
-          setInterval(this.getTime, 1000)
-          // return h + "时" + m + "分" +  s + "秒"
-        } else {
-          console.log("00时" + "00分" + "00秒")
-        }
       }
     },
   }
@@ -205,28 +174,6 @@
           display: block;
           border-radius: 0 8px 8px 0;
         }
-        /*.time {*/
-          /*flex: 1;*/
-          /*font-size: 0;*/
-          /*margin-top: 6px;*/
-          /*span:not(.colon) {*/
-            /*display: inline-block;*/
-            /*color: rgba(255, 255, 255, 1);*/
-            /*background: rgba(0, 0, 0, 0.6);*/
-            /*width: 28px;*/
-            /*height: 40px;*/
-            /*line-height: 40px;*/
-            /*font-size: 26px;*/
-            /*text-align: center;*/
-            /*font-size: 24px;*/
-            /*border-radius: 6px;*/
-          /*}*/
-          /*.colon {*/
-            /*padding: 0 5px;*/
-            /*color: rgba(255, 255, 255, 1);*/
-            /*font-size: 24px;*/
-          /*}*/
-        /*}*/
       }
     }
     .desc {
@@ -237,25 +184,36 @@
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
-      .tags-wrap {
+      .tag {
         display: inline-block;
-        .tag {
-          display: inline-block;
-          width: 60px;
-          height: 36px;
-          line-height: 36px;
-          text-align: center;
-          color: #fff;
-          font-size: 22px;
-          border-radius: 6px;
-        }
-        .tag1 {
-          background: #ef9a1a;
-        }
-        .tag2 {
-          background: #fe423f;
-        }
+        padding:5px 10px;
+        text-align: center;
+        color: #fff;
+        font-size: 22px;
+        border-radius: 6px;
+        background: #ef9a1a;
+        vertical-align: middle;
       }
+      /*.tags-wrap {*/
+        /*display: inline-block;*/
+        /*.tag {*/
+          /*display: inline-block;*/
+          /*width: 60px;*/
+          /*height: 36px;*/
+          /*line-height: 36px;*/
+          /*text-align: center;*/
+          /*color: #fff;*/
+          /*font-size: 22px;*/
+          /*border-radius: 6px;*/
+          /*background: #ef9a1a;*/
+        /*}*/
+        /*.tag1 {*/
+          /*background: #ef9a1a;*/
+        /*}*/
+        /*.tag2 {*/
+          /*background: #fe423f;*/
+        /*}*/
+      /*}*/
     }
     .price-wrap {
       margin-top: 12px;

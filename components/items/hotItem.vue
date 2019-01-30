@@ -141,11 +141,11 @@
         color: #ff0000;
       }
       .unit {
-        font-size: 28px;
+        font-size: 24px;
         color: #ff0000;
       }
       .ori-price {
-        font-size: 28px;
+        font-size: 24px;
         color: #9a9a9a;
         text-decoration: line-through;
       }
