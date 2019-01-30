@@ -160,11 +160,11 @@
       <!--预定留言-->
       <section>
         <div class="confirm-item">
-          <p class="item-title">预定留言</p>
+          <p class="item-title">预订留言</p>
           <div class="item-con">
             <van-field
               type="textarea"
-              placeholder="选填，你可备注预定相关要求"
+              placeholder="选填，你可备注预订相关要求"
               rows="2"
               autosize
               v-model="comment"
