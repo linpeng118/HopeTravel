@@ -119,7 +119,6 @@
           this.$store.commit("pricelist", this.pricelist);
         }
         else {
-          console.log(data)
           this.$dialog.alert({
             message: msg
           });

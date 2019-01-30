@@ -195,7 +195,6 @@
                 child: this.total_kids,
                 pair: false,
               }],//房间数据,
-
               adult: val,
               child: this.total_kids
 
@@ -205,7 +204,6 @@
             this.$store.commit("countprice", {
               room_total: 0,//房间总数
               room_attributes: [],//房间数据,
-
               adult: 0,
               child: 0
 
@@ -238,7 +236,6 @@
               room_attributes: [],//房间数据,
               adult: 0,
               child: 0
-
             });
             this.$dialog.alert({
               message: '总人数不足最少成团人数，请添加'
@@ -316,7 +313,7 @@
         var tha = this;
         this.$store.commit("countprice", {
           product_id: tha.product.product_id,//产品id
-          departure_date: sday1,//出发日期
+          departure_date: parseInt(this.datedata.years) + '-' + parseInt(this.datedata.month) + '-' + parseInt(this.checkday),//出发日期
         });
 
       },
