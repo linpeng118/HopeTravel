@@ -103,7 +103,8 @@
               {{item.price}}
             </span>
           </div>
-          <div class="g-price-item more" @click="onGroupPriceMore">
+          <div class="g-price-item more"
+            @click="onGroupPriceMore">
             更多团期
           </div>
         </div>
@@ -341,6 +342,7 @@
   import ProductDetailHeader from '@/components/header/productDetail'
   import ProdDetailImgItem from '@/components/items/prodDetailImgItem'
   import Loading from '@/components/loading'
+  import {getLocalStore, setLocalStore} from '@/assets/js/utils'
   import {OPERATE_TYPE} from '@/assets/js/consts'
   import {DLG_TYPE} from '@/assets/js/consts/dialog'
   import {getProductDetail, addFavorite, delFavorite} from '@/api/products'
@@ -355,7 +357,7 @@
     },
     data() {
       return {
-        productId: this.$route.query.productId || null,
+        productId: Number(this.$route.query.productId) || null,
         isTransparent: true, // 导航头是否透明
         current: 0, // 导航页数
         // bgFeat: require('../../assets/imgs/product/bg_features.png'),
@@ -448,7 +450,6 @@
             })
           }
         })
-        console.log(newData)
         return newData
       }
     },
@@ -463,6 +464,10 @@
         vxSetDlgType: 'setDlgType', // 设置弹窗类型
       }),
       async init() {
+        await this.getProductDetailData()
+        await this.saveLocal()
+      },
+      async getProductDetailData() {
         const {code, data, msg} = await getProductDetail({
           product_id: this.productId,
         })
@@ -478,6 +483,19 @@
           this.transfer = data.transfer
         }
         this.loading = false
+      },
+      // 存储浏览记录
+      saveLocal() {
+        let browsList = getLocalStore('browsList') || []
+        browsList.unshift({
+          'product': this.product
+        })
+        let set = [...new Set(browsList)];
+        console.log(set)
+        if (set.length >= 6) {
+          set = set.slice(0, 6).map(Number)
+        }
+        setLocalStore('browsList', set)
       },
       // 跳转至注册页
       toRegist() {
@@ -658,7 +676,7 @@
           })
           if (code === 0) {
             this.$toast('取关成功')
-            this.init()
+            this.getProductDetailData()
           } else {
             this.$toast('取关失败')
           }
@@ -668,7 +686,7 @@
           })
           if (code === 0) {
             this.$toast('关注成功')
-            this.init()
+            this.getProductDetailData()
           } else {
             this.$toast('关注失败')
           }
