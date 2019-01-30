@@ -5,7 +5,7 @@
     :style="{'width': dlgWidth}"
     class="normal-dialog-comp">
     <div class="btn-close"
-      @click="close"
+      @click="closeDlg"
       v-show="isShowClose">
       <van-icon name="cross" />
     </div>
@@ -14,6 +14,8 @@
         showRegistTip
         showLoginTip
         @showLoginDlg="setDlgType"
+        @registCallBack="showLogin"
+        @loginCallBack="loginSuc"
         @showRegistDlg="setDlgType">
       </component>
     </div>
@@ -104,8 +106,16 @@
         console.log('val', val)
         this.$emit('callSetDlgType', val)
       },
+      // 显示登录弹窗
+      showLogin(){
+        this.$emit('callSetDlgType', DLG_TYPE.LOGIN)
+      },
+      loginSuc() {
+        this.$toast('登录成功')
+        this.closeDlg()
+      },
       // 关闭弹窗
-      close() {
+      closeDlg() {
         this.vxToggleDialog(false)
       }
     },
