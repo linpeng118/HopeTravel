@@ -17,16 +17,19 @@
         <!--<div v-else>暂无数据</div>-->
       </van-list>
     </div>
+    <drift-aside class="drift"></drift-aside>
   </div>
 </template>
 
 <script>
 import ProductList from '@/components/list/productList'
 import {getProductList} from '@/api/products'
+import DriftAside from '@/components/drift_aside'
 export default {
   name: 'play_foreign',
   components: {
-    ProductList
+    ProductList,
+    DriftAside
   },
   data() {
     return {
