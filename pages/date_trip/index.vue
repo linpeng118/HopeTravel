@@ -12,7 +12,7 @@
           </li>
         </template>
       </ul>
-      <date-trip :dateprice="datedata" @setcheckday="setcheckday"></date-trip>
+      <date-trip :dateprice="datedata" :checkdayx="checkday" @setcheckday="setcheckday"></date-trip>
       <!--日历foot-->
       <p class="trip-tip">
         <span v-show="showsday!=''">{{showsday}}出发 - {{showeday}}返回</span>
@@ -131,6 +131,9 @@
         //选择人数时参数
         total_kids: 0,
         total_adult: 0,
+        firstyear:this.$route.query.year||'',
+        firstmonth:this.$route.query.month||'',
+        firstday:this.$route.query.day|'',
       }
     },
     computed: {
@@ -263,8 +266,27 @@
         if(code === 0) {
           this.pricedate = data;
           //初始化选择第一条给子组件的数据和第一个月份数据
-          this.datedata = this.pricedate[0];
-          this.activeMonth = this.pricedate[0].month;
+          var this_=this;
+          if(this.firstyear!=''&&this.firstmonth!=''&&this.firstday!=''){
+            for(let i=0;i< this_.pricedate.length;i++){
+              if(this_.pricedate[i].years==this_.firstyear&&this_.pricedate[i].month==this_.firstmonth){
+                this_.datedata = this_.pricedate[i];
+                this_.activeMonth = this_.firstmonth;
+                this_.checkday = this_.firstday+'';
+              }
+            }
+            if(this.activeMonth ==''){
+              this.datedata = this.pricedate[0];
+              this.activeMonth = this.pricedate[0].month;
+            }
+          }
+          else{
+            this.datedata = this.pricedate[0];
+            this.activeMonth = this.pricedate[0].month;
+          }
+
+
+
           //初始化生成房间
           this.roomint();
         } else {
@@ -285,7 +307,6 @@
       setcheckday(val) {
         this.checkday = val;
         let sday1 = new Date(parseInt(this.datedata.years) + '/' + parseInt(this.datedata.month) + '/' + parseInt(this.checkday));
-        console.log(sday1)
         let day1en = sday1.getTime() + (this.product.duration_days) * 24 * 60 * 60 * 1000;
         let eday1 = new Date(day1en);
         let sday2 = (sday1.getMonth() + 1) + '月' + (sday1.getDate()) + '日';
