@@ -285,6 +285,7 @@
       setcheckday(val) {
         this.checkday = val;
         let sday1 = new Date(parseInt(this.datedata.years) + '/' + parseInt(this.datedata.month) + '/' + parseInt(this.checkday));
+        console.log(sday1)
         let day1en = sday1.getTime() + (this.product.duration_days) * 24 * 60 * 60 * 1000;
         let eday1 = new Date(day1en);
         let sday2 = (sday1.getMonth() + 1) + '月' + (sday1.getDate()) + '日';
@@ -294,7 +295,7 @@
         var tha = this;
         this.$store.commit("countprice", {
           product_id: tha.product.product_id,//产品id
-          departure_date: parseInt(this.datedata.years) + '-' + parseInt(this.datedata.month) + '-' + parseInt(this.checkday),//出发日期
+          departure_date: sday1,//出发日期
         });
 
       },
