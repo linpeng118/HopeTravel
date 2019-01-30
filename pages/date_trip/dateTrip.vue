@@ -38,6 +38,7 @@
   export default {
     props:{
       dateprice: Object,
+      checkdayx: String,
     },
 
     data() {
@@ -60,6 +61,7 @@
     mounted(){
       //初始化
       this.mGetDate(this.dateprice.years,this.dateprice.month);
+
     },
     methods: {
       mGetDate(year, month){
@@ -97,6 +99,9 @@
         this.dayprice=objarr;
         // 重置已选日期
         this.checkday='';
+        if(this.checkdayx!=''){
+          this.checkday=this.checkdayx;
+        }
       }
     }
 

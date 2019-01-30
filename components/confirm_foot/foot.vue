@@ -85,7 +85,7 @@
     watch: {
       //监听计算价格参数
       get_vuex_countprice() {
-        if (this.get_vuex_countprice.departure_date != '' && this.get_vuex_countprice.room_total != 0){
+        if (this.get_vuex_countprice.departure_date !='' && this.get_vuex_countprice.room_total != 0){
           this.getpricelist(this.get_vuex_countprice)
           this.showbtn = true;
         }
