@@ -373,19 +373,15 @@
        this.checkqu=picker.tel_code;
        this.showsel=false
       },
-      getaddoder(){
+  getaddoder(){
          let objarr=[];
          for(let i=0;i<this.paramcontanct.length;i++){
            objarr.push(this.paramcontanct[i].id)
          }
-         let date=null;
-         if(this.countprice.departure_date){
-           date=this.countprice.departure_date.substr(0,10);
-         }
          let point=this.pricelist.points?this.pricelist.points.point:0;
          var addorder={
           product_id:this.product.product_id,
-          depart_date:date,
+          depart_date:this.countprice.departure_date,
           rooms:this.countprice.room_attributes,
           value_added_services:this.countprice.attributes,
           flight_id:this.countprice.product_departure,

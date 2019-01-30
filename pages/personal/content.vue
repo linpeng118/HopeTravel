@@ -11,7 +11,7 @@
     </div>
     <div class="content-wrap">
       <textarea class="text-area" placeholder="请留下你的意见和建议，我们一定认真阅读。" v-model="content"></textarea>
-      <div class="btn-sure"><van-button block @click="submitContent">删除</van-button></div>
+      <div class="btn-sure"><van-button block @click="submitContent">提交</van-button></div>
     </div>
   </div>
 </template>

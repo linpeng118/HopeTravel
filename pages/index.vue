@@ -1,5 +1,5 @@
 <template>
-  <div class="home-wrap">
+  <div class="home-wrap" ref="refHomePage">
     <!--头部-->
     <div class="header">
       <!--下载广告-->
@@ -48,7 +48,7 @@
       </nuxt-link>
       <nuxt-link tag="div" class="entry-tourism" to="/custom">
         <img src="../assets/imgs/home/icon_day.png" alt="">
-        <p class="title">一日游</p>
+        <p class="title">高端定制</p>
       </nuxt-link>
     </div>
     <!--热门目的地-->
@@ -97,6 +97,8 @@
         </van-cell>
       </van-list>
     </div>
+    <!--悬浮-->
+    <drift-aside></drift-aside>
   </div>
 </template>
 
@@ -105,13 +107,17 @@ import HotPlace from '@/components/hot_place/index.vue'
 import SnapUpItem from '@/components/items/snapUpItem'
 import HotItem from '@/components/items/hotItem'
 import {getHomeData, getHomeHotList} from '@/api/home'
+import countDown from '@/components/count-down'
+import DriftAside from '@/components/drift_aside'
 
 export default {
   name: 'home',
   components: {
     HotPlace,
     SnapUpItem,
-    HotItem
+    HotItem,
+    countDown,
+    DriftAside
   },
   data() {
     return {
@@ -136,7 +142,7 @@ export default {
       hotList: [], // 热门目的地
       prodLoading:false,
       prodFinished:false,
-      prodPagination: {}
+      prodPagination: {},
     }
   },
   mounted() {
@@ -167,7 +173,7 @@ export default {
       if(code === 0) {
         let {banner,hot, special} = data
         this.bannerList = banner
-        this.hotList = hot.data[0].destination
+        this.hotList = hot.data[0].destination.slice(0,8)
         this.timeSalesList = special.data
       }
     },
@@ -186,8 +192,8 @@ export default {
         this.prodFinished = true
       }
     },
-    onHot() {}
-  }
+    onHot() {},
+  },
 }
 </script>
 
