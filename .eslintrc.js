@@ -29,6 +29,7 @@ module.exports = {
     'vue/mustache-interpolation-spacing': 0,
     'vue/attribute-hyphenation': 0,
     'vue/require-valid-default-prop': 0,
-    'vue/require-default-prop': 0
+    'vue/require-default-prop': 0,
+    'vue/require-prop-types': 0,
   }
 }

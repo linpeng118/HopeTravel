@@ -252,7 +252,6 @@
       },
       // 重置定时器
       resetTimer() {
-        console.log(1)
         clearInterval(this.timer)
         this.codeType = VERIFY_CODE.START
         this.countDownTime = 60

@@ -1,4 +1,5 @@
 const pkg = require('./package')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 // let nuxtPlugins = [{
 //     src: '~/plugins/vant',
@@ -168,6 +169,18 @@ module.exports = {
       require('autoprefixer')({
         browsers: ['last 3 versions'],
       }),
+    ],
+    plugins: [
+      new UglifyJsPlugin({
+        uglifyOptions: {
+          compress: {
+            warnings: false,
+            drop_console: process.env.NODE_ENV = 'development' ? false : true
+          },
+        },
+        sourceMap: true,
+        parallel: true
+      })
     ],
     /*
      ** You can extend webpack config here
