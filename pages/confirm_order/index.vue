@@ -380,7 +380,7 @@
          }
          let date=null;
          if(this.countprice.departure_date){
-           date=this.countprice.departure_date.substr(0,10);
+           date=this.countprice.departure_date;
          }
          let point=this.pricelist.points?this.pricelist.points.point:0;
          var addorder={
