@@ -64,7 +64,7 @@
             <img class="icon-size" src="../../assets/imgs/personal/index/feedback.png">
           </template>
         </van-cell>
-        <van-cell title="联系客服" is-link to>
+        <van-cell title="联系客服" is-link @click="onlineCounsel">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/service.png">
           </template>
@@ -142,6 +142,9 @@
       this.init();
     },
     methods: {
+      ...mapMutations({
+        vxSetProfile: 'profile/setProfile'
+      }),
       async init() {
         // 1. 是否有token。有就请求个人信息；无则return
         let res = await getProfile();
@@ -183,9 +186,10 @@
         }).catch(() => {
         });
       },
-      ...mapMutations({
-        vxSetProfile: 'profile/setProfile'
-      })
+      // 在线咨询
+      onlineCounsel() {
+        window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226'
+      },
     }
   };
 </script>
