@@ -64,7 +64,7 @@
             <img class="icon-size" src="../../assets/imgs/personal/index/feedback.png">
           </template>
         </van-cell>
-        <van-cell title="联系客服" is-link to>
+        <van-cell title="联系客服" is-link url="http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/service.png">
           </template>
@@ -80,114 +80,90 @@
         <van-button class="sign-out-btn" @click="logout">退出登录</van-button>
       </div>
     </div>
-    <!--这期取消-->
-    <!--<div class="footer">-->
-    <!--<dl class="f-el">-->
-    <!--<dt>-->
-    <!--<van-icon name="wap-home"></van-icon>-->
-    <!--</dt>-->
-    <!--<dd>-->
-    <!--<span>主页</span>-->
-    <!--</dd>-->
-    <!--</dl>-->
-    <!--<dl class="f-el">-->
-    <!--<dt>-->
-    <!--<van-icon name="location-o"></van-icon>-->
-    <!--</dt>-->
-    <!--<dd>-->
-    <!--<span>目的地</span>-->
-    <!--</dd>-->
-    <!--</dl>-->
-    <!--<dl class="f-el">-->
-    <!--<dt>-->
-    <!--<van-icon name="chat-o"></van-icon>-->
-    <!--</dt>-->
-    <!--<dd>-->
-    <!--<span>在线咨询</span>-->
-    <!--</dd>-->
-    <!--</dl>-->
-    <!--<dl class="f-el active">-->
-    <!--<dt>-->
-    <!--<van-icon name="user-o"></van-icon>-->
-    <!--</dt>-->
-    <!--<dd>-->
-    <!--<span>我的</span>-->
-    <!--</dd>-->
-    <!--</dl>-->
-    <!--</div>-->
+
+    <div>
+      <van-tabbar v-model="active" active-color="#399EF6">
+        <van-tabbar-item icon="wap-home" to="/">主页</van-tabbar-item>
+        <van-tabbar-item icon="location-o" to="/search">目的地</van-tabbar-item>
+        <van-tabbar-item icon="chat-o" url="http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226">在线咨询</van-tabbar-item>
+        <van-tabbar-item icon="user-o" to="/personal">我的</van-tabbar-item>
+      </van-tabbar>
+    </div>
+
   </div>
 </template>
 
 <script>
-  import {mapMutations} from 'vuex'
-  import { getProfile } from "@/api/profile";
-  import {clearCookieByKey} from '@/assets/js/utils'
+import {mapMutations} from 'vuex'
+import { getProfile } from "@/api/profile";
+import {clearCookieByKey} from '@/assets/js/utils'
 
-  export default {
-    name: "component_name",
-    data() {
-      return {
-        profile: {}
-      };
+export default {
+  name: "component_name",
+  data() {
+    return {
+      profile: {},
+      active: 3
+    };
+  },
+  created() {
+    this.statusList = [
+      {status:'', title: '全部订单'},
+      {status:'unpaid', title: '待支付'},
+      {status:'wait', title: '待出行'},
+      {status:'finish', title: '已出行'},
+    ]
+  },
+  mounted() {
+    this.init();
+  },
+  methods: {
+    async init() {
+      // 1. 是否有token。有就请求个人信息；无则return
+      let res = await getProfile();
+      let {code, data} = res;
+      if(code === 0) {
+        this.profile = data
+        this.vxSetProfile(data)
+      }
     },
-    created() {
-      this.statusList = [
-        {status:'', title: '全部订单'},
-        {status:'unpaid', title: '待支付'},
-        {status:'wait', title: '待出行'},
-        {status:'finish', title: '已出行'},
-      ]
+    editInfo() {
+      //跳转编辑信息
+      this.$router.push({
+        path: "/personal/account"
+      });
     },
-    mounted() {
-      this.init();
+    myRice() {
+      //跳转我的米粒
+      this.$router.push({
+        path: "/personal/account_rice"
+      });
     },
-    methods: {
-      async init() {
-        // 1. 是否有token。有就请求个人信息；无则return
-        let res = await getProfile();
-        let {code, data} = res;
-        if(code === 0) {
-          this.profile = data
-          this.vxSetProfile(data)
+    //跳转全部订单
+    allOrders(item) {
+      this.$router.push({
+        name: 'personal-order',
+        query: {
+          userId: this.profile.customer_id,
+          status: item.status
         }
-      },
-      editInfo() {
-        //跳转编辑信息
-        this.$router.push({
-          path: "/personal/account"
-        });
-      },
-      myRice() {
-        //跳转我的米粒
-        this.$router.push({
-          path: "/personal/account_rice"
-        });
-      },
-      //跳转全部订单
-      allOrders(item) {
-        this.$router.push({
-          name: 'personal-order',
-          query: {
-            userId: this.profile.customer_id,
-            status: item.status
-          }
-        });
-      },
-      // 退出登录
-      logout() {
-        this.$dialog.confirm({
-          message: '是否退出登录'
-        }).then(() => {
-          clearCookieByKey('token')
-          location = location
-        }).catch(() => {
-        });
-      },
-      ...mapMutations({
-        vxSetProfile: 'profile/setProfile'
-      })
-    }
-  };
+      });
+    },
+    // 退出登录
+    logout() {
+      this.$dialog.confirm({
+        message: '是否退出登录'
+      }).then(() => {
+        clearCookieByKey('token')
+        location = location
+      }).catch(() => {
+      });
+    },
+    ...mapMutations({
+      vxSetProfile: 'profile/setProfile'
+    })
+  }
+};
 </script>
 <style lang="scss" scoped>
   .personal{

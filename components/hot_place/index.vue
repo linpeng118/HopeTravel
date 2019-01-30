@@ -38,6 +38,7 @@ export default {
     .hot-item{
       margin-bottom: 20px;
       margin-right: 12px;
+      width:160px;
     }
     .title{
       font-size: 24px;

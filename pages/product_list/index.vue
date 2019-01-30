@@ -74,6 +74,7 @@
         </div>
       </div>
     </van-popup>
+    <drift-aside class="drift"></drift-aside>
   </section>
 </template>
 
@@ -83,13 +84,15 @@ import sortItem from '@/components/search/sortItem'
 import ProductList from '@/components/list/productList'
 import CityList from '@/components/list/cityList'
 import {getProductList, getFilterList} from '@/api/products'
+import DriftAside from '@/components/drift_aside'
 export default {
   name: 'product_list',
   components: {
     LayHeader,
     ProductList,
     sortItem,
-    CityList
+    CityList,
+    DriftAside
   },
   data() {
     return {
@@ -519,5 +522,8 @@ export default {
   }
   .van-overlay{
     top: 264px !important;
+  }
+  .drift-wrap .van-overlay{
+    top: 0 !important;
   }
 </style>
