@@ -18,7 +18,7 @@ let httprequest = axios.create({
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json; charset=utf-8', // json格式通信
-    'platform': 'app',
+    'platform': 'mobile',
     'phoneType': 'iOS'
   }
 })
