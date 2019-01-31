@@ -183,7 +183,9 @@
       },
       async init() {
         await this.getLocalgroupData()
-        await this.getProductListData()
+        if(this.localgroupData[2].data && this.localgroupData[2].data.length) {
+          await this.getProductListData()
+        }
       },
       // 获取当地跟团数据
       async getLocalgroupData() {
