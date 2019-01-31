@@ -1,6 +1,6 @@
 import axios from '@/plugins/axios/axios'
 
-// export const getHotActivities = () => {
+// export const getHotActivities = ($axios) => {
 //   return axios({
 //     method: 'get',
 //     url: '/api/localPlay/activity',

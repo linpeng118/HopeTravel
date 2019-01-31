@@ -147,6 +147,7 @@ export default {
       prodPagination: {},
     }
   },
+
   mounted() {
     this.getHomeInitData()
     this.getTime()
