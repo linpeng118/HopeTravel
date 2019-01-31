@@ -52,6 +52,9 @@
   import {countprice} from '@/api/confirm_order'
   import {addorder} from '@/api/confirm_order'
   import Loading from '@/components/loading'
+  import {
+    getCookieByKey
+  } from '@/assets/js/utils'
   export default {
     layout: 'default',
     components: {
@@ -170,8 +173,8 @@
       },
       //是否需要登录弹窗
       islogin() {
-        console.log(this.$store.state.token)
-        if (!this.$store.state.token) {
+        var token=getCookieByKey('token') ? getCookieByKey('token') : '';
+        if (!token) {
           this.vxToggleDialog(true)
           this.vxSetDlgType(DLG_TYPE.LOGIN)
         }
