@@ -450,7 +450,7 @@
       },
       operateTabbar() {
         return [
-          {type: OPERATE_TYPE.ATTR, name: '关注', icon: this.product.is_favorite ? require('../../assets/imgs/star_active@2x.png') : require('../../assets/imgs/star@2x.png')},
+          {type: OPERATE_TYPE.ATTR, name: '收藏', icon: this.product.is_favorite ? require('../../assets/imgs/star_active@2x.png') : require('../../assets/imgs/star@2x.png')},
           {type: OPERATE_TYPE.PHONE, name: '电话咨询', icon: require('../../assets/imgs/product/phone@2x.png')},
           {type: OPERATE_TYPE.ONLINE, name: '在线咨询', icon: require('../../assets/imgs/product/consult@2x.png')},
         ]
@@ -761,9 +761,9 @@
         this.jumpTo('/')
       },
       onDest() {
-        this.jumpTo('/')
+        this.jumpTo('/search')
       },
-      onFolonDestlow() {
+      onFollow() {
         this.jumpTo('/personal/follow')
       },
       jumpTo(path) {
@@ -1324,6 +1324,7 @@
       background: rgba(0, 0, 0, 0.7);
       border-radius: 6px;
       position: fixed;
+      z-index: 999;
       top: 88px;
       right: 32px;
       padding: 0 10px;
