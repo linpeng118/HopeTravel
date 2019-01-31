@@ -1,7 +1,8 @@
 <template>
   <section class="local-play-foreign"
     ref="refLocalPlayForeign">
-    <lay-header v-if="!isApp" :title="title"
+    <lay-header v-if="!isApp"
+      :title="title"
       :isSearch="false"
       :classBg="classBg"
       :barSearch="barSearch"
@@ -10,7 +11,8 @@
     <div v-if="showList.length">
       <div class="area-play">
         <!---->
-        <div class="area-location" @click="moreCity">
+        <div class="area-location"
+          @click="moreCity">
           <div class="icon"></div>
           <div class="name">{{cityInfo.name}}</div>
         </div>
@@ -205,7 +207,7 @@
       // 获取最近浏览
       async getViewedList(ids) {
         let {data, code} = await getProductList(ids)
-        if(code === 0) {
+        if (code === 0) {
           this.viewedList = data
           console.log(this.viewedList)
         } else {
@@ -274,29 +276,30 @@
       // 滚动监听显示header
       scrollFn() {
         console.log('滚动了')
-        window.requestAnimationFrame(() => {
-          const s1 = this.$refs.refLocalPlayForeign.scrollTop
-          const s3 = this.$refs.refAreaMain.offsetHeight
-          setTimeout(() => {
-            const s2 = this.$refs.refLocalPlayForeign.scrollTop
-            const direct = s2 - s1
-            if (s1 === 0) {
-              this.vxChangeHeaderStatus(HEADER_TYPE.TOP)
-            } else if (direct > 0) {
-              this.vxChangeHeaderStatus(HEADER_TYPE.DOWN)
-            } else if (direct < 0) {
-              this.vxChangeHeaderStatus(HEADER_TYPE.UP)
-            }
-            if (s1 > s3) {
-              this.title = ''
-              this.barSearch = true
-              this.searchKeyWords = `查找${this.cityInfo.name}的活动`
-            } else {
-              this.title = '当地玩乐'
-              this.barSearch = false
-            }
-          }, 17)
-        })
+        if (this.isApp) {
+          this.appBridge.webViewScrollViewDidScroll({'top': s1.toString()})
+        }
+        const s1 = this.$refs.refLocalPlayForeign.scrollTop
+        const s3 = this.$refs.refAreaMain.offsetHeight
+        setTimeout(() => {
+          const s2 = this.$refs.refLocalPlayForeign.scrollTop
+          const direct = s2 - s1
+          if (s1 === 0) {
+            this.vxChangeHeaderStatus(HEADER_TYPE.TOP)
+          } else if (direct > 0) {
+            this.vxChangeHeaderStatus(HEADER_TYPE.DOWN)
+          } else if (direct < 0) {
+            this.vxChangeHeaderStatus(HEADER_TYPE.UP)
+          }
+          if (s1 > s3) {
+            this.title = ''
+            this.barSearch = true
+            this.searchKeyWords = `查找${this.cityInfo.name}的活动`
+          } else {
+            this.title = '当地玩乐'
+            this.barSearch = false
+          }
+        }, 17)
       },
       selectProductList(typeId) {
         if (this.isApp) {
@@ -313,7 +316,7 @@
             keyword: encodeURIComponent(this.cityInfo.name),
             itemType: '2',
           }
-          if(typeId !== null) {
+          if (typeId !== null) {
             query.product_type = typeId.toString()
           }
           this.$router.push({

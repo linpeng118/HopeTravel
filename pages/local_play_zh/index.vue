@@ -1,8 +1,10 @@
 <template>
   <div class="local-play-zh"
     ref="refLocalPlayPage">
-    <lay-header v-if="!isApp" title="当地玩乐"
-      @leftClick="leftClick" @rightClick="rightClick"></lay-header>
+    <lay-header v-if="!isApp"
+      title="当地玩乐"
+      @leftClick="leftClick"
+      @rightClick="rightClick"></lay-header>
     <div v-if="showList.length">
       <!-- banner -->
       <div class="banner"></div>
@@ -148,7 +150,7 @@
         }
       },
       //
-      rightClick(){
+      rightClick() {
         this.$router.push({
           path: '/search'
         })
@@ -204,23 +206,24 @@
       },
       // 滚动监听显示header
       scrollFn() {
-        window.requestAnimationFrame(() => {
-          const s1 = this.$refs.refLocalPlayPage.scrollTop
-          setTimeout(() => {
-            const s2 = this.$refs.refLocalPlayPage.scrollTop
-            const direct = s2 - s1
-            if (s1 === 0) {
-              // console.log('处于顶部')
-              this.vxChangeHeaderStatus(HEADER_TYPE.TOP)
-            } else if (direct > 0) {
-              // console.log('向下滚动')
-              this.vxChangeHeaderStatus(HEADER_TYPE.DOWN)
-            } else if (direct < 0) {
-              // console.log('向上滚动')
-              this.vxChangeHeaderStatus(HEADER_TYPE.UP)
-            }
-          }, 17)
-        })
+        const s1 = this.$refs.refLocalPlayPage.scrollTop
+        if (this.isApp) {
+          this.appBridge.webViewScrollViewDidScroll({'top': s1.toString()})
+        }
+        setTimeout(() => {
+          const s2 = this.$refs.refLocalPlayPage.scrollTop
+          const direct = s2 - s1
+          if (s1 === 0) {
+            // console.log('处于顶部')
+            this.vxChangeHeaderStatus(HEADER_TYPE.TOP)
+          } else if (direct > 0) {
+            // console.log('向下滚动')
+            this.vxChangeHeaderStatus(HEADER_TYPE.DOWN)
+          } else if (direct < 0) {
+            // console.log('向上滚动')
+            this.vxChangeHeaderStatus(HEADER_TYPE.UP)
+          }
+        }, 17)
       },
       linkCityHandle(cityId) {
         let query = {
