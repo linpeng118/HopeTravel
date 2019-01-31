@@ -85,6 +85,8 @@
     .banner {
       position: relative;
       height: 240px;
+      border-radius:8px;
+      background-color: #d8d8d8;
       img {
         width: 100%;
         height: 100%;

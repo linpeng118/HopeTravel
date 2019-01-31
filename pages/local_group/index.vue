@@ -103,6 +103,7 @@
   import SearchHeader from '@/components/header/index.vue'
   import HotItem from '@/components/items/hotItem.vue'
   import HotCityTag from '@/components/tags/index.vue'
+  import {setCookieByKey} from '@/assets/js/utils'
 
   export default {
     layout: 'default',
@@ -167,6 +168,8 @@
         // 引入appBridge
         this.appBridge = require('@/assets/js/appBridge').default
         // this.appBridge.hideNavigationBar()
+        let currency = this.appBridge.obtainUserCurrency()
+        setCookieByKey('currency', currency.userCurrency)
       } else {
         console.log('web操作')
       }

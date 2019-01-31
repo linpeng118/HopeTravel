@@ -251,6 +251,11 @@ export const jumpDestinationView = createNoArgApi('jumpDestinationView', 'jumpDe
  */
 export const backPreviousView = createNoArgApi('jumpDestinationView', 'jumpDestinationView')
 
+/**
+ * 返回上一个界面(对web而言就是返回app首页)
+ */
+export const obtainUserCurrency = createNoArgApi('obtainUserCurrency', 'obtainUserCurrency')
+
 
 export default {
   // 以下接口需传参调用
@@ -268,5 +273,6 @@ export default {
   jumpDestinationView,
   backPreviousView,
   getLocalStorage,
-  obtainUserToken
+  obtainUserToken,
+  obtainUserCurrency
 }

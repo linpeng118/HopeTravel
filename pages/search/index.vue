@@ -3,7 +3,7 @@
     <lay-header
       searchKeyWords="城市/景点/产品/关键字"
       :isSearch="isSearch"
-      @onSearch="onSearch"
+      @searchList="searchList"
       @searchStart="searchStart"
       @query="queryChange"
       @leftClick="leftClick"
@@ -31,7 +31,7 @@
     <div class="search-result" v-if="searchResult">
       <template v-if="searchResultList.searchCategory.length">
         <h2 class="title">{{searchWords}} 的产品</h2>
-        <square-tag :lists="searchResultList.searchCategory"></square-tag>
+        <square-tag :lists="searchResultList.searchCategory" @selectProductList="selectProductList"></square-tag>
       </template>
       <search-result :lists="searchResultList.searchProduct"></search-result>
     </div>
@@ -168,8 +168,14 @@ export default {
       return countryObj
     },
     // 搜索按钮
-    onSearch() {
-      console.log('search')
+    searchList() {
+      this.$router.push({
+        name: 'product_list',
+        query: {
+          itemType: 0,
+          keyWords: this.searchWords
+        }
+      })
     },
     //
     searchStart() {
@@ -179,6 +185,25 @@ export default {
     queryChange (value) {
       // console.log(value)
       this.searchWords = value
+    },
+    // 搜索关键字跳转列表
+    selectProductList(type) {
+      console.log()
+      let typeItem
+      if (type == 4) {
+        typeItem = 3
+      } else if(type == 5) {
+        typeItem = 4
+      } else if (type == 7) {
+        typeItem = 5
+      }
+      this.$router.push({
+        name: 'product_list',
+        query: {
+          itemType: typeItem || type,
+          keyWords: this.searchWords
+        }
+      })
     },
     // 搜索执行
     async search() {
