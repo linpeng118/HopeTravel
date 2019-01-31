@@ -97,7 +97,7 @@
 
 <script>
 
-  import dateTrip from '../../components/confirm_foot/dateTrip'
+  import dateTrip from '@/components/confirm_foot/dateTrip'
   import ConfirmFoot from '@/components/confirm_foot/foot.vue'
   import headerDate from '@/components/header/dateTrap.vue'
   import {getdateTrip} from '@/api/date_trip'

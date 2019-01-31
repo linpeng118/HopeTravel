@@ -11,7 +11,7 @@
 
       <!--页头信息-->
       <section>
-        <div class="confirm-title">
+        <div class="confirm-title" v-if="countprice.departure_date">
           <p>{{product.name}}</p>
           <p v-html="settitletip()"></p>
         </div>
@@ -251,10 +251,13 @@
       }
     },
     created(){
+
+    },
+    mounted() {
       this.pricelist=this.get_vuex_pricelist;
+
       this.getqu();
     },
-    mounted() {},
     methods: {
       //获得价格日历数据
       async getpricedate(id) {
@@ -267,7 +270,8 @@
       },
       //设置页头数据
       settitletip() {
-        let date = new Date(this.countprice.departure_date.replace(/-/g, "/")).getTime();
+        this.countprice=this.get_vuex_countprice;
+        let date = new Date((this.countprice.departure_date).replace(/-/g, "/")).getTime();
         let date1 = this.timeFormat(date);
         if (this.product.product_entity_type == 1 && this.product.self_support == 0) {
           return date1 + '  ' + this.countprice.adult + '成人  ' + this.countprice.child + '儿童  ' + this.countprice.room_total + '房间  '
