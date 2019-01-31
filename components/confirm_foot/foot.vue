@@ -170,6 +170,7 @@
       },
       //是否需要登录弹窗
       islogin() {
+        console.log(this.$store.state.token)
         if (!this.$store.state.token) {
           this.vxToggleDialog(true)
           this.vxSetDlgType(DLG_TYPE.LOGIN)
