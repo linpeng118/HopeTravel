@@ -24,7 +24,7 @@
       </span>
     </div>
     <van-popup v-model="showpops" class="setbottom" position="bottom" :overlay="true">
-      <paylist :payData="pricelist" @closepops="closepops"></paylist>
+      <paylist :payData="pricelist" :showmili="get_vuex_countprice.is_point?'1':'0'" @closepops="closepops"></paylist>
     </van-popup><!-- 加载态 -->
     <loading v-if="loading"></loading>
     <div style="display: none" v-if="showbtn2==true">
