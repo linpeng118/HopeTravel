@@ -18,7 +18,17 @@
       LoginComp
     },
     data() {
-      return {}
+      return {
+        redirect: this.$route.query.redirect || '',
+      }
+    },
+    mounted() {
+      if (this.redirect) {
+        console.log(this.redirect)
+        this.$router.push({
+          path: this.redirect
+        })
+      }
     },
     methods: {
       // 跳转至注册页
