@@ -289,6 +289,14 @@
         "scroll",
         _throttle(this.scrollFn, 200)
       );
+      // 判断机型
+      if (this.isApp) {
+        // 引入appBridge
+        this.appBridge = require('@/assets/js/appBridge').default
+        // this.appBridge.hideNavigationBar()
+      } else {
+        console.log('web操作')
+      }
     },
     methods: {
       // 热门景点tag
