@@ -267,7 +267,7 @@
       },
       //设置页头数据
       settitletip() {
-        let date = new Date(this.countprice.departure_date).getTime();
+        let date = new Date(this.countprice.departure_date.replace(/-/g, "/")).getTime();
         let date1 = this.timeFormat(date);
         if (this.product.product_entity_type == 1 && this.product.self_support == 0) {
           return date1 + '  ' + this.countprice.adult + '成人  ' + this.countprice.child + '儿童  ' + this.countprice.room_total + '房间  '

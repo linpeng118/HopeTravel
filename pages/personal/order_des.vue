@@ -189,7 +189,9 @@
         }
       },
       onClickLeft() {
-        this.$router.go(-1)
+        this.$router.push({
+          path:'/personal/order?status=null'
+        })
       },
       subData(){
         this.$refs.order_id.value=this.details.order_id;
