@@ -11,13 +11,13 @@
         </a>
       </div>
       <div class="pro">
-        <a href="tourscool://open/LineDetailsVC?productID=1600">
+        <a href="tourscool://open/LineDetailsVC?productID=2148">
           <img src="../../assets/imgs/activity/newyear2019/product/1.jpg" alt>
         </a>
         <a href="tourscool://open/LineDetailsVC?productID=1442">
           <img src="../../assets/imgs/activity/newyear2019/product/2.jpg" alt>
         </a>
-        <a href="tourscool://open/LineDetailsVC?productID=1502">
+        <a href="tourscool://open/LineDetailsVC?productID=2215">
           <img src="../../assets/imgs/activity/newyear2019/product/3.jpg" alt>
         </a>
         <a href="tourscool://open/LineDetailsVC?productID=1434">
@@ -26,11 +26,14 @@
         <a href="tourscool://open/LineDetailsVC?productID=1943">
           <img src="../../assets/imgs/activity/newyear2019/product/5.jpg" alt>
         </a>
-        <a href="tourscool://open/LineDetailsVC?productID=1491">
+        <!-- <a href="tourscool://open/LineDetailsVC?productID=1491">
           <img src="../../assets/imgs/activity/newyear2019/product/6.jpg" alt>
-        </a>
+        </a> -->
         <a href="tourscool://open/LineDetailsVC?productID=915">
           <img src="../../assets/imgs/activity/newyear2019/product/7.jpg" alt>
+        </a>
+        <a href="tourscool://open/LineDetailsVC?productID=1434">
+          <img src="../../assets/imgs/activity/newyear2019/product/4.jpg" alt>
         </a>
         <a href="tourscool://open/LineDetailsVC?productID=918">
           <img src="../../assets/imgs/activity/newyear2019/product/8.jpg" alt>
