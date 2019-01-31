@@ -68,7 +68,7 @@
           fmData.append('jwt', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiI2IiwiZ2lkIjoiMSIsImV4cCI6MTU0OTMzMDUwM30.lXnR3iGDgZ8ziaxw0sBX9_wF4xdD6d1ULLMe4Xaf6ko')
 
           axios({
-            url:'http://www.htw.tourscool.net/upload.php',
+            url:'http://assets.tourscool.com/upload.php',
             method: 'post',
             data: fmData
           }).then(res => {
