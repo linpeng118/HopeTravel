@@ -97,6 +97,7 @@
   import {HEADER_TYPE} from '@/assets/js/consts/headerType'
   import SnapUpItem from '@/components/items/snapUpItem'
   import {Toast} from 'vant'
+  import {setCookieByKey} from '@/assets/js/utils'
   export default {
     // layout: 'default',
     transition: 'page',
@@ -161,6 +162,8 @@
       if (this.isApp) {
         this.appBridge = require('@/assets/js/appBridge.js').default
         // this.appBridge.hideNavigationBar()
+        let currency = this.appBridge.obtainUserCurrency()
+        setCookieByKey('currency', currency.userCurrency)
         let productIds = await this.appBridge.getLocalStorage()
         if (productIds) {
           this.getViewedList(productIds)
@@ -173,6 +176,7 @@
     },
     methods: {
       ...mapMutations({
+        vxChangeTokens: 'setToken', // 改变token
         vxChangeHeaderStatus: 'header/changeStatus' // 修改头部状态
       }),
       // 返回上一级菜单
@@ -350,14 +354,16 @@
         }
       },
       moreCity() {
-        let query = {}
         if (this.isApp) {
           query.platform = 'app'
+          this.appBridge.jumpWebHTML({
+            path: 'local_play_foreign/more_city?platform=app'
+          })
+        } else {
+          this.$router.push({
+            path: `/local_play_foreign/more_city`
+          })
         }
-        this.$router.push({
-          path: `/local_play_foreign/more_city`,
-          query
-        })
       }
     }
   }

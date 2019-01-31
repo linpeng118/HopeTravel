@@ -1,6 +1,6 @@
 <template>
   <section class="square-wrap">
-    <div class="square-item" v-for="(list,index) in lists" :key="index">
+    <div class="square-item" v-for="(list,index) in lists" :key="index" @click="selectProductList(list)">
       <p>{{list.title}}</p>
       <p>{{list.total}}</p>
     </div>
@@ -18,6 +18,11 @@ export default {
     keyword: {
       type: String,
       default: ''
+    }
+  },
+  methods: {
+    selectProductList(list) {
+      this.$emit('selectProductList', list.type)
     }
   }
 }

@@ -60,6 +60,7 @@
   import Loading from '@/components/loading'
   import {HEADER_TYPE} from '@/assets/js/consts/headerType'
   import {PRODUCTIDS} from '@/assets/js/config'
+  import {setCookieByKey} from '@/assets/js/utils'
   export default {
     components: {
       HotCity,
@@ -126,6 +127,8 @@
       if (this.isApp) {
         this.appBridge = require('@/assets/js/appBridge.js').default
         // this.appBridge.hideNavigationBar()
+        let currency = this.appBridge.obtainUserCurrency()
+        setCookieByKey('currency', currency.userCurrency)
         let productIds = await this.appBridge.getLocalStorage()
         if (productIds) {
           this.getViewedList(productIds)
@@ -137,7 +140,7 @@
     methods: {
       ...mapMutations({
         vxChangeHeaderStatus: 'header/changeStatus', // 修改头部状态
-        vxChangeTokens: 'common/updateToken' // 改变token
+        vxChangeTokens: 'setToken', // 改变token
       }),
       // 头部返回按钮
       leftClick() {

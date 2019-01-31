@@ -24,7 +24,7 @@
             @click="changeProduct(index)"
           >
             <van-checkbox :name="item.product_id" ref="checkboxes" v-if="isModify" class="checked" />
-            <div class="content">
+            <div class="content" @click="selectItem(item.product_id)">
               <div class="pro-pic">
                 <img :src="item.image" alt>
               </div>
@@ -88,6 +88,17 @@ export default {
         this.init()
       } else {
         this.$toast('删除失败')
+      }
+    },
+    // 详情跳转
+    selectItem(productId) {
+      if(!this.isModify) {
+        this.$router.push({
+          name: 'product-detail',
+          query: {
+            productId
+          }
+        })
       }
     }
   }
@@ -161,6 +172,7 @@ export default {
       left: 0;
       right: 0;
       padding: 26px 144px;
+      background-color: #fff;
       button{
         border-radius:8px;
         background-color: #399EF6;

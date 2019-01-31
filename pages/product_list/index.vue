@@ -107,7 +107,7 @@ export default {
       sortShow: false,
       filterLists: {},
       startCity: [],
-      active: this.$route.query.itemType === 3 ? 0: this.$route.query.itemType, // 当前搜索的type值
+      active: this.$route.query.itemType || 0, // 当前搜索的type值
       filterResult: {
         product_type: this.$route.query.product_type || null,
         category: this.$route.query.category || null,
@@ -132,7 +132,8 @@ export default {
   },
   computed: {
     currentType() { // 当前的type类型
-      let _arr = [3,1,2,4,5,6,7]
+      // 如果有修改要特别注意类型
+      let _arr = [3,1,2,4,5,7,7]
       return _arr[this.active]
     },
     multipleTag() {

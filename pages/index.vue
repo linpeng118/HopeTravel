@@ -198,7 +198,7 @@ export default {
       this.$router.push({
         name: 'product_list',
         query: {
-          itemType: 3,
+          itemType: 0,
           ...detail
         }
       })
@@ -361,9 +361,13 @@ export default {
       .half{
         display: flex;
         flex-wrap: wrap;
+        padding: 0 15px;
       }
       .half-item{
         width: 50%;
+      }
+      .van-cell{
+        padding: 10px;
       }
     }
     .count-down{
