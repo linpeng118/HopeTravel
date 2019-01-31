@@ -20,7 +20,7 @@
           show-action
           @cancel="onCancel"
           @search="onSearch" v-if="isSearch">
-          <div slot="action" @click="onSearch">搜索</div>
+          <div slot="action" @click="onSearch" ref="search">搜索</div>
         </van-search>
       </div>
     </van-icon>
@@ -50,6 +50,7 @@
     created() {
       this.$watch('query', _throttle((newValue) => {
         this.$emit('query', newValue)
+        this.$refs.search.focus()
       }, 500))
     },
     methods: {

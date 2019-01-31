@@ -94,7 +94,7 @@
         if (this.isApp) {
           query.platform = 'app'
           this.appBridge.jumpWebHTML({
-            path: `local_play_foreign?touCityId=${cityId}`
+            path: `local_play_foreign?touCityId=${cityId}&platform=app`
           })
         } else {
           this.$router.push({

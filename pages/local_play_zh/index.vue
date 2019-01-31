@@ -232,7 +232,7 @@
         if (this.isApp) {
           // query.platform = 'app'
           this.appBridge.jumpWebHTML({
-            path: `local_play_foreign?touCityId=${cityId}`
+            path: `local_play_foreign?touCityId=${cityId}&platform=app`
           })
         } else {
           this.$router.push({
@@ -248,7 +248,7 @@
           query.platform = 'app'
           // jumpWebHTML
           this.appBridge.jumpWebHTML({
-            path: 'local_play_foreign/more_city'
+            path: 'local_play_foreign/more_city?platform=app'
           })
         } else {
           this.$router.push({
