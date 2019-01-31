@@ -12,7 +12,8 @@
       <div class="big-search">
         <van-search
           :placeholder="query || searchKeyWords"
-          v-model="query" v-if="!isSearch" @click.stop="searchChange"></van-search>
+          v-model="query" v-if="!isSearch"
+          @click.stop="searchChange" ref="search"></van-search>
         <van-search
           :placeholder="searchKeyWords"
           v-model="query"

@@ -164,5 +164,5 @@ export {
   validDomain,
   isMobile,
   isEmail,
-  resetTime,
+  resetTime
 }

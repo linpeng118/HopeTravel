@@ -239,11 +239,14 @@
         let query = {}
         if (this.isApp) {
           query.platform = 'app'
+          // jumpWebHTML
+          this.appBridge.jumpWebHTML('/local_play_foreign/more_city')
+        } else {
+          this.$router.push({
+            path: `/local_play_foreign/more_city`,
+            query
+          })
         }
-        this.$router.push({
-          path: `/local_play_foreign/more_city`,
-          query
-        })
       },
       // 搜藏
       async callCollect(val) {

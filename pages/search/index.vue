@@ -93,7 +93,7 @@ export default {
   },
   watch: {
     searchWords(newValue) {
-      if (!newValue) { // 没有数据是恢复原状
+      if (!newValue) { // 没有数据恢复原状
         this.searchLoading = false
         this.loading = '数据加载中...'
         this.isSearch = false

@@ -210,6 +210,11 @@ export const jumpProductDetailView = createArgApi('jumpProductDetailView', 'jump
  */
 export const userCollectProduct = createArgApi('userCollectProduct', 'userCollectProduct')
 
+/**
+ * 跳转城市详情
+ */
+export const jumpWebHTML = createArgApi('jumpWebHTML', 'jumpWebHTML')
+
 /*  =========================== 不需要参数的方法 ===========================  */
 /**
  *  显示顶部导航栏
@@ -248,6 +253,7 @@ export default {
   jumpProductDetailView,
   userCollectProduct,
   collectProductResult,
+  jumpWebHTML,
   // 以下接口无需参数
   hideNavigationBar,
   showNavigationBar,

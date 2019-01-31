@@ -69,12 +69,8 @@
       <sort-item :sortShow="sortShow" :sortResult="sortResult" @selectSort="selectSortItem"></sort-item>
     </div>
     <!--更多列表的选择-->
-    <van-popup v-model="showList" position="right" :overlay="true" class="filter-select">
-      <div class="filter-content">
-        <div class="show-list">
-          <city-list :multiple="multipleTag" :showBar="true" :dataObj="moreLists" @selectItem="selectItem" ref="moreList" @back="moreListBack"></city-list>
-        </div>
-      </div>
+    <van-popup v-model="showList" position="right" :overlay="true" class="filter-select more-tag">
+      <city-list :multiple="multipleTag" :showBar="true" :dataObj="moreLists" @selectItem="selectItem" ref="moreList" @back="moreListBack"></city-list>
     </van-popup>
     <drift-aside class="drift"></drift-aside>
   </section>
@@ -420,7 +416,7 @@ export default {
     }
     .filter-content{
       position: absolute;
-      top:176px;
+      top:166px;
       bottom: 88px;
       left: 0;
       right: 0;
@@ -517,9 +513,8 @@ export default {
 
       }
     }
-    .van-tabs--line{
-      height: 88px;
-      border-bottom: 2px solid #E4E4E4;
+    .van-hairline--top-bottom::after{
+      border-color: #E4E4E4;
     }
   }
   .filter-content{
@@ -528,7 +523,7 @@ export default {
     }
   }
   .van-overlay{
-    top: 264px !important;
+    top: 254px !important;
   }
   .drift-wrap .van-overlay{
     top: 0 !important;
