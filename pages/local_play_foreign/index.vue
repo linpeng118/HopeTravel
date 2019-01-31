@@ -21,16 +21,16 @@
           <div class="area-info">
             {{cityInfo.description}}
           </div>
-          <div class="area-search"
-            ref="refAreaSeach"
-            @click="selectSearch">
-            <span class="icon-search">
-              <van-icon name="search"
-                color="white"
-                size="0.6rem" />
-            </span>
-            <span class="search-box">查找{{cityInfo.name}}的活动</span>
-          </div>
+          <!--<div class="area-search"-->
+            <!--ref="refAreaSeach"-->
+            <!--@click="selectSearch">-->
+            <!--<span class="icon-search">-->
+              <!--<van-icon name="search"-->
+                <!--color="white"-->
+                <!--size="0.6rem" />-->
+            <!--</span>-->
+            <!--<span class="search-box">查找{{cityInfo.name}}的活动</span>-->
+          <!--</div>-->
           <div class="area-entrance">
             <div class="c-title"
               @click="selectProductList(null)">
@@ -469,6 +469,7 @@
         border-radius: 8px;
         background: #fff;
         padding-bottom: 17px;
+        margin-top: 20px;
         .c-title {
           padding-left: 20px;
           font-size: 24px;
