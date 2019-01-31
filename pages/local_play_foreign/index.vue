@@ -170,6 +170,7 @@
         }
         let token = await this.appBridge.obtainUserToken()
         this.vxChangeTokens(token)
+        this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 100))
       } else {
         this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 100))
       }
