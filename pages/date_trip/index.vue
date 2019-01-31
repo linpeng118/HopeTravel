@@ -1,7 +1,7 @@
 <template>
   <section class="section0">
     <section>
-      <header-date :title="'下单'" ></header-date>
+      <header-date :title="'选择日期和人数'" ></header-date>
     </section>
     <section class="section1" >
       <!--日历head-->
@@ -12,7 +12,7 @@
           </li>
         </template>
       </ul>
-      <date-trip :dateprice="datedata" :checkdayx="checkday" @setcheckday="setcheckday"></date-trip>
+      <date-trip :dateprice="datedata" :checkdayx="checkday+''" @setcheckday="setcheckday"></date-trip>
       <!--日历foot-->
       <p class="trip-tip">
         <span v-show="showsday!=''">{{showsday}}出发 - {{showeday}}返回</span>
@@ -24,7 +24,7 @@
       <ul class="checkroom">
         <template v-for="(item,ind) in rooms">
           <li :key="ind" class="checkitem" v-if="product.max_num_guest">
-            <p class="checkitem_title">房间 {{ind}}
+            <p class="checkitem_title">房间 {{ind+1}}
               <span v-if="item.add" @click="roomdel(ind)">删除</span>
             </p>
             <div class="checkitem_con">
@@ -184,7 +184,8 @@
       },
       'total_adult'(val,oldval) {
         if (this.product.product_entity_type == 1 && this.product.self_support == 0) {
-        } else  {
+        }
+        else  {
 
           let countperson = val + this.total_kids;
           if (countperson >= this.product.min_num_guest) {
@@ -209,7 +210,7 @@
 
             });
             this.$dialog.alert({
-              message: '总人数不足最少成团人数，请添加2'
+              message: '总人数不足最少成团人数，请添加'
             });
           }
         }
