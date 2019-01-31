@@ -168,7 +168,7 @@
         // 引入appBridge
         this.appBridge = require('@/assets/js/appBridge').default
         // this.appBridge.hideNavigationBar()
-        let currency = this.appBridge.obtainUserCurrency()
+        let currency = await this.appBridge.obtainUserCurrency()
         setCookieByKey('currency', currency.userCurrency)
       } else {
         console.log('web操作')
