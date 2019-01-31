@@ -1,29 +1,15 @@
 const pkg = require('./package')
+const api = require('./api/config')
 // const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
-// let nuxtPlugins = [{
-//     src: '~/plugins/vant',
-//     ssr: true,
-//   },
-//   {
-//     src: '~/plugins/vue-swiper',
-//     ssr: false,
-//   },
-//   {
-//     src: '~/assets/js/appBridge',
-//     ssr: false,
-//   },
-//   '~/plugins/axios/nuxtaxios',
+// let baseUrl
 
-// ]
 // if (process.env.ENV_TYPE === 'prodDev') {
-//   nuxtPlugins = nuxtPlugins.concat([{
-//     src: '~/plugins/vconsole',
-//     ssr: false,
-//   }])
 //   console.log('dev环境')
+//   baseUrl = api[process.env.ENV_TYPE]
 // } else if (process.env.ENV_TYPE === 'prodQa') {
 //   console.log('qa环境')
+//   baseUrl = api[process.env.ENV_TYPE]
 // }
 
 
