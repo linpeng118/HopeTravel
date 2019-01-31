@@ -6,7 +6,7 @@
       :transparent="isTransparent"
       :title="product.name"
       fixed
-      @onClickRight="onHeaderRight"
+      @callOnRight="onHeaderRight"
       ref="refProdctDetailHeader" />
     <div class="product-detail"
       ref="refProductDetail">
@@ -333,6 +333,27 @@
         width="100%"
         height="100%"></iframe>
     </van-popup> -->
+    <div class="show-more"
+      v-show="showMore">
+      <div class="show-more-item"
+        @click="onHomePage">
+        <img src="~/assets/imgs/product/icon_home@2x.png"
+          alt="">
+        <span class="item-title">首页</span>
+      </div>
+      <div class="show-more-item"
+        @click="onDest">
+        <img src="~/assets/imgs/product/icon_pos@2x.png"
+          alt="">
+        <span class="item-title">目的地</span>
+      </div>
+      <div class="show-more-item"
+        @click="onFollow">
+        <img src="~/assets/imgs/product/icon_star@2x.png"
+          alt="">
+        <span class="item-title">我的收藏</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -367,11 +388,6 @@
           {name: '限时特价', desc: '该产品享受买贵退差', icon: require('../../assets/imgs/product/tick@2x.png')},
           {name: '低价保证', desc: '', icon: require('../../assets/imgs/product/tick@2x.png')},
         ],
-        operateTabbar: [
-          {type: OPERATE_TYPE.ATTR, name: '关注', icon: require('../../assets/imgs/product/attention@2x.png')},
-          {type: OPERATE_TYPE.PHONE, name: '电话咨询', icon: require('../../assets/imgs/product/phone@2x.png')},
-          {type: OPERATE_TYPE.ONLINE, name: '在线咨询', icon: require('../../assets/imgs/product/consult@2x.png')},
-        ],
         activeTab: 1, // 选中的tab
         activeTabRef: this.hasFeature ? 'refFeatures' : 'refTrip',
         showServiceNode: false, // 显示服务说明
@@ -395,7 +411,8 @@
         showDay: 'D1',
         // 显示电话弹窗
         showPhone: false,
-        // showConsult: false,
+        // 右上角更多现实
+        showMore: false,
       }
     },
     computed: {
@@ -431,11 +448,18 @@
           {id: 4, name: '注意事项', ref: 'refNotice', isShow: true},
         ]
       },
+      operateTabbar() {
+        return [
+          {type: OPERATE_TYPE.ATTR, name: '关注', icon: this.product.is_favorite ? require('../../assets/imgs/star_active@2x.png') : require('../../assets/imgs/star@2x.png')},
+          {type: OPERATE_TYPE.PHONE, name: '电话咨询', icon: require('../../assets/imgs/product/phone@2x.png')},
+          {type: OPERATE_TYPE.ONLINE, name: '在线咨询', icon: require('../../assets/imgs/product/consult@2x.png')},
+        ]
+      },
       showDayList() {
         if (!this.itinerary) {
           return
         }
-        let newData = this.itinerary.items.map(item => this.$refs[`refContent${item.sort_order}`][0].offsetTop)
+        let newData = (this.itinerary.items || []).map(item => this.$refs[`refContent${item.sort_order}`][0].offsetTop)
         return newData
       },
       topPrice() {
@@ -500,9 +524,7 @@
       },
       // 跳转至注册页
       toRegist() {
-        this.$router.push({
-          path: '/login/regist'
-        })
+        this.jumpTo('/login/regist')
       },
       /**
        * 年月日转周几
@@ -580,9 +602,7 @@
         }
       },
       onAdCustom() {
-        this.$router.push({
-          path: '/custom'
-        })
+        this.jumpTo('/custom')
       },
       // 滚动函数
       scrollFn() {
@@ -711,9 +731,7 @@
           ...this.product
         })
         // 跳转至订单页面
-        this.$router.push({
-          path: '/date_trip'
-        })
+        this.jumpTo('/date_trip')
       },
       // 期团选中日期跳转
       async onGroupPriceDate(data) {
@@ -737,7 +755,22 @@
       },
       onHeaderRight() {
         console.log('onHeaderRight')
+        this.showMore = !this.showMore
       },
+      onHomePage() {
+        this.jumpTo('/')
+      },
+      onDest() {
+        this.jumpTo('/')
+      },
+      onFolonDestlow() {
+        this.jumpTo('/personal/follow')
+      },
+      jumpTo(path) {
+        this.$router.push({
+          path
+        })
+      }
     },
   }
 </script>
@@ -1284,6 +1317,42 @@
       height: 86vh;
       overflow: hidden;
       bottom: 0;
+    }
+    .show-more {
+      height: 192px;
+      width: 214px;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 6px;
+      position: fixed;
+      top: 88px;
+      right: 32px;
+      padding: 0 10px;
+      &::after {
+        content: "";
+        position: absolute;
+        top: -10px;
+        right: 6px;
+        border-width: 0 16px 10px;
+        border-style: solid;
+        border-color: transparent transparent rgba(0, 0, 0, 0.7);
+      }
+      .show-more-item {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+        display: flex;
+        align-items: center;
+        height: 64px;
+        img {
+          vertical-align: middle;
+          width: 48px;
+          height: 48px;
+        }
+        .item-title {
+          margin-left: 12px;
+          font-size: 24px;
+          font-weight: 300;
+          color: rgba(255, 255, 255, 1);
+        }
+      }
     }
   }
 </style>

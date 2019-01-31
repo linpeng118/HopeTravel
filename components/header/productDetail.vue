@@ -66,6 +66,9 @@
       color: #fff;
       .left-wrap,
       .right-wrap {
+        background: rgba(0,0,0, 0.5);
+        padding: 10px;
+        border-radius: 50%;
         color: #fff;
         font-size: 32px;
       }
