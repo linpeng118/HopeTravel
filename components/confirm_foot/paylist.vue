@@ -22,7 +22,6 @@
             <span>{{payData.child}}</span>
           </p>
         </li>
-
         <li class="paysection" v-if="payData.dfc">
           <p class="payitem">
             <span>{{payData.dfc.name}}</span>
@@ -30,7 +29,6 @@
               {{payData.dfc.price}}</span>
           </p>
         </li>
-
         <li class="paysection" v-if="payData.attributes_selected">
           <p class="payitem" >
             <span>行程费用:</span>
@@ -44,16 +42,15 @@
                 {{item.price}}</span>
             </p>
           </template>
-
         </li>
 
-        <li class="paysection" v-if="payData.discount">
+        <li class="paysection" v-if="payData.discount&&showmili=='1'">
           <p class="payitem">
             <span>优惠:</span>
             <span>{{payData.discount}}</span>
           </p>
           <p class="payitem2" v-if="payData.points" >
-            <span>积分抵扣</span>
+            <span>米粒</span>
             <span><i :style="'color:#D51D28'">-</i>
                 {{payData.points.discount}}</span>
           </p>
@@ -77,6 +74,7 @@
     props: {
 
       payData: Object,
+      showmili: String,
 
     },
 

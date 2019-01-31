@@ -54,7 +54,7 @@
       </section>
       <!--行程选择-->
       <section>
-        <div class="confirm-item" v-if="pricelist.attributes">
+        <div class="confirm-item" v-if="pricelist.attributes&&pricelist.attributes.length>0">
           <p class="item-title">行程选项</p>
           <template v-for="(attrx,ind) in showtrvel">
             <div :key="ind">

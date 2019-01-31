@@ -164,7 +164,7 @@
                 child: countchind
               });
             }
-            else {
+            else if(this.product.product_id){
               this.$store.commit("countprice", {
                 room_total: 0,//房间总数
                 room_attributes: [],//房间数据,
@@ -201,7 +201,7 @@
 
             });
           }
-          else {
+          else if(this.product.product_id){
             this.$store.commit("countprice", {
               room_total: 0,//房间总数
               room_attributes: [],//房间数据,
@@ -231,7 +231,7 @@
               child: val
             });
           }
-          else {
+          else if(this.product.product_id){
             this.$store.commit("countprice", {
               room_total: 0,//房间总数
               room_attributes: [],//房间数据,
@@ -253,6 +253,9 @@
       //获得价格日历数据
       if(this.product.product_id){
         this.getpricedate(this.product.product_id);
+      }
+      else{
+       this.$router.go(-1);
       }
     },
 
@@ -282,9 +285,6 @@
             this.datedata = this.pricedate[0];
             this.activeMonth = this.pricedate[0].month;
           }
-
-
-
           //初始化生成房间
           this.roomint();
         } else {
