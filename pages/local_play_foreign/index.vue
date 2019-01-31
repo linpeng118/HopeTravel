@@ -280,11 +280,11 @@
       // 滚动监听显示header
       scrollFn() {
         console.log('滚动了')
-        if (this.isApp) {
-          this.appBridge.webViewScrollViewDidScroll({'top': s1.toString()})
-        }
         const s1 = this.$refs.refLocalPlayForeign.scrollTop
         const s3 = this.$refs.refAreaMain.offsetHeight
+         if (this.isApp) {
+          this.appBridge.webViewScrollViewDidScroll({'top': s1.toString()})
+        }
         setTimeout(() => {
           const s2 = this.$refs.refLocalPlayForeign.scrollTop
           const direct = s2 - s1

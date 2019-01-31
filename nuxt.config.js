@@ -1,29 +1,15 @@
 const pkg = require('./package')
+// const api = require('./api/config')
 // const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
-// let nuxtPlugins = [{
-//     src: '~/plugins/vant',
-//     ssr: true,
-//   },
-//   {
-//     src: '~/plugins/vue-swiper',
-//     ssr: false,
-//   },
-//   {
-//     src: '~/assets/js/appBridge',
-//     ssr: false,
-//   },
-//   '~/plugins/axios/nuxtaxios',
+// let baseUrl
 
-// ]
 // if (process.env.ENV_TYPE === 'prodDev') {
-//   nuxtPlugins = nuxtPlugins.concat([{
-//     src: '~/plugins/vconsole',
-//     ssr: false,
-//   }])
 //   console.log('dev环境')
+//   baseUrl = api[process.env.ENV_TYPE]
 // } else if (process.env.ENV_TYPE === 'prodQa') {
 //   console.log('qa环境')
+//   baseUrl = api[process.env.ENV_TYPE]
 // }
 
 
@@ -131,7 +117,7 @@ module.exports = {
   proxy: {
     // 配置代理
     '/api': {
-      target: 'http://api.beta.tourscool.com/api/tour/v1', // api主机
+      target: 'http://m20.tourscool.net/api/tour/v1', // api主机
       pathRewrite: {
         '^/api': '/',
       },

@@ -24,7 +24,7 @@
       </span>
     </div>
     <van-popup v-model="showpops" class="setbottom" position="bottom" :overlay="true">
-      <paylist :payData="pricelist" @closepops="closepops"></paylist>
+      <paylist :payData="pricelist" :showmili="get_vuex_countprice.is_point?'1':'0'" @closepops="closepops"></paylist>
     </van-popup><!-- 加载态 -->
     <loading v-if="loading"></loading>
     <div style="display: none" v-if="showbtn2==true">
@@ -52,6 +52,9 @@
   import {countprice} from '@/api/confirm_order'
   import {addorder} from '@/api/confirm_order'
   import Loading from '@/components/loading'
+  import {
+    getCookieByKey
+  } from '@/assets/js/utils'
   export default {
     layout: 'default',
     components: {
@@ -170,8 +173,8 @@
       },
       //是否需要登录弹窗
       islogin() {
-        console.log(this.$store.state.token)
-        if (!this.$store.state.token) {
+        var token=getCookieByKey('token') ? getCookieByKey('token') : '';
+        if (!token) {
           this.vxToggleDialog(true)
           this.vxSetDlgType(DLG_TYPE.LOGIN)
         }
