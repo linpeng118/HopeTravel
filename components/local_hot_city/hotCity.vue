@@ -4,7 +4,9 @@
     <div class="hot-list">
       <div class="hot-item" v-for="item in hotCityList" :key="item.start_city" @click="selectItem(item.start_city)">
         <img v-lazy="item.image_url" alt="">
-        <div class="city-name">{{item.title}}</div>
+        <div class="city-name">
+          <span class="title">{{item.title}}</span>
+        </div>
       </div>
     </div>
     <div class="hot-more">
@@ -73,7 +75,15 @@ export default {
           line-height:44px;
           color:#fff;
           text-align: center;
-          @include center;
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          background-color: rgba(0,0,0,0.4);
+          .title{
+            @include center;
+          }
         }
       }
     }

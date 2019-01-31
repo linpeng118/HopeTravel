@@ -75,7 +75,7 @@ export default {
     },
     scrollFn() {
       let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-      let width = window.outerHeight
+      let width = document.body.clientHeight
       this.scrollTop = scrollTop
       if (this.scrollTop > width) {
         this.isShowDrift = true

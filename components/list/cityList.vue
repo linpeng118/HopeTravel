@@ -1,32 +1,39 @@
 <template>
-  <div class="city-wrap">
-    <van-nav-bar
-      left-arrow
-      @click-left="onClickLeft"
-      v-if="showBar"
-      :leftText="dataObj.title"
-    />
-    <div class="main">
-      <div v-for="(value, key) in dataObj" :key="key">
-        <template v-if="typeof value === 'object'">
-          <div class="title" v-if="key !== 'title' && key!== 'type'">{{key}}</div>
-          <ul class="city-list">
-            <li v-for="item in value" :key="item.id" @click="selectItem(item)" :class="selectActive(item)">
-              <span>{{item.name}}</span>
-              <i class="van-icon van-icon-success"></i>
-            </li>
-          </ul>
-        </template>
+  <div class="tag-wrap">
+    <div class="filter-content">
+      <div class="show-list">
+        <div class="city-wrap">
+          <van-nav-bar
+            left-arrow
+            @click-left="onClickLeft"
+            v-if="showBar"
+            :leftText="dataObj.title"
+          />
+          <div class="main">
+            <div v-for="(value, key) in dataObj" :key="key">
+              <template v-if="typeof value === 'object'">
+                <div class="title" v-if="key !== 'title' && key!== 'type'">{{key}}</div>
+                <ul class="city-list">
+                  <li v-for="item in value" :key="item.id" @click="selectItem(item)" :class="selectActive(item)">
+                    <span>{{item.name}}</span>
+                    <i class="van-icon van-icon-success"></i>
+                  </li>
+                </ul>
+              </template>
+            </div>
+          </div>
+          <!--<div class="tags-letter">-->
+          <!--<ul>-->
+          <!--<li v-for="(value, key) in dataObj" :key="key">-->
+          <!--<span v-if="typeof value === 'object'">-->
+          <!--{{key}}-->
+          <!--</span>-->
+          <!--</li>-->
+          <!--</ul>-->
+          <!--</div>-->
+
+        </div>
       </div>
-    </div>
-    <div class="tags-letter">
-      <ul>
-        <li v-for="(value, key) in dataObj" :key="key">
-          <span v-if="typeof value === 'object'">
-            {{key}}
-          </span>
-        </li>
-      </ul>
     </div>
     <div class="bottom-btn">
       <div class="left" @click="reset">清除</div>
@@ -102,72 +109,84 @@ export default {
 </script>
 
 <style type="text/scss" lang="scss" scoped>
-  .city-wrap{
-    width: 100%;
+  .tag-wrap{
+  }
+  .filter-content{
+    position: absolute;
+    top: 2.213333rem;
+    bottom: 1.173333rem;
+    left: 0;
+    right: 0;
     background-color: #fff;
-    .title {
-      padding: 0 36px;
-      height:32px;
-      background:#F1F1F1;
-      font-size:22px;
-      line-height: 32px;
-      color: #C7C7C7;
-    }
-    .city-list{
-      padding: 0 36px;
-      li {
-        line-height: 80px;
-        height: 80px;
-        border-bottom: 2px solid #D8D8D8;
-        font-size: 22px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        i{
-          display: none;
-        }
-        &:last-child{
-          border-bottom: none;
-        }
-        &.active{
-          color: #EF9A1A;
+    padding-bottom: 1.333333rem;
+    overflow-y: auto;
+    .city-wrap{
+      width: 100%;
+      background-color: #fff;
+      .title {
+        padding: 0 36px;
+        height:32px;
+        background:#F1F1F1;
+        font-size:22px;
+        line-height: 32px;
+        color: #C7C7C7;
+      }
+      .city-list{
+        padding: 0 36px;
+        li {
+          line-height: 80px;
+          height: 80px;
+          border-bottom: 2px solid #D8D8D8;
+          font-size: 22px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
           i{
-            display: inline-block;
+            display: none;
+          }
+          &:last-child{
+            border-bottom: none;
+          }
+          &.active{
+            color: #EF9A1A;
+            i{
+              display: inline-block;
+            }
           }
         }
       }
-    }
-    .tags-letter{
-      width: 16px;
-      position: fixed;
-      right: 10px;
-      top: 500px;
-      li{
-        color: #399EF6;
-        font-size:18px;
-        line-height:40px;
+      .tags-letter{
+        width: 16px;
+        position: fixed;
+        right: 10px;
+        top: 500px;
+        li{
+          color: #399EF6;
+          font-size:18px;
+          line-height:40px;
+        }
       }
     }
-    .bottom-btn{
-      height:100px;
-      position: fixed;
-      bottom: 88px;
-      left: 0;
-      right: 0;
-      background-color: #fff;
-      display: flex;
-      box-shadow:0px -1px 10px rgba(0,0,0,0.16);
-      .left,.right{
-        width: 50%;
-        line-height: 100px;
-        font-size:32px;
-        text-align: center;
-        color: #191919;
-      }
-      .right{
-        background-color: #399EF6;
-        color: #fff;
-      }
+  }
+  .bottom-btn{
+    height:88px;
+    position: fixed;
+    bottom: 88px;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    display: flex;
+    box-shadow:0px -1px 10px rgba(0,0,0,0.16);
+    .left,.right{
+      width: 50%;
+      line-height: 100px;
+      font-size:32px;
+      text-align: center;
+      color: #191919;
+    }
+    .right{
+      background-color: #399EF6;
+      color: #fff;
     }
   }
 </style>
