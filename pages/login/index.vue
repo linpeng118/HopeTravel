@@ -4,7 +4,7 @@
       @callOnRight="toRegist" />
     <!-- 登录框 -->
     <login-comp class="login-comp-wrap"
-      @loginCallBack="toHomepage" />
+      @loginCallBack="loginCB" />
   </div>
 </template>
 
@@ -19,17 +19,10 @@
     },
     data() {
       return {
-        redirect: this.$route.query.redirect || '',
+        redirect: decodeURIComponent(this.$route.query.redirect) || '',
       }
     },
-    mounted() {
-      if (this.redirect) {
-        console.log(this.redirect)
-        this.$router.push({
-          path: this.redirect
-        })
-      }
-    },
+    mounted() {},
     methods: {
       // 跳转至注册页
       toRegist() {
@@ -38,10 +31,17 @@
         })
       },
       // 跳转至首页
-      toHomepage() {
-        this.$router.push({
-          path: '/'
-        })
+      loginCB() {
+        if (this.redirect) {
+          this.$router.push({
+            path: this.redirect
+          })
+        } else {
+          this.$router.push({
+            path: '/'
+          })
+        }
+
       },
     },
   }
