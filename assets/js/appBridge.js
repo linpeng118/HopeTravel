@@ -208,9 +208,9 @@ export const obtainUserCurrency = (() => {
     return () => {
       return new Promise(resolve => {
         const oldFunc = window.obtainUserCurrency
-        window.obtainUserCurrency = token => {
+        window.obtainUserCurrency = currency => {
           window.obtainUserCurrency = oldFunc
-          resolve(token)
+          resolve(currency)
         }
         callApi('obtainUserCurrency', false)
       })
