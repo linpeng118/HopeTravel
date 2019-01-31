@@ -314,7 +314,6 @@
         // console.log('100vh高度', this.$refs.refLocalGroupPage.offsetHeight)
         // console.log('获取滚动对象整体高度', this.$refs.refLocalGroup.offsetHeight)
         const s1 = this.$refs.refLocalGroupPage.scrollTop
-
         if (this.isApp) {
           this.appBridge.webViewScrollViewDidScroll({'top': s1.toString()})
         }
