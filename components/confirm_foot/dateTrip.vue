@@ -54,7 +54,7 @@
       },
       'checkday'(val){
         if(val!=''){
-          this.$emit('setcheckday',val);
+          this.$emit('setcheckday',val+'');
         }
       }
     },
