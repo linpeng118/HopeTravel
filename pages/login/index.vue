@@ -19,7 +19,7 @@
     },
     data() {
       return {
-        redirect: this.$route.query.redirect || '',
+        redirect: decodeURIComponent(this.$route.query.redirect) || '',
       }
     },
     mounted() {},
