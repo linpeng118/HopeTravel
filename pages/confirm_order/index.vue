@@ -109,7 +109,7 @@
           </ul>
           <div class="btnbox">
             <nuxt-link class="changeuser-btn" tag="button"
-                       :to="{path:'/personal/contactsList',query:{'adult':countprice.adult,'checker':paramcontanct}}" >选择出行人</nuxt-link>
+                       :to="{path:'/personal/contactsList',query:{'adult':countprice.adult+countprice.child,'checker':paramcontanct}}" >选择出行人</nuxt-link>
           </div>
         </div>
       </section>
