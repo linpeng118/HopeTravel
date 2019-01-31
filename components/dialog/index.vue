@@ -128,9 +128,12 @@
     padding: 30px;
     .btn-close {
       position: absolute;
-      right: 10px;
+      right: 16px;
       top: 10px;
       color: #d8d8d8;
+      .van-icon{
+        font-size: 36px;
+      }
     }
     .dialog-content {
       text-align: center;

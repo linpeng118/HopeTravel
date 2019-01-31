@@ -1,5 +1,5 @@
 const pkg = require('./package')
-const api = require('./api/config')
+// const api = require('./api/config')
 // const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 // let baseUrl
