@@ -230,12 +230,16 @@
           touCityId: cityId
         }
         if (this.isApp) {
-          query.platform = 'app'
+          // query.platform = 'app'
+          this.appBridge.jumpWebHTML({
+            path: `local_play_foreign?touCityId=${cityId}`
+          })
+        } else {
+          this.$router.push({
+            path: `/local_play_foreign`,
+            query
+          })
         }
-        this.$router.push({
-          path: `/local_play_foreign`,
-          query
-        })
       },
       // 更多城市
       selectMore() {
