@@ -206,6 +206,11 @@ export const jumpProductListView = createArgApi('jumpProductListView', 'jumpProd
 export const jumpProductDetailView = createArgApi('jumpProductDetailView', 'jumpProductDetailView')
 
 /**
+ * 监听页面滚动，传{top:xx}给app
+ */
+export const webViewScrollViewDidScroll = createArgApi('webViewScrollViewDidScroll', 'webViewScrollViewDidScroll')
+
+/**
  * 收藏
  */
 export const userCollectProduct = createArgApi('userCollectProduct', 'userCollectProduct')
@@ -248,6 +253,7 @@ export default {
   jumpProductDetailView,
   userCollectProduct,
   collectProductResult,
+  webViewScrollViewDidScroll,
   // 以下接口无需参数
   hideNavigationBar,
   showNavigationBar,
