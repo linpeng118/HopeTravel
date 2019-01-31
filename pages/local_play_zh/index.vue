@@ -128,6 +128,7 @@
         this.appBridge = require('@/assets/js/appBridge.js').default
         // this.appBridge.hideNavigationBar()
         let currency = this.appBridge.obtainUserCurrency()
+
         setCookieByKey('currency', currency.userCurrency)
         let productIds = await this.appBridge.getLocalStorage()
         if (productIds) {

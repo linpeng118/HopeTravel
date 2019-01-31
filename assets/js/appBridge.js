@@ -193,6 +193,33 @@ export const obtainUserToken = (() => {
   return null
 })()
 
+// 获取货币
+export const obtainUserCurrency = (() => {
+  if (browserVersion.isAndroid() && testApi('obtainUserCurrency', true)) {
+    return () => {
+      return new Promise(resolve => {
+        const funcName = `__API__${randomString(6)}`
+        window[funcName] = resolve
+        callApi('obtainUserCurrency', true, funcName)
+      })
+    }
+  }
+  if (browserVersion.isIos() && testApi('obtainUserCurrency', false)) {
+    return () => {
+      return new Promise(resolve => {
+        const oldFunc = window.obtainUserCurrency
+        window.obtainUserCurrency = token => {
+          window.obtainUserCurrency = oldFunc
+          resolve(token)
+        }
+        callApi('obtainUserCurrency', false)
+      })
+    }
+  }
+  return null
+})()
+
+
 /*  =========================== 需要参数的方法 ===========================  */
 
 /**
@@ -250,11 +277,6 @@ export const jumpDestinationView = createNoArgApi('jumpDestinationView', 'jumpDe
  * 返回上一个界面(对web而言就是返回app首页)
  */
 export const backPreviousView = createNoArgApi('jumpDestinationView', 'jumpDestinationView')
-
-/**
- * 返回上一个界面(对web而言就是返回app首页)
- */
-export const obtainUserCurrency = createNoArgApi('obtainUserCurrency', 'obtainUserCurrency')
 
 
 export default {
