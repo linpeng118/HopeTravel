@@ -158,7 +158,7 @@
         this.headerHeight = this.isApp ? 0 : this.$refs.refSearchHeader.$el.offsetHeight
       }
     },
-    mounted() {
+    async mounted() {
       // 初始化
       this.init()
       // 监听滚动
