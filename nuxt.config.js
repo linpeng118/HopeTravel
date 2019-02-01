@@ -117,7 +117,7 @@ module.exports = {
   proxy: {
     // 配置代理
     '/api': {
-      target: 'http://api.qa.tourscool.com/api/tour/v1', // api主机
+      target: 'http://api.qa.tourscool.net/api/tour/v1', // api主机
       pathRewrite: {
         '^/api': '/',
       },
