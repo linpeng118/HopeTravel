@@ -36,7 +36,7 @@
             :key="city.title"
             :tag="city"
             @callOnTag="onHotCity(city)" />
-          <hot-city-tag className="more"
+          <hot-city-tag className="active"
             :tag="{title: '更多目的地'}"
             @callOnTag="onMoreCity" />
         </div>
@@ -56,12 +56,13 @@
           <div class="hq-tags"
             :class="{'fixed-tag': isFixedTags}"
             :style="{paddingTop: isFixedTags ? `calc(100vw * ${isApp? 40 : 90} / 375 + 24px`: '24px'}">
-            <hot-city-tag className="more"
+            <hot-city-tag :class="{'active': activeCity==='全部'}"
               :tag="{title: '全部'}"
               @callOnTag="onCityAll" />
             <hot-city-tag v-for="item in localgroupData[2].data[selected] && localgroupData[2].data[selected].sub"
               :key="item.title"
               :tag="item"
+              :class="{'active': activeCity===item.title}"
               @callOnTag="onCity(item)" />
           </div>
           <div class="tags-height"
@@ -90,6 +91,9 @@
         </van-tabs>
       </div>
     </section>
+    <!-- 加载态 -->
+    <loading v-if="loading"
+      style="z-index: 3000"></loading>
   </div>
 </template>
 
@@ -103,6 +107,7 @@
   import SearchHeader from '@/components/header/index.vue'
   import HotItem from '@/components/items/hotItem.vue'
   import HotCityTag from '@/components/tags/index.vue'
+  import Loading from '@/components/loading'
   import {setCookieByKey} from '@/assets/js/utils'
 
   export default {
@@ -110,12 +115,14 @@
     components: {
       SearchHeader,
       HotItem,
-      HotCityTag
+      HotCityTag,
+      Loading
     },
     data() {
       return {
         isApp: this.$route.query.platform,
         LIST_TYPE,
+        loading: true,
         // swiper配置
         swiperOption: {
           // loop: true,
@@ -140,6 +147,7 @@
           {moduleName: '', data: []},
           {moduleName: '', data: []},
         ],
+        activeCity: '全部',
         // 产品列表
         productList: [],
         prodPagination: {}, // 分页数据
@@ -186,7 +194,7 @@
       },
       async init() {
         await this.getLocalgroupData()
-        if(this.localgroupData[2].data && this.localgroupData[2].data.length) {
+        if (this.localgroupData[2].data && this.localgroupData[2].data.length) {
           await this.getProductListData()
         }
       },
@@ -201,20 +209,24 @@
         }
       },
       // 获取产品列表
-      async getProductListData(data = {}) {
+      async getProductListData(val = {}) {
+        this.loading = true
         const submitData = {
           type: LIST_TYPE.LOCAL_GROUP,
-          start_city: data.start_city || null,
-          stop_city: data.stop_city || null,
-          span_city: data.span_city || null,
-          product_type: data.product_type || null,
-          category: data.category || null, // 横向tag
+          start_city: val.start_city || null,
+          stop_city: val.stop_city || null,
+          span_city: val.span_city || null,
+          product_type: val.product_type || null,
+          category: val.category || null, // 横向tag
         }
-        const res = await getProductList(submitData)
+        let {code, data, pagination, msg} = await getProductList(submitData)
         // 初始化产品列表
-        this.productList = res.data
-        this.prodPagination = res.pagination
+        if (code === 0) {
+          this.productList = data
+          this.prodPagination = pagination
+        }
         console.log(this.productList)
+        this.loading = false
       },
       // 返回上一级页面
       leftClick() {
@@ -289,6 +301,8 @@
       },
       // 精选下的城市
       onCity(city) {
+        console.log(11, city)
+        this.activeCity = city.title
         this.getProductListData({
           category: city.category,
           start_city: city.start_city,
@@ -297,6 +311,7 @@
       },
       // 点击全部
       onCityAll() {
+        this.activeCity = '全部'
         this.getProductListData()
       },
       /**

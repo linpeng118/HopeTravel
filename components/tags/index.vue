@@ -44,7 +44,7 @@
       color: #191919;
       background: #f1f1f1;
     }
-    &.more {
+    &.active {
       color: #f1f1f1;
       background: #399ef6;
     }
