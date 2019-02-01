@@ -42,7 +42,7 @@
       <div v-if="proData.special_price">
         <span class="price">{{proData.special_price}}</span>
         <span class="unit">/起&emsp;</span>
-        <span class="ori-price">${{proData.default_price}}</span>
+        <span class="ori-price">{{proData.default_price}}</span>
       </div>
       <div v-else>
         <span class="price">{{proData.default_price}}</span>
