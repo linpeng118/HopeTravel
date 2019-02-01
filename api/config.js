@@ -10,7 +10,7 @@ const qa = {
 }
 
 const master = {
-  base: 'http://api.qa.tourscool.com',
+  base: 'http://api.tourscool.com',
   payment: 'http://www.htw.tourscool.com',
 }
 
