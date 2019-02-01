@@ -51,7 +51,7 @@ httprequest.interceptors.response.use(
   // 请求成功
   res => {
     if (res.status === 200) {
-      if(res.data.code === 401) {
+      if(res.data.code === 700) {
         window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname)
       } else {
         return Promise.resolve(res.data)

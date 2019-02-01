@@ -206,10 +206,14 @@ export default {
     async getHomeInitData() {
       let {code, data} = await getHomeData()
       if(code === 0) {
-        let {banner,hot, special} = data
-        this.bannerList = banner
-        this.hotList = hot.data[0].destination.slice(0,8)
-        this.timeSalesList = special.data
+        this.bannerList = data[0].data
+        this.hotList = data[1].data
+        this.timeSalesList = data[2].data
+
+        // let {banner,hot, special} = data
+        // this.bannerList = banner
+        // this.hotList = hot.data[0].destination.slice(0,8)
+        // this.timeSalesList = special.data
       }
     },
     async onLoad() {
