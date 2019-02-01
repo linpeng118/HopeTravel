@@ -1,17 +1,6 @@
 const pkg = require('./package')
-// const api = require('./api/config')
-// const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-
-// let baseUrl
-
-// if (process.env.ENV_TYPE === 'prodDev') {
-//   console.log('dev环境')
-//   baseUrl = api[process.env.ENV_TYPE]
-// } else if (process.env.ENV_TYPE === 'prodQa') {
-//   console.log('qa环境')
-//   baseUrl = api[process.env.ENV_TYPE]
-// }
-
+const apiPath = require('./api/config')
+console.log(apiPath)
 
 module.exports = {
   mode: 'universal',
@@ -117,28 +106,28 @@ module.exports = {
   proxy: {
     // 配置代理
     '/api': {
-      target: 'http://api.qa.tourscool.net/api/tour/v1', // api主机
+      target: `${apiPath.base}/api/tour/v1`, // api
       pathRewrite: {
         '^/api': '/',
       },
       changeOrigin: true,
     },
     '/play': {
-      target: 'http://192.168.1.91:8888/api/tour/v1', // api主机
+      target: 'http://192.168.1.91:8888/api/tour/v1', // 本地测试
       pathRewrite: {
         '^/play': '/',
       },
       changeOrigin: true,
     },
     '/order': {
-      target: 'http://www.htw.tourscool.net/api/v1', // api主机
+      target: `${apiPath.payment}/api/v1`, // 订单接口
       pathRewrite: {
         '^/order': '/',
       },
       changeOrigin: true,
     },
     '/payment': {
-      target: 'http://www.htw.tourscool.net/payment', // api主机
+      target: `${apiPath.payment}/payment`, // 支付
       pathRewrite: {
         '^/payment': '/',
       },

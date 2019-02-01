@@ -1,16 +1,25 @@
-const prodDev = {
-  base: 'http://m20.tourscool.net',
-  play: 'http://192.168.1.91:8888',
+let apiPath
+const dev = {
+  base: 'http://api.qa.tourscool.net',
   payment: 'http://www.htw.tourscool.net',
 }
 
-const prodQa = {
-  base: 'http://m20.tourscool.net',
-  play: 'http://192.168.1.91:8888',
+const qa = {
+  base: 'http://api.qa.tourscool.net',
   payment: 'http://www.htw.tourscool.net',
 }
 
-export {
-  prodDev,
-  prodQa
+const master = {
+  base: 'http://api.qa.tourscool.com',
+  payment: 'http://www.htw.tourscool.com',
 }
+
+if (process.env.ENV_TYPE === 'prodMaster') {
+  apiPath = master
+} else if (process.env.ENV_TYPE === 'prodQa') {
+  apiPath = qa
+} else {
+  apiPath = dev
+}
+
+module.exports = apiPath
