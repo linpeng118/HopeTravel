@@ -35,12 +35,12 @@
       </div>
       <!-- 次级菜单 -->
       <div class="sub-menu">
-        <van-cell title="我的收藏" is-link to="/personal/follow">
+        <van-cell title="我的收藏" is-link :to="isLogin ? '/personal/follow': '/login?redirect=personal'">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/attention.png">
           </template>
         </van-cell>
-        <van-cell title="常用旅客" is-link to="/personal/contactsList">
+        <van-cell title="常用旅客" is-link :to="isLogin ? '/personal/contactsList': '/login?redirect=personal'">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/passenger.png">
           </template>
@@ -51,7 +51,7 @@
         <!--<img class="icon-size" src="../../assets/imgs/personal/index/sales.png">-->
         <!--</template>-->
         <!--</van-cell>-->
-        <van-cell title="切换货币" is-link to="/personal/money">
+        <van-cell title="切换货币" is-link :to="isLogin ? '/personal/money': '/login?redirect=personal'">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/currency.png">
           </template>
@@ -59,7 +59,7 @@
       </div>
       <!-- 次级菜单 -->
       <div class="sub-menu">
-        <van-cell title="意见反馈" is-link to="/personal/content">
+        <van-cell title="意见反馈" is-link :to="isLogin ? '/personal/content': '/login?redirect=personal'">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/feedback.png">
           </template>
@@ -69,7 +69,7 @@
             <img class="icon-size" src="../../assets/imgs/personal/index/service.png">
           </template>
         </van-cell>
-        <van-cell title="设置" is-link to="/personal/setting">
+        <van-cell title="设置" is-link :to="isLogin ? '/personal/setting': '/login?redirect=personal'">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/setting.png">
           </template>
@@ -98,7 +98,8 @@ export default {
   data() {
     return {
       profile: {},
-      active: 3
+      active: 3,
+      isLogin: false
     };
   },
   created() {
@@ -119,14 +120,23 @@ export default {
       let {code, data} = res;
       if(code === 0) {
         this.profile = data
+        this.isLogin = true
         this.vxSetProfile(data)
+      } else {
+        this.isLogin = false
       }
     },
     editInfo() {
       //跳转编辑信息
-      this.$router.push({
-        path: "/personal/account"
-      });
+      if(this.isLogin) {
+        this.$router.push({
+          path: "/personal/account"
+        });
+      } else {
+        this.$router.push({
+          path: '/login?redirect=personal'
+        })
+      }
     },
     myRice() {
       //跳转我的米粒
@@ -136,13 +146,20 @@ export default {
     },
     //跳转全部订单
     allOrders(item) {
-      this.$router.push({
-        name: 'personal-order',
-        query: {
-          userId: this.profile.customer_id,
-          status: item.status
-        }
-      });
+      if (this.isLogin) {
+        this.$router.push({
+          name: 'personal-order',
+          query: {
+            userId: this.profile.customer_id,
+            status: item.status
+          }
+        })
+      } else {
+        this.$router.push({
+          path: '/login?redirect=personal'
+        })
+      }
+
     },
     ...mapMutations({
       vxSetProfile: 'profile/setProfile'

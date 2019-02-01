@@ -2,7 +2,7 @@
   <div class="hot-place">
     <div class="hot-item" v-for="(list, index) in lists" :key="index" @click="selectDetail(list)">
       <img :src="list.image || list.image_url" alt="">
-      <div class="title">{{list.content || list.name}}</div>
+      <div class="title">{{list.content || list.name || list.title}}</div>
       <div class="desc" v-if="isDesc">{{list.subTitle}}</div>
     </div>
   </div>
