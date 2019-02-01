@@ -1,6 +1,4 @@
 const pkg = require('./package')
-const apiPath = require('./api/config')
-console.log(apiPath)
 
 module.exports = {
   mode: 'universal',
@@ -106,7 +104,7 @@ module.exports = {
   proxy: {
     // 配置代理
     '/api': {
-      target: `${apiPath.base}/api/tour/v1`, // api
+      target: 'http://api.qa.tourscool.net/api/tour/v1', // api
       pathRewrite: {
         '^/api': '/',
       },
@@ -120,14 +118,14 @@ module.exports = {
       changeOrigin: true,
     },
     '/order': {
-      target: `${apiPath.payment}/api/v1`, // 订单接口
+      target: 'http://www.htw.tourscool.net/api/v1', // 订单
       pathRewrite: {
         '^/order': '/',
       },
       changeOrigin: true,
     },
     '/payment': {
-      target: `${apiPath.payment}/payment`, // 支付
+      target: 'http://www.htw.tourscool.net/payment', // 支付
       pathRewrite: {
         '^/payment': '/',
       },
