@@ -301,7 +301,6 @@
       },
       // 精选下的城市
       onCity(city) {
-        console.log(11, city)
         this.activeCity = city.title
         this.getProductListData({
           category: city.category,
