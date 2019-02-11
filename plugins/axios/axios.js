@@ -51,6 +51,7 @@ httprequest.interceptors.response.use(
   // 请求成功
   res => {
     if (res.status === 200) {
+      // 700：必须重新登录；401：返回了新的token
       if(res.data.code === 700) {
         window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname)
       } else {
