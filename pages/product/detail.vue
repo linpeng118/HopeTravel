@@ -28,7 +28,7 @@
       <div class="product">
         <!-- name -->
         <p class="name">
-          <span class="prod-tag">自营</span>
+          <span class="prod-tag" v-if="product.self_support">自营</span>
           {{product.name}}
         </p>
         <!-- 价格 -->
@@ -949,7 +949,7 @@
       }
       .service-note {
         padding: 0 26px 150px;
-        min-height: 686px;
+        min-height: 200px;
         max-height: 90%;
         border-radius: 24px 24px 0 0;
         .servive-item {
