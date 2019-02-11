@@ -60,7 +60,9 @@ export default {
         height:164px;
         margin-bottom: 20px;
         position: relative;
-        background: #ccc;
+        background: #d8d8d8;
+        border-radius: 6px;
+        overflow: hidden;
         img{
           width: 100%;
           height: 100%;
