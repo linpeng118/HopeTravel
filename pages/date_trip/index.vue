@@ -118,6 +118,7 @@
         //子日历组件的数据
         datedata: {},
         showsday: '',
+        roomintnum:0,
         showeday: '',
         //房间信息
         rooms: [
@@ -149,7 +150,7 @@
     watch: {
       'rooms': {
         handler: function (val, oldval) {   //特别注意，不能用箭头函数，箭头函数，this指向全局
-          if (this.product.product_entity_type == 1 && this.product.self_support == 0 ) {
+          if (this.product.product_entity_type == 1 && this.product.self_support == 0 && this.roomintnum == 1) {
             let countchind = 0;
             let countadult = 0;
             for (let i = 0; i < val.length; i++) {
@@ -183,67 +184,71 @@
         deep: true
       },
       'total_adult'(val,oldval) {
-        if (this.product.product_entity_type == 1 && this.product.self_support == 0) {
-        }
-        else  {
+        if(this.roomintnum == 1){
+          if (this.product.product_entity_type == 1 && this.product.self_support == 0) {
+          }
+          else  {
 
-          let countperson = val + this.total_kids;
-          if (countperson >= this.product.min_num_guest) {
-            this.$store.commit("countprice", {
-              room_total: 1,//房间总数
-              room_attributes: [{
+            let countperson = val + this.total_kids;
+            if (countperson >= this.product.min_num_guest) {
+              this.$store.commit("countprice", {
+                room_total: 1,//房间总数
+                room_attributes: [{
+                  adult: val,
+                  child: this.total_kids,
+                  pair: false,
+                }],//房间数据,
                 adult: val,
-                child: this.total_kids,
-                pair: false,
-              }],//房间数据,
-              adult: val,
-              child: this.total_kids
+                child: this.total_kids
 
-            });
-          }
-          else if(this.product.product_id){
-            this.$store.commit("countprice", {
-              room_total: 0,//房间总数
-              room_attributes: [],//房间数据,
-              adult: 0,
-              child: 0
+              });
+            }
+            else if(this.product.product_id){
+              this.$store.commit("countprice", {
+                room_total: 0,//房间总数
+                room_attributes: [],//房间数据,
+                adult: 0,
+                child: 0
 
-            });
-            this.$dialog.alert({
-              message: '总人数不足最少成团人数，请添加'
-            });
+              });
+              this.$dialog.alert({
+                message: '总人数不足最少成团人数，请添加'
+              });
+            }
           }
         }
+
       },
       'total_kids'(val) {
-        if (this.product.product_entity_type == 1 && this.product.self_support == 0) {
-        } else {
-          let countperson = this.total_adult + val;
-          if (countperson >= this.product.min_num_guest) {
-            this.$store.commit("countprice", {
-              room_total: 1,//房间总数
-              room_attributes: [{
+        if (this.roomintnum == 1) {
+          if (this.product.product_entity_type == 1 && this.product.self_support == 0) {
+          } else {
+            let countperson = this.total_adult + val;
+            if (countperson >= this.product.min_num_guest) {
+              this.$store.commit("countprice", {
+                room_total: 1,//房间总数
+                room_attributes: [{
+                  adult: this.total_adult,
+                  child: val,
+                  pair: false,
+                }],//房间数据,
                 adult: this.total_adult,
-                child: val,
-                pair: false,
-              }],//房间数据,
-              adult: this.total_adult,
-              child: val
-            });
-          }
-          else if(this.product.product_id){
-            this.$store.commit("countprice", {
-              room_total: 0,//房间总数
-              room_attributes: [],//房间数据,
-              adult: 0,
-              child: 0
-            });
-            this.$dialog.alert({
-              message: '总人数不足最少成团人数，请添加'
-            });
+                child: val
+              });
+            } else if (this.product.product_id) {
+              this.$store.commit("countprice", {
+                room_total: 0,//房间总数
+                room_attributes: [],//房间数据,
+                adult: 0,
+                child: 0
+              });
+              this.$dialog.alert({
+                message: '总人数不足最少成团人数，请添加'
+              });
+            }
           }
         }
-      },
+      }
     },
     created() {
     },
@@ -268,6 +273,8 @@
           this.pricedate = data;
           //初始化选择第一条给子组件的数据和第一个月份数据
           var this_=this;
+          //初始化生成房间
+          this.roomint();
           if(this.firstyear!=''&&this.firstmonth!=''&&this.firstday!=''){
             for(let i=0;i< this_.pricedate.length;i++){
               if(this_.pricedate[i].years==this_.firstyear&&this_.pricedate[i].month==this_.firstmonth){
@@ -285,8 +292,7 @@
             this.datedata = this.pricedate[0];
             this.activeMonth = this.pricedate[0].month;
           }
-          //初始化生成房间
-          this.roomint();
+
         } else {
 
         }
@@ -346,6 +352,7 @@
         else {
           this.total_adult = this.product.min_num_guest;
         }
+        this.roomintnum=1;
       },
       //添加房间
       roomadd() {
