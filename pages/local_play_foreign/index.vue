@@ -530,6 +530,7 @@
     }
   }
   .show-list {
+    position: relative;
     .show-item {
       margin-top: 24px;
       padding: 22px 0 34px 0;
