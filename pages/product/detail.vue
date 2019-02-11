@@ -28,11 +28,13 @@
       <div class="product">
         <!-- name -->
         <p class="name">
+          <span class="prod-tag">自营</span>
           {{product.name}}
         </p>
         <!-- 价格 -->
         <div class="price-wrap">
-          <span class="price fs-48 fw-800">
+          <span class="price fs-48 fw-800"
+            :style="{'color': product.self_support ? '#EF9A1A' : '#fb605d'}">
             {{product.special_price ? product.special_price: product.default_price}}
             <span class="unit">&nbsp;起</span>
           </span>
@@ -43,16 +45,18 @@
       </div>
       <!-- 出发地结束地 -->
       <div class="destination mt-24">
-        <div class="header"
+        <div class="item-wrap"
           @click="onServerNode">
-          <div class="item"
-            v-for="item in serviceNote"
-            :key="item.name">
-            <img :src="item.icon"
-              alt="icon">
-            {{item.name}}
+          <div class="item-list">
+            <div class="item"
+              v-for="item in serviceNote"
+              :key="item.title">
+              <img src="../../assets/imgs/product/tick@2x.png"
+                alt="icon">
+              {{item.title}}
+            </div>
           </div>
-          <div class="item">
+          <div class="item-arrow">
             <van-icon name="arrow" />
           </div>
         </div>
@@ -77,12 +81,12 @@
         class="service-note">
         <div class="servive-item mt-50"
           v-for="item in serviceNote"
-          :key="item.name">
+          :key="item.title">
           <h3 class="title">
-            <img :src="item.icon"
-              alt="icon">&nbsp;{{item.name}}
+            <img src="../../assets/imgs/product/tick@2x.png"
+              alt="icon">&nbsp;{{item.title}}
           </h3>
-          <p class="desc">{{item.desc}}</p>
+          <p class="desc">{{item.content}}</p>
         </div>
       </van-actionsheet>
       <!-- 团期价格 -->
@@ -315,11 +319,33 @@
           </div>
           <div class="reserve">
             <van-button class="btn-reserve"
+              :style="{'background': product.self_support ? '#EF9A1A' : '#fb605d'}"
               size="large"
-              @click="btnReserve">立即预定</van-button>
+              @click="btnReserve">{{product.is_soldout? '恢复预定通知' : '立即预定'}}</van-button>
           </div>
         </div>
       </div>
+      <!-- 恢复预定通知 -->
+      <van-actionsheet v-model="showSoldOut"
+        title=" "
+        class="sold-out">
+        <div class="sold-out-content">
+          <h3 class="title">该行程暂时未开放预订，请在下面输入您的E-mail地址或手机号码，当恢复预定时我们会发邮件或短信通知您！</h3>
+          <p class="desc mt-30">邮件或手机号</p>
+          <div class="account-wrap mt-30">
+            <van-cell-group class="account-input">
+              <van-field class="tours-input"
+                v-model="account"
+                placeholder="用户名 / 邮箱">
+              </van-field>
+            </van-cell-group>
+            <van-button class="account-btn"
+              slot="button"
+              size="small"
+              @click="btnOrder">提交</van-button>
+          </div>
+        </div>
+      </van-actionsheet>
     </div>
     <!-- 加载态 -->
     <loading v-if="loading"></loading>
@@ -367,7 +393,7 @@
   import {getLocalStore, setLocalStore} from '@/assets/js/utils'
   import {OPERATE_TYPE} from '@/assets/js/consts'
   import {DLG_TYPE} from '@/assets/js/consts/dialog'
-  import {getProductDetail, addFavorite, delFavorite} from '@/api/products'
+  import {getProductDetail, addFavorite, delFavorite, schedule} from '@/api/products'
 
   export default {
     layout: 'default',
@@ -383,14 +409,10 @@
         isTransparent: true, // 导航头是否透明
         current: 0, // 导航页数
         // bgFeat: require('../../assets/imgs/product/bg_features.png'),
-        serviceNote: [
-          {name: '成团保障', desc: '该产品下单即可确认出行', icon: require('../../assets/imgs/product/tick@2x.png')},
-          {name: '限时特价', desc: '该产品享受买贵退差', icon: require('../../assets/imgs/product/tick@2x.png')},
-          {name: '低价保证', desc: '', icon: require('../../assets/imgs/product/tick@2x.png')},
-        ],
         activeTab: 1, // 选中的tab
         activeTabRef: this.hasFeature ? 'refFeatures' : 'refTrip',
         showServiceNode: false, // 显示服务说明
+        showSoldOut: false, // 恢复预定通知弹窗
         priceExclude: [], // 不包含面板
         activeNotice: [1], // 注意事项折叠面板
         loading: true,
@@ -413,9 +435,14 @@
         showPhone: false,
         // 右上角更多现实
         showMore: false,
+        // 邮箱或手机号
+        account: '',
       }
     },
     computed: {
+      serviceNote() {
+        return this.product && this.product.icons_tour || []
+      },
       standartPrice() {
         let newData = [
           {name: '单人一间', type: 'price_single', price: ''},
@@ -727,6 +754,11 @@
       },
       // 立即定制
       async btnReserve() {
+        // 已售罄
+        if (this.product.is_soldout) {
+          this.showSoldOut = true
+          return
+        }
         // 暂存需要定制的商品信息
         await this.vxSaveReservePro({
           ...this.product
@@ -771,6 +803,19 @@
         this.$router.push({
           path
         })
+      },
+      // 预定
+      async btnOrder() {
+        const data = {
+          productId: this.product.product_id,
+          account: this.account
+        }
+        console.log(data)
+        const {code, msg} = await schedule(data)
+        if (code === 0) {
+          this.showSoldOut = false
+        }
+        this.$toast(msg)
       }
     },
   }
@@ -803,16 +848,26 @@
       .product {
         padding: 20px 24px;
         background: #fff;
+        font-family: Microsoft YaHei UI;
         .name {
           color: #3e3e3e;
           letter-spacing: 2px;
           font-size: 32px;
-          font-family: Microsoft YaHei UI;
+          .prod-tag {
+            padding: 2px 12px;
+            width: 44px;
+            height: 28px;
+            font-size: 22px;
+            font-weight: 400;
+            line-height: 28px;
+            background: rgba(239, 154, 26, 1);
+            color: #fff;
+            border-radius: 20px;
+          }
         }
         .price-wrap {
           margin-top: 2px;
           .price {
-            color: #fb605d;
             .unit {
               font-size: 24px;
             }
@@ -829,22 +884,36 @@
         height: 208px;
         background: #fff;
         padding: 0 32px;
-        .header {
+        .item-wrap {
           height: 82px;
           display: flex;
-          justify-content: space-between;
           align-items: center;
           border-bottom: 2px solid #e4e4e4;
-          .item {
-            font-size: 28px;
-            font-weight: 300;
-            color: rgba(91, 91, 91, 1);
-            letter-spacing: 2px;
-            img {
-              vertical-align: middle;
-              width: 28px;
-              height: 28px;
+          .item-list {
+            flex: 0 0 1;
+            height: 80px;
+            line-height: 80px;
+            width: 100%;
+            overflow: hidden;
+            .item {
+              margin-right: 30px;
+              display: inline-block;
+              height: 82px;
+              font-size: 28px;
+              font-weight: 300;
+              color: rgba(91, 91, 91, 1);
+              letter-spacing: 2px;
+              img {
+                vertical-align: middle;
+                width: 28px;
+                height: 28px;
+              }
             }
+          }
+          .item-arrow {
+            font-size: 28px;
+            flex: 0 0 28px;
+            width: 28px;
           }
         }
         .city {
@@ -879,8 +948,9 @@
         }
       }
       .service-note {
-        padding: 0 26px;
-        height: 686px;
+        padding: 0 26px 150px;
+        min-height: 686px;
+        max-height: 90%;
         border-radius: 24px 24px 0 0;
         .servive-item {
           font-size: 28px;
@@ -1305,11 +1375,43 @@
         .reserve {
           padding: 0 20px;
           .btn-reserve {
-            background: #fb605d;
             color: #fff;
             font-size: 40px;
             font-family: Microsoft YaHei UI;
             font-weight: 400;
+          }
+        }
+      }
+      .sold-out {
+        padding: 0 26px;
+        min-height: 200px;
+        max-height: 90%;
+        border-radius: 24px 24px 0 0;
+        .title {
+          font-size: 30px;
+        }
+        .desc {
+          font-size: 30px;
+          font-weight: bold;
+        }
+        .sold-out-content {
+          padding: 80px 30px;
+          .account-wrap {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            .account-input {
+              flex: 0 0 1;
+              width: 100%;
+            }
+            .account-btn {
+              height: 80px;
+              margin-left: 20px;
+              flex: 0 0 100px;
+              width: 100px;
+              background: rgba(251, 96, 93, 1);
+              color: #fff;
+            }
           }
         }
       }

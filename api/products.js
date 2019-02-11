@@ -73,3 +73,13 @@ export const getFavoriteList = (data) => {
     }
   })
 }
+
+/**
+ * 恢复预订通知（ 邮箱/手机号）
+ * @param {Object} data {product_id}
+ */
+export const schedule = (data) => {
+  return axios.post(`/api/product/${data.productId}/schedule`, {
+    account: data.account
+  })
+}
