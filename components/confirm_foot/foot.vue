@@ -52,6 +52,7 @@
   import {countprice} from '@/api/confirm_order'
   import {addorder} from '@/api/confirm_order'
   import Loading from '@/components/loading'
+  import {getProfile} from '@/api/profile'
   import {
     getCookieByKey
   } from '@/assets/js/utils'
@@ -77,6 +78,7 @@
         },
         loading:false,
         //添加订单数据
+
       }
     },
     computed: {
@@ -172,9 +174,9 @@
         window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226'
       },
       //是否需要登录弹窗
-      islogin() {
-        var token=getCookieByKey('token') ? getCookieByKey('token') : '';
-        if (!token) {
+      async islogin() {
+        let {code} = await getProfile()
+        if(code != 0) {
           this.vxToggleDialog(true)
           this.vxSetDlgType(DLG_TYPE.LOGIN)
         }
@@ -183,6 +185,7 @@
             path:"/confirm_order"
           })
         }
+
       },
 
     }
