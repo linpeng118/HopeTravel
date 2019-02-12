@@ -1,6 +1,7 @@
 const pkg = require('./package')
 const apiPath = require('./api/config')
-console.log('apiPath', apiPath)
+const pluginConfig = require('./plugins/config')
+console.log('apiPath', apiPath, pluginConfig)
 
 module.exports = {
   mode: 'universal',
@@ -53,35 +54,7 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [{
-      src: '~/plugins/vant',
-      ssr: true,
-    },
-    {
-      src: '~/plugins/vue-swiper',
-      ssr: false,
-    },
-    {
-      src: '~/assets/js/appBridge',
-      ssr: false,
-    },
-    {
-      src: '~/assets/js/mixins/verifyCode',
-      ssr: false,
-    },
-    {
-      src: '~/plugins/vue-cropper',
-      ssr: false
-    },
-    {
-      src: '~/plugins/vue-clipboard',
-      ssr: false
-    },
-    {
-      src: '~/plugins/axios',
-      ssr: false
-    },
-  ],
+  plugins: pluginConfig,
   /*
    ** middleware
    */
