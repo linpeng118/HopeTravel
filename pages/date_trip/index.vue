@@ -88,7 +88,6 @@
               />
             </span>
           </div>
-
         </li>
       </div>
     </section>
@@ -169,13 +168,14 @@
     watch: {
       'rooms': {
         handler: function (val, oldval) {   //特别注意，不能用箭头函数，箭头函数，this指向全局
+          let countchind = 0;
+          let countadult = 0;
+          for (let i = 0; i < val.length; i++) {
+            countadult += val[i].adult;
+            countchind += val[i].child;
+          }
           if (this.product.product_entity_type == 1 && this.product.self_support == 0 && this.roomintnum == 1) {
-            let countchind = 0;
-            let countadult = 0;
-            for (let i = 0; i < val.length; i++) {
-              countadult += val[i].adult;
-              countchind += val[i].child;
-            }
+
             if ((countadult + countchind) >= this.product.min_num_guest) {
               this.$store.commit("countprice", {
                 room_total: val.length,//房间总数
@@ -198,6 +198,14 @@
 
             }
 
+          }
+          else{
+            this.$store.commit("countprice", {
+              room_total: val.length,//房间总数
+              room_attributes: val,//房间数据,
+              adult: countadult,
+              child: countchind
+            });
           }
         },
         deep: true
@@ -334,6 +342,7 @@
         this.showsday = sday2;
         this.showeday = eday2;
         var tha = this;
+        console.log(this.roomintnum)
         this.$store.commit("countprice", {
           product_id: tha.product.product_id,//产品id
           departure_date: parseInt(this.datedata.years) + '-' + parseInt(this.datedata.month) + '-' + parseInt(this.checkday),//出发日期
@@ -367,6 +376,12 @@
         }
         else {
           this.total_adult = this.product.min_num_guest;
+          this.rooms = [{
+            adult: this.product.min_num_guest,
+            child: 0,
+            pair: false,
+            add: false
+          }]
         }
         this.roomintnum=1;
       },
