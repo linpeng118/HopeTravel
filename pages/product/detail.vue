@@ -398,6 +398,9 @@
   export default {
     layout: 'default',
     name: 'product_detail',
+    head: {
+      title: '详情页面'
+    },
     components: {
       ProductDetailHeader,
       ProdDetailImgItem,
