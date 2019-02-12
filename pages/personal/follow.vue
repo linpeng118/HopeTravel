@@ -45,7 +45,8 @@
 </template>
 
 <script>
-import {getFavorites,deleteFavorites} from '@/api/profile'
+import {getFavorites} from '@/api/profile'
+import {delFavorite} from '@/api/products'
 export default {
   name: 'follow',
   data() {
@@ -82,9 +83,11 @@ export default {
       }
     },
     async deleteProductFavorites(){
-      console.log('jinlai')
-      let {code} = await deleteFavorites(this.result.join(','))
+      let {code} = await delFavorite({
+        product_id: this.result.join(',')
+      })
       if(code === 0) {
+        this.$toast('删除成功')
         this.init()
       } else {
         this.$toast('删除失败')

@@ -33,15 +33,6 @@ export const getFavorites = (data) => {
   })
 }
 
-// 删除收藏
-export const deleteFavorites = (productIds) => {
-  return axios.delete(`/api/favorites`,{
-    data: {
-      product_id: productIds
-    }
-  })
-}
-
 // 意见反馈
 export const submitContent = (content) => {
   return axios.post(`/api/feedback`,{

@@ -5,8 +5,6 @@
       :title="title"
       :isSearch="false"
       :classBg="classBg"
-      :barSearch="barSearch"
-      :searchKeyWords="searchKeyWords"
       @leftClick="leftClick"></lay-header>
     <div v-if="showList.length">
       <div class="area-play">
@@ -90,6 +88,7 @@
 <script>
   import SwipeItem from '@/components/items/swipeItem'
   import {getCityInfo, getProductList} from '@/api/local_play'
+  import {addFavorite,delFavorite} from '@/api/products'
   import LayHeader from '@/components/header/index.vue'
   import Loading from '@/components/loading'
   import {throttle as _throttle} from 'lodash'
@@ -97,7 +96,7 @@
   import {HEADER_TYPE} from '@/assets/js/consts/headerType'
   import SnapUpItem from '@/components/items/snapUpItem'
   import {Toast} from 'vant'
-  import {setCookieByKey} from '@/assets/js/utils'
+  import {setCookieByKey, getLocalStore} from '@/assets/js/utils'
   export default {
     // layout: 'default',
     transition: 'page',
@@ -170,10 +169,14 @@
         }
         let token = await this.appBridge.obtainUserToken()
         this.vxChangeTokens(token)
-        this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 100))
       } else {
-        this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 100))
+        let productIds = getLocalStore('browsList')
+        if(productIds.length) {
+          this.getViewedList(productIds)
+        }
+        // console.log(getLocalStore('browsList'))
       }
+      this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 100))
     },
     methods: {
       ...mapMutations({
@@ -297,12 +300,12 @@
             this.vxChangeHeaderStatus(HEADER_TYPE.UP)
           }
           if (s1 > s3) {
-            this.title = ''
-            this.barSearch = true
-            this.searchKeyWords = `查找${this.cityInfo.name}的活动`
+            // this.title = ''
+            // this.barSearch = true
+            // this.searchKeyWords = `查找${this.cityInfo.name}的活动`
           } else {
             this.title = '当地玩乐'
-            this.barSearch = false
+            // this.barSearch = false
           }
         }, 17)
       },
@@ -351,7 +354,8 @@
           })
           // let res = await this.appBridge.collectProductResult()
         } else {
-          ('web2.0')
+          console.log(val.product_id)
+          this.addCollectOrNot(val)
         }
       },
       moreCity() {
@@ -364,6 +368,34 @@
           this.$router.push({
             path: `/local_play_foreign/more_city`
           })
+        }
+      },
+      // 取消收藏和添加收藏
+      async addCollectOrNot(val) {
+        if(!this.isApp) {
+          if(val.is_favorite) {
+            let {code} =  await delFavorite({
+              product_id: val.product_id
+            })
+            if(code===0) {
+              this.$toast('取消收藏')
+            } else {
+              this.$toast('取消收藏失败')
+            }
+          } else {
+            let {code} =  await addFavorite({
+              product_id: val.product_id
+            })
+            if(code===0) {
+              this.$toast('收藏成功')
+            } else {
+              this.$toast('收藏失败')
+            }
+          }
+          const index = this.viewedList.findIndex(item => {
+            return item.product_id === val.product_id
+          })
+          this.viewedList[index].is_favorite = !this.viewedList[index].is_favorite
         }
       }
     }
@@ -391,6 +423,7 @@
     .recently-viewed {
       margin-top: 24px;
       padding: 18px 0 18px;
+      position: relative;
       .swiper-container {
         margin-top: 28px;
         width: 100%;
