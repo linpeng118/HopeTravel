@@ -611,11 +611,13 @@
         let scrollHeight = this.$refs.refProductDetailPage.scrollHeight
         // 视窗高度
         let clientHeight = this.$refs.refProductDetailPage.clientHeight
-        // console.log(this.activeTabRef, '需要滚动到：', scrollTo, '只能滚到：', scrollTop, '能滚的body高度：', scrollHeight, '窗口（100vh）：', clientHeight)
+        // 能滚动到的高度
+        let canSrollTo = scrollHeight - clientHeight
         // 这里向上取整是确保差距小于5的时候，ispeed为0
         let ispeed = Math.ceil((scrollTo - scrollTop) / 5)
-        this.$refs.refProductDetailPage.scrollTop = scrollTop + ispeed
-        // console.log('清除', scrollTop === scrollTo)
+        // this.$refs.refProductDetailPage.scrollTop = scrollTop + ispeed
+        //  console.log(this.activeTabRef, '需要滚动到：', scrollTo, '能滚到：', canSrollTo, '能滚的body高度：', scrollHeight, '窗口（100vh）：', clientHeight, scrollTop, ispeed)
+        // 已滚动的高度===要到达的位置
         if (scrollTop === scrollTo) {
           clearInterval(this.timer)
         } else if (Math.abs(scrollTo - scrollTop) < 5) {
@@ -624,8 +626,7 @@
           clearInterval(this.timer)
         }
         // 是否已滚动到底
-        if (scrollTop + clientHeight === scrollHeight) {
-          this.$refs.refProductDetailPage.scrollTop = scrollTop
+        if (this.$refs.refProductDetailPage.scrollTop === canSrollTo) {
           clearInterval(this.timer)
         }
       },
