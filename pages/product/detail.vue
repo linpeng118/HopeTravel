@@ -625,6 +625,7 @@
         }
         // 是否已滚动到底
         if (scrollTop + clientHeight === scrollHeight) {
+          this.$refs.refProductDetailPage.scrollTop = scrollTop
           clearInterval(this.timer)
         }
       },
