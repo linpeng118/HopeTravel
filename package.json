@@ -9,6 +9,7 @@
     "build": "nuxt build",
     "start": "cross-env NODE_ENV=production ENV_TYPE=prodDev node server/index.js",
     "start-qa": "cross-env NODE_ENV=production ENV_TYPE=prodQa node server/index.js",
+    "start-pre": "cross-env NODE_ENV=production ENV_TYPE=prodPre node server/index.js",
     "start-master": "cross-env NODE_ENV=production ENV_TYPE=prodMaster node server/index.js",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
