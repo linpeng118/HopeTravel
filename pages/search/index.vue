@@ -18,14 +18,10 @@
                  :titleList="recommendObj.subTitle"
                  v-if="activeKey === 0"
                  @selectDetail="selectDetail"
-                 @selectPlay="selectDetail"
-                 @selectTag="selectDetail"
       ></recommend>
       <!--其他地区的推荐-->
       <country :data="countryObj"
                @selectDetail="selectDetail"
-               @selectCountryLine="selectDetail"
-               @selectOnTag="selectDetail"
                v-else></country>
     </div>
     <div class="search-result" v-if="searchResult">
@@ -232,8 +228,8 @@ export default {
       this.$router.push({
         name: 'product_list',
         query: {
-          itemType: 1,
-          ...item
+          itemType: 0,
+          keyWords: item
         }
       })
     },

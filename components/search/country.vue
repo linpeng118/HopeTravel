@@ -14,7 +14,7 @@
         <hot-city-tag v-for="line in data.allArea"
                       :key="line.id"
                       :className="line.active ? 'active' : 'normal'"
-                      @callOnTag="callOnTag"
+                      @callOnTag="selectDetail"
                       :tag="line" />
       </div>
     </div>
@@ -43,16 +43,10 @@ export default {
     selectDetail(item){
       this.$emit('selectDetail', item)
     },
-    callOnTag(item){
-      let obj = {
-        start_city: item.id
-      }
-      this.$emit('selectOnTag', obj)
-    },
     selectCountryLine(line) {
-      let {category} = line
-      this.$emit('selectCountryLine', {category})
-    }
+      let {countryName} = line
+      this.$emit('selectDetail', countryName)
+    },
   }
 }
 </script>
@@ -62,11 +56,13 @@ export default {
     width:518px;
     height:120px;
     position: relative;
+    background-color: #d8d8d8;
+    border-radius: 8px;
+    overflow: hidden;
     img{
       position: absolute;
       width: 100%;
       height: 100%;
-      border-radius: 8px;
     }
     .desc{
       position: relative;
