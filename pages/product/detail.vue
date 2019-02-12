@@ -615,7 +615,7 @@
         let canSrollTo = scrollHeight - clientHeight
         // 这里向上取整是确保差距小于5的时候，ispeed为0
         let ispeed = Math.ceil((scrollTo - scrollTop) / 5)
-        // this.$refs.refProductDetailPage.scrollTop = scrollTop + ispeed
+        this.$refs.refProductDetailPage.scrollTop = scrollTop + ispeed
         //  console.log(this.activeTabRef, '需要滚动到：', scrollTo, '能滚到：', canSrollTo, '能滚的body高度：', scrollHeight, '窗口（100vh）：', clientHeight, scrollTop, ispeed)
         // 已滚动的高度===要到达的位置
         if (scrollTop === scrollTo) {
