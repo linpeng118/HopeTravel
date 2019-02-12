@@ -17,7 +17,7 @@ const pre = {
 
 const master = {
   base: 'http://api.tourscool.com',
-  payment: 'http://www.htw.tourscool.com',
+  payment: 'http://htwapi.tourscool.com',
 }
 
 if (process.env.ENV_TYPE === 'prodMaster') {
