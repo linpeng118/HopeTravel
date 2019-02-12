@@ -6,11 +6,16 @@
     <section class="section1" >
       <!--日历head-->
       <ul class="trip-head">
-        <template v-for="(item,ind) in pricedate">
-          <li @click="setMonth(item.month,ind)" :key="ind" class="trip-head-con"
-              :class="item.month==activeMonth?'active-head-con':''">{{item.month}}月
-          </li>
-        </template>
+        <div class="swiper-container" v-swiper:mySwiper="swiperOption">
+          <div class="swiper-wrapper">
+              <template v-for="(item,ind) in pricedate">
+                <li @click="setMonth(item.month,ind)" :key="ind" class="trip-head-con  swiper-slide"
+                    :class="item.month==activeMonth?'active-head-con':''">{{item.month}}月
+                </li>
+              </template>
+          </div>
+        </div>
+
       </ul>
       <date-trip :dateprice="datedata" :checkdayx="checkday+''" @setcheckday="setcheckday"></date-trip>
       <!--日历foot-->
@@ -135,6 +140,20 @@
         firstyear:this.$route.query.year||'',
         firstmonth:this.$route.query.month||'',
         firstday:this.$route.query.day|'',
+        swiperOption: {
+          slidesPerView: 'auto',
+          slidesOffsetBefore: 16,
+          observer: true, //修改swiper自己或子元素时，自动初始化swiper
+          observeParents: true, //修改swiper的父元素时，自动初始化swiper
+          on: {
+            slideChange() {
+              console.log('onSlideChangeEnd', this);
+            },
+            tap(e) {
+
+            }
+          }
+        }
       }
     },
     computed: {
@@ -217,7 +236,6 @@
             }
           }
         }
-
       },
       'total_kids'(val) {
         if (this.roomintnum == 1) {
@@ -265,7 +283,6 @@
     },
 
     methods: {
-
       //获得价格日历数据
       async getpricedate(id) {
         let {data, code} = await getdateTrip(id)
@@ -292,7 +309,6 @@
             this.datedata = this.pricedate[0];
             this.activeMonth = this.pricedate[0].month;
           }
-
         } else {
 
         }
