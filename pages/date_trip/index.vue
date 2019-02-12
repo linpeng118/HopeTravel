@@ -96,11 +96,9 @@
       <confirm-foot></confirm-foot>
     </section>
   </section>
-
 </template>
 
 <script>
-
   import dateTrip from '@/components/confirm_foot/dateTrip'
   import ConfirmFoot from '@/components/confirm_foot/foot.vue'
   import headerDate from '@/components/header/dateTrap.vue'
@@ -276,8 +274,7 @@
         }
       }
     },
-    created() {
-    },
+    created() {},
     mounted() {
       //进来清空一次之前的价格日历vuex，之后可能要考虑返回的情况
       this.$store.dispatch("emptyprice");
@@ -289,7 +286,6 @@
        this.$router.go(-1);
       }
     },
-
     methods: {
       //获得价格日历数据
       async getpricedate(id) {
@@ -362,7 +358,16 @@
                 pair: false,
                 add: false
               }
-            } else {
+            }
+            else if(this.product.min_num_guest==this.product.max_num_guest){
+              objroom = {
+                adult: this.product.min_num_guest,
+                child: 0,
+                pair: false,
+                add: false
+              }
+            }
+            else {
               objroom = {
                 adult: this.product.min_num_guest % this.product.max_num_guest,
                 child: 0,
@@ -403,16 +408,13 @@
 
     }
   }
-
 </script>
-
 <style scoped>
   .trip-head {
     width: 100%;
     height: 108px;
     padding: 0 25px;
   }
-
   .trip-head-con {
     text-align: center;
     font-size: 28px;
@@ -424,11 +426,9 @@
     border-bottom: 4px solid #fff;
     color: #191919
   }
-
   .active-head-con {
     border-bottom: 4px solid #399EF6 !important;
   }
-
   .trip-tip {
     font-size: 20px;
     height: 50px;
@@ -437,7 +437,6 @@
     display: inline-block;
     padding: 0 25px;
   }
-
   .trip-tip span:nth-child(1) {
     float: left;
     display: inline-block;
@@ -445,7 +444,6 @@
     text-align: left;
     color: #434343;
   }
-
   .trip-tip span:nth-child(2) {
     float: right;
     display: inline-block;
@@ -453,21 +451,17 @@
     text-align: right;
     color: #FB6865;
   }
-
   .section0 {
     background-color: #f3f3f3;
   }
-
   .section1 {
     background-color: #fff;
     box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1);
   }
-
   .checkroom, .checkperson {
     padding: 0 32px;
     padding-bottom: 180px;
   }
-
   .checkitem {
     width: 686px;
     padding: 20px;
@@ -478,7 +472,6 @@
     border-radius: 8px;
     margin-top: 20px;
   }
-
   .addroom-btn {
     width: 240px;
     height: 60px;
@@ -493,7 +486,6 @@
     margin-left: 255px;
     margin-top: 30px;
   }
-
   .checkitem_title {
     font-size: 30px;
     height: 70px;
@@ -501,18 +493,15 @@
     color: #191919;
     border-bottom: 3px solid #e4e4e4;
   }
-
   .checkitem_title span {
     color: #399EF6;
     float: right;
     font-size: 24px;
   }
-
   .checkitem_con {
     width: 100%;
     height: 80px;
   }
-
   .checkitem_con span:nth-child(1) {
     width: 40%;
     float: left;
@@ -522,19 +511,16 @@
     line-height: 80px;
 
   }
-
   .checkitem_con span:nth-child(1) i {
     color: #b2b2b2;
     font-size: 22px;
   }
-
   .checkitem_con span:nth-child(2) {
     width: 60%;
     margin-top: 15px;
     float: right;
     text-align: right;
   }
-
   .checkitem-btn {
     font-size: 24px;
     width: 100%;
@@ -542,5 +528,4 @@
     height: 60px;
     line-height: 60px;
   }
-
 </style>
