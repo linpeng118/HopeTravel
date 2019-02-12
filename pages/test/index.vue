@@ -1,6 +1,6 @@
 <template>
   <section class="test-page">
-    <h4>version 1.0</h4>
+    <h4>version 1.1.0</h4>
     <div class="test-list">
       <h5>功能调试</h5>
       <nuxt-link class="test-item hand"
@@ -43,7 +43,7 @@
           {path: '/product', name: '产品页面', color: '#40E0D0'},
         ]
       }
-    }
+    },
   }
 </script>
 
