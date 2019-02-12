@@ -1,7 +1,8 @@
 import axios from 'axios'
 import store from '@/store'
 import {
-  getCookieByKey
+  getCookieByKey,
+  setCookieByKey
 }
 from '@/assets/js/utils'
 import {
@@ -52,8 +53,13 @@ httprequest.interceptors.response.use(
   res => {
     if (res.status === 200) {
       // 700：必须重新登录；401：返回了新的token
-      if(res.data.code === 700) {
+      if(res.data.code === 700 && res.config.url.indexOf('profile') < 0) {
         window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname)
+      } else if (res.data.code === 401) {
+        const token = res.data.data.token
+        res.config.headers[TOKEN_KEY] = token
+        setCookieByKey('token', token)
+        return axios(res.config)
       } else {
         return Promise.resolve(res.data)
       }

@@ -207,7 +207,7 @@ export default {
       let {code, data} = await getHomeData()
       if(code === 0) {
         this.bannerList = data[0].data
-        this.hotList = data[1].data
+        this.hotList = data[1].data.slice(0, 8)
         this.timeSalesList = data[2].data
 
         // let {banner,hot, special} = data

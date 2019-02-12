@@ -35,7 +35,9 @@ function setCookieByKey(key, value, exdays = 365) {
   let d = new Date();
   d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
   let expires = `expires=${d.toUTCString()}`
-  document.cookie = `${key}=${value};expires=${expires}`;
+  document.cookie = `${key}=${value};expires=${expires};path=/`;
+  // Cookies.set(key, value, { path: '/' })
+  // document.cookie = `${key}=${value}`;
 }
 
 /**
@@ -53,6 +55,7 @@ function getCookieByKey(key) {
     }
   }
   return '';
+  // Cookies.get('name')
 }
 
 /**
@@ -60,6 +63,7 @@ function getCookieByKey(key) {
  * @param {string} key 传入的键名
  */
 function clearCookieByKey(key) {
+  // Cookies.remove(key, { path: '/' })
   setCookieByKey(key, '', -1)
 }
 
