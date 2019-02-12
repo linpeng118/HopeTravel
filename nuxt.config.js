@@ -1,7 +1,8 @@
 const pkg = require('./package')
-const apiPath = require('./api/config')
-const pluginConfig = require('./plugins/config')
-console.log('apiPath', apiPath, pluginConfig)
+const apiPath = require('./config/api')
+const pluginConfig = require('./config/plugins')
+console.log('apiPath', apiPath)
+console.log('pluginConfig', pluginConfig)
 
 module.exports = {
   mode: 'universal',
