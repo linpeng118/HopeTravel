@@ -1,7 +1,7 @@
 <template>
   <div class="login-page">
     <login-header rightText="注册"
-      @callOnRight="toRegist" />
+      @callOnRight="toRegist" :redirect="!!redirect"/>
     <!-- 登录框 -->
     <login-comp class="login-comp-wrap"
       @loginCallBack="loginCB" />
@@ -33,6 +33,7 @@
       // 跳转至首页
       loginCB() {
         if (this.redirect) {
+
           this.$router.push({
             path: this.redirect
           })
@@ -41,8 +42,14 @@
             path: '/'
           })
         }
-
       },
+      onClickLeft(){
+        if (this.redirect) {
+          this.$router.go(-2)
+        } else {
+          this.$router.go(-1)
+        }
+      }
     },
   }
 </script>

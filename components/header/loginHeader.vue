@@ -34,6 +34,10 @@
         type: Boolean,
         default: false
       },
+      redirect: {
+        type: Boolean,
+        default: false
+      }
     },
     data() {
       return {
@@ -44,7 +48,12 @@
     },
     methods: {
       onClickLeft() {
-        this.$router.go(-1)
+        if(this.redirect) {
+          this.$router.go(-2)
+        } else {
+          this.$router.go(-1)
+        }
+        // this.$emit('clickLeft')
       },
       onClickRight() {
         this.$emit('callOnRight')
