@@ -539,9 +539,7 @@
       // 存储浏览记录
       saveLocal() {
         let browsList = getLocalStore('browsList') || []
-        browsList.unshift({
-          'product': this.product
-        })
+        browsList.unshift(this.product.product_id)
         let set = [...new Set(browsList)];
         console.log(set)
         if (set.length >= 6) {
