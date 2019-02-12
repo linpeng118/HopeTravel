@@ -6,7 +6,7 @@
         <hot-city-tag v-for="line in data.lineList"
                       :key="line.id"
                       :className="line.is_hot ? 'active' : 'normal'"
-                      @callOnTag="callOnTag"
+                      @callOnTag="selectDetail"
                       :tag="line" />
       </div>
     </div>
@@ -17,11 +17,11 @@
     </div>
     <div class="hot-box">
       <h2 v-if="titleList">{{titleList.targetTitle}}</h2>
-      <hot-place :lists="data.hotTarget" @selectDetail="selectDetail"></hot-place>
+      <hot-place :lists="data.hotTarget" @selectDetail="selectDetail" :isDesc="false"></hot-place>
     </div>
     <div class="play-box">
       <h2 v-if="titleList">{{titleList.playTitle}}</h2>
-      <div class="play-ways" v-for="play in data.playWaysList" :key="play.id" @click="selectPlay(play)">
+      <div class="play-ways" v-for="play in data.playWaysList" :key="play.id" @click="selectDetail(play.content)">
         <img :src="play.image" alt="">
         <div class="title">
           <span>{{play.subTitle}}</span>
@@ -64,14 +64,6 @@ export default {
   methods: {
     selectDetail(item){
       this.$emit('selectDetail', item)
-    },
-    selectPlay(play) {
-      let {category, product_type, span_city, start_city} = play
-      this.$emit('selectPlay', {category, product_type, span_city, start_city})
-    },
-    callOnTag(item) {
-      let {category, product_type, span_city, start_city} = item
-      this.$emit('selectTag', {category, product_type, span_city, start_city})
     }
   }
 }

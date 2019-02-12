@@ -18,13 +18,13 @@ export default {
     },
     isDesc: {
       type: Boolean,
-      type: true
+      default: true
     }
   },
   methods: {
     selectDetail(detail){
-      let {category, product_type, span_city, start_city} = detail
-      this.$emit('selectDetail', {category, product_type, span_city, start_city})
+      let {content} = detail
+      this.$emit('selectDetail', content)
     }
   }
 }
@@ -41,7 +41,7 @@ export default {
       width:160px;
     }
     .title{
-      font-size: 24px;
+      font-size: 22px;
       color: #000000;
     }
     .desc{

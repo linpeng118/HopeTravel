@@ -133,7 +133,8 @@ export default {
   computed: {
     currentType() { // 当前的type类型
       // 如果有修改要特别注意类型
-      let _arr = [3,1,2,4,5,7,7]
+      // let _arr = [3,1,2,4,5,7,7]
+      let _arr = [0,3,1,2,4,5,7]
       return _arr[this.active]
     },
     multipleTag() {
@@ -162,7 +163,8 @@ export default {
       {id:4, order: '', order_by: 'sales', name: '最受欢迎'}
     ]
     this.tagsList = [
-      {id:0,type: 3,title: '稀饭推荐'},
+      {id:10,type: 0,title: '稀饭推荐'},
+      {id:0,type: 3,title: '精品小团'},
       {id:1,type: 1,title: '当地跟团'},
       {id:2,type: 2,title: '当地玩乐'},
       {id:3,type: 4,title: '门票演出'},
@@ -173,7 +175,9 @@ export default {
   },
   mounted() {
     // 初始化
-    this.getFilterList()
+    if(this.currentType !== 0) {
+      this.getFilterList()
+    }
   },
   methods: {
     // 返回上一级
@@ -222,7 +226,7 @@ export default {
     // 初始化筛选列表
     async getFilterList() {
       const submitData = {
-        type: this.currentType,
+        type: this.currentType == 0 ? null: this.currentType,
         keyword: this.searchKeyWords
       }
       let {code, data} = await getFilterList(submitData)
@@ -234,9 +238,8 @@ export default {
     async onLoad() {
       // 获取数据
       console.log('onload')
-      console.log(this.filterResult)
       const submitData = {
-        type: this.currentType,
+        type: this.currentType == 0 ? null: this.currentType,
         page: (this.prodPagination.page || 0) + 1,
         order_by: this.sortResult.order_by || null,
         order: this.sortResult.order || null,
@@ -255,6 +258,7 @@ export default {
     },
     // 切换tab加载数据
     async changeTypeClick() {
+      this.prodFinished = true
       this.productList = []
       this.prodPagination = {}
       this.filterResult = {
@@ -263,13 +267,17 @@ export default {
         span_city: this.$route.query.span_city || null,
         start_city: this.$route.query.start_city || null
       }
+      console.log(this.prodFinished)
+      this.onLoad()
       if(this.prodFinished) { // 如果这个值为true，则不会触发onLoad, 所以要手动初始化一下
-        this.prodFinished = false
+        // this.prodFinished = false
       } else { // 如果为false则会触发onLoad
-        this.onLoad()
+        // this.onLoad()
       }
       // 筛选列表更新
-      this.getFilterList()
+      if(this.currentType !== 0) {
+        this.getFilterList()
+      }
     },
     async againSearch () {
       this.prodPagination = {}

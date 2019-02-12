@@ -14,7 +14,7 @@
     </div>
     <div class="bottom-btn">
       <div class="left">重置</div>
-      <div class="right">选好了</div>
+      <div class="right">选好了w</div>
     </div>
   </div>
 </template>
