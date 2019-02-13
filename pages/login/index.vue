@@ -17,6 +17,9 @@
       loginHeader,
       LoginComp
     },
+    head: {
+      title: '登录'
+    },
     data() {
       return {
         redirect: this.$route.query.redirect ? decodeURIComponent(this.$route.query.redirect) : '',

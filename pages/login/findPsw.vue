@@ -36,6 +36,9 @@
 
   export default {
     layout: 'default',
+    head: {
+      title: '找回密码'
+    },
     components: {
       loginHeader,
       areaCodeInput

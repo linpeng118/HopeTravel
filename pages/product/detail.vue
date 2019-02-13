@@ -807,7 +807,6 @@
       },
       // 显示右上角更多操作
       onHeaderRight() {
-        console.log('onHeaderRight')
         this.showMore = !this.showMore
       },
       // 返回首页
