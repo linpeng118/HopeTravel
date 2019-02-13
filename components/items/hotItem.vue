@@ -18,7 +18,7 @@
         <span class="title">{{proData.title}}</span>
       </div>
     </div>
-    <div class="desc no-wrap-line2">{{proData.name}}</div>
+    <div class="desc no-wrap-line2 imitate-ellipsis2">{{proData.name}}</div>
     <div class="price-wrap">
       <span class="price">
         {{proData.special_price ? proData.special_price : proData.default_price }}

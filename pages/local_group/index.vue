@@ -4,6 +4,8 @@
     <!-- header -->
     <search-header v-if="!isApp"
       :title="'当地跟团'"
+      :isSearch="false"
+      :barSearch="false"
       ref="refSearchHeader"
       @leftClick="leftClick"
       @rightClick="rightClick" />
