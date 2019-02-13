@@ -45,6 +45,7 @@
     },
     data() {
       return {
+        redirect: this.$route.query.redirect,
         // 修改密码
         account: '',
         password: '',
@@ -106,7 +107,13 @@
           if (code === 0) {
             this.$toast('修改密码成功！')
             setTimeout(() => {
-              this.toLogin()
+              if (this.redirect) {
+                this.$router.push({
+                  path: this.redirect
+                })
+              } else {
+                this.toLogin()
+              }
             }, 1500)
           } else {
             this.$toast(msg)

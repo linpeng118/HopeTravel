@@ -30,6 +30,7 @@
   import LoginComp from '@/components/partcail/login/login'
   import RegistComp from '@/components/partcail/login/regist'
   import {DLG_TYPE} from '@/assets/js/consts/dialog'
+  import {getLocalStore, setLocalStore} from '@/assets/js/utils'
 
   export default {
     components: {
@@ -134,6 +135,9 @@
       // 忘记密码回调
       forgetPswCallBack() {
         this.closeDlg()
+        this.$router.push({
+          path: `/login/forget?redirect=${encodeURIComponent(this.$route.fullPath)}`,
+        })
       }
     },
   }

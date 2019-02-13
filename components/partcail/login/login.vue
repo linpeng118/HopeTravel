@@ -141,9 +141,6 @@
       },
       forgetPsw() {
         this.$emit('forgetPswCallBack')
-        this.$router.push({
-          path: '/login/forget'
-        })
       },
       // 获取验证码
       async getCode() {
