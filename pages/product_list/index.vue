@@ -37,7 +37,9 @@
       </div>
     </div>
     <!--筛选排序-->
-    <van-popup v-model="showFilter" position="right" :overlay="false" class="filter-select">
+    <van-popup v-model="showFilter" position="right" :overlay="true" class="filter-select">
+      <div class="filter-main-box" @click="showFilter = false">
+      </div>
       <div class="filter-content">
         <div class="filter-list">
           <div class="filter-items" v-for="(item, key) in filterLists" :key="key">
@@ -415,7 +417,7 @@ export default {
   }
   .filter-select{
     &.van-popup--right{
-      width: 650px;
+      width: 100%;
       height: 100%;
       margin-top: 88px;
       background-color: transparent;
@@ -424,7 +426,7 @@ export default {
       position: absolute;
       top:166px;
       bottom: 88px;
-      left: 0;
+      left: 100px;
       right: 0;
       background-color: #fff;
       padding-bottom:100px;
@@ -484,7 +486,7 @@ export default {
       height:100px;
       position: absolute;
       bottom: 88px;
-      left: 0;
+      left: 100px;
       right: 0;
       background-color: #fff;
       display: flex;
@@ -502,6 +504,11 @@ export default {
       }
     }
     .show-list{
+    }
+    .filter-main-box{
+      width: 100px;
+      height: calc(100% - 176px);
+      margin-top: 176px;
     }
   }
 </style>

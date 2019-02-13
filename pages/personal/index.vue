@@ -2,7 +2,7 @@
   <div class="personal">
     <div class="header">
       <div class="info" v-if="JSON.stringify(profile) !== '{}'">
-        <div class="user-pic">
+        <div class="user-pic" @click="editInfo">
           <img class :src="profile.face" alt>
         </div>
         <div class="user-info">
@@ -140,9 +140,15 @@ export default {
     },
     myRice() {
       //跳转我的米粒
-      this.$router.push({
-        path: "/personal/account_rice"
-      });
+      if(this.isLogin) {
+        this.$router.push({
+          path: "/personal/account_rice"
+        });
+      } else {
+        this.$router.push({
+          path: '/login?redirect=personal'
+        })
+      }
     },
     //跳转全部订单
     allOrders(item) {
@@ -190,6 +196,8 @@ export default {
         position: absolute;
         top: 48px;
         left: 32px;
+        width: 142px;
+        height: 142px;
         img {
           width: 142px;
           height: 142px;

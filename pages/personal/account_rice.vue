@@ -74,7 +74,8 @@ export default {
     async onLoad() {
       console.log('onload')
       const submitData = {
-        page: (this.prodPagination.page || 0) + 1
+        page: (this.prodPagination.page || 0) + 1,
+        t: +new Date()
       }
       // 异步更新数据
       const res = await getPoints(submitData)

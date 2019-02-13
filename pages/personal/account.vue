@@ -197,7 +197,17 @@ export default {
           total_points: data.total_points,
         }
         this.vxSetProfile(obj)
-        this.$toast('保存成功')
+        this.$toast({
+          type: 'success',
+          message: '保存成功',
+          duration: 2000
+        })
+        setTimeout(() => {
+          this.$router.push({
+            path: '/personal'
+          })
+        }, 2000)
+        // this.$toast('保存成功')
       } else {
         this.$toast(msg)
       }
