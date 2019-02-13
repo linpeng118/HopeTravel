@@ -14,6 +14,9 @@ export const delcontanct = (id) => {
 export const getquhao = () => {
   return axios.get(`/api/country/telcodes`)
 }
+export const guojialist = () => {
+  return axios.get(`/api/countries`)
+}
 export const addcontanct = (data) => {
   return axios.post(`/api/contact`,
     {
