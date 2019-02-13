@@ -3,7 +3,8 @@ import axios from '@/plugins/axios/axios'
 
 // 获取个人信息
 export const getProfile = (data) => {
-  return axios.get(`/api/profile`)
+  let t = +new Date()
+  return axios.get(`/api/profile?t=${t}`)
 }
 // 获取订单
 export const getOrderInfo = (status) => {
