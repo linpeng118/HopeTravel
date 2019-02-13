@@ -174,7 +174,6 @@
         if(productIds.length) {
           this.getViewedList(productIds)
         }
-        // console.log(getLocalStore('browsList'))
       }
       this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 100))
     },

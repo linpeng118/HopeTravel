@@ -3,7 +3,7 @@
     <div class="product-item" @click="selectDetail(data.product_id)">
       <div class="img-show">
         <img :src="data.image" alt="">
-        <!--<div class="tags">{{data.product_type | productTypeValue}}</div>-->
+        <div class="tags" v-if="showTag">{{data.product_type | productTypeValue}}</div>
       </div>
       <div class="product-desc">
         <div class="title">
@@ -39,7 +39,7 @@ export default {
     },
     productTypeValue(val) {
       const type = [
-        {type: 3,title: '稀饭推荐'},
+        {type: 3,title: '精品小团'},
         {type: 1,title: '当地跟团'},
         {type: 2,title: '当地玩乐'},
         {type: 4,title: '门票演出'},
@@ -63,6 +63,10 @@ export default {
         name: '',
         icons_show: {}
       })
+    },
+    showTag: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {

@@ -63,7 +63,7 @@ export default {
     backTop() {
       console.log('返回顶部')
       let timer = setInterval(() => {
-        let speed = Math.floor(-this.scrollTop / 5)
+        let speed = Math.floor(-this.scrollTop / 3)
         document.documentElement.scrollTop = document.body.scrollTop = this.scrollTop + speed
         if (this.scrollTop === 0) {
           clearInterval(timer)

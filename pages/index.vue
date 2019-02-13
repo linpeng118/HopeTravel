@@ -26,7 +26,7 @@
     <div class="banner">
       <van-swipe indicator-color="white">
         <van-swipe-item v-for="banner in bannerList" :key="banner.image_url">
-          <div class="img">
+          <div class="img" @click="bannerLink(banner.link_url)">
             <img :src="banner.image_url"/>
           </div>
         </van-swipe-item>
@@ -183,6 +183,17 @@ export default {
         })
       },1000)
     },
+    // banner跳转
+    bannerLink(link) {
+      if(link.indexOf('?') < 0) {
+        window.location.href = link
+      } else {
+        let query = link.split('?')[1].replace('keyword', 'keyWords')
+        this.$router.push({
+          path: `/product_list?${query}`,
+        })
+      }
+    },
     // 跳转商品详情
     selectItem(item) {
       this.$router.push({
@@ -193,13 +204,12 @@ export default {
       })
     },
     // 目的地跳转列表
-    selectDetail(detail) {
-      console.log(detail)
+    selectDetail(value) {
       this.$router.push({
         name: 'product_list',
         query: {
           itemType: 0,
-          ...detail
+          keyWords: value
         }
       })
     },

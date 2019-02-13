@@ -23,8 +23,9 @@ export default {
   },
   methods: {
     selectDetail(detail){
-      let {content} = detail
-      this.$emit('selectDetail', content)
+      let {content,title} = detail
+      let data = content || title
+      this.$emit('selectDetail', data)
     }
   }
 }
