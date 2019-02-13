@@ -1386,6 +1386,7 @@
       .footer-fixed {
         position: fixed;
         width: 100%;
+        z-index: 1000;
         bottom: 0;
         transition: all 0.3s;
         background: #fff;
