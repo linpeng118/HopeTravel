@@ -115,7 +115,7 @@ export default {
     position: absolute;
     top: 2.213333rem;
     bottom: 1.173333rem;
-    left: 0;
+    left: 100px;
     right: 0;
     background-color: #fff;
     padding-bottom: 1.333333rem;
@@ -172,7 +172,7 @@ export default {
     height:88px;
     position: fixed;
     bottom: 88px;
-    left: 0;
+    left: 100px;
     right: 0;
     background-color: #fff;
     display: flex;
