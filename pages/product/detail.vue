@@ -11,24 +11,33 @@
     <div class="product-detail"
       ref="refProductDetail">
       <!-- banner -->
-      <van-swipe class="banner"
-        :autoplay="4000"
-        indicator-color="white">
-        <van-swipe-item v-for="image in product.images"
-          :key="image">
-          <div class="banner-img"
-            :style="{'background': `url(${image}) no-repeat 0 0/100% 100%`}"></div>
-        </van-swipe-item>
-        <div class="custom-indicator"
-          slot="indicator">
-          {{ current + 1 }}/4
+      <div class="banner-wrap">
+        <van-swipe class="banner"
+          :autoplay="4000"
+          indicator-color="white"
+          @change="onBannerChange">
+          <van-swipe-item v-for="image in product.images"
+            :key="image">
+            <div class="banner-img"
+              :style="{'background': `url(${image}) no-repeat 0 0/100% 100%`}"></div>
+          </van-swipe-item>
+          <!-- banner页数 -->
+          <div class="custom-indicator"
+            slot="indicator">
+            {{ current + 1 }}/{{product.images&&product.images.length}}
+          </div>
+        </van-swipe>
+        <!-- 产品编号 -->
+        <div class="serial-num">
+          产品编号：{{product.code}}
         </div>
-      </van-swipe>
+      </div>
       <!-- 产品 -->
       <div class="product">
         <!-- name -->
         <p class="name">
-          <span class="prod-tag" v-if="product.self_support">自营</span>
+          <span class="prod-tag"
+            v-if="product.self_support">自营</span>
           {{product.name}}
         </p>
         <!-- 价格 -->
@@ -550,6 +559,10 @@
         }
         setLocalStore('browsList', set)
       },
+      // banner切换
+      onBannerChange(index) {
+        this.current = index;
+      },
       // 跳转至注册页
       toRegist() {
         this.jumpTo('/login/regist')
@@ -842,15 +855,37 @@
     .product-detail {
       padding-bottom: 144px;
       background: #f2f2f2;
-      .banner {
-        height: 434px;
-        width: 100%;
-        .banner-img {
+      .banner-wrap {
+        position: relative;
+        .banner {
           height: 434px;
-          width: 100vw;
+          width: 100%;
+          .banner-img {
+            height: 434px;
+            width: 100vw;
+          }
+          .custom-indicator {
+            position: absolute;
+            right: 22px;
+            bottom: 24px;
+            padding: 0 14px;
+            font-size: 20px;
+            color: #fff;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.55);
+          }
         }
-        .custom-indicator {
+        .serial-num {
+          position: absolute;
+          left: 22px;
+          bottom: 24px;
+          padding: 0 14px;
+          height: 32px;
+          background: rgba(0, 0, 0, 0.55);
+          border-radius: 20px;
           font-size: 20px;
+          color: rgba(255, 255, 255, 1);
+          text-align: center;
         }
       }
       .product {
