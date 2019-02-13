@@ -34,7 +34,7 @@
         <input type="text" name="total_fee[CNY]" value="" ref="total_feecny">
         <input type="text" name="total_fee[USD]" value="" ref="total_feeusd">
         <input type="text" name="client_type" value="tourscool">
-        <input type="text" name="jwt" value="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiI2IiwiZ2lkIjoiMSIsImV4cCI6MTU0OTI2MDIxMX0.q4c3ooX8GD_b0GmDceWO-GdburBpBGTpKbhBVRvaKpY" readonly="">
+        <input type="text" name="jwt" ref="jwt" value="" >
         <input type="text" name="success_url"
                value="" ref="success_url">
         <input type="text" name="failure_url"
@@ -160,6 +160,9 @@
           this.$refs.total_feeusd.value=data.price*100;
           this.$refs.success_url.value='//'+window.location.host+"/personal/order_des?order_id="+data.order_id;
           this.$refs.failure_url.value='//'+window.location.host+"/personal/order?status=null";
+          var token=getCookieByKey('token') ? getCookieByKey('token') : '';
+          token=token.replace('Bearer ','');
+          this.$refs.jwt.value=token;
           this.subData();
         }
         else {
