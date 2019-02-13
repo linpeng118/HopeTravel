@@ -75,20 +75,6 @@
           </div>
         </div>
       </div>
-      <!-- 服务说明 -->
-      <van-actionsheet v-model="showServiceNode"
-        title="服务说明"
-        class="service-note">
-        <div class="servive-item mt-50"
-          v-for="item in serviceNote"
-          :key="item.title">
-          <h3 class="title">
-            <img src="../../assets/imgs/product/tick@2x.png"
-              alt="icon">&nbsp;{{item.title}}
-          </h3>
-          <p class="desc">{{item.content}}</p>
-        </div>
-      </van-actionsheet>
       <!-- 团期价格 -->
       <div class="group-price mt-24">
         <div class="title">
@@ -304,8 +290,7 @@
         </van-collapse>
       </div>
       <!-- 底部按钮 -->
-      <div class="footer-fixed"
-        :style="{'z-index': showServiceNode ? 5000 : 1000}">
+      <div class="footer-fixed">
         <div class="footer-tabbar">
           <div class="operate">
             <div class="btn-operate"
@@ -325,6 +310,20 @@
           </div>
         </div>
       </div>
+      <!-- 服务说明 -->
+      <van-actionsheet v-model="showServiceNode"
+        title="服务说明"
+        class="service-note">
+        <div class="servive-item mt-50"
+          v-for="item in serviceNote"
+          :key="item.title">
+          <h3 class="title">
+            <img src="../../assets/imgs/product/tick@2x.png"
+              alt="icon">&nbsp;{{item.title}}
+          </h3>
+          <p class="desc">{{item.content}}</p>
+        </div>
+      </van-actionsheet>
       <!-- 恢复预定通知 -->
       <van-actionsheet v-model="showSoldOut"
         title=" "
@@ -951,7 +950,7 @@
         }
       }
       .service-note {
-        padding: 0 26px 150px;
+        padding: 0 26px 50px;
         min-height: 200px;
         max-height: 90%;
         border-radius: 24px 24px 0 0;
