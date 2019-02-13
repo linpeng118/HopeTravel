@@ -140,6 +140,7 @@
         this.pswInputType = this.pswInputType === 'password' ? 'text' : 'password'
       },
       forgetPsw() {
+        this.$emit('forgetPswCallBack')
         this.$router.push({
           path: '/login/forget'
         })

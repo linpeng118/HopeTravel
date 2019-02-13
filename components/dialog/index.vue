@@ -13,6 +13,7 @@
       <component :is="currComp"
         showRegistTip
         showLoginTip
+        @forgetPswCallBack="forgetPswCallBack"
         @showLoginDlg="setDlgType"
         @registCallBack="showLogin"
         @loginCallBack="loginSuc"
@@ -129,6 +130,10 @@
       // 关闭弹窗
       closeDlg() {
         this.vxToggleDialog(false)
+      },
+      // 忘记密码回调
+      forgetPswCallBack() {
+        this.closeDlg()
       }
     },
   }
