@@ -66,7 +66,6 @@
       <p class="connet-title">其他</p>
 
       <van-cell title="出生日期" @click="showdate=true" is-link :value="!userform.dob?'选择日期':userform.dob" />
-
       <van-row class="setcheckbox">
         <van-col span="6">性别</van-col>
         <van-col span="18">
@@ -79,7 +78,9 @@
       <van-cell-group>
         <van-switch-cell v-model="userform.isuser" title="是否本人" />
       </van-cell-group>
-
+      <van-cell-group v-if="queryid!=0">
+        <div class="deluser" @click="delconfirm()">删除出行人</div>
+      </van-cell-group>
     </div>
     <!--<van-popup v-model="shownationality" position="right" :overlay="false" style="width: 100%">-->
       <!--等待开发-->
@@ -99,9 +100,11 @@
 
 <script>
   import {setcontanct} from '@/api/contacts'
+  import {delcontanct} from '@/api/contacts'
   import {addcontanct} from '@/api/contacts'
   import {getcontants} from '@/api/contacts'
   import {getcontant} from '@/api/contacts'
+
   export default {
     components: {
 
@@ -217,6 +220,27 @@
         else {
         }
       },
+      delconfirm(){
+        this.$dialog.confirm({
+          title: '删除联系人',
+          message: '是否确认删除联系人?'
+        }).then(() => {
+          this.deluser();
+        }).catch(() => {
+
+        });
+      },
+      async deluser(){
+        let {data, code,msg} = await delcontanct(this.queryid)
+        if (code === 0) {
+          this.$toast('删除成功')
+          this.$router.go(-1)
+        }
+        else {
+          this.$toast(msg)
+        }
+
+      }
 
 
 
@@ -262,4 +286,17 @@
      }
    }
  }
+   .deluser{
+     width:686px;
+     height:80px;
+     background:rgba(251,96,93,1);
+     opacity:1;
+     border-radius:8px;
+     font-size:32px;
+     line-height: 80px;
+     color: #fff;
+     text-align: center;
+     margin-top: 30px;
+
+   }
 </style>

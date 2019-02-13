@@ -6,6 +6,11 @@ export const getcontants = () => {
 export const getcontant = (id) => {
   return axios.get(`/api/contact/${id}`)
 }
+export const delcontanct = (id) => {
+  return axios.delete(`/api/contact`,{params: {
+      contact_id:id
+    }})
+}
 export const getquhao = () => {
   return axios.get(`/api/country/telcodes`)
 }
