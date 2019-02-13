@@ -91,7 +91,7 @@
             <input type="text" name="total_fee[CNY]" value="" ref="total_feecny">
             <input type="text" name="total_fee[USD]" value="" ref="total_feeusd">
             <input type="text" name="client_type" value="tourscool">
-            <input type="text" name="jwt" value="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiI2IiwiZ2lkIjoiMSIsImV4cCI6MTU0OTI2MDIxMX0.q4c3ooX8GD_b0GmDceWO-GdburBpBGTpKbhBVRvaKpY" readonly="">
+            <input type="text" name="jwt" ref="jwt" value="" >
             <input type="text" name="success_url" ref="success_url">
             <input type="text" name="failure_url" ref="failure_url">
             <input type="submit" ref="submitform">
@@ -105,7 +105,9 @@
 
 <script>
 
-
+  import {
+    getCookieByKey
+  } from '@/assets/js/utils'
   import {orderdetails} from '@/api/order'
   export default {
     name: "order_details",
@@ -200,6 +202,9 @@
         this.$refs.total_feecny.value=this.details.cny_price*100||0;
         this.$refs.success_url.value='//'+window.location.host+"/personal/order_des?order_id="+this.details.order_id;
         this.$refs.failure_url.value='//'+window.location.host+"/personal/order?status=null";
+        var token=getCookieByKey('token') ? getCookieByKey('token') : '';
+        token=token.replace('Bearer ','');
+        this.$refs.jwt.value=token;
         this.$refs.submitform.click();
       },
 
