@@ -11,24 +11,33 @@
     <div class="product-detail"
       ref="refProductDetail">
       <!-- banner -->
-      <van-swipe class="banner"
-        :autoplay="4000"
-        indicator-color="white">
-        <van-swipe-item v-for="image in product.images"
-          :key="image">
-          <div class="banner-img"
-            :style="{'background': `url(${image}) no-repeat 0 0/100% 100%`}"></div>
-        </van-swipe-item>
-        <div class="custom-indicator"
-          slot="indicator">
-          {{ current + 1 }}/4
+      <div class="banner-wrap">
+        <van-swipe class="banner"
+          :autoplay="4000"
+          indicator-color="white"
+          @change="onBannerChange">
+          <van-swipe-item v-for="image in product.images"
+            :key="image">
+            <div class="banner-img"
+              :style="{'background': `url(${image}) no-repeat 0 0/100% 100%`}"></div>
+          </van-swipe-item>
+          <!-- banner页数 -->
+          <div class="custom-indicator"
+            slot="indicator">
+            {{ current + 1 }}/{{product.images&&product.images.length}}
+          </div>
+        </van-swipe>
+        <!-- 产品编号 -->
+        <div class="serial-num">
+          产品编号：{{product.code}}
         </div>
-      </van-swipe>
+      </div>
       <!-- 产品 -->
       <div class="product">
         <!-- name -->
         <p class="name">
-          <span class="prod-tag" v-if="product.self_support">自营</span>
+          <span class="prod-tag"
+            v-if="product.self_support">自营</span>
           {{product.name}}
         </p>
         <!-- 价格 -->
@@ -75,20 +84,6 @@
           </div>
         </div>
       </div>
-      <!-- 服务说明 -->
-      <van-actionsheet v-model="showServiceNode"
-        title="服务说明"
-        class="service-note">
-        <div class="servive-item mt-50"
-          v-for="item in serviceNote"
-          :key="item.title">
-          <h3 class="title">
-            <img src="../../assets/imgs/product/tick@2x.png"
-              alt="icon">&nbsp;{{item.title}}
-          </h3>
-          <p class="desc">{{item.content}}</p>
-        </div>
-      </van-actionsheet>
       <!-- 团期价格 -->
       <div class="group-price mt-24">
         <div class="title">
@@ -304,8 +299,7 @@
         </van-collapse>
       </div>
       <!-- 底部按钮 -->
-      <div class="footer-fixed"
-        :style="{'z-index': showServiceNode ? 5000 : 1000}">
+      <div class="footer-fixed">
         <div class="footer-tabbar">
           <div class="operate">
             <div class="btn-operate"
@@ -325,6 +319,20 @@
           </div>
         </div>
       </div>
+      <!-- 服务说明 -->
+      <van-actionsheet v-model="showServiceNode"
+        title="服务说明"
+        class="service-note">
+        <div class="servive-item mt-50"
+          v-for="item in serviceNote"
+          :key="item.title">
+          <h3 class="title">
+            <img src="../../assets/imgs/product/tick@2x.png"
+              alt="icon">&nbsp;{{item.title}}
+          </h3>
+          <p class="desc">{{item.content}}</p>
+        </div>
+      </van-actionsheet>
       <!-- 恢复预定通知 -->
       <van-actionsheet v-model="showSoldOut"
         title=" "
@@ -359,27 +367,30 @@
         width="100%"
         height="100%"></iframe>
     </van-popup> -->
-    <div class="show-more"
-      v-show="showMore">
-      <div class="show-more-item"
-        @click="onHomePage">
-        <img src="~/assets/imgs/product/icon_home@2x.png"
-          alt="">
-        <span class="item-title">首页</span>
+    <!-- 右上角更多操作 -->
+    <transition name="fade">
+      <div class="show-more"
+        v-show="showMore">
+        <div class="show-more-item"
+          @click="onHomePage">
+          <img src="~/assets/imgs/product/icon_home@2x.png"
+            alt="">
+          <span class="item-title">首页</span>
+        </div>
+        <div class="show-more-item"
+          @click="onDest">
+          <img src="~/assets/imgs/product/icon_pos@2x.png"
+            alt="">
+          <span class="item-title">目的地</span>
+        </div>
+        <div class="show-more-item"
+          @click="onFollow">
+          <img src="~/assets/imgs/product/icon_star@2x.png"
+            alt="">
+          <span class="item-title">我的收藏</span>
+        </div>
       </div>
-      <div class="show-more-item"
-        @click="onDest">
-        <img src="~/assets/imgs/product/icon_pos@2x.png"
-          alt="">
-        <span class="item-title">目的地</span>
-      </div>
-      <div class="show-more-item"
-        @click="onFollow">
-        <img src="~/assets/imgs/product/icon_star@2x.png"
-          alt="">
-        <span class="item-title">我的收藏</span>
-      </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -549,6 +560,10 @@
           set = set.slice(0, 6).map(Number)
         }
         setLocalStore('browsList', set)
+      },
+      // banner切换
+      onBannerChange(index) {
+        this.current = index;
       },
       // 跳转至注册页
       toRegist() {
@@ -748,6 +763,7 @@
         this.vxToggleDialog(true)
         this.vxSetDlgType(DLG_TYPE.PHONE)
       },
+      // 在线咨询
       onlineCounsel() {
         // if (!this.$store.state.token) {
         //   this.vxToggleDi1alog(true)
@@ -789,16 +805,19 @@
       onGroupPriceMore() {
         this.btnReserve()
       },
+      // 显示右上角更多操作
       onHeaderRight() {
-        console.log('onHeaderRight')
         this.showMore = !this.showMore
       },
+      // 返回首页
       onHomePage() {
         this.jumpTo('/')
       },
+      // 搜索页面
       onDest() {
         this.jumpTo('/search')
       },
+      // 收藏页面
       onFollow() {
         this.jumpTo('/personal/follow')
       },
@@ -837,15 +856,37 @@
     .product-detail {
       padding-bottom: 144px;
       background: #f2f2f2;
-      .banner {
-        height: 434px;
-        width: 100%;
-        .banner-img {
+      .banner-wrap {
+        position: relative;
+        .banner {
           height: 434px;
-          width: 100vw;
+          width: 100%;
+          .banner-img {
+            height: 434px;
+            width: 100vw;
+          }
+          .custom-indicator {
+            position: absolute;
+            right: 22px;
+            bottom: 24px;
+            padding: 0 14px;
+            font-size: 20px;
+            color: #fff;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.55);
+          }
         }
-        .custom-indicator {
+        .serial-num {
+          position: absolute;
+          left: 22px;
+          bottom: 24px;
+          padding: 0 14px;
+          height: 32px;
+          background: rgba(0, 0, 0, 0.55);
+          border-radius: 20px;
           font-size: 20px;
+          color: rgba(255, 255, 255, 1);
+          text-align: center;
         }
       }
       .product {
@@ -951,7 +992,7 @@
         }
       }
       .service-note {
-        padding: 0 26px 150px;
+        padding: 0 26px 50px;
         min-height: 200px;
         max-height: 90%;
         border-radius: 24px 24px 0 0;
@@ -1438,8 +1479,8 @@
         content: "";
         position: absolute;
         top: -10px;
-        right: 6px;
-        border-width: 0 16px 10px;
+        right: 8px;
+        border-width: 0 14px 10px;
         border-style: solid;
         border-color: transparent transparent rgba(0, 0, 0, 0.7);
       }

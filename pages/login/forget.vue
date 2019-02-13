@@ -68,6 +68,9 @@
 
   export default {
     layout: 'default',
+    head: {
+      title: '忘记密码'
+    },
     components: {
       loginHeader,
       areaCodeInput
