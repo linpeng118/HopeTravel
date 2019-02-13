@@ -4,6 +4,10 @@
       <div class="img-show">
         <img :src="data.image" alt="">
         <div class="tags" v-if="showTag">{{data.product_type | productTypeValue}}</div>
+        <div class="special-icon">
+          <span v-for="(item,index) in data.special_icons" :class="item.type === 'special' ? 'color': ''" :key="index">{{item.title}}</span>
+          <!--<span>3折</span>-->
+        </div>
       </div>
       <div class="product-desc">
         <div class="title">
@@ -12,8 +16,9 @@
         <div class="tags-wrap">
           <span class="solid" v-if="data.self_support">自营</span>
           <span v-for="item in data.icons_show" :key="item" class="hollow color">{{item}}</span>
-          <span v-for="(item,index) in iconTour" :key="index" class="hollow">
-            <template v-if="index < 2">{{item.title}}</template>
+          <span v-for="(item,index) in data.icons_tour" :key="index" class="hollow">
+            <!--<template v-if="index < 2">{{item.title}}</template>-->
+            {{item.title}}
           </span>
         </div>
         <div class="product-price">
@@ -71,11 +76,7 @@ export default {
   },
   computed: {
     iconTour() {
-      if (this.data.icons_tour.length > 2) {
-        return this.data.icons_tour.slice(0,2)
-      } else {
-        return this.data.icons_tour
-      }
+      return this.data.icons_tour
     }
   },
   methods: {
@@ -96,6 +97,7 @@ export default {
         width:182px;
         height:220px;
         border-radius:12px;
+        background-color: #d8d8d8;
         overflow: hidden;
         img{
           height: 100%;
@@ -110,6 +112,27 @@ export default {
           font-weight:400;
           background-color: rgba(0,0,0,0.57);
           color: #fff;
+        }
+        .special-icon{
+          position: absolute;
+          top: 0;
+          left: 0;
+          font-size: 0;
+          height:36px;
+          border-radius:0 0 12px 0px;
+          overflow: hidden;
+          span{
+            font-size:22px;
+            color: #fff;
+            background-color: #399EF6;
+            display: inline-block;
+            width: 58px;
+            text-align: center;
+            line-height: 36px;
+            &.color{
+              background-color: #FF0000;
+            }
+          }
         }
       }
       .product-desc{
@@ -145,6 +168,7 @@ export default {
             border-radius:16px;
             border: 2px solid #989898;
             padding: 0 12px;
+            margin-bottom: 5px;
             &.color{
               color: #FB605D;
               border-color: #FB605D;
@@ -154,7 +178,7 @@ export default {
         .product-price{
           font-size:22px;
           .sale-price{
-            color: #EF9A1A;
+            color: #FB605D;
             margin-right: 10px;
             strong{
               font-size:40px;
