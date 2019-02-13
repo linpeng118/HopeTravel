@@ -27,7 +27,7 @@
               </template>
               <template v-if="productList.length">
                 <van-cell v-for="item in productList" :key="item.product_id + Math.random()">
-                  <product-list :data="item" @selectItem="selectProductDetail"></product-list>
+                  <product-list :data="item" @selectItem="selectProductDetail" :showTag="active === 0"></product-list>
                 </van-cell>
               </template>
               <!--<div v-else>暂无数据</div>-->
@@ -37,7 +37,7 @@
       </div>
     </div>
     <!--筛选排序-->
-    <van-popup v-model="showFilter" position="right" :overlay="true" class="filter-select">
+    <van-popup v-model="showFilter" position="right" :overlay="false" class="filter-select">
       <div class="filter-content">
         <div class="filter-list">
           <div class="filter-items" v-for="(item, key) in filterLists" :key="key">
@@ -171,7 +171,7 @@ export default {
       {id:4,type: 5,title: '一日游'},
       {id:6,type: 7,title: '邮轮'}
     ]
-    console.log(this.$route.query)
+    // console.log(this.$route.query)
   },
   mounted() {
     // 初始化
@@ -253,12 +253,11 @@ export default {
       this.prodLoading = false
       // 数据全部加载完成
       if (!this.prodPagination.more) {
-        this.prodFinished = true;
+        this.prodFinished = true
       }
     },
     // 切换tab加载数据
     async changeTypeClick() {
-      this.prodFinished = true
       this.productList = []
       this.prodPagination = {}
       this.filterResult = {
@@ -267,12 +266,10 @@ export default {
         span_city: this.$route.query.span_city || null,
         start_city: this.$route.query.start_city || null
       }
-      console.log(this.prodFinished)
-      this.onLoad()
       if(this.prodFinished) { // 如果这个值为true，则不会触发onLoad, 所以要手动初始化一下
-        // this.prodFinished = false
+        this.prodFinished = false
       } else { // 如果为false则会触发onLoad
-        // this.onLoad()
+        this.onLoad()
       }
       // 筛选列表更新
       if(this.currentType !== 0) {

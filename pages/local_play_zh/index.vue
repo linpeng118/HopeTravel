@@ -60,7 +60,8 @@
   import Loading from '@/components/loading'
   import {HEADER_TYPE} from '@/assets/js/consts/headerType'
   import {PRODUCTIDS} from '@/assets/js/config'
-  import {setCookieByKey} from '@/assets/js/utils'
+  import {setCookieByKey,getLocalStore} from '@/assets/js/utils'
+  import {addFavorite,delFavorite} from '@/api/products'
   export default {
     components: {
       HotCity,
@@ -136,6 +137,11 @@
         }
         let token = await this.appBridge.obtainUserToken()
         this.vxChangeTokens(token)
+      } else {
+        let productIds = getLocalStore('browsList')
+        if(productIds.length) {
+          this.getViewedList(productIds)
+        }
       }
     },
     methods: {
@@ -282,7 +288,36 @@
           })
           // let res = await this.appBridge.collectProductResult()
         } else {
-          ('web2.0')
+          console.log(val.product_id)
+          this.addCollectOrNot(val)
+        }
+      },
+      // 取消收藏和添加收藏
+      async addCollectOrNot(val) {
+        if(!this.isApp) {
+          if(val.is_favorite) {
+            let {code} =  await delFavorite({
+              product_id: val.product_id
+            })
+            if(code===0) {
+              this.$toast('取消收藏')
+            } else {
+              this.$toast('取消收藏失败')
+            }
+          } else {
+            let {code} =  await addFavorite({
+              product_id: val.product_id
+            })
+            if(code===0) {
+              this.$toast('收藏成功')
+            } else {
+              this.$toast('收藏失败')
+            }
+          }
+          const index = this.viewedList.findIndex(item => {
+            return item.product_id === val.product_id
+          })
+          this.viewedList[index].is_favorite = !this.viewedList[index].is_favorite
         }
       }
     }
