@@ -17,6 +17,9 @@
       loginHeader,
       RegistComp
     },
+    head: {
+      title: '注册'
+    },
     data() {
       return {}
     },

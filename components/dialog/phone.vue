@@ -5,8 +5,8 @@
       :key="item.phone"
       @click="onPhone(item)">
       <div class="left">
-        <img :src="item.icon"
-          alt="phone">
+        <van-icon name="phone-circle-o"
+          class="phone-icon" />
       </div>
       <div class="right">
         <p class="title">{{item.title}}</p>
@@ -29,9 +29,9 @@
       return {
         show: this.proIsShow,
         phoneList: [
-          {icon: require('~/assets/imgs/product/phone@2x.png'), title: '中国客服电话', number: '（0086）400-118-1388', phone: '0086-400-118-1388'},
-          {icon: require('~/assets/imgs/product/phone@2x.png'), title: '美国客服电话', number: '（001）888-933-0336', phone: '001-888-933-0336'},
-          {icon: require('~/assets/imgs/product/phone@2x.png'), title: '日本客服电话', number: '（0081）3-5545-5311', phone: '0081-3-5545-5311'},
+          {title: '中国客服电话', number: '(0086) 400-118-1388', phone: '0086-400-118-1388'},
+          {title: '美国客服电话', number: '(001) 888-933-0336', phone: '001-888-933-0336'},
+          {title: '日本客服电话', number: '(0081) 3-5545-5311', phone: '0081-3-5545-5311'},
         ]
       }
     },
@@ -56,33 +56,29 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 140px;
+      height: 134px;
       &:not(:last-child) {
-        border-bottom: 2px solid #b1b1b1;
+        border-bottom: 1px solid #9a9a9a;
       }
       .left {
         flex: 0 0 80px;
-        img {
-          width: 60px;
-          height: 60px;
+        .phone-icon {
+          font-size: 70px;
+          color: #707070;
         }
       }
       .right {
         flex: 0 0 1;
+        margin-left: 15px;
         text-align: left;
         .title {
-          padding: 0 20px;
           font-size: 28px;
-          font-weight: 300;
-          line-height: 34px;
-          color: #5e5e5e;
+          color: #5a5a5a;
         }
         .number {
-          margin-top: 20px;
-          font-size: 26px;
-          font-weight: 300;
-          line-height: 34px;
-          color: #191919;
+          font-size: 28px;
+          font-weight: bold;
+          color: #000;
         }
       }
     }

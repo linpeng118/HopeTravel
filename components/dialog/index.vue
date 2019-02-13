@@ -2,7 +2,7 @@
   <van-popup v-model="isShow"
     :position="proPos"
     :overlay="true"
-    :style="{'width': dlgWidth}"
+    :style="{'width': dlgWidth, 'padding': dlgPadding}"
     class="normal-dialog-comp">
     <div class="btn-close"
       @click="closeDlg"
@@ -97,6 +97,18 @@
         }
         return '86%'
       },
+      // 显示弹窗的宽度
+      dlgPadding() {
+        // 不需要padding的
+        const arrNoPadding = [
+          DLG_TYPE.PHONE
+        ]
+        const index = arrNoPadding.findIndex(item => item === this.currComp)
+        if (index > -1) {
+          return '0'
+        }
+        return '30px'
+      },
     },
     methods: {
       ...mapMutations({
@@ -125,13 +137,12 @@
 <style lang="scss" scoped>
   .normal-dialog-comp {
     border-radius: 12px;
-    padding: 30px;
     .btn-close {
       position: absolute;
       right: 16px;
       top: 10px;
       color: #d8d8d8;
-      .van-icon{
+      .van-icon {
         font-size: 36px;
       }
     }
