@@ -4,7 +4,8 @@
       @callOnRight="toRegist" :redirect="!!redirect"/>
     <!-- 登录框 -->
     <login-comp class="login-comp-wrap"
-      @loginCallBack="loginCB" />
+      @loginCallBack="loginCB" 
+      @forgetPswCallBack="forgetPswCallBack"/>
   </div>
 </template>
 
@@ -36,7 +37,6 @@
       // 跳转至首页
       loginCB() {
         if (this.redirect) {
-
           this.$router.push({
             path: this.redirect
           })
@@ -52,6 +52,12 @@
         } else {
           this.$router.go(-1)
         }
+      },
+      forgetPswCallBack() {
+        console.log('login/forgetPswCallBack')
+        this.$router.push({
+          path: `/login/forget`,
+        })
       }
     },
   }
