@@ -358,6 +358,7 @@
         width="100%"
         height="100%"></iframe>
     </van-popup> -->
+    <!-- 右上角更多操作 -->
     <div class="show-more"
       v-show="showMore">
       <div class="show-more-item"
@@ -747,6 +748,7 @@
         this.vxToggleDialog(true)
         this.vxSetDlgType(DLG_TYPE.PHONE)
       },
+      // 在线咨询
       onlineCounsel() {
         // if (!this.$store.state.token) {
         //   this.vxToggleDi1alog(true)
@@ -788,16 +790,20 @@
       onGroupPriceMore() {
         this.btnReserve()
       },
+      // 显示右上角更多操作
       onHeaderRight() {
         console.log('onHeaderRight')
         this.showMore = !this.showMore
       },
+      // 返回首页
       onHomePage() {
         this.jumpTo('/')
       },
+      // 搜索页面
       onDest() {
         this.jumpTo('/search')
       },
+      // 收藏页面
       onFollow() {
         this.jumpTo('/personal/follow')
       },
