@@ -368,27 +368,29 @@
         height="100%"></iframe>
     </van-popup> -->
     <!-- 右上角更多操作 -->
-    <div class="show-more"
-      v-show="showMore">
-      <div class="show-more-item"
-        @click="onHomePage">
-        <img src="~/assets/imgs/product/icon_home@2x.png"
-          alt="">
-        <span class="item-title">首页</span>
+    <transition name="fade">
+      <div class="show-more"
+        v-show="showMore">
+        <div class="show-more-item"
+          @click="onHomePage">
+          <img src="~/assets/imgs/product/icon_home@2x.png"
+            alt="">
+          <span class="item-title">首页</span>
+        </div>
+        <div class="show-more-item"
+          @click="onDest">
+          <img src="~/assets/imgs/product/icon_pos@2x.png"
+            alt="">
+          <span class="item-title">目的地</span>
+        </div>
+        <div class="show-more-item"
+          @click="onFollow">
+          <img src="~/assets/imgs/product/icon_star@2x.png"
+            alt="">
+          <span class="item-title">我的收藏</span>
+        </div>
       </div>
-      <div class="show-more-item"
-        @click="onDest">
-        <img src="~/assets/imgs/product/icon_pos@2x.png"
-          alt="">
-        <span class="item-title">目的地</span>
-      </div>
-      <div class="show-more-item"
-        @click="onFollow">
-        <img src="~/assets/imgs/product/icon_star@2x.png"
-          alt="">
-        <span class="item-title">我的收藏</span>
-      </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -1478,8 +1480,8 @@
         content: "";
         position: absolute;
         top: -10px;
-        right: 6px;
-        border-width: 0 16px 10px;
+        right: 8px;
+        border-width: 0 14px 10px;
         border-style: solid;
         border-color: transparent transparent rgba(0, 0, 0, 0.7);
       }
