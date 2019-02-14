@@ -111,19 +111,22 @@
 
       },
       onClickRight(){
-        var objarrx=[];
-        for(let i=0;i<this.checkuser.length;i++){
-          objarrx.push({
-            id:this.checkuser[i].customer_contract_id,
-            name:this.checkuser[i].lastname + this.checkuser[i].firstname,
-          })
+        if(this.checkuser.length==this.adult){
+          var objarrx=[];
+          for(let i=0;i<this.checkuser.length;i++){
+            objarrx.push({
+              id:this.checkuser[i].customer_contract_id,
+              name:this.checkuser[i].lastname + this.checkuser[i].firstname,
+            })
+          }
+          if(objarrx.length>0){
+            this.$router.replace({ path: '/confirm_order', query: { checker: objarrx }})
+          }
+          else{
+            this.$router.replace({ path: '/confirm_order'})
+          }
         }
-        if(objarrx.length>0){
-          this.$router.replace({ path: '/confirm_order', query: { checker: objarrx }})
-        }
-        else{
-          this.$router.replace({ path: '/confirm_order'})
-        }
+
       },
     },
   }
