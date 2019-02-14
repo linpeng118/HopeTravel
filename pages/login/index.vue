@@ -32,7 +32,7 @@
       onLeft() {
         // 如果游重定向地址
         if (this.redirect) {
-          this.$router.push({
+          this.$router.replace({
             path: this.redirect
           })
         } else {
@@ -53,7 +53,7 @@
             path: this.redirect
           })
         } else {
-          this.$router.replace(-1)
+          this.$router.go(-1)
         }
       },
       // 忘记密码回调
