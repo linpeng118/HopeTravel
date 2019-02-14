@@ -361,10 +361,9 @@
         let {data, code, msg} = await getquhao();
         if(code === 0) {
           this.columns = data.map(v => {
-            this.$set(v, 'text',  '+'+v.tel_code)
+            this.$set(v, 'text',  '+'+v.tel_code+'('+v.countryName+')')
             return v
           })
-
         }
         else {
           this.$dialog.alert({

@@ -39,6 +39,7 @@
                 integer
                 v-model="item.adult"
                 :min="1"
+                disable-input="true"
                 :max="product.max_num_guest-item.child"
               />
             </span>
@@ -49,6 +50,7 @@
               <van-stepper
                 integer
                 :min="0"
+                disable-input="true"
                 v-model="item.child"
                 :max="product.max_num_guest-item.adult"
               />
@@ -75,6 +77,7 @@
                 v-model="total_adult"
                 integer
                 :min="1"
+                disable-input="true"
               />
             </span>
           </div>
@@ -85,6 +88,7 @@
                 integer
                 :min="0"
                 v-model="total_kids"
+                disable-input="true"
               />
             </span>
           </div>

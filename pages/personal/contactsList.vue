@@ -45,8 +45,9 @@
     </van-checkbox-group>
 
     <div class="btnbox">
-      <nuxt-link class="changeuser-btn" tag="button" to="/personal/addContacts" ><van-icon name="plus" color="#fff;"/>&nbsp;新增旅客</nuxt-link>
-
+      <nuxt-link class="changeuser-btn" tag="button" :to="{path:'/personal/addContacts'}">
+        <van-icon name="plus" color="#fff;"/>&nbsp;新增旅客
+      </nuxt-link>
     </div>
   </section>
 </template>
