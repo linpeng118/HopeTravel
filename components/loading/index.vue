@@ -28,7 +28,7 @@ export default {
     right: 0;
     left: 0;
     background: rgba(0,0,0,0.3);
-    z-index: 10;
+    z-index: 10000;
     .center-position{
       @include center;
       font-size:24px;
