@@ -100,6 +100,9 @@
       AreaCodeInput,
       areaCodeInput,
     },
+    head: {
+      title: '注册'
+    },
     props: {
       showLoginTip: {
         type: Boolean,
@@ -152,7 +155,7 @@
     methods: {
       // 切换注册模式
       changeTabs(index, title) {
-        console.log(index, title)
+        // console.log(index, title)
         // 清除定时器
         this.resetTimer()
         if (index === 1) {

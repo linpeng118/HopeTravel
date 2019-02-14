@@ -1,7 +1,8 @@
 <template>
   <div class="regist-page">
     <login-header rightText="登录"
-      @callOnRight="toLogin" />
+      @callOnLeft="btnLeft"
+      @callOnRight="btnRight"/>
     <!-- 注册框 -->
     <regist-comp class="regist-comp-wrap"
       @registCallBack="toLogin" />
@@ -21,15 +22,22 @@
       title: '注册'
     },
     data() {
-      return {}
+      return {
+        redirect: this.$route.query.redirect,
+      }
     },
-    computed: {},
-    mounted() {},
     methods: {
+      btnLeft() {
+        this.$router.go(-1)
+      },
+      btnRight() {
+        this.toLogin()
+      },
       // 跳转至登录页
       toLogin() {
+        let path = this.redirect ? `/login?redirect=${this.redirect}` : '/login'
         this.$router.push({
-          path: '/login'
+          path
         })
       },
     },

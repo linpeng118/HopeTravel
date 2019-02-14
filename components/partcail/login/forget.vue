@@ -1,11 +1,7 @@
 <template>
-  <div class="forget-page">
-    <login-header rightText="登录"
-      :showRight="false"
-      @callOnLeft="btnLeft"
-      @callOnRight="btnRight" />
+  <div class="forget-comp">
     <h1 class="title">别担心，在这里找回密码</h1>
-    <van-tabs class="forget-wrap tours-tabs-nowrap"
+    <van-tabs class="content forget-wrap tours-tabs-nowrap"
       @change="changeTabs">
       <!-- 手机号 -->
       <van-tab class="regist"
@@ -61,7 +57,6 @@
 
 <script>
   import {mapMutations} from 'vuex'
-  import loginHeader from '@/components/header/loginHeader'
   import areaCodeInput from '@/components/input/areaCode'
   import {LOGIN_WAY, VERIFY_CODE, SMS_SCENE, EMAIL_SCENE} from '@/assets/js/consts'
   import {getSmsCode, getEmailCode} from '@/api/member'
@@ -74,7 +69,6 @@
       title: '忘记密码'
     },
     components: {
-      loginHeader,
       areaCodeInput
     },
     data() {
@@ -120,22 +114,8 @@
       ...mapMutations({
         vxSetForgetForm: 'login/setForgetForm'
       }),
-      btnLeft() {
-        this.$router.go(-1)
-      },
-      btnRight() {
-        this.toLogin()
-      },
-      // 跳转至登录页
-      toLogin() {
-        let path = this.redirect ? `/login?redirect=${this.redirect}` : '/login'
-        this.$router.push({
-          path
-        })
-      },
       // 切换找回密码的方式
       changeTabs(index, title) {
-        console.log(index, title)
         // 清除定时器
         this.resetTimer()
         if (index === 1) {
@@ -143,9 +123,6 @@
         } else {
           this.type = LOGIN_WAY.PHONE
         }
-      },
-      toggleInputType(val) {
-        this.pswInputType = this.pswInputType === 'password' ? 'text' : 'password'
       },
       // 获取手机验证码
       async getPhoneCode() {
@@ -209,16 +186,15 @@
           this.$toast('请输入手机验证码')
           return
         }
-        // 验证
+        // 存数据
         await this.vxSetForgetForm({
           ...this.phoneForm,
           type: this.type
         })
         // 清除定时器
         this.resetTimer()
-        // 跳转
-        this.toChangePsw()
-
+        // 执行回调
+        this.callCallback()
       },
       // 使用邮箱找回（验证邮箱）
       async toNextByEmail() {
@@ -230,22 +206,19 @@
           this.$toast('请输入邮箱验证码')
           return
         }
-        // 验证
+        // 存数据
         await this.vxSetForgetForm({
           ...this.emailForm,
           type: this.type
         })
         // 清除定时器
         this.resetTimer()
-        // 跳转
-        this.toChangePsw()
+        // 执行回调
+        this.callCallback()
       },
       // 跳转至修改密码
-      toChangePsw() {
-        let path = this.redirect ? `/login/findPsw?redirect=${encodeURIComponent(this.redirect)}` : '/login/findPsw'
-        this.$router.push({
-          path
-        })
+      callCallback() {
+        this.$emit('nextCallBack')
       },
       // 重置定时器
       resetTimer() {
@@ -258,10 +231,8 @@
 </script>
 
 <style lang="scss" scoped>
-  .forget-page {
-    text-align: center;
+  .forget-comp {
     .title {
-      padding-top: 136px;
       font-size: 40px;
       font-family: PingFang SC;
       font-weight: 400;
@@ -269,39 +240,38 @@
       color: rgba(85, 85, 85, 1);
       opacity: 1;
     }
-    .forget-wrap {
+    .content {
       margin-top: 100px;
-      .regist,
-      .email-regist {
-        padding: 0 76px;
-        .icon-arrow {
-          position: absolute;
-          top: 0;
-          left: 50px;
-          z-index: 999;
-        }
-        .btn-login {
-          margin-top: 20px;
-        }
+    }
+    .regist,
+    .email-regist {
+      .icon-arrow {
+        position: absolute;
+        top: 0;
+        left: 50px;
+        z-index: 999;
       }
-      .regist {
-        .phone {
-          margin-top: 54px;
-        }
-        .sms-code {
-          margin-top: 16px;
-        }
+      .btn-login {
+        margin-top: 20px;
       }
-      .email-regist {
-        .email {
-          margin-top: 54px;
-        }
-        .password {
-          margin-top: 16px;
-        }
-        .auth-code {
-          margin-top: 16px;
-        }
+    }
+    .regist {
+      .phone {
+        margin-top: 54px;
+      }
+      .sms-code {
+        margin-top: 16px;
+      }
+    }
+    .email-regist {
+      .email {
+        margin-top: 54px;
+      }
+      .password {
+        margin-top: 16px;
+      }
+      .auth-code {
+        margin-top: 16px;
       }
     }
   }

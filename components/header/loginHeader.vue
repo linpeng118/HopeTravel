@@ -8,7 +8,7 @@
     <van-icon class="left-wrap"
       name="arrow-left"
       slot="left" />
-    <van-icon class="right-wrap"
+    <van-icon class="right-wrap" v-if="showRight"
       slot="right">
       <div class="search">
         <div class="text">{{rightText}}</div>
@@ -30,14 +30,14 @@
         type: String,
         default: ''
       },
-      barSearch: {
+      showRight: {
         type: Boolean,
-        default: false
+        default: true
       },
       redirect: {
         type: Boolean,
         default: false
-      }
+      },
     },
     data() {
       return {
