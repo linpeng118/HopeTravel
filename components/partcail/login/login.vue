@@ -140,9 +140,7 @@
         this.pswInputType = this.pswInputType === 'password' ? 'text' : 'password'
       },
       forgetPsw() {
-        this.$router.push({
-          path: '/login/forget'
-        })
+        this.$emit('forgetPswCallBack')
       },
       // 获取验证码
       async getCode() {

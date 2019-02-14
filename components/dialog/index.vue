@@ -13,6 +13,7 @@
       <component :is="currComp"
         showRegistTip
         showLoginTip
+        @forgetPswCallBack="forgetPswCallBack"
         @showLoginDlg="setDlgType"
         @registCallBack="showLogin"
         @loginCallBack="loginSuc"
@@ -29,6 +30,7 @@
   import LoginComp from '@/components/partcail/login/login'
   import RegistComp from '@/components/partcail/login/regist'
   import {DLG_TYPE} from '@/assets/js/consts/dialog'
+  import {getLocalStore, setLocalStore} from '@/assets/js/utils'
 
   export default {
     components: {
@@ -129,6 +131,13 @@
       // 关闭弹窗
       closeDlg() {
         this.vxToggleDialog(false)
+      },
+      // 忘记密码回调
+      forgetPswCallBack() {
+        this.closeDlg()
+        this.$router.push({
+          path: `/login/forget?redirect=${encodeURIComponent(this.$route.fullPath)}`,
+        })
       }
     },
   }

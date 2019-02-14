@@ -45,8 +45,9 @@
     </van-checkbox-group>
 
     <div class="btnbox">
-      <nuxt-link class="changeuser-btn" tag="button" to="/personal/addContacts" ><van-icon name="plus" color="#fff;"/>&nbsp;新增旅客</nuxt-link>
-
+      <nuxt-link class="changeuser-btn" tag="button" :to="{path:'/personal/addContacts'}">
+        <van-icon name="plus" color="#fff;"/>&nbsp;新增旅客
+      </nuxt-link>
     </div>
   </section>
 </template>
@@ -110,19 +111,22 @@
 
       },
       onClickRight(){
-        var objarrx=[];
-        for(let i=0;i<this.checkuser.length;i++){
-          objarrx.push({
-            id:this.checkuser[i].customer_contract_id,
-            name:this.checkuser[i].lastname + this.checkuser[i].firstname,
-          })
+        if(this.checkuser.length==this.adult){
+          var objarrx=[];
+          for(let i=0;i<this.checkuser.length;i++){
+            objarrx.push({
+              id:this.checkuser[i].customer_contract_id,
+              name:this.checkuser[i].lastname + this.checkuser[i].firstname,
+            })
+          }
+          if(objarrx.length>0){
+            this.$router.replace({ path: '/confirm_order', query: { checker: objarrx }})
+          }
+          else{
+            this.$router.replace({ path: '/confirm_order'})
+          }
         }
-        if(objarrx.length>0){
-          this.$router.replace({ path: '/confirm_order', query: { checker: objarrx }})
-        }
-        else{
-          this.$router.replace({ path: '/confirm_order'})
-        }
+
       },
     },
   }

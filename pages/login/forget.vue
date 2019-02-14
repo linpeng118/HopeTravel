@@ -78,6 +78,7 @@
     data() {
       return {
         VERIFY_CODE,
+        redirect: this.$route.query.redirect,
         // 默认找回密码方式
         type: LOGIN_WAY.PHONE,
         // 手机找回密码
@@ -232,7 +233,7 @@
       },
       toChangePsw() {
         this.$router.push({
-          path: '/login/findPsw',
+          path: `/login/findPsw?redirect=${encodeURIComponent(this.redirect)}`,
         })
       },
       // 重置定时器

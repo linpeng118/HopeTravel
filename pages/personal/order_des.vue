@@ -77,7 +77,7 @@
             <div>联系人</div>
             <div>
               <p>{{details.contact_name}}</p>
-              <p>{{details.contact_phone}}</p>
+              <p><a :href="'tel:'+details.contact_phone">{{details.contact_phone}}</a></p>
               <p>{{details.contact_email}}</p>
             </div>
           </div>

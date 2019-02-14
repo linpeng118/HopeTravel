@@ -1,7 +1,7 @@
 import axios from '@/plugins/axios/axios'
 
 export const countprice = (data) => {
-  return axios.post(`/api/product/${data.product_id}/budget`, {
+  return axios.post(`/api/product/${data.product_id}/budget?time=`+new Date().getTime(), {
     product: {
       product_id: data.product_id||'',
       departure_date: data.departure_date||'',
