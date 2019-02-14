@@ -1,14 +1,16 @@
 <template>
   <van-nav-bar class="layout-header tours-no-bb classBg show-bg"
-    ref="layoutHeader"
-    fixed
-    :z-index="999"
-    @click-left="onClickLeft">
+               ref="layoutHeader"
+               fixed
+               :z-index="999"
+               @click-left="onClickLeft"
+               :style="{boxShadow: isHistory ? 'none' : ''}"
+  >
     <van-icon class="left-wrap"
-      name="arrow-left"
-      slot="left" />
+              name="arrow-left"
+              slot="left" />
     <van-icon class="right-wrap"
-      slot="right">
+              slot="right">
       <div class="big-search">
         <div class="search-box" v-if="!isSearch">
           <van-icon name="search" />
@@ -40,6 +42,10 @@
       },
       isSearch: {
         type: Boolean,
+        default: false
+      },
+      isHistory: {
+        type:Boolean,
         default: false
       }
     },
@@ -75,6 +81,7 @@
     color: #eee;
     background-color: transparent;
     transition: all 0.5s;
+    overflow: hidden;
     &.show-bg {
       background-color: #fff;
       color: #191919;

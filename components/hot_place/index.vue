@@ -42,12 +42,16 @@ export default {
       width:160px;
     }
     .title{
-      font-size: 22px;
+      font-size: 20px;
       color: #000000;
+      height: 32px;
+      overflow: hidden;
     }
     .desc{
-      font-size: 22px;
+      font-size: 20px;
       color: #BEBEBE;
+      height: 32px;
+      overflow: hidden;
     }
     img{
       width:160px;

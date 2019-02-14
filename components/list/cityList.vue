@@ -1,6 +1,6 @@
 <template>
   <div class="tag-wrap">
-    <div class="filter-content">
+    <div class="filter-content" ref="cityWrap">
       <div class="show-list">
         <div class="city-wrap">
           <van-nav-bar
@@ -10,10 +10,10 @@
             :leftText="dataObj.title"
           />
           <div class="main">
-            <div v-for="(value, key) in dataObj" :key="key">
+            <div v-for="(value, key) in dataObj" :key="key" :ref="'listGroup' + key">
               <template v-if="typeof value === 'object'">
                 <div class="title" v-if="key !== 'title' && key!== 'type'">{{key}}</div>
-                <ul class="city-list">
+                <ul class="city-list" >
                   <li v-for="item in value" :key="item.id" @click="selectItem(item)" :class="selectActive(item)">
                     <span>{{item.name}}</span>
                     <i class="van-icon van-icon-success"></i>
@@ -22,16 +22,15 @@
               </template>
             </div>
           </div>
-          <!--<div class="tags-letter">-->
-          <!--<ul>-->
-          <!--<li v-for="(value, key) in dataObj" :key="key">-->
-          <!--<span v-if="typeof value === 'object'">-->
-          <!--{{key}}-->
-          <!--</span>-->
-          <!--</li>-->
-          <!--</ul>-->
+          <!--<div class="tags-letter" @touchstart.stop.prevent="onShortcutTouchStart">-->
+            <!--<ul>-->
+              <!--<li v-for="(value, key) in dataObj" :key="key" :data-index="key">-->
+                <!--<template v-if="typeof value === 'object'">-->
+                <!--{{key}}-->
+              <!--</template>-->
+              <!--</li>-->
+            <!--</ul>-->
           <!--</div>-->
-
         </div>
       </div>
     </div>
@@ -71,6 +70,7 @@ export default {
   },
   created() {
     // console.log(this.dataObj.type)
+    this.touch = {}
   },
   methods: {
     // 返回
@@ -103,6 +103,30 @@ export default {
     // 派发事件
     sendEvent(){
       this.$emit('selectItem', this.activeList, this.dataObj.type)
+    },
+    onShortcutTouchStart(e) {
+      let anchorIndex = this.getData(e.target, 'index')
+      this.touch.y1 = e.touches[0].pageY
+      this.touch.anchorIndex = anchorIndex
+      console.log(this.touch)
+      this._scrollTo(anchorIndex)
+    },
+    getData(el, name, val) {
+      console.log('getData')
+      const prefix = 'data-'
+      name = prefix + name
+      if (val) {
+        return el.setAttribute(name, val)
+      } else {
+        console.log('coming')
+        return el.getAttribute(name)
+      }
+    },
+    _scrollTo(key) {
+      // this.$refs['listGroup' + key].scrollTop = 200
+      // console.log(this.$refs['listGroup' + key][0].getBoundingClientRect())
+      console.log(this.$refs.cityWrap.scrollTop)
+      this.$refs.cityWrap.scrollTop = 200
     }
   }
 }
@@ -156,10 +180,12 @@ export default {
         }
       }
       .tags-letter{
-        width: 16px;
+        width: 50px;
         position: fixed;
-        right: 10px;
-        top: 500px;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        text-align: center;
         li{
           color: #399EF6;
           font-size:18px;
