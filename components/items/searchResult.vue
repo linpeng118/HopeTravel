@@ -1,6 +1,6 @@
 <template>
   <section class="search-area">
-    <div class="search-item" v-for="list in lists" :key="list.product_id">
+    <div class="search-item" v-for="list in lists" :key="list.product_id" @click="selectItem(list.product_id)">
       <img :src="list.image" alt="">
       <div class="desc">
         <p>{{list.name}}</p>
@@ -16,6 +16,11 @@ export default {
     lists: {
       type: Array,
       default: null
+    }
+  },
+  methods: {
+    selectItem(productIds) {
+      this.$emit('selectItem', productIds)
     }
   }
 }
