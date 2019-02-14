@@ -1,5 +1,5 @@
 import axios from '@/plugins/axios/axios'
 
 export const getdateTrip = (id) => {
-  return axios.get(`/api/product/${id}/calendar`)
+  return axios.get(`/api/product/${id}/calendar?time=`+new Date().getTime())
 }
