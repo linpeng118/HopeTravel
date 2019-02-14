@@ -53,7 +53,7 @@
             path: this.redirect
           })
         } else {
-          this.$router.replace(-1)
+          this.$router.go(-1)
         }
       },
       // 忘记密码回调
