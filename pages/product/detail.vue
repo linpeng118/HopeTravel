@@ -59,8 +59,8 @@
           @click="onServerNode">
           <div class="item-list">
             <div class="item"
-              v-for="item in serviceNote"
-              :key="item.title">
+              v-for="(item,index) in serviceNote"
+              :key="index">
               <img src="../../assets/imgs/product/tick@2x.png"
                 alt="icon">
               {{item.title}}
@@ -329,8 +329,8 @@
         title="服务说明"
         class="service-note">
         <div class="servive-item mt-50"
-          v-for="item in serviceNote"
-          :key="item.title">
+          v-for="(item,index) in serviceNote"
+          :key="index">
           <h3 class="title">
             <img src="../../assets/imgs/product/tick@2x.png"
               alt="icon">&nbsp;{{item.title}}
