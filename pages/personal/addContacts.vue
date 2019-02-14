@@ -48,25 +48,29 @@
         @click-icon="$toast('须与证件上一致')"
       />
       <van-cell @click="shownationality=true" title="国籍" is-link :value="userform.nationality!=''?userform.nationality:'请选择'" />
-
       <p class="connet-title">联系方式</p>
-      <van-field
-        required
-        v-model="userform.phone"
-        icon="friends-o "
-        label="电话"
-        type="number"
-        placeholder="请注意区域选择"
-      />
+      <div class="van-cell van-field">
+        <div class="van-cell__title">
+          <span>电话</span>
+        </div>
+        <div class="van-cell__value">
+          <div class="van-field__body">
+            <i class="setvan" @click="showselqu=true">+{{userform.phone_country}}<van-icon name="arrow" /></i>
+            <input type="text" v-model="userform.phonex" placeholder="请注意区域选择" class="van-field__control">
+          </div>
+        </div>
+      </div>
+      <van-popup v-model="showselqu" position="bottom" :overlay="true">
+        <van-picker :columns="columns" @confirm="onChangequ" show-toolbar title="选择区号"/>
+      </van-popup>
+
       <van-field
         v-model="userform.email"
         label="邮箱"
         type="email"
       />
       <p class="connet-title">其他</p>
-
       <van-cell title="出生日期" @click="showdate=true" is-link :value="!userform.dob?'选择日期':userform.dob" />
-
       <van-row class="setcheckbox">
         <van-col span="6">性别</van-col>
         <van-col span="18">
@@ -79,12 +83,20 @@
       <van-cell-group>
         <van-switch-cell v-model="userform.isuser" title="是否本人" />
       </van-cell-group>
-
+      <van-cell-group v-if="queryid!=0">
+        <div class="deluser" @click="delconfirm()">删除出行人</div>
+      </van-cell-group>
     </div>
-    <!--<van-popup v-model="shownationality" position="right" :overlay="false" style="width: 100%">-->
+    <van-popup v-model="shownationality" position="right" style="width: 80%;height: 100%;">
       <!--等待开发-->
-      <!--&lt;!&ndash;<more-city :pageparent="'/personal/addContacts'" @countryName="countryName" ></more-city>&ndash;&gt;-->
-    <!--</van-popup>-->
+      <city-list :pageparent="'/personal/addContacts'"
+                 :dataObj="moreLists"
+                 @selectItem="selectItem"
+                 ref="moreList"
+                 @back="moreListBack"
+                 @countryName="countryName" >
+      </city-list>
+    </van-popup>
     <van-popup v-model="showdate" position="bottom" :overlay="true" style="width: 100%">
       <van-datetime-picker
         v-model="datedob"
@@ -98,13 +110,17 @@
 </template>
 
 <script>
+  import {guojialist} from '@/api/contacts'
   import {setcontanct} from '@/api/contacts'
+  import {delcontanct} from '@/api/contacts'
   import {addcontanct} from '@/api/contacts'
   import {getcontants} from '@/api/contacts'
   import {getcontant} from '@/api/contacts'
+  import CityList from '@/components/list/cityList'
+  import {getquhao} from '@/api/contacts'
   export default {
     components: {
-
+      CityList
     },
     data() {
       return {
@@ -113,7 +129,7 @@
          "firstname":"",
          "lastname":"",
          "gender":"",
-         "phone":"",
+         "phonex":"",
          "dob":"",
          "email":"",
          "passport":"",
@@ -130,6 +146,9 @@
         queryid:this.$route.query.id||0,
         checker:this.$route.query.checker||[],
         pushpath:"",
+        moreLists:{},
+        showselqu:false,
+        columns: [],
       }
     },
     computed: {},
@@ -140,6 +159,8 @@
         this.title='编辑出行人';
         this.getcontant();
       }
+      this.guojia();
+      this.getqu();
     },
 
     beforeRouteEnter(to, from, next) {
@@ -153,6 +174,21 @@
       countryName(data){
         this.userform.nationality=data;
         this.shownationality=false
+      },
+      // 得到区号
+      async getqu() {
+        let {data, code, msg} = await getquhao();
+        if(code === 0) {
+          this.columns = data.map(v => {
+            this.$set(v, 'text',  '+'+v.tel_code+'('+v.countryName+')')
+            return v
+          })
+        }
+        else {
+          this.$dialog.alert({
+            message: msg
+          });
+        }
       },
       setval(val){
        this.userform.dob=this.sedate("yyyy-MM-dd",val);
@@ -178,6 +214,7 @@
       },
       async onClickRight() {
         if(  this.title=='编辑出行人'){
+          this.userform.phone=this.userform.phone_country+'-'+this.userform.phonex;
           let {data, code, msg} = await setcontanct(this.userform,this.queryid)
           if (code === 0) {
             console.log(data)
@@ -194,7 +231,8 @@
           }
         }
         else{
-          let {data, code, msg} = await addcontanct(this.userform)
+          this.userform.phone=this.userform.phone_country+'-'+this.userform.phonex;
+          let {data, code, msg} = await addcontanct(this.userform);
           if (code === 0) {
             console.log(data)
             this.$router.replace({
@@ -213,12 +251,75 @@
         let {data, code} = await getcontant(this.queryid)
         if (code === 0) {
          this.userform=data;
+         if(this.userform.phone.indexOf('-')!=-1){
+           var arr=this.userform.phone.split('-');
+           this.userform.phonex=arr[1];
+           this.userform.phone_country=arr[0];
+         }
+         else{
+           this.userform.phonex=this.userform.phone;
+           this.userform.phone_country='86';
+         }
         }
         else {
         }
       },
+      delconfirm(){
+        var this_=this;
+        this.$dialog.confirm({
+          title: '删除联系人',
+          message: '是否确认删除联系人?'
+        }).then(() => {
+          this_.deluser();
+        }).catch(() => {
 
+        });
+      },
+      async deluser(){
+        let {data, code,msg} = await delcontanct(this.queryid)
+        if (code === 0) {
+          this.$toast('删除成功')
+          this.$router.go(-1)
+        }
+        else {
+          this.$toast(msg)
+        }
 
+      },
+      async guojia(){
+        let {data, code,msg} = await guojialist()
+        if (code === 0) {
+          console.log( this._nomalLizePinyin(data))
+        }
+        else {
+
+        }
+
+      },
+      //格式化拼音列表
+      _nomalLizePinyin(data) {
+        let len = data.length;
+        let obj = {};
+        for(let i= 0; i<len; i++) {
+          if(!obj[data[i].key]) {
+            obj[data[i].key] = []
+          }
+          obj[data[i].key].push({...data[i]})
+        }
+        this.moreLists=obj
+      },
+      selectItem(lists,type) { // 关闭更多选择层
+        this.userform.nationality=lists[0].name;
+        this.shownationality = false
+      },
+      // 更多列表返回
+      moreListBack() {
+        this.shownationality = false
+      },
+      onChangequ(picker){
+        this.userform.phone_country =picker.tel_code;
+        this.showselqu=false
+      },
 
     },
   }
@@ -262,4 +363,29 @@
      }
    }
  }
+   .deluser{
+     width:686px;
+     height:80px;
+     background:rgba(251,96,93,1);
+     opacity:1;
+     border-radius:8px;
+     font-size:32px;
+     line-height: 80px;
+     color: #fff;
+     text-align: center;
+     margin-top: 30px;
+
+   }
+ .setvan {
+   width: 120px;
+   display: inline-block;
+   border-right: 1px solid #dedede;
+   text-align: center;
+   margin-right: 12px;
+ }
+
+ .setvan i {
+   top: 6px;
+ }
+
 </style>
