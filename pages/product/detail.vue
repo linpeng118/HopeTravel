@@ -158,7 +158,8 @@
       <!-- 行程概要 -->
       <div class="trip"
         ref="refTrip">
-        <div class="header-wrap" v-show="product.product_entity_type && product.tour_category==='Unassigned'">
+        <div class="header-wrap"
+          v-show="product.product_entity_type && product.tour_category==='Unassigned'">
           <h3 class="header-title">行程概要</h3>
           <div class="header-content">
             <div class="item">
@@ -250,7 +251,8 @@
         </div>
       </div>
       <!-- AD-custom -->
-      <div class="ad-custom" v-show="product.product_entity_type && product.tour_category==='Unassigned'">
+      <div class="ad-custom"
+        v-show="product.product_entity_type && product.tour_category==='Unassigned'">
         <span>行程不满意？您还可以找</span>
         <span class="custom"
           @click="onAdCustom">稀饭旅行定制师</span>
@@ -1444,6 +1446,7 @@
             font-size: 40px;
             font-family: Microsoft YaHei UI;
             font-weight: 400;
+            border-radius: 6px;
           }
         }
       }
