@@ -32,7 +32,7 @@
       onLeft() {
         // 如果游重定向地址
         if (this.redirect) {
-          this.$router.push({
+          this.$router.replace({
             path: this.redirect
           })
         } else {
