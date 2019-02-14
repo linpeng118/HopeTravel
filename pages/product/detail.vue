@@ -53,7 +53,8 @@
         </div>
       </div>
       <!-- 出发地结束地 -->
-      <div class="destination mt-24">
+      <div class="destination mt-24"
+        v-show="product.product_entity_type && product.tour_category!=='Unassigned'">
         <div class="item-wrap"
           @click="onServerNode">
           <div class="item-list">
@@ -85,7 +86,8 @@
         </div>
       </div>
       <!-- 团期价格 -->
-      <div class="group-price mt-24">
+      <div class="group-price mt-24"
+        v-show="product.product_entity_type && product.tour_category!=='Unassigned'">
         <div class="title">
           <img src="../../assets/imgs/product/price@2x.png"
             alt="icon">
@@ -121,7 +123,8 @@
       </div>
       <!-- tab触发则滚动 -->
       <div class="tab-list-wrap"
-        :class="{'fixed-tab': isTabFixed}">
+        :class="{'fixed-tab': isTabFixed}"
+        v-show="product.product_entity_type && product.tour_category!=='Unassigned'">
         <div class="tab-list"
           ref="refTabList">
           <div class="tab-item"
@@ -138,10 +141,11 @@
       </div>
       <div class="tab-height mt-24"
         ref="refTabHeight"
-        v-show="isTabFixed"></div>
+        v-show="isTabFixed && product.product_entity_type && product.tour_category!=='Unassigned'"></div>
       <!-- 产品特色 -->
       <div class="features"
-        ref="refFeatures">
+        ref="refFeatures"
+        v-show="product.product_entity_type && product.tour_category!=='Unassigned'">
         <!-- :style="{'background': `url(${bgFeat}) no-repeat 0 0/100% 100%`}"> -->
         <div v-if="hasFeature">
           <img v-for="item in product.feature_images"
@@ -154,7 +158,7 @@
       <!-- 行程概要 -->
       <div class="trip"
         ref="refTrip">
-        <div class="header-wrap">
+        <div class="header-wrap" v-show="product.product_entity_type && product.tour_category!=='Unassigned'">
           <h3 class="header-title">行程概要</h3>
           <div class="header-content">
             <div class="item">
@@ -246,14 +250,15 @@
         </div>
       </div>
       <!-- AD-custom -->
-      <div class="ad-custom">
+      <div class="ad-custom" v-show="product.product_entity_type && product.tour_category!=='Unassigned'">
         <span>行程不满意？您还可以找</span>
         <span class="custom"
           @click="onAdCustom">稀饭旅行定制师</span>
       </div>
       <!-- 费用明细 -->
       <div class="cost"
-        ref="refCost">
+        ref="refCost"
+        v-show="product.product_entity_type && product.tour_category!=='Unassigned'">
         <h1 class="title">
           费用明细
         </h1>
@@ -403,6 +408,7 @@
   import Loading from '@/components/loading'
   import {getLocalStore, setLocalStore} from '@/assets/js/utils'
   import {OPERATE_TYPE} from '@/assets/js/consts'
+  import {ENTITY_TYPE} from '@/assets/js/consts/products'
   import {DLG_TYPE} from '@/assets/js/consts/dialog'
   import {getProductDetail, addFavorite, delFavorite, schedule} from '@/api/products'
   import {getProfile} from '@/api/profile'
@@ -420,6 +426,7 @@
     },
     data() {
       return {
+        ENTITY_TYPE,
         productId: Number(this.$route.query.productId) || null,
         isTransparent: true, // 导航头是否透明
         current: 0, // 导航页数
@@ -822,12 +829,12 @@
         const {code, msg, data} = await getProfile()
         console.log(code, msg)
         // console.log(this.product)
-        if(code === 700) {
+        if (code === 700) {
           console.log(this.$route.fullPath)
           this.$router.push({
             path: `/login?redirect=${this.$route.fullPath}`,
           })
-        } else if(code === 401){
+        } else if (code === 401) {
           return
         } else {
           this.jumpTo('/personal/follow')
@@ -868,6 +875,7 @@
     .product-detail {
       padding-bottom: 144px;
       background: #f2f2f2;
+      min-height: 100%;
       .banner-wrap {
         position: relative;
         .banner {
@@ -1173,9 +1181,9 @@
           }
         }
         .content-wrap {
+          padding-top: 36px;
           .content-title {
             text-align: center;
-            margin-top: 36px;
             height: 44px;
             font-size: 32px;
             font-family: PingFang SC;
