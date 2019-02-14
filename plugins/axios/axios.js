@@ -53,7 +53,7 @@ httprequest.interceptors.response.use(
   res => {
     if (res.status === 200) {
       // 700：必须重新登录；401：返回了新的token
-      if(res.data.code === 700 && res.config.url.indexOf('profile') < 0) {
+      if (res.data.code === 700 && res.config.url.indexOf('profile') < 0) {
         window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname + window.location.search)
       } else if (res.data.code === 401) {
         const token = res.data.data.token
