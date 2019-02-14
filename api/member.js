@@ -62,7 +62,7 @@ export const validatePhone = (data) => {
 
 // 获取邮箱验证码
 export const getEmailCode = (email) => {
-  return axios.get('/api/email/captcha', {
+  return axios.get('/api/email/send', {
     params: {
       email
     }
