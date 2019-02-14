@@ -38,7 +38,7 @@
             <p class="payitem2" :key="ind">
               <span>{{item.name}}</span>
               <span>
-                 <i :style="item.prefix=='+'?'color:#24E44A':'color:#D51D28'">{{item.prefix}} </i>
+                 <i :style="item.prefix=='+'?'color:#D51D28':'color:#aaa;text-decoration:line-through'">{{item.prefix}} </i>
                 {{item.price}}</span>
             </p>
           </template>
@@ -47,11 +47,11 @@
         <li class="paysection" v-if="payData.discount&&showmili=='1'">
           <p class="payitem">
             <span>优惠:</span>
-            <span>{{payData.discount}}</span>
+            <span :style="'color:#aaa;text-decoration:line-through'">-{{payData.discount}}</span>
           </p>
           <p class="payitem2" v-if="payData.points" >
             <span>米粒</span>
-            <span><i :style="'color:#D51D28'">-</i>
+            <span style="text-decoration:line-through;color:#aaa;"><i :style="'color:#aaa'">-</i>
                 {{payData.points.discount}}</span>
           </p>
         </li>

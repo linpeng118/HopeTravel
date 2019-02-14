@@ -34,7 +34,7 @@
     </div>
     <!--标签-->
     <div class="entry-block">
-      <nuxt-link tag="div" class="entry-tourism" :to="{ name: 'product_list', params: { itemType: 3 }}">
+      <nuxt-link tag="div" class="entry-tourism" :to="{ name: 'product_list', query: { itemType: 1 }}">
         <img src="../assets/imgs/home/icon_group.png" alt="">
         <p class="title">精品小团</p>
       </nuxt-link>
@@ -356,6 +356,9 @@ export default {
     .sale-time-box{
       margin-top:24px;
       background-color: #fff;
+      .swiper-container{
+        z-index: 0;
+      }
       .title {
         color: #191919;
         font-size: 40px;

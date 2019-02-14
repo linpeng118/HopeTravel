@@ -44,16 +44,9 @@
         isFixed: true,
       }
     },
-    computed: {
-    },
     methods: {
       onClickLeft() {
-        if(this.redirect) {
-          this.$router.go(-2)
-        } else {
-          this.$router.go(-1)
-        }
-        // this.$emit('clickLeft')
+        this.$emit('callOnLeft')
       },
       onClickRight() {
         this.$emit('callOnRight')

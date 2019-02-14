@@ -5,6 +5,16 @@ const LIST_TYPE = {
   XF_QUALITY: 3,
 }
 
+// 产品类型，0=一日游，1=多日游，2=邮轮（未使用），3=酒店（未使用），4=票务（未使用)
+const ENTITY_TYPE = {
+  A_DAY_TRIP: 0,
+  MANY_DAY_TRIP: 1,
+  CRUISE: 2,
+  HOTEL: 3,
+  TICKET: 4,
+}
+
 export {
-  LIST_TYPE
+  LIST_TYPE,
+  ENTITY_TYPE
 }

@@ -356,6 +356,9 @@ export default {
     _nomalLizePinyin(data) {
       let len = data.length
       let obj = {}
+      data.sort((a, b) => {
+        return a.key.charCodeAt(0) - b.key.charCodeAt(0)
+      })
       for(let i= 0; i<len; i++) {
         if(!obj[data[i].key]) {
           obj[data[i].key] = []

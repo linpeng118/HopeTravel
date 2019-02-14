@@ -77,7 +77,9 @@ export default {
   },
   methods: {
     onClickLeft() {
-      window.history.go(-1);
+      this.$router.push({
+        path: '/personal',
+      })
     },
     onClick(index) {
       this.firstEnter = true

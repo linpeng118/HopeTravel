@@ -27,7 +27,7 @@ export const getCityList = () => {
   return axios.get('/api/localPlay/city')
 }
 export const getPlay = () => {
-  return axios.get('/api/localplay')
+  return axios.get(`/api/localplay?t=${new Date().getTime()}`)
 }
 
 export const getProductList = (ids) => {
