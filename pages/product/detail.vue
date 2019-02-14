@@ -405,6 +405,7 @@
   import {OPERATE_TYPE} from '@/assets/js/consts'
   import {DLG_TYPE} from '@/assets/js/consts/dialog'
   import {getProductDetail, addFavorite, delFavorite, schedule} from '@/api/products'
+  import {getProfile} from '@/api/profile'
 
   export default {
     layout: 'default',
@@ -735,7 +736,6 @@
       },
       // 关注与取关
       async attentionProduct() {
-        console.log(this.product)
         if (this.product.is_favorite) {
           const {code, data, msg} = await delFavorite({
             product_id: this.product.product_id
@@ -818,8 +818,20 @@
         this.jumpTo('/search')
       },
       // 收藏页面
-      onFollow() {
-        this.jumpTo('/personal/follow')
+      async onFollow() {
+        const {code, msg, data} = await getProfile()
+        console.log(code, msg)
+        // console.log(this.product)
+        if(code === 700) {
+          console.log(this.$route.fullPath)
+          this.$router.push({
+            path: `/login?redirect=${this.$route.fullPath}`,
+          })
+        } else if(code === 401){
+          return
+        } else {
+          this.jumpTo('/personal/follow')
+        }
       },
       jumpTo(path) {
         this.$router.push({
