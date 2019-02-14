@@ -51,7 +51,7 @@
         <!--<img class="icon-size" src="../../assets/imgs/personal/index/sales.png">-->
         <!--</template>-->
         <!--</van-cell>-->
-        <van-cell title="切换货币" is-link :to="isLogin ? '/personal/money': '/login?redirect=personal'">
+        <van-cell title="切换货币" is-link to="/personal/money">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/currency.png">
           </template>
@@ -59,7 +59,7 @@
       </div>
       <!-- 次级菜单 -->
       <div class="sub-menu">
-        <van-cell title="意见反馈" is-link :to="isLogin ? '/personal/content': '/login?redirect=personal'">
+        <van-cell title="意见反馈" is-link to="/personal/content">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/feedback.png">
           </template>
@@ -69,7 +69,7 @@
             <img class="icon-size" src="../../assets/imgs/personal/index/service.png">
           </template>
         </van-cell>
-        <van-cell title="设置" is-link :to="isLogin ? '/personal/setting': '/login?redirect=personal'">
+        <van-cell title="设置" is-link to="/personal/setting">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/setting.png">
           </template>
