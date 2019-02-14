@@ -114,7 +114,7 @@
       <!-- 稀饭推荐 -->
       <div class="recommend mt-24">
         <div class="title">
-          <img src="../../assets/imgs/product/price@2x.png"
+          <img src="../../assets/imgs/product/praise@2x.png"
             alt="icon">
           稀饭推荐
         </div>
