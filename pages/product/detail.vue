@@ -473,7 +473,7 @@
           {name: '成人价格', type: 'price_adult', price: ''},
         ]
         newData.forEach(item => {
-          if (this.expense.standard_price && this.expense.standard_price[item.type]) {
+          if (this.expense.standard_price && this.expense.standard_price[item.type] && this.expense.standard_price[item.type]) {
             item.price = this.expense.standard_price[item.type]
           }
         })

@@ -61,10 +61,11 @@ export const validatePhone = (data) => {
 }
 
 // 获取邮箱验证码
-export const getEmailCode = (email) => {
+export const getEmailCode = (data) => {
   return axios.get('/api/email/send', {
     params: {
-      email
+      email: data.email,
+      scene: data.scene
     }
   })
 }
