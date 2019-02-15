@@ -210,7 +210,7 @@ export default {
         top: 74px;
         left: 198px;
         .name {
-          width: 84px;
+          /*width: 84px;*/
           height: 40px;
           font-size: 28px;
           font-weight: 400;
