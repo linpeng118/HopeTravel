@@ -145,7 +145,9 @@ export default {
           padding: 20px 32px;
           border-bottom: 1px solid #f1f1f1;
           display: flex;
+          display: -webkit-flex;
           justify-content: space-between;
+          -webkit-justify-content: space-between;
           .pro-pic {
             margin-right: 26px;
             width: 208px;

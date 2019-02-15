@@ -78,7 +78,9 @@ export default {
     }
     .filter-tags{
       display: flex;
+      display: -webkit-flex;
       flex-wrap: wrap;
+      -webkit-flex-wrap: wrap;
       padding: 0 32px;
       height: 144px;
       overflow: hidden;
@@ -109,6 +111,7 @@ export default {
       right: 0;
       background-color: #fff;
       display: flex;
+      display: -webkit-flex;
       box-shadow:0px -1px 10px rgba(0,0,0,0.16);
       .left,.right{
         width: 50%;

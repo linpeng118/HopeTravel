@@ -54,8 +54,11 @@
     background: transparent;
     .phone-item {
       display: flex;
+      display: -webkit-flex;
       align-items: center;
+      -webkit-align-items: center;
       justify-content: center;
+      -webkit-justify-content: center;
       height: 134px;
       &:not(:last-child) {
         border-bottom: 1px solid #9a9a9a;

@@ -106,7 +106,9 @@
   }
   .search-box{
     display: flex;
+    display: -webkit-flex;
     align-items: center;
+    -webkit-align-items: center;
     box-sizing: border-box;
     width:618px;
     padding: 0 6px 0 20px;
@@ -138,6 +140,7 @@
   }
   .has-keyword{
     display: flex;
+    display: -webkit-flex;
     .search-box{
       flex: 1;
       .box{

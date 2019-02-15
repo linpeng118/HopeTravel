@@ -34,9 +34,12 @@ export default {
 <style type="text/scss" lang="scss" scoped>
   .hot-place{
     display: flex;
+    display: -webkit-flex;
     text-align: center;
     flex-wrap:wrap;
+    -webkit-flex-wrap:wrap;
     justify-content: space-between;
+    -webkit-justify-content: space-between;
     .hot-item{
       margin-bottom: 20px;
       width:160px;
