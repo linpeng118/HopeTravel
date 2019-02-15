@@ -6,11 +6,10 @@
       <div class="tag-wrap"
         :class="tagPos">
         <div class="tag"
-          :class="`tag${item}`"
-          v-for="item in proData.type"
+          v-for="(item,index) in proData.icons_show"
+          :class="index===1? 'color': ''"
           :key="item">
-          <span v-if="item===1">自营</span>
-          <span v-if="item===2">精选</span>
+          {{item}}
         </div>
       </div>
       <div class="title-wrap"
@@ -19,6 +18,10 @@
       </div>
     </div>
     <div class="desc no-wrap-line2 imitate-ellipsis2">{{proData.name}}</div>
+    <div class="tag-icon-tour">
+      <span v-for="(item,index) in proData.icons_tour"
+            :key="index">{{item.title}}</span>
+    </div>
     <div class="price-wrap">
       <span class="price">
         {{proData.special_price ? proData.special_price : proData.default_price }}
@@ -95,27 +98,21 @@
       }
       .tag-wrap {
         position: absolute;
-        left: 5px;
-        &.top {
-          top: 5px;
-        }
-        &.bottom {
-          bottom: 5px;
-        }
+        left: 0;
+        top: 0;
+        height:36px;
+        border-radius: 0 0 0.16rem 0;
+        overflow: hidden;
         .tag {
           display: inline-block;
-          width: 60px;
-          height: 36px;
-          line-height: 36px;
-          text-align: center;
+          font-size:22px;
           color: #fff;
-          font-size: 12px;
-          border-radius: 6px;
+          background-color: #ef9a1a;
+          width: 58px;
+          text-align: center;
+          line-height: 36px;
         }
-        .tag1 {
-          background: #ef9a1a;
-        }
-        .tag2 {
+        .color {
           background: #fe423f;
         }
       }
@@ -152,6 +149,22 @@
         font-size: 24px;
         color: #9a9a9a;
         text-decoration: line-through;
+      }
+    }
+    .tag-icon-tour{
+      font-size:22px;
+      line-height: 32px;
+      color: #666;
+      height: 30px;
+      overflow: hidden;
+      margin-top: 5px;
+      span{
+        display: inline-block;
+        border-radius:16px;
+        background-color: #E4E4E4;
+        padding: 0 10px;
+        margin-bottom: 5px;
+        margin-right: 2px;
       }
     }
   }
