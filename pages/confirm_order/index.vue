@@ -316,16 +316,20 @@
       //确认行程形成之后
       checktrverend(){
         var this_=this;
-        let obj={
-          option_id:this_.seltrvel.id,
-          option_val_id:this_.checktrvel
-        }
+        let obj=null;
         for(let i=0;i<this_.checkedtrvel.length;i++){
           if(this_.checkedtrvel[i].option_id==this_.seltrvel.id){
             this_.checkedtrvel.splice(i, 1);
           }
         }
-        this_.checkedtrvel.push(obj);
+        if(this_.checktrvel!=''){
+          obj={
+            option_id:this_.seltrvel.id,
+            option_val_id:this_.checktrvel
+          }
+          this_.checkedtrvel.push(obj);
+        }
+
         this_.$store.commit("countprice", {attributes:this.checkedtrvel});
         this.showchecktrver=false;
       },
