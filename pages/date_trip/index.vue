@@ -217,7 +217,6 @@
           if (this.product.product_entity_type == 1 && this.product.self_support == 0) {
           }
           else  {
-
             let countperson = val + this.total_kids;
             if (countperson >= this.product.min_num_guest) {
               this.$store.commit("countprice", {

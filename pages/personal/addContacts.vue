@@ -75,8 +75,8 @@
         <van-col span="6">性别</van-col>
         <van-col span="18">
           <van-radio-group v-model="userform.gender">
-            <van-radio style="width: 50%;float: left" name="f">女</van-radio>
-            <van-radio style="width: 50%" name="m">男</van-radio>
+            <van-radio style="width: 20%;float: left" name="f">女</van-radio>
+            <van-radio style="width: 20%" name="m">男</van-radio>
           </van-radio-group>
         </van-col>
       </van-row>
