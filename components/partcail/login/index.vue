@@ -48,6 +48,10 @@
       ChangeComp
     },
     props: {
+      isDialog: {
+        type: Boolean,
+        default: false
+      },
       showRegistTip: {
         type: Boolean,
         default: false
@@ -116,14 +120,20 @@
       },
       // 登陆回调
       loginCallBack() {
-        if (this.redirect) {
-          this.$router.replace({
-            path: this.redirect
-          })
+        // 弹窗登录/页面登录
+        if (this.isDialog) {
+          this.vxToggleLoginDlg(false)
         } else {
-          this.$router.go(-1)
+          if (this.redirect) {
+            this.$router.replace({
+              path: this.redirect
+            })
+          } else {
+            this.$router.go(-1)
+          }
         }
       },
+      // 查看用户协议
       doOnAgreement() {
         this.vxToggleLoginDlg(false)
       },
