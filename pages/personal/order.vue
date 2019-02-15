@@ -227,7 +227,6 @@ export default {
               width: 60px;
               height: 28px;
               font-size: 20px;
-              font-family: PingFang SC;
               font-weight: 400;
               line-height: 84px;
               color: rgba(152, 152, 152, 1);
@@ -237,7 +236,6 @@ export default {
               width: 136px;
               height: 44px;
               font-size: 32px;
-              font-family: PingFang SC;
               font-weight: 400;
               line-height: 32px;
               color: rgba(255, 84, 84, 1);

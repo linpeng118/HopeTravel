@@ -317,7 +317,6 @@
   .regist-comp {
     .title {
       font-size: 40px;
-      font-family: PingFang SC;
       font-weight: 400;
       line-height: 56px;
       color: rgba(85, 85, 85, 1);
@@ -358,7 +357,6 @@
     .to-login {
       margin-top: 44px;
       font-size: 24px;
-      font-family: PingFang SC;
       font-weight: 300;
       color: #5e5e5e;
       .blue {
