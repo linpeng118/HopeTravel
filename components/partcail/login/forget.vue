@@ -234,7 +234,6 @@
   .forget-comp {
     .title {
       font-size: 40px;
-      font-family: PingFang SC;
       font-weight: 400;
       line-height: 56px;
       color: rgba(85, 85, 85, 1);

@@ -41,7 +41,6 @@
 <style lang="scss" scoped>
   .personal-wx-page {
     text-align: center;
-    font-family: PingFang SC;
     .code {
       margin: 104px auto 0;
       width: 320px;
