@@ -120,6 +120,7 @@
       },
       // 登陆回调
       loginCallBack() {
+        // 弹窗登录/页面登录
         if (this.isDialog) {
           this.vxToggleLoginDlg(false)
         } else {
