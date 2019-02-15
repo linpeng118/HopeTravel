@@ -200,6 +200,7 @@
     height: 120px;
     background-color: #fff;
     position: fixed;
+    z-index: 99;
     box-sizing: border-box;
     padding: 20px 32px;
     left: 0;
