@@ -12,19 +12,15 @@
     <van-icon class="right-wrap"
               slot="right">
       <div class="big-search">
-        <div class="search-box" v-if="!isSearch">
-          <van-icon name="search" />
-          <input class="box" :placeholder="searchKeyWords" v-model="query" ref="query" />
-          <van-icon name="clear" v-show="query" @click="clear" />
-        </div>
-        <div class="has-keyword" v-else>
+        <div :class="isSearch?'has-keyword': ''">
           <div class="search-box">
             <van-icon name="search" />
             <input class="box" :placeholder="searchKeyWords" v-model="query" ref="query" />
             <van-icon name="clear" v-show="query" @click="clear" />
           </div>
-          <div class="search-btn" @click="getSearchList">搜索</div>
+          <div class="search-btn" @click="getSearchList" v-if="isSearch">搜索</div>
         </div>
+
       </div>
     </van-icon>
   </van-nav-bar>

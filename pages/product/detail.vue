@@ -52,9 +52,8 @@
           </span>
         </div>
       </div>
-      <!-- 出发地结束地 -->
-      <div class="destination mt-24"
-        v-show="product.product_entity_type || product.tour_category==='Unassigned'">
+      <!-- 特色 -->
+      <div class="destination mt-24">
         <div class="item-wrap"
           @click="onServerNode">
           <div class="item-list">
@@ -70,7 +69,9 @@
             <van-icon name="arrow" />
           </div>
         </div>
-        <div class="city">
+        <!-- 出发地结束地 -->
+        <div class="city"
+          v-show="product.product_entity_type || product.tour_category==='Unassigned'">
           <div class="from">
             <img src="../../assets/imgs/product/from@2x.png"
               alt="from">
@@ -141,7 +142,7 @@
       </div>
       <div class="tab-height mt-24"
         ref="refTabHeight"
-        v-show="isTabFixed && product.product_entity_type || product.tour_category==='Unassigned'"></div>
+        v-show="isTabFixed && (product.product_entity_type || product.tour_category==='Unassigned')"></div>
       <!-- 产品特色 -->
       <div class="features"
         ref="refFeatures"
@@ -217,7 +218,8 @@
                 </div>
               </div>
               <!-- 酒店 -->
-              <div class="hotel-wrap">
+              <div class="hotel-wrap"
+                v-if="item.hotel">
                 <h3 class="title">
                   <img src="../../assets/imgs/product/text@2x.png"
                     alt="icon">&nbsp;酒店
@@ -225,8 +227,9 @@
                 <div class="body"
                   v-html="item.hotel"></div>
               </div>
-              <!-- 餐食 -->
-              <div class="meals-wrap">
+              <!-- 餐食（contain_meal：1包含，2不包含） -->
+              <div class="meals-wrap"
+                v-if="item.meal.breakfast.contain_meal==1 || item.meal.lunch.contain_meal==1 || item.meal.dinner.contain_meal==1">
                 <h3 class="title">
                   <img src="../../assets/imgs/product/text@2x.png"
                     alt="icon">&nbsp;餐食
@@ -237,12 +240,12 @@
                     早餐：{{item.meal.breakfast.remark}}
                   </p>
                   <p class="lunch"
-                    v-if="item.meal.breakfast.contain_meal==1">
-                    午饭：{{item.meal.breakfast.remark}}
+                    v-if="item.meal.lunch.contain_meal==1">
+                    午饭：{{item.meal.lunch.remark}}
                   </p>
                   <p class="dinner"
-                    v-if="item.meal.breakfast.contain_meal==1">
-                    晚饭：{{item.meal.breakfast.remark}}
+                    v-if="item.meal.dinner.contain_meal==1">
+                    晚饭：{{item.meal.dinner.remark}}
                   </p>
                 </div>
               </div>
@@ -943,7 +946,6 @@
         }
       }
       .destination {
-        height: 208px;
         background: #fff;
         padding: 0 32px;
         .item-wrap {
@@ -1202,6 +1204,7 @@
           }
           .content {
             margin-top: 46px;
+            padding-bottom: 20px;
             padding-left: 30px;
             .title-wrap {
               .icon {
