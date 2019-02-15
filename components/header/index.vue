@@ -114,8 +114,11 @@
         background: rgba(255, 255, 255, 0.4);
         border-radius: 22px;
         display: flex;
+        display: -webkit-flex;
         justify-content: center;
+        -webkit-justify-content: center;
         align-items: center;
+        -webkit-align-items: center;
         .icon {
           display: inline-block;
           width: 32px;
@@ -138,7 +141,9 @@
         font-size:30px;
         background: #EBEBEB;
         display: flex;
+        display: -webkit-flex;
         align-items: center;
+        -webkit-align-items: center;
         line-height: 72px;
         transition: all .5s;
         .icon {

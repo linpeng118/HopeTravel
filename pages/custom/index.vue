@@ -461,7 +461,9 @@
               border: 2px solid rgba(255, 255, 255, 1);
               border-radius: 22px;
               display: flex;
+              display: -webkit-flex;
               justify-content: center;
+              -webkit-justify-content: center;
               align-content: center;
               .left-icon {
                 width: 74px;
@@ -618,7 +620,9 @@
         .features-list {
           margin-top: 12px;
           display: flex;
+          display: -webkit-flex;
           flex-wrap: wrap;
+          -webkit-flex-wrap: wrap;
           .item {
             flex: 0 0 33.3%;
             width: 33.3%;

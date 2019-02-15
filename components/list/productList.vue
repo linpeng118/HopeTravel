@@ -91,6 +91,7 @@ export default {
   .product-list{
     .product-item{
       display: flex;
+      display: -webkit-flex;
       padding: 24px 0;
       .img-show{
         position:relative;

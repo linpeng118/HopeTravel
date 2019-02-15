@@ -31,7 +31,9 @@ export default {
 <style type="text/scss" lang="scss" scoped>
   .square-wrap{
     display: flex;
+    display: -webkit-flex;
     flex-wrap:wrap;
+    -webkit-flex-wrap:wrap;
     h2.title{
       padding:32px 0 24px;
       font-size: 28px;

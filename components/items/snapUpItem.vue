@@ -158,6 +158,7 @@
         font-size: 24px;
         color: #fff;
         display: flex;
+        display: -webkit-flex;
         .text{
           height:48px;
           width: 96px;

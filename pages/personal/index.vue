@@ -271,7 +271,9 @@ export default {
       position: relative;
       top: -88px;
       display: flex;
+      display: -webkit-flex;
       align-items: center;
+      -webkit-align-items: center;
       .menu-item {
         text-align: center;
         flex: 1;
@@ -303,6 +305,7 @@ export default {
     padding: 25px 32px;
     background: #fff;
     display: flex;
+    display: -webkit-flex;
     position: fixed;
     width: 100%;
     bottom: 0;
