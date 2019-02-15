@@ -561,6 +561,7 @@
           this.top_price = data.top_price
           this.transfer = data.transfer
         }
+        document.title = this.product.name
         this.loading = false
       },
       // 存储浏览记录
