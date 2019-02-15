@@ -28,6 +28,7 @@ export default {
     right: 0;
     left: 0;
     background: rgba(0,0,0,0.3);
+    height: 100vh;
     z-index: 10000;
     .center-position{
       @include center;

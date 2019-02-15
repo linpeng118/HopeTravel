@@ -36,9 +36,9 @@ export default {
     display: flex;
     text-align: center;
     flex-wrap:wrap;
+    justify-content: space-between;
     .hot-item{
       margin-bottom: 20px;
-      margin-right: 12px;
       width:160px;
     }
     .title{

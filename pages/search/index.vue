@@ -292,7 +292,6 @@ export default {
       } else {
         typeItem = type
       }
-
       this.$router.push({
         name: 'product_list',
         query: {

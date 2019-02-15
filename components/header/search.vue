@@ -119,7 +119,7 @@
       font-size: 40px;
     }
     .box{
-      flex: 1;
+      width: 550px;
       height: 68px;
       padding: 10px 0 10px 10px;
       line-height: 48px;
@@ -140,6 +140,9 @@
     display: flex;
     .search-box{
       flex: 1;
+      .box{
+        width: 460px;
+      }
     }
     .search-btn{
       line-height: 72px;

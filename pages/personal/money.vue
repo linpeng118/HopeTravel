@@ -5,8 +5,7 @@
         class="bar-shadow"
         title="切换货币"
         @click-left="onClickLeft"
-        left-arrow
-      >
+        left-arrow>
       </van-nav-bar>
     </div>
     <div class="list">
@@ -40,7 +39,7 @@ export default {
         {name:'¥人民币',type:'CNY'},
         {name:'$新西兰元',type:'NZD'},
       ],
-      radio: process.client ? getCookieByKey('currency') : ''
+      radio: process.client ? getCookieByKey('currency') || 'CNY' : ''
     }
   },
   mounted() {
