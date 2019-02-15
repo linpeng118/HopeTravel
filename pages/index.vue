@@ -426,6 +426,8 @@ export default {
         display: flex;
         flex-wrap: wrap;
         padding: 0 15px;
+        display: -webkit-flex;
+        -webkit-flex-wrap: wrap;
       }
       .half-item{
         width: 50%;
