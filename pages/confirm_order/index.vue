@@ -22,7 +22,7 @@
           <p class="item-title">接送时间和地点</p>
           <template v-for="(item,ind) in pricelist.transfer">
             <p v-if="countprice.product_departure==item.product_departure_id" :key="ind" class="item-con" @click="showchecktime=true">
-              <span> {{item.full_address}}</span>
+              <span>{{item.full_address}}</span>
               <span></span>
               <van-icon color="#404040" name="arrow" size="1.2em"/>
             </p>
