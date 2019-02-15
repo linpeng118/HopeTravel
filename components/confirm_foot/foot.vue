@@ -111,8 +111,7 @@
     methods: {
       ...mapMutations({
         // vxSaveReservePro: 'product/saveReservePro',
-        vxToggleDialog: 'toggleDialog', // 是否显示弹窗
-        vxSetDlgType: 'setDlgType', // 设置弹窗类型
+        vxToggleLoginDlg: 'login/toggleDialog', // 是否显示弹窗
       }),
       // 获取价格明细
       async getpricelist(objdata) {
@@ -180,8 +179,7 @@
       async islogin() {
         let {code} = await getProfile()
         if(code != 0) {
-          this.vxToggleDialog(true)
-          this.vxSetDlgType(DLG_TYPE.LOGIN)
+          this.vxToggleLoginDlg(true)
         }
         else{
           this.$router.push({
