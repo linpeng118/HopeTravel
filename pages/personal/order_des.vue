@@ -62,7 +62,7 @@
             <div :key="index" class="item-contanct">
               <div>{{index+1}}.{{item.name}}</div>
               <div>
-                <p>{{'暂无'}}</p>
+                <p>{{item.passport||'暂无'}}</p>
                 <p>{{item.email||'暂无'}}</p>
                 <p>{{item.phone||'暂无'}}</p>
               </div>
@@ -511,7 +511,7 @@
   }
 
   .item-contanct div:nth-child(1) {
-    width: 20%;
+    width: 30%;
     font-size: 24px;
     color: #191919;
   }
@@ -537,7 +537,7 @@
   }
 
   .item-contanct2 div:nth-child(1) {
-    width: 20%;
+    width: 30%;
     font-size: 24px;
     color: #989898;
   }
