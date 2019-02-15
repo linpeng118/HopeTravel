@@ -128,7 +128,9 @@ export default {
         font: 24px/32px "";
         padding: 28px 0;
         display: flex;
+        display: -webkit-flex;
         justify-content: space-between;
+        -webkit-justify-content: space-between;
         .pro-pic {
           margin-right: 26px;
           width: 208px;
@@ -191,7 +193,9 @@ export default {
     }
     .van-cell__value{
       display: flex;
+      display: -webkit-flex;
       align-items: center;
+      -webkit-align-items: center;
       .checked{
         padding-right: 20px;
       }

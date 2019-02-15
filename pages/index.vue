@@ -306,8 +306,11 @@ export default {
         background-color: #398BF6;
         color: #fff;
         display: flex;
+        display: -webkit-flex;
         justify-content: space-between;
+        -webkit-justify-content: space-between;
         align-items: center;
+        -webkit-align-items: center;
         font-size:24px;
         i{
           vertical-align: text-top;
@@ -330,8 +333,11 @@ export default {
         /*background-color: rgba(255,255,255,.7);*/
         padding: 0 30px;
         display: flex;
+        display: -webkit-flex;
+        -webkit-justify-content: space-between;
         justify-content: space-between;
         align-items: center;
+        -webkit-align-items: center;
         color: #fff;
         transition: 0.3s all;
         width: 100%;
@@ -343,8 +349,10 @@ export default {
           background-color: rgba(255,255,255,0.8);
           color: #989898;
           display: flex;
+          display: -webkit-flex;
           font-size: 42px;
           align-items: center;
+          -webkit-align-items: center;
           transition: 0.3s all;
           span{
             font-size: 22px;
@@ -362,7 +370,9 @@ export default {
 
     .entry-block{
       display: flex;
+      display: -webkit-flex;
       justify-content: space-between;
+      -webkit-justify-content: space-between;
       padding:52px 48px;
       background-color: #fff;
       text-align: center;
@@ -383,8 +393,11 @@ export default {
       background-color: #fff;
       .title{
         display: flex;
+        display: -webkit-flex;
         justify-content: space-between;
+        -webkit-justify-content: space-between;
         align-items: center;
+        -webkit-align-items: center;
         padding-bottom: 40px;
         .name{
           color: #191919;
@@ -424,7 +437,9 @@ export default {
       }
       .half{
         display: flex;
+        display: -webkit-flex;
         flex-wrap: wrap;
+        -webkit-flex-wrap: wrap;
         padding: 0 15px;
         display: -webkit-flex;
         -webkit-flex-wrap: wrap;

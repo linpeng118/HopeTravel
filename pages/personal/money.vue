@@ -74,7 +74,9 @@ export default {
         padding: 32px 0;
         border-bottom: 1px solid #DEDEDE;
         display: flex;
+        display: -webkit-flex;
         justify-content: space-between;
+        -webkit-justify-content: space-between;
         .type{
           float: right;
         }

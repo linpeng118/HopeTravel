@@ -108,11 +108,14 @@ export default {
         color: #aaa;
         dd{
           display: flex;
+          display: -webkit-flex;
           height: 140px;
           padding: 0 50px;
           border-bottom: 1px solid #d8d8d8;
           justify-content: space-around;
+          -webkit-justify-content: space-around;
           align-items: center;
+          -webkit-align-items: center;
           &:last-child{
             border-bottom: none;
           }

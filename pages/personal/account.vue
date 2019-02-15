@@ -306,7 +306,9 @@ export default {
     padding: 20px 30px;
     height: 80px;
     display: flex;
+    display: -webkit-flex;
     align-items: center;
+    -webkit-align-items: center;
     .title {
       flex: 0 0 180px;
       font-size: 28px;
