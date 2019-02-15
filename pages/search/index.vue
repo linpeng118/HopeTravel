@@ -52,291 +52,280 @@
 </template>
 
 <script>
-import LayHeader from '@/components/header/search'
-import Recommend from '@/components/search/recommend'
-import Country from '@/components/search/country'
-import SquareTag from '@/components/tags/square'
-import Loading from '@/components/loading/index'
-import LoadingTr from '@/components/loading/whiteBg'
-import SearchResult from '@/components/items/searchResult'
-import {getDestination, getAssociateSearch} from '@/api/search'
-import {setLocalStore, getLocalStore} from '@/assets/js/utils'
-import {throttle as _throttle} from 'lodash'
-// 历史记录
-const SEARCH_HISTORY = '__tourscool_search_history__'
+  import LayHeader from '@/components/header/search'
+  import Recommend from '@/components/search/recommend'
+  import Country from '@/components/search/country'
+  import SquareTag from '@/components/tags/square'
+  import Loading from '@/components/loading/index'
+  import LoadingTr from '@/components/loading/whiteBg'
+  import SearchResult from '@/components/items/searchResult'
+  import {getDestination, getAssociateSearch} from '@/api/search'
+  import {setLocalStore, getLocalStore} from '@/assets/js/utils'
+  // 历史记录
+  const SEARCH_HISTORY = '__tourscool_search_history__'
 
-export default {
-  name: 'search',
-  components: {
-    LayHeader,
-    Recommend,
-    Country,
-    Loading,
-    SquareTag,
-    SearchResult,
-    LoadingTr
-  },
-  data() {
-    return {
-      isApp: this.$route.query.platform,
-      activeKey: 0,
-      areaList: [],
-      allData: [],
-      recommendObj: {}, // 推荐热门数据
-      countryObj: {}, // 其他区域数据
-      searchWords: '', // 搜索内容
-      isSearch: false, // 是否搜索
-      searchResultList: {}, // 搜索结果
-      searchLoading: false, // 搜索结果监听
-      loading: '数据加载中...',
-      startLoading: true, // 进入时加载是否显示
-      historyList: []
-    }
-  },
-  computed: {
-    searchWrapShow () { // 第一次显示
-      return (!this.startLoading && JSON.stringify(this.searchResultList) === '{}') && !this.searchLoading
+  export default {
+    name: 'search',
+    components: {
+      LayHeader,
+      Recommend,
+      Country,
+      Loading,
+      SquareTag,
+      SearchResult,
+      LoadingTr
     },
-    searchResult () { // 搜索的结果显示
-      return JSON.stringify(this.searchResultList) !== '{}'
-    },
-    loadingStart() { // 第一个加载显示
-      return this.startLoading
-    },
-    loadingSecond() { // 第二次加载显示
-      return this.searchLoading
-    }
-  },
-  watch: {
-    searchWords(newValue) {
-      if (!newValue) { // 没有数据恢复原状
-        this.searchLoading = false
-        this.loading = '数据加载中...'
-        this.isSearch = false
-      } else {
-        this.isSearch = true
-      }
-      this.search()
-    }
-  },
-  mounted() {
-    this.init()
-    this.getHistoryList()
-    // 监听滚动
-    // window.addEventListener('scroll', _throttle(this.scrollFn, 50))
-  },
-  methods: {
-    // 滚动显示
-    scrollFn() {
-      if(this.historyList.length) {
-        let s1 = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-        let height = this.$refs.historyBox.getBoundingClientRect().height
-        const h2 = this.$refs.badgeBar.$el.getBoundingClientRect().top
-        setTimeout(() => {
-          const s2 = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-          const direct = s2 - s1
-          if (s1 === 0) {
-            console.log('处于顶部')
-          } else if (direct > 0) {
-            console.log('向下滚动')
-            if(s1 < height) {
-              this.$refs.badgeBar.$el.style.top = (h2 - s1) + 'px'
-            }
-          } else if (direct < 0) {
-            if(s1 < height) {
-              this.$refs.badgeBar.$el.style.top = (h2 - s1) + 'px'
-            }
-
-          }
-        }, 17)
-
-        // if(scrollTop < height) {
-        //   this.$refs.badgeBar.$el.style.top = (h2 - scrollTop) + 'px'
-        // } else {
-        //
-        // }
-
-
+    data() {
+      return {
+        isApp: this.$route.query.platform,
+        activeKey: 0,
+        areaList: [],
+        allData: [],
+        recommendObj: {}, // 推荐热门数据
+        countryObj: {}, // 其他区域数据
+        searchWords: '', // 搜索内容
+        isSearch: false, // 是否搜索
+        searchResultList: {}, // 搜索结果
+        searchLoading: false, // 搜索结果监听
+        loading: '数据加载中...',
+        startLoading: true, // 进入时加载是否显示
+        historyList: []
       }
     },
-    // 返回上一级
-    leftClick() {
-      this.$router.go(-1)
-    },
-    onChange(key) {
-      this.activeKey = key
-      if (key)  {
-        this.countryObj = this._nomalLizesAreaList(this.allData[key])
+    computed: {
+      searchWrapShow () { // 第一次显示
+        return (!this.startLoading && JSON.stringify(this.searchResultList) === '{}') && !this.searchLoading
+      },
+      searchResult () { // 搜索的结果显示
+        return JSON.stringify(this.searchResultList) !== '{}'
+      },
+      loadingStart() { // 第一个加载显示
+        return this.startLoading
+      },
+      loadingSecond() { // 第二次加载显示
+        return this.searchLoading
       }
     },
-    // 获取页面需要的数据
-    async init() {
-      let {data, code} = await getDestination()
-      if(code === 0) {
-        this.areaList = this._nomalLizeshowList(data)
-        this.allData = data
-        this._nomalLizesHotRecommend(data[0])
-        this.startLoading = false
-      }
-    },
-    // 获取历史搜索数据
-    getHistoryList() {
-      this.historyList = getLocalStore(SEARCH_HISTORY) || []
-    },
-    // 删除历史搜索
-    deleteHistory(index) {
-      this.historyList.splice(index, 1)
-      setLocalStore(SEARCH_HISTORY, this.historyList)
-    },
-    // 序列化数据
-    _nomalLizeshowList(data) {
-      let areaList = []
-      for(let i = 0, len = data.length; i < len; i++) {
-        areaList.push(data[i].cityName)
-      }
-      return areaList
-    },
-    // 热门推荐序列化
-    _nomalLizesHotRecommend(data) {
-      const {dataArray} = data
-      this.recommendObj = {
-        lineList: dataArray[0].datas, //经典路线
-        hotPlace: dataArray[1].datas, //热门景点
-        hotTarget: dataArray[2].datas, //热门目的地
-        playWaysList: dataArray[3].datas, //top6玩法
-        subTitle: {
-          lineTitle: dataArray[0].title,
-          hotTitle: dataArray[1].title,
-          targetTitle: dataArray[2].title,
-          playTitle: dataArray[3].title
-        }
-      }
-    },
-    // 其他区域热门城市
-    _nomalLizesAreaList(data) {
-      let countryObj = {}
-      let {cityName, dataArray} = data
-      countryObj = {
-        cityName: cityName, // 城市的名字
-        title: dataArray[0].title, // title
-        allLines: dataArray[0].datas[0], // 总体线路
-        num: dataArray[0].datas.length, // 路线的数量
-        hotTargetTitle: dataArray[1].title, // 热门目的地名字
-        allAreaTitle: dataArray[2] && dataArray[2].title, // 全部目的地名字
-        hotTarget: dataArray[1].datas, // 热门目的地
-        allArea: dataArray[2] && dataArray[2].datas  // 全部目的地
-      }
-      return countryObj
-    },
-    // 搜索按钮
-    searchList() {
-      this.saveLocal()
-      this.getHistoryList()
-      this.$router.push({
-        name: 'product_list',
-        query: {
-          itemType: 0,
-          keyWords: this.searchWords
-        }
-      })
-    },
-    // 存储浏览记录
-    saveLocal() {
-      let historyList = getLocalStore(SEARCH_HISTORY) || []
-      historyList.unshift(this.searchWords)
-      let set = [...new Set(historyList)]
-      console.log(set)
-      if (set.length >= 8) {
-        set = set.slice(0, 8)
-      }
-      setLocalStore(SEARCH_HISTORY, set)
-    },
-    // 历史记录到详情
-    selectKeywords(key){
-      this.$router.push({
-        name: 'product_list',
-        query: {
-          itemType: 0,
-          keyWords: key
-        }
-      })
-    },
-    //
-    selectProductInfo(productId) {
-      this.$router.push({
-        name: 'product-detail',
-        query: {
-          productId
-        }
-      })
-    },
-    //
-    searchStart() {
-      // this.isSearch = true
-    },
-    // 获取搜索字段
-    queryChange (value) {
-      // console.log(value)
-      this.searchWords = value
-    },
-    // 搜索关键字跳转列表
-    selectProductList(type) {
-      console.log(type)
-      let typeItem
-      if (type == 1) {
-        typeItem = 2
-      } else if(type == 2) {
-        typeItem = 3
-      } else if (type == 7) {
-        typeItem = 6
-      } else {
-        typeItem = type
-      }
-      this.$router.push({
-        name: 'product_list',
-        query: {
-          itemType: typeItem || type,
-          keyWords: this.searchWords
-        }
-      })
-    },
-    // 搜索执行
-    async search() {
-      if(this.searchWords) {
-        let {code, data} = await getAssociateSearch(this.searchWords)
-        if (code === 0) {
+    watch: {
+      searchWords(newValue) {
+        if (!newValue) { // 没有数据恢复原状
           this.searchLoading = false
           this.loading = '数据加载中...'
-          this.searchResultList = {
-            searchCategory:data.category,
-            searchProduct: data.product
+          this.isSearch = false
+        } else {
+          this.isSearch = true
+        }
+        this.search()
+      }
+    },
+    mounted() {
+      this.init()
+      this.getHistoryList()
+    },
+    methods: {
+      // 滚动显示
+      scrollFn() {
+        if(this.historyList.length) {
+          let s1 = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+          let height = this.$refs.historyBox.getBoundingClientRect().height
+          const h2 = this.$refs.badgeBar.$el.getBoundingClientRect().top
+          setTimeout(() => {
+            const s2 = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+            const direct = s2 - s1
+            if (s1 === 0) {
+              console.log('处于顶部')
+            } else if (direct > 0) {
+              console.log('向下滚动')
+              if(s1 < height) {
+                this.$refs.badgeBar.$el.style.top = (h2 - s1) + 'px'
+              }
+            } else if (direct < 0) {
+              if(s1 < height) {
+                this.$refs.badgeBar.$el.style.top = (h2 - s1) + 'px'
+              }
+
+            }
+          }, 17)
+        }
+      },
+      // 返回上一级
+      leftClick() {
+        this.$router.go(-1)
+      },
+      onChange(key) {
+        this.activeKey = key
+        if (key)  {
+          this.countryObj = this._nomalLizesAreaList(this.allData[key])
+        }
+      },
+      // 获取页面需要的数据
+      async init() {
+        let {data, code} = await getDestination()
+        if(code === 0) {
+          this.areaList = this._nomalLizeshowList(data)
+          this.allData = data
+          this._nomalLizesHotRecommend(data[0])
+          this.startLoading = false
+        }
+      },
+      // 获取历史搜索数据
+      getHistoryList() {
+        this.historyList = getLocalStore(SEARCH_HISTORY) || []
+      },
+      // 删除历史搜索
+      deleteHistory(index) {
+        this.historyList.splice(index, 1)
+        setLocalStore(SEARCH_HISTORY, this.historyList)
+      },
+      // 序列化数据
+      _nomalLizeshowList(data) {
+        let areaList = []
+        for(let i = 0, len = data.length; i < len; i++) {
+          areaList.push(data[i].cityName)
+        }
+        return areaList
+      },
+      // 热门推荐序列化
+      _nomalLizesHotRecommend(data) {
+        const {dataArray} = data
+        this.recommendObj = {
+          lineList: dataArray[0].datas, //经典路线
+          hotPlace: dataArray[1].datas, //热门景点
+          hotTarget: dataArray[2].datas, //热门目的地
+          playWaysList: dataArray[3].datas, //top6玩法
+          subTitle: {
+            lineTitle: dataArray[0].title,
+            hotTitle: dataArray[1].title,
+            targetTitle: dataArray[2].title,
+            playTitle: dataArray[3].title
           }
-          if(!data.category.length && !data.product.length) { // 搜索结果为空显示处理
+        }
+      },
+      // 其他区域热门城市
+      _nomalLizesAreaList(data) {
+        let countryObj = {}
+        let {cityName, dataArray} = data
+        countryObj = {
+          cityName: cityName, // 城市的名字
+          title: dataArray[0].title, // title
+          allLines: dataArray[0].datas[0], // 总体线路
+          num: dataArray[0].datas.length, // 路线的数量
+          hotTargetTitle: dataArray[1].title, // 热门目的地名字
+          allAreaTitle: dataArray[2] && dataArray[2].title, // 全部目的地名字
+          hotTarget: dataArray[1].datas, // 热门目的地
+          allArea: dataArray[2] && dataArray[2].datas  // 全部目的地
+        }
+        return countryObj
+      },
+      // 搜索按钮
+      searchList() {
+        this.saveLocal()
+        this.getHistoryList()
+        this.$router.push({
+          name: 'product_list',
+          query: {
+            itemType: 0,
+            keyWords: this.searchWords
+          }
+        })
+      },
+      // 存储浏览记录
+      saveLocal() {
+        let historyList = getLocalStore(SEARCH_HISTORY) || []
+        historyList.unshift(this.searchWords)
+        let set = [...new Set(historyList)]
+        console.log(set)
+        if (set.length >= 8) {
+          set = set.slice(0, 8)
+        }
+        setLocalStore(SEARCH_HISTORY, set)
+      },
+      // 历史记录到详情
+      selectKeywords(key){
+        this.$router.push({
+          name: 'product_list',
+          query: {
+            itemType: 0,
+            keyWords: key
+          }
+        })
+      },
+      //
+      selectProductInfo(productId) {
+        this.$router.push({
+          name: 'product-detail',
+          query: {
+            productId
+          }
+        })
+      },
+      //
+      searchStart() {
+        // this.isSearch = true
+      },
+      // 获取搜索字段
+      queryChange (value) {
+        console.log(value)
+        this.searchWords = value
+      },
+      // 搜索关键字跳转列表
+      selectProductList(type) {
+        console.log(type)
+        let typeItem
+        if (type == 1) {
+          typeItem = 2
+        } else if(type == 2) {
+          typeItem = 3
+        } else if (type == 7) {
+          typeItem = 6
+        } else {
+          typeItem = type
+        }
+        this.$router.push({
+          name: 'product_list',
+          query: {
+            itemType: typeItem || type,
+            keyWords: this.searchWords
+          }
+        })
+      },
+      // 搜索执行
+      async search() {
+        if(this.searchWords) {
+          let {code, data} = await getAssociateSearch(this.searchWords)
+          if (code === 0) {
+            this.searchLoading = false
+            this.loading = '数据加载中...'
+            this.searchResultList = {
+              searchCategory:data.category,
+              searchProduct: data.product
+            }
+            if(!data.category.length && !data.product.length) { // 搜索结果为空显示处理
+              this.searchResultList = {}
+              this.searchLoading = true
+              this.loading = '暂无数据'
+            }
+          } else {
             this.searchResultList = {}
-            this.searchLoading = true
-            this.loading = '暂无数据'
           }
         } else {
           this.searchResultList = {}
         }
-      } else {
-        this.searchResultList = {}
-      }
-    },
-    selectDetail(item){
-      this.$router.push({
-        name: 'product_list',
-        query: {
-          itemType: 0,
-          keyWords: item
-        }
-      })
-    },
-    selectCountryLine(item){
-      console.log(item)
-    },
+      },
+      selectDetail(item){
+        this.$router.push({
+          name: 'product_list',
+          query: {
+            itemType: 0,
+            keyWords: item
+          }
+        })
+      },
+      selectCountryLine(item){
+        console.log(item)
+      },
+    }
   }
-}
 </script>
 
 <style type="text/scss" lang="scss" scoped>
