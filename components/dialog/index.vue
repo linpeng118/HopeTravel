@@ -12,12 +12,7 @@
     <div class="dialog-content">
       <component :is="currComp"
         showRegistTip
-        showLoginTip
-        @forgetPswCallBack="forgetPswCallBack"
-        @showLoginDlg="setDlgType"
-        @registCallBack="showLogin"
-        @loginCallBack="loginSuc"
-        @showRegistDlg="setDlgType">
+        showLoginTip>
       </component>
     </div>
   </van-popup>
@@ -120,25 +115,10 @@
         console.log('val', val)
         this.$emit('callSetDlgType', val)
       },
-      // 显示登录弹窗
-      showLogin() {
-        this.$emit('callSetDlgType', DLG_TYPE.LOGIN)
-      },
-      loginSuc() {
-        this.$toast('登录成功')
-        this.closeDlg()
-      },
       // 关闭弹窗
       closeDlg() {
         this.vxToggleDialog(false)
       },
-      // 忘记密码回调
-      forgetPswCallBack() {
-        this.closeDlg()
-        this.$router.push({
-          path: `/login/forget?redirect=${encodeURIComponent(this.$route.fullPath)}`,
-        })
-      }
     },
   }
 </script>

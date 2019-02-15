@@ -61,6 +61,9 @@
       color: #404040;
       font-size: 32px;
     }
+    .left-wrap{
+      padding: 16px;
+    }
     &.transparent {
       background-color: transparent;
       color: #fff;

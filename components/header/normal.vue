@@ -56,6 +56,7 @@
     .left-wrap {
       color: #404040;
       font-size: 32px;
+      padding: 16px;
     }
     &.transparent {
       background-color: transparent;

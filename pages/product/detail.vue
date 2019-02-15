@@ -774,10 +774,6 @@
       },
       // 在线咨询
       onlineCounsel() {
-        // if (!this.$store.state.token) {
-        //   this.vxToggleDi1alog(true)
-        //   this.vxSetDlgType(DLG_TYPE.LOGIN)
-        // }
         window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226'
       },
       // 立即定制
