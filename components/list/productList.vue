@@ -165,7 +165,7 @@ export default {
           }
           .hollow{
             color: #3A3A3A;
-            font-size:22px;
+            font-size: 22px;
             border-radius:16px;
             border: 2px solid #989898;
             padding: 0 12px;
