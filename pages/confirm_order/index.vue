@@ -35,7 +35,7 @@
 
         </div>
         <!--接送时间和地点弹出层-->
-        <van-popup v-model="showchecktime" position="center" :overlay="true">
+        <van-popup class="confirm-dlg" v-model="showchecktime" position="center" :overlay="true">
           <div class="item-title">
             <p>
               <span>接送时间和地点</span>
@@ -447,6 +447,10 @@
     opacity: 1;
     border-radius: 8px;
     margin-bottom: 28px;
+  }
+  .confirm-dlg{
+    width: 686px;
+    border-radius: 8px;
   }
 
   .item-title {
