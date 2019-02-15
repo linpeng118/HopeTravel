@@ -213,7 +213,6 @@ export default {
           width: 84px;
           height: 40px;
           font-size: 28px;
-          font-family: PingFang SC;
           font-weight: 400;
           line-height: 40px;
           color: rgba(255, 255, 255, 1);
@@ -224,7 +223,6 @@ export default {
             width: 104px;
             height: 32px;
             font-size: 22px;
-            font-family: PingFang SC;
             font-weight: 300;
             line-height: 32px;
             color: rgba(255, 255, 255, 1);
@@ -236,7 +234,6 @@ export default {
             opacity: 1;
             border-radius: 16px;
             font-size: 22px;
-            font-family: PingFang SC;
             font-weight: bold;
             line-height: 32px;
             color: rgba(57, 158, 246, 1);

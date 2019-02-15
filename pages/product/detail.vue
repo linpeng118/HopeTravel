@@ -913,7 +913,6 @@
       .product {
         padding: 20px 24px;
         background: #fff;
-        font-family: Microsoft YaHei UI;
         .name {
           color: #3e3e3e;
           letter-spacing: 2px;
@@ -997,14 +996,12 @@
               font-size: 28px;
               font-weight: 400;
               line-height: 44px;
-              font-family: Microsoft YaHei;
               color: rgba(0, 0, 0, 1);
               letter-spacing: 2px;
             }
             .addr {
               margin-left: 40px;
               font-size: 28px;
-              font-family: Microsoft YaHei UI;
               font-weight: 300;
               line-height: 44px;
               color: rgba(91, 91, 91, 1);
@@ -1020,7 +1017,6 @@
         border-radius: 24px 24px 0 0;
         .servive-item {
           font-size: 28px;
-          font-family: Microsoft YaHei UI;
           font-weight: 400;
           color: #4d4d4d;
           img {
@@ -1041,7 +1037,6 @@
         .title {
           height: 40px;
           font-size: 28px;
-          font-family: PingFang SC;
           font-weight: 400;
           line-height: 40px;
           color: rgba(62, 62, 62, 1);
@@ -1092,7 +1087,6 @@
       .recommend {
         .content {
           font-size: 24px;
-          font-family: PingFang SC;
           font-weight: 300;
           line-height: 40px;
           color: rgba(57, 158, 246, 1);
@@ -1130,7 +1124,6 @@
           height: 80px;
           line-height: 80px;
           font-size: 28px;
-          font-family: PingFang SC;
           font-weight: 300;
           color: rgba(64, 64, 64, 1);
           background: #fff;
@@ -1161,7 +1154,6 @@
           .header-title {
             height: 44px;
             font-size: 32px;
-            font-family: PingFang SC;
             font-weight: 400;
             line-height: 44px;
             color: #191919;
@@ -1183,7 +1175,6 @@
               p {
                 margin-top: 12px;
                 font-size: 24px;
-                font-family: Microsoft YaHei UI;
                 font-weight: 400;
                 line-height: 44px;
                 color: #191919;
@@ -1197,7 +1188,6 @@
             text-align: center;
             height: 44px;
             font-size: 32px;
-            font-family: PingFang SC;
             font-weight: 400;
             line-height: 44px;
             color: #191919;
@@ -1218,7 +1208,6 @@
               .title-s {
                 margin-left: 16px;
                 font-size: 28px;
-                font-family: PingFang SC;
                 font-weight: 400;
                 line-height: 40px;
                 color: #191919;
@@ -1232,7 +1221,6 @@
                 .title {
                   height: 40px;
                   font-size: 28px;
-                  font-family: PingFang SC;
                   font-weight: 300;
                   line-height: 44px;
                   color: #191919;
@@ -1248,7 +1236,6 @@
               .hotel-wrap {
                 .body {
                   font-size: 24px;
-                  font-family: PingFang SC;
                   font-weight: 300;
                   line-height: 40px;
                   color: #5e5e5e;
@@ -1280,7 +1267,6 @@
                   .desc {
                     margin-top: 22px;
                     font-size: 24px;
-                    font-family: PingFang SC;
                     font-weight: 300;
                     line-height: 40px;
                     color: #5e5e5e;
@@ -1296,7 +1282,6 @@
                 .body {
                   padding: 12px 18px 24px 33px;
                   font-size: 24px;
-                  font-family: Microsoft YaHei UI;
                   font-weight: 400;
                   line-height: 40px;
                   color: #5e5e5e;
@@ -1312,7 +1297,6 @@
         span {
           height: 34px;
           font-size: 24px;
-          font-family: PingFang SC;
           font-weight: 400;
           line-height: 40px;
           color: rgba(193, 193, 193, 1);
@@ -1341,7 +1325,6 @@
           border-bottom: 2px solid #e4e4e4;
           .title-s {
             font-size: 28px;
-            font-family: PingFang SC;
             font-weight: 400;
             line-height: 44px;
             color: #191919;
@@ -1398,7 +1381,6 @@
         }
       }
       .notice {
-        font-family: Microsoft YaHei UI;
         font-weight: 400;
         .title {
           font-size: 28px;
@@ -1461,7 +1443,6 @@
           .btn-reserve {
             color: #fff;
             font-size: 40px;
-            font-family: Microsoft YaHei UI;
             font-weight: 400;
             border-radius: 6px;
           }
