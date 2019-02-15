@@ -15,7 +15,6 @@
               </template>
           </div>
         </div>
-
       </ul>
       <date-trip :dateprice="datedata" :checkdayx="checkday+''" @setcheckday="setcheckday"></date-trip>
       <!--日历foot-->
@@ -214,8 +213,7 @@
       },
       'total_adult'(val,oldval) {
         if(this.roomintnum == 1){
-          if (this.product.product_entity_type == 1 && this.product.self_support == 0) {
-          }
+          if (this.product.product_entity_type == 1 && this.product.self_support == 0) {}
           else  {
             let countperson = val + this.total_kids;
             if (countperson >= this.product.min_num_guest) {
@@ -334,7 +332,7 @@
       setcheckday(val) {
         this.checkday = val;
         let sday1 = new Date(parseInt(this.datedata.years) + '/' + parseInt(this.datedata.month) + '/' + parseInt(this.checkday));
-        let day1en = sday1.getTime() + (this.product.duration_days) * 24 * 60 * 60 * 1000;
+        let day1en = sday1.getTime() + (this.product.duration_days-1) * 24 * 60 * 60 * 1000;
         let eday1 = new Date(day1en);
         let sday2 = (sday1.getMonth() + 1) + '月' + (sday1.getDate()) + '日';
         let eday2 = (eday1.getMonth() + 1) + '月' + (eday1.getDate()) + '日';
