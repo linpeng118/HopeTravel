@@ -4,9 +4,9 @@ import {
 from '@/assets/js/utils'
 
 export default {
-  // setDeviceType(state, data) {
-  //   state.deviceType = data
-  // },
+  setCloseDown(state, data) {
+    state.closeDown = data
+  },
   setToken(state, data) {
     state.token = data
     setCookieByKey('token', state.token)
