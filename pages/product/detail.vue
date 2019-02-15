@@ -227,7 +227,7 @@
                 <div class="body"
                   v-html="item.hotel"></div>
               </div>
-              <!-- 餐食 -->
+              <!-- 餐食（contain_meal：1包含，2不包含） -->
               <div class="meals-wrap"
                 v-if="item.meal.breakfast.contain_meal==1 || item.meal.lunch.contain_meal==1 || item.meal.dinner.contain_meal==1">
                 <h3 class="title">
