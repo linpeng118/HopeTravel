@@ -138,6 +138,7 @@ export default {
       }
       .product-desc{
         flex: 1;
+        -webkit-flex: 1;
         padding-left: 26px;
         .title{
           font-size: 30px;
