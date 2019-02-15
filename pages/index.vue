@@ -3,19 +3,20 @@
     <!--头部-->
     <div class="header">
       <!--下载广告-->
-      <div class="down-box" v-if="closeDown">
+      <div class="down-box" v-if="closeDown" ref="refDownBox">
         <div class="left" @click="closeDown = false">
           <van-icon name="close" />
           <span>下载稀饭APP，领新人福利</span>
         </div>
         <div class="right">
-          <a href="https://www.baidu.com/">去下载</a>
+          <a href="https://itunes.apple.com/cn/app/稀饭旅行/id1449120712?mt=8">去下载</a>
         </div>
       </div>
       <!--搜索-->
-      <div class="search-box">
-        <nuxt-link tag="div" class="left" to="/search">
+      <div class="search-box" ref="searchBox">
+        <nuxt-link tag="div" class="left" to="/search" id="searchLeft">
           <van-icon name="search" />
+          <span>目的地/关键词</span>
         </nuxt-link>
         <nuxt-link tag="div" class="right" to="/personal" >
           <van-icon name="user-circle-o" />
@@ -111,7 +112,7 @@ import HotItem from '@/components/items/hotItem'
 import {getHomeData, getHomeHotList} from '@/api/home'
 import countDown from '@/components/count-down'
 import DriftAside from '@/components/drift_aside'
-
+import {throttle as _throttle} from 'lodash'
 export default {
   name: 'home',
   components: {
@@ -151,6 +152,8 @@ export default {
   mounted() {
     this.getHomeInitData()
     this.getTime()
+    // 监听滚动
+    this.$refs.refHomePage.addEventListener('scroll', _throttle(this.scrollFn, 50))
   },
   methods: {
     // 转化为两位数
@@ -163,7 +166,7 @@ export default {
       let minite = Math.floor((maxtime / 60) % 60); //计算分
       let hour = Math.floor((maxtime / 3600) % 24 ); //计算小时
       let day = Math.floor((maxtime / 3600) / 24);//计算天
-      return `<span>${this.numChangeT(day)}</span>:<span>${this.numChangeT(hour)}</span>:<span>${this.numChangeT(minite)}</span>:<span>${this.numChangeT(second)}</span>`
+      return `<span>${this.numChangeT(day)}</span>天<span>${this.numChangeT(hour)}</span>时<span>${this.numChangeT(minite)}</span>分<span>${this.numChangeT(second)}</span>秒`
       // return day+':'+this.numChangeT(hour)+':'+this.numChangeT(minite)+':'+this.numChangeT(second)
     },
     getTime() {
@@ -241,13 +244,49 @@ export default {
         this.prodFinished = true
       }
     },
+    // 滚动
+    scrollFn() {
+      const s1 = this.$refs.refHomePage.scrollTop
+      let SCROLL = 300
+      const h1 = this.$refs.refDownBox && this.$refs.refDownBox.getBoundingClientRect().height
+      console.log(h1)
+      setTimeout(() => {
+        // const s2 = this.$refs.refHomePage.scrollTop
+        // const direct = s2 - s1
+        // console.log(s1)
+        if (s1 === 0) {
+          this.$refs.searchBox.style.backgroundColor = `transparent`
+          this.$refs.searchBox.style.color = `rgb(255,255,255)`
+          document.getElementById('searchLeft').style.backgroundColor = `rgba(255,255,255,0.8)`
+          document.getElementById('searchLeft').style.color = `#989898`
+          this.$refs.searchBox.style.position = 'inherit'
+          this.$refs.searchBox.style.top = 'auto'
+        } else{
+          let rate = s1/ SCROLL
+          this.$refs.searchBox.style.backgroundColor = `rgba(255,255,255,${rate})`
+          document.getElementById('searchLeft').style.backgroundColor = `rgba(200,200,200,${rate})`
+          document.getElementById('searchLeft').style.color = `rgba(152,152,152,${rate})`
+          this.$refs.searchBox.style.color = `rgba(152,152,152,${rate})`
+
+          if(s1 > h1 || !h1) {
+            console.log('jinlail')
+            this.$refs.searchBox.style.position = 'fixed'
+            this.$refs.searchBox.style.top = '0px'
+          }
+        }
+      }, 17)
+    }
   },
 }
 </script>
 
 <style type="text/scss" lang="scss" scoped>
   .home-wrap{
-    background-color: #F1F1F1;
+    height: 100vh;
+    background: #f1f1f1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
     .banner{
       height: 420px;
       img{
@@ -256,7 +295,7 @@ export default {
       }
     }
     .header{
-      position: fixed;
+      position: absolute;
       width: 100%;
       top: 0;
       z-index: 2100;
@@ -288,22 +327,30 @@ export default {
       }
       .search-box{
         height:88px;
-        background-color: rgba(255,255,255,.7);
+        /*background-color: rgba(255,255,255,.7);*/
         padding: 0 30px;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        color: #fff;
+        transition: 0.3s all;
+        width: 100%;
         .left{
           width:618px;
           height:72px;
           padding: 12px 14px;
           border-radius:36px;
-          background-color: rgba(255,255,255,0.81);
+          background-color: rgba(255,255,255,0.8);
           color: #989898;
-          font-size: 48px;
+          display: flex;
+          font-size: 42px;
+          align-items: center;
+          transition: 0.3s all;
+          span{
+            font-size: 22px;
+          }
         }
         .right {
-          color: #fff;
           font-weight: bold;
           i{
             font-size: 60px;

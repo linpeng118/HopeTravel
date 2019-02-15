@@ -6,7 +6,7 @@
           <img class :src="profile.face" alt>
         </div>
         <div class="user-info">
-          <div class="name">{{profile.chinese_name || profile.phone}}</div>
+          <div class="name">{{profile.nickname || '昵称还没有设置呢~'}}</div>
           <div class="rice">
             <span>米粒：{{profile.total_points}}</span>
             <button @click="myRice">查看</button>
