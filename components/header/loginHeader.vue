@@ -65,6 +65,7 @@
     .left-wrap {
       color: #404040;
       font-size: 32px;
+      padding: 16px;
     }
     .right-wrap {
       .search {

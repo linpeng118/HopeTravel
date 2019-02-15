@@ -105,6 +105,7 @@
     }
     .left-wrap {
       color: #fff;
+      padding: 16px;
     }
     .right-wrap {
       .search {
