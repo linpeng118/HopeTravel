@@ -20,7 +20,10 @@
                   <img v-lazy="order.image" alt>
                 </div>
                 <dl class="pro-content">
-                  <dt class="no-wrap-line3">{{order.product_name}}</dt>
+                  <!--<dt class="no-wrap-line3">{{order.product_name}}</dt>-->
+                  <dt class="title-wrap-line3">
+                    <div class="text">{{order.product_name}}</div>
+                  </dt>
                   <dd>出行日期:{{order.product_departure_date.split(' ')[0]}}</dd>
                 </dl>
               </div>
@@ -157,8 +160,55 @@ export default {
             width: 383px;
             dt {
               text-align: justify;
-              font: 24px/30px "";
+              font-size: 24px;
               color: #191919;
+              &.title-wrap-line3{
+                /*position: relative;*/
+                line-height: 30px;
+                height: 90px;
+                overflow: hidden;
+                box-sizing: content-box;
+                .text {
+                  float: right;
+                  margin-left: -5px;
+                  width: 100%;
+                  word-break: break-all;
+                  box-sizing: content-box;
+                }
+                &::before {
+                  float: left;
+                  width: 5px;
+                  content: '';
+                  height: 90px;
+                }
+                &::after {
+                  float: right;
+                  content: "...";
+                  height: 30px;
+                  line-height: 30px;
+                  /* 为三个省略号的宽度 */
+                  width: 30px;
+                  /* 使盒子不占位置 */
+                  margin-left: -30px;
+                  /* 移动省略号位置 */
+                  position: relative;
+                  left: 100%;
+                  top: -30px;
+                  padding-right: 1px;
+                  background-color: #FFF;
+                }
+                /*&::after{*/
+                  /*content: "...";*/
+                  /*position: absolute;*/
+                  /*bottom: 0;*/
+                  /*right: 0;*/
+                  /*padding-left: 24px;*/
+                  /*background: -webkit-linear-gradient(left, transparent, #fff 55%);*/
+                  /*background: -o-linear-gradient(right, transparent, #fff 55%);*/
+                  /*background: -moz-linear-gradient(right, transparent, #fff 55%);*/
+                  /*background: linear-gradient(to right, transparent, #fff 55%);*/
+                /*}*/
+              }
             }
             dd {
               color: #989898;

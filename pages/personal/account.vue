@@ -11,7 +11,6 @@
         <span class="header-btn" slot="right">保存</span>
       </van-nav-bar>
     </div>
-
     <div class="body">
       <van-cell>
         <template slot="title">
@@ -90,7 +89,6 @@
     <van-popup v-model="showAvatar" position="right" :overlay="false" class="show-popup">
       <account-avatar @closeNameLayer="showAvatar=!showAvatar" :avatar="avatar" :nickname="newProfile.nickname" @uploadAvatar="uploadAvatar"></account-avatar>
     </van-popup>
-
     <!-- 退出登录 -->
     <div class="sign-out-btn-con">
       <van-button class="sign-out-btn" @click="logout" block>退出登录</van-button>
