@@ -1,9 +1,7 @@
 <template>
-  <div class="change-psw-page">
-    <login-header rightText="登录"
-      @callOnRight="toLogin" />
+  <div class="change-comp">
     <h1 class="title">请设置你的新密码</h1>
-    <div class="change-paw-wrap tours-tabs-nowrap">
+    <div class="content tours-tabs-nowrap">
       <van-cell-group>
         <van-field class="phone tours-input"
           v-model="account"
@@ -29,7 +27,6 @@
 
 <script>
   import {mapState} from 'vuex'
-  import loginHeader from '@/components/header/loginHeader'
   import areaCodeInput from '@/components/input/areaCode'
   import {LOGIN_WAY} from '@/assets/js/consts'
   import {findPwd} from '@/api/member'
@@ -37,10 +34,9 @@
   export default {
     layout: 'default',
     head: {
-      title: '找回密码'
+      title: '修改密码'
     },
     components: {
-      loginHeader,
       areaCodeInput
     },
     data() {
@@ -72,11 +68,9 @@
           this.toForget()
         }
       },
-      // 跳转至登录页
-      toLogin() {
-        this.$router.push({
-          path: '/login'
-        })
+      // 跳转至忘记密码
+      toForget() {
+        this.$emit('noFormDataCallBack')
       },
       // 修改密码
       async changePsw() {
@@ -107,14 +101,8 @@
           if (code === 0) {
             this.$toast('修改密码成功！')
             setTimeout(() => {
-              if (this.redirect) {
-                this.$router.push({
-                  path: this.redirect
-                })
-              } else {
-                this.toLogin()
-              }
-            }, 1500)
+              this.$emit('changeCallBack')
+            }, 1000)
           } else {
             this.$toast(msg)
           }
@@ -122,30 +110,22 @@
           console.log(error)
         }
       },
-      toForget() {
-        this.$router.push({
-          path: '/login/forget'
-        })
-      }
     },
   }
 </script>
 
 <style lang="scss" scoped>
-  .change-psw-page {
+  .change-comp {
     .title {
-      padding-top: 136px;
       font-size: 40px;
       font-family: PingFang SC;
       font-weight: 400;
       line-height: 56px;
-      color: #555;
+      color: rgba(85, 85, 85, 1);
       opacity: 1;
-      text-align: center;
     }
-    .change-paw-wrap {
-      margin-top: 122px;
-      padding: 0 78px;
+    .content {
+      margin-top: 100px;
       .password {
         margin-top: 16px;
       }

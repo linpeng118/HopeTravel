@@ -1,5 +1,5 @@
 <template>
-  <van-nav-bar class="login-header tours-no-bb"
+  <van-nav-bar class="date-trap-header tours-no-bb"
                ref="loginHeader"
                :title="title"
                :z-index="999"
@@ -50,7 +50,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .login-header {
+  .date-trap-header {
     height: 88px;
     font-size: 32px;
     color: #191919;
@@ -60,6 +60,7 @@
     .left-wrap {
       color: #404040;
       font-size: 32px;
+      padding: 16px;
     }
     .right-wrap {
       .search {
