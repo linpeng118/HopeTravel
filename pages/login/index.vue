@@ -6,7 +6,7 @@
       @callOnRight="btnRight" />
     <!-- 登录组件全套 -->
     <div class="login-all-comp">
-      <login-page-comp />
+      <login-page-comp/>
     </div>
   </div>
 </template>

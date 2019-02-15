@@ -8,7 +8,8 @@
       <van-icon name="cross" />
     </div>
     <div class="dialog-content">
-      <login-page-comp showRegistTip
+      <login-page-comp isDialog
+        showRegistTip
         showLoginTip />
     </div>
   </van-popup>
@@ -69,7 +70,7 @@
       }
     }
     .dialog-content {
-      padding: 110px 60px; 
+      padding: 110px 60px;
       text-align: center;
     }
   }
