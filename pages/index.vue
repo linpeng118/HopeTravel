@@ -3,8 +3,8 @@
     <!--头部-->
     <div class="header">
       <!--下载广告-->
-      <div class="down-box" v-if="closeDown" ref="refDownBox">
-        <div class="left" @click="closeDown = false">
+      <div class="down-box" v-if="closeDown === 'no'" ref="refDownBox">
+        <div class="left" @click="changeCloseDown">
           <van-icon name="close" />
           <span>下载稀饭APP，领新人福利</span>
         </div>
@@ -113,6 +113,8 @@ import {getHomeData, getHomeHotList} from '@/api/home'
 import countDown from '@/components/count-down'
 import DriftAside from '@/components/drift_aside'
 import {throttle as _throttle} from 'lodash'
+import {setCookieByKey,getCookieByKey} from '@/assets/js/utils'
+const DOWN_CLOSE ='__tourscool__down_colse'
 export default {
   name: 'home',
   components: {
@@ -124,7 +126,7 @@ export default {
   },
   data() {
     return {
-      closeDown: true,
+      closeDown: process.client ? getCookieByKey(DOWN_CLOSE) || 'no' : '',
       productList: [],
       viewedSwiperOption: { // swiper配置
         slidesPerView: 'auto',
@@ -148,12 +150,13 @@ export default {
       prodPagination: {},
     }
   },
-
   mounted() {
     this.getHomeInitData()
     this.getTime()
     // 监听滚动
     this.$refs.refHomePage.addEventListener('scroll', _throttle(this.scrollFn, 50))
+    // console.log('closeDown:' + this.closeDown)
+    // this.closeDown = getCookieByKey(DOWN_CLOSE) || 'no'
   },
   methods: {
     // 转化为两位数
@@ -275,6 +278,11 @@ export default {
           }
         }
       }, 17)
+    },
+    // 关闭下载
+    changeCloseDown() {
+      this.closeDown = setCookieByKey(DOWN_CLOSE, 'yes', 5)
+      this.closeDown = 'yes'
     }
   },
 }
