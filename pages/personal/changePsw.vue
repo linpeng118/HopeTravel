@@ -102,8 +102,11 @@
         height: 112px;
         padding: 0 32px;
         display: flex;
+        display: -webkit-flex;
         justify-content: center;
+        -webkit-justify-content: center;
         align-items: center;
+        -webkit-align-items: center;
         .name {
           flex: 0 0 200px;
           font-size: 28px;

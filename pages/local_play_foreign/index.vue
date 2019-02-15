@@ -451,8 +451,11 @@
     .area-location {
       padding-top: 156px;
       display: flex;
+      display: -webkit-flex;
       justify-content: center;
+      -webkit-justify-content: center;
       align-items: center;
+      -webkit-align-items: center;
       .icon {
         width: 52px;
         height: 62px;
@@ -485,6 +488,7 @@
         margin: 20px 0 14px 0;
         padding: 24px;
         display: flex;
+        display: -webkit-flex;
         .icon-search {
           width: 44px;
           height: 44px;
@@ -520,7 +524,9 @@
             height: 68px;
             padding: 13px 24px;
             display: flex;
+            display: -webkit-flex;
             align-items: center;
+            -webkit-align-items: center;
             [class^="icon-guide"] {
               height: 32px;
               width: 32px;

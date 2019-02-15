@@ -949,7 +949,9 @@
         .item-wrap {
           height: 82px;
           display: flex;
+          display: -webkit-flex;
           align-items: center;
+          -webkit-align-items: center;
           border-bottom: 2px solid #e4e4e4;
           .item-list {
             flex: 0 0 1;
@@ -1052,8 +1054,11 @@
         // height: 272px;
         .content {
           display: flex;
+          display: -webkit-flex;
           flex-wrap: wrap;
+          -webkit-flex-wrap: wrap;
           align-items: center;
+          -webkit-align-items: center;
           .g-price-item {
             margin: 10px 6px 0 0;
             flex: 0 0 220px;
@@ -1111,8 +1116,11 @@
       .tab-list {
         margin-top: 24px;
         display: flex;
+        display: -webkit-flex;
         justify-content: space-around;
+        -webkit-justify-content: space-around;
         align-items: center;
+        -webkit-align-items: center;
         background: #fff;
         .tab-item {
           flex: 0 0 25%;
@@ -1159,8 +1167,11 @@
           .header-content {
             padding: 54px 0 28px;
             display: flex;
+            display: -webkit-flex;
             justify-content: space-around;
+            -webkit-justify-content: space-around;
             align-items: center;
+            -webkit-align-items: center;
             border-bottom: 2px solid #c9c9c9;
             .item {
               img {
@@ -1344,9 +1355,12 @@
           .price-item-wrap {
             padding: 0 6px;
             display: flex;
+            display: -webkit-flex;
             justify-content: center;
+            -webkit-justify-content: center;
             text-align: center;
             flex-wrap: wrap;
+            -webkit-flex-wrap: wrap;
             .price-item {
               margin-top: 20px;
               flex: 0 0 220px;
@@ -1413,7 +1427,9 @@
       .footer-tabbar {
         height: 120px;
         display: flex;
+        display: -webkit-flex;
         align-items: center;
+        -webkit-align-items: center;
         background: #fff;
         .operate,
         .reserve {
@@ -1421,7 +1437,9 @@
         }
         .operate {
           display: flex;
+          display: -webkit-flex;
           justify-content: space-around;
+          -webkit-justify-content: space-around;
           .btn-operate {
             text-align: center;
             img {
@@ -1462,8 +1480,11 @@
           padding: 80px 30px;
           .account-wrap {
             display: flex;
+            display: -webkit-flex;
             justify-content: space-around;
+            -webkit-justify-content: space-around;
             align-items: center;
+            -webkit-align-items: center;
             .account-input {
               flex: 0 0 1;
               width: 100%;
@@ -1507,7 +1528,9 @@
       .show-more-item {
         border-bottom: 1px solid rgba(255, 255, 255, 0.6);
         display: flex;
+        display: -webkit-flex;
         align-items: center;
+        -webkit-align-items: center;
         height: 64px;
         img {
           vertical-align: middle;

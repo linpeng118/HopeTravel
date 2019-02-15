@@ -31,7 +31,9 @@ export default {
     padding: 16px 16px 0 0;
     .search-item{
       display: flex;
+      display: -webkit-flex;
       align-items: center;
+      -webkit-align-items: center;
       border-bottom:1px solid #E4E4E4;
       padding: 20px 0 ;
       img{
