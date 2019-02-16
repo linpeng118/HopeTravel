@@ -1,8 +1,6 @@
 const pkg = require('./package')
 const apiPath = require('./config/api')
 const pluginConfig = require('./config/plugins')
-console.log('apiPath', apiPath)
-console.log('pluginConfig', pluginConfig)
 
 module.exports = {
   mode: 'universal',
@@ -61,6 +59,7 @@ module.exports = {
    ** Plugins to load before mounting the App
    */
   plugins: pluginConfig,
+
   /*
    ** middleware
    */

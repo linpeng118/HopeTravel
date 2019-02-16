@@ -105,7 +105,7 @@
       }
     },
     mounted() {
-      this.$store.dispatch("initprice");
+      // this.$store.dispatch("initprice");
       this.checkrouter();//判断当前位置
     },
     methods: {

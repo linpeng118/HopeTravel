@@ -32,25 +32,26 @@
             <span></span>
             <van-icon color="#404040" name="arrow" size="1.2em"/>
           </p>
+
         </div>
+        <!--接送时间和地点弹出层-->
+        <van-popup v-model="showchecktime" position="center" :overlay="true">
+          <div class="item-title">
+            <p>
+              <span>接送时间和地点</span>
+              <span style="float:right;color:#399EF6" @click="checktime()">确认</span>
+            </p>
+          </div>
+          <van-radio-group v-model="countprice.product_departure" class="radiobox">
+            <van-radio name="" class="radioitem">不选择接送机</van-radio>
+            <template v-for="(item,ind) in pricelist.transfer">
+              <van-radio class="radioitem" :key="ind" :name="item.product_departure_id">
+                {{item.time}} {{item.full_address}}
+              </van-radio>
+            </template>
+          </van-radio-group>
+        </van-popup>
       </section>
-       <!--接送时间和地点弹出层-->
-      <van-popup class="confirm-dlg" v-model="showchecktime" position="center" :overlay="true">
-        <div class="item-title">
-          <p>
-            <span>接送时间和地点</span>
-            <span style="float:right;color:#399EF6" @click="checktime()">确认</span>
-          </p>
-        </div>
-        <van-radio-group v-model="countprice.product_departure" class="radiobox">
-          <van-radio name="" class="radioitem">不选择接送机</van-radio>
-          <template v-for="(item,ind) in pricelist.transfer">
-            <van-radio class="radioitem" :key="ind" :name="item.product_departure_id">
-              {{item.time}} {{item.full_address}}
-            </van-radio>
-          </template>
-        </van-radio-group>
-      </van-popup>
       <!--行程选择-->
       <section>
         <div class="confirm-item" v-if="pricelist.attributes&&pricelist.attributes.length>0">
@@ -71,26 +72,27 @@
               </p>
             </div>
           </template>
+          <!--行程选择弹出层-->
+          <van-popup v-model="showchecktrver" position="center" :overlay="true">
+            <div class="item-title">
+              <p>
+                <span>{{seltrvel.title}}</span>
+                <span @click="checktrverend()" style="float:right;color:#399EF6">确认</span>
+              </p>
+            </div>
+            <van-radio-group v-model="checktrvel" class="radiobox">
+
+              <van-radio name="" class="radioitem">暂不选择行程</van-radio>
+              <template v-for="(item,index) in seltrvel.items">
+                <van-radio class="radioitem" :key="index" :name="item.id">
+                  {{item.title}}
+                </van-radio>
+              </template>
+            </van-radio-group>
+          </van-popup>
+
         </div>
       </section>
-      <!--行程选择弹出层-->
-      <van-popup v-model="showchecktrver" position="center" :overlay="true">
-        <div class="item-title">
-          <p>
-            <span>{{seltrvel.title}}</span>
-            <span @click="checktrverend()" style="float:right;color:#399EF6">确认</span>
-          </p>
-        </div>
-        <van-radio-group v-model="checktrvel" class="radiobox">
-
-          <van-radio name="" class="radioitem">暂不选择行程</van-radio>
-          <template v-for="(item,index) in seltrvel.items">
-            <van-radio class="radioitem" :key="index" :name="item.id">
-              {{item.title}}
-            </van-radio>
-          </template>
-        </van-radio-group>
-      </van-popup>
       <!--游客信息-->
       <section>
         <div class="confirm-item">
@@ -252,7 +254,11 @@
     },
     mounted() {
       this.pricelist=this.get_vuex_pricelist;
-
+      this.product=this.get_vuex_pricelist;
+      this.countprice=this.get_vuex_countprice;
+      if(!this.product.product_id){
+        this.$router.go(-2);
+      }
       this.getqu();
     },
     methods: {
@@ -445,10 +451,6 @@
     opacity: 1;
     border-radius: 8px;
     margin-bottom: 28px;
-  }
-  .confirm-dlg{
-    width: 686px;
-    border-radius: 8px;
   }
 
   .item-title {
