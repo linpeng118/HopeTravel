@@ -37,7 +37,7 @@ export const getFilterList = (data) => {
  * @param {Object} data
  */
 export const getProductDetail = (data) => {
-  return axios.get(`/api/product/${data.product_id}?t=${new Date().getTime()}`)
+  return axios.get(`/api/product/${data.product_id}`)
 }
 
 /**
