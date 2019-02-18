@@ -180,7 +180,6 @@
 
     },
     mounted() {
-      console.log(this.order_id)
       this.getOrderData()
     },
     methods: {
@@ -188,6 +187,15 @@
         let {code, data} = await orderdetails(this.order_id)
         if (code === 0) {
           this.details = data
+        }
+        else if(code === 404){
+          this.details = null;
+          this.$router.push({
+            path:'/'
+          })
+        }
+        else{
+          this.details = null;
         }
       },
       onClickLeft() {
