@@ -39,13 +39,13 @@
         <img src="../assets/imgs/home/icon_group.png" alt="">
         <p class="title">精品小团</p>
       </nuxt-link>
-      <nuxt-link tag="div" class="entry-tourism" to="/local_play_zh">
-        <img src="../assets/imgs/home/icon_play.png" alt="">
-        <p class="title">当地玩乐</p>
-      </nuxt-link>
       <nuxt-link tag="div" class="entry-tourism" to="/local_group">
         <img src="../assets/imgs/home/icon_local.png" alt="">
         <p class="title">当地跟团</p>
+      </nuxt-link>
+      <nuxt-link tag="div" class="entry-tourism" to="/local_play_zh">
+        <img src="../assets/imgs/home/icon_play.png" alt="">
+        <p class="title">当地玩乐</p>
       </nuxt-link>
       <nuxt-link tag="div" class="entry-tourism" to="/custom">
         <img src="../assets/imgs/home/icon_day.png" alt="">
@@ -101,7 +101,7 @@
       </van-list>
     </div>
     <!--悬浮-->
-    <drift-aside></drift-aside>
+    <drift-aside ref="driftAside" :isHome="true"></drift-aside>
   </div>
 </template>
 
@@ -115,7 +115,6 @@ import DriftAside from '@/components/drift_aside'
 import {throttle as _throttle} from 'lodash'
 import {setCookieByKey,getCookieByKey} from '@/assets/js/utils'
 import {mapGetters,mapMutations} from 'vuex'
-const DOWN_CLOSE ='__tourscool__down_colse'
 export default {
   name: 'home',
   components: {
@@ -161,7 +160,6 @@ export default {
     this.getTime()
     // 监听滚动
     this.$refs.refHomePage.addEventListener('scroll', _throttle(this.scrollFn, 50))
-    console.log('closeDown:' + this.closeDown)
   },
   methods: {
     // 转化为两位数
@@ -257,11 +255,14 @@ export default {
       const s1 = this.$refs.refHomePage.scrollTop
       let SCROLL = 300
       const h1 = this.$refs.refDownBox && this.$refs.refDownBox.getBoundingClientRect().height
-      console.log(h1)
+      let homeHeight = this.$refs.refHomePage.getBoundingClientRect().height
+      console.log(homeHeight)
+      if(s1>homeHeight) {
+        this.$refs.driftAside.homeScrollShow()
+      } else{
+        this.$refs.driftAside.homeScrollHide()
+      }
       setTimeout(() => {
-        // const s2 = this.$refs.refHomePage.scrollTop
-        // const direct = s2 - s1
-        // console.log(s1)
         if (s1 === 0) {
           this.$refs.searchBox.style.backgroundColor = `transparent`
           this.$refs.searchBox.style.color = `rgb(255,255,255)`
@@ -277,7 +278,6 @@ export default {
           this.$refs.searchBox.style.color = `rgba(152,152,152,${rate})`
 
           if(s1 > h1 || !h1) {
-            console.log('jinlail')
             this.$refs.searchBox.style.position = 'fixed'
             this.$refs.searchBox.style.top = '0px'
           }

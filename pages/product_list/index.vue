@@ -7,6 +7,7 @@
       @searchStart="searchStart"
       @query="queryChange"
       @leftClick="leftClick"
+      :isProductList="true"
     ></lay-header>
     <div class="list-wrap">
       <div class="tabs-box">

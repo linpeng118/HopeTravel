@@ -149,12 +149,13 @@ export default {
         }
         .tags-wrap{
           height: 36px;
-          line-height: 32px;
           overflow: hidden;
           margin: 10px 0 40px;
+          font-size: 0;
           span{
             margin-right: 10px;
             display: inline-block;
+            line-height: 32px !important;
           }
           .solid{
             padding: 0 4px;
