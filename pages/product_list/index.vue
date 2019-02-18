@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="product-list-page">
     <lay-header
       :searchKeyWords="searchKeyWords"
       :isSearch="isSearch"
@@ -525,6 +525,7 @@ export default {
   }
 </style>
 <style type="text/scss" lang="scss">
+.product-list-page{
   .list-wrap{
     .tabs-box{
       .van-tabs__line{
@@ -553,4 +554,5 @@ export default {
   .drift-wrap .van-overlay{
     top: 0 !important;
   }
+}
 </style>
