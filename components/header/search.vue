@@ -15,7 +15,7 @@
         <div :class="isSearch?'has-keyword': ''">
           <div class="search-box">
             <van-icon name="search" />
-            <input class="box" :placeholder="searchKeyWords" v-model="query" ref="query" />
+            <input class="box" :placeholder="searchKeyWords" v-model="query" ref="query" :class="isProductList ? 'list' : ''" />
             <van-icon name="clear" v-show="query" @click="clear" />
           </div>
           <div class="search-btn" @click="getSearchList" v-if="isSearch">搜索</div>
@@ -41,6 +41,10 @@
         default: false
       },
       isHistory: {
+        type:Boolean,
+        default: false
+      },
+      isProductList: {
         type:Boolean,
         default: false
       }
@@ -127,6 +131,9 @@
       background: #DBDBDB;
       &::-webkit-input-placeholder{
         color: #fff !important;
+      }
+      &.list{
+        width: 520px;
       }
     }
     i.van-icon-clear{

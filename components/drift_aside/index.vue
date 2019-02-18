@@ -44,6 +44,12 @@
 import {throttle as _throttle} from 'lodash'
 export default {
   name: 'drift_aside',
+  props: {
+    isHome: {
+      type: Boolean,
+      default: false
+    },
+  },
   data() {
     return {
       isShowDrift: false, // 是否显示
@@ -53,35 +59,49 @@ export default {
   },
   mounted() {
     // 监听滚动
-    window.addEventListener('scroll', _throttle(this.scrollFn, 100))
+    if(!this.isHome) {
+      window.addEventListener('scroll', _throttle(this.scrollFn, 100))
+    }
   },
   destroyed () {
     // 移除监听
-    window.removeEventListener('scroll', _throttle(this.scrollFn, 100))
+    if(!this.isHome) {
+      window.removeEventListener('scroll', _throttle(this.scrollFn, 100))
+    }
   },
   methods: {
     backTop() {
-      console.log('返回顶部')
-      let timer = setInterval(() => {
-        let speed = Math.floor(-this.scrollTop / 3)
-        document.documentElement.scrollTop = document.body.scrollTop = this.scrollTop + speed
-        if (this.scrollTop === 0) {
-          clearInterval(timer)
-        }
-      }, 17)
+      if(!this.isHome) {
+        let timer = setInterval(() => {
+          let speed = Math.floor(-this.scrollTop / 3)
+          document.documentElement.scrollTop = document.body.scrollTop = this.scrollTop + speed
+          if (this.scrollTop === 0) {
+            clearInterval(timer)
+          }
+        }, 17)
+      }
     },
     callPhone() {
       this.isTel = !this.isTel
     },
     scrollFn() {
-      let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-      let width = document.body.clientHeight
-      this.scrollTop = scrollTop
-      if (this.scrollTop > width) {
-        this.isShowDrift = true
-      } else {
-        this.isShowDrift = false
+      if(!this.isHome) {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+        let height = document.body.clientHeight
+        this.scrollTop = scrollTop
+        console.log(scrollTop, height)
+        if (this.scrollTop > height) {
+          this.isShowDrift = true
+        } else {
+          this.isShowDrift = false
+        }
       }
+    },
+    homeScrollShow() {
+      this.isShowDrift = true
+    },
+    homeScrollHide() {
+      this.isShowDrift = false
     }
   }
 }
