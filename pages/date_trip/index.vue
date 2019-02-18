@@ -171,16 +171,19 @@
         handler: function (val, oldval) {   //特别注意，不能用箭头函数，箭头函数，this指向全局
           let countchind = 0;
           let countadult = 0;
+          let objval=[];
           for (let i = 0; i < val.length; i++) {
             countadult += val[i].adult;
             countchind += val[i].child;
+            let objarrx={adult:val[i].adult, child:val[i].child, pair:val[i].pair==true?'Y':'N',};
+            objval.push(objarrx)
           }
           if (this.product.product_entity_type == 1 && this.product.self_support == 0 && this.roomintnum == 1) {
 
             if ((countadult + countchind) >= this.product.min_num_guest) {
               this.$store.commit("countprice", {
-                room_total: val.length,//房间总数
-                room_attributes: val,//房间数据,
+                room_total: objval.length,//房间总数
+                room_attributes: objval,//房间数据,
                 adult: countadult,
                 child: countchind
               });
@@ -202,8 +205,8 @@
           }
           else{
             this.$store.commit("countprice", {
-              room_total: val.length,//房间总数
-              room_attributes: val,//房间数据,
+              room_total: objval.length,//房间总数
+              room_attributes: objval,//房间数据,
               adult: countadult,
               child: countchind
             });
@@ -222,7 +225,7 @@
                 room_attributes: [{
                   adult: val,
                   child: this.total_kids,
-                  pair: false,
+                  pair: 'N',
                 }],//房间数据,
                 adult: val,
                 child: this.total_kids
@@ -255,7 +258,7 @@
                 room_attributes: [{
                   adult: this.total_adult,
                   child: val,
-                  pair: false,
+                  pair: 'N',
                 }],//房间数据,
                 adult: this.total_adult,
                 child: val
@@ -344,7 +347,6 @@
           product_id: tha.product.product_id,//产品id
           departure_date: parseInt(this.datedata.years) + '-' + parseInt(this.datedata.month) + '-' + parseInt(this.checkday),//出发日期
         });
-
       },
       //设置默认房间数和每个房间住的人数
       roomint() {
