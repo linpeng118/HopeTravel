@@ -4,8 +4,6 @@
     <!-- header -->
     <search-header v-if="!isApp"
       :title="'当地跟团'"
-      :isSearch="false"
-      :barSearch="false"
       ref="refSearchHeader"
       @leftClick="leftClick"
       @rightClick="rightClick" />
@@ -106,7 +104,7 @@
   import {getProductList} from '@/api/products'
   import {HEADER_TYPE} from '@/assets/js/consts/headerType'
   import {LIST_TYPE} from '@/assets/js/consts/products'
-  import SearchHeader from '@/components/header/index.vue'
+  import SearchHeader from '@/components/header'
   import HotItem from '@/components/items/hotItem.vue'
   import HotCityTag from '@/components/tags/index.vue'
   import Loading from '@/components/loading'
