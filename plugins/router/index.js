@@ -1,5 +1,5 @@
 import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
+import '@/assets/style/nprogress.css'
 export default ({ app }) => {
   console.log('router')
   app.router.beforeEach((to,from, next) => {
