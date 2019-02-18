@@ -2,7 +2,6 @@
   <van-popup v-model="isShow"
     :position="proPos"
     :overlay="true"
-    :style="{'width': dlgWidth, 'padding': dlgPadding}"
     class="normal-dialog-comp">
     <div class="btn-close"
       @click="closeDlg"
@@ -10,10 +9,7 @@
       <van-icon name="cross" />
     </div>
     <div class="dialog-content">
-      <component :is="currComp"
-        showRegistTip
-        showLoginTip>
-      </component>
+      <component :is="currComp" />
     </div>
   </van-popup>
 </template>
@@ -82,29 +78,6 @@
         ]
         const index = noCloseArr.findIndex(item => item === this.currComp)
         return index > -1 ? false : true
-      },
-      // 显示弹窗的宽度
-      dlgWidth() {
-        const arrW60 = [
-          DLG_TYPE.PHONE
-        ]
-        const index = arrW60.findIndex(item => item === this.currComp)
-        if (index > -1) {
-          return '60%'
-        }
-        return '86%'
-      },
-      // 显示弹窗的宽度
-      dlgPadding() {
-        // 不需要padding的
-        const arrNoPadding = [
-          DLG_TYPE.PHONE
-        ]
-        const index = arrNoPadding.findIndex(item => item === this.currComp)
-        if (index > -1) {
-          return '0'
-        }
-        return '30px'
       },
     },
     methods: {

@@ -17,13 +17,15 @@
             <van-icon name="phone" class="big-icon" />
             <div class="tel-box">
               <p>中国客服电话</p>
-              <p class="tel"><a href="tel:00864001181388">00-118-1388</a></p>
+              <p class="fs-12">(8:00am - 11:00pm) EN\CN</p>
+              <p class="tel"><a href="tel:00864001181388">400-118-1388</a></p>
             </div>
           </dd>
           <dd>
             <van-icon name="phone" class="big-icon" />
             <div class="tel-box">
               <p>美国客服电话</p>
+              <p class="fs-12">(9:00am - 6:00pm) EN\CN</p>
               <p class="tel"><a href="tel:0018889330336">(001)888-933-0336</a></p>
             </div>
           </dd>
@@ -31,6 +33,7 @@
             <van-icon name="phone" class="big-icon"/>
             <div class="tel-box">
               <p>日本客服电话</p>
+              <p class="fs-12">(8:30am - 5:30pm) JPN\CN</p>
               <p class="tel"><a href="tel:0081355455311">(0081)3-5545-5311</a></p>
             </div>
           </dd>
@@ -123,13 +126,13 @@ export default {
     }
     .tel-list{
       .center-tel{
-        width: 450px;
+        width: 500px;
         font-size:28px;
         color: #aaa;
         dd{
           display: flex;
           display: -webkit-flex;
-          height: 140px;
+          height: 170px;
           padding: 0 50px;
           border-bottom: 1px solid #d8d8d8;
           justify-content: space-around;
