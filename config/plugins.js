@@ -33,6 +33,10 @@ let plugins = [{
     src: '~/plugins/axios',
     ssr: false
   },
+  {
+    src: '~/plugins/router',
+    ssr: false
+  },
 ]
 
 let devPlugins = [{
@@ -65,6 +69,10 @@ let devPlugins = [{
   },
   {
     src: '~/plugins/vconsole',
+    ssr: false
+  },
+  {
+    src: '~/plugins/router',
     ssr: false
   },
 ]
