@@ -12,15 +12,17 @@
     <van-icon class="right-wrap"
               slot="right">
       <div class="big-search">
-        <div :class="isSearch?'has-keyword': ''">
+        <div :class="isSearch || isProductList ?'has-keyword': ''">
           <div class="search-box">
             <van-icon name="search" />
             <input class="box" :placeholder="searchKeyWords" v-model="query" ref="query" :class="isProductList ? 'list' : ''" />
             <van-icon name="clear" v-show="query" @click="clear" />
           </div>
           <div class="search-btn" @click="getSearchList" v-if="isSearch">搜索</div>
+          <nuxt-link tag="div" class="personal-btn" to="/personal" v-if="isProductList">
+            <van-icon name="user-circle-o" color="#666" />
+          </nuxt-link>
         </div>
-
       </div>
     </van-icon>
   </van-nav-bar>
@@ -69,6 +71,9 @@
       },
       getSearchList() {
         this.$emit('searchList', this.query)
+      },
+      goPersonal(){
+
       }
     }
   }
@@ -133,7 +138,7 @@
         color: #fff !important;
       }
       &.list{
-        width: 520px;
+        width: 470px !important;
       }
     }
     i.van-icon-clear{
@@ -144,8 +149,11 @@
   .has-keyword{
     display: flex;
     display: -webkit-flex;
+    align-items: center;
+    justify-content: center;
     .search-box{
       flex: 1;
+      -webkit-flex: 1;
       .box{
         width: 460px;
       }
@@ -154,6 +162,13 @@
       line-height: 72px;
       padding-left: 10px;
       color: #00ABF9;
+    }
+    .personal-btn{
+      font-size: 48px;
+      padding-left: 10px;
+      i{
+        vertical-align: bottom;
+      }
     }
   }
 </style>
