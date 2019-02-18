@@ -394,6 +394,12 @@
           <span class="item-title">目的地</span>
         </div>
         <div class="show-more-item"
+          @click="onPersonal">
+          <img src="~/assets/imgs/product/icon_person@2x.png"
+            alt="">
+          <span class="item-title">个人中心</span>
+        </div>
+        <div class="show-more-item"
           @click="onFollow">
           <img src="~/assets/imgs/product/icon_star@2x.png"
             alt="">
@@ -825,6 +831,10 @@
       // 搜索页面
       onDest() {
         this.jumpTo('/search')
+      },
+      // 搜索页面
+      onPersonal() {
+        this.jumpTo('/personal')
       },
       // 收藏页面
       async onFollow() {
@@ -1492,7 +1502,6 @@
       bottom: 0;
     }
     .show-more {
-      height: 192px;
       width: 214px;
       background: rgba(0, 0, 0, 0.7);
       border-radius: 6px;
