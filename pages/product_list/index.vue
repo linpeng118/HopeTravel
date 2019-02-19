@@ -73,7 +73,7 @@
     </div>
     <!--更多列表的选择-->
     <van-popup v-model="showList" position="right" :overlay="true" class="filter-select more-tag">
-      <city-list :multiple="multipleTag" :showBar="true" :dataObj="moreLists" @selectItem="selectItem" ref="moreList" @back="moreListBack"></city-list>
+      <city-list :multiple="multipleTag" :showBar="true" :dataObj="moreLists" @selectItemCancel="selectItemCancel" @selectItem="selectItem" ref="moreList" @back="moreListBack"></city-list>
     </van-popup>
     <drift-aside class="drift"></drift-aside>
   </section>
@@ -230,7 +230,8 @@ export default {
     async getFilterList() {
       const submitData = {
         type: this.currentType == 0 ? null: this.currentType,
-        keyword: this.searchKeyWords
+        keyword: this.searchKeyWords,
+        ...this.filterResult
       }
       let {code, data} = await getFilterList(submitData)
       if (code === 0) {
@@ -261,6 +262,7 @@ export default {
     },
     // 切换tab加载数据
     async changeTypeClick() {
+      this.resetFilter()
       this.productList = []
       this.prodPagination = {}
       this.filterResult = {
@@ -298,8 +300,10 @@ export default {
         this.sureSearchList[key].splice(index, 1)
       } else {
         if(key === 'span_city' || key === 'tag' || key === 'duration' || key === 'product_type'|| key === 'category') {
+          console.log('多选项')
           this.sureSearchList[key].push(item) // 多选项
         } else if (key === 'start_city' || key === 'stop_city' || key === 'price'){
+          console.log('单选项')
           this.sureSearchList[key] = [item] // 单选项
         }
       }
@@ -308,9 +312,21 @@ export default {
       if(!this.filterResult[key]) {
         this.filterResult[key] = item.id + ''
       } else {
-        this.filterResult[key] += ',' + id
+        if (key === 'start_city' || key === 'stop_city' || key === 'price') {
+          this.filterResult[key] = id
+        } else {
+          if(this.filterResult[key].indexOf(id) < 0) {
+            this.filterResult[key] += ',' + id
+          } else {
+            let _arr = this.filterResult[key].split(',')
+            let key_index = _arr.indexOf(id)
+            _arr.splice(key_index,1)
+            this.filterResult[key] = _arr.join(',')
+          }
+        }
+
       }
-      // console.log(this.filterResult)
+      console.log(this.filterResult)
     },
     // 显示title
     showTitle(name) {
@@ -353,6 +369,11 @@ export default {
       this.sureSearchList[type] = lists
       this.showList = false
     },
+    // 取消
+    selectItemCancel(type) {
+      this.sureSearchList[type] = []
+      this.filterResult[type] = ''
+    },
     // 格式化拼音列表
     _nomalLizePinyin(data) {
       let len = data.length
@@ -392,6 +413,14 @@ export default {
         product_type: [],
         category: []
       }
+      this.filterResult = {}
+      this.filterResult = {
+        product_type: this.$route.query.product_type || null,
+        category: this.$route.query.category || null,
+        span_city: this.$route.query.span_city || null,
+        start_city: this.$route.query.start_city || null
+      }
+      console.log(this.filterResult)
     }
   }
 }
