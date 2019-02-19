@@ -71,6 +71,7 @@
       .search {
         width: 88px;
         height: 32px;
+        line-height: 32px;
         background: rgba(75, 177, 245, 1);
         border-radius: 16px;
         text-align: center;
