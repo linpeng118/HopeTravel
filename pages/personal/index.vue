@@ -40,7 +40,7 @@
             <img class="icon-size" src="../../assets/imgs/personal/index/attention.png">
           </template>
         </van-cell>
-        <van-cell title="常用旅客" is-link :to="isLogin ? '/personal/contactsList': '/login?redirect=personal'">
+        <van-cell title="常用旅客" is-link :to="isLogin ? '/personal/contactsList?type=list': '/login?redirect=personal'">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/passenger.png">
           </template>

@@ -24,8 +24,8 @@
       <div class="play-ways" v-for="play in data.playWaysList" :key="play.id" @click="selectDetailPlay(play)">
         <img :src="play.image" alt="">
         <div class="title">
-          <span>{{play.subTitle}}</span>
-          <span class="desc">{{play.content}}</span>
+          <span>{{play.content}}</span>
+          <span class="desc">{{play.subTitle}}</span>
         </div>
       </div>
       <!--<play-ways v-for="play in data.playWaysList" :key="play.id" :item="play"></play-ways>-->
