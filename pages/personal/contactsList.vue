@@ -7,21 +7,22 @@
                  @click-left="onClickLeft"
                  @click-right="onClickRight">
       <van-icon class="left-wrap" name="arrow-left" slot="left" />
-      <van-icon class="right-wrap" slot="right">
+      <van-icon class="right-wrap" slot="right" v-if="type!='list'">
         <div class="search active " v-if="checkuser.length==adult" >
           <div class="text ">完成</div>
         </div>
         <div class="search " v-else>
           <div class="text ">完成</div>
         </div>
+
       </van-icon>
     </van-nav-bar>
     <div v-if="$route.query.adult">
       <p v-if="adult" class="contancts-title">请选择{{adult}}位出行人</p>
     </div>
-    <van-checkbox-group v-model="checkuser" class="checkboxall" :max="parseInt(adult)">
+    <van-checkbox-group v-if="type!='list'" v-model="checkuser" class="checkboxall" :max="parseInt(adult)">
       <van-checkbox
-        v-for="(item, index) in list"
+         v-for="(item, index) in list"
         :key="index"
         :disabled="item.phone&&item.passport?false:true"
         :name="item">
@@ -34,7 +35,6 @@
                <i>护照号&nbsp;&nbsp;{{item.passport}} </i>
                <i>手机号&nbsp;&nbsp;{{item.phone}} </i>
             </template>
-
             <template v-else>
                <i style="color: red">信息不全，请补充</i>
             </template>
@@ -44,7 +44,27 @@
         </nuxt-link>
       </van-checkbox>
     </van-checkbox-group>
+    <ul v-else class="objitembox">
+      <li v-for="(item, index) in list" :key="index">
+         <span class="objitem">
+            <i>
+              {{item.lastname}}&nbsp;{{item.firstname}}
+              <a>{{(item.six==0)?'女':'男'}}</a>
+            </i>
+            <template v-if="item.phone&&item.passport">
+               <i>护照号&nbsp;&nbsp;{{item.passport}} </i>
+               <i>手机号&nbsp;&nbsp;{{item.phone}} </i>
+            </template>
+            <template v-else>
+               <i style="color: red">信息不全，请补充</i>
+            </template>
+        </span>
+        <nuxt-link :to="{path:'/personal/addContacts',query:{'id':item.customer_contract_id}}">
+          <b class="bicon"><van-icon name="edit" color="#399EF6;"/></b>
+        </nuxt-link>
+      </li>
 
+    </ul>
     <div class="btnbox">
       <nuxt-link class="changeuser-btn" tag="button" :to="{path:'/personal/addContacts'}">
         <van-icon name="plus" color="#fff;"/>&nbsp;新增旅客
@@ -65,6 +85,7 @@
         checkuser:[],
         checker:this.$route.query.checker||[],
         list: [],
+        type:this.$route.query.type||'',
         title:'选择出行人',
         adult:this.$route.query.adult||1,
 
@@ -138,6 +159,10 @@
 <style lang="scss" scoped>
   .checkboxall{
     padding: 34px;
+  }
+  .objitembox{
+    padding:  50px
+  ;
   }
   .checkboxall>div{
     margin-bottom: 20px;
