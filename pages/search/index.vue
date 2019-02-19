@@ -32,10 +32,12 @@
                    :titleList="recommendObj.subTitle"
                    v-if="activeKey === 0"
                    @selectDetail="selectDetail"
+                   @selectDetailKeyword="selectDetailKeyword"
         ></recommend>
         <!--其他地区的推荐-->
         <country :data="countryObj"
                  @selectDetail="selectDetail"
+                 @selectDetailKeyword="selectDetailKeyword"
                  v-else></country>
       </div>
     </div>
@@ -317,6 +319,15 @@
         this.$router.push({
           name: 'product_list',
           query: query
+        })
+      },
+      selectDetailKeyword(keyword) {
+        this.$router.push({
+          name: 'product_list',
+          query: {
+            itemType: 0,
+            keyWords: keyword
+          }
         })
       },
       selectCountryLine(item){

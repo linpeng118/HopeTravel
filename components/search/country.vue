@@ -14,7 +14,8 @@
         <hot-city-tag v-for="line in data.allArea"
                       :key="line.id"
                       :className="line.active ? 'active' : 'normal'"
-                      @callOnTag="selectDetail"
+                      @callOnTagKeywords="selectDetailKeyword"
+                      :isKeywords="true"
                       :tag="line" />
       </div>
     </div>
@@ -47,6 +48,9 @@ export default {
       let {countryName} = line
       this.$emit('selectDetail', countryName)
     },
+    selectDetailKeyword(value) {
+      this.$emit('selectDetailKeyword', value)
+    }
   }
 }
 </script>
