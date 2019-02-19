@@ -87,8 +87,8 @@
         <div class="deluser" @click="delconfirm()">删除出行人</div>
       </van-cell-group>
     </div>
-    <van-popup v-model="shownationality" position="right" style="width: 80%;height: 100%;">
-      <!--等待开发-->
+    <van-popup v-model="shownationality" position="right" style="width:100%;height: 100%;">
+
       <city-list :pageparent="'/personal/addContacts'"
                  :dataObj="moreLists"
                  @selectItem="selectItem"
@@ -116,7 +116,7 @@
   import {addcontanct} from '@/api/contacts'
   import {getcontants} from '@/api/contacts'
   import {getcontant} from '@/api/contacts'
-  import CityList from '@/components/list/cityList'
+  import CityList from '@/components/confirm_foot/cityList'
   import {getquhao} from '@/api/contacts'
   export default {
     components: {

@@ -17,12 +17,12 @@
             <span>成人:</span>
             <span>{{payData.adult}}</span>
           </p>
-          <p class="payitem2" >
+          <p class="payitem2" v-if="payData.child!=0">
             <span>儿童:</span>
             <span>{{payData.child}}</span>
           </p>
         </li>
-        <li class="paysection" v-if="payData.dfc">
+        <li class="paysection" v-if="payData.dfc.price!=0">
           <p class="payitem">
             <span>{{payData.dfc.name}}</span>
             <span>
