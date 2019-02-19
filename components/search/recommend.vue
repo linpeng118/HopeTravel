@@ -21,7 +21,7 @@
     </div>
     <div class="play-box">
       <h2 v-if="titleList">{{titleList.playTitle}}</h2>
-      <div class="play-ways" v-for="play in data.playWaysList" :key="play.id" @click="selectDetailKeyword(play.content)">
+      <div class="play-ways" v-for="play in data.playWaysList" :key="play.id" @click="selectDetailPlay(play)">
         <img :src="play.image" alt="">
         <div class="title">
           <span>{{play.subTitle}}</span>
@@ -65,8 +65,11 @@ export default {
     selectDetail(item){
       this.$emit('selectDetail', item)
     },
-    selectDetailKeyword(keyword) {
-      this.$emit('selectDetailKeyword', keyword)
+    selectDetailPlay(play) {
+      console.log(play)
+      let {category,product_type,span_city,start_city} = play
+      let item = {category,product_type,span_city,start_city}
+      this.$emit('selectDetail', item)
     }
   }
 }
