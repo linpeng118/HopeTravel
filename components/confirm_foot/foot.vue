@@ -99,10 +99,17 @@
           this.showbtn = false;
         }
       },
-      'addorder'(val){
-        if(val.tongyi&&val.contact.phone&&val.contact.name&&val.contact.email&&val.users){
-          this.showbtn2=true;
-        }
+      'addorder':{
+        handler:function(val) {
+          if(val.tongyi&&val.contact.phone!=''&&val.contact.name!=''&&val.contact.email!=''&&val.users){
+            this.showbtn2=true;
+          }
+          else{
+            this.showbtn2=false;
+          }
+        },
+        deep: true    //深度监听
+
       }
     },
     mounted() {
