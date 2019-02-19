@@ -217,6 +217,7 @@
         tongyi:true,
         comment:'',
         contact:{"name":"","phone":"","email":""},
+
       }
     },
     computed: {
