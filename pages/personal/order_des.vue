@@ -85,7 +85,7 @@
       </section>
       <section v-show="details.status&&details.status.code==0" style="text-align: center;width: 100%">
         <div style="display: none" >
-          <form action="http://www.htw.tourscool.net/payment/mobile/checkout" method="post">
+          <form :action="apiPath.payment+'/payment/mobile/checkout'" method="post">
             <input type="text" name="order_id" value="" ref="order_id">
             <input type="text" name="order_title" value="" ref="order_title">
             <input type="text" name="total_fee[CNY]" value="" ref="total_feecny">
@@ -172,6 +172,7 @@
           ]
         },
         order_id: this.$route.query.order_id,
+        apiPath:require('@/config/api'),
       }
     },
     computed: {},

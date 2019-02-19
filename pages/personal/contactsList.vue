@@ -38,7 +38,7 @@
                <i style="color: red">信息不全，请补充</i>
             </template>
         </span>
-        <nuxt-link :to="{path:'/personal/addContacts',query:{'id':item.customer_contract_id,'adult':adult}}">
+        <nuxt-link :to="{path:'/personal/addContacts',query:{'id':item.customer_contract_id,'adult':$route.query.adult}}">
           <b class="bicon"><van-icon name="edit" color="#399EF6;"/></b>
         </nuxt-link>
       </van-checkbox>
@@ -63,7 +63,6 @@
       return {
         checkuser:[],
         checker:this.$route.query.checker||[],
-
         list: [],
         title:'选择出行人',
         adult:this.$route.query.adult||1,
@@ -85,6 +84,9 @@
         if(code === 0) {
           this.list = data;
           this.setcheck();
+        }
+        else if(code==401){
+
         }
         else {
           this.$dialog.alert({

@@ -379,7 +379,7 @@
 
    }
  .setvan {
-   width: 120px;
+   width: 160px;
    display: inline-block;
    border-right: 1px solid #dedede;
    text-align: center;
