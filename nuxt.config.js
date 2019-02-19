@@ -68,7 +68,6 @@ module.exports = {
    ** middleware
    */
   router: {
-    // middleware: ["device"],
   },
   /*
    ** Nuxt.js modules
