@@ -28,7 +28,7 @@
     </van-popup><!-- 加载态 -->
     <loading v-if="loading"></loading>
     <div style="display: none" v-if="showbtn2==true">
-      <form action="http://www.htw.tourscool.net/payment/mobile/checkout" method="post">
+      <form :action="apiPath.payment+'/payment/mobile/checkout'" method="post">
         <input type="text" name="order_id" value="" ref="order_id">
         <input type="text" name="order_title" value="" ref="order_title">
         <input type="text" name="total_fee[CNY]" value="" ref="total_feecny">
@@ -77,6 +77,7 @@
           'total_feeusd':'',
         },
         loading:false,
+        apiPath:require('@/config/api'),
         //添加订单数据
 
       }

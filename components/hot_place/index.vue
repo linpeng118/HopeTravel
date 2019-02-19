@@ -23,8 +23,8 @@ export default {
   },
   methods: {
     selectDetail(detail){
-      let {content,title} = detail
-      let data = content || title
+      let {category,product_type,span_city,start_city} = detail
+      let data = {category,product_type,span_city,start_city}
       this.$emit('selectDetail', data)
     }
   }
