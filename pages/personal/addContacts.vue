@@ -88,7 +88,6 @@
       </van-cell-group>
     </div>
     <van-popup v-model="shownationality" position="right" style="width:100%;height: 100%;">
-
       <city-list :pageparent="'/personal/addContacts'"
                  :dataObj="moreLists"
                  @selectItem="selectItem"
@@ -211,7 +210,18 @@
         return fmt;
       },
       onClickLeft(){
-        this.$router.go(-1)
+        if(this.checker.length>0){
+          this.$router.replace({
+            path:this.pushpath,
+            query:{
+              checker:this.$route.query.checker||[],
+              adult:this.adult||null
+            }
+          })
+        }
+        else{
+          this.$router.go(-1)
+        }
       },
       async onClickRight() {
         if(  this.title=='编辑出行人'){

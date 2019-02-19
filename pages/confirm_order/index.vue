@@ -175,7 +175,11 @@
       <section>
         <div class="confirm-item">
           <div class="item-con">
-            <van-checkbox v-model="tongyi">我已阅读并接受<a style="color: #216BFF">《稀饭旅行用户服务条款》</a></van-checkbox>
+            <van-checkbox v-model="tongyi">我已阅读并接受
+              <nuxt-link :to="{path:'/protocol/user'}">
+                <a style="color: #216BFF">《稀饭旅行用户服务条款》</a>
+              </nuxt-link>
+              </van-checkbox>
           </div>
         </div>
       </section>
