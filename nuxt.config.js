@@ -41,6 +41,8 @@ module.exports = {
       charset: 'utf-8',
     }, {
       src: 'https://hm.baidu.com/hm.js?9bfbbc9f24159633a14d3b4f37db769b',
+    }, {
+      src: 'https://www.googletagmanager.com/gtag/js?id=UA-124174609-1',
     }],
     __dangerouslyDisableSanitizers: ['script'],
   },
