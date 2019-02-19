@@ -39,7 +39,9 @@ module.exports = {
       src: '/flexible/flexible.js',
       type: 'text/javascript',
       charset: 'utf-8',
-    }, ],
+    }, {
+      src: 'https://hm.baidu.com/hm.js?9bfbbc9f24159633a14d3b4f37db769b',
+    }],
     __dangerouslyDisableSanitizers: ['script'],
   },
 

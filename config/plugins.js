@@ -37,6 +37,10 @@ let plugins = [{
     src: '~/plugins/router',
     ssr: false
   },
+  {
+    src: '~/plugins/ga/baidu.js',
+    ssr: false
+  },
 ]
 
 let devPlugins = [{
