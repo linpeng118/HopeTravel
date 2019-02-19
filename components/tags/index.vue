@@ -27,8 +27,8 @@
     mounted() {},
     methods: {
       onTag(tag) {
-        let keywords = tag.content || tag.name
-        this.$emit('callOnTag', keywords)
+        let {category,product_type,span_city,start_city} = tag
+        this.$emit('callOnTag', {category,product_type,span_city,start_city})
       }
     },
   }

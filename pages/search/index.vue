@@ -312,13 +312,11 @@
           this.searchResultList = {}
         }
       },
-      selectDetail(item){
+      selectDetail(query){
+        query.itemType = 0
         this.$router.push({
           name: 'product_list',
-          query: {
-            itemType: 0,
-            keyWords: item
-          }
+          query: query
         })
       },
       selectCountryLine(item){
