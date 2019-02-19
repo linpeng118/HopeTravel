@@ -34,6 +34,7 @@
                <i>护照号&nbsp;&nbsp;{{item.passport}} </i>
                <i>手机号&nbsp;&nbsp;{{item.phone}} </i>
             </template>
+
             <template v-else>
                <i style="color: red">信息不全，请补充</i>
             </template>

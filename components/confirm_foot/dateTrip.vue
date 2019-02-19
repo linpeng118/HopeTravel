@@ -16,15 +16,15 @@
           <li :key="ind" v-if="item.price!=''&&item.status" @click="checkday=item.day" :class="checkday==item.day?'activebg':''" >
             <span >{{item.day||''}}</span>
             <template v-if="item.is_special">
-              <span style="color:#FB6865">{{item.price||''}}</span>
+              <span style="color:#FB6865" v-html="item.price?fiterPri(item.price):''"></span>
             </template>
             <template v-else>
-              <span >{{item.price||''}}</span>
+              <span v-html="item.price?fiterPri(item.price):''"></span>
             </template>
           </li>
           <li :key="ind" v-else disabled>
             <span style="color: #C9C9C9">{{item.day||''}}</span>
-            <span style="color: #C9C9C9">{{item.price||''}}</span>
+            <span style="color: #C9C9C9" v-html="item.price?fiterPri(item.price):''"></span>
           </li>
         </template>
 
@@ -102,6 +102,24 @@
         if(this.checkdayx!=''){
           this.checkday=this.checkdayx;
         }
+      },
+      fiterPri(x){
+        let j=null;
+          let arrx=x.split(".");
+          if(arrx[1]=='00'){
+            j=arrx[0]
+          }
+          else{
+            let arrx2=arrx[1].split('');
+            if(arrx2[1]=='0'){
+              j=arrx[0]+'.'+arrx2[0]
+            }
+            else{
+              j=arrx[0]+'.'+arrx[1]
+            }
+          }
+          return j
+
       }
     }
 

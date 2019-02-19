@@ -17,6 +17,10 @@
       className: {
         type: String,
         default: 'normal'
+      },
+      isKeywords: {
+        type: Boolean,
+        default: false
       }
     },
     data() {
@@ -27,8 +31,12 @@
     mounted() {},
     methods: {
       onTag(tag) {
-        let {category,product_type,span_city,start_city} = tag
-        this.$emit('callOnTag', {category,product_type,span_city,start_city})
+        if(this.isKeywords) {
+          this.$emit('callOnTagKeywords', tag.name)
+        } else {
+          let {category,product_type,span_city,start_city} = tag
+          this.$emit('callOnTag', {category,product_type,span_city,start_city})
+        }
       }
     },
   }
