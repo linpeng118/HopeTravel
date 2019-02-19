@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="姓名" left-arrow @click-left="onClickLeft"/>
+    <van-nav-bar title="姓名" left-arrow @click-left="onClickLeft" class="header"/>
     <div class="line">
       <label class="tit">英文</label>
       <input class="en-f-name" type="text" placeholder="名:" v-model="last_name" >
@@ -69,11 +69,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .header{
+    border-bottom: 1px solid #dedede;
+  }
   .line {
-    padding:5px 10px 5px  40px;
-    height:80px;
+    padding:5px 0;
+    margin: 0 40px;
     font: 28px/80px "";
-    border-bottom: 1px solid rgba($color: #ccc, $alpha: 0.5);
+    border-bottom: 1px solid #E4E4E4;
     .tit {
       width: 100px;
       text-align: right;

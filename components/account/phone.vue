@@ -1,24 +1,27 @@
 <template>
-  <div class="phone-vali">
-    <van-nav-bar title="验证手机号" left-arrow @click-left="onClickLeft"/>
-    <area-code :proAreaCode.sync="phoneForm.areaCode"
-               :proMobile.sync="phoneForm.phone"
-               className="no-border"
-                ></area-code>
-    <van-field v-model="phoneForm.smsCode" placeholder="请输入短信验证码">
-      <van-button
-        slot="button"
-        size="small"
-        type="primary"
-        @click="getCode"
-        class="send-btn"
-        :disabled="codeType===VERIFY_CODE.GETTING"
-      >{{showText}}</van-button>
-    </van-field>
-    <div class="btn_container" @click="validateCode">
-      <button class="sure">验证</button>
+  <div>
+    <van-nav-bar title="验证手机号" left-arrow @click-left="onClickLeft" class="header"/>
+    <div class="phone-vali">
+      <area-code :proAreaCode.sync="phoneForm.areaCode"
+                 :proMobile.sync="phoneForm.phone"
+                 className="no-border"
+      ></area-code>
+      <van-field v-model="phoneForm.smsCode" placeholder="请输入短信验证码">
+        <van-button
+          slot="button"
+          size="small"
+          type="primary"
+          @click="getCode"
+          class="send-btn"
+          :disabled="codeType===VERIFY_CODE.GETTING"
+        >{{showText}}</van-button>
+      </van-field>
+      <div class="btn_container" @click="validateCode">
+        <button class="sure">验证</button>
+      </div>
     </div>
   </div>
+
 </template>
 <script>
 import AreaCode from '@/components/input/areaCode'
@@ -106,6 +109,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+  .header{
+    border-bottom: 1px solid #dedede;
+  }
   .btn_container {
     margin-top:50px;
     text-align: center;
