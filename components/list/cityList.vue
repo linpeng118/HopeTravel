@@ -99,6 +99,7 @@ export default {
     // 重置数据
     reset() {
       this.activeList = [] // 清空数据
+      this.$emit('selectItemCancel',this.dataObj.type)
     },
     // 派发事件
     sendEvent(){
