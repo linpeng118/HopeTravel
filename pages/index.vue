@@ -101,7 +101,7 @@
       </van-list>
     </div>
     <!--悬浮-->
-    <drift-aside ref="driftAside" :isHome="true"></drift-aside>
+    <drift-aside ref="driftAside" :isHome="true" @backTop="backTop"></drift-aside>
   </div>
 </template>
 
@@ -281,6 +281,16 @@ export default {
             this.$refs.searchBox.style.position = 'fixed'
             this.$refs.searchBox.style.top = '0px'
           }
+        }
+      }, 17)
+    },
+    // 返回顶部
+    backTop() {
+      let timer = setInterval(() => {
+        let speed = Math.floor(-this.$refs.refHomePage.scrollTop / 3)
+        this.$refs.refHomePage.scrollTop = this.$refs.refHomePage.scrollTop + speed
+        if (this.$refs.refHomePage.scrollTop === 0) {
+          clearInterval(timer)
         }
       }, 17)
     },
