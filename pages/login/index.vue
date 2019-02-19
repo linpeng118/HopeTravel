@@ -1,67 +1,77 @@
 <template>
   <div class="login-page">
-    <login-header rightText="注册"
-      @callOnRight="onRight"
-      @callOnLeft="onLeft" />
-    <!-- 登录框 -->
-    <login-comp class="login-comp-wrap"
-      @loginCallBack="loginCallBack"
-      @forgetPswCallBack="forgetPswCallBack" />
+    <!-- 头部 -->
+    <login-header :rightText="rightText"
+      @callOnLeft="btnLeft"
+      @callOnRight="btnRight" />
+    <!-- 登录组件全套 -->
+    <div class="login-all-comp">
+      <login-page-comp/>
+    </div>
   </div>
 </template>
 
 <script>
+  import {mapState, mapMutations} from 'vuex'
+  import {PAGE_TYPE} from '@/assets/js/consts/login'
   import loginHeader from '@/components/header/loginHeader'
-  import LoginComp from '@/components/partcail/login/login'
+  import LoginPageComp from '@/components/partcail/login'
 
   export default {
     components: {
       loginHeader,
-      LoginComp
-    },
-    head: {
-      title: '登录'
+      LoginPageComp,
     },
     data() {
       return {
+        // 显示的页面类型
+        PAGE_TYPE,
+        // 重定向地址
         redirect: this.$route.query.redirect ? decodeURIComponent(this.$route.query.redirect) : '',
       }
     },
-    methods: {
-      // 点击返回
-      onLeft() {
-        // 如果游重定向地址
-        if (this.redirect) {
-          this.$router.replace({
-            path: this.redirect
-          })
-        } else {
-          this.$router.go(-1)
+    computed: {
+      ...mapState({
+        vxPage: state => state.login.page // 登录展示哪个页面
+      }),
+      // 头部右侧文字
+      rightText() {
+        if (this.vxPage === PAGE_TYPE.LOGIN) {
+          return '注册'
         }
-      },
-      // 点击注册
-      onRight() {
-        // 跳转至注册页
-        this.$router.push({
-          path: '/login/regist'
-        })
-      },
-      // 登陆成功回调
-      loginCallBack() {
-        if (this.redirect) {
-          this.$router.replace({
-            path: this.redirect
-          })
-        } else {
-          this.$router.go(-1)
-        }
-      },
-      // 忘记密码回调
-      forgetPswCallBack() {
-        this.$router.push({
-          path: `/login/forget`,
-        })
+        return '登录'
       }
+    },
+    methods: {
+      ...mapMutations({
+        vxChangePage: 'login/changePage'
+      }),
+      // 头部按钮（左）【返回】
+      btnLeft() {
+        switch (this.vxPage) {
+          case PAGE_TYPE.CHANGE:
+            this.vxChangePage(PAGE_TYPE.FORGET)
+            break;
+          default:
+            // 如果游重定向地址
+            if (this.redirect) {
+              this.$router.replace({
+                path: this.redirect
+              })
+            } else {
+              this.$router.go(-1)
+            }
+            break;
+        }
+      },
+      // 头部按钮（右）
+      btnRight() {
+        if (this.vxPage === PAGE_TYPE.LOGIN) {
+          this.vxChangePage(PAGE_TYPE.REGIST)
+        } else {
+          this.vxChangePage(PAGE_TYPE.LOGIN)
+        }
+      },
     },
   }
 </script>
@@ -69,7 +79,7 @@
 <style lang="scss" scoped>
   .login-page {
     text-align: center;
-    .login-comp-wrap {
+    .login-all-comp {
       padding: 136px 76px 0;
     }
   }

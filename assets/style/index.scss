@@ -93,7 +93,7 @@
 .imitate-ellipsis2 {
   position: relative;
   line-height: 1.4em;
-  height: 2.8em;
+  height: 2.6em;
   overflow: hidden;
 }
 
@@ -170,13 +170,13 @@
 }
 
 
-.page-enter-active {
-  transition: all .3s;
-}
-
-.page-enter {
-  transform: translate3d(100%, 0, 0)
-}
+//.page-enter-active {
+//  transition: all .3s;
+//}
+//
+//.page-enter {
+//  transform: translate3d(100%, 0, 0)
+//}
 
 // ios头部处理
 .layout-header {
@@ -186,4 +186,7 @@
 //确认订单页面覆盖样式
 .radioitem .van-radio__label {
   display: initial !important;
+}
+.van-stepper__input{
+  color:#7d7e80!important;
 }

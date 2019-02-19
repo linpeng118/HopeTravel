@@ -1,8 +1,6 @@
 const pkg = require('./package')
 const apiPath = require('./config/api')
 const pluginConfig = require('./config/plugins')
-console.log('apiPath', apiPath)
-console.log('pluginConfig', pluginConfig)
 
 module.exports = {
   mode: 'universal',
@@ -22,10 +20,15 @@ module.exports = {
         content: 'width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover',
       },
       {
+        name: 'format-detection',
+        content: 'telephone=no',
+      },
+      {
         hid: 'description',
         name: 'description',
         content: pkg.description,
       },
+
     ],
     link: [{
       rel: 'icon',
@@ -56,6 +59,7 @@ module.exports = {
    ** Plugins to load before mounting the App
    */
   plugins: pluginConfig,
+
   /*
    ** middleware
    */

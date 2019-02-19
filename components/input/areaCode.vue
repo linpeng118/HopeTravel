@@ -105,7 +105,9 @@
     .area-code-wrap {
       padding-left: 20px;
       display: flex;
+      display: -webkit-flex;
       align-items: center;
+      -webkit-align-items: center;
       max-width: 140px;
       position: relative;
       .area-code {
@@ -155,8 +157,11 @@
       }
       .area-item {
         display: flex;
+        display: -webkit-flex;
         justify-content: space-between;
+        -webkit-justify-content: space-between;
         align-items: center;
+        -webkit-align-items: center;
         border-bottom: 2px solid #c4c4c4;
         font-size: 28px;
         color: rgba(85, 85, 85, 1);

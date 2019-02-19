@@ -163,8 +163,11 @@ export default {
           border-bottom: 2px solid #D8D8D8;
           font-size: 22px;
           display: flex;
+          display: -webkit-flex;
           justify-content: space-between;
+          -webkit-justify-content: space-between;
           align-items: center;
+          -webkit-align-items: center;
           i{
             display: none;
           }
@@ -202,6 +205,7 @@ export default {
     right: 0;
     background-color: #fff;
     display: flex;
+    display: -webkit-flex;
     box-shadow:0px -1px 10px rgba(0,0,0,0.16);
     .left,.right{
       width: 50%;

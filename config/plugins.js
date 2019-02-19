@@ -20,12 +20,21 @@ let plugins = [{
     src: '~/plugins/vue-cropper',
     ssr: false
   },
+  //vuex禁止ssr
+  {
+    src: '~/plugins/vuex-persist',
+    ssr: false
+  },
   {
     src: '~/plugins/vue-clipboard',
     ssr: false
   },
   {
     src: '~/plugins/axios',
+    ssr: false
+  },
+  {
+    src: '~/plugins/router',
     ssr: false
   },
 ]
@@ -60,6 +69,10 @@ let devPlugins = [{
   },
   {
     src: '~/plugins/vconsole',
+    ssr: false
+  },
+  {
+    src: '~/plugins/router',
     ssr: false
   },
 ]

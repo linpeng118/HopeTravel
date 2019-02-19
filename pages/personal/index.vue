@@ -6,7 +6,7 @@
           <img class :src="profile.face" alt>
         </div>
         <div class="user-info">
-          <div class="name">{{profile.chinese_name || profile.phone}}</div>
+          <div class="name">{{profile.nickname || '昵称还没有设置呢~'}}</div>
           <div class="rice">
             <span>米粒：{{profile.total_points}}</span>
             <button @click="myRice">查看</button>
@@ -210,10 +210,9 @@ export default {
         top: 74px;
         left: 198px;
         .name {
-          width: 84px;
+          /*width: 84px;*/
           height: 40px;
           font-size: 28px;
-          font-family: PingFang SC;
           font-weight: 400;
           line-height: 40px;
           color: rgba(255, 255, 255, 1);
@@ -224,7 +223,6 @@ export default {
             width: 104px;
             height: 32px;
             font-size: 22px;
-            font-family: PingFang SC;
             font-weight: 300;
             line-height: 32px;
             color: rgba(255, 255, 255, 1);
@@ -236,7 +234,6 @@ export default {
             opacity: 1;
             border-radius: 16px;
             font-size: 22px;
-            font-family: PingFang SC;
             font-weight: bold;
             line-height: 32px;
             color: rgba(57, 158, 246, 1);
@@ -271,7 +268,9 @@ export default {
       position: relative;
       top: -88px;
       display: flex;
+      display: -webkit-flex;
       align-items: center;
+      -webkit-align-items: center;
       .menu-item {
         text-align: center;
         flex: 1;
@@ -303,6 +302,7 @@ export default {
     padding: 25px 32px;
     background: #fff;
     display: flex;
+    display: -webkit-flex;
     position: fixed;
     width: 100%;
     bottom: 0;

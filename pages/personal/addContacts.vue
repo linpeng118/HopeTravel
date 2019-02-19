@@ -75,8 +75,8 @@
         <van-col span="6">性别</van-col>
         <van-col span="18">
           <van-radio-group v-model="userform.gender">
-            <van-radio style="width: 50%;float: left" name="f">女</van-radio>
-            <van-radio style="width: 50%" name="m">男</van-radio>
+            <van-radio style="width: 20%;float: left" name="f">女</van-radio>
+            <van-radio style="width: 20%" name="m">男</van-radio>
           </van-radio-group>
         </van-col>
       </van-row>
@@ -144,6 +144,7 @@
         showdate:false,
         title:'新增出行人',
         queryid:this.$route.query.id||0,
+        adult:this.$route.query.adult||null,
         checker:this.$route.query.checker||[],
         pushpath:"",
         moreLists:{},
@@ -217,11 +218,12 @@
           this.userform.phone=this.userform.phone_country+'-'+this.userform.phonex;
           let {data, code, msg} = await setcontanct(this.userform,this.queryid)
           if (code === 0) {
-            console.log(data)
-
             this.$router.replace({
               path:this.pushpath,
-              query:{checker:this.$route.query.checker||[]}
+              query:{
+                checker:this.$route.query.checker||[],
+                adult:this.adult||null
+              }
             })
           }
           else {

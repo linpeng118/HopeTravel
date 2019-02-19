@@ -1,17 +1,17 @@
 <template>
-  <van-nav-bar class="login-header tours-no-bb"
+  <van-nav-bar class="date-trap-header tours-no-bb"
                ref="loginHeader"
                :title="title"
                :z-index="999"
                @click-left="onClickLeft"
-               @click-right="onClickRight">
+              >
     <van-icon class="left-wrap"
               name="arrow-left"
               slot="left" />
     <van-icon class="right-wrap"
               slot="right">
       <div class="search">
-        <div class="text">起价说明</div>
+        <div class="text"></div>
       </div>
     </van-icon>
   </van-nav-bar>
@@ -41,16 +41,13 @@
     methods: {
       onClickLeft() {
         this.$router.go(-1)
-      },
-      onClickRight() {
-        console.log('跳转到起价说明')
       }
     },
   }
 </script>
 
 <style lang="scss" scoped>
-  .login-header {
+  .date-trap-header {
     height: 88px;
     font-size: 32px;
     color: #191919;
@@ -60,6 +57,7 @@
     .left-wrap {
       color: #404040;
       font-size: 32px;
+      padding: 16px;
     }
     .right-wrap {
       .search {

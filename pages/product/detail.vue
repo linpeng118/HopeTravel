@@ -52,9 +52,8 @@
           </span>
         </div>
       </div>
-      <!-- 出发地结束地 -->
-      <div class="destination mt-24"
-        v-show="product.product_entity_type && product.tour_category==='Unassigned'">
+      <!-- 特色 -->
+      <div class="destination mt-24">
         <div class="item-wrap"
           @click="onServerNode">
           <div class="item-list">
@@ -70,7 +69,9 @@
             <van-icon name="arrow" />
           </div>
         </div>
-        <div class="city">
+        <!-- 出发地结束地 -->
+        <div class="city"
+          v-show="product.product_entity_type || product.tour_category==='Unassigned'">
           <div class="from">
             <img src="../../assets/imgs/product/from@2x.png"
               alt="from">
@@ -87,7 +88,7 @@
       </div>
       <!-- 团期价格 -->
       <div class="group-price mt-24"
-        v-show="product.product_entity_type && product.tour_category==='Unassigned'">
+        v-show="product.product_entity_type || product.tour_category==='Unassigned'">
         <div class="title">
           <img src="../../assets/imgs/product/price@2x.png"
             alt="icon">
@@ -124,7 +125,7 @@
       <!-- tab触发则滚动 -->
       <div class="tab-list-wrap"
         :class="{'fixed-tab': isTabFixed}"
-        v-show="product.product_entity_type && product.tour_category==='Unassigned'">
+        v-show="product.product_entity_type || product.tour_category==='Unassigned'">
         <div class="tab-list"
           ref="refTabList">
           <div class="tab-item"
@@ -141,11 +142,11 @@
       </div>
       <div class="tab-height mt-24"
         ref="refTabHeight"
-        v-show="isTabFixed && product.product_entity_type && product.tour_category==='Unassigned'"></div>
+        v-show="isTabFixed && (product.product_entity_type || product.tour_category==='Unassigned')"></div>
       <!-- 产品特色 -->
       <div class="features"
         ref="refFeatures"
-        v-show="product.product_entity_type && product.tour_category==='Unassigned'">
+        v-show="product.product_entity_type || product.tour_category==='Unassigned'">
         <!-- :style="{'background': `url(${bgFeat}) no-repeat 0 0/100% 100%`}"> -->
         <div v-if="hasFeature">
           <img v-for="item in product.feature_images"
@@ -159,7 +160,7 @@
       <div class="trip"
         ref="refTrip">
         <div class="header-wrap"
-          v-show="product.product_entity_type && product.tour_category==='Unassigned'">
+          v-show="product.product_entity_type || product.tour_category==='Unassigned'">
           <h3 class="header-title">行程概要</h3>
           <div class="header-content">
             <div class="item">
@@ -217,7 +218,8 @@
                 </div>
               </div>
               <!-- 酒店 -->
-              <div class="hotel-wrap">
+              <div class="hotel-wrap"
+                v-if="item.hotel">
                 <h3 class="title">
                   <img src="../../assets/imgs/product/text@2x.png"
                     alt="icon">&nbsp;酒店
@@ -225,8 +227,9 @@
                 <div class="body"
                   v-html="item.hotel"></div>
               </div>
-              <!-- 餐食 -->
-              <div class="meals-wrap">
+              <!-- 餐食（contain_meal：1包含，2不包含） -->
+              <div class="meals-wrap"
+                v-if="item.meal.breakfast.contain_meal==1 || item.meal.lunch.contain_meal==1 || item.meal.dinner.contain_meal==1">
                 <h3 class="title">
                   <img src="../../assets/imgs/product/text@2x.png"
                     alt="icon">&nbsp;餐食
@@ -237,12 +240,12 @@
                     早餐：{{item.meal.breakfast.remark}}
                   </p>
                   <p class="lunch"
-                    v-if="item.meal.breakfast.contain_meal==1">
-                    午饭：{{item.meal.breakfast.remark}}
+                    v-if="item.meal.lunch.contain_meal==1">
+                    午饭：{{item.meal.lunch.remark}}
                   </p>
                   <p class="dinner"
-                    v-if="item.meal.breakfast.contain_meal==1">
-                    晚饭：{{item.meal.breakfast.remark}}
+                    v-if="item.meal.dinner.contain_meal==1">
+                    晚饭：{{item.meal.dinner.remark}}
                   </p>
                 </div>
               </div>
@@ -252,7 +255,7 @@
       </div>
       <!-- AD-custom -->
       <div class="ad-custom"
-        v-show="product.product_entity_type && product.tour_category==='Unassigned'">
+        v-show="product.product_entity_type || product.tour_category==='Unassigned'">
         <span>行程不满意？您还可以找</span>
         <span class="custom"
           @click="onAdCustom">稀饭旅行定制师</span>
@@ -260,7 +263,7 @@
       <!-- 费用明细 -->
       <div class="cost"
         ref="refCost"
-        v-show="product.product_entity_type && product.tour_category==='Unassigned'">
+        v-show="product.product_entity_type || product.tour_category==='Unassigned'">
         <h1 class="title">
           费用明细
         </h1>
@@ -389,6 +392,12 @@
           <img src="~/assets/imgs/product/icon_pos@2x.png"
             alt="">
           <span class="item-title">目的地</span>
+        </div>
+        <div class="show-more-item"
+          @click="onPersonal">
+          <img src="~/assets/imgs/product/icon_person@2x.png"
+            alt="">
+          <span class="item-title">个人中心</span>
         </div>
         <div class="show-more-item"
           @click="onFollow">
@@ -558,6 +567,7 @@
           this.top_price = data.top_price
           this.transfer = data.transfer
         }
+        document.title = this.product.name
         this.loading = false
       },
       // 存储浏览记录
@@ -774,10 +784,6 @@
       },
       // 在线咨询
       onlineCounsel() {
-        // if (!this.$store.state.token) {
-        //   this.vxToggleDi1alog(true)
-        //   this.vxSetDlgType(DLG_TYPE.LOGIN)
-        // }
         window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226'
       },
       // 立即定制
@@ -825,6 +831,10 @@
       // 搜索页面
       onDest() {
         this.jumpTo('/search')
+      },
+      // 搜索页面
+      onPersonal() {
+        this.jumpTo('/personal')
       },
       // 收藏页面
       async onFollow() {
@@ -914,7 +924,6 @@
       .product {
         padding: 20px 24px;
         background: #fff;
-        font-family: Microsoft YaHei UI;
         .name {
           color: #3e3e3e;
           letter-spacing: 2px;
@@ -947,13 +956,14 @@
         }
       }
       .destination {
-        height: 208px;
         background: #fff;
         padding: 0 32px;
         .item-wrap {
           height: 82px;
           display: flex;
+          display: -webkit-flex;
           align-items: center;
+          -webkit-align-items: center;
           border-bottom: 2px solid #e4e4e4;
           .item-list {
             flex: 0 0 1;
@@ -997,14 +1007,12 @@
               font-size: 28px;
               font-weight: 400;
               line-height: 44px;
-              font-family: Microsoft YaHei;
               color: rgba(0, 0, 0, 1);
               letter-spacing: 2px;
             }
             .addr {
               margin-left: 40px;
               font-size: 28px;
-              font-family: Microsoft YaHei UI;
               font-weight: 300;
               line-height: 44px;
               color: rgba(91, 91, 91, 1);
@@ -1020,7 +1028,6 @@
         border-radius: 24px 24px 0 0;
         .servive-item {
           font-size: 28px;
-          font-family: Microsoft YaHei UI;
           font-weight: 400;
           color: #4d4d4d;
           img {
@@ -1041,7 +1048,6 @@
         .title {
           height: 40px;
           font-size: 28px;
-          font-family: PingFang SC;
           font-weight: 400;
           line-height: 40px;
           color: rgba(62, 62, 62, 1);
@@ -1056,8 +1062,11 @@
         // height: 272px;
         .content {
           display: flex;
+          display: -webkit-flex;
           flex-wrap: wrap;
+          -webkit-flex-wrap: wrap;
           align-items: center;
+          -webkit-align-items: center;
           .g-price-item {
             margin: 10px 6px 0 0;
             flex: 0 0 220px;
@@ -1089,7 +1098,6 @@
       .recommend {
         .content {
           font-size: 24px;
-          font-family: PingFang SC;
           font-weight: 300;
           line-height: 40px;
           color: rgba(57, 158, 246, 1);
@@ -1115,8 +1123,11 @@
       .tab-list {
         margin-top: 24px;
         display: flex;
+        display: -webkit-flex;
         justify-content: space-around;
+        -webkit-justify-content: space-around;
         align-items: center;
+        -webkit-align-items: center;
         background: #fff;
         .tab-item {
           flex: 0 0 25%;
@@ -1124,7 +1135,6 @@
           height: 80px;
           line-height: 80px;
           font-size: 28px;
-          font-family: PingFang SC;
           font-weight: 300;
           color: rgba(64, 64, 64, 1);
           background: #fff;
@@ -1155,7 +1165,6 @@
           .header-title {
             height: 44px;
             font-size: 32px;
-            font-family: PingFang SC;
             font-weight: 400;
             line-height: 44px;
             color: #191919;
@@ -1163,8 +1172,11 @@
           .header-content {
             padding: 54px 0 28px;
             display: flex;
+            display: -webkit-flex;
             justify-content: space-around;
+            -webkit-justify-content: space-around;
             align-items: center;
+            -webkit-align-items: center;
             border-bottom: 2px solid #c9c9c9;
             .item {
               img {
@@ -1174,7 +1186,6 @@
               p {
                 margin-top: 12px;
                 font-size: 24px;
-                font-family: Microsoft YaHei UI;
                 font-weight: 400;
                 line-height: 44px;
                 color: #191919;
@@ -1188,13 +1199,13 @@
             text-align: center;
             height: 44px;
             font-size: 32px;
-            font-family: PingFang SC;
             font-weight: 400;
             line-height: 44px;
             color: #191919;
           }
           .content {
             margin-top: 46px;
+            padding-bottom: 20px;
             padding-left: 30px;
             .title-wrap {
               .icon {
@@ -1208,7 +1219,6 @@
               .title-s {
                 margin-left: 16px;
                 font-size: 28px;
-                font-family: PingFang SC;
                 font-weight: 400;
                 line-height: 40px;
                 color: #191919;
@@ -1222,7 +1232,6 @@
                 .title {
                   height: 40px;
                   font-size: 28px;
-                  font-family: PingFang SC;
                   font-weight: 300;
                   line-height: 44px;
                   color: #191919;
@@ -1238,7 +1247,6 @@
               .hotel-wrap {
                 .body {
                   font-size: 24px;
-                  font-family: PingFang SC;
                   font-weight: 300;
                   line-height: 40px;
                   color: #5e5e5e;
@@ -1270,7 +1278,6 @@
                   .desc {
                     margin-top: 22px;
                     font-size: 24px;
-                    font-family: PingFang SC;
                     font-weight: 300;
                     line-height: 40px;
                     color: #5e5e5e;
@@ -1286,7 +1293,6 @@
                 .body {
                   padding: 12px 18px 24px 33px;
                   font-size: 24px;
-                  font-family: Microsoft YaHei UI;
                   font-weight: 400;
                   line-height: 40px;
                   color: #5e5e5e;
@@ -1302,7 +1308,6 @@
         span {
           height: 34px;
           font-size: 24px;
-          font-family: PingFang SC;
           font-weight: 400;
           line-height: 40px;
           color: rgba(193, 193, 193, 1);
@@ -1331,7 +1336,6 @@
           border-bottom: 2px solid #e4e4e4;
           .title-s {
             font-size: 28px;
-            font-family: PingFang SC;
             font-weight: 400;
             line-height: 44px;
             color: #191919;
@@ -1348,9 +1352,12 @@
           .price-item-wrap {
             padding: 0 6px;
             display: flex;
+            display: -webkit-flex;
             justify-content: center;
+            -webkit-justify-content: center;
             text-align: center;
             flex-wrap: wrap;
+            -webkit-flex-wrap: wrap;
             .price-item {
               margin-top: 20px;
               flex: 0 0 220px;
@@ -1385,7 +1392,6 @@
         }
       }
       .notice {
-        font-family: Microsoft YaHei UI;
         font-weight: 400;
         .title {
           font-size: 28px;
@@ -1417,7 +1423,9 @@
       .footer-tabbar {
         height: 120px;
         display: flex;
+        display: -webkit-flex;
         align-items: center;
+        -webkit-align-items: center;
         background: #fff;
         .operate,
         .reserve {
@@ -1425,7 +1433,9 @@
         }
         .operate {
           display: flex;
+          display: -webkit-flex;
           justify-content: space-around;
+          -webkit-justify-content: space-around;
           .btn-operate {
             text-align: center;
             img {
@@ -1444,7 +1454,6 @@
           .btn-reserve {
             color: #fff;
             font-size: 40px;
-            font-family: Microsoft YaHei UI;
             font-weight: 400;
             border-radius: 6px;
           }
@@ -1466,8 +1475,11 @@
           padding: 80px 30px;
           .account-wrap {
             display: flex;
+            display: -webkit-flex;
             justify-content: space-around;
+            -webkit-justify-content: space-around;
             align-items: center;
+            -webkit-align-items: center;
             .account-input {
               flex: 0 0 1;
               width: 100%;
@@ -1490,7 +1502,6 @@
       bottom: 0;
     }
     .show-more {
-      height: 192px;
       width: 214px;
       background: rgba(0, 0, 0, 0.7);
       border-radius: 6px;
@@ -1511,7 +1522,9 @@
       .show-more-item {
         border-bottom: 1px solid rgba(255, 255, 255, 0.6);
         display: flex;
+        display: -webkit-flex;
         align-items: center;
+        -webkit-align-items: center;
         height: 64px;
         img {
           vertical-align: middle;

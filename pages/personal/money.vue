@@ -5,8 +5,7 @@
         class="bar-shadow"
         title="切换货币"
         @click-left="onClickLeft"
-        left-arrow
-      >
+        left-arrow>
       </van-nav-bar>
     </div>
     <div class="list">
@@ -29,18 +28,18 @@ export default {
     return {
       currencyList: [
         {name:'$美元',type:'USD'},
-        {name:'€欧元',type:'EUR'},
-        {name:'£英镑',type:'GBP'},
-        {name:'$加拿大元',type:'CAD'},
-        {name:'Yen日元',type:'JPY'},
-        {name:'捷克克朗',type:'CZK'},
-        {name:'$澳大利亚元',type:'AUD'},
-        {name:'R.兰特',type:'AZR'},
-        {name:'NT$台币',type:'TWD'},
+        // {name:'€欧元',type:'EUR'},
+        // {name:'£英镑',type:'GBP'},
+        // {name:'$加拿大元',type:'CAD'},
+        // {name:'Yen日元',type:'JPY'},
+        // {name:'捷克克朗',type:'CZK'},
+        // {name:'$澳大利亚元',type:'AUD'},
+        // {name:'R.兰特',type:'AZR'},
+        // {name:'NT$台币',type:'TWD'},
         {name:'¥人民币',type:'CNY'},
-        {name:'$新西兰元',type:'NZD'},
+        // {name:'$新西兰元',type:'NZD'},
       ],
-      radio: process.client ? getCookieByKey('currency') : ''
+      radio: process.client ? getCookieByKey('currency') || 'CNY' : ''
     }
   },
   mounted() {
@@ -75,7 +74,9 @@ export default {
         padding: 32px 0;
         border-bottom: 1px solid #DEDEDE;
         display: flex;
+        display: -webkit-flex;
         justify-content: space-between;
+        -webkit-justify-content: space-between;
         .type{
           float: right;
         }

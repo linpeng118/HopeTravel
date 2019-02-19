@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="product-list-page">
     <lay-header
       :searchKeyWords="searchKeyWords"
       :isSearch="isSearch"
@@ -7,6 +7,7 @@
       @searchStart="searchStart"
       @query="queryChange"
       @leftClick="leftClick"
+      :isProductList="true"
     ></lay-header>
     <div class="list-wrap">
       <div class="tabs-box">
@@ -402,8 +403,10 @@ export default {
       height: 88px;
       padding:26px 32px;
       display: flex;
+      display: -webkit-flex;
       font-size: 26px;
       justify-content: space-between;
+      -webkit-justify-content: space-between;
       border-bottom: 1px solid #E4E4E4;
       .sort-left{
         color: #EF9A1A;
@@ -444,7 +447,9 @@ export default {
     }
     .filter-tags{
       display: flex;
+      display: -webkit-flex;
       flex-wrap: wrap;
+      -webkit-flex-wrap: wrap;
       padding: 0 32px;
       max-height: 144px;
       overflow: hidden;
@@ -473,8 +478,11 @@ export default {
     .cell-list{
       padding: 0 32px;
       display: flex;
+      display: -webkit-flex;
       align-items: center;
+      -webkit-align-items: center;
       justify-content: space-between;
+      -webkit-justify-content: space-between;
       font-size:28px;
       height: 80px;
       color: #5E5E5E;
@@ -493,6 +501,7 @@ export default {
       right: 0;
       background-color: #fff;
       display: flex;
+      display: -webkit-flex;
       box-shadow:0px -1px 10px rgba(0,0,0,0.16);
       .left,.right{
         width: 50%;
@@ -516,6 +525,7 @@ export default {
   }
 </style>
 <style type="text/scss" lang="scss">
+.product-list-page{
   .list-wrap{
     .tabs-box{
       .van-tabs__line{
@@ -544,4 +554,5 @@ export default {
   .drift-wrap .van-overlay{
     top: 0 !important;
   }
+}
 </style>

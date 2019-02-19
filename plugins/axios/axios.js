@@ -20,7 +20,8 @@ let httprequest = axios.create({
   headers: {
     'Content-Type': 'application/json; charset=utf-8', // json格式通信
     'platform': 'app',
-    'phoneType': 'iOS'
+    'phoneType': 'iOS',
+    'App-Version': '1.0.0'
   }
 })
 
@@ -38,6 +39,18 @@ httprequest.interceptors.request.use(
       if (token || currency) {
         config.headers[TOKEN_KEY] = token
         config.headers.currency = currency
+      }
+      // 请求接口添加时间戳
+      if (config.method == 'post') {
+        config.data = {
+          ...config.data,
+          t: +(Date.parse(new Date()) / 1000),
+        }
+      } else if (config.method == 'get') {
+        config.params = {
+          t: +(Date.parse(new Date()) / 1000),
+          ...config.params
+        }
       }
     }
     return config

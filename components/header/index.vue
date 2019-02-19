@@ -5,8 +5,7 @@
     :title="title"
     :class="{'show-bg': vxHeaderStatus, 'bg-color': classBg}"
     :z-index="999"
-    @click-left="onClickLeft"
-    @click-right="onClickRight">
+    @click-left="onClickLeft">
     <van-icon class="left-wrap"
       name="arrow-left"
       slot="left" />
@@ -14,8 +13,11 @@
       slot="right">
       <div class="search"
         v-if="isSearch">
-        <div class="icon"></div>
-        <div class="text">搜索</div>
+        <!--<div class="icon"></div>-->
+        <!--<div class="text">搜索</div>-->
+        <nuxt-link tag="div" class="personal-btn" to="/personal">
+          <van-icon name="user-circle-o" color="#fff" />
+        </nuxt-link>
       </div>
       <div class="big-search" :style="{opacity: barSearch ? 1 : 0}" v-if="!isSearch">
         <div class="icon"></div>
@@ -75,7 +77,7 @@
         this.$emit('leftClick')
       },
       onClickRight() {
-        this.$emit('rightClick')
+        // this.$emit('rightClick')
       }
     },
   }
@@ -98,23 +100,23 @@
       }
       .right-wrap {
         .search {
-          background: #399ef6 !important;
-          color: #fff;
+          i{
+            color: #666 !important;
+          }
         }
       }
     }
     .left-wrap {
       color: #fff;
+      padding: 16px;
     }
     .right-wrap {
       .search {
-        width: 118px;
+        /*width: 118px;*/
         height: 100%;
-        background: rgba(255, 255, 255, 0.4);
-        border-radius: 22px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        i{
+          font-size: 48px;
+        }
         .icon {
           display: inline-block;
           width: 32px;
@@ -137,7 +139,9 @@
         font-size:30px;
         background: #EBEBEB;
         display: flex;
+        display: -webkit-flex;
         align-items: center;
+        -webkit-align-items: center;
         line-height: 72px;
         transition: all .5s;
         .icon {

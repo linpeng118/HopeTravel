@@ -10,6 +10,7 @@
       </div>
       <div class="right">
         <p class="title">{{item.title}}</p>
+        <p class="title fs-12">{{item.desc}}</p>
         <p class="number">{{item.number}}</p>
       </div>
     </div>
@@ -29,9 +30,9 @@
       return {
         show: this.proIsShow,
         phoneList: [
-          {title: '中国客服电话', number: '(0086) 400-118-1388', phone: '0086-400-118-1388'},
-          {title: '美国客服电话', number: '(001) 888-933-0336', phone: '001-888-933-0336'},
-          {title: '日本客服电话', number: '(0081) 3-5545-5311', phone: '0081-3-5545-5311'},
+          {title: '中国客服电话', number: '400-118-1388', desc: '(8:00am - 11:00pm) EN\\CN', phone: '0086-400-118-1388'},
+          {title: '美国客服电话', number: '(001)888-933-0336', desc: '(9:00am - 6:00pm) EN\\CN', phone: '001-888-933-0336'},
+          {title: '日本客服电话', number: '(0081)3-5545-5311', desc: '(8:30am - 5:30pm) JPN\\CN', phone: '0081-3-5545-5311'},
         ]
       }
     },
@@ -51,12 +52,16 @@
 <style lang="scss" scoped>
   .phone-dialog-comp {
     margin: 0 auto;
+    width: 500px;
     background: transparent;
     .phone-item {
       display: flex;
+      display: -webkit-flex;
       align-items: center;
+      -webkit-align-items: center;
       justify-content: center;
-      height: 134px;
+      -webkit-justify-content: center;
+      height: 170px;
       &:not(:last-child) {
         border-bottom: 1px solid #9a9a9a;
       }

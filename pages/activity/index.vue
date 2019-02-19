@@ -161,7 +161,7 @@
 <script>
 export default {
   name: "",
-  
+
   data() {
     return {};
   },
@@ -187,8 +187,11 @@ export default {
 
 .pro {
   display: flex;
+  display: -webkit-flex;
   flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
   justify-content: center;
+  -webkit-justify-content: center;
   padding-top: 20px;
 }
 .tittle-padding {

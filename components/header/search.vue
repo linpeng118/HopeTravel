@@ -12,18 +12,16 @@
     <van-icon class="right-wrap"
               slot="right">
       <div class="big-search">
-        <div class="search-box" v-if="!isSearch">
-          <van-icon name="search" />
-          <input class="box" :placeholder="searchKeyWords" v-model="query" ref="query" />
-          <van-icon name="clear" v-show="query" @click="clear" />
-        </div>
-        <div class="has-keyword" v-else>
+        <div :class="isSearch || isProductList ?'has-keyword': ''">
           <div class="search-box">
             <van-icon name="search" />
-            <input class="box" :placeholder="searchKeyWords" v-model="query" ref="query" />
+            <input class="box" :placeholder="searchKeyWords" v-model="query" ref="query" :class="isProductList ? 'list' : ''" />
             <van-icon name="clear" v-show="query" @click="clear" />
           </div>
-          <div class="search-btn" @click="getSearchList">搜索</div>
+          <div class="search-btn" @click="getSearchList" v-if="isSearch">搜索</div>
+          <nuxt-link tag="div" class="personal-btn" to="/personal" v-if="isProductList">
+            <van-icon name="user-circle-o" color="#666" />
+          </nuxt-link>
         </div>
       </div>
     </van-icon>
@@ -45,6 +43,10 @@
         default: false
       },
       isHistory: {
+        type:Boolean,
+        default: false
+      },
+      isProductList: {
         type:Boolean,
         default: false
       }
@@ -69,6 +71,9 @@
       },
       getSearchList() {
         this.$emit('searchList', this.query)
+      },
+      goPersonal(){
+
       }
     }
   }
@@ -88,6 +93,7 @@
       box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.14);
       .left-wrap {
         color: #191919;
+        padding: 16px;
       }
     }
     .right-wrap {
@@ -105,7 +111,9 @@
   }
   .search-box{
     display: flex;
+    display: -webkit-flex;
     align-items: center;
+    -webkit-align-items: center;
     box-sizing: border-box;
     width:618px;
     padding: 0 6px 0 20px;
@@ -118,7 +126,7 @@
       font-size: 40px;
     }
     .box{
-      flex: 1;
+      width: 550px;
       height: 68px;
       padding: 10px 0 10px 10px;
       line-height: 48px;
@@ -129,6 +137,9 @@
       &::-webkit-input-placeholder{
         color: #fff !important;
       }
+      &.list{
+        width: 470px !important;
+      }
     }
     i.van-icon-clear{
       color: #666;
@@ -137,13 +148,27 @@
   }
   .has-keyword{
     display: flex;
+    display: -webkit-flex;
+    align-items: center;
+    justify-content: center;
     .search-box{
       flex: 1;
+      -webkit-flex: 1;
+      .box{
+        width: 460px;
+      }
     }
     .search-btn{
       line-height: 72px;
       padding-left: 10px;
       color: #00ABF9;
+    }
+    .personal-btn{
+      font-size: 48px;
+      padding-left: 10px;
+      i{
+        vertical-align: bottom;
+      }
     }
   }
 </style>

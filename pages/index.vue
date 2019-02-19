@@ -3,19 +3,20 @@
     <!--头部-->
     <div class="header">
       <!--下载广告-->
-      <div class="down-box" v-if="closeDown">
-        <div class="left" @click="closeDown = false">
+      <div class="down-box" v-if="closeDown === 'no'" ref="refDownBox">
+        <div class="left" @click="changeCloseDown">
           <van-icon name="close" />
           <span>下载稀饭APP，领新人福利</span>
         </div>
         <div class="right">
-          <a href="https://www.baidu.com/">去下载</a>
+          <a href="https://itunes.apple.com/cn/app/稀饭旅行/id1449120712?mt=8">去下载</a>
         </div>
       </div>
       <!--搜索-->
-      <div class="search-box">
-        <nuxt-link tag="div" class="left" to="/search">
+      <div class="search-box" ref="searchBox">
+        <nuxt-link tag="div" class="left" to="/search" id="searchLeft">
           <van-icon name="search" />
+          <span>目的地/关键词</span>
         </nuxt-link>
         <nuxt-link tag="div" class="right" to="/personal" >
           <van-icon name="user-circle-o" />
@@ -38,13 +39,13 @@
         <img src="../assets/imgs/home/icon_group.png" alt="">
         <p class="title">精品小团</p>
       </nuxt-link>
-      <nuxt-link tag="div" class="entry-tourism" to="/local_play_zh">
-        <img src="../assets/imgs/home/icon_play.png" alt="">
-        <p class="title">当地玩乐</p>
-      </nuxt-link>
       <nuxt-link tag="div" class="entry-tourism" to="/local_group">
         <img src="../assets/imgs/home/icon_local.png" alt="">
         <p class="title">当地跟团</p>
+      </nuxt-link>
+      <nuxt-link tag="div" class="entry-tourism" to="/local_play_zh">
+        <img src="../assets/imgs/home/icon_play.png" alt="">
+        <p class="title">当地玩乐</p>
       </nuxt-link>
       <nuxt-link tag="div" class="entry-tourism" to="/custom">
         <img src="../assets/imgs/home/icon_day.png" alt="">
@@ -100,7 +101,7 @@
       </van-list>
     </div>
     <!--悬浮-->
-    <drift-aside></drift-aside>
+    <drift-aside ref="driftAside" :isHome="true" @backTop="backTop"></drift-aside>
   </div>
 </template>
 
@@ -111,7 +112,9 @@ import HotItem from '@/components/items/hotItem'
 import {getHomeData, getHomeHotList} from '@/api/home'
 import countDown from '@/components/count-down'
 import DriftAside from '@/components/drift_aside'
-
+import {throttle as _throttle} from 'lodash'
+import {setCookieByKey,getCookieByKey} from '@/assets/js/utils'
+import {mapGetters,mapMutations} from 'vuex'
 export default {
   name: 'home',
   components: {
@@ -123,7 +126,7 @@ export default {
   },
   data() {
     return {
-      closeDown: true,
+      // closeDown: process.client ? getCookieByKey(DOWN_CLOSE) || 'no' : '',
       productList: [],
       viewedSwiperOption: { // swiper配置
         slidesPerView: 'auto',
@@ -147,10 +150,16 @@ export default {
       prodPagination: {},
     }
   },
-
+  computed: {
+    ...mapGetters([
+      'closeDown'
+    ])
+  },
   mounted() {
     this.getHomeInitData()
     this.getTime()
+    // 监听滚动
+    this.$refs.refHomePage.addEventListener('scroll', _throttle(this.scrollFn, 50))
   },
   methods: {
     // 转化为两位数
@@ -163,7 +172,7 @@ export default {
       let minite = Math.floor((maxtime / 60) % 60); //计算分
       let hour = Math.floor((maxtime / 3600) % 24 ); //计算小时
       let day = Math.floor((maxtime / 3600) / 24);//计算天
-      return `<span>${this.numChangeT(day)}</span>:<span>${this.numChangeT(hour)}</span>:<span>${this.numChangeT(minite)}</span>:<span>${this.numChangeT(second)}</span>`
+      return `<span>${this.numChangeT(day)}</span>天<span>${this.numChangeT(hour)}</span>时<span>${this.numChangeT(minite)}</span>分<span>${this.numChangeT(second)}</span>秒`
       // return day+':'+this.numChangeT(hour)+':'+this.numChangeT(minite)+':'+this.numChangeT(second)
     },
     getTime() {
@@ -241,13 +250,66 @@ export default {
         this.prodFinished = true
       }
     },
+    // 滚动
+    scrollFn() {
+      const s1 = this.$refs.refHomePage.scrollTop
+      let SCROLL = 300
+      const h1 = this.$refs.refDownBox && this.$refs.refDownBox.getBoundingClientRect().height
+      let homeHeight = this.$refs.refHomePage.getBoundingClientRect().height
+      console.log(homeHeight)
+      if(s1>homeHeight) {
+        this.$refs.driftAside.homeScrollShow()
+      } else{
+        this.$refs.driftAside.homeScrollHide()
+      }
+      setTimeout(() => {
+        if (s1 === 0) {
+          this.$refs.searchBox.style.backgroundColor = `transparent`
+          this.$refs.searchBox.style.color = `rgb(255,255,255)`
+          document.getElementById('searchLeft').style.backgroundColor = `rgba(255,255,255,0.8)`
+          document.getElementById('searchLeft').style.color = `#989898`
+          this.$refs.searchBox.style.position = 'inherit'
+          this.$refs.searchBox.style.top = 'auto'
+        } else{
+          let rate = s1/ SCROLL
+          this.$refs.searchBox.style.backgroundColor = `rgba(255,255,255,${rate})`
+          document.getElementById('searchLeft').style.backgroundColor = `rgba(200,200,200,${rate})`
+          document.getElementById('searchLeft').style.color = `rgba(152,152,152,${rate})`
+          this.$refs.searchBox.style.color = `rgba(152,152,152,${rate})`
+
+          if(s1 > h1 || !h1) {
+            this.$refs.searchBox.style.position = 'fixed'
+            this.$refs.searchBox.style.top = '0px'
+          }
+        }
+      }, 17)
+    },
+    // 返回顶部
+    backTop() {
+      let timer = setInterval(() => {
+        let speed = Math.floor(-this.$refs.refHomePage.scrollTop / 3)
+        this.$refs.refHomePage.scrollTop = this.$refs.refHomePage.scrollTop + speed
+        if (this.$refs.refHomePage.scrollTop === 0) {
+          clearInterval(timer)
+        }
+      }, 17)
+    },
+    // 关闭下载
+    changeCloseDown() {
+      this.setCloseDown('yes')
+    },
+    ...mapMutations(['setCloseDown'])
   },
 }
 </script>
 
 <style type="text/scss" lang="scss" scoped>
   .home-wrap{
-    background-color: #F1F1F1;
+    height: 100vh;
+    background: #f1f1f1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
     .banner{
       height: 420px;
       img{
@@ -256,7 +318,7 @@ export default {
       }
     }
     .header{
-      position: fixed;
+      position: absolute;
       width: 100%;
       top: 0;
       z-index: 2100;
@@ -267,8 +329,11 @@ export default {
         background-color: #398BF6;
         color: #fff;
         display: flex;
+        display: -webkit-flex;
         justify-content: space-between;
+        -webkit-justify-content: space-between;
         align-items: center;
+        -webkit-align-items: center;
         font-size:24px;
         i{
           vertical-align: text-top;
@@ -288,22 +353,35 @@ export default {
       }
       .search-box{
         height:88px;
-        background-color: rgba(255,255,255,.7);
+        /*background-color: rgba(255,255,255,.7);*/
         padding: 0 30px;
         display: flex;
+        display: -webkit-flex;
+        -webkit-justify-content: space-between;
         justify-content: space-between;
         align-items: center;
+        -webkit-align-items: center;
+        color: #fff;
+        transition: 0.3s all;
+        width: 100%;
         .left{
           width:618px;
           height:72px;
           padding: 12px 14px;
           border-radius:36px;
-          background-color: rgba(255,255,255,0.81);
+          background-color: rgba(255,255,255,0.8);
           color: #989898;
-          font-size: 48px;
+          display: flex;
+          display: -webkit-flex;
+          font-size: 42px;
+          align-items: center;
+          -webkit-align-items: center;
+          transition: 0.3s all;
+          span{
+            font-size: 22px;
+          }
         }
         .right {
-          color: #fff;
           font-weight: bold;
           i{
             font-size: 60px;
@@ -315,7 +393,9 @@ export default {
 
     .entry-block{
       display: flex;
+      display: -webkit-flex;
       justify-content: space-between;
+      -webkit-justify-content: space-between;
       padding:52px 48px;
       background-color: #fff;
       text-align: center;
@@ -336,8 +416,11 @@ export default {
       background-color: #fff;
       .title{
         display: flex;
+        display: -webkit-flex;
         justify-content: space-between;
+        -webkit-justify-content: space-between;
         align-items: center;
+        -webkit-align-items: center;
         padding-bottom: 40px;
         .name{
           color: #191919;
@@ -377,8 +460,12 @@ export default {
       }
       .half{
         display: flex;
+        display: -webkit-flex;
         flex-wrap: wrap;
+        -webkit-flex-wrap: wrap;
         padding: 0 15px;
+        display: -webkit-flex;
+        -webkit-flex-wrap: wrap;
       }
       .half-item{
         width: 50%;

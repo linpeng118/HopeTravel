@@ -50,7 +50,7 @@
         v-if="showRegistTip">
         <span>还没有账号？</span>
         <span class="blue"
-          @click="showRegistDlg">去注册</span>
+          @click="toRegist">去注册</span>
       </div>
       <van-button class="btn-login tours-button"
         size="large"
@@ -72,6 +72,9 @@
 
   export default {
     name: 'login-comp',
+    head: {
+      title: '登录'
+    },
     components: {
       AreaCodeInput,
     },
@@ -131,10 +134,6 @@
         } else {
           this.type = LOGIN_TYPE.PASSWORD
         }
-      },
-      // 显示注册弹窗
-      showRegistDlg() {
-        this.$emit('showRegistDlg', DLG_TYPE.REGIST)
       },
       toggleInputType(val) {
         this.pswInputType = this.pswInputType === 'password' ? 'text' : 'password'
@@ -242,11 +241,16 @@
           console.log(error)
         }
       },
+      // 去注册
+      toRegist() {
+        this.$emit('toRegist')
+      },
       // 点击服务协议
       onAgreement() {
         this.$router.push({
-          path: '/protocol/xifan'
+          path: '/protocol/user'
         })
+        this.$emit('onAgreement')
       },
       // 重置定时器
       resetTimer() {
@@ -262,7 +266,6 @@
   .login-comp {
     .title {
       font-size: 40px;
-      font-family: PingFang SC;
       font-weight: 400;
       line-height: 56px;
       color: rgba(85, 85, 85, 1);
@@ -322,9 +325,8 @@
       }
     }
     .to-regist {
-      margin-top: 84px;
+      margin-top: 44px;
       font-size: 24px;
-      font-family: PingFang SC;
       font-weight: 300;
       color: #5e5e5e;
       .blue {

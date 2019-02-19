@@ -52,9 +52,13 @@ export default {
     }
     .hot-list{
       display: flex;
+      display: -webkit-flex;
       flex-wrap: wrap;
+      -webkit-flex-wrap: wrap;
       justify-content: space-around;
+      -webkit-justify-content: space-around;
       align-items: center;
+      -webkit-align-items: center;
       .hot-item{
         width:220px;
         height:164px;

@@ -22,7 +22,7 @@
           <p class="item-title">接送时间和地点</p>
           <template v-for="(item,ind) in pricelist.transfer">
             <p v-if="countprice.product_departure==item.product_departure_id" :key="ind" class="item-con" @click="showchecktime=true">
-              <span> {{item.full_address}}</span>
+              <span>{{item.full_address}}</span>
               <span></span>
               <van-icon color="#404040" name="arrow" size="1.2em"/>
             </p>
@@ -254,7 +254,11 @@
     },
     mounted() {
       this.pricelist=this.get_vuex_pricelist;
-
+      this.product=this.get_vuex_pricelist;
+      this.countprice=this.get_vuex_countprice;
+      if(!this.product.product_id){
+        this.$router.go(-2);
+      }
       this.getqu();
     },
     methods: {
@@ -316,16 +320,20 @@
       //确认行程形成之后
       checktrverend(){
         var this_=this;
-        let obj={
-          option_id:this_.seltrvel.id,
-          option_val_id:this_.checktrvel
-        }
+        let obj=null;
         for(let i=0;i<this_.checkedtrvel.length;i++){
           if(this_.checkedtrvel[i].option_id==this_.seltrvel.id){
             this_.checkedtrvel.splice(i, 1);
           }
         }
-        this_.checkedtrvel.push(obj);
+        if(this_.checktrvel!=''){
+          obj={
+            option_id:this_.seltrvel.id,
+            option_val_id:this_.checktrvel
+          }
+          this_.checkedtrvel.push(obj);
+        }
+
         this_.$store.commit("countprice", {attributes:this.checkedtrvel});
         this.showchecktrver=false;
       },
@@ -597,5 +605,6 @@
   }
   }
   }
+
 
 </style>

@@ -91,6 +91,7 @@ export default {
   .product-list{
     .product-item{
       display: flex;
+      display: -webkit-flex;
       padding: 24px 0;
       .img-show{
         position:relative;
@@ -137,6 +138,7 @@ export default {
       }
       .product-desc{
         flex: 1;
+        -webkit-flex: 1;
         padding-left: 26px;
         .title{
           font-size: 30px;
@@ -147,12 +149,13 @@ export default {
         }
         .tags-wrap{
           height: 36px;
-          line-height: 32px;
           overflow: hidden;
           margin: 10px 0 40px;
+          font-size: 0;
           span{
             margin-right: 10px;
             display: inline-block;
+            line-height: 32px !important;
           }
           .solid{
             padding: 0 4px;
@@ -164,7 +167,7 @@ export default {
           }
           .hollow{
             color: #3A3A3A;
-            font-size:22px;
+            font-size: 22px;
             border-radius:16px;
             border: 2px solid #989898;
             padding: 0 12px;

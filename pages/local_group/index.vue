@@ -4,8 +4,6 @@
     <!-- header -->
     <search-header v-if="!isApp"
       :title="'当地跟团'"
-      :isSearch="false"
-      :barSearch="false"
       ref="refSearchHeader"
       @leftClick="leftClick"
       @rightClick="rightClick" />
@@ -106,7 +104,7 @@
   import {getProductList} from '@/api/products'
   import {HEADER_TYPE} from '@/assets/js/consts/headerType'
   import {LIST_TYPE} from '@/assets/js/consts/products'
-  import SearchHeader from '@/components/header/index.vue'
+  import SearchHeader from '@/components/header'
   import HotItem from '@/components/items/hotItem.vue'
   import HotCityTag from '@/components/tags/index.vue'
   import Loading from '@/components/loading'
@@ -438,14 +436,20 @@
         height: 172px;
       }
       .high-quality-list-wrap {
-        padding: 0 32px 32px;
+        padding: 0 15px;
         .high-quality-list {
+          padding: 0 15px;
+          display: flex;
+          display: -webkit-flex;
+          flex-wrap: wrap;
+          -webkit-flex-wrap: wrap;
+          display: -webkit-flex;
+          -webkit-flex-wrap: wrap;
           .high-quality-item {
             display: inline-block;
-            margin-right: 10px;
             margin-top: 34px;
-            padding: 0;
-            width: 332px !important;
+            padding: 8px;
+            width: 50%;
           }
         }
       }

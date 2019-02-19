@@ -62,7 +62,7 @@
             <div :key="index" class="item-contanct">
               <div>{{index+1}}.{{item.name}}</div>
               <div>
-                <p>{{'暂无'}}</p>
+                <p>{{item.passport||'暂无'}}</p>
                 <p>{{item.email||'暂无'}}</p>
                 <p>{{item.phone||'暂无'}}</p>
               </div>
@@ -77,7 +77,7 @@
             <div>联系人</div>
             <div>
               <p>{{details.contact_name}}</p>
-              <p><a :href="'tel:'+details.contact_phone">{{details.contact_phone}}</a></p>
+              <p>{{details.contact_phone}}</p>
               <p>{{details.contact_email}}</p>
             </div>
           </div>
@@ -180,7 +180,6 @@
 
     },
     mounted() {
-      console.log(this.order_id)
       this.getOrderData()
     },
     methods: {
@@ -188,6 +187,15 @@
         let {code, data} = await orderdetails(this.order_id)
         if (code === 0) {
           this.details = data
+        }
+        else if(code === 404){
+          this.details = null;
+          this.$router.push({
+            path:'/'
+          })
+        }
+        else{
+          this.details = null;
         }
       },
       onClickLeft() {
@@ -511,7 +519,7 @@
   }
 
   .item-contanct div:nth-child(1) {
-    width: 20%;
+    width: 30%;
     font-size: 24px;
     color: #191919;
   }
@@ -537,7 +545,7 @@
   }
 
   .item-contanct2 div:nth-child(1) {
-    width: 20%;
+    width: 30%;
     font-size: 24px;
     color: #989898;
   }

@@ -68,7 +68,7 @@
         v-if="showLoginTip">
         <span>已有账号？</span>
         <span class="blue"
-          @click="showLoginDlg">马上登录</span>
+          @click="toLogin">马上登录</span>
       </div>
       <van-button class="btn-regist tours-button"
         size="large"
@@ -99,6 +99,9 @@
     components: {
       AreaCodeInput,
       areaCodeInput,
+    },
+    head: {
+      title: '注册'
     },
     props: {
       showLoginTip: {
@@ -152,7 +155,7 @@
     methods: {
       // 切换注册模式
       changeTabs(index, title) {
-        console.log(index, title)
+        // console.log(index, title)
         // 清除定时器
         this.resetTimer()
         if (index === 1) {
@@ -160,10 +163,6 @@
         } else {
           this.type = LOGIN_WAY.PHONE
         }
-      },
-      // 显示登录弹窗
-      showLoginDlg() {
-        this.$emit('showLoginDlg', DLG_TYPE.LOGIN)
       },
       // 输入是否可见
       toggleInputType(val) {
@@ -296,6 +295,10 @@
         }
         this.submiting = false
       },
+      // 显示登录弹窗
+      toLogin() {
+        this.$emit('toLogin')
+      },
       // 点击服务协议
       onAgreement() {
         console.log('onAgreement')
@@ -314,7 +317,6 @@
   .regist-comp {
     .title {
       font-size: 40px;
-      font-family: PingFang SC;
       font-weight: 400;
       line-height: 56px;
       color: rgba(85, 85, 85, 1);
@@ -355,7 +357,6 @@
     .to-login {
       margin-top: 44px;
       font-size: 24px;
-      font-family: PingFang SC;
       font-weight: 300;
       color: #5e5e5e;
       .blue {

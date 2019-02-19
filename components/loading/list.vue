@@ -29,8 +29,12 @@ export default {
     font-size: 24px;
     text-align: center;
     display: flex;
+    display: -webkit-flex;
     align-items: center;
+    -webkit-align-items: center;
     justify-content: center;
+    -webkit-justify-content: center;
     flex-direction: column;
+    -webkit-flex-direction: column;
   }
 </style>
