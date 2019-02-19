@@ -37,6 +37,15 @@ let plugins = [{
     src: '~/plugins/router',
     ssr: false
   },
+  // ga统计
+  {
+    src: '~/plugins/ga/baidu.js',
+    ssr: false
+  },
+  {
+    src: '~/plugins/ga/google.js',
+    ssr: false
+  },
 ]
 
 let devPlugins = [{

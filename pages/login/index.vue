@@ -42,6 +42,9 @@
         return '登录'
       }
     },
+    destroyed() {
+      this.vxChangePage(PAGE_TYPE.LOGIN);
+    },
     methods: {
       ...mapMutations({
         vxChangePage: 'login/changePage'
