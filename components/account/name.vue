@@ -2,7 +2,7 @@
   <div>
     <van-nav-bar title="姓名" left-arrow @click-left="onClickLeft" class="header"/>
     <div class="line">
-      <label class="tit">英文</label>
+      <label class="tit">英文名</label>
       <input class="en-f-name" type="text" placeholder="名:" v-model="last_name" >
       <span class="cut">|</span>
       <input class="en-l-name" type="text" placeholder="姓:" v-model="first_name">
