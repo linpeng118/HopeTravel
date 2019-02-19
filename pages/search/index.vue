@@ -32,7 +32,7 @@
                    :titleList="recommendObj.subTitle"
                    v-if="activeKey === 0"
                    @selectDetail="selectDetail"
-                   @selectDetailKeyword="selectDetailKeyword"
+
         ></recommend>
         <!--其他地区的推荐-->
         <country :data="countryObj"
