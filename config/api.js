@@ -12,7 +12,7 @@ const qa = {
 // 预发布
 const pre = {
   base: 'http://api.tourscool.net',
-  payment: 'http://www.htw.tourscool.net',
+  payment: 'http://htwapi.tourscool.com',
 }
 
 const master = {
