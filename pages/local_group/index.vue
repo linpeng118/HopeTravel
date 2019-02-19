@@ -436,14 +436,20 @@
         height: 172px;
       }
       .high-quality-list-wrap {
-        padding: 0 32px 32px;
+        padding: 0 15px;
         .high-quality-list {
+          padding: 0 15px;
+          display: flex;
+          display: -webkit-flex;
+          flex-wrap: wrap;
+          -webkit-flex-wrap: wrap;
+          display: -webkit-flex;
+          -webkit-flex-wrap: wrap;
           .high-quality-item {
             display: inline-block;
-            margin-right: 10px;
             margin-top: 34px;
-            padding: 0;
-            width: 332px !important;
+            padding: 8px;
+            width: 50%;
           }
         }
       }
