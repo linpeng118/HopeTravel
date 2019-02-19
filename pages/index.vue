@@ -3,15 +3,17 @@
     <!--头部-->
     <div class="header">
       <!--下载广告-->
-      <div class="down-box" v-if="closeDown === 'no'" ref="refDownBox">
-        <div class="left" @click="changeCloseDown">
-          <van-icon name="close" />
-          <span>下载稀饭APP，领新人福利</span>
+      <template v-if="!isAndroid">
+        <div class="down-box" v-if="closeDown === 'no'" ref="refDownBox">
+          <div class="left" @click="changeCloseDown">
+            <van-icon name="close" />
+            <span>下载稀饭APP，领新人福利</span>
+          </div>
+          <div class="right">
+            <a :href="downUrl">去下载</a>
+          </div>
         </div>
-        <div class="right">
-          <a href="https://itunes.apple.com/cn/app/稀饭旅行/id1449120712?mt=8">去下载</a>
-        </div>
-      </div>
+      </template>
       <!--搜索-->
       <div class="search-box" ref="searchBox">
         <nuxt-link tag="div" class="left" to="/search" id="searchLeft">
@@ -148,6 +150,8 @@ export default {
       prodLoading:false,
       prodFinished:false,
       prodPagination: {},
+      isAndroid: this.$route.query.platform
+      // isAndroid: process.client ? !!window.cordova : 'ww'
     }
   },
   computed: {
@@ -160,8 +164,20 @@ export default {
     this.getTime()
     // 监听滚动
     this.$refs.refHomePage.addEventListener('scroll', _throttle(this.scrollFn, 50))
+    //
+    let u = navigator.userAgent
+    if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
+      this.downUrl = 'http://www.htw.tourscool.net/uploads/tourscool.apk'
+    } else if (u.indexOf('iPhone') > -1) {
+      this.downUrl = 'https://itunes.apple.com/cn/app/稀饭旅行/id1449120712?mt=8'
+    }
+    // this.isAndroid = process.client ? !!window.cordova: ''
   },
   methods: {
+    // 判断手机是安卓还是苹果
+    downUrl() {
+
+    },
     // 转化为两位数
     numChangeT(n) {
       return n < 10 ? '0' + n : '' + n

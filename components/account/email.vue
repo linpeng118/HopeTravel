@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="验证邮箱号码" left-arrow @click-left="onClickLeft"/>
+    <van-nav-bar title="验证邮箱号码" left-arrow @click-left="onClickLeft" class="header"/>
     <van-field v-model="email" placeholder="请输入邮箱地址"></van-field>
     <van-field v-model="emailCode" placeholder="请输入邮箱验证码">
       <van-button
@@ -98,6 +98,9 @@
   }
 </script>
 <style lang="scss" scoped>
+  .header{
+    border-bottom: 1px solid #dedede;
+  }
   .btn{
     border-radius:8px;
   }
