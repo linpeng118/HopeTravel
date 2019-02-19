@@ -914,6 +914,7 @@
           bottom: 24px;
           padding: 0 14px;
           height: 32px;
+          line-height: 32px;
           background: rgba(0, 0, 0, 0.55);
           border-radius: 20px;
           font-size: 20px;
