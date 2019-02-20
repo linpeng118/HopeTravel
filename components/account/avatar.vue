@@ -32,6 +32,7 @@
 
 <script>
   import {saveProfile} from '@/api/member'
+  import {getCookieByKey} from '@/assets/js/utils'
   import axios from 'axios'
   export default {
     props: {
@@ -69,14 +70,16 @@
       },
       saveProfile() {
         this.$refs.cropper.getCropBlob((image) => {
-          console.log(image)
           let fmData = new FormData()
           fmData.append('uploadFile', image, this.nickname + Math.random() + 'avatar.jpg')
-          fmData.append('jwt', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiI2IiwiZ2lkIjoiMSIsImV4cCI6MTU0OTMzMDUwM30.lXnR3iGDgZ8ziaxw0sBX9_wF4xdD6d1ULLMe4Xaf6ko')
+          // fmData.append('jwt', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiI2IiwiZ2lkIjoiMSIsImV4cCI6MTU0OTMzMDUwM30.lXnR3iGDgZ8ziaxw0sBX9_wF4xdD6d1ULLMe4Xaf6ko')
           axios({
-            url:'http://assets.tourscool.com/upload.php',
+            url:`http://assets.tourscool.com/upload.php?t=${+new Date()}`,
             method: 'post',
-            data: fmData
+            data: fmData,
+            headers: {
+              'Authorization': getCookieByKey('token') || ''
+            }
           }).then(({data}) => {
             if (data.code === 0) {
               this.$emit('uploadAvatar', data.data.url)
