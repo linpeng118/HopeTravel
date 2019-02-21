@@ -74,7 +74,7 @@
           fmData.append('uploadFile', image, this.nickname + Math.random() + 'avatar.jpg')
           // fmData.append('jwt', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiI2IiwiZ2lkIjoiMSIsImV4cCI6MTU0OTMzMDUwM30.lXnR3iGDgZ8ziaxw0sBX9_wF4xdD6d1ULLMe4Xaf6ko')
           axios({
-            url:`http://assets.tourscool.com/upload.php?t=${+new Date()}`,
+            url:`https://assets.tourscool.com/upload.php?t=${+new Date()}`,
             method: 'post',
             data: fmData,
             headers: {
