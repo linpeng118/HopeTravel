@@ -56,7 +56,9 @@
                 </a>
             </div>
             <div class="s-pic">
-                <img class="img4" src="../../../assets/imgs/activity/yinghuaji/title/3.png" alt="">
+                <a @click="jump('http://m.tourscool.com/product_list?itemType=0&keyWords=%E6%97%A5%E6%9C%AC','tourscool://open/ProductListVC?itemType=1&keyword=%E6%97%A5%E6%9C%AC')">
+                    <img class="img4" src="../../../assets/imgs/activity/yinghuaji/title/3.png" alt="">
+                </a>
             </div>
             <div class="s-pic">
                 <img class="img5" src="../../../assets/imgs/activity/yinghuaji/title/5.png" alt="">
@@ -82,7 +84,9 @@
                 </a>
             </div>
             <div class="s-pic">
-                <img class="img4" src="../../../assets/imgs/activity/yinghuaji/title/3.png" alt="">
+                <a @click="jump('http://m.tourscool.com/product_list?itemType=0&keyWords=%E5%8D%8E%E7%9B%9B%E9%A1%BF','tourscool://open/ProductListVC?itemType=1&keyword=%E5%8D%8E%E7%9B%9B%E9%A1%BF')">
+                    <img class="img4" src="../../../assets/imgs/activity/yinghuaji/title/3.png" alt="">
+                </a>
             </div>
             <div class="s-pic">
                 <img class="img6" src="../../../assets/imgs/activity/yinghuaji/title/4.png" alt="">
@@ -114,7 +118,9 @@
                 </a>
             </div>
             <div class="s-pic">
-                <img class="img4" src="../../../assets/imgs/activity/yinghuaji/title/3.png" alt="">
+                <a @click="jump('http://m.tourscool.com/product_list?itemType=0&keyWords=%E7%BE%8E%E5%9B%BD','tourscool://open/ProductListVC?itemType=1&keyword=%E7%BE%8E%E5%9B%BD')">
+                    <img class="img4" src="../../../assets/imgs/activity/yinghuaji/title/3.png" alt="">
+                </a>       
             </div>
             <div class="s-pic">
                 <img class="img7" src="../../../assets/imgs/activity/yinghuaji/title/6.png" alt="">
