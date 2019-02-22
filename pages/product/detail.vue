@@ -18,8 +18,12 @@
           @change="onBannerChange">
           <van-swipe-item v-for="image in product.images"
             :key="image">
-            <div class="banner-img"
-              :style="{'background': `url(${image}) no-repeat 0 0/100% 100%`}"></div>
+            <!-- <div class="banner-img"
+              :style="{'background': `url(${image}) no-repeat 0 0/100% 100%`}"></div> -->
+            <div class="banner-img">
+              <img :src="image"
+                alt="image">
+            </div>
           </van-swipe-item>
           <!-- banner页数 -->
           <div class="custom-indicator"
@@ -896,6 +900,10 @@
           .banner-img {
             height: 434px;
             width: 100vw;
+            img {
+              height: 434px;
+              width: 100vw;
+            }
           }
           .custom-indicator {
             position: absolute;
