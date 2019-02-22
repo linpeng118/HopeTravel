@@ -155,9 +155,10 @@ export default {
           if(this.isApp){
               window.location.href=appUrl;
           }else{
-              this.$router.push({
-                  path:webUrl
-              })
+               window.location.href=webUrl;
+            //   this.$router.push({
+            //       path:webUrl
+            //   })
           }
       }
   }
