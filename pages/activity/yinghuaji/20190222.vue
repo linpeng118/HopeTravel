@@ -126,16 +126,16 @@
                 <img class="img7" src="../../../assets/imgs/activity/yinghuaji/title/6.png" alt="">
             </div>
             <div class="pro-flex2">
-                <a @click="jump('https://www.tourscool.com/search?w=%E9%BB%84%E7%9F%B3%E5%B0%8F%E6%9C%A8%E5%B1%8B','tourscool://open/ProductListVC?itemType=1&keyword=%E9%BB%84%E7%9F%B3%E5%B0%8F%E6%9C%A8%E5%B1%8B')">
+                <a @click="jump('http://m.tourscool.com/product_list?itemType=0&keyWords=%E9%BB%84%E7%9F%B3%E5%B0%8F%E6%9C%A8%E5%B1%8B','tourscool://open/ProductListVC?itemType=1&keyword=%E9%BB%84%E7%9F%B3%E5%B0%8F%E6%9C%A8%E5%B1%8B')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/26.png" alt="">
-                </a>
-                <a @click="jump('https://www.tourscool.com/search?w=%E5%A4%8F%E5%A8%81%E5%A4%B7','tourscool://open/ProductListVC?itemType=1&keyword=%E5%A4%8F%E5%A8%81%E5%A4%B7')">
+                </a> 
+                <a @click="jump('http://m.tourscool.com/product_list?itemType=0&keyWords=%E5%A4%8F%E5%A8%81%E5%A4%B7','tourscool://open/ProductListVC?itemType=1&keyword=%E5%A4%8F%E5%A8%81%E5%A4%B7')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/27.png" alt="">
-                </a>
-                <a @click="jump('https://www.tourscool.com/search?w=%E6%B3%B0%E5%9B%BD','tourscool://open/ProductListVC?itemType=1&keyword=%E6%B3%B0%E5%9B%BD')">
+                </a> 
+                <a @click="jump('http://m.tourscool.com/product_list?itemType=0&keyWords=%E6%B3%B0%E5%9B%BD','tourscool://open/ProductListVC?itemType=1&keyword=%E6%B3%B0%E5%9B%BD')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/28.png" alt="">
-                </a>
-                <a @click="jump('https://www.tourscool.com/search?w=%E6%96%B0%E8%A5%BF%E5%85%B0','tourscool://open/ProductListVC?itemType=1&keyword=%E6%96%B0%E8%A5%BF%E5%85%B0')">
+                </a> 
+                <a @click="jump('http://m.tourscool.com/product_list?itemType=0&keyWords=%E6%96%B0%E8%A5%BF%E5%85%B0','tourscool://open/ProductListVC?itemType=1&keyword=%E6%96%B0%E8%A5%BF%E5%85%B0')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/29.png" alt="">
                 </a>
             </div>
