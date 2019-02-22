@@ -51,7 +51,7 @@
       </nuxt-link>
       <nuxt-link tag="div" class="entry-tourism" to="/custom">
         <img src="../assets/imgs/home/icon_day.png" alt="">
-        <p class="title">高端定制</p>
+        <p class="title">个性定制</p>
       </nuxt-link>
     </div>
     <!--热门目的地-->
