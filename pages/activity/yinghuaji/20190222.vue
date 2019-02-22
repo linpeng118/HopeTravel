@@ -178,16 +178,16 @@ export default {
     }
     .section2{
         width:100%;
-        height:7295px;
+        height:7500px;
         text-align:center;
-        background:url('../../../assets/imgs/activity/yinghuaji/bg/2.jpg') no-repeat center center/750px 7295px;
+        background:url('../../../assets/imgs/activity/yinghuaji/bg/2.jpg') no-repeat center center/750px 7500px;
         .s-title{
             margin:0 auto;
-            padding-top:00px;
+            padding-top:0px;
         }
         .coupon-size{
             width:750px;
-            height:438px;
+            height:420px;
         }
         .s-pic{
             text-align: center;
