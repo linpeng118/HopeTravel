@@ -378,7 +378,7 @@
       },
       // 返回顶部
       backTop() {
-        console.log("backTop");
+        // console.log("backTop");
         // TODO:可以使用requestAnimationFrame代替setInterval
         clearInterval(this.timer);
         this.timer = setInterval(this.backFn, 20);
