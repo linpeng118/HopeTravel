@@ -202,17 +202,17 @@
           }
           await this.countDown()
         } catch (error) {
-          console.log(error)
+          // console.log(error)
           this.codeType = VERIFY_CODE.START
         }
       },
       countDown() {
         this.timer = setInterval(() => {
-          console.log(this.countDownTime)
+          // console.log(this.countDownTime)
           if (this.countDownTime <= 0) {
             this.codeType = VERIFY_CODE.AGAIN
             this.countDownTime = TIME
-            console.log('countDownTime', this.countDownTime)
+            // console.log('countDownTime', this.countDownTime)
             clearInterval(this.timer)
           } else {
             this.countDownTime--
@@ -291,7 +291,7 @@
             this.$toast(msg)
           }
         } catch (error) {
-          console.log(error)
+          // console.log(error)
         }
         this.submiting = false
       },
@@ -301,7 +301,7 @@
       },
       // 点击服务协议
       onAgreement() {
-        console.log('onAgreement')
+        // console.log('onAgreement')
       },
       // 重置定时器
       resetTimer() {

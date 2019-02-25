@@ -215,7 +215,7 @@ export default {
     },
     // 获取头像图片
     onRead(file) {
-      console.log('sdasd')
+      // console.log('sdasd')
       this.avatar = file.content
       this.showAvatar = !this.showAvatar
     },
@@ -223,7 +223,7 @@ export default {
     uploadAvatar(avatar) {
       this.newProfile.face = avatar
       this.showAvatar = !this.showAvatar
-      console.log(this.newProfile)
+      // console.log(this.newProfile)
     },
     // 绑定手机号
     changePhone() {

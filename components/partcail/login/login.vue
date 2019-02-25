@@ -126,7 +126,7 @@
       }),
       // 切换登录模式
       changeTabs(index, title) {
-        console.log(index, title)
+        // console.log(index, title)
         // 清除定时器
         this.resetTimer()
         if (index === 1) {
@@ -160,17 +160,17 @@
           }
           await this.countDown()
         } catch (error) {
-          console.log(error)
+          // console.log(error)
           this.codeType = VERIFY_CODE.START
         }
       },
       countDown() {
         this.timer = setInterval(() => {
-          console.log(this.countDownTime)
+          // console.log(this.countDownTime)
           if (this.countDownTime <= 0) {
             this.codeType = VERIFY_CODE.AGAIN
             this.countDownTime = TIME
-            console.log('countDownTime', this.countDownTime)
+            // console.log('countDownTime', this.countDownTime)
             clearInterval(this.timer)
           } else {
             this.countDownTime--
@@ -209,7 +209,7 @@
             this.$toast(msg)
           }
         } catch (error) {
-          console.log(error)
+          // console.log(error)
         }
       },
       // 手机登录
@@ -230,7 +230,7 @@
             code: this.phoneForm.smsCode
           })
           if (code === 0) {
-            console.log(data.token)
+            // console.log(data.token)
             await this.vxSetToken(data.token)
             await this.resetTimer()
             await this.$emit('loginCallBack')
@@ -238,7 +238,7 @@
             this.$toast(msg)
           }
         } catch (error) {
-          console.log(error)
+          // console.log(error)
         }
       },
       // 去注册

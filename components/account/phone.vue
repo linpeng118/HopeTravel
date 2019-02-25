@@ -82,11 +82,11 @@ export default {
     },
     countDown() {
       this.timer = setInterval(() => {
-        console.log(this.countDownTime)
+        // console.log(this.countDownTime)
         if (this.countDownTime <= 0) {
           this.codeType = VERIFY_CODE.AGAIN
           this.countDownTime = TIME
-          console.log('countDownTime', this.countDownTime)
+          // console.log('countDownTime', this.countDownTime)
           clearInterval(this.timer)
         } else {
           this.countDownTime--

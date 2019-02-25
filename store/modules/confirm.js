@@ -87,16 +87,16 @@ export default {
         adult:0,
         child:0,
       },
-      console.log('成功执行init')
+      // console.log('成功执行init')
     },
     initpricelist(state) {
-      state[mut.countprice]=localStorage.getItem('pricelist') ? JSON.parse(localStorage.getItem('pricelist')) : {},
-        console.log('成功执行init')
+      state[mut.countprice]=localStorage.getItem('pricelist') ? JSON.parse(localStorage.getItem('pricelist')) : {}
+        // console.log('成功执行init')
     },
     initproduct(state) {
       state[mut.countprice]=localStorage.getItem('product') ? JSON.parse(localStorage.getItem('product')) : {
-      },
-        console.log('成功执行init')
+      }
+        // console.log('成功执行init')
     },
   },
   actions: {

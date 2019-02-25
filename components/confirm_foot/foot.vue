@@ -135,7 +135,7 @@
             message: msg
           });
           this.$store.commit("pricelist", {});
-          console.log('1')
+          // console.log('1')
           this.showbtn2=false;
           this.showbtn=false;
 
@@ -151,7 +151,7 @@
         } else {
           this.thisrouter = 'date_trip'
         }
-        console.log(this.thisrouter)
+        // console.log(this.thisrouter)
       },
       subData(){
         this.$refs.submitform.click();

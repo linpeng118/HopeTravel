@@ -147,7 +147,7 @@
           observeParents: true, //修改swiper的父元素时，自动初始化swiper
           on: {
             slideChange() {
-              console.log('onSlideChangeEnd', this);
+              // console.log('onSlideChangeEnd', this);
             },
             tap(e) {
 
@@ -342,7 +342,7 @@
         this.showsday = sday2;
         this.showeday = eday2;
         var tha = this;
-        console.log(this.roomintnum)
+        // console.log(this.roomintnum)
         this.$store.commit("countprice", {
           product_id: tha.product.product_id,//产品id
           departure_date: parseInt(this.datedata.years) + '-' + parseInt(this.datedata.month) + '-' + parseInt(this.checkday),//出发日期
