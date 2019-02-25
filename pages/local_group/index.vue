@@ -179,7 +179,7 @@
         let currency = await this.appBridge.obtainUserCurrency()
         setCookieByKey('currency', currency.userCurrency)
       } else {
-        console.log('web操作')
+        // console.log('web操作')
       }
     },
     methods: {
@@ -205,7 +205,7 @@
           // 初始化本地跟团数据
           this.localgroupData = res.data
         } catch (error) {
-          console.log(error)
+          // console.log(error)
         }
       },
       // 获取产品列表
@@ -225,7 +225,7 @@
           this.productList = data
           this.prodPagination = pagination
         }
-        console.log(this.productList)
+        // console.log(this.productList)
         this.loading = false
       },
       // 返回上一级页面
@@ -272,14 +272,14 @@
             name: 'product_list-play_foreign',
             query
           })
-          console.log(hotCity)
+          // console.log(hotCity)
         }
       },
       onMoreCity() {
         if (this.isApp) {
           this.appBridge.jumpDestinationView()
         } else {
-          console.log('web操作更多城市')
+          // console.log('web操作更多城市')
           this.$router.push({
             path: '/search'
           })
@@ -296,7 +296,7 @@
           start_city: this.localgroupData[2].data[index].start_city,
           span_city: this.localgroupData[2].data[index].span_city,
         }
-        console.log(submitData)
+        // console.log(submitData)
         this.getProductListData(submitData)
       },
       // 精选下的城市
@@ -355,13 +355,13 @@
             type: LIST_TYPE.LOCAL_GROUP,
             page: this.prodPagination.page + 1
           }
-          console.log(submitData)
+          // console.log(submitData)
           const res = await getProductList(submitData)
           this.productList.push(...res.data)
           this.prodPagination = res.pagination
-          console.log('get more over', this.productList)
+          // console.log('get more over', this.productList)
         } else {
-          console.log('no more')
+          // console.log('no more')
         }
         // 加载状态结束
         this.prodLoading = false;

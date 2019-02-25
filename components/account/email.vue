@@ -82,12 +82,12 @@
         }
       },
       countDown() {
-        console.log('zhixing')
+        // console.log('zhixing')
         this.timer = setInterval(() => {
           if (this.countDownTime <= 0) {
             this.codeType = VERIFY_CODE.AGAIN
             this.countDownTime = TIME
-            console.log('countDownTime', this.countDownTime)
+            // console.log('countDownTime', this.countDownTime)
             clearInterval(this.timer)
           } else {
             this.countDownTime--

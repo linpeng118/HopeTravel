@@ -159,7 +159,8 @@
       async onClickRight() {
         let id='';
         let {data, code} = await setcontanct(this.userform,id)
-        if (code === 0) {console.log(data)
+        if (code === 0) {
+          // console.log(data)
         }
         else {
         }

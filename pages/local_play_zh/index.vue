@@ -173,7 +173,7 @@
           this.appBridge.jumpProductDetailView(json)
         } else {
           // m跳转
-          console.log('m跳转')
+          // console.log('m跳转')
           this.$router.push({
             path: '/product/detail',
             query: {
@@ -212,7 +212,7 @@
         return showList
       },
       doCollect(val) {
-        console.log(val)
+        // console.log(val)
       },
       // 滚动监听显示header
       scrollFn() {
@@ -288,7 +288,7 @@
           })
           // let res = await this.appBridge.collectProductResult()
         } else {
-          console.log(val.product_id)
+          // console.log(val.product_id)
           this.addCollectOrNot(val)
         }
       },

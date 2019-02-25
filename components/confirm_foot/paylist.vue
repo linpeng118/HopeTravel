@@ -87,7 +87,7 @@
     },
     mounted() {
 
-      console.log(this.payData)
+      // console.log(this.payData)
 
     },
     methods: {

@@ -295,13 +295,13 @@
         this.appBridge = require('@/assets/js/appBridge').default
         // this.appBridge.hideNavigationBar()
       } else {
-        console.log('web操作')
+        // console.log('web操作')
       }
     },
     methods: {
       // 热门景点tag
       onTag(item) {
-        console.log(item);
+        // console.log(item);
         this.address = item.title;
       },
       // 定制
@@ -366,7 +366,7 @@
         setTimeout(() => {
           const s2 = this.$refs.refCustomPage.scrollTop;
           const direct = s2 - s1;
-          console.log("direct", direct);
+          // console.log("direct", direct);
           if (s1 === 0) {
             this.isTransparent = true;
           } else if (direct > 0) {
@@ -378,7 +378,7 @@
       },
       // 返回顶部
       backTop() {
-        console.log("backTop");
+        // console.log("backTop");
         // TODO:可以使用requestAnimationFrame代替setInterval
         clearInterval(this.timer);
         this.timer = setInterval(this.backFn, 20);

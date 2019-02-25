@@ -19,7 +19,7 @@ export default function ({
 
   // 请求回调
   $axios.onRequest(config => {
-    console.log('Making request to ' + config.url)
+    // console.log('Making request to ' + config.url)
     if (process.client) {
       // TODO:这里不能动态获取到store中的数据
       let token = getCookieByKey('token');
@@ -35,14 +35,14 @@ export default function ({
 
   // 响应回调
   $axios.onResponse(res => {
-    console.log('Making response to ' + res.url)
+    // console.log('Making response to ' + res.url)
   })
 
   // 错误回调
   $axios.onError(error => {
     const code = parseInt(error.response && error.response.status)
     if (code === 400) {
-      console.log('400')
+      // console.log('400')
     }
   })
 }

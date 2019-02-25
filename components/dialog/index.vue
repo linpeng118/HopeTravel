@@ -85,7 +85,7 @@
         vxToggleDialog: 'toggleDialog'
       }),
       setDlgType(val) {
-        console.log('val', val)
+        // console.log('val', val)
         this.$emit('callSetDlgType', val)
       },
       // 关闭弹窗
