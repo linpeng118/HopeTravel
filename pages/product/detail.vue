@@ -18,8 +18,12 @@
           @change="onBannerChange">
           <van-swipe-item v-for="image in product.images"
             :key="image">
-            <div class="banner-img"
-              :style="{'background': `url(${image}) no-repeat 0 0/100% 100%`}"></div>
+            <!-- <div class="banner-img"
+              :style="{'background': `url(${image}) no-repeat 0 0/100% 100%`}"></div> -->
+            <div class="banner-img">
+              <img :src="image"
+                alt="image">
+            </div>
           </van-swipe-item>
           <!-- banner页数 -->
           <div class="custom-indicator"
@@ -556,7 +560,7 @@
         const {code, data, msg} = await getProductDetail({
           product_id: this.productId,
         })
-        console.log(code, data, msg)
+        // console.log(code, data, msg)
         if (code === 0) {
           this.attributes = data.attributes
           this.attributes_override = data.attributes_override
@@ -575,7 +579,7 @@
         let browsList = getLocalStore('browsList') || []
         browsList.unshift(this.product.product_id)
         let set = [...new Set(browsList)];
-        console.log(set)
+        // console.log(set)
         if (set.length >= 6) {
           set = set.slice(0, 6).map(Number)
         }
@@ -621,7 +625,7 @@
             return '周六'
             break;
           default:
-            console.log(`${week} is not found`)
+            // console.log(`${week} is not found`)
             break;
         }
       },
@@ -629,7 +633,7 @@
         this.showServiceNode = true
       },
       clickTab(tab) {
-        console.log('tab', tab)
+        // console.log('tab', tab)
         this.activeTab = tab.id
         this.activeTabRef = tab.ref
         clearInterval(this.timer)
@@ -896,6 +900,10 @@
           .banner-img {
             height: 434px;
             width: 100vw;
+            img {
+              height: 434px;
+              width: 100vw;
+            }
           }
           .custom-indicator {
             position: absolute;

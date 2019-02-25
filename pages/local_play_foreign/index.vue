@@ -216,7 +216,7 @@
         let {data, code} = await getProductList(ids)
         if (code === 0) {
           this.viewedList = data
-          console.log(this.viewedList)
+          // console.log(this.viewedList)
         } else {
           this.viewedList = []
         }
@@ -226,13 +226,13 @@
         // console.log(productId)
         if (this.isApp) {
           // app详情跳转
-          console.log('app详情跳转')
+          // console.log('app详情跳转')
           this.appBridge.jumpProductDetailView({
             productID: productId.toString()
           })
         } else {
           // m跳转
-          console.log('m跳转')
+          // console.log('m跳转')
           this.$router.push({
             path: '/product/detail',
             query: {
@@ -244,11 +244,11 @@
       // 跳转search
       selectSearch() {
         if (this.isApp) {
-          console.log('app搜索')
+          // console.log('app搜索')
           this.appBridge.jumpSearchView()
         } else {
           // m跳转
-          console.log('m搜索')
+          // console.log('m搜索')
         }
       },
       // 序列化数据
@@ -282,7 +282,7 @@
       },
       // 滚动监听显示header
       scrollFn() {
-        console.log('滚动了')
+        // console.log('滚动了')
         const s1 = this.$refs.refLocalPlayForeign.scrollTop
         const s3 = this.$refs.refAreaMain.offsetHeight
          if (this.isApp) {
@@ -353,7 +353,7 @@
           })
           // let res = await this.appBridge.collectProductResult()
         } else {
-          console.log(val.product_id)
+          // console.log(val.product_id)
           this.addCollectOrNot(val)
         }
       },

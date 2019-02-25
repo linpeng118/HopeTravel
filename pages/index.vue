@@ -270,7 +270,7 @@ export default {
       let SCROLL = 300
       const h1 = this.$refs.refDownBox && this.$refs.refDownBox.getBoundingClientRect().height
       let homeHeight = this.$refs.refHomePage.getBoundingClientRect().height
-      console.log(homeHeight)
+      // console.log(homeHeight)
       if(s1>homeHeight) {
         this.$refs.driftAside.homeScrollShow()
       } else{

@@ -135,9 +135,9 @@
             const s2 = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
             const direct = s2 - s1
             if (s1 === 0) {
-              console.log('处于顶部')
+              // console.log('处于顶部')
             } else if (direct > 0) {
-              console.log('向下滚动')
+              // console.log('向下滚动')
               if(s1 < height) {
                 this.$refs.badgeBar.$el.style.top = (h2 - s1) + 'px'
               }
@@ -236,7 +236,7 @@
         let historyList = getLocalStore(SEARCH_HISTORY) || []
         historyList.unshift(this.searchWords)
         let set = [...new Set(historyList)]
-        console.log(set)
+        // console.log(set)
         if (set.length >= 8) {
           set = set.slice(0, 8)
         }
@@ -267,12 +267,12 @@
       },
       // 获取搜索字段
       queryChange (value) {
-        console.log(value)
+        // console.log(value)
         this.searchWords = value
       },
       // 搜索关键字跳转列表
       selectProductList(type) {
-        console.log(type)
+        // console.log(type)
         let typeItem
         if (type == 1) {
           typeItem = 2
@@ -331,7 +331,7 @@
         })
       },
       selectCountryLine(item){
-        console.log(item)
+        // console.log(item)
       },
     }
   }

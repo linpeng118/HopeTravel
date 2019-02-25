@@ -39,7 +39,7 @@
     computed: {
     },
     mounted() {
-      console.log(111, this.show)
+      // console.log(111, this.show)
     },
     methods: {
       onPhone(item) {

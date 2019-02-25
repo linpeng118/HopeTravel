@@ -109,24 +109,24 @@ export default {
       let anchorIndex = this.getData(e.target, 'index')
       this.touch.y1 = e.touches[0].pageY
       this.touch.anchorIndex = anchorIndex
-      console.log(this.touch)
+      // console.log(this.touch)
       this._scrollTo(anchorIndex)
     },
     getData(el, name, val) {
-      console.log('getData')
+      // console.log('getData')
       const prefix = 'data-'
       name = prefix + name
       if (val) {
         return el.setAttribute(name, val)
       } else {
-        console.log('coming')
+        // console.log('coming')
         return el.getAttribute(name)
       }
     },
     _scrollTo(key) {
       // this.$refs['listGroup' + key].scrollTop = 200
       // console.log(this.$refs['listGroup' + key][0].getBoundingClientRect())
-      console.log(this.$refs.cityWrap.scrollTop)
+      // console.log(this.$refs.cityWrap.scrollTop)
       this.$refs.cityWrap.scrollTop = 200
     }
   }

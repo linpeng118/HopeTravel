@@ -62,7 +62,7 @@
       },
       startCrop() {
         this.$refs.cropper.getCropBlob((data) => {
-          console.log(data)
+          // console.log(data)
           let fmData = new FormData()
           fmData.append('uploadFile', data, 'avatar.jpg')
           fmData.append('jwt', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiI2IiwiZ2lkIjoiMSIsImV4cCI6MTU0OTMzMDUwM30.lXnR3iGDgZ8ziaxw0sBX9_wF4xdD6d1ULLMe4Xaf6ko')
@@ -72,14 +72,14 @@
             method: 'post',
             data: fmData
           }).then(res => {
-            console.log(res)
+            // console.log(res)
           })
         })
 
       },
       realTime(data) {
         this.previews = data
-        console.log(this.previews)
+        // console.log(this.previews)
       }
     }
 
