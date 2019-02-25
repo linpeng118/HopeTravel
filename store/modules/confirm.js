@@ -86,7 +86,7 @@ export default {
         is_point: false,//是否使用积分
         adult:0,
         child:0,
-      },
+      }
       // console.log('成功执行init')
     },
     initpricelist(state) {
