@@ -3,17 +3,17 @@
        ref="refCustomPage">
     <div class="custom-content">
       <!-- header -->
-      <normal-header v-if="!isApp"
+      <normal-header v-if="!isApp&&!this.$route.query.id"
                      :title="'私人定制'"
                      :transparent="isTransparent"
                      fixed />
       <!-- banner -->
-      <div class="banner">
+      <div class="banner mainbg">
         <div class="tag-sel">
           <p class="ptype1 basebg" v-if="hidelist" @click="hidelist=false">
             <i class="iconadd"><img src="../../assets/imgs/icon_pos@2x.png" alt=""></i>
-            <span class="span1">{{objpro.custom.ch_name}}</span>
-            <span class="span2">{{objpro.custom.en_name}}</span>
+            <span class="span1">{{objpro.custom.ch_name||''}}</span>
+            <span class="span2">{{objpro.custom.en_name||''}}</span>
             <i class="icondown"><img src="../../assets/imgs/newcustom/down.png" alt=""></i>
           </p>
           <p class="ptype2 basebg" v-if="!hidelist" @click="hidelist=true">
@@ -23,18 +23,22 @@
             <i class="icondown"><img src="../../assets/imgs/newcustom/down.png" alt=""></i>
           </p>
           <div v-if="!hidelist" class="setlistbox">
-            <p class="ptype3 basebg" :style="ind+1!=objlist.length?'border-radius:0':''" v-for="(item,ind) in objlist" :key="ind">
+           
+             <p class="ptype3 basebg" @click="getitem(item.id)" v-for="(item,ind) in objlist" :key="ind" :style="ind+1!=objlist.length?'border-radius:0':''" >
               <i class="iconadd"><img src="../../assets/imgs/icon_pos@2x.png" alt="" style="opacity: 0"></i>
               <span class="span1">{{item.ch_name}}</span>
               <span class="span2">{{item.en_name||''}}</span>
               <i class="icondown">
-                <img :style="objId==item.id?'opacity:0':''" src="../../assets/imgs/newcustom/checkmark@2x.png" alt="">
+                <img :style="objId==item.id?'opacity:1':'opacity:0'" src="../../assets/imgs/newcustom/checkmark@2x.png" alt="">
               </i>
             </p>
+            
           </div>
         </div>
         <div class="tag-list">
-          <div v-for="(tag,ind) in tagList" :key="ind" class="tagitem">{{tag.title}}</div>
+          <div class="tagitem"><a href="#pingjia">客人感受</a></div>
+           <div class="tagitem"><a href="#luxian">经典路线</a></div>
+            <div class="tagitem"><a href="#guwen">专属顾问</a></div>
         </div>
         <div class="form-wrap">
               <div class="setover" ref="boxover">
@@ -82,12 +86,12 @@
             <p>管家式服务，出行有保障</p>
           </div>
         </div>
-        <div class="ab-icom">
+        <div class="ab-icom" @click="toList2">
           <img class="abimg" src="../../assets/imgs/newcustom/921@2x.png" alt="">
         </div>
       </div>
       <!-- 客人评价 -->
-      <div class="season-recommend">
+      <div class="season-recommend" id="pingjia">
         <div class="season-title">客人评价</div>
         <div class="season-wrap swiper-container"
              v-swiper:mySwiper="swiperOption">
@@ -112,7 +116,7 @@
         <div class="btn-more baseboder basecolor" @click="toList">立刻咨询</div>
       </div>
       <!-- 经典路线 -->
-      <div class="season-recommend" style=" height: auto!important;">
+      <div class="season-recommend" style=" height: auto!important;" id="luxian">
         <div class="season-title">经典路线</div>
         <div class="season-item2" v-for="item in objpro.custom_spot" :key="item.id" @click="onSeasonRecommend(item)">
           <div class="imgbox">
@@ -131,7 +135,7 @@
 
       </div>
       <!-- 专属顾问 -->
-      <div class="season-recommend">
+      <div class="season-recommend" id="guwen">
         <div class="season-title">您的专属顾问</div>
         <div class="season-wrap swiper-container"
              v-swiper:mySwiper2="swiperOption2">
@@ -140,7 +144,7 @@
              <div class="swiper-else">
                <li>
                  <div class="imgbox">
-                   <img src="" alt="">
+                   <img src="../../assets/imgs/newcustom/872629054653392492(2)@2x.png" alt="">
                  </div>
                  <p class="pname">Elaine.江</p>
                  <p class="p2">旅游行业：4年</p>
@@ -148,37 +152,74 @@
                </li>
                <li>
                  <div class="imgbox">
-                   <img src="" alt="">
+                  <img src="../../assets/imgs/newcustom/448d62ba3846963ad9ae26a18207118@2x.png" alt="">
                  </div>
-                 <p class="pname">Elaine.江</p>
-                 <p class="p2">旅游行业：4年</p>
-                 <p class="p3">新西兰 / 澳洲 / 美国</p>
+                 <p class="pname">李汀</p>
+                 <p class="p2">旅游行业：8年</p>
+                 <p class="p3">东南亚 / 摩洛哥 / 土耳其</p>
                </li>
                <li>
                  <div class="imgbox">
-                   <img src="" alt="">
+                  <img src="../../assets/imgs/newcustom/237733491447598803(2)@2x.png" alt="">
                  </div>
-                 <p class="pname">Elaine.江</p>
-                 <p class="p2">旅游行业：4年</p>
-                 <p class="p3">新西兰 / 澳洲 / 美国</p>
+                 <p class="pname">SKY.海</p>
+                 <p class="p2">旅游行业：6年</p>
+                 <p class="p3">海岛 / 日本 / 希腊</p>
                </li>
                <li>
                  <div class="imgbox">
-                   <img src="" alt="">
+                  <img src="../../assets/imgs/newcustom/44458612664068507@2x.png" alt="">
                  </div>
-                 <p class="pname">Elaine.江</p>
-                 <p class="p2">旅游行业：4年</p>
-                 <p class="p3">新西兰 / 澳洲 / 美国</p>
+                 <p class="pname">Liang yu</p>
+                 <p class="p2">旅游行业：6年</p>
+                 <p class="p3">欧洲 / 新加坡 / 巴厘岛</p>
                </li>
              </div>
             </div>
+             <div class="swiper-slide">
+             <div class="swiper-else">
+               <li>
+                 <div class="imgbox">
+                   <img src="../../assets/imgs/newcustom/5d61d128-27aa-408c-be69-215c3d76c48a@2x.png" alt="">
+                 </div>
+                 <p class="pname">Nate.帆</p>
+                 <p class="p2">旅游行业：5年</p>
+                 <p class="p3">毛里求斯 / 迪拜 / 北欧</p>
+               </li>
+               <li>
+                 <div class="imgbox">
+                  <img src="../../assets/imgs/newcustom/672a1fe214ece9ef76207cd13b3c500@2x.png" alt="">
+                 </div>
+                 <p class="pname">Elliott</p>
+                 <p class="p2">旅游行业：3年</p>
+                 <p class="p3">美国 / 加拿大</p>
+               </li>
+               <li>
+                 <div class="imgbox">
+                  <img src="../../assets/imgs/newcustom/861493c6411cb005060fc0d3251dc38@2x.png" alt="">
+                 </div>
+                 <p class="pname">Gabriel</p>
+                 <p class="p2">旅游行业：5年</p>
+                 <p class="p3">澳洲</p>
+               </li>
+               <li>
+                 <div class="imgbox">
+                  <img src="../../assets/imgs/newcustom/wKgBs1cga7GAeyMaAAkpeo2rFFE86@2x.png" alt="">
+                 </div>
+                 <p class="pname">keith</p>
+                 <p class="p2">旅游行业：5年</p>
+                 <p class="p3">日本 / 韩国</p>
+               </li>
+             </div>
             </div>
+
           </div>
+        </div>
         <div class="swiper-pagination" id="swiperelse" style="position: relative"></div>
         <div class="btn-more baseboder basecolor" @click="toList">立刻咨询</div>
       </div>
       <!--第二个from-->
-      <div class="banner2">
+      <div class="banner2 mainbg">
         <div class="form-wrap">
           <h1 class="banner-title">私人定制</h1>
           <h3 class="banner-desc">旅游自由随心，体验独一无二</h3>
@@ -187,8 +228,8 @@
             <div class="form-input">
               <div class="left-icon icon-addr"></div>
               <van-cell-group class="transparent-input tours-input-no-bg">
-                <van-field v-model="address"
-                           style="border-bottom: 1px solid #C9C9C9;color: #000"
+                <van-field v-model="address1"
+                           style="border-bottom: 1px solid #C9C9C9;color:#000"
                            placeholder="请填写您想去的目的地或景点" />
               </van-cell-group>
 
@@ -197,7 +238,7 @@
             <div class="form-input phone">
               <div class="left-icon icon-phone"></div>
               <van-cell-group class="transparent-input tours-input-no-bg">
-                <van-field v-model="phone" style="border-bottom: 1px solid #C9C9C9;color: #000"
+                <van-field v-model="phone1" style="border-bottom: 1px solid #C9C9C9;color: #000"
                            placeholder="请填写您的电话号码" />
               </van-cell-group>
               <div class="right basecolor">*</div>
@@ -206,7 +247,7 @@
             <div class="form-input wechat">
               <div class="left-icon icon-wx"></div>
               <van-cell-group class="transparent-input tours-input-no-bg">
-                <van-field v-model="wechat" style="border-bottom: 1px solid #C9C9C9;color: #000"
+                <van-field v-model="wechat1" style="border-bottom: 1px solid #C9C9C9;color: #000"
                            placeholder="请填写您的微信号码" />
               </van-cell-group>
               <div class="right basecolor">*</div>
@@ -215,7 +256,7 @@
             <van-button class=" tours-button-no-bg btn-custom basebg"
                         size="large"
                         :loading="submiting"
-                        @click="onCustom">开始定制</van-button>
+                        @click="onCustom2">开始定制</van-button>
           </div>
         </div>
       </div>
@@ -237,6 +278,7 @@
          v-show="!isTransparent"
          @click="backTop">
     </div>
+    <loading v-show="loading"></loading>
   </div>
 </template>
 
@@ -248,19 +290,20 @@
   import {getcitylist} from "@/api/custom";
   import {getcustom} from "@/api/custom";
   import {isMobile} from "@/assets/js/utils";
-
+  import Loading from '@/components/loading'
   export default {
     components: {
       NormalHeader,
       transpTag,
+      Loading
     },
     data() {
       return {
         isApp: this.$route.query.platform,
         isTransparent: true, // 导航头是否透明
         swiperOption: {
-          loop: true,
           centeredSlides: true, // 居中
+          initialSlide:2,
           slidesPerView: "auto",
           observer: true, //修改swiper自己或子元素时，自动初始化swiper
           observeParents: true, //修改swiper的父元素时，自动初始化swiper
@@ -271,6 +314,7 @@
         swiperOption2: {
           loop: true,
           centeredSlides: true, // 居中
+          initialSlide:0,
           slidesPerView: "auto",
           observer: true, //修改swiper自己或子元素时，自动初始化swiper
           observeParents: true, //修改swiper的父元素时，自动初始化swiper
@@ -286,8 +330,12 @@
         address: "",
         phone: "",
         wechat:'',
+        address1: "",
+        phone1: "",
+        wechat1:'',
         tipMsg: "请输入想去的地址或景点",
         canSubmit: false,
+        loading:false,
         submiting: false,
         featureList: [
           {
@@ -349,6 +397,10 @@
         hidelist:true,
       };
     },
+    activated(){
+       this.getlist();
+       this.getitem();
+    },
     mounted() {
       // 监听滚动
       this.$refs.refCustomPage.addEventListener(
@@ -356,8 +408,9 @@
         _throttle(this.scrollFn, 200)
       );
       let this_=this;
-      this_.getitem();
       this_.getlist();
+      this_.getitem();
+    
       if(this.setInv!=null){
         clearInterval(this.setInv)
       }
@@ -371,21 +424,37 @@
     },
     methods: {
       //   得到详细信息
-      async getitem() {
-        let {data, code} = await getcustom(this.objId)
+      async getitem(x) {
+        this.loading=true;
+        if(x){
+          this.objId=x;
+          this.hidelist=true;
+        }
+        if(this.objId){
+let {data, code} = await getcustom(x||this.objId)
         if(code === 0) {
+          this.loading=false;
           this.objpro = data;
+          this.address=this.objpro.custom.ch_name
           this.setstyle();
         } else {
-
+          this.loading=false;
+            this.objpro = { custom:{},
+          custom_spot:[],
+          custom_view:[]};
         }
+        }
+        
       },
       async getlist() {
         let {data, code} = await getcitylist()
         if(code === 0) {
           this.objlist = data;
+          if(!this.objId){
+            this.objId=this.objlist[0].id;
+             this.getitem();
+          }
         }
-
       },
       // 定制
       onCustom() {
@@ -402,6 +471,25 @@
         this.doCustom({
           destination: this.address,
           phone: this.phone,
+          wechat: ''
+        });
+      },
+       // 定制
+      onCustom2() {
+        if (!this.address1) {
+          this.$toast("请输入想去的地址或景点");
+          this.submiting = false;
+          return;
+        }
+        if (!this.phone1 && !this.wechat1) {
+          this.$toast("请输入电话号码或者微信号码至少一个");
+          this.submiting = false;
+          return;
+        }
+        this.doCustom({
+          destination: this.address1,
+          phone: this.phone1,
+          wechat: this.wechat1
         });
       },
       // 提交定制
@@ -411,6 +499,12 @@
         let {code, data, msg} = await custom(subData);
         this.$toast(msg);
         this.submiting = false;
+         this.address1='';
+         this.phone1='';
+         this.wechat1='';
+         this.address='';
+         this.phone='';
+         this.wechat='';
       },
       // 季推荐
       onSeasonRecommend(item) {
@@ -418,7 +512,11 @@
       },
       // 查看全部list
       toList() {
-        this.jumpToPage("custom/list");
+         this.backTop();
+      },
+       // 查看全部list
+      toList2() {
+         window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226'
       },
       // 故事
       onSlide(val) {
@@ -443,7 +541,6 @@
       setover(){
         var this_=this;
         try {
-
           const h1 = this.$refs.boxover.offsetHeight;
           const hall = this.$refs.conover.offsetHeight;
           const mnow = parseInt(this.$refs.conover.style.marginTop);
@@ -461,12 +558,12 @@
             clearInterval(this.setInv)
           }
           this.setInv= setInterval(function(){ this_.setover();}, 1000);
-
         }
 
       },
       // 滚动函数
       scrollFn() {
+        this.hidelist=true;
         const s1 = this.$refs.refCustomPage.scrollTop;
         if (this.isApp) {
           this.appBridge.webViewScrollViewDidScroll({'top': s1.toString()})
@@ -501,14 +598,15 @@
       },
       setstyle(){
         let maincolor=this.objpro.custom.tone;
+        let url=this.objpro.custom.m_head_image_url;
         if(document.all){
-          window.style=".basecolor{color:"+maincolor+"!important;}.basebg{background-color:"+maincolor+"!important;}.baseboder{border:2px solid "+maincolor+"!important;}";
+          window.style=".basecolor{color:"+maincolor+"!important;}.basebg{background-color:"+maincolor+"!important;}.baseboder{border:2px solid "+maincolor+"!important;}.mainbg{background: url('"+url+"') no-repeat 0 0px/100%!important;}";
           document.createStyleSheet("javascript:style");
         }
         else{
           let style = document.createElement('style');
           style.type = 'text/css';
-          style.innerHTML=".basecolor{color:"+maincolor+"!important;}.basebg{background-color: "+maincolor+"!important;}.baseboder{border:2px solid "+maincolor+"!important;}";
+          style.innerHTML=".basecolor{color:"+maincolor+"!important;}.basebg{background-color: "+maincolor+"!important;}.baseboder{border:2px solid "+maincolor+"!important;}.mainbg{background: url('"+url+"') no-repeat 0 0px/100%!important;}";
           document.getElementsByTagName('HEAD').item(0).appendChild(style);
         }
       }
@@ -517,6 +615,7 @@
 </script>
 
 <style lang="scss" scoped>
+
   .custom-page {
     height: 100vh;
     font-size: 0;
@@ -545,7 +644,7 @@
               font-size: 36px;
               position: relative;
               width: 200px;
-              text-align: center;
+              text-align: center;            
               top: -5px;
               color: #fff;
               border-right: 2px solid #fff;
@@ -558,6 +657,7 @@
               position: relative;
               top: -5px;
               width: 300px;
+              text-align: center;
               display: inline-block;
               font-size: 36px;
               color: #fff;
@@ -593,6 +693,7 @@
               font-weight: bold;
               font-size: 36px;
               position: relative;
+              text-align: center;
               top: -5px;
               width: 200px;
               color: #fff;
@@ -607,6 +708,7 @@
               top: -5px;
               width: 300px;
               display: inline-block;
+               text-align: center;
               font-size: 36px;
               color: #fff;
               opacity: .6;
@@ -642,6 +744,7 @@
               position: relative;
               top: -5px;
               width: 200px;
+               text-align: center;
               color: #fff;
               border-right: 2px solid #fff;
               padding-right: 20px;
@@ -653,6 +756,7 @@
               font-weight: bold;
               position: relative;
               top: -5px;
+               text-align: center;
               width: 300px;
               display: inline-block;
               font-size: 36px;
@@ -677,7 +781,7 @@
           }
           .setlistbox{
             float: left;
-            position: relative;
+            position: absolute;
           }
         }
         .tag-list {
@@ -695,6 +799,9 @@
             box-shadow:0px 0px 12px rgba(0,0,0,0.4);
             opacity:1;
             border-radius:38px;
+            a{
+              color: #fff
+            }
           }
           .tagitem:nth-child(2){
             margin: 0 26px;
@@ -871,6 +978,7 @@
               }
               .transparent-input {
                 flex: 1;
+                color:#000
               }
               .right {
                 flex: 0 0 30px;
@@ -1097,7 +1205,7 @@
               .imgbox{
                 width: 187px;
                 height: 187px;
-                background-color: #399EF6;
+               
                 border-radius: 187px;
                 margin: 0 auto;
                 overflow: hidden;
@@ -1114,6 +1222,8 @@
                 height: 42px;
                 line-height: 42px;
                 color: #fff;
+                z-index:200;
+                position:relative;
                 background: -o-linear-gradient(49deg, #5D98FF 0%, #DA8EFF 100%);
                 background: linear-gradient(41deg, #5D98FF 0%, #DA8EFF 100%);
                 border-radius:22px;
