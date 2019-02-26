@@ -46,6 +46,10 @@ let plugins = [{
     src: '~/plugins/ga/google.js',
     ssr: false
   },
+  {
+    src: '~/plugins/ga/facebook.js',
+    ssr: false
+  },
 ]
 
 let devPlugins = [{
