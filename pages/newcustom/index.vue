@@ -323,7 +323,7 @@
           }
         },
         tagList: [
-          {title: "客人感受"},
+          {title: "客人评价"},
           {title: "经典路线"},
           {title: "专属顾问"}
         ],
@@ -571,7 +571,6 @@ let {data, code} = await getcustom(x||this.objId)
         setTimeout(() => {
           const s2 = this.$refs.refCustomPage.scrollTop;
           const direct = s2 - s1;
-          console.log("direct", direct);
           if (s1 === 0) {
             this.isTransparent = true;
           } else if (direct > 0) {
@@ -588,6 +587,39 @@ let {data, code} = await getcustom(x||this.objId)
         clearInterval(this.timer);
         this.timer = setInterval(this.backFn, 20);
       },
+      // 返回顶部
+      backelse(x) {
+        clearInterval(this.timer);
+        this.timer = setInterval(this.backFnx(x), 20);
+      },
+      backFnx(x) {
+        if(x==1){
+          let scrollTop = this.$refs.refCustomPage.scrollTop;
+          let ispeed = Math.floor(-scrollTop / 5);
+          this.$refs.refCustomPage.scrollTop = scrollTop + ispeed;
+          if (scrollTop === 0) {
+            clearInterval(this.timer);
+          }
+        }
+        else if(x==2){
+          let scrollTop = this.$refs.refCustomPage.scrollTop;
+          let ispeed = Math.floor(-scrollTop / 5);
+          this.$refs.refCustomPage.scrollTop = scrollTop + ispeed;
+          if (scrollTop === 0) {
+            clearInterval(this.timer);
+          }
+        }
+       else{
+          let scrollTop = this.$refs.refCustomPage.scrollTop;
+          let ispeed = Math.floor(-scrollTop / 5);
+          this.$refs.refCustomPage.scrollTop = scrollTop + ispeed;
+          if (scrollTop === 0) {
+            clearInterval(this.timer);
+          }
+        }
+
+      },
+
       backFn() {
         let scrollTop = this.$refs.refCustomPage.scrollTop;
         let ispeed = Math.floor(-scrollTop / 5);
@@ -1040,9 +1072,9 @@ let {data, code} = await getcustom(x||this.objId)
 
         }
         .ab-icom{
-          position: relative;
-          float: right;
-          margin-top: -245px;
+          position: fixed;
+          right:40px;
+          bottom:30%;
           width: 136px;
           height: 136px;
           background:url("../../assets/imgs/newcustom/538@2x.png") no-repeat;
@@ -1270,7 +1302,6 @@ let {data, code} = await getcustom(x||this.objId)
         width: 100%;
         text-align: center;
         margin-top: 40px;
-        background: #fff;
         overflow: hidden;
         .features-title {
           margin-top: 86px;
