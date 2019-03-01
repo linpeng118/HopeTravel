@@ -1088,7 +1088,10 @@ let {data, code} = await getcustom(x||this.objId)
               }
               .transparent-input {
                 flex: 1;
-                color:#000
+                color:#000;
+                input{
+                font-size: 30px;
+              }
               }
               .right {
                 flex: 0 0 30px;
@@ -1185,7 +1188,8 @@ let {data, code} = await getcustom(x||this.objId)
         }
         .season-item2{
           width: 686px;
-          height: 646px;
+          border-radius: 12px;
+          height: 666px;
           margin: 32px;
           box-shadow:0px 0px 12px rgba(0,0,0,0.16);
           .imgbox>img{
@@ -1204,7 +1208,9 @@ let {data, code} = await getcustom(x||this.objId)
           }
           .season-ul{
             border-bottom:1px solid rgba(228,228,228,1);
-            padding: 10px 24px;
+            margin: 0 24px;
+            padding: 10px 0 20px 0;
+            width: 638px;
           }
 
           .season-ul li{
@@ -1225,7 +1231,7 @@ let {data, code} = await getcustom(x||this.objId)
           .season-price{
             line-height: 80px;
             padding-left: 24px;
-            height: 80px;
+            height: 100px;
             font-size: 24px;
           }
         }
@@ -1368,7 +1374,8 @@ let {data, code} = await getcustom(x||this.objId)
         .btn-more {
           margin: 14px auto 0;
           width: 586px;
-          height: 72px;
+          height: 78px;
+          box-sizing: border-box;
           line-height: 72px;
           font-size: 28px;
           background:#fff;
@@ -1410,8 +1417,8 @@ let {data, code} = await getcustom(x||this.objId)
               height: 124px;
             }
             .features-item-title {
-              line-height: 52px;
-              height: 52px;
+              line-height: 42px;
+              height: 42px;
               font-size: 28px;
               color: #414141;
             }
@@ -1476,8 +1483,8 @@ let {data, code} = await getcustom(x||this.objId)
       z-index: 999;
       right: 38px;
       bottom: 58px;
-      width: 120px;
-      height: 120px;
+      width: 136px;
+      height: 136px;
       background: url("../../assets/imgs/custom/back_top@2x.png") no-repeat center
       center/100%;
     }
