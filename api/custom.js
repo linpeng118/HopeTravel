@@ -7,3 +7,9 @@ export const custom = (data) => {
     wechat: data.wechat,
   })
 }
+export const getcustom = (id) => {
+  return axios.get('/api/config/custom?custom_id='+id)
+}
+export const getcitylist = () => {
+  return axios.get('/api/config/custom?custom_id='+0)
+}
