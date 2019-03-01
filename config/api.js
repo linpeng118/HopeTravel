@@ -5,7 +5,7 @@ const dev = {
 }
 
 const qa = {
-  base: 'http://.apiqa.tourscool.net',
+  base: 'http://.api/qa.tourscool.net',
   payment: 'http://www.htw.tourscool.net',
 }
 

@@ -23,8 +23,8 @@
             <i class="icondown"><img src="../../assets/imgs/newcustom/down.png" alt=""></i>
           </p>
           <div v-if="!hidelist" class="setlistbox">
-           
-             <p class="ptype3 basebg" @click="getitem(item.id)" v-for="(item,ind) in objlist" :key="ind" :style="ind+1!=objlist.length?'border-radius:0':''" >
+
+             <p class="ptype3 basebg" @click="newitem(item.id)" v-for="(item,ind) in objlist" :key="ind" :style="ind+1!=objlist.length?'border-radius:0':''" >
               <i class="iconadd"><img src="../../assets/imgs/icon_pos@2x.png" alt="" style="opacity: 0"></i>
               <span class="span1">{{item.ch_name}}</span>
               <span class="span2">{{item.en_name||''}}</span>
@@ -32,13 +32,13 @@
                 <img :style="objId==item.id?'opacity:1':'opacity:0'" src="../../assets/imgs/newcustom/checkmark@2x.png" alt="">
               </i>
             </p>
-            
+
           </div>
         </div>
         <div class="tag-list">
-          <div class="tagitem"><a href="#pingjia">客人感受</a></div>
-           <div class="tagitem"><a href="#luxian">经典路线</a></div>
-            <div class="tagitem"><a href="#guwen">专属顾问</a></div>
+          <div class="tagitem" @click="backelse(1)"><a>客人评价</a></div>
+           <div class="tagitem" @click="backelse(2)"><a>经典路线</a></div>
+            <div class="tagitem" @click="backelse(3)"><a>专属顾问</a></div>
         </div>
         <div class="form-wrap">
               <div class="setover" ref="boxover">
@@ -91,7 +91,7 @@
         </div>
       </div>
       <!-- 客人评价 -->
-      <div class="season-recommend" id="pingjia">
+      <div class="season-recommend" ref="pingjia">
         <div class="season-title">客人评价</div>
         <div class="season-wrap swiper-container"
              v-swiper:mySwiper="swiperOption">
@@ -116,7 +116,7 @@
         <div class="btn-more baseboder basecolor" @click="toList">立刻咨询</div>
       </div>
       <!-- 经典路线 -->
-      <div class="season-recommend" style=" height: auto!important;" id="luxian">
+      <div class="season-recommend" style=" height: auto!important;" ref="luxian">
         <div class="season-title">经典路线</div>
         <div class="season-item2" v-for="item in objpro.custom_spot" :key="item.id" @click="onSeasonRecommend(item)">
           <div class="imgbox">
@@ -135,7 +135,7 @@
 
       </div>
       <!-- 专属顾问 -->
-      <div class="season-recommend" id="guwen">
+      <div class="season-recommend" ref="guwen">
         <div class="season-title">您的专属顾问</div>
         <div class="season-wrap swiper-container"
              v-swiper:mySwiper2="swiperOption2">
@@ -323,7 +323,7 @@
           }
         },
         tagList: [
-          {title: "客人感受"},
+          {title: "客人评价"},
           {title: "经典路线"},
           {title: "专属顾问"}
         ],
@@ -407,10 +407,11 @@
         "scroll",
         _throttle(this.scrollFn, 200)
       );
+
       let this_=this;
       this_.getlist();
       this_.getitem();
-    
+
       if(this.setInv!=null){
         clearInterval(this.setInv)
       }
@@ -444,8 +445,9 @@ let {data, code} = await getcustom(x||this.objId)
           custom_view:[]};
         }
         }
-        
+
       },
+
       async getlist() {
         let {data, code} = await getcitylist()
         if(code === 0) {
@@ -508,7 +510,7 @@ let {data, code} = await getcustom(x||this.objId)
       },
       // 季推荐
       onSeasonRecommend(item) {
-        this.jumpToPage(item.path);
+        // this.jumpToPage(item.url);
       },
       // 查看全部list
       toList() {
@@ -536,6 +538,11 @@ let {data, code} = await getcustom(x||this.objId)
           };
         }
         this.$router.push(myRouter);
+      },
+      newitem(x){
+        this.$router.push('/newcustom?id='+x);
+        this.getitem(x)
+
       },
       //循环滚动函数
       setover(){
@@ -571,7 +578,6 @@ let {data, code} = await getcustom(x||this.objId)
         setTimeout(() => {
           const s2 = this.$refs.refCustomPage.scrollTop;
           const direct = s2 - s1;
-          console.log("direct", direct);
           if (s1 === 0) {
             this.isTransparent = true;
           } else if (direct > 0) {
@@ -584,10 +590,35 @@ let {data, code} = await getcustom(x||this.objId)
       // 返回顶部
       backTop() {
         console.log("backTop");
-        // TODO:可以使用requestAnimationFrame代替setInterval
         clearInterval(this.timer);
         this.timer = setInterval(this.backFn, 20);
       },
+      // 返回顶部
+      backelse(x) {
+        console.log('1')
+        clearInterval(this.timer);
+        this.timer = setInterval(this.backFnx(x), 20);
+      },
+      backFnx(x) {
+        let scrollTop = null;
+        if(x==1){
+          scrollTop = this.$refs.pingjia.offsetTop;
+        }
+        else if(x==2){
+          scrollTop = this.$refs.luxian.offsetTop;
+        }
+       else{
+          scrollTop = this.$refs.guwen.offsetTop;
+        }
+        console.log(scrollTop)
+        let ispeed = Math.floor(-scrollTop / 5);
+        this.$refs.refCustomPage.scrollTop = scrollTop + ispeed;
+        if (scrollTop + ispeed >= 0) {
+          clearInterval(this.timer);
+        }
+
+      },
+
       backFn() {
         let scrollTop = this.$refs.refCustomPage.scrollTop;
         let ispeed = Math.floor(-scrollTop / 5);
@@ -644,7 +675,7 @@ let {data, code} = await getcustom(x||this.objId)
               font-size: 36px;
               position: relative;
               width: 200px;
-              text-align: center;            
+              text-align: center;
               top: -5px;
               color: #fff;
               border-right: 2px solid #fff;
@@ -1040,11 +1071,12 @@ let {data, code} = await getcustom(x||this.objId)
 
         }
         .ab-icom{
-          position: relative;
-          float: right;
-          margin-top: -245px;
+          position: fixed;
+          right:40px;
+          bottom:30%;
           width: 136px;
           height: 136px;
+          z-index: 10000;
           background:url("../../assets/imgs/newcustom/538@2x.png") no-repeat;
           background-size: 136px;
           background-position: center;
@@ -1205,7 +1237,7 @@ let {data, code} = await getcustom(x||this.objId)
               .imgbox{
                 width: 187px;
                 height: 187px;
-               
+
                 border-radius: 187px;
                 margin: 0 auto;
                 overflow: hidden;
@@ -1270,7 +1302,6 @@ let {data, code} = await getcustom(x||this.objId)
         width: 100%;
         text-align: center;
         margin-top: 40px;
-        background: #fff;
         overflow: hidden;
         .features-title {
           margin-top: 86px;
