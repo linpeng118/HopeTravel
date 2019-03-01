@@ -118,7 +118,7 @@
           </div>
           <div class="swiper-pagination "></div>
         </div>
-        <div class="btn-more baseboder basecolor" @click="toList">立刻咨询</div>
+        <div class="btn-more baseboder basecolor" @click="toList">立即定制</div>
       </div>
       <!-- 经典路线 -->
       <div class="season-recommend" style=" height: auto!important;" ref="luxian">
@@ -135,7 +135,7 @@
           </ul>
           <p class="season-price basecolor">参考价格：<span class="pricebig">￥ {{item.price}}</span> 人/起</p>
         </div>
-        <div class="btn-more baseboder basecolor" @click="toList">立刻咨询</div>
+        <div class="btn-more baseboder basecolor" @click="toList">立即定制</div>
         <div class="season-else"></div>
 
       </div>
@@ -221,7 +221,7 @@
           </div>
         </div>
         <div class="swiper-pagination" id="swiperelse" style="position: relative"></div>
-        <div class="btn-more baseboder basecolor" @click="toList">立刻咨询</div>
+        <div class="btn-more baseboder basecolor" @click="toList">立即定制</div>
       </div>
       <!--第二个from-->
       <div class="banner2 ">
@@ -694,7 +694,7 @@ let {data, code} = await getcustom(x||this.objId)
               font-weight: bold;
               font-size: 36px;
               position: relative;
-              width: 200px;
+              width: 180px;
               text-align: center;
               top: -5px;
               color: #fff;
@@ -746,7 +746,7 @@ let {data, code} = await getcustom(x||this.objId)
               position: relative;
               text-align: center;
               top: -5px;
-              width: 200px;
+              width: 180px;
               color: #fff;
               border-right: 2px solid #fff;
               padding-right: 20px;
@@ -794,7 +794,7 @@ let {data, code} = await getcustom(x||this.objId)
               font-size: 36px;
               position: relative;
               top: -5px;
-              width: 200px;
+              width: 180px;
                text-align: center;
               color: #fff;
               border-right: 2px solid #fff;
@@ -990,7 +990,7 @@ let {data, code} = await getcustom(x||this.objId)
       }
 
       .banner2 {
-        padding: 120px 32px 0;
+        padding: 160px 32px 0;
         height: 924px;
         position: relative;
 
@@ -1152,7 +1152,7 @@ let {data, code} = await getcustom(x||this.objId)
         }
         .ab-icom{
           position: fixed;
-          right:40px;
+          right:32px;
           bottom:30%;
           width: 136px;
           height: 136px;
@@ -1378,11 +1378,10 @@ let {data, code} = await getcustom(x||this.objId)
         }
       }
       .features {
-        height: 600px;
+        height: 720px;
         width: 100%;
         text-align: center;
         overflow: hidden;
-        margin-top: 40px;
         .features-title {
           margin-top: 80px;
           height: 58px;
