@@ -8,7 +8,11 @@
                      :transparent="isTransparent"
                      fixed />
       <!-- banner -->
-      <div class="banner mainbg">
+
+      <div class="banner ">
+        <div class="bannerbox2 mainbg"></div>
+        <div class="bannerbox "></div>
+        <div class="bannerbox3 "></div>
         <div class="tag-sel">
           <p class="ptype1 basebg" v-if="hidelist" @click="hidelist=false">
             <i class="iconadd"><img src="../../assets/imgs/icon_pos@2x.png" alt=""></i>
@@ -88,6 +92,19 @@
         </div>
         <div class="ab-icom" @click="toList2">
           <img class="abimg" src="../../assets/imgs/newcustom/921@2x.png" alt="">
+        </div>
+      </div>
+      <!-- 承诺/服务 -->
+      <div class="features">
+        <div class="features-list">
+          <div class="item"
+               v-for="item in featureList"
+               :key="item.title">
+            <img :src="item.img"
+                 alt>
+            <p class="features-item-title">{{item.title1}}</p>
+            <p class="features-item-title">{{item.title2}}</p>
+          </div>
         </div>
       </div>
       <!-- 客人评价 -->
@@ -219,7 +236,9 @@
         <div class="btn-more baseboder basecolor" @click="toList">立刻咨询</div>
       </div>
       <!--第二个from-->
-      <div class="banner2 mainbg">
+      <div class="banner2 ">
+        <div class="bannerbox2 mainbg"></div>
+        <div class="bannerbox "></div>
         <div class="form-wrap">
           <h1 class="banner-title">私人定制</h1>
           <h3 class="banner-desc">旅游自由随心，体验独一无二</h3>
@@ -260,19 +279,7 @@
           </div>
         </div>
       </div>
-      <!-- 承诺/服务 -->
-      <div class="features">
-        <div class="features-list">
-          <div class="item"
-               v-for="item in featureList"
-               :key="item.title">
-            <img :src="item.img"
-                 alt>
-            <p class="features-item-title">{{item.title1}}</p>
-            <p class="features-item-title">{{item.title2}}</p>
-          </div>
-        </div>
-      </div>
+
     </div>
     <div class="back-top"
          v-show="!isTransparent"
@@ -370,19 +377,27 @@
           }
         ],
         swiperuser:[
-          {name:'崔先生',time:'12分钟前',phone:'15745966548'},
-          {name:'赵先生',time:'1小时前',phone:'15280966548'},
-          {name:'王女士',time:'30分钟前',phone:'13745966548'},
-          {name:'王先生',time:'8分钟前',phone:'18785876548'},
-          {name:'张先生',time:'55分钟前',phone:'18783966548'},
-          {name:'李先生',time:'27分钟前',phone:'17775966548'},
-          {name:'先先生',time:'2小时前',phone:'18886366548'},
-          {name:'钱先生',time:'1天前',phone:'13485068548'},
-          {name:'找女士',time:'12小时前',phone:'13781966548'},
-          {name:'胡先生',time:'54分钟前',phone:'15795968548'},
-          {name:'崔女士',time:'1分钟前',phone:'17785916548'},
-          {name:'朱先生',time:'20秒前',phone:'18835900548'},
-          {name:'刘先生',time:'9分钟前',phone:'19865966548'},
+          {name:'李先生',time:'12分钟前',phone:'137****1452'},
+          {name:'赵小姐',time:'1小时前',phone:'150****0865'},
+          {name:'钱先生',time:'30分钟前',phone:'170****4568'},
+          {name:'孙小姐',time:'8分钟前',phone:'180****8046'},
+          {name:'李小姐',time:'55分钟前',phone:'135****1245'},
+          {name:'吴小姐',time:'27分钟前',phone:'186****3193'},
+          {name:'郑先生',time:'2小时前',phone:'180****2589'},
+          {name:'王小姐',time:'1天前',phone:'136****1254'},
+          {name:'冯先生',time:'12小时前',phone:'187****6547'},
+          {name:'陈小姐',time:'54分钟前',phone:'139****1478'},
+          {name:'褚先生',time:'1分钟前',phone:'170****1456'},
+          {name:'卫小姐',time:'20秒前',phone:'150****4587'},
+          {name:'蒋先生',time:'9分钟前',phone:'137****1456'},
+          {name:'沈小姐',time:'12分钟前',phone:'132****9632'},
+          {name:'韩先生',time:'1小时前',phone:'137****4578'},
+          {name:'杨小姐',time:'30分钟前',phone:'170****1456'},
+          {name:'朱先生',time:'8分钟前',phone:'180****3194'},
+          {name:'秦小姐',time:'55分钟前',phone:'135****1245'},
+          {name:'尤先生',time:'27分钟前',phone:'150****7614'},
+          {name:'许小姐',time:'2小时前',phone:'132****7895'},
+
           ],
         timer: null,
         setInv:null,
@@ -657,9 +672,12 @@ let {data, code} = await getcustom(x||this.objId)
       background: #f1f1f1;
       .banner {
         padding: 154px 32px 0;
+        position: relative;
+        border-top: 1px solid rgba(0,0,0,0);
         height: 858px;
-        background: url("../../assets/imgs/custom/custom_bg@2x.png") no-repeat 0 -88px/100%;
         .tag-sel {
+          position: relative;
+          z-index: 30;
           width: auto;
           margin-bottom: 100px;
           .ptype1{
@@ -817,6 +835,8 @@ let {data, code} = await getcustom(x||this.objId)
           }
         }
         .tag-list {
+          position: relative;
+          z-index: 30;
           margin-top: 20px;
           .tagitem{
             width:210px;
@@ -840,6 +860,8 @@ let {data, code} = await getcustom(x||this.objId)
           }
         }
         .form-wrap {
+          position: relative;
+          z-index: 30;
           margin-top: 40px;
           padding: 20px 50px;
           width: 686px;
@@ -931,13 +953,69 @@ let {data, code} = await getcustom(x||this.objId)
             }
           }
         }
+        .bannerbox{
+          position: absolute;
+          width: 100%;
+          z-index: 10;
+          height: 858px;
+          float: left;
+          margin-top:-154px;
+          margin-left: -32px;
+          opacity: 0.3;
+          background-color: #000;
+        }
+        .bannerbox3{
+          position: absolute;
+          background:url("../../assets/imgs/newcustom/jianbian1.png") no-repeat;
+          background-size: 750px 858px;
+          background-position: center;
+          width: 100%;
+          z-index: 10;
+          height: 858px;
+          float: left;
+          margin-top:-154px;
+          margin-left: -32px;
+
+        }
+        .bannerbox2{
+          z-index: 10;
+          margin-top:-154px;
+          position: absolute;
+          margin-left: -32px;
+          width: 100%;
+          height: 858px;
+          float: left;
+        }
       }
+
       .banner2 {
         padding: 120px 32px 0;
         height: 924px;
-        background: url("../../assets/imgs/custom/custom_bg@2x.png") no-repeat 0 -88px/100%;
+        position: relative;
 
+        .bannerbox{
+          position: absolute;
+          width: 100%;
+          z-index: 10;
+          height: 858px;
+          float: left;
+          margin-top:-120px;
+          margin-left: -32px;
+          opacity: 0.3;
+          background-color: #000;
+        }
+        .bannerbox2{
+          z-index: 10;
+          margin-top:-120px;
+          position: absolute;
+          margin-left: -32px;
+          width: 100%;
+          height: 858px;
+          float: left;
+        }
         .form-wrap {
+          z-index: 30;
+          position: relative;
           margin-top: 30px;
           padding: 20px 32px;
           width: 686px;
@@ -1302,10 +1380,9 @@ let {data, code} = await getcustom(x||this.objId)
         height: 600px;
         width: 100%;
         text-align: center;
-        margin-top: 40px;
         overflow: hidden;
         .features-title {
-          margin-top: 86px;
+          margin-top: 60px;
           height: 58px;
           font-size: 44px;
           line-height: 58px;
