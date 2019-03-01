@@ -104,8 +104,7 @@
             <div class="swiper-slide"
                  v-for="item in objpro.custom_view"
                  :key="item.title">
-              <div class="season-item"
-                   @click="onSeasonRecommend(item)">
+              <div class="season-item">
                 <img :src="item.master_image_url"
                      alt="img">
                 <div class="season-body">
@@ -527,7 +526,7 @@ let {data, code} = await getcustom(x||this.objId)
       },
       // 季推荐
       onSeasonRecommend(item) {
-        // this.jumpToPage(item.url);
+        this.jumpToPage(item.url);
       },
       // 查看全部list
       toList() {
@@ -535,7 +534,7 @@ let {data, code} = await getcustom(x||this.objId)
       },
        // 查看全部list
       toList2() {
-         window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226'
+         window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12918104&userId=26301226'
       },
       // 故事
       onSlide(val) {
