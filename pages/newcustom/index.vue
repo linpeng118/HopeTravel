@@ -94,19 +94,7 @@
           <img class="abimg" src="../../assets/imgs/newcustom/921@2x.png" alt="">
         </div>
       </div>
-      <!-- 承诺/服务 -->
-      <div class="features">
-        <div class="features-list">
-          <div class="item"
-               v-for="item in featureList"
-               :key="item.title">
-            <img :src="item.img"
-                 alt>
-            <p class="features-item-title">{{item.title1}}</p>
-            <p class="features-item-title">{{item.title2}}</p>
-          </div>
-        </div>
-      </div>
+
       <!-- 客人评价 -->
       <div class="season-recommend" ref="pingjia">
         <div class="season-title">客人评价</div>
@@ -276,6 +264,19 @@
                         size="large"
                         :loading="submiting"
                         @click="onCustom2">开始定制</van-button>
+          </div>
+        </div>
+      </div>
+      <!-- 承诺/服务 -->
+      <div class="features">
+        <div class="features-list">
+          <div class="item"
+               v-for="item in featureList"
+               :key="item.title">
+            <img :src="item.img"
+                 alt>
+            <p class="features-item-title">{{item.title1}}</p>
+            <p class="features-item-title">{{item.title2}}</p>
           </div>
         </div>
       </div>
@@ -1381,8 +1382,9 @@ let {data, code} = await getcustom(x||this.objId)
         width: 100%;
         text-align: center;
         overflow: hidden;
+        margin-top: 40px;
         .features-title {
-          margin-top: 60px;
+          margin-top: 80px;
           height: 58px;
           font-size: 44px;
           line-height: 58px;
