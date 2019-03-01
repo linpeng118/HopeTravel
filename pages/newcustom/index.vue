@@ -437,6 +437,7 @@ let {data, code} = await getcustom(x||this.objId)
           this.loading=false;
           this.objpro = data;
           this.address=this.objpro.custom.ch_name
+          this.address1=this.objpro.custom.ch_name
           this.setstyle();
         } else {
           this.loading=false;
