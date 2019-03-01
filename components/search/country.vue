@@ -2,7 +2,7 @@
   <div class="search-main">
     <div class="country-bg" @click="selectCountryLine(data.allLines)">
       <img :src="data.allLines.image" alt="">
-      <div class="desc">{{data.cityName}}{{data.allLines.content}}</div>
+      <div class="desc">{{data.cityName}}全部线路{{data.allLines.content}}条</div>
     </div>
     <div class="hot-box" v-if="data.hotTarget && data.hotTarget.length">
       <h2>热门目的地</h2>
@@ -45,8 +45,8 @@ export default {
       this.$emit('selectDetail', item)
     },
     selectCountryLine(line) {
-      let {countryName} = line
-      this.$emit('selectDetail', countryName)
+      let {category} = line
+      this.$emit('selectDetailLine', category)
     },
     selectDetailKeyword(value) {
       this.$emit('selectDetailKeyword', value)

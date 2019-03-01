@@ -38,6 +38,7 @@
         <country :data="countryObj"
                  @selectDetail="selectDetail"
                  @selectDetailKeyword="selectDetailKeyword"
+                 @selectDetailLine="selectDetailLine"
                  v-else></country>
       </div>
     </div>
@@ -319,6 +320,15 @@
         this.$router.push({
           name: 'product_list',
           query: query
+        })
+      },
+      selectDetailLine(category) {
+        this.$router.push({
+          name: 'product_list',
+          query: {
+            itemType: 0,
+            category
+          }
         })
       },
       selectDetailKeyword(keyword) {
