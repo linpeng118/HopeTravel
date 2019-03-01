@@ -688,7 +688,7 @@ let {data, code} = await getcustom(x||this.objId)
               font-weight: bold;
               position: relative;
               top: -5px;
-              width: 300px;
+              width: 220px;
               text-align: center;
               display: inline-block;
               font-size: 36px;
@@ -738,7 +738,7 @@ let {data, code} = await getcustom(x||this.objId)
               font-weight: bold;
               position: relative;
               top: -5px;
-              width: 300px;
+              width: 220px;
               display: inline-block;
                text-align: center;
               font-size: 36px;
@@ -789,7 +789,7 @@ let {data, code} = await getcustom(x||this.objId)
               position: relative;
               top: -5px;
                text-align: center;
-              width: 300px;
+              width: 220px;
               display: inline-block;
               font-size: 36px;
               color: #fff;
