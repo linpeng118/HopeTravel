@@ -677,7 +677,7 @@ let {data, code} = await getcustom(x||this.objId)
         height: 858px;
         .tag-sel {
           position: relative;
-          z-index: 30;
+          z-index: 36;
           width: auto;
           margin-bottom: 100px;
           .ptype1{
