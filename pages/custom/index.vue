@@ -288,8 +288,8 @@
     <van-popup v-model="showcall" style="background-color: rgba(0,0,0,0)" position="center" :overlay="true">
       <div class="connectbox">
         <p class="titlex basebg">联系我们</p>
-        <a v-if="!isApp" class="con-btn basecolor baseboder" @click="clickcall('400-118-1388')" >中国咨询</a>
-        <a v-if="!isApp" class="con-btn basecolor baseboder" @click="clickcall('（001）888-933-0336')" >美国咨询</a>
+        <a  class="con-btn basecolor baseboder" @click="clickcall('400-118-1388')" >中国咨询</a>
+        <a  class="con-btn basecolor baseboder" @click="clickcall('（001）888-933-0336')" >美国咨询</a>
         <a class="con-btn basecolor baseboder" @click="toList2()">在线咨询</a>
       </div>
 
