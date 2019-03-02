@@ -165,7 +165,7 @@
             7. 圣托里尼豪华游艇海上日落巡游（含海鲜大餐）；<br>
             8. 梵蒂冈博物馆、古罗马斗兽场门票；<br>
             9. 境外保险；<br>
-        </p>    
+        </p>
         <h5 class="ct_title">
             费用不含
         </h5>
@@ -193,7 +193,7 @@
             7. 退费说明：如遇天气、战争、罢工、地震等人力不可抗力因素无法游览，我社将按照旅行社协议，退还未游览景点门票费用，但赠送项目费用不退；游客因个人原因临时自愿放弃游览，酒店住宿、餐、车等费用均不退还；<br>
             8. 补费说明：如遇航空公司政策性调整机票价格，请按规定补交差价。一经出票，不得改签换人退票；如果旅游目的地国家政策性调整门票或其他相关价格，请按规定补交差价；<br>
             9. 其他说明：质量反馈表，我社处理游客意见，以游客交回的《团队质量反馈表》为依据，请您秉着公平、公正、实事求是的原则填写《团队质量反馈表》。<br>
-        </p>  
+        </p>
         <h5 class="ct_title">
             温馨提示
         </h5>
@@ -208,35 +208,131 @@
             8. 依照旅游业现行作业规定，本公司有权依据最终出团人数情况，调整房间分房情况。<br>
             9. 由于欧洲各国国情不同，您在欧洲旅游时除了准备信用卡及银联卡外，请尽量多准备一些现金。并且有些商店不能刷卡只接受现金。另外提醒您如果您携带信用卡，请在国内确认好已经激活可以在境外使用！<br>
             10.欧洲主要流通货币为欧元，其他货币在使用或在欧洲兑换欧元时都会有汇率损失，建议您出国前兑换好所需欧元。<br>
-        </p>  
+        </p>
     </div>
-   
+
     <div class="btn_container clearfix">
-        <a target="_blank" href="http://p.qiao.baidu.com/cps/chat?siteId=12918104&userId=26301226" class="btn_online fl" data-ajax="false" id="qa-wangqiao-btn" >
-            <img style="widht:.52rem;height:.52rem;" src="../../assets/imgs/custom/btn1.png" alt="">
-            在线咨询
-        </a>
-        <a href="/custom" class="btn_custom fl">
-            <img style="widht:.48rem;height:.48rem;" src="../../assets/imgs/custom/btn2.png" alt="">
-            立即定制
-        </a>
+      <a target="_blank"@click="showcall=true" class="btn_online fl" id="qa-wangqiao-btn" >
+        <img style="widht:.52rem;height:.52rem;" src="../../assets/imgs/custom/btn1.png" alt="">
+        在线咨询
+      </a>
+      <a @click="showform=true" class="btn_custom fl">
+        <img style="widht:.48rem;height:.48rem;" src="../../assets/imgs/custom/btn2.png" alt="">
+        立即定制
+      </a>
     </div>
+    <van-popup v-model="showcall" style="background-color: rgba(0,0,0,0)" position="center" :overlay="true">
+      <div class="connectbox">
+        <p class="titlex ">联系我们</p>
+        <a class="con-btn  " @click="clickcall('400-118-1388')" >中国咨询</a>
+        <a class="con-btn  " @click="clickcall('（001）888-933-0336')" >美国咨询</a>
+        <a class="con-btn  " @click="toList2()">在线咨询</a>
+      </div>
+    </van-popup>
+    <van-popup v-model="showform" style="background-color: rgba(0,0,0,0)" position="center" :overlay="true">
+      <div class="banner2 ">
+        <div class="form-wrap">
+          <span class="banner-title">私人定制</span>
+          <span class="banner-desc">旅游自由随心，体验独一无二</span>
+          <div class="form">
+            <!-- 地点 -->
+            <div class="form-input">
+              <div class="left-icon icon-addr"></div>
+              <van-cell-group class="transparent-input tours-input-no-bg">
+                <van-field v-model="address1"
+                           style="border-bottom: 1px solid #C9C9C9;color:#000"
+                           placeholder="请填写您想去的目的地或景点" />
+              </van-cell-group>
+
+            </div>
+            <!-- 手机号码 -->
+            <div class="form-input phone">
+              <div class="left-icon icon-phone"></div>
+              <van-cell-group class="transparent-input tours-input-no-bg">
+                <van-field v-model="phone1" style="border-bottom: 1px solid #C9C9C9;color: #000"
+                           placeholder="请填写您的电话号码" />
+              </van-cell-group>
+              <div class="right ">*</div>
+            </div>
+            <!-- 微信 -->
+            <div class="form-input wechat">
+              <div class="left-icon icon-wx"></div>
+              <van-cell-group class="transparent-input tours-input-no-bg">
+                <van-field v-model="wechat1" style="border-bottom: 1px solid #C9C9C9;color: #000"
+                           placeholder="请填写您的微信号码" />
+              </van-cell-group>
+              <div class="right ">*</div>
+            </div>
+            <!-- 定制按钮 -->
+            <van-button class=" tours-button-no-bg btn-custom "
+                        size="large"
+                        :loading="submiting"
+                        @click="onCustom()">开始定制</van-button>
+          </div>
+        </div>
+      </div>
+    </van-popup>
   </div>
 </template>
 <script>
-export default {
-  name: "component_name",
-  data() {
-    return {
-         isApp: this.$route.query.platform,
-    };
-  },
-  methods:{
-    goBack() {
-      window.history.go(-1);
+  import {custom} from "@/api/custom";
+  export default {
+    name: "component_name",
+    data() {
+      return {
+        isApp: this.$route.query.platform,
+        showcall:false,
+        address1:"",
+        phone1:'',
+        wechat1:'',
+        submiting: false,
+        showform:false,
+
+      };
+    },
+    methods: {
+      goBack() {
+        window.history.go(-1);
+      },
+      clickcall(x){
+        // this.showcall=false;
+        window.location.href='tel://'+x;
+      },
+      // 查看全部list
+      toList2() {
+        window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12918104&userId=26301226'
+      },
+      onCustom() {
+        if (!this.address1) {
+          this.$toast("请输入想去的地址或景点");
+          this.submiting = false;
+          return;
+        }
+        if (!this.phone1 && !this.wechat1) {
+          this.$toast("请输入电话号码或者微信号码至少一个");
+          this.submiting = false;
+          return;
+        }
+        this.doCustom({
+          destination: this.address1,
+          phone: this.phone1,
+          wechat: this.wechat1,
+        });
+      },
+      // 提交定制
+      async doCustom(subData) {
+        this.submiting = true;
+        let {code, data, msg} = await custom(subData);
+        this.$toast(msg);
+        this.submiting = false;
+        this.showform = false;
+        this.address1='';
+        this.phone1='';
+        this.wechat1='';
+      },
+
     }
-  }
-};
+  };
 </script>
 
 <style lang="scss" scoped>
@@ -247,5 +343,164 @@ export default {
   width: 750px;
   height: 438px;
   position: relative;
+}
+.connectbox{
+  width:586px;
+  background-color: #fff;
+  border-radius:20px;
+  box-shadow:0px 0px 20px rgba(0,0,0,0.16);
+  text-align: center;
+  padding-bottom: 40px;
+  .titlex{
+    border-radius:20px 20px 0 0;
+    background-color:#ef9a1a;
+    height:80px;
+    width: 100%;
+    line-height: 80px;
+    font-size: 32px;
+    text-align: center;
+    color: #fff;
+    display: block;
+  }
+  .con-btn{
+    display: block;
+    border: 2px solid #ef9a1a;
+    color:#ef9a1a;
+    width:410px;
+    height:80px;
+    border-radius:20px;
+    line-height: 72px;
+    text-align: center;
+    font-size: 32px;
+    margin-top: 40px;
+    margin-left: 88px;
+  }
+
+}
+.banner2 {
+  padding: 160px 32px 0;
+  height: 924px;
+  position: relative;
+  .bannerbox{
+    position: absolute;
+    width: 100%;
+    z-index: 10;
+    height: 858px;
+    float: left;
+    margin-top:-120px;
+    margin-left: -32px;
+    opacity: 0.3;
+    background-color: #000;
+  }
+  .bannerbox2{
+    z-index: 10;
+    margin-top:-120px;
+    position: absolute;
+    margin-left: -32px;
+    width: 100%;
+    height: 858px;
+    float: left;
+  }
+  .form-wrap {
+    z-index: 30;
+    position: relative;
+    margin-top: 30px;
+    padding: 20px 32px;
+    width: 686px;
+    height: 656px;
+    background: rgba(255, 255, 255, 0.87);
+    border-radius: 12px;
+    .banner-title {
+      display: block;
+      height: 74px;
+      line-height: 74px;
+      font-size: 46px;
+      font-weight: 100;
+      color: rgba(0, 0, 0, 1);
+      text-stroke: 1 rgba(255, 255, 255, 1);
+      position: relative;
+
+    }
+    .banner-desc {
+      display: block;
+      height: 40px;
+      line-height: 40px;
+      font-size: 28px;
+      font-weight: 300;
+      color: rgba(0, 0, 0, 1);
+    }
+    .title-s {
+      font-size: 24px;
+      font-weight: 300;
+      line-height: 34px;
+      color: rgba(152, 152, 152, 1);
+    }
+    .tag-list {
+      margin-top: 20px;
+    }
+    .form {
+      margin-top: calc(58px - 20px);
+      .form-input {
+        width: 622px;
+        height: 72px;
+        background: rgba(0, 0, 0, 0);
+        border-radius: 22px;
+        display: flex;
+        display: -webkit-flex;
+        justify-content: center;
+        -webkit-justify-content: center;
+        align-content: center;
+        .left-icon {
+          width: 74px;
+          position: relative;
+          &.icon-addr {
+            background: url("../../assets/imgs/newcustom/910@2x.png") no-repeat
+            center center/40px 50px;
+          }
+          &.icon-phone {
+            background: url("../../assets/imgs/newcustom/911@2x.png") no-repeat
+            center center/40px 44px;
+          }
+          &.icon-wx {
+            background: url("../../assets/imgs/newcustom/863@2x.png") no-repeat
+            center center/45px 36px;
+          }
+          &::after {
+            content: "";
+            display: inline-block;
+            position: absolute;
+            right: 0;
+            width: 2px;
+            background: #d6d6d6;
+          }
+        }
+        .transparent-input {
+          flex: 1;
+          color:#000;
+          input{
+            font-size: 30px;
+          }
+        }
+        .right {
+          flex: 0 0 30px;
+          height: 28px;
+          color: #ef9a1a;
+          align-self: center;
+          line-height: 100%;
+          font-size: 28px;
+        }
+      }
+      .phone,
+      .wechat {
+        margin-top: 24px;
+      }
+      .btn-custom {
+        margin-top: 62px;
+        background-color: #ef9a1a;
+        color: #fff;
+        border: none;
+      }
+    }
+  }
 }
 </style>

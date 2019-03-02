@@ -90,7 +90,7 @@
             <p>管家式服务，出行有保障</p>
           </div>
         </div>
-        <div class="ab-icom" @click="toList2">
+        <div class="ab-icom" @click="showcall=true">
           <img class="abimg" src="../../assets/imgs/newcustom/921@2x.png" alt="">
         </div>
       </div>
@@ -285,6 +285,15 @@
          v-show="!isTransparent"
          @click="backTop">
     </div>
+    <van-popup v-model="showcall" style="background-color: rgba(0,0,0,0)" position="center" :overlay="true">
+      <div class="connectbox">
+        <p class="titlex basebg">联系我们</p>
+        <a class="con-btn basecolor baseboder" @click="clickcall('400-118-1388')" >中国咨询</a>
+        <a class="con-btn basecolor baseboder" @click="clickcall('（001）888-933-0336')" >美国咨询</a>
+        <a class="con-btn basecolor baseboder" @click="toList2()">在线咨询</a>
+      </div>
+
+    </van-popup>
     <loading v-show="loading"></loading>
   </div>
 </template>
@@ -308,6 +317,7 @@
       return {
         isApp: this.$route.query.platform,
         isTransparent: true, // 导航头是否透明
+        showcall:false,
         swiperOption: {
           centeredSlides: true, // 居中
           initialSlide:2,
@@ -656,6 +666,10 @@ let {data, code} = await getcustom(x||this.objId)
           style.innerHTML=".basecolor{color:"+maincolor+"!important;}.basebg{background-color: "+maincolor+"!important;}.baseboder{border:2px solid "+maincolor+"!important;}.mainbg{background: url('"+url+"') no-repeat 0 0px/100%!important;}";
           document.getElementsByTagName('HEAD').item(0).appendChild(style);
         }
+      },
+      clickcall(x){
+        // this.showcall=false;
+        window.location.href='tel://'+x;
       }
     }
   };
@@ -837,7 +851,7 @@ let {data, code} = await getcustom(x||this.objId)
         .tag-list {
           position: relative;
           z-index: 30;
-          margin-top: 20px;
+          margin-top: 120px;
           .tagitem{
             width:210px;
             font-size:28px;
@@ -1119,7 +1133,7 @@ let {data, code} = await getcustom(x||this.objId)
         height:294px;
         background:rgba(255,255,255,1);
         opacity:1;
-        margin-top: 115px;
+        margin-top: 180px;
         padding-top: 30px;
         .descitem{
           margin-left: 40px;
@@ -1189,9 +1203,14 @@ let {data, code} = await getcustom(x||this.objId)
         .season-item2{
           width: 686px;
           border-radius: 12px;
+          overflow: hidden;
           height: 666px;
           margin: 32px;
           box-shadow:0px 0px 12px rgba(0,0,0,0.16);
+          .imgbox{
+            border-radius: 12px 12px 0 0;
+            overflow: hidden;
+          }
           .imgbox>img{
             width: 686px;
             height: 364px;
@@ -1263,6 +1282,8 @@ let {data, code} = await getcustom(x||this.objId)
               font-size: 0;
               background: #fff;
               height: 628px;
+              border-radius: 12px;
+              overflow: hidden;
               box-shadow:0px 0px 12px rgba(0,0,0,0.16);
               img {
                 height: 356px;
@@ -1488,6 +1509,33 @@ let {data, code} = await getcustom(x||this.objId)
       background: url("../../assets/imgs/custom/back_top@2x.png") no-repeat center
       center/100%;
     }
+    .connectbox{
+      width:586px;
+      background-color: #fff;
+      border-radius:20px;
+      box-shadow:0px 0px 20px rgba(0,0,0,0.16);
+      text-align: center;
+      padding-bottom: 40px;
+      .titlex{
+        border-radius:20px 20px 0 0;
+        height:80px;
+        line-height: 80px;
+        font-size: 32px;
+        text-align: center;
+        color: #fff;
+      }
+      .con-btn{
+        display: block;
+        width:410px;
+        height:80px;
+        border-radius:20px;
+        line-height: 72px;
+        text-align: center;
+        font-size: 32px;
+        margin-top: 40px;
+        margin-left: 88px;
+      }
+    }
     .pricebig{
       font-size: 36px;
     }
@@ -1496,3 +1544,4 @@ let {data, code} = await getcustom(x||this.objId)
   }
 
 </style>
+ 

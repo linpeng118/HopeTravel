@@ -75,7 +75,7 @@
                 <div>
                     <img class="date-img" src="../../assets/imgs/custom/store7/d1_9.png" alt="">
                     <img class="date-img" src="../../assets/imgs/custom/store7/d1_10.png" alt="">
-                </div> 
+                </div>
             </div>
             <div class="day6">
                 <h6 class="date_h6">大阪 – 奈良 – 京都 – 大阪传统文化一日游</h6>
@@ -84,11 +84,11 @@
                    早餐：酒店含早      午餐：自理      晚餐：自理      住宿：大阪帝国酒店<br>
                 </p>
                 <div>
-                    <img class="date-img" src="../../assets/imgs/custom/store7/d1_11.png" alt=""> 
+                    <img class="date-img" src="../../assets/imgs/custom/store7/d1_11.png" alt="">
                     <img class="date-img" src="../../assets/imgs/custom/store7/d1_12.png" alt="">
                     <img class="date-img" src="../../assets/imgs/custom/store7/d1_13.png" alt="">
                     <img class="date-img" src="../../assets/imgs/custom/store7/d1_14.png" alt="">
-                    <img class="date-img" src="../../assets/imgs/custom/store7/d1_15.png" alt="">   
+                    <img class="date-img" src="../../assets/imgs/custom/store7/d1_15.png" alt="">
                 </div>
             </div>
             <div class="day7">
@@ -98,7 +98,7 @@
                     早餐：酒店含早      午餐：自理      晚餐：自理      住宿：无<br>
                 </p>
                 <div>
-                    <img class="date-img" src="../../assets/imgs/custom/store7/d1_16.png" alt=""> 
+                    <img class="date-img" src="../../assets/imgs/custom/store7/d1_16.png" alt="">
                     <img class="date-img" src="../../assets/imgs/custom/store7/d1_17.png" alt="">
                     <img class="date-img" src="../../assets/imgs/custom/store7/d1_18.png" alt="">
                 </div>
@@ -109,17 +109,17 @@
             参考下榻酒店
         </h5>
         <h6 class="ct_subTitle">
-            Hilton Tokyo Bay（东京湾希尔顿酒店）  
+            Hilton Tokyo Bay（东京湾希尔顿酒店）
         </h6>
         <p class="paragraph">
             东京湾希尔顿酒店是东京迪士尼度假区的官方酒店，坐落在东京湾的东岸，在 JR 舞滨站南口的 welcome center（营 业时间 8 点-15 点） 客人可以在此直接办理酒店入住手续以及行李寄存，行李会直接送往酒店。从酒店出发可乘坐 迪士尼小火车前往乐园，酒店亦提供免费接驳巴士到 JR 舞滨站。不论您是商务出差还是休闲旅游千叶东京湾希尔 顿酒店(Hilton Tokyo Bay Chiba)都是理想的下榻之处。附近很多景点，包括东京迪士尼乐园、东京迪士尼海洋和冲绳 迪斯尼伊克斯皮儿莉购物中心都离酒店不远，酒店的园景房一侧还可以看到迪士尼乐园的烟火。
         </p>
         <div>
             <img class="date-img" src="../../assets/imgs/custom/store7/d1_19.png" alt="">
-            <img class="date-img" src="../../assets/imgs/custom/store7/d1_20.png" alt="">   
+            <img class="date-img" src="../../assets/imgs/custom/store7/d1_20.png" alt="">
         </div>
         <h6 class="ct_subTitle">
-            Kaneyamaen （鐘山苑） 
+            Kaneyamaen （鐘山苑）
         </h6>
         <p class="paragraph">
             鐘山苑有 106 间装修精美的客房，大部分都配有平板电视, 额外浴室, 空气净化器, 免费速溶咖啡, 免费茶水。 酒 店的娱乐设施相当齐全，包括温泉 , 室外游泳池, 水疗中心, 按摩, 花园。 钟山苑酒店地理位置优越，设施优良， 各方面均为理想之选。
@@ -127,17 +127,17 @@
         <div>
             <img class="date-img" src="../../assets/imgs/custom/store7/d1_21.png" alt="">
             <img class="date-img" src="../../assets/imgs/custom/store7/d1_22.png" alt="">
-            <img class="date-img" src="../../assets/imgs/custom/store7/d1_23.png" alt="">   
+            <img class="date-img" src="../../assets/imgs/custom/store7/d1_23.png" alt="">
         </div>
         <h6 class="ct_subTitle">
-          Imperial Hotel Osaka（大阪帝国酒店） 
+          Imperial Hotel Osaka（大阪帝国酒店）
         </h6>
         <p class="paragraph">
-            大阪帝国酒店是一家享有盛誉的五星级酒店，坐落在以美丽樱花而闻名的大川河（Okawa River）河畔。 酒店设有众多娱乐设施 。Les Saison 餐厅享有城市全景，供应精致的法国美食。Kamon 餐厅供应新鲜的海产品和铁 板烧风格牛排。Jasmine Garden 餐厅供应奢华的中式菜肴。 
+            大阪帝国酒店是一家享有盛誉的五星级酒店，坐落在以美丽樱花而闻名的大川河（Okawa River）河畔。 酒店设有众多娱乐设施 。Les Saison 餐厅享有城市全景，供应精致的法国美食。Kamon 餐厅供应新鲜的海产品和铁 板烧风格牛排。Jasmine Garden 餐厅供应奢华的中式菜肴。
         </p>
         <div>
             <img class="date-img" src="../../assets/imgs/custom/store7/d1_24.png" alt="">
-            <img class="date-img" src="../../assets/imgs/custom/store7/d1_25.png" alt="">  
+            <img class="date-img" src="../../assets/imgs/custom/store7/d1_25.png" alt="">
         </div>
         <h5 class="ct_title">
             费用包含
@@ -155,7 +155,7 @@
             10、大阪环球影城门票； <br>
             11、富士山河口湖登山缆车； <br>
             12、门票（春日大社，梅田蓝天大厦展望台，高台寺，清水寺，祗园角，天守阁）<br>
-        </p>    
+        </p>
         <h5 class="ct_title">
             费用不含：
         </h5>
@@ -169,7 +169,7 @@
             7、单房差。<br>
         </p>
         <h5 class="ct_title">
-            服务标准说明： 
+            服务标准说明：
         </h5>
         <p class="paragraph" style="border-bottom:none;">
             1、 行程说明： <br>
@@ -177,48 +177,143 @@
             &nbsp; &nbsp;    2)  根据国际航班团队搭乘要求，通常须提前 3-3.5 小时到达机场办理登机手续； <br>
             2、 酒店标准：<br>行程中所入住酒店，如若出现无房，将更换为同级别酒店入住； <br>
             3、 购物说明： <br>
-            &nbsp; &nbsp;    1)  全程无任何强制购物；<br> 
+            &nbsp; &nbsp;    1)  全程无任何强制购物；<br>
              &nbsp; &nbsp;   2)  游客在行程中为自愿购物，若商品出现质量问题，旅行社不承担任何责任； <br>
-            4、 保险说明：<br> 
-            &nbsp; &nbsp;    1)  我社所上境外旅游意外伤害保险，医疗 30 万；推荐客人根据自身情况额外补上医疗 50 万或 70 万保险；<br> 
+            4、 保险说明：<br>
+            &nbsp; &nbsp;    1)  我社所上境外旅游意外伤害保险，医疗 30 万；推荐客人根据自身情况额外补上医疗 50 万或 70 万保险；<br>
             &nbsp; &nbsp;    2)  旅游意外伤害险不包括游客自身携带疾病、旧病复发，且在出团日前 180 天内未经过治疗的疾病；（如心脏病 复发、高血压、糖尿病并发症、移植手术复发、孕妇、精神病发作等等） <br>
             5、 退费说明： <br>
-             &nbsp; &nbsp;   1)  如遇天气、战争、罢工、地震等人力不可抗力因素无法游览，我社将按照旅行社协议，退还未游览景点门票费 用，但赠送项目费用不退；<br> 
+             &nbsp; &nbsp;   1)  如遇天气、战争、罢工、地震等人力不可抗力因素无法游览，我社将按照旅行社协议，退还未游览景点门票费 用，但赠送项目费用不退；<br>
             &nbsp; &nbsp;    2)  游客因个人原因临时自愿放弃游览，酒店住宿、餐、车等费用均不退还； <br>
-            6、 补费说明：<br> 
+            6、 补费说明：<br>
             &nbsp; &nbsp;    1)  如遇航空公司政策性调整机票价格，请按规定补交差价。一经出票，不得改签换人退票； <br>
             &nbsp; &nbsp;    2)  如果旅游目的地国家政策性调整门票或其他相关价格，请按规定补交差价； <br>
-            7、 其他说明：质量反馈表，我社处理游客意见，以游客交回的《团     队质量反馈表》为依据，请您秉着公平、公正、 实事求是的原     则  填写《团队质量反馈表》；<br> 
+            7、 其他说明：质量反馈表，我社处理游客意见，以游客交回的《团     队质量反馈表》为依据，请您秉着公平、公正、 实事求是的原     则  填写《团队质量反馈表》；<br>
             8、 其他未尽事宜请参照出行合同相关条约<br>
-        </p>  
+        </p>
     </div>
-   
     <div class="btn_container clearfix">
-        <a target="_blank" href="http://p.qiao.baidu.com/cps/chat?siteId=12918104&userId=26301226" class="btn_online fl" id="qa-wangqiao-btn" >
-            <img style="widht:.52rem;height:.52rem;" src="../../assets/imgs/custom/btn1.png" alt="">
-            在线咨询
-        </a>
-        <a href="/custom" class="btn_custom fl">
-            <img style="widht:.48rem;height:.48rem;" src="../../assets/imgs/custom/btn2.png" alt="">
-            立即定制
-        </a>
+      <a target="_blank"@click="showcall=true" class="btn_online fl" id="qa-wangqiao-btn" >
+        <img style="widht:.52rem;height:.52rem;" src="../../assets/imgs/custom/btn1.png" alt="">
+        在线咨询
+      </a>
+      <a @click="showform=true" class="btn_custom fl">
+        <img style="widht:.48rem;height:.48rem;" src="../../assets/imgs/custom/btn2.png" alt="">
+        立即定制
+      </a>
     </div>
+    <van-popup v-model="showcall" style="background-color: rgba(0,0,0,0)" position="center" :overlay="true">
+      <div class="connectbox">
+        <p class="titlex ">联系我们</p>
+        <a class="con-btn  " @click="clickcall('400-118-1388')" >中国咨询</a>
+        <a class="con-btn  " @click="clickcall('（001）888-933-0336')" >美国咨询</a>
+        <a class="con-btn  " @click="toList2()">在线咨询</a>
+      </div>
+    </van-popup>
+    <van-popup v-model="showform" style="background-color: rgba(0,0,0,0)" position="center" :overlay="true">
+      <div class="banner2 ">
+        <div class="form-wrap">
+          <span class="banner-title">私人定制</span>
+          <span class="banner-desc">旅游自由随心，体验独一无二</span>
+          <div class="form">
+            <!-- 地点 -->
+            <div class="form-input">
+              <div class="left-icon icon-addr"></div>
+              <van-cell-group class="transparent-input tours-input-no-bg">
+                <van-field v-model="address1"
+                           style="border-bottom: 1px solid #C9C9C9;color:#000"
+                           placeholder="请填写您想去的目的地或景点" />
+              </van-cell-group>
+
+            </div>
+            <!-- 手机号码 -->
+            <div class="form-input phone">
+              <div class="left-icon icon-phone"></div>
+              <van-cell-group class="transparent-input tours-input-no-bg">
+                <van-field v-model="phone1" style="border-bottom: 1px solid #C9C9C9;color: #000"
+                           placeholder="请填写您的电话号码" />
+              </van-cell-group>
+              <div class="right ">*</div>
+            </div>
+            <!-- 微信 -->
+            <div class="form-input wechat">
+              <div class="left-icon icon-wx"></div>
+              <van-cell-group class="transparent-input tours-input-no-bg">
+                <van-field v-model="wechat1" style="border-bottom: 1px solid #C9C9C9;color: #000"
+                           placeholder="请填写您的微信号码" />
+              </van-cell-group>
+              <div class="right ">*</div>
+            </div>
+            <!-- 定制按钮 -->
+            <van-button class=" tours-button-no-bg btn-custom "
+                        size="large"
+                        :loading="submiting"
+                        @click="onCustom()">开始定制</van-button>
+          </div>
+        </div>
+      </div>
+    </van-popup>
   </div>
 </template>
 <script>
-export default {
-  name: "component_name",
-  data() {
-    return {
-         isApp: this.$route.query.platform,
-    };
-  },
-  methods: {
-    goBack() {
-      window.history.go(-1);
+  import {custom} from "@/api/custom";
+  export default {
+    name: "component_name",
+    data() {
+      return {
+        isApp: this.$route.query.platform,
+        showcall:false,
+        address1:"",
+        phone1:'',
+        wechat1:'',
+        submiting: false,
+        showform:false,
+
+      };
+    },
+    methods: {
+      goBack() {
+        window.history.go(-1);
+      },
+      clickcall(x){
+        // this.showcall=false;
+        window.location.href='tel://'+x;
+      },
+      // 查看全部list
+      toList2() {
+        window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12918104&userId=26301226'
+      },
+      onCustom() {
+        if (!this.address1) {
+          this.$toast("请输入想去的地址或景点");
+          this.submiting = false;
+          return;
+        }
+        if (!this.phone1 && !this.wechat1) {
+          this.$toast("请输入电话号码或者微信号码至少一个");
+          this.submiting = false;
+          return;
+        }
+        this.doCustom({
+          destination: this.address1,
+          phone: this.phone1,
+          wechat: this.wechat1,
+        });
+      },
+      // 提交定制
+      async doCustom(subData) {
+        this.submiting = true;
+        let {code, data, msg} = await custom(subData);
+        this.$toast(msg);
+        this.submiting = false;
+        this.showform = false;
+        this.address1='';
+        this.phone1='';
+        this.wechat1='';
+      },
+
     }
-  }
-};
+  };
 </script>
 
 <style lang="scss" scoped>
@@ -229,5 +324,164 @@ export default {
   width: 750px;
   height: 438px;
   position: relative;
+}
+.connectbox{
+  width:586px;
+  background-color: #fff;
+  border-radius:20px;
+  box-shadow:0px 0px 20px rgba(0,0,0,0.16);
+  text-align: center;
+  padding-bottom: 40px;
+  .titlex{
+    border-radius:20px 20px 0 0;
+    background-color:#ef9a1a;
+    height:80px;
+    width: 100%;
+    line-height: 80px;
+    font-size: 32px;
+    text-align: center;
+    color: #fff;
+    display: block;
+  }
+  .con-btn{
+    display: block;
+    border: 2px solid #ef9a1a;
+    color:#ef9a1a;
+    width:410px;
+    height:80px;
+    border-radius:20px;
+    line-height: 72px;
+    text-align: center;
+    font-size: 32px;
+    margin-top: 40px;
+    margin-left: 88px;
+  }
+
+}
+.banner2 {
+  padding: 160px 32px 0;
+  height: 924px;
+  position: relative;
+  .bannerbox{
+    position: absolute;
+    width: 100%;
+    z-index: 10;
+    height: 858px;
+    float: left;
+    margin-top:-120px;
+    margin-left: -32px;
+    opacity: 0.3;
+    background-color: #000;
+  }
+  .bannerbox2{
+    z-index: 10;
+    margin-top:-120px;
+    position: absolute;
+    margin-left: -32px;
+    width: 100%;
+    height: 858px;
+    float: left;
+  }
+  .form-wrap {
+    z-index: 30;
+    position: relative;
+    margin-top: 30px;
+    padding: 20px 32px;
+    width: 686px;
+    height: 656px;
+    background: rgba(255, 255, 255, 0.87);
+    border-radius: 12px;
+    .banner-title {
+      display: block;
+      height: 74px;
+      line-height: 74px;
+      font-size: 46px;
+      font-weight: 100;
+      color: rgba(0, 0, 0, 1);
+      text-stroke: 1 rgba(255, 255, 255, 1);
+      position: relative;
+
+    }
+    .banner-desc {
+      display: block;
+      height: 40px;
+      line-height: 40px;
+      font-size: 28px;
+      font-weight: 300;
+      color: rgba(0, 0, 0, 1);
+    }
+    .title-s {
+      font-size: 24px;
+      font-weight: 300;
+      line-height: 34px;
+      color: rgba(152, 152, 152, 1);
+    }
+    .tag-list {
+      margin-top: 20px;
+    }
+    .form {
+      margin-top: calc(58px - 20px);
+      .form-input {
+        width: 622px;
+        height: 72px;
+        background: rgba(0, 0, 0, 0);
+        border-radius: 22px;
+        display: flex;
+        display: -webkit-flex;
+        justify-content: center;
+        -webkit-justify-content: center;
+        align-content: center;
+        .left-icon {
+          width: 74px;
+          position: relative;
+          &.icon-addr {
+            background: url("../../assets/imgs/newcustom/910@2x.png") no-repeat
+            center center/40px 50px;
+          }
+          &.icon-phone {
+            background: url("../../assets/imgs/newcustom/911@2x.png") no-repeat
+            center center/40px 44px;
+          }
+          &.icon-wx {
+            background: url("../../assets/imgs/newcustom/863@2x.png") no-repeat
+            center center/45px 36px;
+          }
+          &::after {
+            content: "";
+            display: inline-block;
+            position: absolute;
+            right: 0;
+            width: 2px;
+            background: #d6d6d6;
+          }
+        }
+        .transparent-input {
+          flex: 1;
+          color:#000;
+          input{
+            font-size: 30px;
+          }
+        }
+        .right {
+          flex: 0 0 30px;
+          height: 28px;
+          color: #ef9a1a;
+          align-self: center;
+          line-height: 100%;
+          font-size: 28px;
+        }
+      }
+      .phone,
+      .wechat {
+        margin-top: 24px;
+      }
+      .btn-custom {
+        margin-top: 62px;
+        background-color: #ef9a1a;
+        color: #fff;
+        border: none;
+      }
+    }
+  }
 }
 </style>

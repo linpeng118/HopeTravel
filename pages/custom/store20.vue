@@ -58,7 +58,7 @@
                     参考酒店： Chateau Elan At The Vintage（复古之伊兰堡酒店）<br>
                 </p>
                 <div>
-                    <img class="date-img" src="../../assets/imgs/custom/store20/d1_5.png" alt=""> 
+                    <img class="date-img" src="../../assets/imgs/custom/store20/d1_5.png" alt="">
                     <img class="date-img" src="../../assets/imgs/custom/store20/d1_6.png" alt="">
           </div>-->
         </div>
@@ -81,7 +81,7 @@
                 </p>
                 <div>
                     <img class="date-img" src="../../assets/imgs/custom/store20/d1_9.png" alt="">
-                    <img class="date-img" src="../../assets/imgs/custom/store20/d1_10.png" alt="">    
+                    <img class="date-img" src="../../assets/imgs/custom/store20/d1_10.png" alt="">
           </div>-->
         </div>
         <!-- <div class="day7">
@@ -89,30 +89,30 @@
                 <p class="date_paragraph">
                    从麦觉理港出发，途径【格拉夫顿】小镇，在这里休息吃午餐。然后继续前行，抵达【拜伦湾】。格拉夫顿是克拉伦斯河流域的商业中心，拥有许多历史建筑和绿树成荫的街道。也被称为蓝花楹城，每年的10月或者11月都会举行蓝花楹节。同时这里的赛马也是非常有名气的，每年7月的第二个星期四都会举行赛马。<br><br><br>
                    参考酒店：Byron Palms Guesthouse（拜伦棕榈宾馆）4星<br>
-                </p> 
-                
+                </p>
+
             </div>
             <div class="day8">
                 <h6 class="date_h6">拜伦湾-黄金海岸（95公里，1小时）</h6>
                 <p class="date_paragraph">
                     从拜伦湾出发，1个小时，抵达【黄金海岸】。前往【海洋世界C】尽情玩耍。傍晚来到【Q1大厦观景台C】360度俯瞰整个黄金海岸的美景。<br><br><br>
                     参考酒店：TL Warmest Homestay（提沃姆斯特民宿）4星<br>
-                </p> 
+                </p>
                 <div>
                     <img class="date-img" src="../../assets/imgs/custom/store20/d1_11.png" alt="">
-                    <img class="date-img" src="../../assets/imgs/custom/store20/d1_12.png" alt="">    
+                    <img class="date-img" src="../../assets/imgs/custom/store20/d1_12.png" alt="">
                 </div>
-                
+
             </div>
             <div class="day9">
                 <h6 class="date_h6">黄金海岸（55公里，1小时）</h6>
                 <p class="date_paragraph">
                     今天一天前往【华纳电影世界C】。黄金海岸最受欢迎的主题公园之一，电影迷、亲子行必去景点。16项精心设计的游乐设施满足各类人群的游玩需要，全天6场不同主题的表演让你如同置身好莱坞经典电影场景中。<br><br><br>
                     参考酒店：TL Warmest Homestay（提沃姆斯特民宿）4星<br>
-                </p> 
+                </p>
                 <div>
                     <img class="date-img" src="../../assets/imgs/custom/store20/d1_13.png" alt="">
-                    <img class="date-img" src="../../assets/imgs/custom/store20/d1_14.png" alt="">    
+                    <img class="date-img" src="../../assets/imgs/custom/store20/d1_14.png" alt="">
                 </div>
             </div>
             <div class="day10">
@@ -124,10 +124,10 @@
                     11:20-13:45<br>
                     抵达凯恩斯后，下午可以选择在泻湖游泳，或者在酒店的公共泳池休闲。傍晚在滩步道散步休闲<br><br><br>
                     参考酒店：Shangri-La Hotel The Marina Cairns（凯恩斯香格里拉大酒店）5星<br>
-                </p> 
+                </p>
                 <div>
                     <img class="date-img" src="../../assets/imgs/custom/store20/d1_15.png" alt="">
-                    <img class="date-img" src="../../assets/imgs/custom/store20/d1_16.png" alt="">    
+                    <img class="date-img" src="../../assets/imgs/custom/store20/d1_16.png" alt="">
                 </div>
             </div>
             <div class="day11">
@@ -142,30 +142,30 @@
                     16:30 游船离开翡翠岛 <br>
                     17:15 返回凯恩斯<br><br><br>
                     参考酒店：Shangri-La Hotel The Marina Cairns（凯恩斯香格里拉大酒店）5星<br>
-                </p> 
+                </p>
                 <div>
                     <img class="date-img" src="../../assets/imgs/custom/store20/d1_17.png" alt="">
-                    <img class="date-img" src="../../assets/imgs/custom/store20/d1_18.png" alt="">    
+                    <img class="date-img" src="../../assets/imgs/custom/store20/d1_18.png" alt="">
                 </div>
             </div>
             <div class="day12">
                 <h6 class="date_h6">凯恩斯-悉尼-成都</h6>
                 <p class="date_paragraph">
                     早起后，前往凯恩斯机场，搭乘内陆航班前往悉尼,随后从悉尼乘坐班机回到成都。参考航班： CA430 (21:40/05:40+1)悉尼-成都  <br>
-                </p> 
+                </p>
                 <div>
                     <img class="date-img" src="../../assets/imgs/custom/store20/d1_13.png" alt="">
-                    <img class="date-img" src="../../assets/imgs/custom/store20/d1_14.png" alt="">    
+                    <img class="date-img" src="../../assets/imgs/custom/store20/d1_14.png" alt="">
                 </div>
             </div>
             <div class="day13">
                 <h6 class="date_h6">成都</h6>
                 <p class="date_paragraph">
                     抵达成都，结束澳大利亚太平洋海岸自驾之旅。<br>
-                </p> 
+                </p>
                 <div>
                     <img class="date-img" src="../../assets/imgs/custom/store20/d1_13.png" alt="">
-                    <img class="date-img" src="../../assets/imgs/custom/store20/d1_14.png" alt="">    
+                    <img class="date-img" src="../../assets/imgs/custom/store20/d1_14.png" alt="">
                 </div>
         </div>-->
       </div>
@@ -197,14 +197,14 @@
         <br>
       </p>
       <!-- <h6 class="ct_subTitle">
-          Imperial Hotel Osaka（大阪帝国酒店） 
+          Imperial Hotel Osaka（大阪帝国酒店）
         </h6>
         <p class="paragraph">
-            大阪帝国酒店是一家享有盛誉的五星级酒店，坐落在以美丽樱花而闻名的大川河（Okawa River）河畔。 酒店设有众多娱乐设施 。Les Saison 餐厅享有城市全景，供应精致的法国美食。Kamon 餐厅供应新鲜的海产品和铁 板烧风格牛排。Jasmine Garden 餐厅供应奢华的中式菜肴。 
+            大阪帝国酒店是一家享有盛誉的五星级酒店，坐落在以美丽樱花而闻名的大川河（Okawa River）河畔。 酒店设有众多娱乐设施 。Les Saison 餐厅享有城市全景，供应精致的法国美食。Kamon 餐厅供应新鲜的海产品和铁 板烧风格牛排。Jasmine Garden 餐厅供应奢华的中式菜肴。
         </p>
         <div>
             <img class="date-img" src="../../assets/imgs/custom/store20/d1_24.png" alt="">
-            <img class="date-img" src="../../assets/imgs/custom/store20/d1_25.png" alt="">  
+            <img class="date-img" src="../../assets/imgs/custom/store20/d1_25.png" alt="">
       </div>-->
       <h5 class="ct_title">费用包含</h5>
       <p class="paragraph" style="border-bottom:none;">往返机票含税
@@ -245,7 +245,7 @@
             7、本活动落地参团，不包含机票。可代订灵活机票，直飞或转机，早到或延住，任您选择！<br>
             8、1人参团需开车，2-3人参团需至少1人开车，4-5人参团需至少2人开车。自驾领队在各车轮流驾驶/乘坐，确保各车行驶安全。<br>
             9、本旅行社有权根据当日实际情况对行程顺序组合进行调整。<br>
-        </p>  
+        </p>
         <h5 class="ct_title">
             报名流程：
         </h5>
@@ -255,37 +255,127 @@
     </div>
 
     <div class="btn_container clearfix">
-      <a
-        target="_blank"
-        href="http://p.qiao.baidu.com/cps/chat?siteId=12918104&userId=26301226"
-        class="btn_online fl"
-        id="qa-wangqiao-btn"
-        data-ajax="false"
-      >
-        <img style="widht:.52rem;height:.52rem;" src="../../assets/imgs/custom/btn1.png" alt>
+      <a target="_blank"@click="showcall=true" class="btn_online fl" id="qa-wangqiao-btn" >
+        <img style="widht:.52rem;height:.52rem;" src="../../assets/imgs/custom/btn1.png" alt="">
         在线咨询
       </a>
-      <a href="/custom" class="btn_custom fl">
-        <img style="widht:.48rem;height:.48rem;" src="../../assets/imgs/custom/btn2.png" alt>
+      <a @click="showform=true" class="btn_custom fl">
+        <img style="widht:.48rem;height:.48rem;" src="../../assets/imgs/custom/btn2.png" alt="">
         立即定制
       </a>
     </div>
+    <van-popup v-model="showcall" style="background-color: rgba(0,0,0,0)" position="center" :overlay="true">
+      <div class="connectbox">
+        <p class="titlex ">联系我们</p>
+        <a class="con-btn  " @click="clickcall('400-118-1388')" >中国咨询</a>
+        <a class="con-btn  " @click="clickcall('（001）888-933-0336')" >美国咨询</a>
+        <a class="con-btn  " @click="toList2()">在线咨询</a>
+      </div>
+    </van-popup>
+    <van-popup v-model="showform" style="background-color: rgba(0,0,0,0)" position="center" :overlay="true">
+      <div class="banner2 ">
+        <div class="form-wrap">
+          <span class="banner-title">私人定制</span>
+          <span class="banner-desc">旅游自由随心，体验独一无二</span>
+          <div class="form">
+            <!-- 地点 -->
+            <div class="form-input">
+              <div class="left-icon icon-addr"></div>
+              <van-cell-group class="transparent-input tours-input-no-bg">
+                <van-field v-model="address1"
+                           style="border-bottom: 1px solid #C9C9C9;color:#000"
+                           placeholder="请填写您想去的目的地或景点" />
+              </van-cell-group>
+
+            </div>
+            <!-- 手机号码 -->
+            <div class="form-input phone">
+              <div class="left-icon icon-phone"></div>
+              <van-cell-group class="transparent-input tours-input-no-bg">
+                <van-field v-model="phone1" style="border-bottom: 1px solid #C9C9C9;color: #000"
+                           placeholder="请填写您的电话号码" />
+              </van-cell-group>
+              <div class="right ">*</div>
+            </div>
+            <!-- 微信 -->
+            <div class="form-input wechat">
+              <div class="left-icon icon-wx"></div>
+              <van-cell-group class="transparent-input tours-input-no-bg">
+                <van-field v-model="wechat1" style="border-bottom: 1px solid #C9C9C9;color: #000"
+                           placeholder="请填写您的微信号码" />
+              </van-cell-group>
+              <div class="right ">*</div>
+            </div>
+            <!-- 定制按钮 -->
+            <van-button class=" tours-button-no-bg btn-custom "
+                        size="large"
+                        :loading="submiting"
+                        @click="onCustom()">开始定制</van-button>
+          </div>
+        </div>
+      </div>
+    </van-popup>
   </div>
 </template>
 <script>
-export default {
-  name: "component_name",
-  data() {
-    return {
-         isApp: this.$route.query.platform,
-    };
-  },
-  methods: {
-    goBack() {
-      window.history.go(-1);
+  import {custom} from "@/api/custom";
+  export default {
+    name: "component_name",
+    data() {
+      return {
+        isApp: this.$route.query.platform,
+        showcall:false,
+        address1:"",
+        phone1:'',
+        wechat1:'',
+        submiting: false,
+        showform:false,
+
+      };
+    },
+    methods: {
+      goBack() {
+        window.history.go(-1);
+      },
+      clickcall(x){
+        // this.showcall=false;
+        window.location.href='tel://'+x;
+      },
+      // 查看全部list
+      toList2() {
+        window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12918104&userId=26301226'
+      },
+      onCustom() {
+        if (!this.address1) {
+          this.$toast("请输入想去的地址或景点");
+          this.submiting = false;
+          return;
+        }
+        if (!this.phone1 && !this.wechat1) {
+          this.$toast("请输入电话号码或者微信号码至少一个");
+          this.submiting = false;
+          return;
+        }
+        this.doCustom({
+          destination: this.address1,
+          phone: this.phone1,
+          wechat: this.wechat1,
+        });
+      },
+      // 提交定制
+      async doCustom(subData) {
+        this.submiting = true;
+        let {code, data, msg} = await custom(subData);
+        this.$toast(msg);
+        this.submiting = false;
+        this.showform = false;
+        this.address1='';
+        this.phone1='';
+        this.wechat1='';
+      },
+
     }
-  }
-};
+  };
 </script>
 
 <style lang="scss" scoped>
@@ -296,5 +386,164 @@ export default {
   width: 750px;
   height: 438px;
   position: relative;
+}
+.connectbox{
+  width:586px;
+  background-color: #fff;
+  border-radius:20px;
+  box-shadow:0px 0px 20px rgba(0,0,0,0.16);
+  text-align: center;
+  padding-bottom: 40px;
+  .titlex{
+    border-radius:20px 20px 0 0;
+    background-color:#ef9a1a;
+    height:80px;
+    width: 100%;
+    line-height: 80px;
+    font-size: 32px;
+    text-align: center;
+    color: #fff;
+    display: block;
+  }
+  .con-btn{
+    display: block;
+    border: 2px solid #ef9a1a;
+    color:#ef9a1a;
+    width:410px;
+    height:80px;
+    border-radius:20px;
+    line-height: 72px;
+    text-align: center;
+    font-size: 32px;
+    margin-top: 40px;
+    margin-left: 88px;
+  }
+
+}
+.banner2 {
+  padding: 160px 32px 0;
+  height: 924px;
+  position: relative;
+  .bannerbox{
+    position: absolute;
+    width: 100%;
+    z-index: 10;
+    height: 858px;
+    float: left;
+    margin-top:-120px;
+    margin-left: -32px;
+    opacity: 0.3;
+    background-color: #000;
+  }
+  .bannerbox2{
+    z-index: 10;
+    margin-top:-120px;
+    position: absolute;
+    margin-left: -32px;
+    width: 100%;
+    height: 858px;
+    float: left;
+  }
+  .form-wrap {
+    z-index: 30;
+    position: relative;
+    margin-top: 30px;
+    padding: 20px 32px;
+    width: 686px;
+    height: 656px;
+    background: rgba(255, 255, 255, 0.87);
+    border-radius: 12px;
+    .banner-title {
+      display: block;
+      height: 74px;
+      line-height: 74px;
+      font-size: 46px;
+      font-weight: 100;
+      color: rgba(0, 0, 0, 1);
+      text-stroke: 1 rgba(255, 255, 255, 1);
+      position: relative;
+
+    }
+    .banner-desc {
+      display: block;
+      height: 40px;
+      line-height: 40px;
+      font-size: 28px;
+      font-weight: 300;
+      color: rgba(0, 0, 0, 1);
+    }
+    .title-s {
+      font-size: 24px;
+      font-weight: 300;
+      line-height: 34px;
+      color: rgba(152, 152, 152, 1);
+    }
+    .tag-list {
+      margin-top: 20px;
+    }
+    .form {
+      margin-top: calc(58px - 20px);
+      .form-input {
+        width: 622px;
+        height: 72px;
+        background: rgba(0, 0, 0, 0);
+        border-radius: 22px;
+        display: flex;
+        display: -webkit-flex;
+        justify-content: center;
+        -webkit-justify-content: center;
+        align-content: center;
+        .left-icon {
+          width: 74px;
+          position: relative;
+          &.icon-addr {
+            background: url("../../assets/imgs/newcustom/910@2x.png") no-repeat
+            center center/40px 50px;
+          }
+          &.icon-phone {
+            background: url("../../assets/imgs/newcustom/911@2x.png") no-repeat
+            center center/40px 44px;
+          }
+          &.icon-wx {
+            background: url("../../assets/imgs/newcustom/863@2x.png") no-repeat
+            center center/45px 36px;
+          }
+          &::after {
+            content: "";
+            display: inline-block;
+            position: absolute;
+            right: 0;
+            width: 2px;
+            background: #d6d6d6;
+          }
+        }
+        .transparent-input {
+          flex: 1;
+          color:#000;
+          input{
+            font-size: 30px;
+          }
+        }
+        .right {
+          flex: 0 0 30px;
+          height: 28px;
+          color: #ef9a1a;
+          align-self: center;
+          line-height: 100%;
+          font-size: 28px;
+        }
+      }
+      .phone,
+      .wechat {
+        margin-top: 24px;
+      }
+      .btn-custom {
+        margin-top: 62px;
+        background-color: #ef9a1a;
+        color: #fff;
+        border: none;
+      }
+    }
+  }
 }
 </style>
