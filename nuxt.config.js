@@ -21,7 +21,7 @@ module.exports = {
       },
       {
         name: 'format-detection',
-        content: 'telephone=yes',
+        content: 'telephone=no',
       },
       {
         hid: 'description',
