@@ -3,8 +3,8 @@
        ref="refCustomPage">
     <div class="custom-content">
       <!-- header -->
-      <normal-header v-if="!isApp&&!this.$route.query.id"
-                     :title="'私人定制'"
+      <normal-header
+                     :title="objpro.custom.ch_name||''"
                      :transparent="isTransparent"
                      fixed />
       <!-- banner -->

@@ -14,10 +14,10 @@
         <div class="form-wrap">
           <div class="title-s">热门景点</div>
           <div class="tag-list">
-            <transp-tag v-for="tag in tagList"
+            <transp-tag v-for="tag in objlist"
                         @callOnTag="onTag"
                         :tag="tag"
-                        :key="tag.title"></transp-tag>
+                        :key="tag.id"></transp-tag>
           </div>
           <div class="form">
             <!-- 地点 -->
@@ -124,6 +124,7 @@
   import transpTag from "@/components/tags/transparent";
   import ImgItem from "@/components/items/imgItem";
   import {custom} from "@/api/custom";
+  import {getcitylist} from "@/api/custom";
   import {isMobile} from "@/assets/js/utils";
 
   export default {
@@ -143,6 +144,7 @@
           observer: true, //修改swiper自己或子元素时，自动初始化swiper
           observeParents: true //修改swiper的父元素时，自动初始化swiper
         },
+        objlist:[],
         tagList: [
           {title: "日本"},
           {title: "泰国"},
@@ -289,6 +291,7 @@
         "scroll",
         _throttle(this.scrollFn, 200)
       );
+      this.getlist();
       // 判断机型
       if (this.isApp) {
         // 引入appBridge
@@ -302,7 +305,14 @@
       // 热门景点tag
       onTag(item) {
         // console.log(item);
-        this.address = item.title;
+        this.address = item.id;
+        this.jumpToPage("custom/city?id="+item.id);
+      },
+      async getlist() {
+        let {data, code} = await getcitylist()
+        if(code === 0) {
+          this.objlist = data;
+        }
       },
       // 定制
       onCustom() {
