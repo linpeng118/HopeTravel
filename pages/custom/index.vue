@@ -288,8 +288,8 @@
     <van-popup v-model="showcall" style="background-color: rgba(0,0,0,0)" position="center" :overlay="true">
       <div class="connectbox">
         <p class="titlex basebg">联系我们</p>
-        <a v-if="!isApp" class="con-btn basecolor baseboder" @click="clickcall('400-118-1388')" >中国咨询</a>
-        <a v-if="!isApp" class="con-btn basecolor baseboder" @click="clickcall('（001）888-933-0336')" >美国咨询</a>
+        <a v-if="!isApp" class="con-btn basecolor baseboder" @click="clickcall('400-118-1388')" >中国客服</a>
+        <a v-if="!isApp" class="con-btn basecolor baseboder" @click="clickcall('（001）888-933-0336')" >美国客服</a>
         <a class="con-btn basecolor baseboder" @click="toList2()">在线咨询</a>
       </div>
 
@@ -1172,7 +1172,7 @@ let {data, code} = await getcustom(x||this.objId)
           bottom:30%;
           width: 136px;
           height: 136px;
-          z-index: 10000;
+          z-index: 999;
           background:url("../../assets/imgs/newcustom/538@2x.png") no-repeat;
           background-size: 136px;
           background-position: center;
