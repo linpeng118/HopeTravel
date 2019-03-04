@@ -32,6 +32,7 @@
         testList: [
           {path: '/test/vant', name: '测试vant UI', color: '#EEC900'},
           {path: '/test/appBridge', name: '测试调用移动端接口', color: '#EEC900'},
+          {path: '/test/bug', name: '测试bug', color: '#EEC900'},
         ],
         testPages: [
           {path: '/local_group?platform=app', name: '测试当地跟团页面', color: '#40E0D0'},
