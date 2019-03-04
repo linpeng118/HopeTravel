@@ -28,7 +28,10 @@ module.exports = {
         name: 'description',
         content: pkg.description,
       },
-
+      {
+        'http-equiv':'Content-Security-Policy',
+        'content':'upgrade-insecure-requests'
+      }
     ],
     link: [{
       rel: 'icon',
