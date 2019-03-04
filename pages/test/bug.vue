@@ -6,7 +6,8 @@
       </nuxt-link>
     </div>
     <!-- 例子 -->
-    <img src="https://www.tourscool.com/images/tourCity/5c6e15bfe6fb8_small.jpg" alt="img">
+    <img src="https://www.tourscool.com/images/tourCity/5c6e15bfe6fb8_small.jpg"
+      alt="img">
   </section>
 </template>
 
@@ -14,6 +15,7 @@
   export default {
     components: {},
     data() {
+      return {}
     }
   }
 </script>
