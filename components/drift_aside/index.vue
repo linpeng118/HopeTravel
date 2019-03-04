@@ -17,7 +17,7 @@
             <van-icon name="phone-o" class="big-icon" />
             <div class="tel-box">
               <p>中国客服电话7*24</p>
-              <p class="tel"><a href="tel:00864001181388">400-118-1388</a></p>
+              <p class="tel"><a href="tel:4001181388">400-118-1388</a></p>
             </div>
           </dd>
           <dd>
