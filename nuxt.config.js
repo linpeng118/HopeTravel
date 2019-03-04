@@ -27,10 +27,6 @@ module.exports = {
         hid: 'description',
         name: 'description',
         content: pkg.description,
-      },
-      {
-        'http-equiv':'Content-Security-Policy',
-        'content':'upgrade-insecure-requests'
       }
     ],
     link: [{
