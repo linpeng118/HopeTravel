@@ -30,7 +30,7 @@
       return {
         show: this.proIsShow,
         phoneList: [
-          {title: '中国客服电话', number: '     400-118-1388', desc: '(8:00am - 11:00pm) EN\\CN', phone: '400-118-1388'},
+          {title: '中国客服电话', number: '400-118-1388', desc: '(8:00am - 11:00pm) EN\\CN', phone: '400-118-1388'},
           {title: '美国客服电话', number: '(001)888-933-0336', desc: '(9:00am - 6:00pm) EN\\CN', phone: '001-888-933-0336'},
         ]
       }
@@ -65,7 +65,7 @@
         border-bottom: 1px solid #9a9a9a;
       }
       .left {
-        width: 200px;
+        width: 150px;
         -webkit-box-flex: 0 0 60px;
         flex: 0 0 60px;
         .phone-icon {
@@ -74,7 +74,7 @@
         }
       }
       .right {
-        width: 300px;
+        width: 350px;
         flex: 0 0 1;
         -webkit-box-flex: 0 0 1;
         margin-left: 15px;
