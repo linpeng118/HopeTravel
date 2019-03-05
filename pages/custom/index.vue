@@ -90,7 +90,7 @@
             <p>管家式服务，出行有保障</p>
           </div>
         </div>
-        <div class="ab-icom" @click="showcall=true">
+        <div class="ab-icom" @click="toList2()">
           <img class="abimg" src="../../assets/imgs/newcustom/921@2x.png" alt="">
         </div>
       </div>
@@ -281,20 +281,11 @@
       </div>
 
     </div>
-    <div class="back-top"
-         v-show="!isTransparent"
-         @click="backTop">
+    <div class="back-top" v-if="!isApp"
+         @click="showcall2()">
     </div>
-    <van-popup v-model="showcall" style="background-color: rgba(0,0,0,0)" position="center" :overlay="true">
-      <div class="connectbox">
-        <p class="titlex basebg">联系我们</p>
-        <a v-if="!isApp" class="con-btn basecolor baseboder" @click="clickcall('400-118-1388')" >中国客服</a>
-        <a v-if="!isApp" class="con-btn basecolor baseboder" @click="clickcall('（001）888-933-0336')" >美国客服</a>
-        <a class="con-btn basecolor baseboder" @click="toList2()">在线咨询</a>
-      </div>
 
-    </van-popup>
-    <loading v-show="loading"></loading>
+    <!--<loading v-show="loading"></loading>-->
   </div>
 </template>
 
@@ -306,8 +297,11 @@
   import {getcitylist} from "@/api/custom";
   import {getcustom} from "@/api/custom";
   import {isMobile} from "@/assets/js/utils";
-  import Loading from '@/components/loading'
+  import Loading from '@/components/loading';
+  import {mapMutations, mapState} from 'vuex';
+  import {DLG_TYPE} from '@/assets/js/consts/dialog'
   export default {
+    name: 'custom',
     components: {
       NormalHeader,
       transpTag,
@@ -427,6 +421,7 @@
        this.getitem();
     },
     mounted() {
+
       // 监听滚动
       this.$refs.refCustomPage.addEventListener(
         "scroll",
@@ -449,6 +444,10 @@
       }
     },
     methods: {
+      ...mapMutations({
+        vxToggleDialog: 'toggleDialog', // 是否显示弹窗
+        vxSetDlgType: 'setDlgType', // 设置弹窗类型
+      }),
       //   得到详细信息
       async getitem(x) {
         this.loading=true;
@@ -501,6 +500,11 @@ let {data, code} = await getcustom(x||this.objId)
           phone: this.phone,
           wechat: ''
         });
+      },
+      // 电话咨询
+      showcall2() {
+        this.vxToggleDialog(true)
+        this.vxSetDlgType(DLG_TYPE.PHONECUSTOM)
       },
        // 定制
       onCustom2() {
@@ -619,6 +623,7 @@ let {data, code} = await getcustom(x||this.objId)
         clearInterval(this.timer);
         this.timer = setInterval(this.backFn, 20);
       },
+      //拨打电话
       // 返回顶部
       backelse(x) {
         console.log('1')
@@ -644,7 +649,6 @@ let {data, code} = await getcustom(x||this.objId)
         }
 
       },
-
       backFn() {
         let scrollTop = this.$refs.refCustomPage.scrollTop;
         let ispeed = Math.floor(-scrollTop / 5);
@@ -1168,7 +1172,7 @@ let {data, code} = await getcustom(x||this.objId)
         }
         .ab-icom{
           position: fixed;
-          right:32px;
+          right:16px;
           bottom:30%;
           width: 136px;
           height: 136px;
@@ -1502,11 +1506,11 @@ let {data, code} = await getcustom(x||this.objId)
     .back-top {
       position: fixed;
       z-index: 999;
-      right: 34px;
+      right: 16px;
       bottom: 20%;
       width: 136px;
       height: 136px;
-      background: url("../../assets/imgs/custom/back_top@2x.png") no-repeat center
+      background: url("../../assets/imgs/newcustom/callphone.png") no-repeat center
       center/100%;
     }
     .connectbox{

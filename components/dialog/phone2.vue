@@ -32,7 +32,6 @@
         phoneList: [
           {title: '中国客服电话', number: '400-118-1388', desc: '(8:00am - 11:00pm) EN\\CN', phone: '400-118-1388'},
           {title: '美国客服电话', number: '(001)888-933-0336', desc: '(9:00am - 6:00pm) EN\\CN', phone: '001-888-933-0336'},
-          {title: '日本客服电话', number: '(0081)3-5545-5311', desc: '(8:30am - 5:30pm) JPN\\CN', phone: '0081-3-5545-5311'},
         ]
       }
     },
@@ -66,19 +65,24 @@
         border-bottom: 1px solid #9a9a9a;
       }
       .left {
-        flex: 0 0 80px;
+        width: 150px;
+        flex: 0 0 60px;
         .phone-icon {
           font-size: 70px;
           color: #707070;
         }
       }
       .right {
+        width: 340px;
         flex: 0 0 1;
         margin-left: 15px;
         text-align: left;
         .title {
           font-size: 28px;
           color: #5a5a5a;
+        }
+        .fs-12{
+          font-size: 20px!important;
         }
         .number {
           font-size: 28px;

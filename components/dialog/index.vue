@@ -18,6 +18,7 @@
   import {mapState, mapMutations} from 'vuex'
   import NormalComp from './normal'
   import PhoneComp from './phone'
+  import PhoneCustom from './phone2'
   import LoginComp from '@/components/partcail/login/login'
   import RegistComp from '@/components/partcail/login/regist'
   import {DLG_TYPE} from '@/assets/js/consts/dialog'
@@ -28,7 +29,8 @@
       NormalComp,
       PhoneComp,
       LoginComp,
-      RegistComp
+      RegistComp,
+      PhoneCustom
     },
     props: {
       // 是否显示弹窗
