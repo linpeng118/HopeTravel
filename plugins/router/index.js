@@ -6,7 +6,7 @@ export default ({
   app.router.beforeEach((to, from, next) => {
     // 除了首页，列表,定制，其他页面都不弹
     if (document.querySelector('#newBridge')) {
-      if (!(to.name === 'index' || to.name === 'product_list'|| to.name === 'custom')) {
+      if (!(to.name === 'index' || to.name === 'product_list')) {
         document.querySelector('#newBridge').style.display = 'none'
       } else {
         document.querySelector('#newBridge').style.display = 'block'
