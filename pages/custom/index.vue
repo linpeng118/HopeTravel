@@ -281,7 +281,7 @@
       </div>
 
     </div>
-    <div class="back-top"
+    <div class="back-top" v-if="!isApp"
          @click="showcall2()">
     </div>
 
