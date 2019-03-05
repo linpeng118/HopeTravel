@@ -6,8 +6,7 @@
       </nuxt-link>
     </div>
     <!-- 例子 -->
-    <img src="https://www.tourscool.com/images/tourCity/5c6e15bfe6fb8_small.jpg"
-      alt="img">
+    <img src="https://www.tourscool.com/images/tourCity/5c6e15bfe6fb8_small.jpg?force=pc" alt="img">
   </section>
 </template>
 
