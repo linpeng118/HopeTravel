@@ -123,9 +123,9 @@
                 <div>
                     <img class="date-img" src="../../assets/imgs/custom/store3/d1_18.png" alt="">
                     <img class="date-img" src="../../assets/imgs/custom/store3/d1_19.png" alt="">
-                    
+
                 </div>
-                
+
             </div>
         </div>
         <p class="date_paragraph">
@@ -142,7 +142,7 @@
         </p>
         <div>
             <img class="date-img" src="../../assets/imgs/custom/store3/d1_20.png" alt="">
-            <img class="date-img" src="../../assets/imgs/custom/store3/d1_21.png" alt="">   
+            <img class="date-img" src="../../assets/imgs/custom/store3/d1_21.png" alt="">
         </div>
         <h6 class="ct_subTitle">
             巴厘岛阿雅娜度假别墅
@@ -153,7 +153,7 @@
         <div>
             <img class="date-img" src="../../assets/imgs/custom/store3/d1_22.png" alt="">
             <img class="date-img" src="../../assets/imgs/custom/store3/d1_23.png" alt="">
-            <img class="date-img" src="../../assets/imgs/custom/store3/d1_24.png" alt="">   
+            <img class="date-img" src="../../assets/imgs/custom/store3/d1_24.png" alt="">
         </div>
         <h5 class="ct_title">
             费用包含
@@ -166,7 +166,7 @@
             5. 每日早餐；<br>
             6. 科莫多粉色沙滩一日游；<br>
             7. 境外全程接送机服务。<br>
-        </p>    
+        </p>
         <h5 class="ct_title">
             独家赠送：
         </h5>
@@ -185,9 +185,9 @@
             4. 洗衣，理发，电话，饮料，烟酒，付费电视，行李搬运等私人费用；<br>
             5. 旅游费用不包括旅游者因违约、自身过错、自由活动期间内行为或自身疾病引起的人身和财产损失；<br>
             6. 单房差。<br>
-        </p>  
+        </p>
     </div>
-   
+
     <div class="btn_container clearfix">
         <a target="_blank" href="http://p.qiao.baidu.com/cps/chat?siteId=12918104&userId=26301226" class="btn_online fl" data-ajax="false" id="qa-wangqiao-btn" >
             <img style="widht:.52rem;height:.52rem;" src="../../assets/imgs/custom/btn1.png" alt="">
