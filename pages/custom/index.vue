@@ -1172,7 +1172,7 @@ let {data, code} = await getcustom(x||this.objId)
         }
         .ab-icom{
           position: fixed;
-          right:32px;
+          right:16px;
           bottom:30%;
           width: 136px;
           height: 136px;
@@ -1506,7 +1506,7 @@ let {data, code} = await getcustom(x||this.objId)
     .back-top {
       position: fixed;
       z-index: 999;
-      right: 34px;
+      right: 16px;
       bottom: 20%;
       width: 136px;
       height: 136px;

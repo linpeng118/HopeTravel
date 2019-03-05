@@ -66,7 +66,6 @@
       }
       .left {
         width: 150px;
-        -webkit-box-flex: 0 0 60px;
         flex: 0 0 60px;
         .phone-icon {
           font-size: 70px;
@@ -74,9 +73,8 @@
         }
       }
       .right {
-        width: 350px;
+        width: 340px;
         flex: 0 0 1;
-        -webkit-box-flex: 0 0 1;
         margin-left: 15px;
         text-align: left;
         .title {
@@ -84,7 +82,7 @@
           color: #5a5a5a;
         }
         .fs-12{
-          font-size: 18px!important;
+          font-size: 20px!important;
         }
         .number {
           font-size: 28px;
