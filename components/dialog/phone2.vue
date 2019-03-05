@@ -58,13 +58,15 @@
       display: -webkit-flex;
       align-items: center;
       -webkit-align-items: center;
-      justify-content: space-between;
-      -webkit-justify-content: space-between;
+      justify-content: center;
+      -webkit-justify-content: center;
       height: 170px;
       &:not(:last-child) {
         border-bottom: 1px solid #9a9a9a;
       }
       .left {
+        width: 200px;
+        -webkit-box-flex: 0 0 60px;
         flex: 0 0 60px;
         .phone-icon {
           font-size: 70px;
@@ -72,7 +74,9 @@
         }
       }
       .right {
+        width: 300px;
         flex: 0 0 1;
+        -webkit-box-flex: 0 0 1;
         margin-left: 15px;
         text-align: left;
         .title {
