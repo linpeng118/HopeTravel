@@ -79,6 +79,9 @@
           font-size: 28px;
           color: #5a5a5a;
         }
+        .fs-12{
+          font-size: 18px!important;
+        }
         .number {
           font-size: 28px;
           font-weight: bold;
