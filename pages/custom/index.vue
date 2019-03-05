@@ -301,6 +301,7 @@
   import {mapMutations, mapState} from 'vuex';
   import {DLG_TYPE} from '@/assets/js/consts/dialog'
   export default {
+    name: 'custom',
     components: {
       NormalHeader,
       transpTag,
