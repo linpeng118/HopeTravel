@@ -30,7 +30,7 @@
       return {
         show: this.proIsShow,
         phoneList: [
-          {title: '中国客服电话', number: '400-118-1388', desc: '(8:00am - 11:00pm) EN\\CN', phone: '0086-400-118-1388'},
+          {title: '中国客服电话', number: '400-118-1388', desc: '(8:00am - 11:00pm) EN\\CN', phone: '400-118-1388'},
           {title: '美国客服电话', number: '(001)888-933-0336', desc: '(9:00am - 6:00pm) EN\\CN', phone: '001-888-933-0336'},
         ]
       }
