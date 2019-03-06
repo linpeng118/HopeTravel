@@ -216,6 +216,27 @@
                </li>
              </div>
             </div>
+            <div class="swiper-slide">
+              <div class="swiper-else">
+                <li>
+                  <div class="imgbox">
+                    <img src="../../assets/imgs/newcustom/user8.png" alt="">
+                  </div>
+                  <p class="pname">Angie Xi </p>
+                  <p class="p2">旅游行业：5年</p>
+                  <p class="p3">美国/欧洲</p>
+                </li>
+                <li>
+                  <div class="imgbox">
+                    <img src="../../assets/imgs/newcustom/user12.jpg" alt="">
+                  </div>
+                  <p class="pname">郭雨 </p>
+                  <p class="p2">旅游行业：8年</p>
+                  <p class="p3"> 欧洲/非洲</p>
+                </li>
+
+              </div>
+            </div>
 
           </div>
         </div>
