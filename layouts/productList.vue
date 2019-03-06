@@ -1,6 +1,5 @@
 <template>
   <div>
-    <div>sdfsdfsdfsdffffffffffffffffffffffffffffffffffffffff</div>
     <nuxt keep-alive />
   </div>
 </template>

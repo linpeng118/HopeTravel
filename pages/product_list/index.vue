@@ -87,7 +87,7 @@ import CityList from '@/components/list/cityList'
 import {getProductList, getFilterList} from '@/api/products'
 import DriftAside from '@/components/drift_aside'
 export default {
-  name: 'modal',
+  name: 'product_list',
   components: {
     LayHeader,
     ProductList,
