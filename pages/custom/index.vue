@@ -28,7 +28,7 @@
           </p>
           <div v-if="!hidelist" class="setlistbox">
 
-             <p class="ptype3 basebg" @click="newitem(item.id)" v-for="(item,ind) in objlist" :key="ind" :style="ind+1!=objlist.length?'border-radius:0':''" >
+            <p class="ptype3 basebg" @click="newitem(item.id)" v-for="(item,ind) in objlist" :key="ind" :style="ind+1!=objlist.length?'border-radius:0':''" >
               <i class="iconadd"><img src="../../assets/imgs/icon_pos@2x.png" alt="" style="opacity: 0"></i>
               <span class="span1">{{item.ch_name}}</span>
               <span class="span2">{{item.en_name||''}}</span>
@@ -41,21 +41,21 @@
         </div>
         <div class="tag-list">
           <div class="tagitem" @click="backelse(1)"><a>客人评价</a></div>
-           <div class="tagitem" @click="backelse(2)"><a>经典路线</a></div>
-            <div class="tagitem" @click="backelse(3)"><a>专属顾问</a></div>
+          <div class="tagitem" @click="backelse(2)"><a>经典路线</a></div>
+          <div class="tagitem" @click="backelse(3)"><a>专属顾问</a></div>
         </div>
         <div class="form-wrap">
-              <div class="setover" ref="boxover">
-                <div class="setover2" ref="conover">
-                  <p class="from-swiper" v-for="item in swiperuser"
-                     :key="item.name">
-                    <span class="basecolor">{{item.name}}&nbsp;&nbsp;{{item.phone.substr(0,3)}}****{{item.phone.substr(6,4)}}</span>
-                    <span>&nbsp;&nbsp;{{item.time}}&nbsp;&nbsp;</span>
-                    <span class="basecolor">咨询</span>
-                  </p>
-                </div>
+          <div class="setover" ref="boxover">
+            <div class="setover2" ref="conover">
+              <p class="from-swiper" v-for="item in swiperuser"
+                 :key="item.name">
+                <span class="basecolor">{{item.name}}&nbsp;&nbsp;{{item.phone.substr(0,3)}}****{{item.phone.substr(6,4)}}</span>
+                <span>&nbsp;&nbsp;{{item.time}}&nbsp;&nbsp;</span>
+                <span class="basecolor">咨询</span>
+              </p>
+            </div>
 
-              </div>
+          </div>
           <div class="form">
             <!-- 地点 -->
             <div class="form-input">
@@ -90,7 +90,7 @@
             <p>管家式服务，出行有保障</p>
           </div>
         </div>
-        <div class="ab-icom" @click="showcall=true">
+        <div class="ab-icom" @click="toList2()">
           <img class="abimg" src="../../assets/imgs/newcustom/921@2x.png" alt="">
         </div>
       </div>
@@ -145,76 +145,97 @@
              v-swiper:mySwiper2="swiperOption2">
           <div class="swiper-wrapper">
             <div class="swiper-slide">
-             <div class="swiper-else">
-               <li>
-                 <div class="imgbox">
-                   <img src="../../assets/imgs/newcustom/872629054653392492(2)@2x.png" alt="">
-                 </div>
-                 <p class="pname">Elaine.江</p>
-                 <p class="p2">旅游行业：4年</p>
-                 <p class="p3">新西兰 / 澳洲 / 美国</p>
-               </li>
-               <li>
-                 <div class="imgbox">
-                  <img src="../../assets/imgs/newcustom/448d62ba3846963ad9ae26a18207118@2x.png" alt="">
-                 </div>
-                 <p class="pname">李汀</p>
-                 <p class="p2">旅游行业：8年</p>
-                 <p class="p3">东南亚 / 摩洛哥 / 土耳其</p>
-               </li>
-               <li>
-                 <div class="imgbox">
-                  <img src="../../assets/imgs/newcustom/237733491447598803(2)@2x.png" alt="">
-                 </div>
-                 <p class="pname">SKY.海</p>
-                 <p class="p2">旅游行业：6年</p>
-                 <p class="p3">海岛 / 日本 / 希腊</p>
-               </li>
-               <li>
-                 <div class="imgbox">
-                  <img src="../../assets/imgs/newcustom/44458612664068507@2x.png" alt="">
-                 </div>
-                 <p class="pname">Liang yu</p>
-                 <p class="p2">旅游行业：6年</p>
-                 <p class="p3">欧洲 / 新加坡 / 巴厘岛</p>
-               </li>
-             </div>
+              <div class="swiper-else">
+                <li>
+                  <div class="imgbox">
+                    <img src="../../assets/imgs/newcustom/872629054653392492(2)@2x.png" alt="">
+                  </div>
+                  <p class="pname">Elaine.江</p>
+                  <p class="p2">旅游行业：4年</p>
+                  <p class="p3">新西兰 / 澳洲 / 美国</p>
+                </li>
+                <li>
+                  <div class="imgbox">
+                    <img src="../../assets/imgs/newcustom/448d62ba3846963ad9ae26a18207118@2x.png" alt="">
+                  </div>
+                  <p class="pname">李汀</p>
+                  <p class="p2">旅游行业：8年</p>
+                  <p class="p3">东南亚 / 摩洛哥 / 土耳其</p>
+                </li>
+                <li>
+                  <div class="imgbox">
+                    <img src="../../assets/imgs/newcustom/237733491447598803(2)@2x.png" alt="">
+                  </div>
+                  <p class="pname">SKY.海</p>
+                  <p class="p2">旅游行业：6年</p>
+                  <p class="p3">海岛 / 日本 / 希腊</p>
+                </li>
+                <li>
+                  <div class="imgbox">
+                    <img src="../../assets/imgs/newcustom/44458612664068507@2x.png" alt="">
+                  </div>
+                  <p class="pname">Liang yu</p>
+                  <p class="p2">旅游行业：6年</p>
+                  <p class="p3">欧洲 / 新加坡 / 巴厘岛</p>
+                </li>
+              </div>
             </div>
-             <div class="swiper-slide">
-             <div class="swiper-else">
-               <li>
-                 <div class="imgbox">
-                   <img src="../../assets/imgs/newcustom/5d61d128-27aa-408c-be69-215c3d76c48a@2x.png" alt="">
-                 </div>
-                 <p class="pname">Nate.帆</p>
-                 <p class="p2">旅游行业：5年</p>
-                 <p class="p3">毛里求斯 / 迪拜 / 北欧</p>
-               </li>
-               <li>
-                 <div class="imgbox">
-                  <img src="../../assets/imgs/newcustom/672a1fe214ece9ef76207cd13b3c500@2x.png" alt="">
-                 </div>
-                 <p class="pname">Elliott</p>
-                 <p class="p2">旅游行业：3年</p>
-                 <p class="p3">美国 / 加拿大</p>
-               </li>
-               <li>
-                 <div class="imgbox">
-                  <img src="../../assets/imgs/newcustom/861493c6411cb005060fc0d3251dc38@2x.png" alt="">
-                 </div>
-                 <p class="pname">Gabriel</p>
-                 <p class="p2">旅游行业：5年</p>
-                 <p class="p3">澳洲</p>
-               </li>
-               <li>
-                 <div class="imgbox">
-                  <img src="../../assets/imgs/newcustom/wKgBs1cga7GAeyMaAAkpeo2rFFE86@2x.png" alt="">
-                 </div>
-                 <p class="pname">keith</p>
-                 <p class="p2">旅游行业：5年</p>
-                 <p class="p3">日本 / 韩国</p>
-               </li>
-             </div>
+            <div class="swiper-slide">
+              <div class="swiper-else">
+                <li>
+                  <div class="imgbox">
+                    <img src="../../assets/imgs/newcustom/5d61d128-27aa-408c-be69-215c3d76c48a@2x.png" alt="">
+                  </div>
+                  <p class="pname">Nate.帆</p>
+                  <p class="p2">旅游行业：5年</p>
+                  <p class="p3">毛里求斯 / 迪拜 / 北欧</p>
+                </li>
+                <li>
+                  <div class="imgbox">
+                    <img src="../../assets/imgs/newcustom/672a1fe214ece9ef76207cd13b3c500@2x.png" alt="">
+                  </div>
+                  <p class="pname">Elliott</p>
+                  <p class="p2">旅游行业：3年</p>
+                  <p class="p3">美国 / 加拿大</p>
+                </li>
+                <li>
+                  <div class="imgbox">
+                    <img src="../../assets/imgs/newcustom/861493c6411cb005060fc0d3251dc38@2x.png" alt="">
+                  </div>
+                  <p class="pname">Gabriel</p>
+                  <p class="p2">旅游行业：5年</p>
+                  <p class="p3">澳洲</p>
+                </li>
+                <li>
+                  <div class="imgbox">
+                    <img src="../../assets/imgs/newcustom/wKgBs1cga7GAeyMaAAkpeo2rFFE86@2x.png" alt="">
+                  </div>
+                  <p class="pname">keith</p>
+                  <p class="p2">旅游行业：5年</p>
+                  <p class="p3">日本 / 韩国</p>
+                </li>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="swiper-else">
+                <li>
+                  <div class="imgbox">
+                    <img src="../../assets/imgs/newcustom/user8.png" alt="">
+                  </div>
+                  <p class="pname">Angie Xi </p>
+                  <p class="p2">旅游行业：5年</p>
+                  <p class="p3">美国/欧洲</p>
+                </li>
+                <li>
+                  <div class="imgbox">
+                    <img src="../../assets/imgs/newcustom/user12.jpg" alt="">
+                  </div>
+                  <p class="pname">郭雨 </p>
+                  <p class="p2">旅游行业：8年</p>
+                  <p class="p3"> 欧洲/非洲</p>
+                </li>
+
+              </div>
             </div>
 
           </div>
@@ -281,20 +302,11 @@
       </div>
 
     </div>
-    <div class="back-top"
-         v-show="!isTransparent"
-         @click="backTop">
+    <div class="back-top" v-if="!isApp"
+         @click="showcall2()">
     </div>
-    <van-popup v-model="showcall" style="background-color: rgba(0,0,0,0)" position="center" :overlay="true">
-      <div class="connectbox">
-        <p class="titlex basebg">联系我们</p>
-        <a v-if="!isApp" class="con-btn basecolor baseboder" @click="clickcall('400-118-1388')" >中国咨询</a>
-        <a v-if="!isApp" class="con-btn basecolor baseboder" @click="clickcall('（001）888-933-0336')" >美国咨询</a>
-        <a class="con-btn basecolor baseboder" @click="toList2()">在线咨询</a>
-      </div>
 
-    </van-popup>
-    <loading v-show="loading"></loading>
+    <!--<loading v-show="loading"></loading>-->
   </div>
 </template>
 
@@ -306,8 +318,11 @@
   import {getcitylist} from "@/api/custom";
   import {getcustom} from "@/api/custom";
   import {isMobile} from "@/assets/js/utils";
-  import Loading from '@/components/loading'
+  import Loading from '@/components/loading';
+  import {mapMutations, mapState} from 'vuex';
+  import {DLG_TYPE} from '@/assets/js/consts/dialog'
   export default {
+    name: 'custom',
     components: {
       NormalHeader,
       transpTag,
@@ -408,7 +423,7 @@
           {name:'尤先生',time:'27分钟前',phone:'150****7614'},
           {name:'许小姐',time:'2小时前',phone:'132****7895'},
 
-          ],
+        ],
         timer: null,
         setInv:null,
         objId:this.$route.query.id,
@@ -423,10 +438,11 @@
       };
     },
     activated(){
-       this.getlist();
-       this.getitem();
+      this.getlist();
+      this.getitem();
     },
     mounted() {
+
       // 监听滚动
       this.$refs.refCustomPage.addEventListener(
         "scroll",
@@ -449,6 +465,10 @@
       }
     },
     methods: {
+      ...mapMutations({
+        vxToggleDialog: 'toggleDialog', // 是否显示弹窗
+        vxSetDlgType: 'setDlgType', // 设置弹窗类型
+      }),
       //   得到详细信息
       async getitem(x) {
         this.loading=true;
@@ -457,19 +477,19 @@
           this.hidelist=true;
         }
         if(this.objId){
-let {data, code} = await getcustom(x||this.objId)
-        if(code === 0) {
-          this.loading=false;
-          this.objpro = data;
-          this.address=this.objpro.custom.ch_name
-          this.address1=this.objpro.custom.ch_name
-          this.setstyle();
-        } else {
-          this.loading=false;
+          let {data, code} = await getcustom(x||this.objId)
+          if(code === 0) {
+            this.loading=false;
+            this.objpro = data;
+            this.address=this.objpro.custom.ch_name
+            this.address1=this.objpro.custom.ch_name
+            this.setstyle();
+          } else {
+            this.loading=false;
             this.objpro = { custom:{},
-          custom_spot:[],
-          custom_view:[]};
-        }
+              custom_spot:[],
+              custom_view:[]};
+          }
         }
 
       },
@@ -480,7 +500,7 @@ let {data, code} = await getcustom(x||this.objId)
           this.objlist = data;
           if(!this.objId){
             this.objId=this.objlist[0].id;
-             this.getitem();
+            this.getitem();
           }
         }
       },
@@ -502,7 +522,12 @@ let {data, code} = await getcustom(x||this.objId)
           wechat: ''
         });
       },
-       // 定制
+      // 电话咨询
+      showcall2() {
+        this.vxToggleDialog(true)
+        this.vxSetDlgType(DLG_TYPE.PHONECUSTOM)
+      },
+      // 定制
       onCustom2() {
         if (!this.address1) {
           this.$toast("请输入想去的地址或景点");
@@ -527,12 +552,12 @@ let {data, code} = await getcustom(x||this.objId)
         let {code, data, msg} = await custom(subData);
         this.$toast(msg);
         this.submiting = false;
-         this.address1='';
-         this.phone1='';
-         this.wechat1='';
-         this.address='';
-         this.phone='';
-         this.wechat='';
+        this.address1='';
+        this.phone1='';
+        this.wechat1='';
+        this.address='';
+        this.phone='';
+        this.wechat='';
       },
       // 季推荐
       onSeasonRecommend(item) {
@@ -540,11 +565,11 @@ let {data, code} = await getcustom(x||this.objId)
       },
       // 查看全部list
       toList() {
-         this.backTop();
+        this.backTop();
       },
-       // 查看全部list
+      // 查看全部list
       toList2() {
-         window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12918104&userId=26301226'
+        window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12918104&userId=26301226'
       },
       // 故事
       onSlide(val) {
@@ -619,6 +644,7 @@ let {data, code} = await getcustom(x||this.objId)
         clearInterval(this.timer);
         this.timer = setInterval(this.backFn, 20);
       },
+      //拨打电话
       // 返回顶部
       backelse(x) {
         console.log('1')
@@ -633,7 +659,7 @@ let {data, code} = await getcustom(x||this.objId)
         else if(x==2){
           scrollTop = this.$refs.luxian.offsetTop;
         }
-       else{
+        else{
           scrollTop = this.$refs.guwen.offsetTop;
         }
         console.log(scrollTop)
@@ -644,7 +670,6 @@ let {data, code} = await getcustom(x||this.objId)
         }
 
       },
-
       backFn() {
         let scrollTop = this.$refs.refCustomPage.scrollTop;
         let ispeed = Math.floor(-scrollTop / 5);
@@ -772,7 +797,7 @@ let {data, code} = await getcustom(x||this.objId)
               top: -5px;
               width: 220px;
               display: inline-block;
-               text-align: center;
+              text-align: center;
               font-size: 36px;
               color: #fff;
               opacity: .6;
@@ -808,7 +833,7 @@ let {data, code} = await getcustom(x||this.objId)
               position: relative;
               top: -5px;
               width: 180px;
-               text-align: center;
+              text-align: center;
               color: #fff;
               border-right: 2px solid #fff;
               padding-right: 20px;
@@ -820,7 +845,7 @@ let {data, code} = await getcustom(x||this.objId)
               font-weight: bold;
               position: relative;
               top: -5px;
-               text-align: center;
+              text-align: center;
               width: 220px;
               display: inline-block;
               font-size: 36px;
@@ -1104,8 +1129,8 @@ let {data, code} = await getcustom(x||this.objId)
                 flex: 1;
                 color:#000;
                 input{
-                font-size: 30px;
-              }
+                  font-size: 30px;
+                }
               }
               .right {
                 flex: 0 0 30px;
@@ -1144,11 +1169,11 @@ let {data, code} = await getcustom(x||this.objId)
             height: 94px;
           }
           .desc-img:nth-child(1) .img{
-              width: 108px;
+            width: 108px;
 
           }
           .desc-img:nth-child(1) .img{
-              width: 86px;
+            width: 86px;
           }
           .desc-pbox{
             width: 420px;
@@ -1168,11 +1193,11 @@ let {data, code} = await getcustom(x||this.objId)
         }
         .ab-icom{
           position: fixed;
-          right:32px;
+          right:16px;
           bottom:30%;
           width: 136px;
           height: 136px;
-          z-index: 10000;
+          z-index: 999;
           background:url("../../assets/imgs/newcustom/538@2x.png") no-repeat;
           background-size: 136px;
           background-position: center;
@@ -1502,11 +1527,11 @@ let {data, code} = await getcustom(x||this.objId)
     .back-top {
       position: fixed;
       z-index: 999;
-      right: 34px;
+      right: 16px;
       bottom: 20%;
       width: 136px;
       height: 136px;
-      background: url("../../assets/imgs/custom/back_top@2x.png") no-repeat center
+      background: url("../../assets/imgs/newcustom/callphone.png") no-repeat center
       center/100%;
     }
     .connectbox{
@@ -1544,4 +1569,4 @@ let {data, code} = await getcustom(x||this.objId)
   }
 
 </style>
- 
+
