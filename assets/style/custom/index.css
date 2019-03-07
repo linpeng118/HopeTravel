@@ -80,10 +80,36 @@ body {
 .day12,
 .day13,
 .day14,
-.day15 {
+.day15,
+.day16,
+.day17,
+.day18,
+.day19,
+.day20,
+.day21,
+.day22,
+.day23,
+.day24,
+.day25,
+.day26,
+.day27,
+.day28,
+.day29,
+.day30,
+.day31,
+.day32,
+.day33,
+.day34,
+.day35,
+.day36,
+.day37,
+.day38,
+.day39
+{
   position: relative;
   margin-bottom: 50px;
 }
+
 
 .day1:before,
 .day2:before,
@@ -99,7 +125,31 @@ body {
 .day12:before,
 .day13:before,
 .day14:before,
-.day15:before {
+.day15:before,
+.day16:before,
+.day17:before,
+.day18:before,
+.day19:before,
+.day20:before,
+.day21:before,
+.day22:before,
+.day23:before,
+.day24:before,
+.day25:before,
+.day26:before,
+.day27:before,
+.day28:before,
+.day29:before,
+.day30:before,
+.day31:before,
+.day32:before,
+.day33:before,
+.day34:before,
+.day35:before,
+.day36:before,
+.day37:before,
+.day38:before,
+.day39:before{
   text-align: center;
   color: #fff;
   font: bold 20px/50px "";
@@ -172,6 +222,102 @@ body {
 
 .day15:before {
   content: 'D15';
+}
+
+
+.day16:before {
+  content: 'D16';
+}
+
+.day17:before {
+  content: 'D17';
+}
+
+.day18:before {
+  content: 'D18';
+}
+
+.day19:before {
+  content: 'D19';
+}
+
+.day20:before {
+  content: 'D20';
+}
+.day21:before {
+  content: 'D21';
+}
+
+.day22:before {
+  content: 'D22';
+}
+
+.day23:before {
+  content: 'D23';
+}
+
+.day24:before {
+  content: 'D24';
+}
+
+.day25:before {
+  content: 'D25';
+}
+
+
+.day26:before {
+  content: 'D26';
+}
+
+.day27:before {
+  content: 'D27';
+}
+
+.day28:before {
+  content: 'D28';
+}
+
+.day29:before {
+  content: 'D29';
+}
+.day30:before {
+  content: 'D30';
+}
+.day31:before {
+  content: 'D31';
+}
+
+.day32:before {
+  content: 'D32';
+}
+
+.day33:before {
+  content: 'D33';
+}
+
+.day34:before {
+  content: 'D34';
+}
+
+.day35:before {
+  content: 'D35';
+}
+
+
+.day36:before {
+  content: 'D36';
+}
+
+.day37:before {
+  content: 'D37';
+}
+
+.day38:before {
+  content: 'D38';
+}
+
+.day39:before {
+  content: 'D39';
 }
 
 .date_h6 {

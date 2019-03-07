@@ -1,6 +1,6 @@
 <template>
   <div class="tag"
-    @click="onTag(tag)">{{tag.title}}
+    @click="onTag(tag)">{{tag.ch_name}}
   </div>
 </template>
 
