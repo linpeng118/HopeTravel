@@ -22,7 +22,7 @@
           <p class="item-title">接送时间和地点</p>
           <template v-for="(item,ind) in pricelist.transfer">
             <p v-if="countprice.product_departure==item.product_departure_id" :key="ind" class="item-con" @click="showchecktime=true">
-              <span>{{item.time}}&nbsp;{{item.region}}&nbsp;{{item.location}}&nbsp;{{item.full_address}}</span>
+              <span>{{item.time}}&nbsp;{{item.region}}&nbsp;{{item.address}}&nbsp;{{item.full_address}}</span>
               <span></span>
               <van-icon color="#404040" name="arrow" size="1.2em"/>
             </p>
@@ -46,7 +46,7 @@
             <van-radio name="" class="radioitem">不选择接送机</van-radio>
             <template v-for="(item,ind) in pricelist.transfer">
               <van-radio class="radioitem" :key="ind" :name="item.product_departure_id">
-                {{item.time||''}}&nbsp;{{item.region||''}}&nbsp;{{item.location||''}}&nbsp;{{item.full_address||''}}
+                {{item.time||''}}&nbsp;{{item.region||''}}&nbsp;{{item.address||''}}&nbsp;{{item.full_address||''}}
               </van-radio>
             </template>
           </van-radio-group>
