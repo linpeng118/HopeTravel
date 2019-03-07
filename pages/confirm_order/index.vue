@@ -425,7 +425,7 @@
 <style lang="scss" scoped>
   .setprop{
     width: 90%;
-    border: 12px;
+    border-radius: 12px;
     padding-bottom: 30px;
   }
 
