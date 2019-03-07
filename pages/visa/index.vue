@@ -236,7 +236,7 @@
       </div>
       <div class="more">
         <span>没有想要的？</span>
-        <a href>马上咨询签证小姐姐吧</a>
+        <a @click="zixun()">马上咨询签证小姐姐吧</a>
       </div>
     </div>
     <div class="footer-team">
