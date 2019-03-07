@@ -189,7 +189,7 @@
     </div>
 
     <div class="btn_container clearfix">
-      <a target="_blank"@click="showcall=true" class="btn_online fl" id="qa-wangqiao-btn" >
+      <a target="_blank" @click="toList2()" class="btn_online fl" id="qa-wangqiao-btn" >
         <img style="widht:.52rem;height:.52rem;" src="../../assets/imgs/custom/btn1.png" alt="">
         在线咨询
       </a>
@@ -201,8 +201,6 @@
     <van-popup v-model="showcall" style="background-color: rgba(0,0,0,0)" position="center" :overlay="true">
       <div class="connectbox">
         <p class="titlex ">联系我们</p>
-        <a class="con-btn  " @click="clickcall('400-118-1388')" >中国咨询</a>
-        <a class="con-btn  " @click="clickcall('（001）888-933-0336')" >美国咨询</a>
         <a class="con-btn  " @click="toList2()">在线咨询</a>
       </div>
     </van-popup>
