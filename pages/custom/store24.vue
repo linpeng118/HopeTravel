@@ -5,11 +5,10 @@
       <span class="title">五瓣玫瑰节 | 德国捷克奥地利13天重返文艺复兴之旅</span>
     </div>
     <div class="ct">
-      <h5 class="ct_title">参考价格：￥32800.00/人起</h5>
-      <h5 class="ct_title">产品特色</h5>
+      <h5 class="ct_title">为什么值得去</h5>
       <p class="paragraph">五瓣玫瑰节是南波西米亚地区每年一度的地方节庆盛事,总是吸引全球的旅行家前来共襄盛举。在节日期间,时光将重返中古世纪罗森柏格家族统治时期的辉煌岁月。我们走在街上会随时会遇到身穿中古世纪服装的淑女、骑士等。</p>
       <h5 class="ct_title">行程概述</h5>
-     <div class="imgbox">
+     <div class="imgbox2">
        <img src="../../assets/imgs/custom/store24/vx.jpg" alt="">
      </div>
       <h5 class="ct_title">行程介绍</h5>
@@ -629,6 +628,13 @@
     width: 625px;height: auto;
     img{
       width: 625px;
+      height: auto;
+    }
+  }
+  .imgbox2{
+    width: 680px;height: auto;
+    img{
+      width: 680px;
       height: auto;
     }
   }

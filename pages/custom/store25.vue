@@ -5,11 +5,10 @@
       <span class="title">探秘亚欧12国自驾穿越之旅</span>
     </div>
     <div class="ct">
-      <div class="imgbox">
+      <div class="imgbox2">
         <img src="../../assets/imgs/custom/store25/imgtop.png" alt="">
       </div>
-      <h5 class="ct_title">参考价格：￥95800.00 /人起</h5>
-      <h5 class="ct_title">产品特色</h5>
+      <h5 class="ct_title">为什么值得去</h5>
       <p class="paragraph">
         <br>横穿亚欧，一路驰骋，用车轮与双眼
         <br>经历耐心，耐力双重的考验
@@ -17,7 +16,7 @@
         <br>走过世界历史的中心地带
         <br>用心感受广袤多彩的亚欧大陆
       </p>
-      <h5 class="ct_title">行程特色</h5>
+      <h5 class="ct_title">行程概述</h5>
       <div class="date">
         <div class="day1">
           <h6 class="date_h6">霍尔果斯</h6>
@@ -1181,6 +1180,13 @@
     width: 750px;
     height: 438px;
     position: relative;
+  }
+  .imgbox2{
+    width: 680px;height: auto;
+    img{
+      width: 680px;
+      height: auto;
+    }
   }
   .imgbox{
     width: 625px;height: auto;
