@@ -228,7 +228,7 @@
                 </li>
                 <li>
                   <div class="imgbox">
-                    <img src="../../assets/imgs/newcustom/user12.jpg" alt="">
+                    <img src="../../assets/imgs/newcustom/user12.png" alt="">
                   </div>
                   <p class="pname">郭雨 </p>
                   <p class="p2">旅游行业：8年</p>
