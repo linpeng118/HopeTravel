@@ -35,7 +35,7 @@
 
         </div>
         <!--接送时间和地点弹出层-->
-        <van-popup v-model="showchecktime" position="center" :overlay="true">
+        <van-popup class="setprop" v-model="showchecktime" position="center" :overlay="true">
           <div class="item-title">
             <p>
               <span>接送时间和地点</span>
@@ -73,7 +73,7 @@
             </div>
           </template>
           <!--行程选择弹出层-->
-          <van-popup v-model="showchecktrver" position="center" :overlay="true">
+          <van-popup v-model="showchecktrver" class="setprop" position="center" :overlay="true">
             <div class="item-title">
               <p>
                 <span>{{seltrvel.title}}</span>
@@ -423,6 +423,11 @@
 </script>
 
 <style lang="scss" scoped>
+  .setprop{
+    width: 90%;
+    border: 12px;
+    padding-bottom: 30px;
+  }
 
   .section0 {
     background-color: #f3f3f3;
@@ -562,7 +567,7 @@
   }
   .radioitem{
     font-size: 24px;
-    width: 500px;
+    width: 650px;
     padding: 20px 24px;
   }
 
@@ -610,6 +615,7 @@
   }
   }
   }
+
 
 
 </style>
