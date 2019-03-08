@@ -354,7 +354,7 @@ export default {
   .bottom-content {
     background: #fff;
     border-radius: 15px;
-    padding: 50px 32px;
+    padding: 80px 32px;
     position: relative;
     top: -15px;
     z-index: 9;
@@ -477,7 +477,7 @@ export default {
       width: 100%;
       text-align: center;
       height: 24px;
-      padding-bottom:30px;
+      padding-bottom:50px;
       span {
         color: #000;
         font: 24px/24px "";
