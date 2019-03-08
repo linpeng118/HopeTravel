@@ -306,7 +306,7 @@ export default {
     },
     zixun() {
       window.location.href =
-        "http://p.qiao.baidu.com/cps/chat?siteId=12918104&userId=26301226";
+        "http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226";
     },
     // 电话咨询
     showcall2() {
