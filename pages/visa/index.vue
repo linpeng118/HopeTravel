@@ -1,6 +1,6 @@
 <template>
   <div class="visa">
-    <!-- <van-nav-bar title="签证"/> -->
+    <van-nav-bar left-arrow @click-left="onClickLeft" title="签证"/>
     <div class="top-banner">
       <div class="content">
         <h6>全球签证，一键办理</h6>
@@ -283,12 +283,16 @@ export default {
       }
     };
   },
-  mounted(){
-      setTimeout(()=> {
-        document.querySelector('#newBridge').style.display = 'none';
-      }, 300)
+  mounted() {
+    setTimeout(() => {
+      document.querySelector("#newBridge").style.display = "none";
+    }, 300);
   },
   methods: {
+    onClickLeft() {
+        window.location.href="/";
+    },
+
     ...mapMutations({
       vxToggleDialog: "toggleDialog", // 是否显示弹窗
       vxSetDlgType: "setDlgType" // 设置弹窗类型
@@ -431,7 +435,7 @@ export default {
           top: 0;
           .item {
             height: 54px;
-            line-height:54px;
+            line-height: 54px;
             img {
               width: 24px;
               height: 24px;
@@ -473,6 +477,7 @@ export default {
       width: 100%;
       text-align: center;
       height: 24px;
+      padding-bottom:30px;
       span {
         color: #000;
         font: 24px/24px "";
@@ -546,7 +551,7 @@ export default {
       background: #fff;
       color: #ffa438;
       border-radius: 32px;
-      font:24px/62px "";
+      font: 24px/62px "";
     }
   }
   .ab-icom {
