@@ -285,12 +285,14 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      document.querySelector("#newBridge").style.display = "none";
+      if (document.querySelector("#newBridge")) {
+        document.querySelector("#newBridge").style.display = "none";
+      }
     }, 300);
   },
   methods: {
     onClickLeft() {
-        window.location.href="/";
+      window.location.href = "/";
     },
 
     ...mapMutations({
@@ -477,7 +479,7 @@ export default {
       width: 100%;
       text-align: center;
       height: 24px;
-      padding-bottom:50px;
+      padding-bottom: 50px;
       span {
         color: #000;
         font: 24px/24px "";
@@ -562,7 +564,8 @@ export default {
     height: 136px;
     z-index: 999;
     // background: url("../../assets/imgs/newcustom/538@2x.png") no-repeat;
-    background: url("../../assets/imgs/newcustom/zixun.png") no-repeat center/108px 108px;
+    background: url("../../assets/imgs/newcustom/zixun.png") no-repeat
+      center/108px 108px;
     text-align: center;
     padding-top: 42px;
     .abimg {
@@ -577,8 +580,8 @@ export default {
     bottom: 20%;
     width: 136px;
     height: 136px;
-    background: url("../../assets/imgs/newcustom/phone.png") no-repeat
-      center center/108px 108px;
+    background: url("../../assets/imgs/newcustom/phone.png") no-repeat center
+      center/108px 108px;
   }
 }
 </style>
