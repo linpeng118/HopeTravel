@@ -1,6 +1,6 @@
 <template>
   <div class="visa">
-    <van-nav-bar title="签证"/>
+    <!-- <van-nav-bar title="签证"/> -->
     <div class="top-banner">
       <div class="content">
         <h6>全球签证，一键办理</h6>
@@ -283,6 +283,11 @@ export default {
       }
     };
   },
+  mounted(){
+      setTimeout(()=> {
+        document.querySelector('#newBridge').style.display = 'none';
+      }, 300)
+  },
   methods: {
     ...mapMutations({
       vxToggleDialog: "toggleDialog", // 是否显示弹窗
@@ -366,7 +371,7 @@ export default {
     }
     .pro {
       width: 686px;
-      height: 444px;
+      height: 450px;
       box-sizing: border-box;
       border: 1.5px solid rgb(233, 233, 233);
       border-radius: 20px;
@@ -426,13 +431,12 @@ export default {
           top: 0;
           .item {
             height: 54px;
+            line-height:54px;
             img {
               width: 24px;
               height: 24px;
-              vertical-align: center;
             }
             span {
-              vertical-align: center;
               font: 24px/54px "";
               color: #000;
               padding-left: 6px;
@@ -531,18 +535,18 @@ export default {
     bottom: 0;
     z-index: 99;
     span {
-      font: 28px/52px "";
+      font: 24px/100px "";
       color: #fff;
       display: inline-block;
     }
     button {
-      width: 154px;
+      width: 174px;
       height: 62px;
       text-align: center;
       background: #fff;
       color: #ffa438;
       border-radius: 32px;
-      font: 28px/52px "";
+      font:24px/62px "";
     }
   }
   .ab-icom {
