@@ -577,8 +577,8 @@ export default {
     bottom: 20%;
     width: 136px;
     height: 136px;
-    background: url("../../assets/imgs/newcustom/callphone.png") no-repeat
-      center center/100%;
+    background: url("../../assets/imgs/newcustom/phone.png") no-repeat
+      center center/108px 108px;
   }
 }
 </style>
