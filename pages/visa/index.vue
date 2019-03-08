@@ -458,9 +458,11 @@ export default {
           .price {
             color: #ffa438;
             font: 46px/64px "";
+            text-align: right;
             span {
               font: 24px/54px "";
               color: #000;
+              margin-right:20px;
             }
           }
           .btn {
