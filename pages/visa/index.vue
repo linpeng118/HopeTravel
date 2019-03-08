@@ -261,7 +261,7 @@
       <button>马上咨询</button>
     </div>
     <div class="ab-icom" @click="zixun()">
-      <img class="abimg" src="../../assets/imgs/newcustom/921@2x.png" alt>
+      <!-- <img class="abimg" src="../../assets/imgs/newcustom/zixun.png" alt> -->
     </div>
     <div class="back-top" v-if="!isApp" @click="showcall2()"></div>
   </div>
@@ -561,9 +561,8 @@ export default {
     width: 136px;
     height: 136px;
     z-index: 999;
-    background: url("../../assets/imgs/newcustom/538@2x.png") no-repeat;
-    background-size: 136px;
-    background-position: center;
+    // background: url("../../assets/imgs/newcustom/538@2x.png") no-repeat;
+    background: url("../../assets/imgs/newcustom/zixun.png") no-repeat center/108px 108px;
     text-align: center;
     padding-top: 42px;
     .abimg {
