@@ -292,7 +292,9 @@ export default {
   },
   methods: {
     onClickLeft() {
-      window.location.href = "/";
+     this.$router.push({
+         path:'/'
+     })
     },
 
     ...mapMutations({
