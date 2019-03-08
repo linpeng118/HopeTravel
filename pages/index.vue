@@ -53,6 +53,10 @@
         <img src="../assets/imgs/home/icon_day.png" alt="">
         <p class="title">个性定制</p>
       </nuxt-link>
+      <nuxt-link tag="div" class="entry-tourism" to="/visa">
+        <img src="../assets/imgs/home/icon_visa.png" alt="">
+        <p class="title">签证办理</p>
+      </nuxt-link>
     </div>
     <!--热门目的地-->
     <div class="hot-target">
