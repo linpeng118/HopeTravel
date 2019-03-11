@@ -126,6 +126,7 @@
   import {custom} from "@/api/custom";
   import {getcitylist} from "@/api/custom";
   import {getcustom} from "@/api/custom";
+  import {gettop} from "@/api/custom";
   import {isMobile} from "@/assets/js/utils";
   import Loading from '@/components/loading';
   import {mapMutations, mapState} from 'vuex';
@@ -275,26 +276,20 @@
         vxSetDlgType: 'setDlgType', // 设置弹窗类型
       }),
       //   得到详细信息
-      async getitem(x) {
+      async getitem() {
         this.loading=true;
-        if(x){
-          this.objId=x;
-          this.hidelist=true;
-        }
-        if(this.objId){
-          let {data, code} = await getcustom(x||this.objId)
-          if(code === 0) {
-            this.loading=false;
-            this.objpro = data;
-            this.address=this.objpro.custom.ch_name
-            this.address1=this.objpro.custom.ch_name
-            this.setstyle();
-          } else {
-            this.loading=false;
-            this.objpro = { custom:{},
+
+        let {data, code} = await gettop()
+        if(code === 0) {
+          this.loading=false;
+          this.objpro = data;
+          this.setstyle();
+        } else {
+          this.loading=false;
+          this.objpro =
+            { custom:{},
               custom_spot:[],
               custom_view:[]};
-          }
         }
       },
 
@@ -304,6 +299,7 @@
           this.tagList = data;
         }
       },
+
       // 热门景点tag
       onTag(item) {
         // console.log(item);
@@ -398,7 +394,6 @@
       },
       newitem(x){
         this.$router.push('/custom?id='+x);
-        this.getitem(x)
 
       },
       //循环滚动函数
