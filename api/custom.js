@@ -13,3 +13,6 @@ export const getcustom = (id) => {
 export const getcitylist = () => {
   return axios.get('/api/config/custom?custom_id='+0)
 }
+export const gettop = () => {
+  return axios.get('/api/config/custom?top=true')
+}
