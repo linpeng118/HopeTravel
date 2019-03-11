@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nuxt />
+    <nuxt/>
     <!-- 登录弹窗 -->
     <login-dialog :proIsShow="vxShowLoginDlg"
       @callToggleShow="toggleLoginDlg"/>
@@ -9,6 +9,8 @@
       :proDlgType="vxDlgType"
       @callToggleShow="toggleDialog"
       @callSetDlgType="setDlgType" />
+
+
   </div>
 </template>
 

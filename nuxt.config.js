@@ -27,8 +27,7 @@ module.exports = {
         hid: 'description',
         name: 'description',
         content: pkg.description,
-      },
-
+      }
     ],
     link: [{
       rel: 'icon',
