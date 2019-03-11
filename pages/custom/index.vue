@@ -4,7 +4,7 @@
        ref="refCustomPage">
     <div class="custom-content">
       <!-- header -->
-      <normal-header v-if="!isApp&&!this.$route.query.id"
+      <normal-header v-if="!isApp"
                      :title="'私人定制'"
                      :transparent="isTransparent"
                      fixed />
@@ -304,7 +304,13 @@
       onTag(item) {
         // console.log(item);
         this.address = item.title;
-        this.$router.push('/custom/city?id='+item.id);
+        if(this.isApp){
+          this.$router.push('/custom/city?platform=true&id='+item.id);
+        }
+        else{
+          this.$router.push('/custom/city?id='+item.id);
+        }
+
       },
       // 定制
       onCustom() {
