@@ -442,7 +442,6 @@
       this.getitem();
     },
     mounted() {
-
       // 监听滚动
       this.$refs.refCustomPage.addEventListener(
         "scroll",
@@ -491,7 +490,6 @@
               custom_view:[]};
           }
         }
-
       },
 
       async getlist() {
