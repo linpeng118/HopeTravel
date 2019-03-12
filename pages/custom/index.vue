@@ -16,7 +16,7 @@
         <h1 class="banner-title">高阶玩法&emsp;探秘全球</h1>
         <h3 class="banner-desc">旅游自由随心，体验独一无二</h3>
         <div class="tag-list">
-          <transp-tag class="baseboder" v-for="tag in tagList"
+          <transp-tag v-for="tag in tagList"
                       @callOnTag="onTag"
                       :tag="tag"
                       :key="tag.title"></transp-tag>
