@@ -76,7 +76,7 @@
                      alt="img">
                 <div class="season-body">
                   <p class="season-body-title basecolor">{{item.title||''}}</p>
-                  <p class="season-body-else ">{{item.name}}发 | {{item.time.substr(0,7)}}</p>
+                  <p class="season-body-else ">{{item.name}} | {{item.time.substr(0,7)}}</p>
                   <h3 class="season-body-desc no-wrap-line3">{{item.content}}</h3>
                 </div>
               </div>
