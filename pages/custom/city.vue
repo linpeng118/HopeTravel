@@ -3,7 +3,7 @@
        ref="refCustomPage">
     <div class="custom-content">
       <!-- header -->
-      <normal-header v-if="!isApp&&!this.$route.query.id"
+      <normal-header v-if="!isApp"
                      :title="'私人定制'"
                      :transparent="isTransparent"
                      fixed />
@@ -589,7 +589,7 @@
         this.$router.push(myRouter);
       },
       newitem(x){
-        this.$router.push('/custom?id='+x);
+        this.$router.push('/custom/city?id='+x);
         this.getitem(x)
 
       },
