@@ -459,6 +459,7 @@ export default {
       background-color: #fff;
       .swiper-container{
         z-index: 0;
+        padding-right: 60px;
       }
       .title {
         color: #191919;

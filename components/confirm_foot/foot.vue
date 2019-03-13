@@ -19,7 +19,7 @@
       <span v-else-if="showbtn2==false" class="confirm-next-btn">下一步</span>
       <span v-else class="confirm-next-btn showbtn" @click="addOrderx()" >下一步</span>
       <span class="contact-service" @click="contactCustom()">
-        <i><van-icon name="service-o" color="#399EF6" size="1.5em"/></i>
+        <i></i>
         <i>联系客服</i>
       </span>
     </div>
@@ -269,6 +269,9 @@
   .contact-service i:nth-child(1) {
     width: 100px;
     height: 40px;
+    background: url("../../assets/imgs/kefu.png") no-repeat;
+    background-size: 32px;
+    background-position: center;
     display: inline-block;
     text-align: center;
     line-height: 40px;

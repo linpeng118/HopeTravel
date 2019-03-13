@@ -37,7 +37,7 @@
     font-weight: 300;
     background: rgba(0, 0, 0, 0);
     color: #fff;
-    border: 2px solid rgba(57, 158, 246, 1);
+    border: 2px solid rgba(255, 255, 255, 1);
     border-radius: 22px;
   }
 </style>
