@@ -121,7 +121,7 @@
 
 <script>
   import {throttle as _throttle} from "lodash";
-  import NormalHeader from "@/components/header/normal";
+  import NormalHeader from "@/components/header/custom";
   import transpTag from "@/components/tags/transparent";
   import {custom} from "@/api/custom";
   import {getcitylist} from "@/api/custom";
@@ -426,6 +426,10 @@
         }
 
       },
+      leftClick() {
+        this.$router.push('/');
+
+      },
       // 滚动函数
       scrollFn() {
         this.hidelist=true;
@@ -508,7 +512,25 @@
 </script>
 
 <style lang="scss" scoped>
-
+  .login-header {
+    height: 88px;
+    font-size: 32px;
+    transition: all 0.5s;
+    background-color: #fff;
+    .left-wrap {
+      color: #404040;
+      font-size: 32px;
+      padding: 16px;
+    }
+    &.transparent {
+      background-color: transparent;
+      color: #fff;
+      .left-wrap {
+        color: #fff;
+        font-size: 32px;
+      }
+    }
+  }
   .custom-page {
     height: 100vh;
     font-size: 0;
