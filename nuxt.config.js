@@ -1,6 +1,10 @@
 const pkg = require('./package')
 const apiPath = require('./config/api')
 const pluginConfig = require('./config/plugins')
+// const UglifyJSWebpackPlugin = require("uglifyjs-webpack-plugin");
+// 使用BabiliPlugin代替UglifyJs
+// https://github.com/nuxt/nuxt.js/issues/385
+// const BabiliPlugin = require("babili-webpack-plugin");
 
 module.exports = {
   mode: 'universal',
@@ -114,6 +118,23 @@ module.exports = {
    */
   build: {
     vendor: ['axios', 'lodash', '~/plugins/vant', '~/plugins/vue-swiper', '~/plugins/vue-clipboard', '~/plugins/vue-cropper'],
+    // analyze: true,
+    babel: {
+      presets: ({
+        isServer
+      }) => {
+        return [
+          [
+            '@nuxt/babel-preset-app',
+            {
+              buildTarget: isServer ? 'server' : 'client', // for auto import polyfill
+              useBuiltIns: 'entry'
+            }
+          ]
+        ]
+      }
+    },
+    parallel: true, // 多进程
     postcss: [
       require('postcss-px2rem-exclude')({
         remUnit: 75, // 转换基本单位
@@ -124,11 +145,9 @@ module.exports = {
       }),
     ],
     extend(config, ctx) {
-      if (ctx.isClient) {
-        config.devtool = "#source-map";
-      }
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
+        config.devtool = 'eval-source-map';
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
@@ -138,23 +157,6 @@ module.exports = {
       }
       if (!ctx.isDev) {
         config.devtool = false
-        config.plugins.push(
-          new webpack.optimize.UglifyJsPlugin({
-            parse: {
-              strict: true
-            },
-            compress: {
-              unsafe: true,
-              warnings: false,
-              drop_console: true
-            },
-            output: {
-              comments: false,
-              ascii_only: true
-            },
-            mangle: true
-          })
-        )
       }
     },
   },
