@@ -44,7 +44,6 @@ httprequest.interceptors.request.use(
       if (config.method == 'post') {
         config.data = {
           ...config.data,
-          t: +(Date.parse(new Date()) / 1000),
         }
       } else if (config.method == 'get') {
         config.params = {
