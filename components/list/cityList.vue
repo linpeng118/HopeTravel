@@ -1,37 +1,36 @@
 <template>
-  <div class="tag-wrap">
-    <div class="filter-content" ref="cityWrap">
-      <div class="show-list">
-        <div class="city-wrap">
-          <van-nav-bar
-            left-arrow
-            @click-left="onClickLeft"
-            v-if="showBar"
-            :leftText="dataObj.title"
-          />
-          <div class="main">
-            <div v-for="(value, key) in dataObj" :key="key" :ref="'listGroup' + key">
-              <template v-if="typeof value === 'object'">
-                <div class="title" v-if="key !== 'title' && key!== 'type'">{{key}}</div>
-                <ul class="city-list" >
-                  <li v-for="item in value" :key="item.id" @click="selectItem(item)" :class="selectActive(item)">
-                    <span>{{item.name}}</span>
-                    <i class="van-icon van-icon-success"></i>
-                  </li>
-                </ul>
-              </template>
-            </div>
+  <div class="filter-content" ref="cityWrap">
+    <div class="show-list">
+      <div class="city-wrap">
+        <van-nav-bar
+          left-arrow
+          @click-left="onClickLeft"
+          v-if="showBar"
+          :leftText="dataObj.title"
+          class="fixed-title"
+        />
+        <div class="main">
+          <div v-for="(value, key) in dataObj" :key="key" :ref="'listGroup' + key">
+            <template v-if="typeof value === 'object'">
+              <div class="title" v-if="key !== 'title' && key!== 'type'">{{key}}</div>
+              <ul class="city-list" >
+                <li v-for="item in value" :key="item.id" @click="selectItem(item)" :class="selectActive(item)">
+                  <span>{{item.name}}</span>
+                  <i class="van-icon van-icon-success"></i>
+                </li>
+              </ul>
+            </template>
           </div>
-          <!--<div class="tags-letter" @touchstart.stop.prevent="onShortcutTouchStart">-->
-            <!--<ul>-->
-              <!--<li v-for="(value, key) in dataObj" :key="key" :data-index="key">-->
-                <!--<template v-if="typeof value === 'object'">-->
-                <!--{{key}}-->
-              <!--</template>-->
-              <!--</li>-->
-            <!--</ul>-->
-          <!--</div>-->
         </div>
+        <!--<div class="tags-letter" @touchstart.stop.prevent="onShortcutTouchStart">-->
+        <!--<ul>-->
+        <!--<li v-for="(value, key) in dataObj" :key="key" :data-index="key">-->
+        <!--<template v-if="typeof value === 'object'">-->
+        <!--{{key}}-->
+        <!--</template>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</div>-->
       </div>
     </div>
     <div class="bottom-btn">
@@ -134,12 +133,10 @@ export default {
 </script>
 
 <style type="text/scss" lang="scss" scoped>
-  .tag-wrap{
-  }
   .filter-content{
     position: absolute;
-    top: 2.213333rem;
-    bottom: 1.173333rem;
+    top: -1px;
+    bottom: 0;
     left: 100px;
     right: 0;
     background-color: #fff;
@@ -148,6 +145,15 @@ export default {
     .city-wrap{
       width: 100%;
       background-color: #fff;
+      .fixed-title{
+        position: fixed;
+        top: -1px;
+        width: 100%;
+        height: 88px;
+      }
+      .main{
+        padding-top: 88px;
+      }
       .title {
         padding: 0 36px;
         height:32px;
@@ -201,7 +207,7 @@ export default {
   .bottom-btn{
     height:88px;
     position: fixed;
-    bottom: 88px;
+    bottom: 0;
     left: 100px;
     right: 0;
     background-color: #fff;
