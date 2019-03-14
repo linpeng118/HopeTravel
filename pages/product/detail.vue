@@ -907,6 +907,3 @@
   }
 </script>
 
-<style lang="scss" scoped>
-  @import "~/assets/style/product/detail.scss";
-</style>
