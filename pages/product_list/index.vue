@@ -38,7 +38,7 @@
       </div>
     </div>
     <!--筛选排序-->
-    <van-popup v-model="showFilter" position="right" :overlay="true" class="filter-select">
+    <van-popup v-model="showFilter" position="right" class="filter-select">
       <div class="filter-main-box" @click="showFilter = false">
       </div>
       <div class="filter-content">
@@ -72,7 +72,9 @@
       <sort-item :sortShow="sortShow" :sortResult="sortResult" @selectSort="selectSortItem"></sort-item>
     </div>
     <!--更多列表的选择-->
-    <van-popup v-model="showList" position="right" :overlay="true" class="filter-select more-tag">
+    <van-popup v-model="showList" position="right" class="filter-select more-tag">
+      <div class="filter-main-box" @click="showList = false">
+      </div>
       <city-list :multiple="multipleTag" :showBar="true" :dataObj="moreLists" @selectItemCancel="selectItemCancel" @selectItem="selectItem" ref="moreList" @back="moreListBack"></city-list>
     </van-popup>
     <drift-aside class="drift"></drift-aside>
@@ -454,13 +456,12 @@
     &.van-popup--right{
       width: 100%;
       height: 100%;
-      margin-top: 88px;
       background-color: transparent;
     }
     .filter-content{
       position: absolute;
-      top:166px;
-      bottom: 88px;
+      top: -1px;
+      bottom: 0;
       left: 100px;
       right: 0;
       background-color: #fff;
@@ -525,7 +526,7 @@
     .bottom-btn{
       height:100px;
       position: absolute;
-      bottom: 88px;
+      bottom: 0;
       left: 100px;
       right: 0;
       background-color: #fff;
@@ -548,8 +549,8 @@
     }
     .filter-main-box{
       width: 100px;
-      height: calc(100% - 176px);
-      margin-top: 176px;
+      height: 100%;
+      margin-top: 0;
     }
   }
 </style>
@@ -564,8 +565,10 @@
         .van-tab--active{
           color: #EF9A1A;
         }
-        .van-tab__pane{
-
+        .van-tabs__wrap{
+          position: fixed;
+          top: 88px;
+          width: 100%;
         }
       }
       .van-hairline--top-bottom::after{
@@ -578,7 +581,7 @@
       }
     }
     .van-overlay{
-      top: 254px !important;
+      /*top: 254px !important;*/
     }
     .drift-wrap .van-overlay{
       top: 0 !important;
