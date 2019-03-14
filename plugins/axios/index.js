@@ -1,7 +1,11 @@
 import {
-  getCookieByKey
+  getCookieByKey,
+  setCookieByKey
 }
 from '@/assets/js/utils'
+import {
+  TOKEN_KEY
+} from '@/assets/js/config'
 
 export default function ({
   $axios,
