@@ -31,6 +31,7 @@ httprequest.defaults.headers.post['Content-Type'] = 'application/x-www-form-urle
 // 请求拦截器（有些请求需要登录态才能访问）
 httprequest.interceptors.request.use(
   config => {
+    console.log('Making request to ' + config.url)
     if (process.client) {
       // TODO:这里不能动态获取到store中的数据
       let token = getCookieByKey('token');
@@ -44,7 +45,6 @@ httprequest.interceptors.request.use(
       if (config.method == 'post') {
         config.data = {
           ...config.data,
-          t: +(Date.parse(new Date()) / 1000),
         }
       } else if (config.method == 'get') {
         config.params = {

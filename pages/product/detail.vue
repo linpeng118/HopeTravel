@@ -568,6 +568,9 @@
       }
     },
     mounted() {
+      if(!(this.product && this.product.product_id)){
+        this.jumpTo('/')
+      }
       this.init()
       this.$refs.refProductDetailPage.addEventListener("scroll", _throttle(this.scrollFn, 200));
     },
@@ -603,7 +606,7 @@
       // 存储浏览记录
       saveLocal() {
         let browsList = getLocalStore('browsList') || []
-        browsList.unshift(this.product.product_id)
+        browsList.unshift(this.productId)
         let set = [...new Set(browsList)];
         // console.log(set)
         if (set.length >= 6) {
