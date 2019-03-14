@@ -440,47 +440,47 @@
       ProdDetailImgItem,
       Loading,
     },
-    async asyncData({$axios, query}) {
-      let attributes,
-        attributes_override,
-        expense,
-        itinerary,
-        notice,
-        product,
-        top_price,
-        transfer
-      try {
-        let {code, msg, data} = await $axios.$get(`/api/product/${query.productId}`)
-        if (code === 0) {
-          attributes = data.attributes // 增值服务
-          attributes_override = data.attributes_override // 属性覆盖
-          expense = data.expense // 费用说明对象
-          itinerary = data.itinerary // 行程详情
-          notice = data.notice // 注意事项
-          product = data.product // 产品信息
-          top_price = data.top_price // 团期价格
-          transfer = data.transfer
-        } else {
-          console.log('error:', msg)
-        }
-      } catch (error) {
-        console.log(error)
-      }
-      return {
-        attributes,
-        attributes_override,
-        expense,
-        itinerary,
-        notice,
-        product,
-        top_price,
-        transfer
-      }
-    },
+    // async asyncData({$axios, query}) {
+    //   let attributes,
+    //     attributes_override,
+    //     expense,
+    //     itinerary,
+    //     notice,
+    //     product,
+    //     top_price,
+    //     transfer
+    //   try {
+    //     let {code, msg, data} = await $axios.$get(`/api/product/${query.productId}`)
+    //     if (code === 0) {
+    //       attributes = data.attributes // 增值服务
+    //       attributes_override = data.attributes_override // 属性覆盖
+    //       expense = data.expense // 费用说明对象
+    //       itinerary = data.itinerary // 行程详情
+    //       notice = data.notice // 注意事项
+    //       product = data.product // 产品信息
+    //       top_price = data.top_price // 团期价格
+    //       transfer = data.transfer
+    //     } else {
+    //       console.log('error:', msg)
+    //     }
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+    //   return {
+    //     attributes,
+    //     attributes_override,
+    //     expense,
+    //     itinerary,
+    //     notice,
+    //     product,
+    //     top_price,
+    //     transfer
+    //   }
+    // },
     data() {
       return {
         ENTITY_TYPE,
-        loading: false,
+        loading: true,
         productId: Number(this.$route.query.productId) || null,
         isTransparent: true, // 导航头是否透明
         current: 0, // 导航页数
@@ -491,6 +491,19 @@
         showSoldOut: false, // 恢复预定通知弹窗
         priceExclude: [], // 不包含面板
         activeNotice: [1], // 注意事项折叠面板
+        // 产品
+        product: {},
+        // 费用说明对象
+        expense: {},
+        // 注意事项
+        notice: [],
+        // 行程详情
+        itinerary: {},
+        attributes: [],
+        attributes_override: [],
+        transfer: [],
+        // 团期价格
+        top_price: [],
         isTabFixed: false,
         showDay: 'D1',
         // 显示电话弹窗
@@ -568,9 +581,6 @@
       }
     },
     mounted() {
-      if(!(this.product && this.product.product_id)){
-        this.jumpTo('/')
-      }
       this.init()
       this.$refs.refProductDetailPage.addEventListener("scroll", _throttle(this.scrollFn, 200));
     },
@@ -581,28 +591,31 @@
         vxSetDlgType: 'setDlgType', // 设置弹窗类型
       }),
       async init() {
-        // await this.getProductDetailData()
+        await this.getProductDetailData()
+        if (!(this.product && this.product.product_id)) {
+          this.jumpTo('/')
+        }
         await this.saveLocal()
       },
-      // async getProductDetailData() {
-      //   this.loading = true
-      //   const {code, data, msg} = await getProductDetail({
-      //     product_id: this.productId,
-      //   })
-      //   // console.log(code, data, msg)
-      //   if (code === 0) {
-      //     this.attributes = data.attributes
-      //     this.attributes_override = data.attributes_override
-      //     this.expense = data.expense
-      //     this.itinerary = data.itinerary
-      //     this.notice = data.notice
-      //     this.product = data.product
-      //     this.top_price = data.top_price
-      //     this.transfer = data.transfer
-      //   }
-      //   document.title = this.product.name
-      //   this.loading = false
-      // },
+      async getProductDetailData() {
+        this.loading = true
+        const {code, data, msg} = await getProductDetail({
+          product_id: this.productId,
+        })
+        // console.log(code, data, msg)
+        if (code === 0) {
+          this.attributes = data.attributes
+          this.attributes_override = data.attributes_override
+          this.expense = data.expense
+          this.itinerary = data.itinerary
+          this.notice = data.notice
+          this.product = data.product
+          this.top_price = data.top_price
+          this.transfer = data.transfer
+        }
+        document.title = this.product.name
+        this.loading = false
+      },
       // 存储浏览记录
       saveLocal() {
         let browsList = getLocalStore('browsList') || []
@@ -907,3 +920,6 @@
   }
 </script>
 
+<style lang="scss" scoped>
+  @import "~/assets/style/product/detail.scss";
+</style>
