@@ -1,14 +1,14 @@
 <template>
-  <div class="filter-content" ref="cityWrap">
-    <div class="show-list">
+  <div>
+    <van-nav-bar
+      left-arrow
+      @click-left="onClickLeft"
+      v-if="showBar"
+      :leftText="dataObj.title"
+      class="fixed-title"
+    />
+    <div class="filter-content" ref="cityWrap">
       <div class="city-wrap">
-        <van-nav-bar
-          left-arrow
-          @click-left="onClickLeft"
-          v-if="showBar"
-          :leftText="dataObj.title"
-          class="fixed-title"
-        />
         <div class="main">
           <div v-for="(value, key) in dataObj" :key="key" :ref="'listGroup' + key">
             <template v-if="typeof value === 'object'">
@@ -38,6 +38,7 @@
       <div class="right" @click="sendEvent">选中</div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -135,7 +136,7 @@ export default {
 <style type="text/scss" lang="scss" scoped>
   .filter-content{
     position: absolute;
-    top: -1px;
+    top: 0;
     bottom: 0;
     left: 100px;
     right: 0;
@@ -145,12 +146,6 @@ export default {
     .city-wrap{
       width: 100%;
       background-color: #fff;
-      .fixed-title{
-        position: fixed;
-        top: -1px;
-        width: 100%;
-        height: 88px;
-      }
       .main{
         padding-top: 88px;
       }
@@ -225,5 +220,12 @@ export default {
       background-color: #399EF6;
       color: #fff;
     }
+  }
+  .fixed-title{
+    position: fixed;
+    top: -1px;
+    left: 100px;
+    width: 100%;
+    height: 88px;
   }
 </style>
