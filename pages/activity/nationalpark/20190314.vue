@@ -56,16 +56,17 @@
       </div>
 
       <!-- 查看更多 -->
-      <div class="more">
+      <div class="more1">
         <a
           @click="jump('https://m.tourscool.com/product_list?category=&product_type=&span_city=131&start_city=&itemType=0','tourscool://open/ProductListVC?itemType=1&keyword=%E9%BB%84%E7%9F%B3')"
         >
           <img src="../../../assets/imgs/activity/nationalpack/title/6.png" alt>
         </a>
       </div>
-      <div class="bg-item1">
+
+      <!-- <div class="bg-item1">
         <img src="../../../assets/imgs/activity/nationalpack/title/1.png" alt>
-      </div>
+      </div> -->
 
 
 
@@ -100,7 +101,7 @@
         </a>
       </div>
       <!-- 查看更多 -->
-      <div class="more">
+      <div class="more2">
         <a
           @click="jump('https://m.tourscool.com/product_list?itemType=2&keyWords=%E4%BC%98%E8%83%9C%E7%BE%8E%E5%9C%B0','tourscool://open/ProductListVC?itemType=1&keyword=%E4%BC%98%E8%83%9C%E7%BE%8E%E5%9C%B0')"
         >
@@ -108,9 +109,10 @@
         </a>
       </div>
 
-      <div class="bg-item2">
+      <!-- <div class="bg-item2">
         <img src="../../../assets/imgs/activity/nationalpack/title/2.png" alt>
-      </div>
+      </div> -->
+
       <div class="pro-large2">
         <a
           @click="jump('https://www.tourscool.com/tour1150.html','tourscool://open/LineDetailsVC?productID=1150')"
@@ -142,7 +144,7 @@
         </a>
       </div>
       <!-- 查看更多 -->
-      <div class="more">
+      <div class="more3">
         <a
           @click="jump('https://m.tourscool.com/product_list?itemType=2&keyWords=%E5%A4%A7%E5%B3%A1%E8%B0%B7','tourscool://open/ProductListVC?itemType=1&keyword=%E5%A4%A7%E5%B3%A1%E8%B0%B7')"
         >
@@ -150,9 +152,9 @@
         </a>
       </div>
 
-      <div class="bg-item3">
+      <!-- <div class="bg-item3">
         <img src="../../../assets/imgs/activity/nationalpack/title/3.png" alt>
-      </div>
+      </div> -->
 
       <div class="pro-flex">
         <a
@@ -187,7 +189,7 @@
         </a>
       </div>
       <!-- 查看更多 -->
-      <div class="more">
+      <div class="more4">
         <a
           @click="jump('https://m.tourscool.com/product_list?category=89&product_type=&span_city=&start_city=&itemType=0','tourscool://open/ProductListVC?itemType=1&keyword=%E7%BE%8E%E8%A5%BF')"
         >
@@ -195,9 +197,9 @@
         </a>
       </div>
 
-      <div class="bg-item4">
+      <!-- <div class="bg-item4">
         <img src="../../../assets/imgs/activity/nationalpack/title/4.png" alt>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -210,7 +212,7 @@ export default {
     };
   },
   mounted() {
-    window.document.title = "樱花季日本美国华盛顿";
+    window.document.title = "美国国家公园";
   },
   methods: {
     jump(webUrl, appUrl) {
@@ -235,7 +237,7 @@ export default {
 }
 .section2 {
   width: 100%;
-  height: 7500px;
+  height: 6500px;
   text-align: center;
   .coupon {
     width: 100%;
@@ -268,17 +270,47 @@ export default {
     a {
       img {
         margin-right: 15px;
+        margin-bottom:5px;
         width: 339px;
         height: 259px;
       }
     }
   }
-  .more {
+  .more1{
     width: 100%;
+    height:485px;
     img {
       width: 750px;
       height: 215px;
     }
+     background:url("../../../assets/imgs/activity/nationalpack/title/1.png") no-repeat center/750px 485px;
+  }
+  .more2 {
+     width: 100%;
+     height:488px;
+    img {
+      width: 750px;
+      height: 215px;
+    }
+    background:url("../../../assets/imgs/activity/nationalpack/title/2.png") no-repeat center/750px 488px;
+  }
+  .more3 {
+     width: 100%;
+     height:418px;
+    img {
+      width: 750px;
+      height: 215px;
+    }
+    background:url("../../../assets/imgs/activity/nationalpack/title/3.png") no-repeat center/750px 418px;
+  }
+  .more4{
+     width: 100%;
+     height:264px;
+    img {
+      width: 750px;
+      height: 215px;
+    }
+    background:url("../../../assets/imgs/activity/nationalpack/title/4.png") no-repeat center/750px 264px;
   }
   .bg-item1 {
     img {
@@ -308,6 +340,12 @@ export default {
     img {
       width: 750px;
       height: 418px;
+    }
+  }
+  .bg-item4{
+    img{
+      width:750px;
+      height:264px;
     }
   }
 }
