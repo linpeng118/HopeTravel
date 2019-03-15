@@ -1,6 +1,10 @@
 const pkg = require('./package')
 const apiPath = require('./config/api')
 const pluginConfig = require('./config/plugins')
+// const UglifyJSWebpackPlugin = require("uglifyjs-webpack-plugin");
+// 使用BabiliPlugin代替UglifyJs
+// https://github.com/nuxt/nuxt.js/issues/385
+// const BabiliPlugin = require("babili-webpack-plugin");
 
 module.exports = {
   mode: 'universal',
@@ -62,8 +66,7 @@ module.exports = {
   /*
    ** middleware
    */
-  router: {
-  },
+  router: {},
   /*
    ** Nuxt.js modules
    */
@@ -115,6 +118,23 @@ module.exports = {
    */
   build: {
     vendor: ['axios', 'lodash', '~/plugins/vant', '~/plugins/vue-swiper', '~/plugins/vue-clipboard', '~/plugins/vue-cropper'],
+    // analyze: true,
+    babel: {
+      presets: ({
+        isServer
+      }) => {
+        return [
+          [
+            '@nuxt/babel-preset-app',
+            {
+              buildTarget: isServer ? 'server' : 'client', // for auto import polyfill
+              useBuiltIns: 'entry'
+            }
+          ]
+        ]
+      }
+    },
+    parallel: true, // 多进程
     postcss: [
       require('postcss-px2rem-exclude')({
         remUnit: 75, // 转换基本单位
@@ -124,30 +144,19 @@ module.exports = {
         browsers: ['last 3 versions'],
       }),
     ],
-    // plugins: [
-    //   new UglifyJsPlugin({
-    //     uglifyOptions: {
-    //       compress: {
-    //         warnings: false,
-    //         drop_console: process.env.NODE_ENV = 'development' ? false : true
-    //       },
-    //     },
-    //     sourceMap: true,
-    //     parallel: true
-    //   })
-    // ],
-    /*
-     ** You can extend webpack config here
-     */
     extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
+        config.devtool = 'eval-source-map';
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
           exclude: /(node_modules)/,
         })
+      }
+      if (!ctx.isDev) {
+        config.devtool = false
       }
     },
   },
