@@ -29,7 +29,7 @@ export default function ({
     if (process.client) {
       // TODO:这里不能动态获取到store中的数据
       let token = getCookieByKey('token');
-      let currency = getCookieByKey('currency'); // 货币类型获取
+      let currency = getCookieByKey('currency') || 'CNY'; // 货币类型获取
       // console.log(token, currency)
       if (token || currency) {
         config.headers[TOKEN_KEY] = token
