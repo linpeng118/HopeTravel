@@ -354,7 +354,7 @@ export default {
         -webkit-align-items: center;
         font-size:24px;
         i{
-          vertical-align: text-top;
+          vertical-align: text-bottom;
         }
         .right{
           a{
