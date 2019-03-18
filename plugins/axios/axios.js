@@ -15,7 +15,7 @@ import {
 
 // 创建axios实例
 let httprequest = axios.create({
-  timeout: 1000 * 10, // 超时时间设为10s
+  // timeout: 1000 * 20, // 超时时间设为20s
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json; charset=utf-8', // json格式通信
