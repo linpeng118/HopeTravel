@@ -406,6 +406,7 @@
           flight_id:this.countprice.product_departure,
           total_kids:this.countprice.child,
           total_adult:this.countprice.adult,
+          room_total:this.countprice.room_total,
           tongyi:this.tongyi,//用户协议
           comment:this.comment,
           users:objarr,

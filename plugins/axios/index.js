@@ -12,7 +12,7 @@ export default function ({
   redirect
 }) {
   // 设置基础配置
-  $axios.defaults.timeout = 10000
+  // $axios.defaults.timeout = 10000
   $axios.defaults.withCredentials = true
   $axios.defaults.headers = {
     'Content-Type': 'application/json; charset=utf-8', // json格式通信
