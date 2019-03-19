@@ -103,7 +103,7 @@
       },
       'addorder':{
         handler:function(val) {
-          if(val.tongyi&&val.contact.phone!=''&&val.contact.name!=''&&val.contact.email!=''&&val.users){
+          if(val.tongyi&&val.contact.phone!=''&&val.contact.name!=''&&val.contact.email!=''&&val.users.length){
             this.showbtn2=true;
           }
           else{
