@@ -53,7 +53,6 @@
   import {addorder} from '@/api/confirm_order'
   import Loading from '@/components/loading'
   import {getProfile} from '@/api/profile'
-
   import {
     getCookieByKey
   } from '@/assets/js/utils'
@@ -78,10 +77,9 @@
           'total_feeusd':'',
         },
         loading:false,
-        apiPath:{
-          payment:'http://www.htw.tourscool.net'
-        },
+        apiPath:require('@/config/api'),
         //添加订单数据
+
       }
     },
     computed: {
@@ -117,10 +115,7 @@
     mounted() {
       // this.$store.dispatch("initprice");
       this.checkrouter();//判断当前位置
-      let x=window.location.host;
-      if(x.indexOf('com')>-1){
-        this.apiPath.payment='http://htwapi.tourscool.com';
-      }
+      console.log(this.apiPath)
     },
     methods: {
       ...mapMutations({
