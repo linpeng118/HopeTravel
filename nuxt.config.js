@@ -138,13 +138,25 @@ module.exports = {
     ],
     // analyze: true,
     // extractCSS: true, // 拆分css
-    // babel: {
-    //   cacheDirectory: undefined,
-    //   presets: ['@nuxt/babel-preset-app', {
-    //     targets: {
-    //       ie: 11
-    //     }
-    //   }]
+    babel: {
+      presets({
+        isServer
+      }) {
+        return [
+          [
+            "@nuxt/babel-preset-app",
+            {
+              targets: isServer ? {
+                node: "current"
+              } : {
+                browsers: ["last 5 versions"],
+                ie: 10
+              }
+            }
+          ]
+        ]
+      }
+    },
     // },
     // 多进程
     parallel: true,
