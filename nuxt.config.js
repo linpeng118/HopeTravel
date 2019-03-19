@@ -1,3 +1,4 @@
+require('babel-polyfill');
 const pkg = require('./package')
 const apiPath = require('./config/api')
 const pluginConfig = require('./config/plugins')
@@ -42,6 +43,8 @@ module.exports = {
       src: '/flexible/flexible.js',
       type: 'text/javascript',
       charset: 'utf-8',
+    }, {
+      src: 'https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.2.5/polyfill.min.js'
     }],
     __dangerouslyDisableSanitizers: ['script'],
   },
@@ -62,7 +65,9 @@ module.exports = {
    ** Plugins to load before mounting the App
    */
   plugins: pluginConfig,
-
+  render: {
+    resourceHints: false,
+  },
   /*
    ** middleware
    */
@@ -117,7 +122,9 @@ module.exports = {
    ** Build configuration
    */
   build: {
-    vendor: ['axios', 'lodash', '~/plugins/vant', '~/plugins/vue-swiper', '~/plugins/vue-clipboard', '~/plugins/vue-cropper'],
+    vendor: ['babel-polyfill',
+      'axios', 'lodash', '~/plugins/vant', '~/plugins/vue-swiper', '~/plugins/vue-clipboard', '~/plugins/vue-cropper'
+    ],
     // analyze: true,
     babel: {
       presets: ({
@@ -148,6 +155,13 @@ module.exports = {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
         config.devtool = 'eval-source-map';
+        // 别名
+        // Object.assign(config.resolve.alias, {
+        //   Components: path.resolve(__dirname, 'components'),
+        //   Plugins: path.resolve(__dirname, 'plugins'),
+        //   Assets: path.resolve(__dirname, 'assets'),
+        //   Static: path.resolve(__dirname, 'static')
+        // })
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
