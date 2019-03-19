@@ -1,4 +1,3 @@
-require('babel-polyfill');
 const pkg = require('./package')
 const apiPath = require('./config/api')
 const pluginConfig = require('./config/plugins')
@@ -29,6 +28,10 @@ module.exports = {
         content: 'telephone=no',
       },
       {
+        name: 'renderer',
+        content: 'webkit'
+      },
+      {
         hid: 'description',
         name: 'description',
         content: pkg.description,
@@ -47,8 +50,6 @@ module.exports = {
       src: '/flexible/flexible.js',
       type: 'text/javascript',
       charset: 'utf-8',
-    }, {
-      src: 'https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.2.5/polyfill.min.js'
     }],
     __dangerouslyDisableSanitizers: ['script'],
   },
@@ -127,32 +128,33 @@ module.exports = {
    */
   build: {
     vendor: [
-      'axios', 'lodash', '~/plugins/vant', '~/plugins/vue-swiper', '~/plugins/vue-clipboard', '~/plugins/vue-cropper'
+      'babel-polyfill',
+      'axios',
+      'lodash',
+      '~/plugins/vant',
+      '~/plugins/vue-swiper',
+      '~/plugins/vue-clipboard',
+      '~/plugins/vue-cropper'
     ],
     // analyze: true,
-    babel: {
-      presets: ({
-        isServer
-      }) => {
-        return [
-          [
-            '@nuxt/babel-preset-app',
-            {
-              buildTarget: isServer ? 'server' : 'client', // for auto import polyfill
-              useBuiltIns: 'entry'
-            }
-          ]
-        ]
-      }
-    },
-    parallel: true, // 多进程
+    extractCSS: true, // 拆分css
+    // babel: {
+    //   cacheDirectory: undefined,
+    //   presets: ['@nuxt/babel-preset-app', {
+    //     targets: {
+    //       ie: 10
+    //     }
+    //   }]
+    // },
+    // 多进程
+    parallel: true,
     postcss: [
       require('postcss-px2rem-exclude')({
         remUnit: 75, // 转换基本单位
         exclude: /vant/i,
       }),
       require('autoprefixer')({
-        browsers: ['last 3 versions'],
+        browsers: ['last 5 versions'],
       }),
     ],
     extend(config, ctx) {

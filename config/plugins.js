@@ -80,10 +80,10 @@ let devPlugins = [{
     src: '~/plugins/axios',
     ssr: false
   },
-  {
-    src: '~/plugins/vconsole',
-    ssr: false
-  },
+  // {
+  //   src: '~/plugins/vconsole',
+  //   ssr: false
+  // },
   {
     src: '~/plugins/router',
     ssr: false
