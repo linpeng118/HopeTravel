@@ -15,7 +15,7 @@ module.exports = {
    ** Headers of the page
    */
   head: {
-    title: '',
+    title: '稀饭旅行网-美国旅游-加拿大当地跟团游-欧洲旅游-澳大利亚旅游-新西兰旅游-东南亚旅游-日本旅游',
     meta: [{
         charset: 'utf-8',
       },
@@ -28,10 +28,18 @@ module.exports = {
         content: 'telephone=no',
       },
       {
+        name: 'renderer',
+        content: 'webkit'
+      },
+      {
         hid: 'description',
         name: 'description',
         content: pkg.description,
-      }
+      },
+      {
+        name: 'keywords',
+        content: '稀饭旅行网为你提供美国自由行旅游,美国当地跟团游,加拿大自助游,欧洲、澳大利亚、新西兰、日本、东南亚旅游,美国邮轮游等出境游预订服务,提供个性化定制旅游服务,境外旅游线路行程,景点门票低价在线预订尽在稀饭旅行网'
+      },
     ],
     link: [{
       rel: 'icon',
@@ -62,7 +70,9 @@ module.exports = {
    ** Plugins to load before mounting the App
    */
   plugins: pluginConfig,
-
+  render: {
+    resourceHints: false,
+  },
   /*
    ** middleware
    */
@@ -124,37 +134,47 @@ module.exports = {
    ** Build configuration
    */
   build: {
-    vendor: ['axios', 'lodash', '~/plugins/vant', '~/plugins/vue-swiper', '~/plugins/vue-clipboard', '~/plugins/vue-cropper'],
+    vendor: [
+      'babel-polyfill',
+      'axios',
+      'lodash',
+      '~/plugins/vant',
+      '~/plugins/vue-swiper',
+      '~/plugins/vue-clipboard',
+      '~/plugins/vue-cropper'
+    ],
     // analyze: true,
-    babel: {
-      presets: ({
-        isServer
-      }) => {
-        return [
-          [
-            '@nuxt/babel-preset-app',
-            {
-              buildTarget: isServer ? 'server' : 'client', // for auto import polyfill
-              useBuiltIns: 'entry'
-            }
-          ]
-        ]
-      }
-    },
-    parallel: true, // 多进程
+    // extractCSS: true, // 拆分css
+    // babel: {
+    //   cacheDirectory: undefined,
+    //   presets: ['@nuxt/babel-preset-app', {
+    //     targets: {
+    //       ie: 11
+    //     }
+    //   }]
+    // },
+    // 多进程
+    parallel: true,
     postcss: [
       require('postcss-px2rem-exclude')({
         remUnit: 75, // 转换基本单位
         exclude: /vant/i,
       }),
       require('autoprefixer')({
-        browsers: ['last 3 versions'],
+        browsers: ['last 5 versions'],
       }),
     ],
     extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
         config.devtool = 'eval-source-map';
+        // 别名
+        // Object.assign(config.resolve.alias, {
+        //   Components: path.resolve(__dirname, 'components'),
+        //   Plugins: path.resolve(__dirname, 'plugins'),
+        //   Assets: path.resolve(__dirname, 'assets'),
+        //   Static: path.resolve(__dirname, 'static')
+        // })
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
