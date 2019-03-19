@@ -1,3 +1,4 @@
+require('babel-polyfill');
 const pkg = require('./package')
 const apiPath = require('./config/api')
 const pluginConfig = require('./config/plugins')
@@ -15,7 +16,7 @@ module.exports = {
    ** Headers of the page
    */
   head: {
-    title: '',
+    title: '稀饭旅行网-美国旅游-加拿大当地跟团游-欧洲旅游-澳大利亚旅游-新西兰旅游-东南亚旅游-日本旅游',
     meta: [{
         charset: 'utf-8',
       },
@@ -31,7 +32,11 @@ module.exports = {
         hid: 'description',
         name: 'description',
         content: pkg.description,
-      }
+      },
+      {
+        name: 'keywords',
+        content: '稀饭旅行网为你提供美国自由行旅游,美国当地跟团游,加拿大自助游,欧洲、澳大利亚、新西兰、日本、东南亚旅游,美国邮轮游等出境游预订服务,提供个性化定制旅游服务,境外旅游线路行程,景点门票低价在线预订尽在稀饭旅行网'
+      },
     ],
     link: [{
       rel: 'icon',
@@ -42,6 +47,8 @@ module.exports = {
       src: '/flexible/flexible.js',
       type: 'text/javascript',
       charset: 'utf-8',
+    }, {
+      src: 'https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.2.5/polyfill.min.js'
     }],
     __dangerouslyDisableSanitizers: ['script'],
   },
@@ -62,7 +69,9 @@ module.exports = {
    ** Plugins to load before mounting the App
    */
   plugins: pluginConfig,
-
+  render: {
+    resourceHints: false,
+  },
   /*
    ** middleware
    */
@@ -117,7 +126,9 @@ module.exports = {
    ** Build configuration
    */
   build: {
-    vendor: ['axios', 'lodash', '~/plugins/vant', '~/plugins/vue-swiper', '~/plugins/vue-clipboard', '~/plugins/vue-cropper'],
+    vendor: [
+      'axios', 'lodash', '~/plugins/vant', '~/plugins/vue-swiper', '~/plugins/vue-clipboard', '~/plugins/vue-cropper'
+    ],
     // analyze: true,
     babel: {
       presets: ({
@@ -148,6 +159,13 @@ module.exports = {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
         config.devtool = 'eval-source-map';
+        // 别名
+        // Object.assign(config.resolve.alias, {
+        //   Components: path.resolve(__dirname, 'components'),
+        //   Plugins: path.resolve(__dirname, 'plugins'),
+        //   Assets: path.resolve(__dirname, 'assets'),
+        //   Static: path.resolve(__dirname, 'static')
+        // })
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,

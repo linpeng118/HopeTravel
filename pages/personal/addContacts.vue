@@ -215,7 +215,7 @@
             path:this.pushpath,
             query:{
               checker:this.$route.query.checker||[],
-              adult:this.adult||null
+              adult:this.$route.query.adult||null
             }
           })
         }
@@ -249,7 +249,10 @@
             console.log(data)
             this.$router.replace({
               path:this.pushpath,
-              query:{checker:this.$route.query.checker||[]}
+              query:{
+                checker:this.$route.query.checker||[],
+                adult:this.$route.query.adult||null
+              }
             })
           }
           else {
