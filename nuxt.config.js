@@ -137,12 +137,12 @@ module.exports = {
       '~/plugins/vue-cropper'
     ],
     // analyze: true,
-    extractCSS: true, // 拆分css
+    // extractCSS: true, // 拆分css
     // babel: {
     //   cacheDirectory: undefined,
     //   presets: ['@nuxt/babel-preset-app', {
     //     targets: {
-    //       ie: 10
+    //       ie: 11
     //     }
     //   }]
     // },
