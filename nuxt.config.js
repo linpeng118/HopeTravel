@@ -112,6 +112,13 @@ module.exports = {
       },
       changeOrigin: true,
     },
+    '/union': {
+      target: `${apiPath.union}/api/tour/v1`, // 联盟
+      pathRewrite: {
+        '^/union': '/',
+      },
+      changeOrigin: true,
+    }
   },
   /*
    ** Build configuration

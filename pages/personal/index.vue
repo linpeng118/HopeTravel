@@ -45,12 +45,13 @@
             <img class="icon-size" src="../../assets/imgs/personal/index/passenger.png">
           </template>
         </van-cell>
-        <!--这期不做-->
-        <!--<van-cell title="我的分销" is-link to>-->
-        <!--<template slot="icon">-->
-        <!--<img class="icon-size" src="../../assets/imgs/personal/index/sales.png">-->
-        <!--</template>-->
-        <!--</van-cell>-->
+        <!--分销-->
+        <!--<van-cell title="我的分销" is-link :to="isLogin ? '/personal/sale_union': '/login?redirect=personal'">-->
+        <van-cell title="我的分销" is-link to="/personal/sale_union">
+          <template slot="icon">
+            <img class="icon-size" src="../../assets/imgs/personal/index/sales.png">
+          </template>
+        </van-cell>
         <van-cell title="切换货币" is-link to="/personal/money">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/currency.png">

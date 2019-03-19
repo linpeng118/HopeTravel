@@ -27,6 +27,8 @@ let httprequest = axios.create({
 
 // 修改默认配置-post请求头的设置
 httprequest.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+// 临时测试用，
+httprequest.defaults.headers.post['Authorization'] = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xOTIuMTY4LjEuMTkwOjkwMDFcL2FwaVwvdG91clwvdjFcL29hdXRoXC9sb2dpbiIsImlhdCI6MTU1MjkwMjQ2MywiZXhwIjoxNTUyOTAyNzYzLCJuYmYiOjE1NTI5MDI0NjMsImp0aSI6InZYdWtGWmwxdmx6dHdwNlEiLCJzdWIiOjEwMzUsInBydiI6IjFkMGEwMjBhY2Y1YzRiNmM0OTc5ODlkZjFhYmYwZmJkNGU4YzhkNjMiLCJ1aWQiOjEwMzV9.6MUo75YSNQ_Uo46ZnRqvhwjBAw-wPZ1_56QXkxBHJk';
 
 // 请求拦截器（有些请求需要登录态才能访问）
 httprequest.interceptors.request.use(
