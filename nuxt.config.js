@@ -1,6 +1,7 @@
 const pkg = require('./package')
 const apiPath = require('./config/api')
 const pluginConfig = require('./config/plugins')
+
 // const UglifyJSWebpackPlugin = require("uglifyjs-webpack-plugin");
 // 使用BabiliPlugin代替UglifyJs
 // https://github.com/nuxt/nuxt.js/issues/385
@@ -138,6 +139,7 @@ module.exports = {
     ],
     // analyze: true,
     // extractCSS: true, // 拆分css
+    // quiet: true,
     babel: {
       presets({
         isServer
@@ -157,18 +159,35 @@ module.exports = {
         ]
       }
     },
+    // html: {
+    //   minify: {
+    //     conservativeCollapse: true,
+    //     collapseWhitespace: true,
+    //     removeAttributeQuotes: true
+    //   }
     // },
     // 多进程
     parallel: true,
-    postcss: [
-      require('postcss-px2rem-exclude')({
-        remUnit: 75, // 转换基本单位
-        exclude: /vant/i,
-      }),
-      require('autoprefixer')({
-        browsers: ['last 5 versions'],
-      }),
-    ],
+    postcss: {
+      plugins: {
+        'postcss-px2rem-exclude': {
+          remUnit: 75, // 转换基本单位
+          exclude: /vant/i,
+        },
+      },
+      preset: {
+        autoprefixer: {
+          grid: true
+        }
+      }
+      // require('postcss-px2rem-exclude')({
+      //   remUnit: 75, // 转换基本单位
+      //   exclude: /vant/i,
+      // }),
+      // require('autoprefixer')({
+      //   browsers: ['last 5 versions'],
+      // }),
+    },
     extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
@@ -191,6 +210,7 @@ module.exports = {
         config.devtool = false
       }
     },
+
   },
   buildDir: 'n-dist',
 }
