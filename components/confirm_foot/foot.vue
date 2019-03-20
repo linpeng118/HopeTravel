@@ -77,7 +77,7 @@
           'total_feeusd':'',
         },
         loading:false,
-        apiPath:require('@/config/api'),
+        apiPath:require('@/apiConf.env'),
         //添加订单数据
 
       }
