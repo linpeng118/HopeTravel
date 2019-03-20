@@ -197,6 +197,7 @@ module.exports = {
       }
       if (!ctx.isDev) {
         config.devtool = false
+        // 打包报错
         // const UglifyJSWebpackPlugin = require('uglifyjs-webpack-plugin')
         // config.plugins = config.plugins.filter((plugin) => plugin.constructor.name !== 'UglifyJsPlugin')
         // config.plugins.push(new UglifyJSWebpackPlugin({
