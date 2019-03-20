@@ -1,5 +1,5 @@
+const TerserPlugin = require('terser-webpack-plugin')
 const pkg = require('./package')
-// const apiPath = require('./config/api')
 const pluginConfig = require('./config/plugins')
 const apiConfig = require('./apiConf.env')
 const axiosUrl = `http://127.0.0.1:${apiConfig.port}`
@@ -9,6 +9,7 @@ console.log('axiosUrl:', axiosUrl)
 
 module.exports = {
   mode: 'universal',
+  dev: (process.env.NODE_ENV !== 'production'),
   env: {
     ENV_TYPE: process.env.ENV_TYPE, // 添加一个环境变量
   },
@@ -146,7 +147,7 @@ module.exports = {
                 node: "current"
               } : {
                 browsers: ["last 5 versions"],
-                ie: 10
+                ie: 11
               }
             }
           ]
@@ -162,6 +163,20 @@ module.exports = {
         browsers: ['last 5 versions'],
       }),
     ],
+    optimization: {
+      minimize: true,
+      minimizer: [
+        new TerserPlugin({
+          terserOptions: {
+            warnings: false,
+            compress: {
+              drop_debugger: true,
+              drop_console: true
+            }
+          }
+        })
+      ]
+    },
     extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
@@ -182,6 +197,18 @@ module.exports = {
       }
       if (!ctx.isDev) {
         config.devtool = false
+        // 打包报错
+        // const UglifyJSWebpackPlugin = require('uglifyjs-webpack-plugin')
+        // config.plugins = config.plugins.filter((plugin) => plugin.constructor.name !== 'UglifyJsPlugin')
+        // config.plugins.push(new UglifyJSWebpackPlugin({
+        //   uglifyOptions: {
+        //     compress: {
+        //       warnings: false,
+        //       drop_debugger: true,
+        //       drop_console: true
+        //     }
+        //   }
+        // }))
       }
     },
 
