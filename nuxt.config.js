@@ -121,6 +121,7 @@ module.exports = {
   build: {
     vendor: [
       'babel-polyfill',
+      'eventsource-polyfill',
       'axios',
       'lodash',
       '~/plugins/vant',
@@ -132,6 +133,7 @@ module.exports = {
     // extractCSS与parallel不可并行：https://github.com/nuxt/nuxt.js/pull/5004
     extractCSS: true, // 拆分css
     // parallel: true, // 多进程
+    // IE或者Edge下报错：https://github.com/nuxt/nuxt.js/issues/4643
     babel: {
       presets({
         isServer
