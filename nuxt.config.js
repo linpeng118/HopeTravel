@@ -1,14 +1,15 @@
+const TerserPlugin = require('terser-webpack-plugin')
 const pkg = require('./package')
-const apiPath = require('./config/api')
 const pluginConfig = require('./config/plugins')
+const apiConfig = require('./apiConf.env')
+const axiosUrl = `http://127.0.0.1:${apiConfig.port}`
 
-// const UglifyJSWebpackPlugin = require("uglifyjs-webpack-plugin");
-// 使用BabiliPlugin代替UglifyJs
-// https://github.com/nuxt/nuxt.js/issues/385
-// const BabiliPlugin = require("babili-webpack-plugin");
+console.log('apiConfig:', apiConfig)
+console.log('axiosUrl:', axiosUrl)
 
 module.exports = {
   mode: 'universal',
+  dev: (process.env.NODE_ENV !== 'production'),
   env: {
     ENV_TYPE: process.env.ENV_TYPE, // 添加一个环境变量
   },
@@ -92,37 +93,28 @@ module.exports = {
     proxy: true,
     // prefix: '/api', // baseURL
     credentials: true,
+    // baseURL: axiosUrl, // 接口请求配置
   },
+  // 配置代理
   proxy: {
-    // 配置代理
     '/api': {
-      target: `${apiPath.base}/api/tour/v1`, // api
+      target: `${apiConfig.base}/api/tour/v1`, // api
       pathRewrite: {
         '^/api': '/',
       },
       changeOrigin: true,
     },
-    '/play': {
-      target: 'http://192.168.1.91:8888/api/tour/v1', // 本地测试
+    '/htwPay': {
+      target: `${apiConfig.payment}`, // 支付接口
       pathRewrite: {
-        '^/play': '/',
+        '^/htwPay': '/',
       },
       changeOrigin: true,
     },
-    '/order': {
-      target: `${apiPath.payment}/api/v1`, // 订单接口
-      pathRewrite: {
-        '^/order': '/',
-      },
-      changeOrigin: true,
-    },
-    '/payment': {
-      target: `${apiPath.payment}/payment`, // 支付
-      pathRewrite: {
-        '^/payment': '/',
-      },
-      changeOrigin: true,
-    },
+  },
+  server: {
+    // 本地所起的服务配置
+    port: apiConfig.port,
   },
   /*
    ** Build configuration
@@ -130,6 +122,7 @@ module.exports = {
   build: {
     vendor: [
       'babel-polyfill',
+      'eventsource-polyfill',
       'axios',
       'lodash',
       '~/plugins/vant',
@@ -138,8 +131,10 @@ module.exports = {
       '~/plugins/vue-cropper'
     ],
     // analyze: true,
-    // extractCSS: true, // 拆分css
-    // quiet: true,
+    // extractCSS与parallel不可并行：https://github.com/nuxt/nuxt.js/pull/5004
+    extractCSS: true, // 拆分css
+    // parallel: true, // 多进程
+    // IE或者Edge下报错：https://github.com/nuxt/nuxt.js/issues/4643
     babel: {
       presets({
         isServer
@@ -152,41 +147,35 @@ module.exports = {
                 node: "current"
               } : {
                 browsers: ["last 5 versions"],
-                ie: 10
+                ie: 11
               }
             }
           ]
         ]
       }
     },
-    // html: {
-    //   minify: {
-    //     conservativeCollapse: true,
-    //     collapseWhitespace: true,
-    //     removeAttributeQuotes: true
-    //   }
-    // },
-    // 多进程
-    parallel: true,
-    postcss: {
-      plugins: {
-        'postcss-px2rem-exclude': {
-          remUnit: 75, // 转换基本单位
-          exclude: /vant/i,
-        },
-      },
-      preset: {
-        autoprefixer: {
-          grid: true
-        }
-      }
-      // require('postcss-px2rem-exclude')({
-      //   remUnit: 75, // 转换基本单位
-      //   exclude: /vant/i,
-      // }),
-      // require('autoprefixer')({
-      //   browsers: ['last 5 versions'],
-      // }),
+    postcss: [
+      require('postcss-px2rem-exclude')({
+        remUnit: 75, // 转换基本单位
+        exclude: /vant/i,
+      }),
+      require('autoprefixer')({
+        browsers: ['last 5 versions'],
+      }),
+    ],
+    optimization: {
+      minimize: true,
+      minimizer: [
+        new TerserPlugin({
+          terserOptions: {
+            warnings: false,
+            compress: {
+              drop_debugger: true,
+              drop_console: true
+            }
+          }
+        })
+      ]
     },
     extend(config, ctx) {
       // Run ESLint on save
@@ -208,6 +197,18 @@ module.exports = {
       }
       if (!ctx.isDev) {
         config.devtool = false
+        // 打包报错
+        // const UglifyJSWebpackPlugin = require('uglifyjs-webpack-plugin')
+        // config.plugins = config.plugins.filter((plugin) => plugin.constructor.name !== 'UglifyJsPlugin')
+        // config.plugins.push(new UglifyJSWebpackPlugin({
+        //   uglifyOptions: {
+        //     compress: {
+        //       warnings: false,
+        //       drop_debugger: true,
+        //       drop_console: true
+        //     }
+        //   }
+        // }))
       }
     },
 
