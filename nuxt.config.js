@@ -94,8 +94,8 @@ module.exports = {
     credentials: true,
     // baseURL: axiosUrl, // 接口请求配置
   },
+  // 配置代理
   proxy: {
-    // 配置代理
     '/api': {
       target: `${apiConfig.base}/api/tour/v1`, // api
       pathRewrite: {
@@ -103,17 +103,10 @@ module.exports = {
       },
       changeOrigin: true,
     },
-    '/play': {
-      target: 'http://192.168.1.91:8888/api/tour/v1', // 本地测试
-      pathRewrite: {
-        '^/play': '/',
-      },
-      changeOrigin: true,
-    },
-    '/htwPayment': {
+    '/htwPay': {
       target: `${apiConfig.payment}`, // 支付接口
       pathRewrite: {
-        '^/htwPayment': '/',
+        '^/htwPay': '/',
       },
       changeOrigin: true,
     },
