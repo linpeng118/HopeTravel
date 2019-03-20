@@ -124,16 +124,6 @@ module.exports = {
    ** Build configuration
    */
   build: {
-    vendor: [
-      'babel-polyfill',
-      'eventsource-polyfill',
-      'axios',
-      'lodash',
-      '~/plugins/vant',
-      '~/plugins/vue-swiper',
-      '~/plugins/vue-clipboard',
-      '~/plugins/vue-cropper'
-    ],
     // analyze: true,
     // extractCSS与parallel不可并行：https://github.com/nuxt/nuxt.js/pull/5004
     extractCSS: true, // 拆分css
@@ -150,8 +140,7 @@ module.exports = {
               targets: isServer ? {
                 node: "current"
               } : {
-                browsers: ["last 5 versions"],
-                ie: 11
+                browsers: ["ie >= 10"],
               }
             },
             "es2015",
