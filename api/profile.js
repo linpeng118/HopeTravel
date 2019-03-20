@@ -7,7 +7,7 @@ export const getProfile = (data) => {
 }
 // 获取订单
 export const getOrderInfo = (status) => {
-  return axios.get(`/order/user/order?type=tour&status=${status}`)
+  return axios.get(`/htwPayment/api/v1/user/order?type=tour&status=${status}`)
 }
 
 // 获取米粒信息

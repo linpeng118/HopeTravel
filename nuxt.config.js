@@ -1,10 +1,11 @@
 const pkg = require('./package')
-const apiPath = require('./config/api')
+// const apiPath = require('./config/api')
 const pluginConfig = require('./config/plugins')
-// const UglifyJSWebpackPlugin = require("uglifyjs-webpack-plugin");
-// 使用BabiliPlugin代替UglifyJs
-// https://github.com/nuxt/nuxt.js/issues/385
-// const BabiliPlugin = require("babili-webpack-plugin");
+const apiConfig = require('./apiConf.env')
+const axiosUrl = `http://127.0.0.1:${apiConfig.port}`
+
+console.log('apiConfig:', apiConfig)
+console.log('axiosUrl:', axiosUrl)
 
 module.exports = {
   mode: 'universal',
@@ -91,11 +92,12 @@ module.exports = {
     proxy: true,
     // prefix: '/api', // baseURL
     credentials: true,
+    // baseURL: axiosUrl, // 接口请求配置
   },
   proxy: {
     // 配置代理
     '/api': {
-      target: `${apiPath.base}/api/tour/v1`, // api
+      target: `${apiConfig.base}/api/tour/v1`, // api
       pathRewrite: {
         '^/api': '/',
       },
@@ -108,20 +110,17 @@ module.exports = {
       },
       changeOrigin: true,
     },
-    '/order': {
-      target: `${apiPath.payment}/api/v1`, // 订单接口
+    '/htwPayment': {
+      target: `${apiConfig.payment}`, // 支付接口
       pathRewrite: {
-        '^/order': '/',
+        '^/htwPayment': '/',
       },
       changeOrigin: true,
     },
-    '/payment': {
-      target: `${apiPath.payment}/payment`, // 支付
-      pathRewrite: {
-        '^/payment': '/',
-      },
-      changeOrigin: true,
-    },
+  },
+  server: {
+    // 本地所起的服务配置
+    port: apiConfig.port,
   },
   /*
    ** Build configuration
@@ -137,7 +136,9 @@ module.exports = {
       '~/plugins/vue-cropper'
     ],
     // analyze: true,
-    // extractCSS: true, // 拆分css
+    // extractCSS与parallel不可并行：https://github.com/nuxt/nuxt.js/pull/5004
+    extractCSS: true, // 拆分css
+    // parallel: true, // 多进程
     babel: {
       presets({
         isServer
@@ -157,9 +158,6 @@ module.exports = {
         ]
       }
     },
-    // },
-    // 多进程
-    parallel: true,
     postcss: [
       require('postcss-px2rem-exclude')({
         remUnit: 75, // 转换基本单位
