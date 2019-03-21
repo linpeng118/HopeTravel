@@ -2,7 +2,7 @@ let apiPath
 const dev = {
   base: 'http://api.qa.tourscool.net',
   payment: 'http://www.htw.tourscool.net',
-  union: ' http://192.168.1.190:9001'
+  union: 'http://192.168.1.190:9001'
 }
 
 const qa = {

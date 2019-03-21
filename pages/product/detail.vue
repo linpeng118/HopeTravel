@@ -48,13 +48,16 @@
         </p>
         <!-- 价格 -->
         <div class="price-wrap">
+          <span class="share-btn">
+            <img src="../../assets/imgs/union/icon_share@2x.png" alt="" width="16" height="16"><span>分享赚80.1</span>
+          </span>
           <span class="price fs-48 fw-800"
             :style="{'color': product.self_support ? '#EF9A1A' : '#fb605d'}">
             {{product.special_price ? product.special_price: product.default_price}}
             <span class="unit">&nbsp;起</span>
           </span>
-          <span class="default-price">
-            {{product.special_price ? product.default_price: ''}}
+          <span class="default-price" v-if="product.special_price">
+            {{product.special_price}}
           </span>
         </div>
       </div>
@@ -413,6 +416,15 @@
         </div>
       </div>
     </transition>
+    <!--分享按钮-->
+    <div v-if="isShareBtn" class="share-box-show" @click="shareProductHandle">
+      <img src="../../assets/imgs/union/icon_share@2x.png" alt="" width="20" height="20">
+    </div>
+    <div class="share-box">
+      <van-popup v-model="shareListShow" :overlay="false">
+        <share-list @close="shareListShow = false" :data="shareDataInfo"></share-list>
+      </van-popup>
+    </div>
   </div>
 </template>
 
@@ -429,6 +441,8 @@
   import {DLG_TYPE} from '@/assets/js/consts/dialog'
   import {getProductDetail, addFavorite, delFavorite, schedule} from '@/api/products'
   import {getProfile} from '@/api/profile'
+  import shareList from '@/components/share/list'
+  import {getCode,getBase64} from '@/api/sale_union'
 
   export default {
     layout: 'default',
@@ -439,6 +453,7 @@
       ProductDetailHeader,
       ProdDetailImgItem,
       Loading,
+      shareList
     },
     // async asyncData({$axios, query}) {
     //   let attributes,
@@ -482,7 +497,7 @@
         ENTITY_TYPE,
         loading: true,
         productId: Number(this.$route.query.productId) || null,
-        isTransparent: true, // 导航头是否透明
+        isTransparent: false, // 导航头是否透明
         current: 0, // 导航页数
         // bgFeat: require('../../assets/imgs/product/bg_features.png'),
         activeTab: 1, // 选中的tab
@@ -512,6 +527,9 @@
         showMore: false,
         // 邮箱或手机号
         account: '',
+        isShareBtn: true, // 分享按钮是否显示
+        shareListShow: false, // 是否显示分享列表
+        shareDataInfo: {}
       }
     },
     computed: {
@@ -723,11 +741,11 @@
         let tabListH = this.$refs.refTabList.offsetTop - this.$refs.refTabList.offsetHeight;
         let tabHeightH = this.$refs.refTabHeight.offsetTop - this.$refs.refTabList.offsetHeight;
         // console.log(s1, tabListH, tabHeightH)
-        if (s1 > 0) {
-          this.isTransparent = false
-        } else {
-          this.isTransparent = true
-        }
+        // if (s1 > 0) {
+        //   this.isTransparent = false
+        // } else {
+        //   this.isTransparent = true
+        // }
         if (s1 >= tabListH) {
           this.isTabFixed = true
         }
@@ -915,6 +933,32 @@
           this.showSoldOut = false
         }
         this.$toast(msg)
+      },
+      // 分享
+      async shareProductHandle() {
+        const {code, msg, data} = await getProfile()
+        if (code === 700) {
+          console.log(this.$route.fullPath)
+          this.$router.push({
+            path: `/login?redirect=${this.$route.fullPath}`,
+          })
+        } else if (code === 401) {
+          return
+        } else {
+          let {product_id,name,default_price,special_price,images} = this.product
+          let {face,customer_id,chinese_name,email,phone,last_name,first_name,nickname} = data
+          this.shareListShow = true
+          let faceImg = await getBase64(face)
+          let productImg = await getBase64(images[0])
+          let code = await getCode(product_id)
+          this.shareDataInfo = {
+            product_id,name,default_price,special_price,customer_id,chinese_name,email,phone,last_name,first_name,nickname,
+            image: 'data:image/jpg;base64,'+ productImg.data,
+            face: 'data:image/jpg;base64,'+ faceImg.data,
+            code: code.data
+          }
+          console.log(this.shareDataInfo)
+        }
       }
     },
   }
