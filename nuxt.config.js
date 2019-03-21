@@ -56,6 +56,9 @@ module.exports = {
       src: '/flexible/flexible.js',
       type: 'text/javascript',
       charset: 'utf-8',
+    }, {
+      src: 'https://cdn.polyfill.io/v2/polyfill.min.js',
+      type: 'text/javascript',
     }],
     __dangerouslyDisableSanitizers: ['script'],
   },
@@ -127,8 +130,13 @@ module.exports = {
     // analyze: true,
     // extractCSS与parallel不可并行：https://github.com/nuxt/nuxt.js/pull/5004
     extractCSS: true, // 拆分css
+    maxChunkSize: 30000,
     // parallel: true, // 多进程
-    // IE或者Edge下报错：https://github.com/nuxt/nuxt.js/issues/4643
+    // IE或者Edge下报错原因：（https://github.com/Rich-Harris/devalue/issues/16）
+    // 处理
+    // https://github.com/nuxt/nuxt.js/issues/4643
+    // https://github.com/nuxt/nuxt.js/pull/4600
+    // https://github.com/nuxt/nuxt.js/issues/4432
     babel: {
       presets({
         isServer
@@ -174,7 +182,7 @@ module.exports = {
     extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
-        config.devtool = 'eval-source-map';
+        config.devtool = '#eval-source-map';
         // 别名
         // Object.assign(config.resolve.alias, {
         //   Components: path.resolve(__dirname, 'components'),
@@ -188,6 +196,10 @@ module.exports = {
           loader: 'eslint-loader',
           exclude: /(node_modules)/,
         })
+      }
+      if (ctx.isDev) {
+        config.entry.push('babel-polyfill')
+        config.entry.push('eventsource-polyfill')
       }
       if (!ctx.isDev) {
         config.devtool = false
