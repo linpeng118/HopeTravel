@@ -322,7 +322,7 @@ export default {
       if (document.querySelector("#newBridge")) {
         document.querySelector("#newBridge").style.display = "none";
       }
-    }, 300);
+    }, 3000);
   },
   methods: {
     onClickLeft() {
