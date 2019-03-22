@@ -198,8 +198,15 @@ module.exports = {
         })
       }
       if (ctx.isDev) {
-        config.entry.push('babel-polyfill')
-        config.entry.push('eventsource-polyfill')
+        if (config.entry) {
+          config.entry.push('babel-polyfill')
+          config.entry.push('eventsource-polyfill')
+        } else {
+          config.entry = [
+            'babel-polyfill',
+            'eventsource-polyfill'
+          ]
+        }
       }
       if (!ctx.isDev) {
         config.devtool = false
