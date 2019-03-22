@@ -46,7 +46,7 @@
             <dt>
               <img src="../../assets/imgs/visa/s5.png" alt>
             </dt>
-            <dd>拒签退款</dd>
+            <dd>全国送签</dd>
           </dl>
         </van-col>
       </van-row>
