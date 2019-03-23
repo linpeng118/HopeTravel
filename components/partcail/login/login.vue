@@ -104,6 +104,7 @@
         timer: null,
         countDownTime: TIME, // 倒计时时间
         codeType: VERIFY_CODE.START, // 获取验证码/倒计时/重新获取
+        profile: {}
       }
     },
     computed: {
@@ -232,6 +233,7 @@
           if (code === 0) {
             // console.log(data.token)
             await this.vxSetToken(data.token)
+            this.getUserInfo()
             await this.resetTimer()
             await this.$emit('loginCallBack')
           } else {
@@ -257,7 +259,7 @@
         clearInterval(this.timer)
         this.codeType = VERIFY_CODE.START
         this.countDownTime = 60
-      }
+      },
     },
   }
 </script>

@@ -47,7 +47,7 @@
         </van-cell>
         <!--分销-->
         <!--<van-cell title="我的分销" is-link :to="isLogin ? '/personal/sale_union': '/login?redirect=personal'">-->
-        <van-cell title="我的分销" is-link to="/personal/sale_union">
+        <van-cell title="我的分销" is-link @click="goToUnion">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/sales.png">
           </template>
@@ -92,7 +92,8 @@
 
 <script>
 import {mapMutations} from 'vuex'
-import { getProfile } from "@/api/profile";
+import { getProfile } from "@/api/profile"
+import { joinStatus } from "@/api/sale_union"
 
 export default {
   name: "component_name",
@@ -167,6 +168,30 @@ export default {
         })
       }
 
+    },
+    // 跳转联盟
+    async goToUnion() {
+      console.log(this.isLogin)
+      if (this.isLogin) {
+        let {code,data,msg} = await joinStatus()
+        if(code === 0) {
+          if(data.is_agent === 1) {
+            this.$router.push({
+              name: 'personal-sale_union'
+            })
+          } else {
+            this.$router.push({
+              name: 'personal-sale_union-union_apply'
+            })
+          }
+        } else {
+          this.$toast.fail(msg)
+        }
+      } else {
+        this.$router.push({
+          path: '/login?redirect=personal'
+        })
+      }
     },
     ...mapMutations({
       vxSetProfile: 'profile/setProfile'

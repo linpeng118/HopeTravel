@@ -49,7 +49,7 @@
         <!-- 价格 -->
         <div class="price-wrap">
           <span class="share-btn">
-            <img src="../../assets/imgs/union/icon_share@2x.png" alt="" width="16" height="16"><span>分享赚80.1</span>
+            <img src="../../assets/imgs/union/icon_share@2x.png" alt="" width="16" height="16"><span>分享赚{{product.agent_fee}}</span>
           </span>
           <span class="price fs-48 fw-800"
             :style="{'color': product.self_support ? '#EF9A1A' : '#fb605d'}">
@@ -527,7 +527,7 @@
         showMore: false,
         // 邮箱或手机号
         account: '',
-        isShareBtn: true, // 分享按钮是否显示
+        isShareBtn: false, // 分享按钮是否显示
         shareListShow: false, // 是否显示分享列表
         shareDataInfo: {}
       }
@@ -741,11 +741,11 @@
         let tabListH = this.$refs.refTabList.offsetTop - this.$refs.refTabList.offsetHeight;
         let tabHeightH = this.$refs.refTabHeight.offsetTop - this.$refs.refTabList.offsetHeight;
         // console.log(s1, tabListH, tabHeightH)
-        // if (s1 > 0) {
-        //   this.isTransparent = false
-        // } else {
-        //   this.isTransparent = true
-        // }
+        if (s1 > 100) {
+          this.isShareBtn = true
+        } else {
+          this.isShareBtn = false
+        }
         if (s1 >= tabListH) {
           this.isTabFixed = true
         }
@@ -950,7 +950,7 @@
           this.shareListShow = true
           let faceImg = await getBase64(face)
           let productImg = await getBase64(images[0])
-          let code = await getCode(product_id)
+          let code = await getCode(`https://m.tourscool.com/product/detail?productId=${product_id}`)
           this.shareDataInfo = {
             product_id,name,default_price,special_price,customer_id,chinese_name,email,phone,last_name,first_name,nickname,
             image: 'data:image/jpg;base64,'+ productImg.data,

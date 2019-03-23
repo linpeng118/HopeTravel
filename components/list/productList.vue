@@ -23,11 +23,13 @@
         </div>
         <div class="product-price">
           <template v-if="!data.special_price">
-            <span class="sale-price"><strong>{{data.default_price | showInt}}</strong>/起</span>
+            <span class="share-p">分享赚{{data.agent_fee}}</span><span class="sale-price"><strong>{{data.default_price | showInt}}</strong>/起</span>
           </template>
           <template v-else>
-            <span class="sale-price"><strong>{{data.special_price | showInt}}</strong>/起</span>
-            <span class="default-price" style="text-decoration: line-through">原价：{{data.default_price | showInt}}</span>
+            <div class="share-transF">
+              <p><span class="default-price" style="text-decoration: line-through">原价：{{data.default_price | showInt}}</span></p>
+              <span class="share-p">分享赚{{data.agent_fee}}</span><span class="sale-price"><strong>{{data.special_price | showInt}}</strong>/起</span>
+            </div>
           </template>
         </div>
       </div>
@@ -179,9 +181,14 @@ export default {
           }
         }
         .product-price{
+          text-align: right;
           font-size:22px;
+          .share-transF{
+            margin-top: -15px;
+            line-height: 40px;
+          }
           .sale-price{
-            color: #FB605D;
+            color: #EF9A1A;
             margin-right: 10px;
             strong{
               font-size:40px;
@@ -189,6 +196,9 @@ export default {
           }
           .default-price{
             color: #3A3A3A;
+          }
+          .share-p{
+            color: #FF7246;
           }
         }
       }

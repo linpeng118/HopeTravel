@@ -26,6 +26,18 @@ function clearLocalStore(name) {
 }
 
 /**
+ * 存储sessionStorage
+ */
+function setSessionStore(name, content) {
+  if (!name) return;
+  if (typeof content !== 'string') {
+    content = JSON.stringify(content);
+  }
+  window.sessionStorage.setItem(name, content)
+}
+
+
+/**
  * 设置cookie
  * @param {string} key 传入的键名
  * @param {string} value 传入数据
@@ -130,30 +142,6 @@ function isEmail(val) {
   return /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/i.test(val);
 }
 
-//
-function resetTime(time) {
-  var timer = null;
-  var t = time;
-  var m = 0;
-  var s = 0;
-  m = Math.floor(t / 60 % 60);
-  m < 10 && (m = '0' + m);
-  s = Math.floor(t % 60);
-  timer = setInterval(function () {
-    s--;
-    s < 10 && (s = '0' + s);
-    if (s.length >= 3) {
-      s = 59;
-      m = "0" + (Number(m) - 1);
-    }
-    if (m.length >= 3) {
-      m = '00';
-      s = '00';
-      clearInterval(timer);
-    }
-    console.log(m + "分钟" + s + "秒");
-  }, 1000);
-}
 
 export {
   setLocalStore,
@@ -168,5 +156,5 @@ export {
   validDomain,
   isMobile,
   isEmail,
-  resetTime
+  setSessionStore
 }

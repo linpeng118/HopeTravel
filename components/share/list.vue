@@ -32,20 +32,20 @@
     <div class="native-share">
       <div class="list-wrap">
         <ul>
-          <li>
+          <li @click="shareRender('wx')">
             <img src="../../assets/imgs/union/weixin_friend@2x.png" alt="">
             <p>微信好友</p>
           </li>
-          <li @click="show=true">
+          <li @click="shareRender('qq')">
             <img src="../../assets/imgs/union/qq@2x.png" alt="">
             <p>QQ好友</p>
           </li>
-          <li @click="show=true">
+          <li @click="shareRender('wxline')">
             <img src="../../assets/imgs/union/weixin@2x.png" alt="">
             <p>微信朋友圈</p>
           </li>
-          <li @click="weiboShare">
-            <img src="../../assets/imgs/union/weibo@2x.png" alt="">
+          <li @click="shareRender('sina')">
+            <img src="../../assets/imgs/union/sinaWeibo@2x.png" alt="">
             <p>新浪微博</p>
           </li>
           <li @click="copySomething"
@@ -124,10 +124,6 @@ export default {
       let canvas = await html2canvas(document.querySelector('#shareImg'))
       this.dataUrl = canvas.toDataURL()
     },
-    // async showProductCode() {
-    //   let {data} = await getCode(this.data.product_id)
-    //   this.codeImg = data
-    // },
     async copySomething() {
       try {
         let text = window.location.href + 'referrer_id=' + this.data.customer_id
@@ -144,40 +140,27 @@ export default {
     onError(e) {
       this.$toast("复制失败")
     },
-    weiboShare() {
-      let sharesinastring='http://v.t.sina.com.cn/share/share.php?&appkey=3181386117&title='+this.data.name +
-        '&url=https://m.tourscool.com/product/detail?productId='
-        + this.data.product_id +
-        '&content=utf-8&sourceUrl=https://m.tourscool.com/product/detail?productId=' + this.data.product_id;
-      window.location = sharesinastring
-    },
     async imgSwitchBase64(){
       let face = await getBase64(this.data.face)
       let product = await getBase64(this.data.image)
       this.faceImg = 'data:image/jpg;base64,'+ face.data
       this.productImg = 'data:image/jpg;base64,'+ product.data
     },
-    shareRender() {
+    shareRender(value) {
+      const Mshare = require('m-share')
       var config = {
-        title: 'm-share', // 标题，默认读取document.title
-        desc: 'm-share的描述', // 描述, 默认读取head标签：<meta name="description" content="desc" />
-        link: 'http://www.dearhaoge.com/project/m-share/', // 网址，默认使用window.location.href
-        imgUrl: 'http://www.dearhaoge.com/project/m-share/shareIcon.jpg', // 图片, 默认取网页中第一个img标签
+        title: this.data.name,
+        desc: '',
+        link: 'https://m.tourscool.com/product/detail?productId=' + this.data.product_id + '&referrer_id=' + this.data.customer_id,
         types: ['wx', 'wxline', 'qq', 'qzone', 'sina'], // 开启的分享图标, 默认为全部
         infoMap: {
-          wx: {
-            title: 'm-share微信分享',
-            desc: '我是微信的分享',
-            link: 'http://www.dearhaoge.com/project/m-share/?ADTAG=wx',
-            imgUrl: 'http://www.dearhaoge.com/project/m-share/shareIcon.jpg'
-          }
         },
         fnDoShare: function (type) {
           console.log(1);
         }
       }
       Mshare.init(config)
-      Mshare.to('wx', config)
+      Mshare.to(value, config)
     }
   }
 }
@@ -187,8 +170,9 @@ export default {
   .share-wrap{
     font-size: 24px;
     .share-pic-box{
-      margin: 48px;
+      margin: 0 48px;
       background-color: #fff;
+      transform: translateY(20%);
       .top-part{
         height: 600px;
         padding: 25px 32px;
@@ -312,11 +296,12 @@ export default {
     }
     .canvas-img{
       position: fixed;
-      top:48px;
+      top: 0;
       left: 48px;
       right: 48px;
       height: 600px;
       z-index: 100;
+      transform: translateY(20%);
       img{
         width: 100%;
         height: 100%;
@@ -338,6 +323,5 @@ export default {
         margin-top: 70px;
       }
     }
-
   }
 </style>

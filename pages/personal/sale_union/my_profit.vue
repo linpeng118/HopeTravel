@@ -9,7 +9,7 @@
         <div class="top"><strong>黄金会员</strong> 收益提升10%</div>
         <div class="fortune-center">
           <p class="price">3176.05</p>
-          <p>我的收益，去提现 <van-icon name="arrow" /></p>
+          <nuxt-link to="/personal/transfercore" tag="p">我的收益，去提现 <van-icon name="arrow" /></nuxt-link>
         </div>
         <van-row class="rich-info">
           <van-col span="8">
@@ -35,33 +35,34 @@
       <div class="main-layout">
         <!--统计-->
         <div class="count-item">
-          <div class="detail">
+          <div class="detail" @click="goToPathShare('friend')">
             <img src="../../../assets/imgs/union/icon_union@2x.png" alt="">
             <div class="desc">
               <p class="name">稀饭盟友</p>
-              <p>产生24个订单，帮我赚取了$4231</p>
+              <p v-if="JSON.stringify(friendReport) !== '{}'">产生{{friendReport.total.order}}个订单，帮我赚取了{{friendReport.total.income}}</p>
             </div>
             <div class="right">
-              <span class="num">8</span> 人
+              <span class="num">{{friendReport.total.friend}}</span> 人
             </div>
           </div>
-          <div class="link-btn">邀请朋友加入，有钱大家一起赚</div>
+          <div class="link-btn" @click="goToPathShare('shareFriends')">邀请朋友加入，有钱大家一起赚</div>
         </div>
         <div class="count-item">
-          <div class="detail">
+          <div class="detail" @click="goToPathShare('week')">
             <img src="../../../assets/imgs/union/icon_share_big@2x.png" alt="">
             <div class="desc">
               <p class="name">本周分享</p>
-              <p>67个浏览，产生了2个订单</p>
+              <p v-if="JSON.stringify(shareReport) !== '{}'">{{shareReport.total.view}}个浏览，产生了{{shareReport.total.order}}个订单</p>
             </div>
-            <div class="right">
-              <span class="num">127</span> 人
+            <div class="right" v-if="JSON.stringify(shareReport) !== '{}'">
+              <span class="num">{{shareReport.total.share}}</span> 人
             </div>
           </div>
-          <div class="link-btn">越分享越有钱，分享永不止步</div>
+          <div class="link-btn" @click="goToPathShare('index')">越分享越有钱，分享永不止步</div>
+
         </div>
         <!--教学-->
-        <van-cell is-link to="/" class="item-link">
+        <van-cell is-link to="/personal/sale_union/study_union" class="item-link">
           <template slot="icon">
             <img class="icon-size" src="../../../assets/imgs/union/icon_study@2x.png" width="42" height="42">
           </template>
@@ -71,7 +72,7 @@
             </div>
           </template>
         </van-cell>
-        <van-cell is-link to="/" class="item-link">
+        <van-cell is-link to="/personal/about_xf_union" class="item-link">
           <template slot="icon">
             <img class="icon-size" src="../../../assets/imgs/union/icon_about@2x.png" width="42" height="42">
           </template>
@@ -88,11 +89,36 @@
 
 <script>
 import HeaderBar from '@/components/header/sale_union'
+import {shareReport} from '@/assets/js/mixins/shareReport'
+import {friendReport} from '@/assets/js/mixins/friendReport'
 export default {
   name: 'my_profit',
   components: {HeaderBar},
+  mixins: [shareReport,friendReport],
+  mounted(){
+    console.log(this.shareReport)
+  },
   methods: {
-    onClickLeft() {}
+    onClickLeft() {},
+    goToPathShare(value) {
+      if(value === 'week') {
+        this.$router.push({
+          path: '/personal/sale_union/my_share'
+        })
+      } else if(value === 'friend') {
+        this.$router.push({
+          path: '/personal/sale_union/my_union'
+        })
+      } else if(value === 'shareFriends') {
+        this.$router.push({
+          path: '/personal/sale_union/invite_friends'
+        })
+      } else {
+        this.$router.push({
+          path: '/personal/sale_union'
+        })
+      }
+    },
   }
 }
 </script>
@@ -100,7 +126,7 @@ export default {
 <style type="text/scss" lang="scss" scoped>
   .page-container{
     background-color: #F5F4F9;
-    height: 100vh;
+    min-height: 100vh;
   }
   .income-detail{
     height:320px;

@@ -16,6 +16,8 @@ import product from './modules/product'
 import profile from './modules/profile'
 // login模块
 import login from './modules/login'
+// 分享模块
+import saleUnion from './modules/saleUnion'
 
 Vue.use(Vuex)
 
@@ -33,6 +35,7 @@ const createStore = () => {
       product,
       profile,
       login,
+      saleUnion,
     },
   })
 }

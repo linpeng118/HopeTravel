@@ -38,6 +38,7 @@
   import RegistComp from '@/components/partcail/login/regist'
   import ForgetComp from '@/components/partcail/login/forget'
   import ChangeComp from '@/components/partcail/login/change'
+  import {getProfile} from '@/api/profile'
 
   export default {
     components: {
@@ -90,7 +91,8 @@
     methods: {
       ...mapMutations({
         vxChangePage: 'login/changePage',
-        vxToggleLoginDlg: 'login/toggleDialog'
+        vxToggleLoginDlg: 'login/toggleDialog',
+        vxSetProfile: 'profile/setProfile'
       }),
       // 头部按钮（左）【返回】
       btnLeft() {
@@ -119,13 +121,15 @@
         }
       },
       // 登陆回调
-      loginCallBack() {
+      async loginCallBack() {
         // 弹窗登录/页面登录
+        // this.getUserInfo()
         if (this.isDialog) {
           this.vxToggleLoginDlg(false)
         } else {
           if (this.redirect) {
-            this.$router.replace({
+            await this.getUserInfo()
+            this.$router.push({
               path: this.redirect
             })
           } else {
@@ -157,6 +161,15 @@
       changeCallBack() {
         this.vxChangePage(PAGE_TYPE.LOGIN)
       },
+      // 获取到用户信息
+      async getUserInfo(){
+        let {data,code} = await getProfile()
+        if(code === 0) {
+          this.vxSetProfile(data)
+        } else {
+          this.vxSetProfile({})
+        }
+      }
     },
   }
 </script>

@@ -20,6 +20,10 @@ let plugins = [{
     src: '~/plugins/vue-cropper',
     ssr: false
   },
+  {
+    src: '~/assets/js/mixins/shareReport',
+    ssr: false,
+  },
   //vuex禁止ssr
   {
     src: '~/plugins/vuex-persist',

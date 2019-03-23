@@ -16,51 +16,41 @@
       <!--限时奖励-->
       <div class="reward-time-box">
         <van-swipe indicator-color="white">
-          <van-swipe-item>
+          <van-swipe-item v-for="timeItem in timeSalesList" :key="timeItem.product_id">
             <div class="item">
               <div class="desc">
-                <p>玩转美西经典小环 莫哈维$1000</p>
+                <p class="title">{{timeItem.name}}</p>
                 <div class="price">
-                  赚 $ 80.1
+                  赚 {{timeItem.agent_fee}}
                 </div>
               </div>
               <div class="time">
-                限时奖励 04：14：59
+                限时奖励 <span v-html="timeItem.time"></span>
               </div>
-              <img src="http://www.pptok.com/wp-content/uploads/2012/08/xunguang-7.jpg" alt="">
-            </div>
-          </van-swipe-item>
-          <van-swipe-item>
-            <div class="item">
-              <div class="desc">
-                <p>玩转美西经典小环 莫哈维$1000</p>
-                <div class="price">
-                  赚 $ 80.1
-                </div>
-              </div>
-              <div class="time">
-                限时奖励 04：14：59
-              </div>
-              <img src="http://www.pptok.com/wp-content/uploads/2012/08/xunguang-3.jpg" alt="">
+              <img :src="timeItem.image" alt="">
             </div>
           </van-swipe-item>
         </van-swipe>
       </div>
       <!--产品列表-->
       <div class="hot-product-list">
-        <van-tabs v-model="currentTab" title-active-color="#DB302C" color="transparent">
-          <van-tab title="热销产品">
-            <template v-for="hotItem in hotProductList">
-              <union-item :key="hotItem.product_id" :item="hotItem" @select="selectProduct"></union-item>
-            </template>
+        <van-tabs v-model="currentTab" title-active-color="#DB302C" color="transparent" @click="changeTypeClick">
+          <van-tab title="热销产品" >
+            <van-list v-model="prodLoadingsales" :finished="prodFinishedsales" finished-text="没有更多了" @load="onLoad">
+              <template v-for="hotItem in productListsales">
+                <union-item :key="hotItem.product_id + Math.random()" :item="hotItem" @select="selectProduct"></union-item>
+              </template>
+            </van-list>
           </van-tab>
-          <van-tab title="超高佣金">
-            <template v-for="cashItem in cashProductList">
-              <union-item :key="cashItem.product_id" :item="cashItem" @select="selectProduct"></union-item>
-            </template>
+          <van-tab title="超高佣金" >
+            <van-list v-model="prodLoadingprice" :finished="prodFinishedprice" finished-text="没有更多了" @load="onLoad">
+              <template v-for="hotItem in productListprice">
+                <union-item :key="hotItem.product_id + Math.random()" :item="hotItem" @select="selectProduct"></union-item>
+              </template>
+            </van-list>
           </van-tab>
           <van-tab title="热门景点">
-            <template v-for="sightItem in sightProductList">
+            <template v-for="sightItem in productListsight">
               <union-item :key="sightItem.product_id" :item="sightItem" :sight="true" @select="selectSight"></union-item>
             </template>
           </van-tab>
@@ -73,141 +63,152 @@
 <script>
 import HeaderBar from '@/components/header/sale_union'
 import UnionItem from '@/components/list/unionList'
+import {getProductList} from '@/api/sale_union'
+import {getHomeData} from '@/api/home'
 export default {
   name: 'sale_union',
   components: {HeaderBar, UnionItem},
   data() {
     return {
       currentTab: 0,
-      hotProductList: [
-        {
-          product_id: 123,
-          imageUrl: 'http://www.pptok.com/wp-content/uploads/2012/08/xunguang-3.jpg',
-          title: '玩转美西经典小环 莫哈维玩转美西环 莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...',
-          save:421,
-          default_price: '$ 1000',
-          get_price: '$ 80.1'
-        },
-        {
-          product_id: 1233,
-          imageUrl: 'http://www.pptok.com/wp-content/uploads/2012/08/xunguang-3.jpg',
-          title: '玩转美西经典小环 莫哈维玩转美西环 莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...',
-          save:421,
-          default_price: '$ 1000',
-          get_price: '$ 80.1'
-        },
-        {
-          product_id: 1232,
-          imageUrl: 'http://www.pptok.com/wp-content/uploads/2012/08/xunguang-3.jpg',
-          title: '玩转美西经典小环 莫哈维玩转美西环 莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...',
-          save:421,
-          default_price: '$ 1000',
-          get_price: '$ 80.1'
-        },
-        {
-          product_id: 1223,
-          imageUrl: 'http://www.pptok.com/wp-content/uploads/2012/08/xunguang-3.jpg',
-          title: '玩转美西经典小环 莫哈维玩转美西环 莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...',
-          save:421,
-          default_price: '$ 1000',
-          get_price: '$ 80.1'
-        },
-        {
-          product_id: 1623,
-          imageUrl: 'http://www.pptok.com/wp-content/uploads/2012/08/xunguang-3.jpg',
-          title: '玩转美西经典小环 莫哈维玩转美西环 莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...',
-          save:421,
-          default_price: '$ 1000',
-          get_price: '$ 80.1'
-        }
-      ],
-      cashProductList: [
-        {
-          product_id: 123,
-          imageUrl: 'http://www.pptok.com/wp-content/uploads/2012/08/xunguang-3.jpg',
-          title: '玩转美西经典小环 莫哈维玩转美西环 莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...',
-          save:421,
-          default_price: '$ 1000',
-          get_price: '$ 80.1'
-        },
-        {
-          product_id: 1233,
-          imageUrl: 'http://www.pptok.com/wp-content/uploads/2012/08/xunguang-3.jpg',
-          title: '玩转美西经典小环 莫哈维玩转美西环 莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...',
-          save:421,
-          default_price: '$ 1000',
-          get_price: '$ 80.1'
-        },
-        {
-          product_id: 1232,
-          imageUrl: 'http://www.pptok.com/wp-content/uploads/2012/08/xunguang-3.jpg',
-          title: '玩转美西经典小环 莫哈维玩转美西环 莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...',
-          save:421,
-          default_price: '$ 1000',
-          get_price: '$ 80.1'
-        },
-        {
-          product_id: 1223,
-          imageUrl: 'http://www.pptok.com/wp-content/uploads/2012/08/xunguang-3.jpg',
-          title: '玩转美西经典小环 莫哈维玩转美西环 莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...',
-          save:421,
-          default_price: '$ 1000',
-          get_price: '$ 80.1'
-        },
-        {
-          product_id: 1623,
-          imageUrl: 'http://www.pptok.com/wp-content/uploads/2012/08/xunguang-3.jpg',
-          title: '玩转美西经典小环 莫哈维玩转美西环 莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...',
-          save:421,
-          default_price: '$ 1000',
-          get_price: '$ 80.1'
-        }
-      ],
-      sightProductList: [
-        {
-          product_id: 123,
-          imageUrl: 'http://www.pptok.com/wp-content/uploads/2012/08/xunguang-3.jpg',
-          title: '玩转美西经典小环 莫哈维玩转美西环 莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...',
-          score:421,
-          default_price: '$ 1000',
-          get_price: '$ 80.1'
-        },
-        {
-          product_id: 1233,
-          imageUrl: 'http://www.pptok.com/wp-content/uploads/2012/08/xunguang-3.jpg',
-          title: '玩转美西经典小环 莫哈维玩转美西环 莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...',
-          score:421,
-          default_price: '$ 1000',
-          get_price: '$ 80.1'
-        },
-        {
-          product_id: 1232,
-          imageUrl: 'http://www.pptok.com/wp-content/uploads/2012/08/xunguang-3.jpg',
-          title: '玩转美西经典小环 莫哈维玩转美西环 莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...',
-          score:421,
-          default_price: '$ 1000',
-          get_price: '$ 80.1'
-        },
-        {
-          product_id: 1223,
-          imageUrl: 'http://www.pptok.com/wp-content/uploads/2012/08/xunguang-3.jpg',
-          title: '玩转美西经典小环 莫哈维玩转美西环 莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...',
-          score:421,
-          default_price: '$ 1000',
-          get_price: '$ 80.1'
-        },
-        {
-          product_id: 1623,
-          imageUrl: 'http://www.pptok.com/wp-content/uploads/2012/08/xunguang-3.jpg',
-          title: '玩转美西经典小环 莫哈维玩转美西环 莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...莫哈维玩转美西经典小环 莫...',
-          score:421,
-          default_price: '$ 1000',
-          get_price: '$ 80.1'
-        }
-      ],
+      productListprice: [], // 高佣金
+      productListsales: [], // 高销量
+      productListsight: [], // 热门景点
+      prodPaginationsales: {}, // 高销量分页数据
+      prodPaginationprice: {}, // 高佣金分页数据
+      prodPaginationsight: {}, // 热门景点分页数据
+      sortResult: {
+        order_by: 'sales', // 热销sales，高佣金price
+        order: 'asc'
+      },
+      prodLoadingsales: false, // 是否处于加载状态，加载过程中不触发load事件
+      prodFinishedsales: false, // 是否已加载完成，加载完成后不再触发load事件
+      prodLoadingprice: false, // 是否处于加载状态，加载过程中不触发load事件
+      prodFinishedprice: false, // 是否已加载完成，加载完成后不再触发load事件
+      prodLoadingsight: false, // 是否处于加载状态，加载过程中不触发load事件
+      prodFinishedsight: false, // 是否已加载完成，加载完成后不再触发load事件
+      timeSalesList: [], // 限时特价
     }
   },
+  watch:{
+    currentTab(newValue) {
+      if(newValue === 0) {
+        this.sortResult.order_by = 'sales'
+      } else if(newValue === 1) {
+        this.sortResult.order_by = 'price'
+      } else {
+        this.sortResult.order_by = 'sight'
+      }
+    }
+  },
+  created(){
+    this.tagsList = [
+      {id:1,order_by: 'sales',title: '热销产品'},
+      {id:2,order_by: 'price',title: '超高佣金'}
+    ]
+  },
+  mounted(){
+    this.init()
+    this.getTime()
+  },
   methods: {
+    //初始化
+    async init(){
+      let {code, data} = await getHomeData()
+      if(code === 0) {
+        this.timeSalesList = data[2] && data[2].data
+      } else {
+        this.timeSalesList = []
+      }
+    },
+    getTime() {
+      setInterval(() => {
+        this.timeSalesList.forEach(value => {
+          var time = this.timeToData(value.special_end_date);
+          if( typeof value.jishi == 'undefined' ) {
+            this.$set(value,'time',time);
+          } else {
+            value.time = time
+          }
+          if( value.special_end_date ) {
+            -- value.special_end_date
+          } else {
+            value.special_end_date = 0
+          }
+        })
+      },1000)
+    },
+    // 转化为两位数
+    numChangeT(n) {
+      return n < 10 ? '0' + n : '' + n
+    },
+    // 倒计时时间转化
+    timeToData( maxtime ) {
+      let second = Math.floor( maxtime % 60);       //计算秒
+      let minite = Math.floor((maxtime / 60) % 60); //计算分
+      let hour = Math.floor((maxtime / 3600) % 24 ); //计算小时
+      let day = Math.floor((maxtime / 3600) / 24);//计算天
+      return `<span>${this.numChangeT(day)}</span>天<span>${this.numChangeT(hour)}</span>时<span>${this.numChangeT(minite)}</span>分<span>${this.numChangeT(second)}</span>秒`
+      // return day+':'+this.numChangeT(hour)+':'+this.numChangeT(minite)+':'+this.numChangeT(second)
+    },
+    //
+    async onLoad() {
+      // 获取数据
+      console.log('onLoad', this['productList'+ this.sortResult.order_by])
+      const submitData = {
+        page: this['prodPagination' + this.sortResult.order_by].page + 1,
+        orderBy: this.sortResult.order_by,
+        order: 'asc',
+      }
+      const res = await getProductList(submitData)
+      this['productList'+ this.sortResult.order_by].push(...res.data)
+      this['prodPagination'+ this.sortResult.order_by] = res.pagination
+      // 加载状态结束
+      this['prodLoading'+ this.sortResult.order_by] = false
+      // 数据全部加载完成
+      if (!this['prodPagination'+ this.sortResult.order_by].more) {
+        this['prodFinished'+ this.sortResult.order_by] = true
+      }
+    },
+    // 滑动会请求数据
+    async onLoadSales() {
+      // 获取数据
+      console.log('onLoadSales',this.productListsales)
+      const submitData = {
+        page: (this.prodPaginationsales.page || 0) + 1,
+        // orderBy: this.sortResult.order_by || null,
+        orderBy: 'sales',
+        order: 'asc',
+      }
+      const res = await getProductList(submitData)
+      this.productListsales.push(...res.data)
+      this.prodPaginationsales = res.pagination
+      // 加载状态结束
+      this.prodLoadingsales = false
+      // 数据全部加载完成
+      if (!this.prodPaginationsales.more) {
+        this.prodFinishedsales = true
+      }
+    },
+    async onLoadPrice() {
+      // 获取数据
+      console.log('onLoadPrice')
+      console.log('onLoadPrice',this.productListprice)
+      const submitData = {
+        page: (this.prodPaginationprice.page || 0) + 1,
+        orderBy: 'price',
+        order: 'asc',
+      }
+      const res = await getProductList(submitData)
+      this.productListprice.push(...res.data)
+      this.prodPaginationprice = res.pagination
+      // 加载状态结束
+      this.prodLoadingprice = false
+      // 数据全部加载完成
+      if (!this.prodPaginationprice.more) {
+        this.prodFinishedprice = true
+      }
+    },
     onClickLeft() {
       console.log('onClickLeft')
     },
@@ -225,6 +226,9 @@ export default {
       this.$router.push({
         name: 'sight_spot'
       })
+    },
+    // 切换标签
+    changeTypeClick() {
     }
   }
 }
@@ -293,6 +297,13 @@ export default {
           right: 20px;
           color: #fff;
           font-size:24px;
+          .title{
+            max-width: 400px;
+            line-height: 40px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
         }
         .price{
           text-align: right;
