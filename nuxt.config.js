@@ -59,7 +59,9 @@ module.exports = {
     }, {
       src: 'https://cdn.polyfill.io/v2/polyfill.min.js',
       type: 'text/javascript',
-    }],
+    }, {
+      src: 'https://hm.baidu.com/hm.js?9bfbbc9f24159633a14d3b4f37db769b'
+    },],
     __dangerouslyDisableSanitizers: ['script'],
   },
 
@@ -92,10 +94,13 @@ module.exports = {
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios',
+    ['@nuxtjs/google-analytics', {
+      id: 'UA-124174609-2'
+    }],
     '@nuxtjs/sentry',
   ],
   sentry: {
-    dsn: '__PUBLIC_DSN__', // Enter your project's DSN here
+    // dsn: '61.139.2.69', // Enter your project's DSN here
     config: {}, // Additional config
   },
   /*
