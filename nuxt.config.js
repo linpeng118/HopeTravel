@@ -57,11 +57,12 @@ module.exports = {
       type: 'text/javascript',
       charset: 'utf-8',
     }, {
-      src: 'https://cdn.polyfill.io/v2/polyfill.min.js',
+      src: '/polyfill/index.js',
       type: 'text/javascript',
+      charset: 'utf-8',
     }, {
       src: 'https://hm.baidu.com/hm.js?9bfbbc9f24159633a14d3b4f37db769b'
-    },{
+    }, {
       src: 'https://hm.baidu.com/hm.js?03f91ebf7f5ac08015d9f98fa0dc22fc'
     }, {
       src: 'https://hm.baidu.com/hm.js?72a266736d8b5b47605e2d2ad18f0756'
@@ -104,7 +105,7 @@ module.exports = {
     '@nuxtjs/sentry',
   ],
   sentry: {
-    // dsn: '61.139.2.69', // Enter your project's DSN here
+    dsn: 'http://d2d1e507e07f4946b59474df0eb5ea30@sentry.tourscool.net/2', // Enter your project's DSN here
     config: {}, // Additional config
   },
   /*
@@ -148,9 +149,9 @@ module.exports = {
     // parallel: true, // 多进程
     // IE或者Edge下报错原因：（https://github.com/Rich-Harris/devalue/issues/16）
     // 处理
+    // https://github.com/nuxt/nuxt.js/issues/4432
     // https://github.com/nuxt/nuxt.js/issues/4643
     // https://github.com/nuxt/nuxt.js/pull/4600
-    // https://github.com/nuxt/nuxt.js/issues/4432
     babel: {
       presets({
         isServer
