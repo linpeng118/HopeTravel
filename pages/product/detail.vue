@@ -61,6 +61,17 @@
       <!-- 特色 -->
       <div class="destination mt-24">
         <div class="item-wrap"
+             @click="onServerCop">
+          <div class="item-list">
+              <span v-for="(item,index) in couponList" class="setspecial" :key="index">
+                {{item}}
+                </span>
+          </div>
+          <div class="item-arrow">
+            <van-icon name="arrow" />
+          </div>
+        </div>
+        <div class="item-wrap"
           @click="onServerNode">
           <div class="item-list">
             <div class="item"
@@ -428,7 +439,7 @@
   import {ENTITY_TYPE} from '@/assets/js/consts/products'
   import {DLG_TYPE} from '@/assets/js/consts/dialog'
   import {getProductDetail, addFavorite, delFavorite, schedule} from '@/api/products'
-  import {getProfile} from '@/api/profile'
+  import {getProfile,couponList} from '@/api/profile'
 
   export default {
     layout: 'default',
@@ -491,6 +502,8 @@
         showSoldOut: false, // 恢复预定通知弹窗
         priceExclude: [], // 不包含面板
         activeNotice: [1], // 注意事项折叠面板
+        showServiceCop:false,//显示优惠卷
+        couponList:[],//可用优惠卷列表
         // 产品
         product: {},
         // 费用说明对象
@@ -512,6 +525,7 @@
         showMore: false,
         // 邮箱或手机号
         account: '',
+
       }
     },
     computed: {
@@ -595,7 +609,8 @@
         if (!(this.product && this.product.product_id)) {
           this.jumpTo('/')
         }
-        await this.saveLocal()
+        await this.saveLocal();
+        await this.getcouponList()
       },
       async getProductDetailData() {
         this.loading = true
@@ -615,6 +630,43 @@
         }
         document.title = this.product.name
         this.loading = false
+      },
+      //获取优惠卷列表
+      async getcouponList() {
+        this.loading = true;
+        const {code, data, msg} = await couponList({
+          product_id: this.productId,
+        })
+        // console.log(code, data, msg)
+        if (code === 0) {
+          this.couponList = data
+        }
+        this.loading = false;
+        //模拟数据1
+        // this.couponList = [
+        //   {
+        //     "id": 7,
+        //     "minus_label": "9折",
+        //     "full_label": "无限制条件",
+        //     "title": "享9折",
+        //     "date_label": "领取后6日内有效",
+        //     "is_received": 0
+        //   },
+        //   {
+        //     "id": 10,
+        //     "minus_label": "100",
+        //     "full_label": "满1000可用",
+        //     "title": "现金券$100",
+        //     "date_label": "2019.02.20-2019.03.30",
+        //     "is_received": 0
+        //   }
+        // ]
+        //
+        //模拟数据2
+        this.couponList = [
+          "折扣9折",
+          "现金100"
+        ]
       },
       // 存储浏览记录
       saveLocal() {
@@ -673,6 +725,9 @@
       },
       onServerNode() {
         this.showServiceNode = true
+      },
+      onServerCop() {
+        this.showServiceCop = true
       },
       clickTab(tab) {
         // console.log('tab', tab)
@@ -921,5 +976,15 @@
 </script>
 
 <style lang="scss" scoped>
+  .setspecial{
+    line-height: 22px;
+    font-size: 11px;
+    font-weight: 300;
+    color:rgba(251,96,93,1);
+    border: 1px solid rgba(251,96,93,1);
+    padding:10px 20px;
+    border-radius: 8px;
+  }
   @import "~/assets/style/product/detail.scss";
+
 </style>

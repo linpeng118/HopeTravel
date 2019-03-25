@@ -10,6 +10,16 @@ export const getOrderInfo = (status) => {
   return axios.get(`/htwPay/api/v1/user/order?type=tour&status=${status}`)
 }
 
+/**
+ * 获取产品可用优惠卷
+ * @param {Object} data
+ */
+export const couponList = (data) => {
+  return axios.post(`/api/product/${data.product_id}/coupons`, {
+    type: 'summary'
+  })
+}
+
 // 获取米粒信息
 export const getPoints = (data) => {
   return axios.get(`/api/points`,{
