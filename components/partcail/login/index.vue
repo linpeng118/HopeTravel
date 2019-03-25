@@ -121,7 +121,6 @@
       // 登陆回调
       loginCallBack() {
         try {
-          console.log(fbq)
           fbq('track', 'Lead')
         } catch (error) {
           console.log(error)
@@ -150,7 +149,6 @@
       // 注册回调
       registCallBack() {
         try {
-          console.log(fbq)
           fbq('track', 'Lead')
         } catch (error) {
           console.log(error)
@@ -160,7 +158,6 @@
       // 找回密码回调
       nextCallBack() {
         try {
-          console.log(fbq)
           fbq('track', 'Lead')
         } catch (error) {
           console.log(error)
@@ -174,7 +171,6 @@
       // 修改密码回调
       changeCallBack() {
         try {
-          console.log(fbq)
           fbq('track', 'Lead')
         } catch (error) {
           console.log(error)

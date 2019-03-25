@@ -366,7 +366,6 @@ export default {
       let { code, data, msg } = await custom(subData);
       this.$toast(msg);
       try {
-        console.log(fbq)
         fbq('track', 'Lead')
       } catch (error) {
         console.log(error)
