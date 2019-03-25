@@ -1,6 +1,7 @@
 let pluginConfig
 
-let plugins = [{
+let plugins = [
+  {
     src: '~/plugins/vant',
     ssr: true,
   },
@@ -56,7 +57,8 @@ let plugins = [{
   },
 ]
 
-let devPlugins = [{
+let devPlugins = [
+  {
     src: '~/plugins/vant',
     ssr: true,
   },

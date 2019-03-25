@@ -121,6 +121,8 @@ import DriftAside from '@/components/drift_aside'
 import {throttle as _throttle} from 'lodash'
 import {setCookieByKey,getCookieByKey} from '@/assets/js/utils'
 import {mapGetters,mapMutations} from 'vuex'
+import axios from 'axios'
+
 export default {
   name: 'home',
   components: {
@@ -129,6 +131,16 @@ export default {
     HotItem,
     countDown,
     DriftAside
+  },
+  async asyncData({$axios}){
+    let test
+    let {code,data} = await axios.get('/api/index/mobile')
+    if(code === 0 ) {
+      test = data
+    }
+    return {
+      test
+    }
   },
   data() {
     return {
@@ -164,7 +176,7 @@ export default {
     ])
   },
   mounted() {
-    this.getHomeInitData()
+    this.getHomeInitData(this.test)
     this.getTime()
     // 监听滚动
     this.$refs.refHomePage.addEventListener('scroll', _throttle(this.scrollFn, 50))
@@ -240,18 +252,22 @@ export default {
         query
       })
     },
-    async getHomeInitData() {
-      let {code, data} = await getHomeData()
-      if(code === 0) {
-        this.bannerList = data[0].data
-        this.hotList = data[1].data.slice(0, 8)
-        this.timeSalesList = data[2].data
+    async getHomeInitData(lists) {
+        this.bannerList = lists[0].data
+        this.hotList = lists[1].data.slice(0, 8)
+        this.timeSalesList = lists[2].data
 
-        // let {banner,hot, special} = data
-        // this.bannerList = banner
-        // this.hotList = hot.data[0].destination.slice(0,8)
-        // this.timeSalesList = special.data
-      }
+      // let {code, data} = await getHomeData()
+      // if(code === 0) {
+      //   this.bannerList = data[0].data
+      //   this.hotList = data[1].data.slice(0, 8)
+      //   this.timeSalesList = data[2].data
+      //
+      //   // let {banner,hot, special} = data
+      //   // this.bannerList = banner
+      //   // this.hotList = hot.data[0].destination.slice(0,8)
+      //   // this.timeSalesList = special.data
+      // }
     },
     async onLoad() {
       console.log('onload')
