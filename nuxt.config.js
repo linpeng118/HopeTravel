@@ -92,7 +92,12 @@ module.exports = {
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios',
+    '@nuxtjs/sentry',
   ],
+  sentry: {
+    dsn: '__PUBLIC_DSN__', // Enter your project's DSN here
+    config: {}, // Additional config
+  },
   /*
    ** Axios module configuration
    */
