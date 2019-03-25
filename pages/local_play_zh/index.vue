@@ -139,7 +139,7 @@
         this.vxChangeTokens(token)
       } else {
         let productIds = getLocalStore('browsList')
-        if(productIds.length) {
+        if(productIds && productIds.length) {
           this.getViewedList(productIds)
         }
       }
