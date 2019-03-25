@@ -124,13 +124,13 @@
 </template>
 
 <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?03f91ebf7f5ac08015d9f98fa0dc22fc";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
-})();
+// var _hmt = _hmt || [];
+// (function() {
+//   var hm = document.createElement("script");
+//   hm.src = "https://hm.baidu.com/hm.js?03f91ebf7f5ac08015d9f98fa0dc22fc";
+//   var s = document.getElementsByTagName("script")[0];
+//   s.parentNode.insertBefore(hm, s);
+// })();
 import { throttle as _throttle } from "lodash";
 import NormalHeader from "@/components/header/custom";
 import transpTag from "@/components/tags/transparent";
@@ -365,7 +365,12 @@ export default {
       // console.log(1, subData);
       let { code, data, msg } = await custom(subData);
       this.$toast(msg);
-      // window.fbq('track', 'Lead');
+      try {
+        console.log(fbq)
+        fbq('track', 'Lead')
+      } catch (error) {
+        console.log(error)
+      }
       this.submiting = false;
       this.address1 = "";
       this.phone1 = "";
