@@ -115,7 +115,7 @@ module.exports = {
     proxy: true,
     // prefix: '/api', // baseURL
     credentials: true,
-    // baseURL: axiosUrl, // 接口请求配置
+    baseURL: (process.env.NODE_ENV !== 'production') ? axiosUrl : '', // 本地接口请求配置
   },
   // 配置代理
   proxy: {
