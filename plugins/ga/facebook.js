@@ -12,24 +12,23 @@ if (process.client && process.env.NODE_ENV === 'production') {
     'https://connect.facebook.net/en_US/fbevents.js');
   fbq('init', '533828070373005');
   fbq('track', 'PageView');
-  window.fbq = fbq
 }
 
 export default ({
   app: {
     router
   },
-  inject
+  store
 }) => {
   /*
    ** 每次路由变更时进行pv统计
    */
   router.afterEach((to, from) => {
-    // try {
-    //   fbq('set', 'page', to.fullPath)
-    //   fbq('send', 'pageview')
-    // } catch (e) {
-    //   console.log('fbq', e)
-    // }
+    try {
+      fbq('set', 'page', to.fullPath)
+      fbq('send', 'pageview')
+    } catch (e) {
+      console.log('fbq', e)
+    }
   })
 }

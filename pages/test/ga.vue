@@ -39,8 +39,12 @@
         _hmt.push('track', 'test');
       },
       onTestFbq() {
-        console.log(window.fbq)
-        fbq('track', 'test');
+        try {
+          console.log(fbq)
+          fbq('track', 'test');
+        } catch (error) {
+          console.log(error)
+        }
       }
     }
   }
