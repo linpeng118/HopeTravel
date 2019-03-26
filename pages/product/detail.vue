@@ -360,6 +360,20 @@
           <p class="desc">{{item.content}}</p>
         </div>
       </van-actionsheet>
+      <!-- 服务说明 -->
+      <van-actionsheet v-model="showServiceNode"
+                       title="服务说明"
+                       class="service-note">
+        <div class="servive-item mt-50"
+             v-for="(item,index) in serviceNote"
+             :key="index">
+          <h3 class="title">
+            <img src="../../assets/imgs/product/tick@2x.png"
+                 alt="icon">&nbsp;{{item.title}}
+          </h3>
+          <p class="desc">{{item.content}}</p>
+        </div>
+      </van-actionsheet>
       <!-- 恢复预定通知 -->
       <van-actionsheet v-model="showSoldOut"
         title=" "
@@ -976,15 +990,5 @@
 </script>
 
 <style lang="scss" scoped>
-  .setspecial{
-    line-height: 22px;
-    font-size: 11px;
-    font-weight: 300;
-    color:rgba(251,96,93,1);
-    border: 1px solid rgba(251,96,93,1);
-    padding:10px 20px;
-    border-radius: 8px;
-  }
   @import "~/assets/style/product/detail.scss";
-
 </style>
