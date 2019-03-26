@@ -144,7 +144,7 @@ module.exports = {
   build: {
     // analyze: true,
     // extractCSS与parallel不可并行：https://github.com/nuxt/nuxt.js/pull/5004
-    extractCSS: true, // 拆分css
+    extractCSS: (process.env.NODE_ENV === 'production'), // 拆分css
     maxChunkSize: 30000,
     // parallel: true, // 多进程
     // IE或者Edge下报错原因：（https://github.com/Rich-Harris/devalue/issues/16）
@@ -181,7 +181,7 @@ module.exports = {
       }),
     ],
     optimization: {
-      minimize: true,
+      minimize: (process.env.NODE_ENV === 'production'),
       minimizer: [
         new TerserPlugin({
           terserOptions: {
