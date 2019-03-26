@@ -172,7 +172,7 @@
           ]
         },
         order_id: this.$route.query.order_id,
-        apiPath:require('@/config/api'),
+        apiPath:require('@/apiConf.env'),
       }
     },
     computed: {},

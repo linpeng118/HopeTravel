@@ -549,6 +549,11 @@
         // console.log(1, subData);
         let {code, data, msg} = await custom(subData);
         this.$toast(msg);
+        try {
+          fbq('track', 'Lead')
+        } catch (error) {
+          console.log(error)
+        }
         this.submiting = false;
         this.address1='';
         this.phone1='';

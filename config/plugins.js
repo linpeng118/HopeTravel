@@ -42,15 +42,7 @@ let plugins = [
     src: '~/plugins/router',
     ssr: false
   },
-  // ga统计
-  {
-    src: '~/plugins/ga/baidu.js',
-    ssr: false
-  },
-  {
-    src: '~/plugins/ga/google.js',
-    ssr: false
-  },
+  // 统计
   {
     src: '~/plugins/ga/facebook.js',
     ssr: false
@@ -86,12 +78,13 @@ let devPlugins = [
     src: '~/plugins/axios',
     ssr: false
   },
-  // {
-  //   src: '~/plugins/vconsole',
-  //   ssr: false
-  // },
   {
     src: '~/plugins/router',
+    ssr: false
+  },
+  // 统计
+  {
+    src: '~/plugins/ga/facebook.js',
     ssr: false
   },
 ]

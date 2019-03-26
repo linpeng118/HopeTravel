@@ -1,19 +1,17 @@
+const TerserPlugin = require('terser-webpack-plugin')
 const pkg = require('./package')
-// const apiPath = require('./config/api')
 const pluginConfig = require('./config/plugins')
-// const UglifyJSWebpackPlugin = require("uglifyjs-webpack-plugin");
-// 使用BabiliPlugin代替UglifyJs
-// https://github.com/nuxt/nuxt.js/issues/385
-// const BabiliPlugin = require("babili-webpack-plugin");
-
-
 const apiConfig = require('./apiConf.env')
 const axiosUrl = `http://127.0.0.1:${apiConfig.port}`
+
 console.log('apiConfig:', apiConfig)
 console.log('axiosUrl:', axiosUrl)
 
+
+
 module.exports = {
   mode: 'universal',
+  dev: (process.env.NODE_ENV !== 'production'),
   env: {
     ENV_TYPE: process.env.ENV_TYPE, // 添加一个环境变量
   },
@@ -46,6 +44,10 @@ module.exports = {
         name: 'keywords',
         content: '稀饭旅行网为你提供美国自由行旅游,美国当地跟团游,加拿大自助游,欧洲、澳大利亚、新西兰、日本、东南亚旅游,美国邮轮游等出境游预订服务,提供个性化定制旅游服务,境外旅游线路行程,景点门票低价在线预订尽在稀饭旅行网'
       },
+      {
+        'http-equiv': 'X-UA-Compatible',
+        content: 'IE=edge'
+      },
     ],
     link: [{
       rel: 'icon',
@@ -56,6 +58,16 @@ module.exports = {
       src: '/flexible/flexible.js',
       type: 'text/javascript',
       charset: 'utf-8',
+    }, {
+      src: '/polyfill/index.js',
+      type: 'text/javascript',
+      charset: 'utf-8',
+    }, {
+      src: 'https://hm.baidu.com/hm.js?9bfbbc9f24159633a14d3b4f37db769b'
+    }, {
+      src: 'https://hm.baidu.com/hm.js?03f91ebf7f5ac08015d9f98fa0dc22fc'
+    }, {
+      src: 'https://hm.baidu.com/hm.js?72a266736d8b5b47605e2d2ad18f0756'
     }],
     __dangerouslyDisableSanitizers: ['script'],
   },
@@ -89,7 +101,15 @@ module.exports = {
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios',
+    ['@nuxtjs/google-analytics', {
+      id: 'UA-124174609-2'
+    }],
+    '@nuxtjs/sentry',
   ],
+  sentry: {
+    dsn: 'http://d2d1e507e07f4946b59474df0eb5ea30@sentry.tourscool.net/2', // Enter your project's DSN here
+    config: {}, // Additional config
+  },
   /*
    ** Axios module configuration
    */
@@ -97,10 +117,10 @@ module.exports = {
     proxy: true,
     // prefix: '/api', // baseURL
     credentials: true,
-    baseURL: axiosUrl, // 接口请求配置
+    baseURL: (process.env.NODE_ENV !== 'production') ? axiosUrl : '', // 本地接口请求配置
   },
+  // 配置代理
   proxy: {
-    // 配置代理
     '/api': {
       target: `${apiConfig.base}/api/tour/v1`, // api
       pathRewrite: {
@@ -108,24 +128,10 @@ module.exports = {
       },
       changeOrigin: true,
     },
-    '/play': {
-      target: 'http://192.168.1.91:8888/api/tour/v1', // 本地测试
+    '/htwPay': {
+      target: `${apiConfig.payment}`, // 支付接口
       pathRewrite: {
-        '^/play': '/',
-      },
-      changeOrigin: true,
-    },
-    '/order': {
-      target: `${apiConfig.payment}/api/v1`, // 订单接口
-      pathRewrite: {
-        '^/order': '/',
-      },
-      changeOrigin: true,
-    },
-    '/payment': {
-      target: `${apiConfig.payment}/payment`, // 支付
-      pathRewrite: {
-        '^/payment': '/',
+        '^/htwPay': '/',
       },
       changeOrigin: true,
     },
@@ -140,33 +146,41 @@ module.exports = {
   server: {
     // 本地所起的服务配置
     port: apiConfig.port,
-    host: apiConfig.host,
+    // host: apiConfig.host,
   },
   /*
    ** Build configuration
    */
   build: {
-    vendor: [
-      'babel-polyfill',
-      'axios',
-      'lodash',
-      '~/plugins/vant',
-      '~/plugins/vue-swiper',
-      '~/plugins/vue-clipboard',
-      '~/plugins/vue-cropper'
-    ],
     // analyze: true,
-    // extractCSS: true, // 拆分css
-    // babel: {
-    //   cacheDirectory: undefined,
-    //   presets: ['@nuxt/babel-preset-app', {
-    //     targets: {
-    //       ie: 11
-    //     }
-    //   }]
-    // },
-    // 多进程
-    parallel: true,
+    // extractCSS与parallel不可并行：https://github.com/nuxt/nuxt.js/pull/5004
+    extractCSS: true, // 拆分css
+    maxChunkSize: 30000,
+    // parallel: true, // 多进程
+    // IE或者Edge下报错原因：（https://github.com/Rich-Harris/devalue/issues/16）
+    // 处理
+    // https://github.com/nuxt/nuxt.js/issues/4432
+    // https://github.com/nuxt/nuxt.js/issues/4643
+    // https://github.com/nuxt/nuxt.js/pull/4600
+    babel: {
+      presets({
+        isServer
+      }) {
+        return [
+          [
+            "@nuxt/babel-preset-app",
+            {
+              targets: isServer ? {
+                node: "current"
+              } : {
+                browsers: ["ie >= 10"],
+              }
+            },
+            "es2015",
+          ]
+        ]
+      },
+    },
     postcss: [
       require('postcss-px2rem-exclude')({
         remUnit: 75, // 转换基本单位
@@ -176,10 +190,24 @@ module.exports = {
         browsers: ['last 5 versions'],
       }),
     ],
+    optimization: {
+      minimize: true,
+      minimizer: [
+        new TerserPlugin({
+          terserOptions: {
+            warnings: false,
+            compress: {
+              drop_debugger: true,
+              drop_console: true
+            }
+          }
+        })
+      ]
+    },
     extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
-        config.devtool = 'eval-source-map';
+        config.devtool = '#eval-source-map';
         // 别名
         // Object.assign(config.resolve.alias, {
         //   Components: path.resolve(__dirname, 'components'),
@@ -194,10 +222,34 @@ module.exports = {
           exclude: /(node_modules)/,
         })
       }
+      if (ctx.isDev) {
+        if (config.entry) {
+          config.entry.push('babel-polyfill')
+          config.entry.push('eventsource-polyfill')
+        } else {
+          config.entry = [
+            'babel-polyfill',
+            'eventsource-polyfill'
+          ]
+        }
+      }
       if (!ctx.isDev) {
         config.devtool = false
+        // 打包报错
+        // const UglifyJSWebpackPlugin = require('uglifyjs-webpack-plugin')
+        // config.plugins = config.plugins.filter((plugin) => plugin.constructor.name !== 'UglifyJsPlugin')
+        // config.plugins.push(new UglifyJSWebpackPlugin({
+        //   uglifyOptions: {
+        //     compress: {
+        //       warnings: false,
+        //       drop_debugger: true,
+        //       drop_console: true
+        //     }
+        //   }
+        // }))
       }
     },
+
   },
   buildDir: 'n-dist',
 }

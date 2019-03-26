@@ -77,7 +77,7 @@
           'total_feeusd':'',
         },
         loading:false,
-        apiPath:require('@/config/api'),
+        apiPath:require('@/apiConf.env'),
         //添加订单数据
 
       }
@@ -101,7 +101,7 @@
       },
       'addorder':{
         handler:function(val) {
-          if(val.tongyi&&val.contact.phone!=''&&val.contact.name!=''&&val.contact.email!=''&&val.users){
+          if(val.tongyi&&val.contact.phone!=''&&val.contact.name!=''&&val.contact.email!=''&&val.users.length){
             this.showbtn2=true;
           }
           else{
@@ -115,6 +115,7 @@
     mounted() {
       // this.$store.dispatch("initprice");
       this.checkrouter();//判断当前位置
+      console.log(this.apiPath)
     },
     methods: {
       ...mapMutations({

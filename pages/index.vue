@@ -134,7 +134,7 @@ export default {
   },
   async asyncData({$axios}){
     let test
-    let {code,data} = await axios.get('/api/index/mobile')
+    let {code,data} = await $axios.$get('/api/index/mobile')
     if(code === 0 ) {
       test = data
     }
@@ -253,9 +253,10 @@ export default {
       })
     },
     async getHomeInitData(lists) {
-        this.bannerList = lists[0].data
-        this.hotList = lists[1].data.slice(0, 8)
-        this.timeSalesList = lists[2].data
+      console.log(lists)
+      this.bannerList = lists[0].data
+      this.hotList = lists[1].data.slice(0, 8)
+      this.timeSalesList = lists[2].data
 
       // let {code, data} = await getHomeData()
       // if(code === 0) {

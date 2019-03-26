@@ -9,7 +9,7 @@
     </div>
     <div class="bottom-content">
       <van-row class="server" type="flex" justify="center">
-        <van-col span="6">
+        <van-col span="5">
           <dl>
             <dt>
               <img src="../../assets/imgs/visa/s1.png" alt>
@@ -17,7 +17,7 @@
             <dd>过签率99%</dd>
           </dl>
         </van-col>
-        <van-col span="6">
+        <van-col span="5">
           <dl>
             <dt>
               <img src="../../assets/imgs/visa/s2.png" alt>
@@ -25,7 +25,7 @@
             <dd>最快5天过签</dd>
           </dl>
         </van-col>
-        <van-col span="6">
+        <van-col span="5">
           <dl>
             <dt>
               <img src="../../assets/imgs/visa/s3.png" alt>
@@ -33,12 +33,20 @@
             <dd>加急预约</dd>
           </dl>
         </van-col>
-        <van-col span="6">
+        <van-col span="5">
           <dl>
             <dt>
               <img src="../../assets/imgs/visa/s4.png" alt>
             </dt>
             <dd>拒签退款</dd>
+          </dl>
+        </van-col>
+        <van-col span="4">
+          <dl>
+            <dt>
+              <img src="../../assets/imgs/visa/s5.png" alt>
+            </dt>
+            <dd>全国送签</dd>
           </dl>
         </van-col>
       </van-row>
@@ -239,6 +247,28 @@
         <a @click="zixun()">马上咨询签证小姐姐吧</a>
       </div>
     </div>
+    <div class="bar"></div>
+    <div class="advantage">
+      <h6>全国送签，办理无忧</h6>
+      <div class="item">
+        <van-row class="item-row" type="flex" justify="center">
+          <van-col class="item-col" span="12">
+             <img src="../../assets/imgs/visa/international.png" alt="">
+          </van-col>
+          <van-col class="item-col" span="12">
+            <img src="../../assets/imgs/visa/experts.png" alt="">
+          </van-col>
+        </van-row>
+        <van-row class="item-row" type="flex" justify="center">
+          <van-col class="item-col" span="12">
+             <img src="../../assets/imgs/visa/safety.png" alt="">
+          </van-col>
+          <van-col class="item-col" span="12">
+            <img src="../../assets/imgs/visa/customers.png" alt="">
+          </van-col>
+        </van-row>
+      </div>
+    </div>
     <div class="footer-team">
       <div class="bg"></div>
       <h6>专业团队，服务无忧</h6>
@@ -255,6 +285,10 @@
           </div>
         </div>
       </div>
+      <div class="copyright">
+        <p>稀饭旅行所有 仿版必究</p>
+        <p>蜀ICP备18023967号-1</p>
+      </div>
     </div>
     <div class="consultant" @click="zixun()">
       <span>前100名咨询，可获得特价签证，最低65元</span>
@@ -266,7 +300,15 @@
     <div class="back-top" v-if="!isApp" @click="showcall2()"></div>
   </div>
 </template>
+
 <script>
+// var _hmt = _hmt || [];
+// (function() {
+//   var hm = document.createElement("script");
+//   hm.src = "https://hm.baidu.com/hm.js?72a266736d8b5b47605e2d2ad18f0756";
+//   var s = document.getElementsByTagName("script")[0]; 
+//   s.parentNode.insertBefore(hm, s);
+// })();
 import { mapMutations, mapState } from "vuex";
 import { DLG_TYPE } from "@/assets/js/consts/dialog";
 export default {
@@ -288,7 +330,7 @@ export default {
       if (document.querySelector("#newBridge")) {
         document.querySelector("#newBridge").style.display = "none";
       }
-    }, 300);
+    }, 3000);
   },
   methods: {
     onClickLeft() {
@@ -306,7 +348,7 @@ export default {
     },
     zixun() {
       window.location.href =
-        "http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226";
+        "http://p.qiao.baidu.com/cps/chat?siteId=13206734&userId=26301226";
     },
     // 电话咨询
     showcall2() {
@@ -494,6 +536,37 @@ export default {
       }
     }
   }
+  .bar{
+    width:750px;
+    height:136px;
+    background:url('../../assets/imgs/visa/bar.png') no-repeat center/750px 136px;
+  }
+  .advantage{
+    width:750px;
+    box-sizing:border-box;
+    padding:80px 32px;
+    h6{
+      width:100%;
+      text-align:center;
+      font:bold 44px/44px "";
+      color:#000;
+      margin-bottom:80px;
+    }
+    .item{
+      width:100%;
+      .item-row{
+        margin:10px auto;
+        .item-col{
+          text-align:center;
+          img{
+            width:306px;
+            height:462px;
+          }
+        }
+      }
+      
+    }
+  }
   .footer-team {
     width: 750px;
     height: 1028px;
@@ -535,6 +608,15 @@ export default {
         width: 390px;
         height: 404px;
       }
+    }
+    .copyright{
+      color:#fff;
+      font:26px/48px "";
+      text-align:center;
+      position:absolute;
+      bottom:230px;
+      left:50%;
+      transform: translateX(-50%);
     }
   }
   .consultant {
