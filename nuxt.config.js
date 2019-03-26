@@ -105,7 +105,7 @@ module.exports = {
     '@nuxtjs/sentry',
   ],
   sentry: {
-    dsn: `${apiConfig.dsnSentry}`, // Enter your project's DSN here
+    dsn: apiConfig.dsnSentry, // Enter your project's DSN here
     config: {}, // Additional config
   },
   /*
