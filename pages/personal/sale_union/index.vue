@@ -1,15 +1,16 @@
 <template>
-  <div>
+  <div class="union-page-container union-main-page">
     <header-bar title="稀饭联盟"></header-bar>
     <div class="main-union" style="padding-top: 46px;">
       <!--我的收益-->
-      <div class="self-news">
+      <div class="self-news" @click="onProfitCenter">
         <div class="left">
-          <span class="price">$23423.00</span>我的收益
+          <span class="price" v-if="JSON.stringify(incomeReport) !== '{}' && incomeReport.income.total_income != 0">{{incomeReport.currency}}{{incomeReport.income.total_income}}</span>
+          <span v-else>暂无</span>我的收益
         </div>
-        <div class="right" @click="onProfitCenter">
-          <van-icon class-prefix="my-icon" info="1" />
-          您有新收益
+        <div class="right">
+          <van-icon class-prefix="my-icon" :info="newList.length || null" />
+            {{newList.length? '您有新收益': '查看收益'}}
           <van-icon name="arrow" />
         </div>
       </div>
@@ -34,7 +35,7 @@
       </div>
       <!--产品列表-->
       <div class="hot-product-list">
-        <van-tabs v-model="currentTab" title-active-color="#DB302C" color="transparent" @click="changeTypeClick">
+        <van-tabs v-model="currentTab" title-active-color="#DB302C" color="transparent">
           <van-tab title="热销产品" >
             <van-list v-model="prodLoadingsales" :finished="prodFinishedsales" finished-text="没有更多了" @load="onLoad">
               <template v-for="hotItem in productListsales">
@@ -49,13 +50,18 @@
               </template>
             </van-list>
           </van-tab>
-          <van-tab title="热门景点">
-            <template v-for="sightItem in productListsight">
-              <union-item :key="sightItem.product_id" :item="sightItem" :sight="true" @select="selectSight"></union-item>
-            </template>
-          </van-tab>
+          <!--<van-tab title="热门景点">-->
+            <!--<template v-for="sightItem in productListsight">-->
+              <!--<union-item :key="sightItem.product_id" :item="sightItem" :sight="true" @select="selectSight"></union-item>-->
+            <!--</template>-->
+          <!--</van-tab>-->
         </van-tabs>
       </div>
+    </div>
+    <div class="share-box">
+      <van-popup v-model="shareListShow" :overlay="false">
+        <share-list @close="closeShare" :data="shareDataInfo"></share-list>
+      </van-popup>
     </div>
   </div>
 </template>
@@ -63,11 +69,15 @@
 <script>
 import HeaderBar from '@/components/header/sale_union'
 import UnionItem from '@/components/list/unionList'
-import {getProductList} from '@/api/sale_union'
+import {getProductList,getNewIncome, getBase64, getCode} from '@/api/sale_union'
 import {getHomeData} from '@/api/home'
+import {summaryReport} from '@/assets/js/mixins/incomeReport'
+import shareList from '@/components/share/list'
+import {profileInfo} from '@/assets/js/mixins/profile'
 export default {
   name: 'sale_union',
-  components: {HeaderBar, UnionItem},
+  components: {HeaderBar, UnionItem, shareList},
+  mixins: [summaryReport, profileInfo],
   data() {
     return {
       currentTab: 0,
@@ -88,6 +98,9 @@ export default {
       prodLoadingsight: false, // 是否处于加载状态，加载过程中不触发load事件
       prodFinishedsight: false, // 是否已加载完成，加载完成后不再触发load事件
       timeSalesList: [], // 限时特价
+      newList: [],
+      shareListShow: false, // 是否显示分享列表
+      shareDataInfo: {}
     }
   },
   watch:{
@@ -110,6 +123,7 @@ export default {
   mounted(){
     this.init()
     this.getTime()
+    this.getNewsList()
   },
   methods: {
     //初始化
@@ -213,13 +227,23 @@ export default {
       console.log('onClickLeft')
     },
     onProfitCenter() {
-      console.log('onClickright')
       this.$router.push({
         path: '/personal/sale_union/my_profit'
       })
     },
-    selectProduct(item){
-
+    async selectProduct(item){
+      let {product_id,name,default_price,special_price,image} = item
+      let {face,customer_id,chinese_name,email,phone,last_name,first_name,nickname} = this.profile
+      this.shareListShow = true
+      let faceImg = await getBase64(face)
+      let productImg = await getBase64(image)
+      let code = await getCode(`${window.location.origin}/product/detail?productId=${product_id}-${customer_id}`)
+      this.shareDataInfo = {
+        product_id,name,default_price,special_price,customer_id,chinese_name,email,phone,last_name,first_name,nickname,
+        image: 'data:image/jpg;base64,'+ productImg.data,
+        face: 'data:image/jpg;base64,'+ faceImg.data,
+        code: code.data
+      }
     },
     selectSight(item){
       console.log(item)
@@ -229,6 +253,20 @@ export default {
     },
     // 切换标签
     changeTypeClick() {
+    },
+    // 获得新闻信息
+    async getNewsList(){
+      let {code, data} = await getNewIncome()
+      if(code === 0) {
+        this.newList = data
+      } else {
+        this.newList = []
+      }
+    },
+    // 关闭分享
+    closeShare(){
+      this.shareDataInfo = {}
+      this.shareListShow = false
     }
   }
 }
@@ -328,6 +366,16 @@ export default {
           border-radius:12px;
         }
       }
+    }
+  }
+  .union-main-page{
+    .share-box .van-popup{
+      width: 100%;
+      height: 100vh;
+      background:rgba(0,0,0,0.7);
+      transform:translate3d(0,0,0);
+      top: 0;
+      left: 0;
     }
   }
 </style>

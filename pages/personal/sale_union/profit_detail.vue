@@ -3,30 +3,32 @@
     <header-bar title="我的收益"></header-bar>
     <div class="main-profit-wrap" style="padding-top: 46px;">
       <van-tabs v-model="currentTab" color="transparent">
-        <van-tab>
+        <van-tab v-for="tab in tabList" :key="tab.id">
           <div slot="title" class="profile-title">
-            累计已赚
-            <p class="price">$3176.05</p>
+            {{tab.name}}
+            <p class="price" v-if="JSON.stringify(incomeReport) !== '{}'">{{incomeReport.currency}}{{showCurrentPrice(incomeReport.income, tab.id)}}</p>
           </div>
-          <div>
-            <template v-for="list in lists">
-              <profit-detail :item="list" :key="list.id"></profit-detail>
-            </template>
-          </div>
-        </van-tab>
-        <van-tab>
-          <div slot="title" class="profile-title">
-            直接收益
-            <p class="price">$3176.05</p>
-          </div>
-          <div>gdfgdfgdfgdfg</div>
-        </van-tab>
-        <van-tab>
-          <div slot="title" class="profile-title">
-            间接收益
-            <p class="price">$3176.05</p>
-          </div>
-          <div>gdfgdfgdfgdfg</div>
+          <template v-if="currentTab === 0">
+            <van-list v-model="prodLoading0" :finished="prodFinished0" finished-text="没有更多了" @load="onLoad">
+              <template v-for="list in incomeLists0">
+                <profit-detail :item="list" :key="list.id"></profit-detail>
+              </template>
+            </van-list>
+          </template>
+          <template v-else-if="currentTab === 1">
+            <van-list v-model="prodLoading1" :finished="prodFinished1" finished-text="没有更多了" @load="onLoad">
+              <template v-for="list in incomeLists1">
+                <profit-detail :item="list" :key="list.id"></profit-detail>
+              </template>
+            </van-list>
+          </template>
+          <template v-else>
+            <van-list v-model="prodLoading2" :finished="prodFinished2" finished-text="没有更多了" @load="onLoad">
+              <template v-for="list in incomeLists2">
+                <profit-detail :item="list" :key="list.id"></profit-detail>
+              </template>
+            </van-list>
+          </template>
         </van-tab>
       </van-tabs>
     </div>
@@ -36,42 +38,56 @@
 <script>
 import HeaderBar from '@/components/header/sale_union'
 import profitDetail from '@/components/list/profitList'
+import {getIncomeReport} from '@/api/sale_union'
+import {summaryReport} from '@/assets/js/mixins/incomeReport'
 export default {
   name: 'profit_detail',
   components: {HeaderBar,profitDetail},
+  mixins: [summaryReport],
   data() {
     return {
       currentTab: 0,
-      lists: [
-        {
-          id: 23256,
-          title: '玩转美西经典小环 莫哈维...',
-          price:'$254',
-          status: 0,
-          status_name: '待确认（用户未出行）',
-          time: '2月15日',
-        },
-        {
-          id: 23223,
-          title: '玩转美西经典小环 莫哈维...',
-          price:'$254',
-          status: 0,
-          status_name: '待确认（用户未出行）',
-          time: '2月15日'
-        },
-        {
-          id: 23234,
-          title: '玩转美西经典小环 莫哈维...',
-          price:'$254',
-          status: 0,
-          status_name: '待确认（用户未出行）',
-          time: '2月15日'
-        }
-      ],
+      incomeLists0: [],
+      incomeLists1: [],
+      incomeLists2: [],
+      prodLoading0: false, // 是否处于加载状态，加载过程中不触发load事件
+      prodFinished0: false, // 是否已加载完成，加载完成后不再触发load事件
+      prodLoading1: false, // 是否处于加载状态，加载过程中不触发load事件
+      prodFinished1: false, // 是否已加载完成，加载完成后不再触发load事件
+      prodLoading2: false, // 是否处于加载状态，加载过程中不触发load事件
+      prodFinished2: false, // 是否已加载完成，加载完成后不再触发load事件
+      prodPagination0: {},
+      prodPagination1: {},
+      prodPagination2: {},
+      loading: {},
+      finished:{}
     }
   },
+  created(){
+    this.tabList = [
+      {id:0,name: '累计已赚'},
+      {id:1,name: '直接收益'},
+      {id:2,name: '间接收益'},
+    ]
+  },
+  mounted(){
+  },
   methods: {
-    onClickLeft(){}
+    onClickLeft(){},
+    async onLoad(){
+      // console.log('onLoad : ', this.currentTab)
+      let res = await getIncomeReport(this.currentTab)
+      this['incomeLists' + this.currentTab].push(...res.data.list)
+      this['prodPagination' + this.currentTab] = res.pagination
+      this['prodLoading' + this.currentTab] = false
+      if (!this['prodPagination' + this.currentTab].more) {
+        this['prodFinished' + this.currentTab] = true
+      }
+    },
+    showCurrentPrice(obj, id) {
+      let arr = ['total_earn','income_one','income_two']
+      return obj[arr[id]]
+    }
   }
 }
 </script>
@@ -80,6 +96,7 @@ export default {
   .main-profit-wrap{
     min-height: 100vh;
     background-color: #F5F4F9;
+    padding-bottom: 20px;
   }
   .profile-detail{
     .profile-title{

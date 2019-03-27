@@ -13,7 +13,16 @@ export const countprice = (data) => {
     }
   })
 }
-export const addorder = (data) => {
-  return axios.post(`/api/order`, data)
+export const addorder = (data,referrerId) => {
+  // return axios.post(`/api/order`, data)
+  return axios({
+    method: 'post',
+    url: `/api/order`,
+    data,
+    headers: {
+      'Referrer-Id': referrerId,
+      'Channel':'m'
+    }
+  })
 }
 

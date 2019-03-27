@@ -1,4 +1,4 @@
-<template>
+<teplate>
   <div>
     <div class="header">
       <van-nav-bar

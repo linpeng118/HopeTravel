@@ -2,32 +2,35 @@
   <div class="page-container">
     <header-bar title="我的收益"></header-bar>
     <div style="padding-top: 46px;">
-      <van-notice-bar :scrollable="false" class="fixed-bar" style="top: 46px;" background="#FFE3A1" color="#C5601C">
-        新收益：XX购买了我分享的产品，我赚到XX元
+      <van-notice-bar :scrollable="false" mode="closeable" class="fixed-bar" style="top: 46px;" background="#FFE3A1" color="#C5601C" v-if="newList.length">
+        新收益：{{newList[0]}}
       </van-notice-bar>
       <div class="income-detail">
-        <div class="top"><strong>黄金会员</strong> 收益提升10%</div>
+        <div class="top">
+          <img src="../../../assets/imgs/union/icon_user_gold.png" alt="">
+          <p><strong>黄金会员</strong> 收益提升10%</p>
+        </div>
         <div class="fortune-center">
-          <p class="price">3176.05</p>
-          <nuxt-link to="/personal/transfercore" tag="p">我的收益，去提现 <van-icon name="arrow" /></nuxt-link>
+          <p class="price" v-if="JSON.stringify(incomeReport) !== '{}'">{{incomeReport.currency}}{{incomeReport.income.total_income}}</p>
+          <!--<nuxt-link to="/personal/transfercore" tag="p">我的收益，去提现 <van-icon name="arrow" /></nuxt-link>-->
         </div>
         <van-row class="rich-info">
           <van-col span="8">
             <nuxt-link to="/personal/sale_union/profit_detail" tag="div" class="item">
               <p>累计已赚</p>
-              <p>¥21312.00</p>
+              <p v-if="JSON.stringify(incomeReport) !== '{}'">{{incomeReport.currency}}{{incomeReport.income.total_earn}}</p>
             </nuxt-link>
           </van-col>
           <van-col span="8">
             <nuxt-link to="/personal/sale_union/profit_detail" tag="div" class="item">
-              <p>累计已赚 <van-icon name="question-o" /></p>
-              <p>¥21312.00</p>
+              <p>直接收益<van-icon name="question-o" /></p>
+              <p v-if="JSON.stringify(incomeReport) !== '{}'">{{incomeReport.currency}}{{incomeReport.income.income_one}}</p>
             </nuxt-link>
           </van-col>
           <van-col span="8">
             <nuxt-link to="/personal/sale_union/profit_detail" tag="div" class="item">
-              <p>累计已赚 <van-icon name="question-o" /></p>
-              <p>¥21312.00</p>
+              <p>间接收益<van-icon name="question-o" /></p>
+              <p v-if="JSON.stringify(incomeReport) !== '{}'">{{incomeReport.currency}}{{incomeReport.income.income_two}}</p>
             </nuxt-link>
           </van-col>
         </van-row>
@@ -39,10 +42,10 @@
             <img src="../../../assets/imgs/union/icon_union@2x.png" alt="">
             <div class="desc">
               <p class="name">稀饭盟友</p>
-              <p v-if="JSON.stringify(friendReport) !== '{}'">产生{{friendReport.total.order}}个订单，帮我赚取了{{friendReport.total.income}}</p>
+              <p v-if="JSON.stringify(incomeReport) !== '{}'">产生{{incomeReport.friend.order}}个订单，帮我赚取了{{incomeReport.friend.income}}</p>
             </div>
             <div class="right">
-              <span class="num">{{friendReport.total.friend}}</span> 人
+              <span class="num" v-if="JSON.stringify(incomeReport) !== '{}'">{{incomeReport.friend.friend}}</span> 人
             </div>
           </div>
           <div class="link-btn" @click="goToPathShare('shareFriends')">邀请朋友加入，有钱大家一起赚</div>
@@ -52,10 +55,10 @@
             <img src="../../../assets/imgs/union/icon_share_big@2x.png" alt="">
             <div class="desc">
               <p class="name">本周分享</p>
-              <p v-if="JSON.stringify(shareReport) !== '{}'">{{shareReport.total.view}}个浏览，产生了{{shareReport.total.order}}个订单</p>
+              <p v-if="JSON.stringify(incomeReport) !== '{}'">{{incomeReport.share.view}}个浏览，产生了{{incomeReport.share.order}}个订单</p>
             </div>
-            <div class="right" v-if="JSON.stringify(shareReport) !== '{}'">
-              <span class="num">{{shareReport.total.share}}</span> 人
+            <div class="right" v-if="JSON.stringify(incomeReport) !== '{}'">
+              <span class="num">{{incomeReport.share.share}}</span> 次
             </div>
           </div>
           <div class="link-btn" @click="goToPathShare('index')">越分享越有钱，分享永不止步</div>
@@ -90,13 +93,19 @@
 <script>
 import HeaderBar from '@/components/header/sale_union'
 import {shareReport} from '@/assets/js/mixins/shareReport'
-import {friendReport} from '@/assets/js/mixins/friendReport'
+import {summaryReport} from '@/assets/js/mixins/incomeReport'
+import {getNewIncome} from '@/api/sale_union'
 export default {
   name: 'my_profit',
   components: {HeaderBar},
-  mixins: [shareReport,friendReport],
+  mixins: [summaryReport],
+  data(){
+    return {
+      newList: []
+    }
+  },
   mounted(){
-    console.log(this.shareReport)
+    this.getNewsList()
   },
   methods: {
     onClickLeft() {},
@@ -119,6 +128,15 @@ export default {
         })
       }
     },
+    // 获得新闻信息
+    async getNewsList(){
+      let {code, data} = await getNewIncome()
+      if(code === 0) {
+        this.newList = data
+      } else {
+        this.newList = []
+      }
+    }
   }
 }
 </script>
@@ -137,8 +155,14 @@ export default {
     font-size:24px;
     .top{
       font-size:22px;
+      p{
+        display: inline-block;
+      }
       strong{
         display: block;
+      }
+      img{
+        /*vertical-align: middle;*/
       }
     }
     .fortune-center{

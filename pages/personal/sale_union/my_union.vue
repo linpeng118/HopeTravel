@@ -10,10 +10,10 @@
             <p v-if="JSON.stringify(friendReport) !== '{}'">产生{{friendReport.total.order}}个订单，帮我赚取了{{friendReport.total.income}}</p>
           </div>
           <div class="right">
-            <span class="num">{{friendReport.total.friend}}</span> 人
+            <span class="num" v-if="JSON.stringify(friendReport) !== '{}'">{{friendReport.total.friend}}</span> 人
           </div>
         </div>
-        <div class="link-btn">邀请朋友加入，有钱大家一起赚</div>
+        <div class="link-btn" @click="goToPathShare('shareFriends')">邀请朋友加入，有钱大家一起赚</div>
       </div>
       <div class="detail-item" v-for="item in friendReport.friends" :key="item.customer_id">
         <van-row type="flex" align="center">
@@ -60,6 +60,15 @@ export default {
   mounted(){
     console.log(this.friendReport)
   },
+  methods:{
+    goToPathShare(value) {
+      if(value === 'shareFriends') {
+        this.$router.push({
+          path: '/personal/sale_union/invite_friends'
+        })
+      }
+    }
+  }
 }
 </script>
 

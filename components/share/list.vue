@@ -1,7 +1,10 @@
 <template>
   <div class="share-wrap">
     <div class="share-pic-box">
-      <section class="top-part" id="shareImg">
+      <div class="top-part" v-if="JSON.stringify(data) === '{}'" style="text-align: center">
+        <van-loading type="spinner" />
+      </div>
+      <section v-else class="top-part" id="shareImg">
         <div class="header-info">
           <img :src="data.face" alt="">
           <div class="name">
@@ -111,13 +114,11 @@ export default {
     }
   },
   async mounted(){
-    // this.imgSwitchBase64()
-    // this.showProductCode()
-
-    // this.savePicture()
+    console.log('data',this.data)
   },
   methods: {
     close(){
+      this.dataUrl = ''
       this.$emit('close')
     },
     async savePicture() {
@@ -162,7 +163,7 @@ export default {
       Mshare.init(config)
       Mshare.to(value, config)
     }
-  }
+  },
 }
 </script>
 
@@ -171,11 +172,11 @@ export default {
     font-size: 24px;
     .share-pic-box{
       margin: 0 48px;
-      background-color: #fff;
-      transform: translateY(20%);
+      padding-top: 20%;
       .top-part{
         height: 600px;
         padding: 25px 32px;
+        background-color: #fff;
         overflow: hidden;
       }
       .header-info{
@@ -301,7 +302,8 @@ export default {
       right: 48px;
       height: 600px;
       z-index: 100;
-      transform: translateY(20%);
+      padding-top: 20%;
+      box-sizing: content-box;
       img{
         width: 100%;
         height: 100%;

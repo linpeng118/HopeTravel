@@ -2,17 +2,17 @@
   <div class="profit-wrap">
     <div class="desc-w">
       <div class="name">
-        <p class="title">{{item.title}}</p>
+        <p class="title">{{item.product_name}}</p>
         <p>订单金额：{{item.price}}</p>
       </div>
       <div class="price-box">
-        <p class="get-p">+{{item.price}}</p>
-        <p class="status color">
+        <p class="get-p">+{{item.order_fee}}</p>
+        <p class="status" :class="item.status !== 1 ? 'color': ''">
           {{item.status_name}}
         </p>
       </div>
     </div>
-    <div class="btm-area">{{item.time}} 直接收益</div>
+    <div class="btm-area">{{item.created}} 直接收益</div>
   </div>
 </template>
 
@@ -43,6 +43,7 @@ export default {
       padding: 20px;
       .name{
         flex: 1;
+        overflow: hidden;
       }
       .title{
         height: 40px;
@@ -54,7 +55,7 @@ export default {
         font-size:24px;
       }
       .price-box{
-        width: 300px;
+        width: 180px;
         text-align: right;
       }
       .get-p{

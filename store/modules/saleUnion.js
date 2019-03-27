@@ -2,7 +2,8 @@ export default {
   namespaced: true,
   state: {
     shareReport: {},
-    friendReport: {}
+    friendReport: {},
+    incomeReport: {}
   },
   actions: {
     // changeStatus({commit}, data) {
@@ -15,6 +16,9 @@ export default {
     },
     changeFriendReport(state, data) {
       state.friendReport = data
+    },
+    changeIncomeReport(state, data) {
+      state.incomeReport = data
     },
   }
 }

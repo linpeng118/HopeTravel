@@ -1,8 +1,10 @@
 <template>
   <div class="union-item" @click="selectDetail(item)">
-    <img :src="item.image" alt="">
-    <nuxt-link tag="div" class="desc" :to="`/product/detail?productId=${item.product_id}`">
-      <div class="title">{{item.name}}</div>
+    <nuxt-link :to="`/product/detail?productId=${item.product_id}`" tag="div" class="img-box">
+      <img :src="item.image" alt="">
+    </nuxt-link>
+    <div class="desc" >
+      <nuxt-link class="title" tag="div" :to="`/product/detail?productId=${item.product_id}`">{{item.name}}</nuxt-link>
       <div class="fx-p" v-if="!sight">{{'分销销额：' + item.agent_save}}</div>
       <div class="fx-p" v-if="sight" style="margin-top: 10px;">{{'点击量：' + item.score}}</div>
       <div class="price-box" v-if="!sight">
@@ -10,10 +12,10 @@
           <p class="default-p">{{item.default_price}}</p>
           <p class="profit-p">{{'赚'+item.agent_fee}}</p>
         </div>
-        <div class="share-btn">
+        <div class="share-btn" @click="selectDetail(item)">
         </div>
       </div>
-    </nuxt-link>
+    </div>
   </div>
 </template>
 
@@ -91,10 +93,14 @@ export default {
         }
       }
     }
-    img{
+    .img-box{
       width:240px;
       height:180px;
       background-color: #aaaaaa;
+      img{
+        width: 100%;
+        height: 100%;
+      }
     }
   }
 </style>

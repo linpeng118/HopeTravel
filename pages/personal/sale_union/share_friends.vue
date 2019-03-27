@@ -11,8 +11,14 @@
               <p>我加入了稀饭联盟，赚了不少钱了， 你也快来吧！</p>
             </div>
           </div>
-          <nuxt-link class="btn-accept" tag="div" :to="`/personal/sale_union/friend_accept?referrer_id=${$route.query.referrer_id}`">接受邀请</nuxt-link>
-          <div class="agreement"><van-icon name="checked" />接受邀请并与稀饭旅行签约</div>
+          <div class="btn-accept" @click="acceptShare">
+            接受邀请
+          </div>
+          <!--<nuxt-link tag="div" :to="`/personal/sale_union/friend_accept?referrer_id=${$route.query.referrer_id}`"></nuxt-link>-->
+          <div class="agreement">
+            <van-checkbox v-model="checked" checked-color="#FCAE26"></van-checkbox>
+            <nuxt-link tag="span" to="/protocol/union">接受邀请并与稀饭旅行签约</nuxt-link>
+          </div>
         </div>
       </div>
       <div class="img-show">
@@ -52,7 +58,8 @@ export default {
   },
   data(){
     return {
-      recommendInfo: {}
+      recommendInfo: {},
+      checked: false
     }
   },
   mounted(){
@@ -61,11 +68,22 @@ export default {
   methods: {
     async getRecommendInfo(){
       let {data,code} = await getProfile(this.$route.query.referrer_id)
-
       if(code === 0) {
         this.recommendInfo = data
       } else {
         this.recommendInfo = {}
+      }
+    },
+    acceptShare() {
+      if(!this.checked){
+        this.$toast('请接受稀饭旅行邀约');
+      } else {
+        this.$router.push({
+          name: 'personal-sale_union-friend_accept',
+          query: {
+            'referrer_id': this.$route.query.referrer_id
+          }
+        })
       }
     }
   }
@@ -133,11 +151,13 @@ export default {
         text-align: center;
         color: #9B9B9B;
         font-size:20px;
-        i{
+        & > div{
+          display: inline-block;
           vertical-align: middle;
-          color: #FCAE26;
-          font-size: 30px;
-          margin-right: 10px;
+          padding-right: 10px;
+        }
+        span{
+          vertical-align: middle;
         }
       }
     }

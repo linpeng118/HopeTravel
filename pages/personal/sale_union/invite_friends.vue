@@ -21,6 +21,7 @@
             <img :src="codeImg" alt="" @load="isLoadImg('code')">
           </div>
         </div>
+
         <div class="canvas-img" v-if="dataUrl">
           <img :src="dataUrl" alt="">
         </div>
@@ -38,8 +39,7 @@
 <script>
 import HeaderBar from '@/components/header/sale_union'
 import {getCode,getBase64} from '@/api/sale_union'
-import {mapMutations,mapGetters} from 'vuex'
-import { getProfile } from "@/api/profile"
+import {profileInfo} from '@/assets/js/mixins/profile'
 import html2canvas from 'html2canvas'
 export default {
   name: 'share_friends',
@@ -60,6 +60,7 @@ export default {
   components: {
     HeaderBar
   },
+  mixins: [profileInfo],
   data(){
     return {
       codeImg: '',
@@ -68,11 +69,6 @@ export default {
       faceImage: '',
       overLoadImg: ''
     }
-  },
-  computed:{
-    ...mapGetters([
-      'profile'
-    ])
   },
   watch:{
     overLoadImg(newValue) {
@@ -88,16 +84,11 @@ export default {
   },
   methods: {
     async getQRCode(){
-      if(!this.profile.phone){
-        this.$router.push({
-          path: '/login?redirect=personal/sale_union/invite_friends'
-        })
-      }
       let url = `${window.location.origin}/personal/sale_union/share_friends?referrer_id=${this.profile.customer_id}`
       let res = await getCode(url)
       this.codeImg = res.data
       let faceImg = await getBase64(this.profile.face)
-      this.faceImage = 'data:image/jpg;base64,' +faceImg.data
+      this.faceImage = 'data:image/jpg;base64,' + faceImg.data
     },
     async htmlChangeCanvas(){
       console.log('zhixingl')
@@ -107,9 +98,6 @@ export default {
     isLoadImg(value){
       this.overLoadImg += value
     },
-    ...mapMutations({
-      vxSetProfile: 'profile/setProfile'
-    })
   }
 }
 </script>
@@ -195,7 +183,7 @@ export default {
     }
     .canvas-img{
       height: 850px;
-      padding: 0 15px;
+      margin: 15px;
       img{
         width: 100%;
         height: 850px;

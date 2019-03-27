@@ -7,5 +7,6 @@ const getters = {
   closeDown: state => state.closeDown,
   shareReport: state => state.saleUnion.shareReport,
   friendReport: state => state.saleUnion.friendReport,
+  incomeReport: state => state.saleUnion.incomeReport,
 }
 export default getters

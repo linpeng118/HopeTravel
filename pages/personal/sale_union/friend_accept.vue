@@ -40,6 +40,7 @@
   import {getSmsCode, register} from '@/api/sale_union'
   import {SESSIONSTORE} from '@/assets/js/config'
   import {setSessionStore} from '@/assets/js/utils'
+  import {mapMutations} from 'vuex'
   const TIME = 60 // 倒计时时间
   export default {
   name: 'friend_accept',
@@ -117,6 +118,7 @@
         if (code === 0) {
           this.$toast.success('加入成功')
           setSessionStore(SESSIONSTORE, this.$route.query.referrer_id)
+          this.vxSetToken(data.token)
           setTimeout(() => {
             this.$router.push({
               name: 'personal-sale_union'
@@ -142,6 +144,9 @@
         }
       }, 1000)
     },
+    ...mapMutations({
+      vxSetToken: 'setToken'
+    }),
   }
 }
 </script>

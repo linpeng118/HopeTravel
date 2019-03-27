@@ -36,6 +36,13 @@ function setSessionStore(name, content) {
   window.sessionStorage.setItem(name, content)
 }
 
+/**
+ * 获取sessionStorage
+ */
+function getSessionStore(name) {
+  if (!name) return;
+  return JSON.parse(window.sessionStorage.getItem(name))
+}
 
 /**
  * 设置cookie
@@ -156,5 +163,6 @@ export {
   validDomain,
   isMobile,
   isEmail,
-  setSessionStore
+  setSessionStore,
+  getSessionStore
 }

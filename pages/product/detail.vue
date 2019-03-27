@@ -48,7 +48,7 @@
         </p>
         <!-- 价格 -->
         <div class="price-wrap">
-          <span class="share-btn">
+          <span class="share-btn" @click="shareProductHandle">
             <img src="../../assets/imgs/union/icon_share@2x.png" alt="" width="16" height="16"><span>分享赚{{product.agent_fee}}</span>
           </span>
           <span class="price fs-48 fw-800"
@@ -496,7 +496,7 @@
       return {
         ENTITY_TYPE,
         loading: true,
-        productId: Number(this.$route.query.productId) || null,
+        // productId: Number(this.$route.query.productId) || null,
         isTransparent: false, // 导航头是否透明
         current: 0, // 导航页数
         // bgFeat: require('../../assets/imgs/product/bg_features.png'),
@@ -529,7 +529,8 @@
         account: '',
         isShareBtn: false, // 分享按钮是否显示
         shareListShow: false, // 是否显示分享列表
-        shareDataInfo: {}
+        shareDataInfo: {},
+        referrerId: ''
       }
     },
     computed: {
@@ -596,6 +597,14 @@
           }
         })
         return newData.slice(0, 5)
+      },
+      productId(){
+        let query = this.$route.query.productId
+        if(query.indexOf('-') >= 0){
+          return Number(query.split('-')[0])
+        } else {
+          return Number(query) || null
+        }
       }
     },
     mounted() {
@@ -950,7 +959,7 @@
           this.shareListShow = true
           let faceImg = await getBase64(face)
           let productImg = await getBase64(images[0])
-          let code = await getCode(`https://m.tourscool.com/product/detail?productId=${product_id}`)
+          let code = await getCode(`${window.location.origin}/product/detail?productId=${product_id}-${customer_id}`)
           this.shareDataInfo = {
             product_id,name,default_price,special_price,customer_id,chinese_name,email,phone,last_name,first_name,nickname,
             image: 'data:image/jpg;base64,'+ productImg.data,
