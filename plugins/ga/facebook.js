@@ -27,6 +27,8 @@ export default ({
     try {
       fbq('set', 'page', to.fullPath)
       fbq('send', 'pageview')
-    } catch (e) {}
+    } catch (e) {
+      console.log('fbq', e)
+    }
   })
 }

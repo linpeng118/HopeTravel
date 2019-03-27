@@ -42,6 +42,10 @@ module.exports = {
         name: 'keywords',
         content: '稀饭旅行网为你提供美国自由行旅游,美国当地跟团游,加拿大自助游,欧洲、澳大利亚、新西兰、日本、东南亚旅游,美国邮轮游等出境游预订服务,提供个性化定制旅游服务,境外旅游线路行程,景点门票低价在线预订尽在稀饭旅行网'
       },
+      {
+        'http-equiv': 'X-UA-Compatible',
+        content: 'IE=edge'
+      },
     ],
     link: [{
       rel: 'icon',
@@ -52,6 +56,16 @@ module.exports = {
       src: '/flexible/flexible.js',
       type: 'text/javascript',
       charset: 'utf-8',
+    }, {
+      src: '/polyfill/index.js',
+      type: 'text/javascript',
+      charset: 'utf-8',
+    }, {
+      src: 'https://hm.baidu.com/hm.js?9bfbbc9f24159633a14d3b4f37db769b'
+    }, {
+      src: 'https://hm.baidu.com/hm.js?03f91ebf7f5ac08015d9f98fa0dc22fc'
+    }, {
+      src: 'https://hm.baidu.com/hm.js?72a266736d8b5b47605e2d2ad18f0756'
     }],
     __dangerouslyDisableSanitizers: ['script'],
   },
@@ -85,7 +99,15 @@ module.exports = {
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios',
+    ['@nuxtjs/google-analytics', {
+      id: 'UA-124174609-2'
+    }],
+    '@nuxtjs/sentry',
   ],
+  sentry: {
+    dsn: apiConfig.dsnSentry, // Enter your project's DSN here
+    config: {}, // Additional config
+  },
   /*
    ** Axios module configuration
    */
@@ -93,7 +115,7 @@ module.exports = {
     proxy: true,
     // prefix: '/api', // baseURL
     credentials: true,
-    // baseURL: axiosUrl, // 接口请求配置
+    baseURL: axiosUrl, // 本地接口请求配置
   },
   // 配置代理
   proxy: {
@@ -120,21 +142,16 @@ module.exports = {
    ** Build configuration
    */
   build: {
-    vendor: [
-      'babel-polyfill',
-      'eventsource-polyfill',
-      'axios',
-      'lodash',
-      '~/plugins/vant',
-      '~/plugins/vue-swiper',
-      '~/plugins/vue-clipboard',
-      '~/plugins/vue-cropper'
-    ],
     // analyze: true,
     // extractCSS与parallel不可并行：https://github.com/nuxt/nuxt.js/pull/5004
-    extractCSS: true, // 拆分css
+    extractCSS: (process.env.NODE_ENV === 'production'), // 拆分css
+    maxChunkSize: 30000,
     // parallel: true, // 多进程
-    // IE或者Edge下报错：https://github.com/nuxt/nuxt.js/issues/4643
+    // IE或者Edge下报错原因：（https://github.com/Rich-Harris/devalue/issues/16）
+    // 处理
+    // https://github.com/nuxt/nuxt.js/issues/4432
+    // https://github.com/nuxt/nuxt.js/issues/4643
+    // https://github.com/nuxt/nuxt.js/pull/4600
     babel: {
       presets({
         isServer
@@ -146,13 +163,13 @@ module.exports = {
               targets: isServer ? {
                 node: "current"
               } : {
-                browsers: ["last 5 versions"],
-                ie: 11
+                browsers: ["ie >= 10"],
               }
-            }
+            },
+            "es2015",
           ]
         ]
-      }
+      },
     },
     postcss: [
       require('postcss-px2rem-exclude')({
@@ -164,7 +181,7 @@ module.exports = {
       }),
     ],
     optimization: {
-      minimize: true,
+      minimize: (process.env.NODE_ENV === 'production'),
       minimizer: [
         new TerserPlugin({
           terserOptions: {
@@ -180,7 +197,7 @@ module.exports = {
     extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
-        config.devtool = 'eval-source-map';
+        config.devtool = '#eval-source-map';
         // 别名
         // Object.assign(config.resolve.alias, {
         //   Components: path.resolve(__dirname, 'components'),
@@ -194,6 +211,17 @@ module.exports = {
           loader: 'eslint-loader',
           exclude: /(node_modules)/,
         })
+      }
+      if (ctx.isDev) {
+        if (config.entry) {
+          config.entry.push('babel-polyfill')
+          config.entry.push('eventsource-polyfill')
+        } else {
+          config.entry = [
+            'babel-polyfill',
+            'eventsource-polyfill'
+          ]
+        }
       }
       if (!ctx.isDev) {
         config.devtool = false
