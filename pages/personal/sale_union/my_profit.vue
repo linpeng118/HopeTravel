@@ -58,7 +58,7 @@
               <p v-if="JSON.stringify(incomeReport) !== '{}'">{{incomeReport.share.view}}个浏览，产生了{{incomeReport.share.order}}个订单</p>
             </div>
             <div class="right" v-if="JSON.stringify(incomeReport) !== '{}'">
-              <span class="num">{{incomeReport.share.share}}</span> 个
+              <span class="num">{{incomeReport.share.view}}</span> 个
             </div>
           </div>
           <div class="link-btn" @click="goToPathShare('index')">越分享越有钱，分享永不止步</div>
@@ -71,7 +71,7 @@
           </template>
           <template slot="title">
             <div class="title">
-              联盟教学 <span>缺少分销联盟赶快联系我</span>
+              联盟教学 <span>缺少分销技巧？赶紧联系我</span>
             </div>
           </template>
         </van-cell>
