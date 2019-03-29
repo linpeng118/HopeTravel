@@ -26,10 +26,10 @@ let plugins = [
     ssr: false,
   },
   //vuex禁止ssr
-  {
-    src: '~/plugins/vuex-persist',
-    ssr: false
-  },
+  // {
+  //   src: '~/plugins/vuex-persist',
+  //   ssr: false
+  // },
   {
     src: '~/plugins/vue-clipboard',
     ssr: false
