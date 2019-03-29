@@ -154,7 +154,6 @@ export default {
     },
     shareRender(value) {
       const Mshare = require('m-share')
-      console.log(this.ids)
       var config = {
         title: this.data.name,
         desc: '',
@@ -166,8 +165,8 @@ export default {
           console.log(1);
         }
       }
-      // Mshare.init(config)
-      // Mshare.to(value, config)
+      Mshare.init(config)
+      Mshare.to(value, config)
     },
     shareRenderAll() {
       if(navigator.userAgent.indexOf('MicroMessenger') >= 0) {
