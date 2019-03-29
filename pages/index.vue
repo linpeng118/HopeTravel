@@ -121,6 +121,7 @@ import DriftAside from '@/components/drift_aside'
 import {throttle as _throttle} from 'lodash'
 import {setCookieByKey,getCookieByKey} from '@/assets/js/utils'
 import {mapGetters,mapMutations} from 'vuex'
+
 export default {
   name: 'home',
   components: {

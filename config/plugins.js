@@ -1,6 +1,7 @@
 let pluginConfig
 
-let plugins = [{
+let plugins = [
+  {
     src: '~/plugins/vant',
     ssr: true,
   },
@@ -19,6 +20,10 @@ let plugins = [{
   {
     src: '~/plugins/vue-cropper',
     ssr: false
+  },
+  {
+    src: '~/assets/js/mixins/shareReport',
+    ssr: false,
   },
   //vuex禁止ssr
   {
@@ -44,7 +49,8 @@ let plugins = [{
   },
 ]
 
-let devPlugins = [{
+let devPlugins = [
+  {
     src: '~/plugins/vant',
     ssr: true,
   },

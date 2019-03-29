@@ -26,9 +26,14 @@
             <span class="sale-price"><strong>{{data.default_price | showInt}}</strong>/起</span>
           </template>
           <template v-else>
-            <span class="sale-price"><strong>{{data.special_price | showInt}}</strong>/起</span>
-            <span class="default-price" style="text-decoration: line-through">原价：{{data.default_price | showInt}}</span>
+            <span class="sale-price"><strong>{{data.special_price | showInt}}</strong>/起</span><span class="default-price" style="text-decoration: line-through">原价：{{data.default_price | showInt}}</span>
           </template>
+          <span class="share-p">分享赚{{data.agent_fee}}</span>
+          <p>
+            <span v-for="(item,index) in data.coupons" class="setspecial" :key="index">
+              <i>{{item}}</i>
+            </span>
+          </p>
         </div>
       </div>
     </div>
@@ -74,6 +79,11 @@ export default {
       default: false
     }
   },
+  data(){
+    return {
+      test: ['weqwe','213']
+    }
+  },
   computed: {
     iconTour() {
       return this.data.icons_tour
@@ -92,7 +102,7 @@ export default {
     .product-item{
       display: flex;
       display: -webkit-flex;
-      padding: 24px 0;
+      padding: 10px 0;
       .img-show{
         position:relative;
         width:182px;
@@ -150,7 +160,7 @@ export default {
         .tags-wrap{
           height: 36px;
           overflow: hidden;
-          margin: 10px 0 40px;
+          margin: 10px 0 10px;
           font-size: 0;
           span{
             margin-right: 10px;
@@ -180,8 +190,12 @@ export default {
         }
         .product-price{
           font-size:22px;
+          .share-transF{
+            margin-top: -15px;
+            line-height: 40px;
+          }
           .sale-price{
-            color: #FB605D;
+            color: #EF9A1A;
             margin-right: 10px;
             strong{
               font-size:40px;
@@ -189,6 +203,22 @@ export default {
           }
           .default-price{
             color: #3A3A3A;
+          }
+          .share-p{
+            color: #FF7246;
+          }
+          .setspecial{
+            display: inline-block;
+            margin-right: 10px;
+            line-height: 20px;
+            font-size: 11px;
+            font-weight: 300;
+            color:rgba(251,96,93,1);
+            border: 2px dashed rgba(251,96,93,1);
+            padding: 10px;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
           }
         }
       }

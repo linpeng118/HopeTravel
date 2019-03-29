@@ -7,6 +7,8 @@ const axiosUrl = `http://127.0.0.1:${apiConfig.port}`
 console.log('apiConfig:', apiConfig)
 console.log('axiosUrl:', axiosUrl)
 
+
+
 module.exports = {
   mode: 'universal',
   dev: (process.env.NODE_ENV !== 'production'),
@@ -18,7 +20,8 @@ module.exports = {
    */
   head: {
     title: '稀饭旅行网-美国旅游-加拿大当地跟团游-欧洲旅游-澳大利亚旅游-新西兰旅游-东南亚旅游-日本旅游',
-    meta: [{
+    meta: [
+      {
         charset: 'utf-8',
       },
       {
@@ -133,10 +136,18 @@ module.exports = {
       },
       changeOrigin: true,
     },
+    '/union': {
+      target: `${apiConfig.union}/api/tour/v1`, // 联盟
+      pathRewrite: {
+        '^/union': '/',
+      },
+      changeOrigin: true,
+    }
   },
   server: {
     // 本地所起的服务配置
     port: apiConfig.port,
+    // host: apiConfig.host,
   },
   /*
    ** Build configuration
@@ -154,8 +165,8 @@ module.exports = {
     // https://github.com/nuxt/nuxt.js/pull/4600
     babel: {
       presets({
-        isServer
-      }) {
+                isServer
+              }) {
         return [
           [
             "@nuxt/babel-preset-app",

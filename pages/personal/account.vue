@@ -93,7 +93,6 @@
     <div class="sign-out-btn-con">
       <van-button class="sign-out-btn" @click="logout" block>退出登录</van-button>
     </div>
-
   </div>
 </template>
 <script>

@@ -48,13 +48,16 @@
         </p>
         <!-- 价格 -->
         <div class="price-wrap">
+          <span class="share-btn" @click="shareProductHandle">
+            <img src="../../assets/imgs/icon_share@2x.png" alt="" width="16" height="16"><span>分享赚{{product.agent_fee}}</span>
+          </span>
           <span class="price fs-48 fw-800"
             :style="{'color': product.self_support ? '#EF9A1A' : '#fb605d'}">
             {{product.special_price ? product.special_price: product.default_price}}
             <span class="unit">&nbsp;起</span>
           </span>
-          <span class="default-price">
-            {{product.special_price ? product.default_price: ''}}
+          <span class="default-price" v-if="product.special_price">
+            {{product.special_price}}
           </span>
         </div>
       </div>
@@ -413,6 +416,15 @@
         </div>
       </div>
     </transition>
+    <!--分享按钮-->
+    <div v-if="isShareBtn" class="share-box-show" @click="shareProductHandle">
+      <img src="../../assets/imgs/icon_share@2x.png" alt="" width="20" height="20">
+    </div>
+    <div class="share-box">
+      <van-popup v-model="shareListShow" :overlay="false">
+        <share-list @close="shareListShow = false" :data="shareDataInfo" :ids="ids"></share-list>
+      </van-popup>
+    </div>
   </div>
 </template>
 
@@ -423,12 +435,15 @@
   import ProductDetailHeader from '@/components/header/productDetail'
   import ProdDetailImgItem from '@/components/items/prodDetailImgItem'
   import Loading from '@/components/loading'
-  import {getLocalStore, setLocalStore} from '@/assets/js/utils'
+  import {getLocalStore, setLocalStore, setSessionStore} from '@/assets/js/utils'
   import {OPERATE_TYPE} from '@/assets/js/consts'
   import {ENTITY_TYPE} from '@/assets/js/consts/products'
   import {DLG_TYPE} from '@/assets/js/consts/dialog'
   import {getProductDetail, addFavorite, delFavorite, schedule} from '@/api/products'
   import {getProfile} from '@/api/profile'
+  import shareList from '@/components/share/list'
+  import {getCode,getBase64,getViewStat} from '@/api/sale_union'
+  import {SESSIONSTORE} from '@/assets/js/config'
 
   export default {
     layout: 'default',
@@ -439,56 +454,51 @@
       ProductDetailHeader,
       ProdDetailImgItem,
       Loading,
+      shareList
     },
-    async asyncData({$axios, query}) {
-      let attributes,
-        attributes_override,
-        expense,
-        itinerary,
-        notice,
-        product,
-        top_price,
-        transfer
-      try {
-        let {code, msg, data} = await $axios.$get(`/api/product/${query.productId}`, {
-          headers: {
-            'platform': 'app',
-            'phoneType': 'iOS',
-            'App-Version': '1.0.0'
-          }
-        })
-        if (code === 0) {
-          attributes = data.attributes // 增值服务
-          attributes_override = data.attributes_override // 属性覆盖
-          expense = data.expense // 费用说明对象
-          itinerary = data.itinerary // 行程详情
-          notice = data.notice // 注意事项
-          product = data.product // 产品信息
-          top_price = data.top_price // 团期价格
-          transfer = data.transfer
-        } else {
-          console.log('error:', msg)
-        }
-      } catch (error) {
-        console.log(error)
-      }
-      return {
-        attributes,
-        attributes_override,
-        expense,
-        itinerary,
-        notice,
-        product,
-        top_price,
-        transfer
-      }
-    },
+    // async asyncData({$axios, query}) {
+    //   let attributes,
+    //     attributes_override,
+    //     expense,
+    //     itinerary,
+    //     notice,
+    //     product,
+    //     top_price,
+    //     transfer
+    //   try {
+    //     let {code, msg, data} = await $axios.$get(`/api/product/${query.productId}`)
+    //     if (code === 0) {
+    //       attributes = data.attributes // 增值服务
+    //       attributes_override = data.attributes_override // 属性覆盖
+    //       expense = data.expense // 费用说明对象
+    //       itinerary = data.itinerary // 行程详情
+    //       notice = data.notice // 注意事项
+    //       product = data.product // 产品信息
+    //       top_price = data.top_price // 团期价格
+    //       transfer = data.transfer
+    //     } else {
+    //       console.log('error:', msg)
+    //     }
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+    //   return {
+    //     attributes,
+    //     attributes_override,
+    //     expense,
+    //     itinerary,
+    //     notice,
+    //     product,
+    //     top_price,
+    //     transfer
+    //   }
+    // },
     data() {
       return {
         ENTITY_TYPE,
-        loading: false,
-        productId: Number(this.$route.query.productId) || null,
-        isTransparent: true, // 导航头是否透明
+        loading: true,
+        // productId: Number(this.$route.query.productId) || null,
+        isTransparent: false, // 导航头是否透明
         current: 0, // 导航页数
         // bgFeat: require('../../assets/imgs/product/bg_features.png'),
         activeTab: 1, // 选中的tab
@@ -497,19 +507,19 @@
         showSoldOut: false, // 恢复预定通知弹窗
         priceExclude: [], // 不包含面板
         activeNotice: [1], // 注意事项折叠面板
-        // // 产品
-        // product: {},
-        // // 费用说明对象
-        // expense: {},
-        // // 注意事项
-        // notice: [],
-        // // 行程详情
-        // itinerary: {},
-        // attributes: [],
-        // attributes_override: [],
-        // transfer: [],
-        // // 团期价格
-        // top_price: [],
+        // 产品
+        product: {},
+        // 费用说明对象
+        expense: {},
+        // 注意事项
+        notice: [],
+        // 行程详情
+        itinerary: {},
+        attributes: [],
+        attributes_override: [],
+        transfer: [],
+        // 团期价格
+        top_price: [],
         isTabFixed: false,
         showDay: 'D1',
         // 显示电话弹窗
@@ -518,7 +528,11 @@
         showMore: false,
         // 邮箱或手机号
         account: '',
-        timer: null,
+        isShareBtn: false, // 分享按钮是否显示
+        shareListShow: false, // 是否显示分享列表
+        shareDataInfo: {},
+        referrerId: '',
+        productId: ''
       }
     },
     computed: {
@@ -585,14 +599,19 @@
           }
         })
         return newData.slice(0, 5)
+      },
+      // ids
+      ids(){
+        return {
+          referrerId: this.referrerId,
+          productId: this.productId
+        }
       }
     },
-    mounted() {
+    async mounted() {
       this.init()
+      this.getProductData()
       this.$refs.refProductDetailPage.addEventListener("scroll", _throttle(this.scrollFn, 200));
-    },
-    destroyed() {
-      clearInterval(this.timer)
     },
     methods: {
       ...mapMutations({
@@ -600,8 +619,32 @@
         vxToggleDialog: 'toggleDialog', // 是否显示弹窗
         vxSetDlgType: 'setDlgType', // 设置弹窗类型
       }),
-      async init() {
-        // await this.getProductDetailData() // 改用asyncData
+      // 产品ID，session保存
+      async init(){
+        let query = this.$route.query.productId + ''
+        let platform = this.$route.query.platform
+        let viewStat = {}
+        console.log(query)
+        if(query.indexOf('-') >= 0){
+          this.productId = Number(query.split('-')[0])
+          setSessionStore(SESSIONSTORE, query.split('-')[1])
+          viewStat.referrer_id = query.split('-')[1]
+          if(navigator.userAgent.indexOf('MicroMessenger') >= 0) {
+            viewStat.platform = 'weixin'
+            // alert('weixin')
+          } else if(navigator.userAgent.indexOf('QBWebViewType') >= 0 || navigator.userAgent.indexOf('MQQBrowser') >= 0){
+            viewStat.platform = 'qq'
+            // alert('qq')
+          } else if(platform) {
+            viewStat.platform = platform
+          }
+          await getViewStat(viewStat)
+        } else {
+          this.productId = Number(query) || null
+        }
+      },
+      async getProductData() {
+        await this.getProductDetailData()
         if (!(this.product && this.product.product_id)) {
           this.jumpTo('/')
         }
@@ -727,64 +770,60 @@
       },
       // 滚动函数
       scrollFn() {
-        try {
-          const s1 = this.$refs.refProductDetailPage.scrollTop;
-          const s1H = this.$refs.refProductDetailPage.offsetHeight;
-          const allH = this.$refs.refProductDetail.offsetHeight;
-          let tabListH = this.$refs.refTabList.offsetTop - this.$refs.refTabList.offsetHeight;
-          let tabHeightH = this.$refs.refTabHeight.offsetTop - this.$refs.refTabList.offsetHeight;
-          // console.log(s1, tabListH, tabHeightH)
-          if (s1 > 0) {
-            this.isTransparent = false
-          } else {
-            this.isTransparent = true
-          }
-          if (s1 >= tabListH) {
-            this.isTabFixed = true
-          }
-          if (s1 <= tabHeightH) {
-            this.isTabFixed = false
-          }
-          // 判断方向
-          // setTimeout(() => {
-          //   const s2 = this.$refs.refProductDetailPage.scrollTop;
-          //   const direct = s2 - s1;
-          //   console.log("direct", direct);
-          // }, 17);
-          // D1-Dn变化
-          const listLen = this.showDayList.length
-          const showHeight = s1 + this.$refs.refTabList.offsetHeight + this.$refs.refProdctDetailHeader.$el.offsetHeight
-          // 根据tabList的高度,修改选中的tab
-          let refFeaturesH = this.$refs.refFeatures.offsetTop
-          let refTripH = this.$refs.refTrip.offsetTop
-          let refCostH = this.$refs.refCost.offsetTop
-          let refNoticeH = this.$refs.refNotice.offsetTop
-          // console.log('refFeaturesH', showHeight, refCostH)
-          if (showHeight >= refFeaturesH) {
-            this.activeTab = 1
-          }
-          if (showHeight >= refTripH) {
-            this.activeTab = 2
-          }
-          if (showHeight >= refCostH) {
-            this.activeTab = 3
-          }
-          // 到底部
-          if (s1 + s1H === allH) {
-            this.activeTab = 4
-          }
-          // console.log(this.activeTab, showHeight, refNoticeH)
-          let idx = this.showDayList.findIndex(item => item > showHeight)
-          // console.log('index：', idx)
-          if (idx === 0) {
-            this.showDay = `D1`
-          } else if (idx > 0) {
-            this.showDay = `D${idx}`
-          } else if (idx === -1) {
-            this.showDay = `D${listLen}`
-          }
-        } catch (error) {
-          console.log(error)
+        const s1 = this.$refs.refProductDetailPage.scrollTop;
+        const s1H = this.$refs.refProductDetailPage.offsetHeight;
+        const allH = this.$refs.refProductDetail.offsetHeight;
+        let tabListH = this.$refs.refTabList.offsetTop - this.$refs.refTabList.offsetHeight;
+        let tabHeightH = this.$refs.refTabHeight.offsetTop - this.$refs.refTabList.offsetHeight;
+        // console.log(s1, tabListH, tabHeightH)
+        if (s1 > 100) {
+          this.isShareBtn = true
+        } else {
+          this.isShareBtn = false
+        }
+        if (s1 >= tabListH) {
+          this.isTabFixed = true
+        }
+        if (s1 <= tabHeightH) {
+          this.isTabFixed = false
+        }
+        // 判断方向
+        // setTimeout(() => {
+        //   const s2 = this.$refs.refProductDetailPage.scrollTop;
+        //   const direct = s2 - s1;
+        //   console.log("direct", direct);
+        // }, 17);
+        // D1-Dn变化
+        const listLen = this.showDayList.length
+        const showHeight = s1 + this.$refs.refTabList.offsetHeight + this.$refs.refProdctDetailHeader.$el.offsetHeight
+        // 根据tabList的高度,修改选中的tab
+        let refFeaturesH = this.$refs.refFeatures.offsetTop
+        let refTripH = this.$refs.refTrip.offsetTop
+        let refCostH = this.$refs.refCost.offsetTop
+        let refNoticeH = this.$refs.refNotice.offsetTop
+        // console.log('refFeaturesH', showHeight, refCostH)
+        if (showHeight >= refFeaturesH) {
+          this.activeTab = 1
+        }
+        if (showHeight >= refTripH) {
+          this.activeTab = 2
+        }
+        if (showHeight >= refCostH) {
+          this.activeTab = 3
+        }
+        // 到底部
+        if (s1 + s1H === allH) {
+          this.activeTab = 4
+        }
+        // console.log(this.activeTab, showHeight, refNoticeH)
+        let idx = this.showDayList.findIndex(item => item > showHeight)
+        // console.log('index：', idx)
+        if (idx === 0) {
+          this.showDay = `D1`
+        } else if (idx > 0) {
+          this.showDay = `D${idx}`
+        } else if (idx === -1) {
+          this.showDay = `D${listLen}`
         }
       },
       // 点击预览图片
@@ -929,6 +968,33 @@
           this.showSoldOut = false
         }
         this.$toast(msg)
+      },
+      // 分享
+      async shareProductHandle() {
+        const {code, msg, data} = await getProfile()
+        if (code === 700) {
+          console.log(this.$route.fullPath)
+          this.$router.push({
+            path: `/login?redirect=${this.$route.fullPath}`,
+          })
+        } else if (code === 401) {
+          this.$notify(msg)
+          return
+        } else {
+          let {product_id,name,default_price,special_price,images} = this.product
+          let {face,customer_id,chinese_name,email,phone,last_name,first_name,nickname} = data
+          this.shareListShow = true
+          let faceImg = await getBase64(face)
+          let productImg = await getBase64(images[0])
+          let code = await getCode(`${window.location.origin}/product/detail?productId=${product_id}-${customer_id}`)
+          this.shareDataInfo = {
+            product_id,name,default_price,special_price,customer_id,chinese_name,email,phone,last_name,first_name,nickname,
+            image: 'data:image/jpg;base64,'+ productImg.data,
+            face: 'data:image/jpg;base64,'+ faceImg.data,
+            code: code.data
+          }
+          console.log(this.shareDataInfo)
+        }
       }
     },
   }
