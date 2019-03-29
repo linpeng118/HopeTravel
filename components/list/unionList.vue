@@ -1,16 +1,16 @@
 <template>
   <div class="union-item">
-    <nuxt-link :to="`/product/detail?productId=${item.product_id}`" tag="div" class="img-box">
+    <nuxt-link :to="`/product/detail?productId=${item.product_id}`" class="img-box" target="_blank">
       <img :src="item.image" alt="">
     </nuxt-link>
     <div class="desc" >
-      <nuxt-link class="title" tag="div" :to="`/product/detail?productId=${item.product_id}`">{{item.name}}</nuxt-link>
+      <nuxt-link class="title" :to="`/product/detail?productId=${item.product_id}`" target="_blank">{{item.name}}</nuxt-link>
       <div class="fx-p" v-if="!sight">{{'分销销额：' + item.agent_sales}}</div>
       <div class="fx-p" v-if="sight" style="margin-top: 10px;">{{'点击量：' + item.score}}</div>
       <div class="price-box" v-if="!sight">
         <div>
           <p class="default-p">{{item.default_price}}</p>
-          <p class="profit-p">{{'赚'+item.agent_fee}}</p>
+          <p class="profit-p" v-if="item.margin !== '0.00'">{{'赚'+item.agent_fee}}</p>
         </div>
         <div class="share-btn" @click="selectDetail(item)">
         </div>
@@ -54,6 +54,7 @@ export default {
         height: 60px;
         overflow: hidden;
         color: #5B5B5B;
+        display: block;
       }
       .fx-p{
         font-size: 20px;

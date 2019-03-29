@@ -22,8 +22,8 @@
         <div class="desc-product">
           <div class="title">{{data.name}}</div>
           <div class="price-box">
-            <p v-if="data.special_price"><span class="special">$<strong>{{data.special_price}}</strong>起</span><span class="default">{{data.default_price}}</span></p>
-            <p v-else><span class="special">$<strong>{{data.default_price}}</strong>起</span></p>
+            <p v-if="data.special_price"><span class="special"><strong>{{data.special_price}}</strong>起</span><span class="default">{{data.default_price}}</span></p>
+            <p v-else><span class="special"><strong>{{data.default_price}}</strong>起</span></p>
           </div>
         </div>
       </section>
@@ -154,6 +154,7 @@ export default {
     },
     shareRender(value) {
       const Mshare = require('m-share')
+      console.log(this.ids)
       var config = {
         title: this.data.name,
         desc: '',
@@ -165,8 +166,8 @@ export default {
           console.log(1);
         }
       }
-      Mshare.init(config)
-      Mshare.to(value, config)
+      // Mshare.init(config)
+      // Mshare.to(value, config)
     },
     shareRenderAll() {
       if(navigator.userAgent.indexOf('MicroMessenger') >= 0) {
@@ -189,9 +190,9 @@ export default {
     font-size: 24px;
     .share-pic-box{
       margin: 0 48px;
-      padding-top: 20%;
+      padding-top: 15%;
       .top-part{
-        height: 600px;
+        height: 640px;
         padding: 25px 32px;
         background-color: #fff;
         overflow: hidden;
@@ -217,7 +218,7 @@ export default {
         position: relative;
         img{
           width: 100%;
-          height: 280px;
+          height: 320px;
           border-radius: 8px;
           background-color: #eee;
           border: none;
@@ -317,9 +318,9 @@ export default {
       top: 0;
       left: 48px;
       right: 48px;
-      height: 600px;
+      height: 640px;
       z-index: 100;
-      padding-top: 20%;
+      padding-top: 15%;
       box-sizing: content-box;
       img{
         width: 100%;

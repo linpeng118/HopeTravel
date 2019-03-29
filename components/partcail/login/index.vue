@@ -122,6 +122,7 @@
       },
       // 登陆回调
       async loginCallBack() {
+        console.log('loginCallBack')
         try {
           fbq('track', 'Lead')
         } catch (error) {

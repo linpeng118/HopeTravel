@@ -87,7 +87,7 @@ export default {
     showCurrentPrice(obj, id) {
       let arr = ['total_earn','income_one','income_two']
       return obj[arr[id]]
-    }
+    },
   }
 }
 </script>
@@ -107,7 +107,6 @@ export default {
       font-size:26px;
       p.price{
         font-size:40px;
-        font-weight: bold;
       }
     }
   }
@@ -133,7 +132,12 @@ export default {
     line-height: inherit;
   }
   .profile-detail .van-tab--active .profile-title{
-    background:linear-gradient(180deg,rgba(255,123,78,1) 0%,rgba(245,41,30,1) 100%);
-    /*box-shadow: -6px 0 12px rgba(0,43,100,0.16);*/
+    background:linear-gradient(180deg,rgba(255,121,75,1) 0%,rgba(255,13,0,1) 100%);
+    font-size:30px;
+    box-shadow:0px -6px 12px rgba(0,43,100,0.16);
+  }
+  .profile-detail .van-tab--active .profile-title p{
+    font-weight: bold;
+    font-size:42px;
   }
 </style>

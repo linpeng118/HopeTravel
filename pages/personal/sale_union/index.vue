@@ -236,8 +236,8 @@ export default {
       let {face,customer_id,chinese_name,email,phone,last_name,first_name,nickname} = this.profile
       this.shareListShow = true
       this.ids = {
-        referrerId: customer_id,
-        productId: product_id
+        customer_id,
+        product_id
       }
       let faceImg = await getBase64(face)
       let productImg = await getBase64(image)

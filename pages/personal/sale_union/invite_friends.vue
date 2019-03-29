@@ -27,9 +27,9 @@
       </div>
     </div>
     <div class="popup-tran" v-if="show">
-      <van-popup v-model="show">
+      <van-popup v-model="show" :overlay="false">
         <p>长按保存海报去分享</p>
-        <van-button plain @click="show=false" size="small">我知道了</van-button>
+        <van-button plain @click="show=false">我知道了</van-button>
       </van-popup>
     </div>
   </div>
@@ -39,6 +39,8 @@
 import HeaderBar from '@/components/header/sale_union'
 import {getCode,getBase64} from '@/api/sale_union'
 import {profileInfo} from '@/assets/js/mixins/profile'
+import {mapMutations,mapGetters} from 'vuex'
+import {getProfile} from '@/api/profile'
 import html2canvas from 'html2canvas'
 export default {
   name: 'share_friends',
@@ -59,16 +61,21 @@ export default {
   components: {
     HeaderBar
   },
-  mixins: [profileInfo],
+  mixins:[profileInfo],
   data(){
     return {
       codeImg: '',
       show: true,
       dataUrl: '',
       faceImage: '',
-      overLoadImg: ''
+      overLoadImg: '',
     }
   },
+  // computed: {
+  //   ...mapGetters([
+  //     'profile'
+  //   ])
+  // },
   watch:{
     overLoadImg(newValue) {
       console.log(newValue)
@@ -78,11 +85,14 @@ export default {
     }
   },
   mounted(){
+    // if(JSON.stringify(this.profile) === '{}'){
+    //   this.profileInit()
+    // }
     this.getQRCode()
-    // this.htmlChangeCanvas()
   },
   methods: {
     async getQRCode(){
+      // console.log(this.profile)
       let url = `${window.location.origin}/personal/sale_union/share_friends?referrer_id=${this.profile.customer_id}`
       let res = await getCode(url)
       this.codeImg = res.data
@@ -96,6 +106,17 @@ export default {
     isLoadImg(value){
       this.overLoadImg += value
     },
+    // async profileInit() {
+    //   let {code,data} = await getProfile()
+    //   let _obj = {}
+    //   if(code === 0) {
+    //     _obj= data
+    //   }
+    //   this.changeSetProfile(_obj)
+    // },
+    // ...mapMutations({
+    //   changeSetProfile: 'profile/setProfile',
+    // })
   }
 }
 </script>
@@ -190,6 +211,14 @@ export default {
   }
 </style>
 <style>
+  .popup-tran{
+    position: fixed;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,.7);
+  }
   .popup-tran .van-popup{
     background: transparent;
     color: #fff;

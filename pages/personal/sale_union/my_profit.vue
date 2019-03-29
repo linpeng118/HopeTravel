@@ -54,11 +54,11 @@
           <div class="detail" @click="goToPathShare('week')">
             <img src="../../../assets/imgs/union/icon_share_big@2x.png" alt="">
             <div class="desc">
-              <p class="name">本周分享</p>
+              <p class="name">本周分享效果</p>
               <p v-if="JSON.stringify(incomeReport) !== '{}'">{{incomeReport.share.view}}个浏览，产生了{{incomeReport.share.order}}个订单</p>
             </div>
             <div class="right" v-if="JSON.stringify(incomeReport) !== '{}'">
-              <span class="num">{{incomeReport.share.share}}</span> 次
+              <span class="num">{{incomeReport.share.share}}</span> 个
             </div>
           </div>
           <div class="link-btn" @click="goToPathShare('index')">越分享越有钱，分享永不止步</div>
@@ -147,7 +147,7 @@ export default {
     min-height: 100vh;
   }
   .income-detail{
-    height:320px;
+    height:280px;
     padding: 20px 36px;
     background:linear-gradient(180deg,rgba(253,141,103,1) 0%,rgba(245,41,30,1) 100%);
     box-shadow:0px 6px 12px rgba(0,43,100,0.16);
@@ -274,8 +274,8 @@ export default {
         line-height: 82px;
         text-align: center;
         color: #FF7246;
-        border-top: 1px solid #E1E1E1;
-        font-size:20px;
+        border-top: 1px solid #f4f4f4;
+        font-size: 24px;
       }
     }
   }

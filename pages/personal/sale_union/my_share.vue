@@ -6,11 +6,11 @@
         <div class="detail">
           <img src="../../../assets/imgs/union/icon_share_big@2x.png" alt="">
           <div class="desc">
-            <p class="name">本周分享</p>
+            <p class="name">本周分享效果</p>
             <p v-if="JSON.stringify(shareReport) !== '{}'">{{shareReport.total.view}}个浏览，产生了{{shareReport.total.order}}个订单</p>
           </div>
           <div class="right" v-if="JSON.stringify(shareReport) !== '{}'">
-            <span class="num">{{shareReport.total.view}}</span> 个浏览
+            <span class="num">{{shareReport.total.view}}</span> 个
           </div>
         </div>
         <nuxt-link tag="div" class="link-btn" to="/personal/sale_union">越分享越有钱，分享永不止步</nuxt-link>

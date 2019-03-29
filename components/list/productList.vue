@@ -1,6 +1,6 @@
 <template>
   <div class="product-list">
-    <div class="product-item" @click="selectDetail(data.product_id)">
+    <nuxt-link class="product-item" @click="selectDetail(data.product_id)" :to="`/product/detail?productId=${data.product_id}`" target="_blank">
       <div class="img-show">
         <img :src="data.image" alt="">
         <div class="tags" v-if="showTag">{{data.product_type | productTypeValue}}</div>
@@ -36,7 +36,7 @@
           </p>
         </div>
       </div>
-    </div>
+    </nuxt-link>
   </div>
 </template>
 
@@ -91,7 +91,7 @@ export default {
   },
   methods: {
     selectDetail(productId) {
-      this.$emit('selectItem', productId)
+      // this.$emit('selectItem', productId)
     }
   }
 }
@@ -156,6 +156,7 @@ export default {
           line-height:44px;
           height: 88px;
           overflow: hidden;
+          color: #3e3e3e;
         }
         .tags-wrap{
           height: 36px;

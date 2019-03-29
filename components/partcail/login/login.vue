@@ -67,6 +67,7 @@
   import {LOGIN_TYPE, VERIFY_CODE, SMS_SCENE} from '@/assets/js/consts'
   import {DLG_TYPE} from '@/assets/js/consts/dialog'
   import {getSmsCode, login} from '@/api/member'
+  import {getProfile} from '@/api/profile'
 
   const TIME = 60 // 倒计时时间
 
@@ -233,7 +234,6 @@
           if (code === 0) {
             // console.log(data.token)
             await this.vxSetToken(data.token)
-            this.getUserInfo()
             await this.resetTimer()
             await this.$emit('loginCallBack')
           } else {
@@ -259,7 +259,7 @@
         clearInterval(this.timer)
         this.codeType = VERIFY_CODE.START
         this.countDownTime = 60
-      },
+      }
     },
   }
 </script>

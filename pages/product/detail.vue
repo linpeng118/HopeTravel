@@ -48,7 +48,7 @@
         </p>
         <!-- 价格 -->
         <div class="price-wrap">
-          <span class="share-btn" @click="shareProductHandle">
+          <span class="share-btn" @click="shareProductHandle" v-if="profile.is_agent">
             <img src="../../assets/imgs/union/icon_share@2x.png" alt="" width="16" height="16"><span>分享赚{{product.agent_fee}}</span>
           </span>
           <span class="price fs-48 fw-800"
@@ -417,7 +417,7 @@
       </div>
     </transition>
     <!--分享按钮-->
-    <div v-if="isShareBtn" class="share-box-show" @click="shareProductHandle">
+    <div v-if="isShareBtn && profile.is_agent" class="share-box-show" @click="shareProductHandle">
       <img src="../../assets/imgs/union/icon_share@2x.png" alt="" width="20" height="20">
     </div>
     <div class="share-box">
@@ -429,7 +429,7 @@
 </template>
 
 <script>
-  import {mapMutations, mapState} from 'vuex';
+  import {mapMutations, mapState, mapGetters} from 'vuex';
   import {throttle as _throttle} from 'lodash'
   import {ImagePreview} from 'vant';
   import ProductDetailHeader from '@/components/header/productDetail'
@@ -532,7 +532,8 @@
         shareListShow: false, // 是否显示分享列表
         shareDataInfo: {},
         referrerId: '',
-        productId: ''
+        productId: '',
+        ids: {}
       }
     },
     computed: {
@@ -600,18 +601,15 @@
         })
         return newData.slice(0, 5)
       },
-      // ids
-      ids(){
-        return {
-          referrerId: this.referrerId,
-          productId: this.productId
-        }
-      }
+      ...mapGetters([
+        'profile'
+      ])
     },
     async mounted() {
       this.init()
       this.getProductData()
       this.$refs.refProductDetailPage.addEventListener("scroll", _throttle(this.scrollFn, 200));
+      // window.location.href = window.location.href
     },
     methods: {
       ...mapMutations({
@@ -984,6 +982,10 @@
           let {product_id,name,default_price,special_price,images} = this.product
           let {face,customer_id,chinese_name,email,phone,last_name,first_name,nickname} = data
           this.shareListShow = true
+          this.ids= {
+            product_id,
+            customer_id
+          }
           let faceImg = await getBase64(face)
           let productImg = await getBase64(images[0])
           let code = await getCode(`${window.location.origin}/product/detail?productId=${product_id}-${customer_id}`)
