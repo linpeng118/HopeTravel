@@ -48,7 +48,7 @@
             <p>微信朋友圈</p>
           </li>
           <li @click="shareRender('sina')">
-            <img src="../../assets/imgs/union/sinaweibo@2x.png" alt="">
+            <img src="../../assets/imgs/union/sinaWeibo@2x.png" alt="">
             <p>新浪微博</p>
           </li>
           <li @click="copySomething"

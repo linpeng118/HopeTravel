@@ -14,7 +14,7 @@
                v-clipboard:success="onCopy"
                v-clipboard:error="onError"
           >复制</div>
-          <p style="color: #9B9B9B">添加验证：联盟</p>
+          <p style="color: #9B9B9B">微信添加验证：联盟</p>
         </div>
       </div>
     </div>
