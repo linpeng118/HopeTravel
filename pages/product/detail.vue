@@ -49,7 +49,7 @@
         <!-- 价格 -->
         <div class="price-wrap">
           <span class="share-btn" @click="shareProductHandle">
-            <img src="../../assets/imgs/icon_share@2x.png" alt="" width="16" height="16"><span>分享赚{{product.agent_fee}}</span>
+            <img src="../../assets/imgs/union/icon_share@2x.png" alt="" width="16" height="16"><span>分享赚{{product.agent_fee}}</span>
           </span>
           <span class="price fs-48 fw-800"
             :style="{'color': product.self_support ? '#EF9A1A' : '#fb605d'}">
@@ -418,7 +418,7 @@
     </transition>
     <!--分享按钮-->
     <div v-if="isShareBtn" class="share-box-show" @click="shareProductHandle">
-      <img src="../../assets/imgs/icon_share@2x.png" alt="" width="20" height="20">
+      <img src="../../assets/imgs/union/icon_share@2x.png" alt="" width="20" height="20">
     </div>
     <div class="share-box">
       <van-popup v-model="shareListShow" :overlay="false">

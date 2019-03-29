@@ -4,7 +4,7 @@
     <div style="padding-top: 46px;" class="main-box">
       <div class="count-item">
         <div class="detail">
-          <img src="../../../assets/imgs/icon_union@2x.png" alt="">
+          <img src="../../../assets/imgs/union/icon_union@2x.png" alt="">
           <div class="desc">
             <p class="name">稀饭盟友</p>
             <p v-if="JSON.stringify(friendReport) !== '{}'">产生{{friendReport.total.order}}个订单，帮我赚取了{{friendReport.total.income}}</p>
@@ -73,7 +73,7 @@ export default {
 </script>
 
 <style type="text/scss" lang="scss" scoped>
-  @import "~/assets/style/list.scss";
+  @import "~/assets/style/union/list.scss";
   .people-info{
     display: flex;
     text-align: left;
