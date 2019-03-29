@@ -606,6 +606,7 @@
       ])
     },
     async mounted() {
+      console.log(this.$route.query.productId)
       this.init()
       this.getProductData()
       this.$refs.refProductDetailPage.addEventListener("scroll", _throttle(this.scrollFn, 200));
