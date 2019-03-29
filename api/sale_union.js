@@ -74,7 +74,7 @@ export const getFriendReport = () => {
 }
 // 收益 incomeReport?test_id=100
 export const getIncomeReport = (typeId) => {
-  let url = typeId ? `/api/agent/incomeReport?sale_type=${typeId}`: '/union/agent/incomeReport'
+  let url = typeId ? `/api/agent/incomeReport?sale_type=${typeId}`: '/api/agent/incomeReport'
   return axios.get(url)
 }
 
