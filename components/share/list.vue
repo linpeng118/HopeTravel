@@ -35,24 +35,24 @@
     <div class="native-share">
       <div class="list-wrap">
         <ul>
-          <li @click="shareRender('wx')">
+          <li @click="shareRenderAll">
             <img src="../../assets/imgs/union/weixin_friend@2x.png" alt="">
             <p>微信好友</p>
           </li>
-          <li @click="shareRender('qq')">
+          <li @click="shareRenderAll">
             <img src="../../assets/imgs/union/qq@2x.png" alt="">
             <p>QQ好友</p>
           </li>
-          <li @click="shareRender('wxline')">
+          <li @click="shareRenderAll">
             <img src="../../assets/imgs/union/weixin@2x.png" alt="">
             <p>微信朋友圈</p>
           </li>
           <li @click="shareRender('sina')">
-            <img src="../../assets/imgs/union/sinaWeibo@2x.png" alt="">
+            <img src="../../assets/imgs/union/sinaweibo@2x.png" alt="">
             <p>新浪微博</p>
           </li>
           <li @click="copySomething"
-              v-clipboard:copy="'https://m.tourscool.com/product/detail?productId=' + data.product_id + '&referrer_id=' + data.customer_id"
+              v-clipboard:copy="copyLink()"
               v-clipboard:success="onCopy"
               v-clipboard:error="onError">
             <img src="../../assets/imgs/union/copy_link@2x.png" alt="">
@@ -65,12 +65,13 @@
       </div>
     </div>
     <div class="canvas-img" v-if="dataUrl">
+      <!--<img src="../../assets/imgs/xifantours_code.jpg" alt="" width="100%">-->
       <img :src="dataUrl" alt="">
     </div>
     <div class="sure-save">
       <van-popup v-model="show">
         <div>
-          <p>长按保存海报去分享</p>
+          <p>长按保存海报去分享</br>或者使用浏览器的分享</p>
           <div class="sure-save-img" @click="show=false">我知道了</div>
         </div>
       </van-popup>
@@ -100,6 +101,10 @@ export default {
   },
   props:{
     data:{
+      type: Object,
+      default: null
+    },
+    ids: {
       type: Object,
       default: null
     }
@@ -152,7 +157,7 @@ export default {
       var config = {
         title: this.data.name,
         desc: '',
-        link: 'https://m.tourscool.com/product/detail?productId=' + this.data.product_id + '&referrer_id=' + this.data.customer_id,
+        link: window.location.origin + '/product/detail?productId=' + this.ids.product_id + '-' + this.ids.customer_id + '&platform=sinaWeibo',
         types: ['wx', 'wxline', 'qq', 'qzone', 'sina'], // 开启的分享图标, 默认为全部
         infoMap: {
         },
@@ -162,6 +167,18 @@ export default {
       }
       Mshare.init(config)
       Mshare.to(value, config)
+    },
+    shareRenderAll() {
+      if(navigator.userAgent.indexOf('MicroMessenger') >= 0) {
+        this.shareRender('wx')
+      } else if(navigator.userAgent.indexOf('QBWebViewType') >= 0 || navigator.userAgent.indexOf('MQQBrowser') >= 0){
+        this.shareRender('qq')
+      } else {
+        this.show = true
+      }
+    },
+    copyLink(){
+      return window.location.origin + '/product/detail?productId=' + this.data.product_id + '-' + this.data.customer_id
     }
   },
 }

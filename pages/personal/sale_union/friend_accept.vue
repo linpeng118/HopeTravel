@@ -40,6 +40,7 @@
   import {getSmsCode, register} from '@/api/sale_union'
   import {SESSIONSTORE} from '@/assets/js/config'
   import {setSessionStore} from '@/assets/js/utils'
+  // import {getProfile} from '@/api/profile'
   import {mapMutations} from 'vuex'
   const TIME = 60 // 倒计时时间
   export default {

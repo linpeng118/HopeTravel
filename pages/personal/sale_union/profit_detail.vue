@@ -60,7 +60,7 @@ export default {
       prodPagination1: {},
       prodPagination2: {},
       loading: {},
-      finished:{}
+      finished:{},
     }
   },
   created(){

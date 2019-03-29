@@ -3,10 +3,10 @@
     <div class="desc-w">
       <div class="name">
         <p class="title">{{item.product_name}}</p>
-        <p>订单金额：{{item.price}}</p>
+        <p>订单金额：{{item.currency}}{{item.order_total}}</p>
       </div>
       <div class="price-box">
-        <p class="get-p">+{{item.order_fee}}</p>
+        <p class="get-p">{{item.currency}}{{item.income}}</p>
         <p class="status" :class="item.status !== 1 ? 'color': ''">
           {{item.status_name}}
         </p>
@@ -23,6 +23,10 @@ export default {
     item: {
       type: Object,
       default: null
+    },
+    currency: {
+      type: String,
+      default: '$'
     }
   }
 }

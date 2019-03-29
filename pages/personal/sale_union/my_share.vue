@@ -10,7 +10,7 @@
             <p v-if="JSON.stringify(shareReport) !== '{}'">{{shareReport.total.view}}个浏览，产生了{{shareReport.total.order}}个订单</p>
           </div>
           <div class="right" v-if="JSON.stringify(shareReport) !== '{}'">
-            <span class="num">{{shareReport.total.share}}</span> 人
+            <span class="num">{{shareReport.total.view}}</span> 个浏览
           </div>
         </div>
         <nuxt-link tag="div" class="link-btn" to="/personal/sale_union">越分享越有钱，分享永不止步</nuxt-link>
@@ -21,16 +21,16 @@
             <img :src="item.image" alt="">
             <p class="name">{{item.title}}</p>
           </van-col>
-          <van-col span="6" v-if="item.id !== 4">
-            <p class="num">{{item.share}}</p>
-            <p>分享</p>
-          </van-col>
-          <van-col span="6">
-            <p class="num">{{item.view}}</p>
+          <!--<van-col span="6" v-if="item.id !== 4">-->
+            <!--<p class="num">{{item.share || 0}}</p>-->
+            <!--<p>分享</p>-->
+          <!--</van-col>-->
+          <van-col span="9">
+            <p class="num">{{item.view || 0}}</p>
             <p>浏览</p>
           </van-col>
-          <van-col span="6">
-            <p class="num">{{item.order}}</p>
+          <van-col span="9">
+            <p class="num">{{item.order || 0}}</p>
             <p>订单</p>
           </van-col>
         </van-row>

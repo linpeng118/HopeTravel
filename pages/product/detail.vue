@@ -422,7 +422,7 @@
     </div>
     <div class="share-box">
       <van-popup v-model="shareListShow" :overlay="false">
-        <share-list @close="shareListShow = false" :data="shareDataInfo"></share-list>
+        <share-list @close="shareListShow = false" :data="shareDataInfo" :ids="ids"></share-list>
       </van-popup>
     </div>
   </div>
@@ -435,14 +435,15 @@
   import ProductDetailHeader from '@/components/header/productDetail'
   import ProdDetailImgItem from '@/components/items/prodDetailImgItem'
   import Loading from '@/components/loading'
-  import {getLocalStore, setLocalStore} from '@/assets/js/utils'
+  import {getLocalStore, setLocalStore, setSessionStore} from '@/assets/js/utils'
   import {OPERATE_TYPE} from '@/assets/js/consts'
   import {ENTITY_TYPE} from '@/assets/js/consts/products'
   import {DLG_TYPE} from '@/assets/js/consts/dialog'
   import {getProductDetail, addFavorite, delFavorite, schedule} from '@/api/products'
   import {getProfile} from '@/api/profile'
   import shareList from '@/components/share/list'
-  import {getCode,getBase64} from '@/api/sale_union'
+  import {getCode,getBase64,getViewStat} from '@/api/sale_union'
+  import {SESSIONSTORE} from '@/assets/js/config'
 
   export default {
     layout: 'default',
@@ -530,7 +531,8 @@
         isShareBtn: false, // 分享按钮是否显示
         shareListShow: false, // 是否显示分享列表
         shareDataInfo: {},
-        referrerId: ''
+        referrerId: '',
+        productId: ''
       }
     },
     computed: {
@@ -598,17 +600,17 @@
         })
         return newData.slice(0, 5)
       },
-      productId(){
-        let query = this.$route.query.productId
-        if(query.indexOf('-') >= 0){
-          return Number(query.split('-')[0])
-        } else {
-          return Number(query) || null
+      // ids
+      ids(){
+        return {
+          referrerId: this.referrerId,
+          productId: this.productId
         }
       }
     },
-    mounted() {
+    async mounted() {
       this.init()
+      this.getProductData()
       this.$refs.refProductDetailPage.addEventListener("scroll", _throttle(this.scrollFn, 200));
     },
     methods: {
@@ -617,7 +619,31 @@
         vxToggleDialog: 'toggleDialog', // 是否显示弹窗
         vxSetDlgType: 'setDlgType', // 设置弹窗类型
       }),
-      async init() {
+      // 产品ID，session保存
+      async init(){
+        let query = this.$route.query.productId + ''
+        let platform = this.$route.query.platform
+        let viewStat = {}
+        console.log(query)
+        if(query.indexOf('-') >= 0){
+          this.productId = Number(query.split('-')[0])
+          setSessionStore(SESSIONSTORE, query.split('-')[1])
+          viewStat.referrer_id = query.split('-')[1]
+          if(navigator.userAgent.indexOf('MicroMessenger') >= 0) {
+            viewStat.platform = 'weixin'
+            // alert('weixin')
+          } else if(navigator.userAgent.indexOf('QBWebViewType') >= 0 || navigator.userAgent.indexOf('MQQBrowser') >= 0){
+            viewStat.platform = 'qq'
+            // alert('qq')
+          } else if(platform) {
+            viewStat.platform = platform
+          }
+          await getViewStat(viewStat)
+        } else {
+          this.productId = Number(query) || null
+        }
+      },
+      async getProductData() {
         await this.getProductDetailData()
         if (!(this.product && this.product.product_id)) {
           this.jumpTo('/')
@@ -952,6 +978,7 @@
             path: `/login?redirect=${this.$route.fullPath}`,
           })
         } else if (code === 401) {
+          this.$notify(msg)
           return
         } else {
           let {product_id,name,default_price,special_price,images} = this.product

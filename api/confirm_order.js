@@ -20,7 +20,7 @@ export const addorder = (data,referrerId) => {
     url: `/api/order`,
     data,
     headers: {
-      'Referrer-Id': referrerId,
+      'Referrer-Id': referrerId || 0,
       'Channel':'m'
     }
   })

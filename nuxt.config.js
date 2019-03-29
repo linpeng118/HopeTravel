@@ -2,7 +2,7 @@ const TerserPlugin = require('terser-webpack-plugin')
 const pkg = require('./package')
 const pluginConfig = require('./config/plugins')
 const apiConfig = require('./apiConf.env')
-const axiosUrl = `http://192.168.1.205:${apiConfig.port}`
+const axiosUrl = `http://127.0.0.1:${apiConfig.port}`
 
 console.log('apiConfig:', apiConfig)
 console.log('axiosUrl:', axiosUrl)
@@ -20,7 +20,8 @@ module.exports = {
    */
   head: {
     title: '稀饭旅行网-美国旅游-加拿大当地跟团游-欧洲旅游-澳大利亚旅游-新西兰旅游-东南亚旅游-日本旅游',
-    meta: [{
+    meta: [
+      {
         charset: 'utf-8',
       },
       {
@@ -164,8 +165,8 @@ module.exports = {
     // https://github.com/nuxt/nuxt.js/pull/4600
     babel: {
       presets({
-        isServer
-      }) {
+                isServer
+              }) {
         return [
           [
             "@nuxt/babel-preset-app",

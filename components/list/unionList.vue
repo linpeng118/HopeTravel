@@ -1,11 +1,11 @@
 <template>
-  <div class="union-item" @click="selectDetail(item)">
+  <div class="union-item">
     <nuxt-link :to="`/product/detail?productId=${item.product_id}`" tag="div" class="img-box">
       <img :src="item.image" alt="">
     </nuxt-link>
     <div class="desc" >
       <nuxt-link class="title" tag="div" :to="`/product/detail?productId=${item.product_id}`">{{item.name}}</nuxt-link>
-      <div class="fx-p" v-if="!sight">{{'分销销额：' + item.agent_save}}</div>
+      <div class="fx-p" v-if="!sight">{{'分销销额：' + item.agent_sales}}</div>
       <div class="fx-p" v-if="sight" style="margin-top: 10px;">{{'点击量：' + item.score}}</div>
       <div class="price-box" v-if="!sight">
         <div>

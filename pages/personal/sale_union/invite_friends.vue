@@ -21,7 +21,6 @@
             <img :src="codeImg" alt="" @load="isLoadImg('code')">
           </div>
         </div>
-
         <div class="canvas-img" v-if="dataUrl">
           <img :src="dataUrl" alt="">
         </div>
@@ -91,7 +90,6 @@ export default {
       this.faceImage = 'data:image/jpg;base64,' + faceImg.data
     },
     async htmlChangeCanvas(){
-      console.log('zhixingl')
       let canvas = await html2canvas(document.querySelector('#saveImg'))
       this.dataUrl = canvas.toDataURL()
     },

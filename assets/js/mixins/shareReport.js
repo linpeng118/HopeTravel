@@ -22,10 +22,15 @@ export const shareReport = {
       this.changeShareReport(_obj)
     },
     _normalizeData(lists){
+      let _obj = {
+        'weixin': '微信好友',
+        'qq': 'QQ好友',
+        'sinaweibo':'新浪微博',
+        'm': '文章链接'
+      }
       lists.forEach(item => {
-        // if(item)
         item.image = require(`../../../assets/imgs/union/${item.platform}@2x.png`)
-        item.title = item.platform === 'weixin' ? '微信好友' : item.platform ==='qq' ? 'QQ好友' : '新浪微博'
+        item.title = _obj[item.platform]
       })
       return lists
     },

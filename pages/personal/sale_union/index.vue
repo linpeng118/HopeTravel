@@ -15,37 +15,37 @@
         </div>
       </div>
       <!--限时奖励-->
-      <div class="reward-time-box">
-        <van-swipe indicator-color="white">
-          <van-swipe-item v-for="timeItem in timeSalesList" :key="timeItem.product_id">
-            <div class="item">
-              <div class="desc">
-                <p class="title">{{timeItem.name}}</p>
-                <div class="price">
-                  赚 {{timeItem.agent_fee}}
-                </div>
-              </div>
-              <div class="time">
-                限时奖励 <span v-html="timeItem.time"></span>
-              </div>
-              <img :src="timeItem.image" alt="">
-            </div>
-          </van-swipe-item>
-        </van-swipe>
-      </div>
+      <!--<div class="reward-time-box">-->
+        <!--<van-swipe indicator-color="white">-->
+          <!--<van-swipe-item v-for="timeItem in timeSalesList" :key="timeItem.product_id">-->
+            <!--<div class="item">-->
+              <!--<div class="desc">-->
+                <!--<p class="title">{{timeItem.name}}</p>-->
+                <!--<div class="price">-->
+                  <!--赚 {{timeItem.agent_fee}}-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div class="time">-->
+                <!--限时奖励 <span v-html="timeItem.time"></span>-->
+              <!--</div>-->
+              <!--<img :src="timeItem.image" alt="">-->
+            <!--</div>-->
+          <!--</van-swipe-item>-->
+        <!--</van-swipe>-->
+      <!--</div>-->
       <!--产品列表-->
       <div class="hot-product-list">
         <van-tabs v-model="currentTab" title-active-color="#DB302C" color="transparent">
           <van-tab title="热销产品" >
-            <van-list v-model="prodLoadingsales" :finished="prodFinishedsales" finished-text="没有更多了" @load="onLoad">
-              <template v-for="hotItem in productListsales">
+            <van-list v-model="prodLoadingagent_sales" :finished="prodFinishedagent_sales" finished-text="没有更多了" @load="onLoad">
+              <template v-for="hotItem in productListagent_sales">
                 <union-item :key="hotItem.product_id + Math.random()" :item="hotItem" @select="selectProduct"></union-item>
               </template>
             </van-list>
           </van-tab>
           <van-tab title="超高佣金" >
-            <van-list v-model="prodLoadingprice" :finished="prodFinishedprice" finished-text="没有更多了" @load="onLoad">
-              <template v-for="hotItem in productListprice">
+            <van-list v-model="prodLoadingmargin" :finished="prodFinishedmargin" finished-text="没有更多了" @load="onLoad">
+              <template v-for="hotItem in productListmargin">
                 <union-item :key="hotItem.product_id + Math.random()" :item="hotItem" @select="selectProduct"></union-item>
               </template>
             </van-list>
@@ -60,7 +60,7 @@
     </div>
     <div class="share-box">
       <van-popup v-model="shareListShow" :overlay="false">
-        <share-list @close="closeShare" :data="shareDataInfo"></share-list>
+        <share-list @close="closeShare" :data="shareDataInfo" :ids="ids"></share-list>
       </van-popup>
     </div>
   </div>
@@ -77,38 +77,39 @@ import {profileInfo} from '@/assets/js/mixins/profile'
 export default {
   name: 'sale_union',
   components: {HeaderBar, UnionItem, shareList},
-  mixins: [summaryReport, profileInfo],
+  mixins: [profileInfo, summaryReport],
   data() {
     return {
       currentTab: 0,
-      productListprice: [], // 高佣金
-      productListsales: [], // 高销量
+      productListmargin: [], // 高佣金
+      productListagent_sales: [], // 高销量
       productListsight: [], // 热门景点
-      prodPaginationsales: {}, // 高销量分页数据
-      prodPaginationprice: {}, // 高佣金分页数据
+      prodPaginationagent_sales: {}, // 高销量分页数据
+      prodPaginationmargin: {}, // 高佣金分页数据
       prodPaginationsight: {}, // 热门景点分页数据
       sortResult: {
-        order_by: 'sales', // 热销sales，高佣金price
-        order: 'asc'
+        order_by: 'agent_sales', // 热销agent_sales，高佣金margin
+        order: 'desc'
       },
-      prodLoadingsales: false, // 是否处于加载状态，加载过程中不触发load事件
-      prodFinishedsales: false, // 是否已加载完成，加载完成后不再触发load事件
-      prodLoadingprice: false, // 是否处于加载状态，加载过程中不触发load事件
-      prodFinishedprice: false, // 是否已加载完成，加载完成后不再触发load事件
+      prodLoadingagent_sales: false, // 是否处于加载状态，加载过程中不触发load事件
+      prodFinishedagent_sales: false, // 是否已加载完成，加载完成后不再触发load事件
+      prodLoadingmargin: false, // 是否处于加载状态，加载过程中不触发load事件
+      prodFinishedmargin: false, // 是否已加载完成，加载完成后不再触发load事件
       prodLoadingsight: false, // 是否处于加载状态，加载过程中不触发load事件
       prodFinishedsight: false, // 是否已加载完成，加载完成后不再触发load事件
       timeSalesList: [], // 限时特价
       newList: [],
       shareListShow: false, // 是否显示分享列表
-      shareDataInfo: {}
+      shareDataInfo: {},
+      ids: {}
     }
   },
   watch:{
     currentTab(newValue) {
       if(newValue === 0) {
-        this.sortResult.order_by = 'sales'
+        this.sortResult.order_by = 'agent_sales'
       } else if(newValue === 1) {
-        this.sortResult.order_by = 'price'
+        this.sortResult.order_by = 'margin'
       } else {
         this.sortResult.order_by = 'sight'
       }
@@ -116,8 +117,8 @@ export default {
   },
   created(){
     this.tagsList = [
-      {id:1,order_by: 'sales',title: '热销产品'},
-      {id:2,order_by: 'price',title: '超高佣金'}
+      {id:1,order_by: 'agent_sales',title: '热销产品'},
+      {id:2,order_by: 'margin',title: '超高佣金'}
     ]
   },
   mounted(){
@@ -163,16 +164,15 @@ export default {
       let hour = Math.floor((maxtime / 3600) % 24 ); //计算小时
       let day = Math.floor((maxtime / 3600) / 24);//计算天
       return `<span>${this.numChangeT(day)}</span>天<span>${this.numChangeT(hour)}</span>时<span>${this.numChangeT(minite)}</span>分<span>${this.numChangeT(second)}</span>秒`
-      // return day+':'+this.numChangeT(hour)+':'+this.numChangeT(minite)+':'+this.numChangeT(second)
     },
     //
     async onLoad() {
       // 获取数据
-      console.log('onLoad', this['productList'+ this.sortResult.order_by])
+      console.log('onLoad', 'prodPagination' + this.sortResult.order_by)
       const submitData = {
         page: this['prodPagination' + this.sortResult.order_by].page + 1,
         orderBy: this.sortResult.order_by,
-        order: 'asc',
+        order: 'desc',
       }
       const res = await getProductList(submitData)
       this['productList'+ this.sortResult.order_by].push(...res.data)
@@ -192,7 +192,7 @@ export default {
         page: (this.prodPaginationsales.page || 0) + 1,
         // orderBy: this.sortResult.order_by || null,
         orderBy: 'sales',
-        order: 'asc',
+        order: 'desc',
       }
       const res = await getProductList(submitData)
       this.productListsales.push(...res.data)
@@ -211,7 +211,7 @@ export default {
       const submitData = {
         page: (this.prodPaginationprice.page || 0) + 1,
         orderBy: 'price',
-        order: 'asc',
+        order: 'desc',
       }
       const res = await getProductList(submitData)
       this.productListprice.push(...res.data)
@@ -235,6 +235,10 @@ export default {
       let {product_id,name,default_price,special_price,image} = item
       let {face,customer_id,chinese_name,email,phone,last_name,first_name,nickname} = this.profile
       this.shareListShow = true
+      this.ids = {
+        referrerId: customer_id,
+        productId: product_id
+      }
       let faceImg = await getBase64(face)
       let productImg = await getBase64(image)
       let code = await getCode(`${window.location.origin}/product/detail?productId=${product_id}-${customer_id}`)
@@ -282,7 +286,7 @@ export default {
       background:linear-gradient(180deg,rgba(253,141,103,1) 0%,rgba(245,41,30,1) 100%);
       box-shadow:0px 3px 6px rgba(0,43,100,0.16);
       color: #fff;
-      font-size: 12px;
+      font-size: 24px;
       align-items: center;
       justify-content: space-between;
       .left{

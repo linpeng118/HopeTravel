@@ -6,10 +6,10 @@
         新收益：{{newList[0]}}
       </van-notice-bar>
       <div class="income-detail">
-        <div class="top">
-          <img src="../../../assets/imgs/union/icon_user_gold.png" alt="">
-          <p><strong>黄金会员</strong> 收益提升10%</p>
-        </div>
+        <!--<div class="top">-->
+          <!--<img src="../../../assets/imgs/union/icon_user_gold.png" alt="">-->
+          <!--<p><strong>黄金会员</strong> 收益提升10%</p>-->
+        <!--</div>-->
         <div class="fortune-center">
           <p class="price" v-if="JSON.stringify(incomeReport) !== '{}'">{{incomeReport.currency}}{{incomeReport.income.total_income}}</p>
           <!--<nuxt-link to="/personal/transfercore" tag="p">我的收益，去提现 <van-icon name="arrow" /></nuxt-link>-->
@@ -42,7 +42,7 @@
             <img src="../../../assets/imgs/union/icon_union@2x.png" alt="">
             <div class="desc">
               <p class="name">稀饭盟友</p>
-              <p v-if="JSON.stringify(incomeReport) !== '{}'">产生{{incomeReport.friend.order}}个订单，帮我赚取了{{incomeReport.friend.income}}</p>
+              <p v-if="JSON.stringify(incomeReport) !== '{}'">产生{{incomeReport.friend.order}}个订单，帮我赚取了{{incomeReport.currency}}{{incomeReport.friend.income}}</p>
             </div>
             <div class="right">
               <span class="num" v-if="JSON.stringify(incomeReport) !== '{}'">{{incomeReport.friend.friend}}</span> 人
@@ -168,6 +168,7 @@ export default {
     .fortune-center{
       margin-bottom: 40px;
       text-align: center;
+      padding-top: 50px;
       .price{
         height: 66px;
         line-height: 66px;

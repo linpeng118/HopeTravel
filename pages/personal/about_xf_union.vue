@@ -3,7 +3,7 @@
     <header-bar title="稀饭联盟说明"></header-bar>
     <div style="padding-top: 46px">
       <div class="text-box">
-        <h2 class="title">1.什么是稀饭联盟？</h2>
+        <h2 class="title">什么是稀饭联盟？</h2>
         <p>
           稀饭联盟是稀饭旅行提供给注册用户的分享平台，联盟成员可通过分享获得奖励金。
         </p>
