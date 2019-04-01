@@ -601,7 +601,7 @@
         })
         return newData.slice(0, 5)
       },
-      ...mapGetters([
+      ...mapState([
         'profile'
       ])
     },
