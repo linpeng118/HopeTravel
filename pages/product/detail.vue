@@ -606,6 +606,7 @@
       ])
     },
     async mounted() {
+      window.localStorage.setItem('vuex', '')
       console.log('1111111111111')
       console.log(this.profile)
       console.log(this.$route.query.productId)
