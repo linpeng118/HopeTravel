@@ -429,7 +429,7 @@
 </template>
 
 <script>
-  import {mapMutations, mapState, mapGetters} from 'vuex';
+  import {mapMutations} from 'vuex';
   import {throttle as _throttle} from 'lodash'
   import {ImagePreview} from 'vant';
   import ProductDetailHeader from '@/components/header/productDetail'
@@ -979,20 +979,19 @@
       },
       // 分享
       async shareProductHandle() {
-        const {code, msg, data} = await getProfile()
+        const {code, data} = await getProfile()
         if (code === 700) {
-          console.log(this.$route.fullPath)
           this.$router.push({
             path: `/login?redirect=${this.$route.fullPath}`,
           })
         } else if (code === 401) {
-          this.$notify(msg)
+          // this.$notify(msg)
           return
         } else {
           let {product_id,name,default_price,special_price,images} = this.product
           let {face,customer_id,chinese_name,email,phone,last_name,first_name,nickname} = data
           this.shareListShow = true
-          this.ids= {
+          this.ids = {
             product_id,
             customer_id
           }
