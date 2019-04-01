@@ -29,11 +29,11 @@
             <span class="sale-price"><strong>{{data.special_price | showInt}}</strong>/起</span><span class="default-price" style="text-decoration: line-through">原价：{{data.default_price | showInt}}</span>
           </template>
           <span class="share-p">分享赚{{data.agent_fee}}</span>
-          <p>
-            <span v-for="(item,index) in data.coupons" class="setspecial" :key="index">
-              <i>{{item}}</i>
-            </span>
-          </p>
+          <!--<p>-->
+            <!--<span v-for="(item,index) in data.coupons" class="setspecial" :key="index">-->
+              <!--<i>{{item}}</i>-->
+            <!--</span>-->
+          <!--</p>-->
         </div>
       </div>
     </nuxt-link>

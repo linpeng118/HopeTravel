@@ -606,6 +606,7 @@
       ])
     },
     async mounted() {
+      console.log('1111111111111')
       console.log(this.$route.query.productId)
       this.init()
       this.getProductData()
