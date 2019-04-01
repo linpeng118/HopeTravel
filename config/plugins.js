@@ -87,10 +87,6 @@ let devPlugins = [
     src: '~/plugins/ga/facebook.js',
     ssr: false
   },
-  {
-    src: '~/plugins/vuex-persist',
-    ssr: false
-  },
 ]
 
 if (process.env.ENV_TYPE === 'prodDev') {

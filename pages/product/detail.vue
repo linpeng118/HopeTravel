@@ -49,10 +49,10 @@
         <!-- 价格 -->
         <div class="price-wrap">
           <span class="share-btn" @click="shareProductHandle" v-if="profile.is_agent">
-            <img src="../../assets/imgs/union/icon_share@2x.png" alt="" width="16" height="16"><span>分享赚{{product.agent_fee}}</span>
+            <img src="../../assets/imgs/union/icon_share@2x.png" alt="" width="16" height="16" />
+            <span>分享赚{{product.agent_fee}}</span>
           </span>
-          <span class="price fs-48 fw-800"
-            :style="{'color': product.self_support ? '#EF9A1A' : '#fb605d'}">
+          <span class="price fs-48 fw-800" :style="{'color': product.self_support ? '#EF9A1A' : '#fb605d'}">
             {{product.special_price ? product.special_price: product.default_price}}
             <span class="unit">&nbsp;起</span>
           </span>
@@ -607,6 +607,7 @@
     },
     async mounted() {
       console.log('1111111111111')
+      console.log(this.profile)
       console.log(this.$route.query.productId)
       this.init()
       this.getProductData()
