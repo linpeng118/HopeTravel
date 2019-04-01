@@ -533,7 +533,8 @@
         shareDataInfo: {},
         referrerId: '',
         productId: '',
-        ids: {}
+        ids: {},
+        profile: {}
       }
     },
     computed: {
@@ -600,18 +601,12 @@
           }
         })
         return newData.slice(0, 5)
-      },
-      ...mapState([
-        'profile'
-      ])
+      }
     },
     async mounted() {
-      // window.localStorage.setItem('vuex', '')
-      console.log('1111111111111')
-      console.log(this.profile)
-      console.log(this.$route.query.productId)
       this.init()
       this.getProductData()
+      this.initProfileData()
       this.$refs.refProductDetailPage.addEventListener("scroll", _throttle(this.scrollFn, 200));
       // window.location.href = window.location.href
     },
@@ -621,6 +616,14 @@
         vxToggleDialog: 'toggleDialog', // 是否显示弹窗
         vxSetDlgType: 'setDlgType', // 设置弹窗类型
       }),
+      async initProfileData() {
+        const {code, msg, data} = await getProfile()
+        let _obj = {}
+        if (code ===0) {
+          _obj = data
+        }
+        this.profile = _obj
+      },
       // 产品ID，session保存
       async init(){
         let query = this.$route.query.productId + ''
