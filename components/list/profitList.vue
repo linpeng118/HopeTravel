@@ -34,7 +34,7 @@ export default {
 
 <style type="text/scss" lang="scss" scoped>
   .profit-wrap{
-    height:160px;
+    /*height:160px;*/
     box-shadow:0px 4px 4px rgba(217,217,217,0.14);
     border-radius:12px;
     background-color: #fff;

@@ -33,7 +33,8 @@
 
 <script>
 import HeaderBar from '@/components/header/sale_union'
-import {getProfile} from '@/api/sale_union'
+import {mapGetters} from 'vuex'
+// import {getProfile} from '@/api/sale_union'
 export default {
   name: 'share_friends',
   components: {
@@ -61,6 +62,11 @@ export default {
       recommendInfo: {},
       checked: false
     }
+  },
+  computed:{
+    ...mapGetters([
+      'profile'
+    ])
   },
   mounted(){
     this.getRecommendInfo()

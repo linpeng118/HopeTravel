@@ -38,9 +38,7 @@
 <script>
 import HeaderBar from '@/components/header/sale_union'
 import {getCode,getBase64} from '@/api/sale_union'
-import {profileInfo} from '@/assets/js/mixins/profile'
-import {mapMutations,mapGetters} from 'vuex'
-import {getProfile} from '@/api/profile'
+import {mapGetters} from 'vuex'
 import html2canvas from 'html2canvas'
 export default {
   name: 'share_friends',
@@ -61,7 +59,7 @@ export default {
   components: {
     HeaderBar
   },
-  mixins:[profileInfo],
+  // mixins:[profileInfo],
   data(){
     return {
       codeImg: '',
@@ -71,11 +69,11 @@ export default {
       overLoadImg: '',
     }
   },
-  // computed: {
-  //   ...mapGetters([
-  //     'profile'
-  //   ])
-  // },
+  computed: {
+    ...mapGetters([
+      'profile'
+    ])
+  },
   watch:{
     overLoadImg(newValue) {
       console.log(newValue)
@@ -92,7 +90,7 @@ export default {
   },
   methods: {
     async getQRCode(){
-      // console.log(this.profile)
+      console.log(this.profile)
       let url = `${window.location.origin}/personal/sale_union/share_friends?referrer_id=${this.profile.customer_id}`
       let res = await getCode(url)
       this.codeImg = res.data

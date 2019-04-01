@@ -38,12 +38,11 @@
 <script>
 import HeaderBar from '@/components/header/sale_union'
 import profitDetail from '@/components/list/profitList'
-import {getIncomeReport} from '@/api/sale_union'
-import {summaryReport} from '@/assets/js/mixins/incomeReport'
+import {getIncomeReport,getSummaryReport} from '@/api/sale_union'
+// import {summaryReport} from '@/assets/js/mixins/incomeReport'
 export default {
   name: 'profit_detail',
   components: {HeaderBar,profitDetail},
-  mixins: [summaryReport],
   data() {
     return {
       currentTab: 0,
@@ -61,6 +60,7 @@ export default {
       prodPagination2: {},
       loading: {},
       finished:{},
+      incomeReport: {}
     }
   },
   created(){
@@ -71,9 +71,18 @@ export default {
     ]
   },
   mounted(){
+    this.incomeInit()
   },
   methods: {
     onClickLeft(){},
+    async incomeInit() {
+      let {code,data} = await getSummaryReport()
+      let _obj = {}
+      if(code === 0) {
+        _obj= data
+      }
+      this.incomeReport= _obj
+    },
     async onLoad(){
       // console.log('onLoad : ', this.currentTab)
       let res = await getIncomeReport(this.currentTab)

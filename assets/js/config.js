@@ -4,3 +4,6 @@ export const PRODUCTIDS = '__tourscool__product_ids'
 
 // SessionStore
 export const SESSIONSTORE = '__tourscool__referrer_id'
+
+// platform
+export const PLATFORM = '__tourscool__platform'

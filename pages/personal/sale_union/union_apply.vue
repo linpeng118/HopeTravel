@@ -73,7 +73,6 @@ import AreaCodeInput from '@/components/input/areaCode'
 import HeaderBar from '@/components/header/sale_union'
 import {getSmsCode, login} from '@/api/sale_union'
 import {getCountryTelcodes} from '@/api'
-import { getProfile } from "@/api/profile"
 import {mapGetters,mapMutations} from 'vuex'
 const TIME = 60 // 倒计时时间
 export default {
@@ -206,9 +205,6 @@ export default {
         }
       }, 1000)
     },
-    ...mapMutations({
-      vxSetProfile: 'profile/setProfile'
-    })
   }
 }
 </script>
