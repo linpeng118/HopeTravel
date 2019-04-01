@@ -46,21 +46,34 @@
 
 <script>
 import HeaderBar from '@/components/header/sale_union'
-import {friendReport} from '@/assets/js/mixins/friendReport'
+// import {friendReport} from '@/assets/js/mixins/friendReport'
+import {getFriendReport} from '@/api/sale_union'
 export default {
   name: 'my_share',
   components: {
     HeaderBar
   },
-  mixins:[friendReport],
+  // mixins:[friendReport],
   data() {
     return {
+      friendReport: {}
     }
   },
+  computed: {
+
+  },
   mounted(){
-    console.log(this.friendReport)
+    this.friendInit()
   },
   methods:{
+    async friendInit() {
+      let {code,data} = await getFriendReport()
+      let _obj = {}
+      if(code === 0) {
+        _obj= data
+      }
+      this.friendReport = _obj
+    },
     goToPathShare(value) {
       if(value === 'shareFriends') {
         this.$router.push({

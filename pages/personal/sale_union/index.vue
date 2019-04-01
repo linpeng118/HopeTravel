@@ -69,15 +69,16 @@
 <script>
 import HeaderBar from '@/components/header/sale_union'
 import UnionItem from '@/components/list/unionList'
-import {getProductList,getNewIncome, getBase64, getCode} from '@/api/sale_union'
+import {getProductList,getNewIncome, getBase64, getCode,getSummaryReport} from '@/api/sale_union'
 import {getHomeData} from '@/api/home'
-import {summaryReport} from '@/assets/js/mixins/incomeReport'
+// import {summaryReport} from '@/assets/js/mixins/incomeReport'
 import shareList from '@/components/share/list'
-import {profileInfo} from '@/assets/js/mixins/profile'
+// import {profileInfo} from '@/assets/js/mixins/profile'
+import {mapGetters} from 'vuex'
 export default {
   name: 'sale_union',
   components: {HeaderBar, UnionItem, shareList},
-  mixins: [profileInfo, summaryReport],
+  // mixins: [summaryReport],
   data() {
     return {
       currentTab: 0,
@@ -101,8 +102,14 @@ export default {
       newList: [],
       shareListShow: false, // 是否显示分享列表
       shareDataInfo: {},
-      ids: {}
+      ids: {},
+      incomeReport: {}
     }
+  },
+  computed:{
+    ...mapGetters([
+      'profile'
+    ])
   },
   watch:{
     currentTab(newValue) {
@@ -125,8 +132,17 @@ export default {
     this.init()
     this.getTime()
     this.getNewsList()
+    this.incomeInit()
   },
   methods: {
+    async incomeInit() {
+      let {code,data} = await getSummaryReport()
+      let _obj = {}
+      if(code === 0) {
+        _obj= data
+      }
+      this.incomeReport = _obj
+    },
     //初始化
     async init(){
       let {code, data} = await getHomeData()

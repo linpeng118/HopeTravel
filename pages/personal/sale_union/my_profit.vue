@@ -92,23 +92,36 @@
 
 <script>
 import HeaderBar from '@/components/header/sale_union'
-import {shareReport} from '@/assets/js/mixins/shareReport'
+// import {shareReport} from '@/assets/js/mixins/shareReport'
 import {summaryReport} from '@/assets/js/mixins/incomeReport'
-import {getNewIncome} from '@/api/sale_union'
+import {getNewIncome,getSummaryReport} from '@/api/sale_union'
+import {mapGetters} from 'vuex'
 export default {
   name: 'my_profit',
   components: {HeaderBar},
-  mixins: [summaryReport],
+  // mixins: [summaryReport],
   data(){
     return {
-      newList: []
+      newList: [],
+      incomeReport: {}
     }
+  },
+  computed:{
   },
   mounted(){
     this.getNewsList()
+    this.incomeInit()
   },
   methods: {
     onClickLeft() {},
+    async incomeInit() {
+      let {code,data} = await getSummaryReport()
+      let _obj = {}
+      if(code === 0) {
+        _obj= data
+      }
+      this.incomeReport = _obj
+    },
     goToPathShare(value) {
       if(value === 'week') {
         this.$router.push({

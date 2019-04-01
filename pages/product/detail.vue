@@ -443,7 +443,7 @@
   import {getProfile} from '@/api/profile'
   import shareList from '@/components/share/list'
   import {getCode,getBase64,getViewStat} from '@/api/sale_union'
-  import {SESSIONSTORE} from '@/assets/js/config'
+  import {SESSIONSTORE,PLATFORM} from '@/assets/js/config'
 
   export default {
     layout: 'default',
@@ -630,12 +630,15 @@
           viewStat.referrer_id = query.split('-')[1]
           if(navigator.userAgent.indexOf('MicroMessenger') >= 0) {
             viewStat.platform = 'weixin'
+            setSessionStore(PLATFORM, 'weixin')
             // alert('weixin')
           } else if(navigator.userAgent.indexOf('QBWebViewType') >= 0 || navigator.userAgent.indexOf('MQQBrowser') >= 0){
             viewStat.platform = 'qq'
+            setSessionStore(PLATFORM, 'qq')
             // alert('qq')
           } else if(platform) {
             viewStat.platform = platform
+            setSessionStore(PLATFORM, platform)
           }
           await getViewStat(viewStat)
         } else {
