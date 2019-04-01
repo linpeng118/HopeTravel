@@ -1,9 +1,8 @@
-// ~/plugins/vuex-persist.js
-import VuexPersistence from 'vuex-persist'
+import createPersistedState from 'vuex-persistedstate'
 
 export default ({store}) => {
-  // console.log('1234567')
-  return new VuexPersistence({
+  createPersistedState({
     /* your options */
-  }).plugin(store);
+    key: 'tourscool_vuex'
+  })(store)
 }
