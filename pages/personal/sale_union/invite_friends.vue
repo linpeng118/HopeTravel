@@ -38,8 +38,9 @@
 <script>
 import HeaderBar from '@/components/header/sale_union'
 import {getCode,getBase64} from '@/api/sale_union'
-import {mapGetters} from 'vuex'
+import {mapGetters,mapMutations} from 'vuex'
 import html2canvas from 'html2canvas'
+import {getProfile} from '@/api/profile'
 export default {
   name: 'share_friends',
   filters: {
@@ -83,9 +84,9 @@ export default {
     }
   },
   mounted(){
-    // if(JSON.stringify(this.profile) === '{}'){
-    //   this.profileInit()
-    // }
+    if(JSON.stringify(this.profile) === '{}'){
+      this.profileInit()
+    }
     this.getQRCode()
   },
   methods: {
@@ -104,17 +105,18 @@ export default {
     isLoadImg(value){
       this.overLoadImg += value
     },
-    // async profileInit() {
-    //   let {code,data} = await getProfile()
-    //   let _obj = {}
-    //   if(code === 0) {
-    //     _obj= data
-    //   }
-    //   this.changeSetProfile(_obj)
-    // },
-    // ...mapMutations({
-    //   changeSetProfile: 'profile/setProfile',
-    // })
+    async profileInit() {
+      let {code,data} = await getProfile()
+      let _obj = {}
+      if(code === 0) {
+        _obj= data
+      }
+      this.changeSetProfile(_obj)
+
+    },
+    ...mapMutations({
+      changeSetProfile: 'profile/setProfile',
+    })
   }
 }
 </script>

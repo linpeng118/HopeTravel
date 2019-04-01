@@ -161,9 +161,10 @@
         this.loading = false;
       },
       async addOrderx(){
-        this.loading = true;
+        this.loading = true
         let referer_id = getSessionStore(SESSIONSTORE) || ''
         let platform = getSessionStore(PLATFORM) || ''
+        console.log(this.addorder, referer_id, platform)
         let {data, code , msg} = await addorder(this.addorder, referer_id, platform)
         if (code === 0) {
           this.$refs.order_id.value=data.order_id;

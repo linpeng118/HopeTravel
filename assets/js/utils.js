@@ -41,7 +41,7 @@ function setSessionStore(name, content) {
  */
 function getSessionStore(name) {
   if (!name) return;
-  return JSON.parse(window.sessionStorage.getItem(name))
+  return window.sessionStorage.getItem(name)
 }
 
 /**
