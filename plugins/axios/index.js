@@ -6,6 +6,9 @@ from '@/assets/js/utils'
 import {
   TOKEN_KEY
 } from '@/assets/js/config'
+import {
+  Notify
+} from 'vant';
 
 export default function ({
   $axios,

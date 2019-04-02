@@ -10,6 +10,8 @@
           <div class="rice">
             <span>米粒：{{profile.total_points}}</span>
             <button @click="myRice">查看</button>
+            <span>优惠卷：{{profile.total_coupons||0}}张</span>
+            <button @click="myCon">查看</button>
           </div>
         </div>
         <div class="user-edit" @click="editInfo">
@@ -143,6 +145,18 @@ export default {
       if(this.isLogin) {
         this.$router.push({
           path: "/personal/account_rice"
+        });
+      } else {
+        this.$router.push({
+          path: '/login?redirect=personal'
+        })
+      }
+    },
+    myCon() {
+      //跳转我的优惠卷
+      if(this.isLogin) {
+        this.$router.push({
+          path: "/personal/coupon"
         });
       } else {
         this.$router.push({
