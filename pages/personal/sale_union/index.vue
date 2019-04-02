@@ -60,7 +60,7 @@
     </div>
     <div class="share-box">
       <van-popup v-model="shareListShow" :overlay="false">
-        <share-list @close="closeShare" :data="shareDataInfo" :ids="ids"></share-list>
+        <share-list @close="closeShare" :data="shareDataInfo" :ids="ids" :isUnion="true"></share-list>
       </van-popup>
     </div>
   </div>

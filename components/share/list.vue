@@ -107,6 +107,10 @@ export default {
     ids: {
       type: Object,
       default: null
+    },
+    isUnion:{
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -169,14 +173,17 @@ export default {
       Mshare.to(value, config)
     },
     shareRenderAll() {
-      if(navigator.userAgent.indexOf('MicroMessenger') >= 0) {
-        this.shareRender('wx')
-      } else if(navigator.userAgent.indexOf('QBWebViewType') >= 0 || navigator.userAgent.indexOf('MQQBrowser') >= 0){
-        this.shareRender('qq')
-      } else {
+      if(this.isUnion) {
         this.show = true
+      } else {
+        if(navigator.userAgent.indexOf('MicroMessenger') >= 0) {
+          this.shareRender('wx')
+        } else if(navigator.userAgent.indexOf('QBWebViewType') >= 0 || navigator.userAgent.indexOf('MQQBrowser') >= 0){
+          this.shareRender('qq')
+        } else {
+          this.show = true
+        }
       }
-      // this.show = true
     },
     copyLink(){
       return window.location.origin + '/product/detail?productId=' + this.data.product_id + '-' + this.data.customer_id
