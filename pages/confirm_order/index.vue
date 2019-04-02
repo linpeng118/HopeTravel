@@ -242,6 +242,7 @@
     watch:{
       get_vuex_countprice(val){
         this.countprice=val;
+        this.checkedtrvel=val.attributes;
       },
       'get_vuex_pricelist' : {
         handler:function(val) {
