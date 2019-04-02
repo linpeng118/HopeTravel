@@ -257,7 +257,6 @@
         if (code === 0) {
           this.$toast('手机号注册成功！')
           this.$emit('registCallBack')
-          // fbq('track', 'CompleteRegistration')
         } else {
           this.$toast(msg)
         }

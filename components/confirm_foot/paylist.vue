@@ -44,20 +44,15 @@
           </template>
         </li>
 
-        <li class="paysection" v-if="payData.discount">
+        <li class="paysection" v-if="payData.discount&&showmili=='1'">
           <p class="payitem">
             <span>优惠:</span>
             <span :style="'color:#aaa;text-decoration:line-through'">-{{payData.discount}}</span>
           </p>
-          <p class="payitem2" v-if="payData.points&&showmili=='1'" >
+          <p class="payitem2" v-if="payData.points" >
             <span>米粒</span>
             <span style="text-decoration:line-through;color:#aaa;"><i :style="'color:#aaa'">-</i>
                 {{payData.points.discount}}</span>
-          </p>
-          <p class="payitem2" v-if="payData.coupons" >
-            <span>优惠卷</span>
-            <span style="text-decoration:line-through;color:#aaa;"><i :style="'color:#aaa'">-</i>
-                {{payData.coupons.save}}</span>
           </p>
         </li>
 

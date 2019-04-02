@@ -120,11 +120,6 @@
       },
       // 登陆回调
       loginCallBack() {
-        try {
-          fbq('track', 'Lead')
-        } catch (error) {
-          console.log(error)
-        }
         // 弹窗登录/页面登录
         if (this.isDialog) {
           this.vxToggleLoginDlg(false)
@@ -148,20 +143,10 @@
       },
       // 注册回调
       registCallBack() {
-        try {
-          fbq('track', 'Lead')
-        } catch (error) {
-          console.log(error)
-        }
         this.vxChangePage(PAGE_TYPE.LOGIN)
       },
       // 找回密码回调
       nextCallBack() {
-        try {
-          fbq('track', 'Lead')
-        } catch (error) {
-          console.log(error)
-        }
         this.vxChangePage(PAGE_TYPE.CHANGE)
       },
       // 修改密码中没有数据
@@ -170,11 +155,6 @@
       },
       // 修改密码回调
       changeCallBack() {
-        try {
-          fbq('track', 'Lead')
-        } catch (error) {
-          console.log(error)
-        }
         this.vxChangePage(PAGE_TYPE.LOGIN)
       },
     },

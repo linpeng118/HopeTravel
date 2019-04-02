@@ -10,19 +10,10 @@ export const countprice = (data) => {
       product_departure: data.product_departure||'',
       attributes: data.attributes||[],
       is_point: data.is_point||false,
-      coupon_cus_id:data.coupon_cus_id||'',
     }
   })
 }
 export const addorder = (data) => {
   return axios.post(`/api/order`, data)
 }
-//获取我的可用优惠卷
-export const orderCouponList = (data) => {
-  return axios.get(`/api/product/${data.product_id}/usablecoupon`,{
-    params: {
-      departure: data.departure,
-      price:data.price,
-    }
-  })
-}
+

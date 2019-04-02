@@ -2,7 +2,7 @@ const TerserPlugin = require('terser-webpack-plugin')
 const pkg = require('./package')
 const pluginConfig = require('./config/plugins')
 const apiConfig = require('./apiConf.env')
-const axiosUrl = `http://192.168.1.188:${apiConfig.port}`
+const axiosUrl = `http://127.0.0.1:${apiConfig.port}`
 
 console.log('apiConfig:', apiConfig)
 console.log('axiosUrl:', axiosUrl)
@@ -57,15 +57,8 @@ module.exports = {
       type: 'text/javascript',
       charset: 'utf-8',
     }, {
-      src: '/polyfill/index.js',
+      src: 'https://cdn.polyfill.io/v2/polyfill.min.js',
       type: 'text/javascript',
-      charset: 'utf-8',
-    }, {
-      src: 'https://hm.baidu.com/hm.js?9bfbbc9f24159633a14d3b4f37db769b'
-    }, {
-      src: 'https://hm.baidu.com/hm.js?03f91ebf7f5ac08015d9f98fa0dc22fc'
-    }, {
-      src: 'https://hm.baidu.com/hm.js?72a266736d8b5b47605e2d2ad18f0756'
     }],
     __dangerouslyDisableSanitizers: ['script'],
   },
@@ -99,15 +92,7 @@ module.exports = {
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios',
-    ['@nuxtjs/google-analytics', {
-      id: 'UA-124174609-2'
-    }],
-    '@nuxtjs/sentry',
   ],
-  sentry: {
-    dsn: `${apiConfig.dsnSentry}`, // Enter your project's DSN here
-    config: {}, // Additional config
-  },
   /*
    ** Axios module configuration
    */
@@ -115,7 +100,7 @@ module.exports = {
     proxy: true,
     // prefix: '/api', // baseURL
     credentials: true,
-    baseURL: axiosUrl, // 本地接口请求配置
+    // baseURL: axiosUrl, // 接口请求配置
   },
   // 配置代理
   proxy: {
@@ -149,9 +134,9 @@ module.exports = {
     // parallel: true, // 多进程
     // IE或者Edge下报错原因：（https://github.com/Rich-Harris/devalue/issues/16）
     // 处理
-    // https://github.com/nuxt/nuxt.js/issues/4432
     // https://github.com/nuxt/nuxt.js/issues/4643
     // https://github.com/nuxt/nuxt.js/pull/4600
+    // https://github.com/nuxt/nuxt.js/issues/4432
     babel: {
       presets({
         isServer

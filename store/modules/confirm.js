@@ -18,7 +18,6 @@ export default {
       is_point: false,//是否使用积分
       adult:0,
       child:0,
-      coupon_cus_id:'',
     },
       pricelist: {}//价格明细列表和一些确认订单页面选项值
   },
@@ -72,7 +71,6 @@ export default {
         is_point: false,//是否使用积分
         adult:0,
         child:0,
-        coupon_cus_id:''
       }
       localStorage.setItem('countprice', JSON.stringify(state[mut.countprice]))
     },
@@ -88,7 +86,6 @@ export default {
         is_point: false,//是否使用积分
         adult:0,
         child:0,
-        coupon_cus_id:''
       }
       // console.log('成功执行init')
     },

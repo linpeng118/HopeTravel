@@ -30,7 +30,10 @@
             <span class="default-price" style="text-decoration: line-through">原价：{{data.default_price | showInt}}</span>
           </template>
           <span v-for="(item,index) in data.coupons" class="setspecial" :key="index">
-             <i>{{item}}</i>
+             <i v-if="item.full_with>0">满{{item.full_with}}</i>
+             <i v-if="item.type=='cash'">{{item.minus_off}}</i>
+             <i v-if="item.type=='minus'">减{{item.minus_off}}</i>
+             <i v-if="item.type=='percent'">{{item.minus_off}}折</i>
           </span>
         </div>
       </div>
@@ -199,12 +202,11 @@ export default {
   }
   .setspecial{
     line-height: 22px;
-    font-size: 13px;
+    font-size: 11px;
     font-weight: 300;
     color:rgba(251,96,93,1);
     border: 1px solid rgba(251,96,93,1);
-    padding: 15px;
+    padding: 10px;
     border-radius: 8px;
-    margin-right: 10px;
   }
 </style>
