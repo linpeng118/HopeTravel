@@ -778,11 +778,118 @@
   }
 }
 .setspecial{
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 300;
-  color:rgba(251,96,93,1);
-  border: 2px solid rgba(251,96,93,1);
-  padding:10px 20px;
+  background:rgba(251,96,93,1) ;
+  color:#fff;
+  padding:15px;
   border-radius: 8px;
   margin-right:10px;
+}
+.ileft{
+  display: inline-block;
+  position: relative;
+  width: 14px;
+  height: 14px;
+  border-radius: 14px;
+  background-color: #fff;
+  left: -17px;
+  top: -3px;
+}
+.iright{
+  display: inline-block;
+  position: relative;
+  width: 14px;
+  height: 14px;
+  border-radius: 14px;
+  background: #fff;
+  left: 17px;
+  top: -3px;
+
+}
+.cup-class{
+  font-size:24px;
+  line-height:32px;
+  color:rgba(112,112,112,1);
+  padding-top: 10px;
+}
+.cup-item{
+  width:670px;
+  height:140px;
+  margin-top: 30px;
+  background:rgba(255,255,255,1);
+  box-shadow:0px 2px 12px rgba(65,63,63,0.16);
+  opacity:1;
+  border-radius:8px;
+  .cupleft{
+    padding-top: 20px;
+    float: left;
+    width:228px;
+    height: 140px;
+    text-align: center;
+    background-image:url('../../assets/imgs/color.png');
+    background-repeat: no-repeat;
+    background-position: 0;
+    background-size: 228px 140px;
+    .p1{
+      font-size:40px;
+      font-weight:bold;
+      line-height:52px;
+      color:rgba(255,255,255,1);
+    }
+    .p2{
+      font-size:24px;
+      font-weight:400;
+      line-height:32px;
+      color:rgba(255,255,255,1);
+    }
+
+  }
+  .cupcon{
+    float: left;
+    width:280px;
+    height: 140px;
+    text-align: left;
+    padding-left: 20px;
+    padding-top: 32px;
+    .p1{
+      font-size:24px;
+      font-weight:bold;
+      line-height:36px;
+      color:#707070;
+    }
+    .p2{
+      font-size:20px;
+      line-height:28px;
+      color:#707070;
+    }
+  }
+  .cupright{
+    float: left;
+    width:120px;
+    height: 140px;
+    text-align: center;
+    padding-top: 50px;
+    .btn1{
+      width:120px;
+      height:40px;
+      background:linear-gradient(180deg,rgba(27,141,255,1) 0%,rgba(53,201,255,1) 100%);
+      opacity:1;
+      border-radius:40px;
+      display: block;
+      font-size:24px;
+      line-height:40px;
+      color:rgba(255,255,255,1);
+    }
+    .btn2{
+      width:120px;
+      display: block;
+      height:40px;
+      border:2px solid rgba(194,194,194,1);
+      border-radius:40px;
+      font-size:24px;
+      line-height:40px;
+      color:rgba(194,194,194,1);
+    }
+  }
 }

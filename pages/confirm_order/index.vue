@@ -140,13 +140,15 @@
         </div>
       </section>
       <!--优惠信息-->
-      <section v-if="pricelist.points&&pricelist.points.point">
+      <section >
         <div class="confirm-item">
           <p class="item-title">优惠信息</p>
-          <div class="item-con">
+          <div class="item-con" v-if="pricelist.points&&pricelist.points.point">
          <span>
            <i class="seti">米粒</i>
-           <i class="seti" style="color: #bbb">共有米粒{{pricelist.points.total_point}}，本次可用{{pricelist.points.point}}米粒抵用{{pricelist.points.discount}}</i>
+           <i class="seti" style="color: #bbb">
+             共有米粒{{pricelist.points.total_point}}，本次可用{{pricelist.points.point}}米粒抵用{{pricelist.points.discount}}
+           </i>
          </span>
             <van-switch
               v-model="countprice.is_point"
@@ -154,7 +156,48 @@
               size="2em"
             />
           </div>
+          <p class="item-con" @click="getCouponList('show')" style="border: 1px solid #ebedf0">
+             <span>
+           <i class="seti">优惠卷</i>
+           <i v-if="showsetcou!=''" class="seti" style="color: #1989fa">
+             {{showsetcou}}
+           </i>
+           <i v-else class="seti" style="color: #bbb">暂未选择</i>
+             </span>
+            <span> <van-icon color="#404040" name="arrow" size="1.2em" class="settopicon"/></span>
+
+
+          </p>
         </div>
+          <van-actionsheet v-model="showcheckCou"
+                           title="优惠卷"
+                           class="service-note">
+            <van-radio-group v-model="setcou">
+
+              <div class="setcheck">
+                <span>暂不选择任何优惠卷</span>
+                <van-radio name="null" style="width: 30%;float: right;display: inline-block"> </van-radio>
+              </div>
+              <div class="cup-item"
+                   v-for="(item,index) in couponDetails"
+                   :key="index">
+                <div class="cupleft">
+                  <p class="p1">{{item.minus_label}}</p>
+                  <p class="p2">{{item.full_label}}</p>
+                </div>
+                <div class="cupcon">
+                  <p class="p1">{{item.title}}</p>
+                  <p class="p2">{{item.date_label}}</p>
+                </div>
+                <div class="cupright">
+                  <van-radio :name="item"></van-radio>
+                </div>
+              </div>
+            </van-radio-group>
+            <div class="checkcoubtn" @click="setcoupon()">确认</div>
+
+          </van-actionsheet>
+
       </section>
       <!--预定留言-->
       <section>
@@ -189,14 +232,13 @@
       </section>
     </section>
   </section>
-
-
 </template>
 
 <script>
 
   import ConfirmFoot from '@/components/confirm_foot/foot.vue'
   import {getquhao} from '@/api/contacts'
+  import {orderCouponList} from '@/api/confirm_order'
   export default {
     components: {
       ConfirmFoot
@@ -221,6 +263,10 @@
         tongyi:true,
         comment:'',
         contact:{"name":"","phone":"","email":""},
+        showcheckCou:false,
+        couponDetails:[],//我的优惠卷列表
+        setcou:{},
+        showsetcou:'',
 
       }
     },
@@ -242,6 +288,7 @@
     watch:{
       get_vuex_countprice(val){
         this.countprice=val;
+        this.checkedtrvel=val.attributes;
       },
       'get_vuex_pricelist' : {
         handler:function(val) {
@@ -252,7 +299,8 @@
       },
       'countprice.is_point'(val){
         this.$store.commit("countprice", {is_point:val});
-      }
+      },
+
     },
     created(){
 
@@ -265,6 +313,7 @@
         this.$router.go(-2);
       }
       this.getqu();
+      this.getCouponList();
     },
     methods: {
       //获得价格日历数据
@@ -276,6 +325,38 @@
           // this.pricedate = []
         }
       },
+
+      //获得可用优惠卷列表
+      async getCouponList(type) {
+        let this_=this;
+        let objdata = {
+          product_id:this.product.product_id,
+          departure:this.countprice.departure_date,
+          price:this.pricelist.price,
+        }
+        let {data, code} = await orderCouponList(objdata)
+        if(code === 0) {
+          this.couponDetails = data;
+        }
+        else {
+          this.couponDetails = [];
+        }
+        if(type){
+          this.showcheckCou=true;
+        }
+        else{
+          if(this_.countprice.coupon_cus_id!=''&&this_.couponDetails.length){
+            for(let i=0;i<this_.couponDetails.length;i++){
+              if(this_.couponDetails[i].coupon_customer_id == this_.countprice.coupon_cus_id){
+                this_.setcou=this_.couponDetails[i];
+                this_.showsetcou=this_.couponDetails[i].title;
+                this_.$store.commit("countprice", {coupon_cus_id:this_.couponDetails[i].coupon_customer_id});
+              }
+            }
+          }
+        }
+      },
+
       //设置页头数据
       settitletip() {
         this.countprice=this.get_vuex_countprice;
@@ -386,7 +467,7 @@
       },
       onChangequ(picker){
        this.checkqu=picker.tel_code;
-       this.showsel=false
+       this.showsel=false;
       },
       getaddoder(){
          let objarr=[];
@@ -412,8 +493,20 @@
           users:objarr,
           contact:this.contact,
           integral:this.countprice.is_point?point:'',//积分
+          coupon_cus_id: this.countprice.coupon_cus_id
         }
          return addorder
+      },
+      setcoupon(){
+        if(this.setcou=='null'){
+          this.showsetcou='';
+          this.$store.commit("countprice", {coupon_cus_id:''});
+        }
+        else{
+          this.showsetcou=this.setcou.title;
+          this.$store.commit("countprice", {coupon_cus_id:this.setcou.coupon_customer_id});
+        }
+        this.showcheckCou=false
       }
 
 
@@ -424,6 +517,122 @@
 </script>
 
 <style lang="scss" scoped>
+
+  .checkcoubtn{
+    width:440px;
+    height:72px;
+    margin-left: 130px;
+    line-height: 72px;
+    text-align: center;
+    font-size:32px;
+    color: #fff;
+    margin-top: 50px;
+    background:rgba(57,158,246,1);
+    opacity:1;
+    border-radius:36px;
+  }
+  .service-note{
+    padding: 0 0 50px 40px;
+  }
+  .setcheck{
+    span{
+      font-size: 24px;
+    }
+    div{
+      width:120px;
+      text-align: right;
+      margin-right: 80px;
+      float: right;
+
+    }
+  }
+  .cup-class{
+    font-size:24px;
+    line-height:32px;
+    color:rgba(112,112,112,1);
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+  .cup-item{
+    width:670px;
+    height:140px;
+    margin-top: 30px;
+    background:rgba(255,255,255,1);
+    box-shadow:0px 2px 12px rgba(65,63,63,0.16);
+    opacity:1;
+    border-radius:8px;
+    .cupleft{
+      padding-top: 20px;
+      float: left;
+      width:228px;
+      height: 140px;
+      text-align: center;
+      background-image:url('../../assets/imgs/color.png');
+      background-repeat: no-repeat;
+      background-position: 0;
+      background-size: 228px 140px;
+      .p1{
+        font-size:40px;
+        font-weight:bold;
+        line-height:52px;
+        color:rgba(255,255,255,1);
+      }
+      .p2{
+        font-size:24px;
+        font-weight:400;
+        line-height:32px;
+        color:rgba(255,255,255,1);
+      }
+
+    }
+    .cupcon{
+      float: left;
+      width:280px;
+      height: 140px;
+      text-align: left;
+      padding-left: 20px;
+      padding-top: 32px;
+      .p1{
+        font-size:24px;
+        font-weight:bold;
+        line-height:36px;
+        color:#707070;
+      }
+      .p2{
+        font-size:20px;
+        line-height:28px;
+        color:#707070;
+      }
+    }
+    .cupright{
+      float: left;
+      width:120px;
+      height: 140px;
+      text-align: right;
+      padding-top: 35px;
+      .btn1{
+        width:120px;
+        height:40px;
+        background:linear-gradient(180deg,rgba(27,141,255,1) 0%,rgba(53,201,255,1) 100%);
+        opacity:1;
+        border-radius:40px;
+        display: block;
+        font-size:24px;
+        line-height:40px;
+        color:rgba(255,255,255,1);
+      }
+      .btn2{
+        width:120px;
+        display: block;
+        height:40px;
+        border:2px solid rgba(194,194,194,1);
+        border-radius:40px;
+        font-size:24px;
+        line-height:40px;
+        color:rgba(194,194,194,1);
+      }
+    }
+  }
   .setprop{
     width: 90%;
     border-radius: 12px;
@@ -616,7 +825,9 @@
   }
   }
   }
-
+.settopicon{
+  top: -8.5px!important;
+}
 
 
 </style>

@@ -61,10 +61,12 @@
       <!-- 特色 -->
       <div class="destination mt-24">
         <div class="item-wrap"
-             @click="onServerCop">
+             @click="onServerCop" v-if="couponList&&couponList.length">
           <div class="item-list">
               <span v-for="(item,index) in couponList" class="setspecial" :key="index">
+                <i class="ileft"></i>
                 {{item}}
+                 <i class="iright"></i>
                 </span>
           </div>
           <div class="item-arrow">
@@ -360,18 +362,29 @@
           <p class="desc">{{item.content}}</p>
         </div>
       </van-actionsheet>
-      <!-- 服务说明 -->
-      <van-actionsheet v-model="showServiceNode"
-                       title="服务说明"
+      <!-- 优惠卷展开 -->
+      <van-actionsheet v-model="showServiceCop"
+                       title="优惠卷"
                        class="service-note">
-        <div class="servive-item mt-50"
-             v-for="(item,index) in serviceNote"
+        <p class="cup-class">可领取的优惠卷</p>
+        <div class="cup-item"
+             v-for="(item,index) in couponDetails"
              :key="index">
-          <h3 class="title">
-            <img src="../../assets/imgs/product/tick@2x.png"
-                 alt="icon">&nbsp;{{item.title}}
-          </h3>
-          <p class="desc">{{item.content}}</p>
+          <div class="cupleft">
+            <p class="p1">{{item.minus_label}}</p>
+            <p class="p2">{{item.full_label}}</p>
+          </div>
+          <div class="cupcon">
+            <p class="p1">{{item.title}}</p>
+            <p class="p2">{{item.date_label}}</p>
+          </div>
+          <div class="cupright">
+            <span class="btn1" @click="getcouponobj(item.id)" v-if="item.is_received === false && item.is_receivable === true">领取</span>
+            <span class="btn2" v-else-if="item.is_received === false && item.is_receivable === false">不可领取</span>
+            <span class="btn2" v-else>已领取</span>
+          </div>
+
+
         </div>
       </van-actionsheet>
       <!-- 恢复预定通知 -->
@@ -453,7 +466,7 @@
   import {ENTITY_TYPE} from '@/assets/js/consts/products'
   import {DLG_TYPE} from '@/assets/js/consts/dialog'
   import {getProductDetail, addFavorite, delFavorite, schedule} from '@/api/products'
-  import {getProfile,couponList} from '@/api/profile'
+  import {getProfile,couponList,couponDetail,getcouponobj} from '@/api/profile'
 
   export default {
     layout: 'default',
@@ -522,19 +535,9 @@
         showSoldOut: false, // 恢复预定通知弹窗
         priceExclude: [], // 不包含面板
         activeNotice: [1], // 注意事项折叠面板
-        // // 产品
-        // product: {},
-        // // 费用说明对象
-        // expense: {},
-        // // 注意事项
-        // notice: [],
-        // // 行程详情
-        // itinerary: {},
-        // attributes: [],
-        // attributes_override: [],
-        // transfer: [],
-        // // 团期价格
-        // top_price: [],
+        showServiceCop:false,//显示优惠卷
+        couponList:[],//可用优惠卷列表
+        couponDetails:[],//可用优惠卷列表-详情版
         isTabFixed: false,
         showDay: 'D1',
         // 显示电话弹窗
@@ -663,8 +666,25 @@
           this.couponList = data
         }
         this.loading = false;
-        //模拟数据1
+        //模拟数据2
         // this.couponList = [
+        //   "折扣9折",
+        //   "现金100"
+        // ]
+      },
+      //获取优惠卷列表展开
+      async getcoupondetail() {
+        this.loading = true;
+        const {code, data, msg} = await couponDetail({
+          product_id: this.productId,
+        })
+        // console.log(code, data, msg)
+        if (code === 0) {
+          this.couponDetails = data
+        }
+        this.loading = false;
+        //模拟数据1
+        // this.couponDetails = [
         //   {
         //     "id": 7,
         //     "minus_label": "9折",
@@ -679,15 +699,26 @@
         //     "full_label": "满1000可用",
         //     "title": "现金券$100",
         //     "date_label": "2019.02.20-2019.03.30",
-        //     "is_received": 0
+        //     "is_received": 1
         //   }
         // ]
-        //
-        //模拟数据2
-        this.couponList = [
-          "折扣9折",
-          "现金100"
-        ]
+
+      },
+      //领取某张优惠卷
+      async getcouponobj(id){
+        this.loading = true;
+        const {code, data, msg} = await getcouponobj({
+          product_id: this.productId,
+          id:id
+        })
+        if (code === 0) {
+          this.showServiceCop=false;
+          this.$toast('领取成功')
+          this.getcoupondetail();
+        } else {
+          this.$toast('领取失败')
+        }
+        this.loading = false;
       },
       // 存储浏览记录
       saveLocal() {
@@ -748,7 +779,8 @@
         this.showServiceNode = true
       },
       onServerCop() {
-        this.showServiceCop = true
+        this.getcoupondetail();
+        this.showServiceCop = true;
       },
       clickTab(tab) {
         // console.log('tab', tab)
