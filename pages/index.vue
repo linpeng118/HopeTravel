@@ -130,6 +130,16 @@ export default {
     countDown,
     DriftAside
   },
+  async asyncData({$axios}){
+    let indexData
+    let {code,data} = await $axios.$get('/api/index/mobile')
+    if(code === 0 ) {
+      indexData = data
+    }
+    return {
+      indexData
+    }
+  },
   data() {
     return {
       // closeDown: process.client ? getCookieByKey(DOWN_CLOSE) || 'no' : '',
@@ -240,18 +250,14 @@ export default {
         query
       })
     },
-    async getHomeInitData() {
-      let {code, data} = await getHomeData()
-      if(code === 0) {
-        this.bannerList = data[0].data
-        this.hotList = data[1].data.slice(0, 8)
-        this.timeSalesList = data[2].data
-
+    getHomeInitData() {
+        this.bannerList = this.indexData[0].data
+        this.hotList = this.indexData[1].data.slice(0, 8)
+        this.timeSalesList = this.indexData[2].data
         // let {banner,hot, special} = data
         // this.bannerList = banner
         // this.hotList = hot.data[0].destination.slice(0,8)
         // this.timeSalesList = special.data
-      }
     },
     async onLoad() {
       console.log('onload')

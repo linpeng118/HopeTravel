@@ -465,47 +465,53 @@
       ProdDetailImgItem,
       Loading,
     },
-    // async asyncData({$axios, query}) {
-    //   let attributes,
-    //     attributes_override,
-    //     expense,
-    //     itinerary,
-    //     notice,
-    //     product,
-    //     top_price,
-    //     transfer
-    //   try {
-    //     let {code, msg, data} = await $axios.$get(`/api/product/${query.productId}`)
-    //     if (code === 0) {
-    //       attributes = data.attributes // 增值服务
-    //       attributes_override = data.attributes_override // 属性覆盖
-    //       expense = data.expense // 费用说明对象
-    //       itinerary = data.itinerary // 行程详情
-    //       notice = data.notice // 注意事项
-    //       product = data.product // 产品信息
-    //       top_price = data.top_price // 团期价格
-    //       transfer = data.transfer
-    //     } else {
-    //       console.log('error:', msg)
-    //     }
-    //   } catch (error) {
-    //     console.log(error)
-    //   }
-    //   return {
-    //     attributes,
-    //     attributes_override,
-    //     expense,
-    //     itinerary,
-    //     notice,
-    //     product,
-    //     top_price,
-    //     transfer
-    //   }
-    // },
+    async asyncData({$axios, query}) {
+      let attributes,
+        attributes_override,
+        expense,
+        itinerary,
+        notice,
+        product,
+        top_price,
+        transfer
+      try {
+        let {code, msg, data} = await $axios.$get(`/api/product/${query.productId}`, {
+          headers: {
+            'platform': 'app',
+            'phoneType': 'iOS',
+            'App-Version': '1.0.0'
+          }
+        })
+        if (code === 0) {
+          attributes = data.attributes // 增值服务
+          attributes_override = data.attributes_override // 属性覆盖
+          expense = data.expense // 费用说明对象
+          itinerary = data.itinerary // 行程详情
+          notice = data.notice // 注意事项
+          product = data.product // 产品信息
+          top_price = data.top_price // 团期价格
+          transfer = data.transfer
+        } else {
+          console.log('error:', msg)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+      return {
+        attributes,
+        attributes_override,
+        expense,
+        itinerary,
+        notice,
+        product,
+        top_price,
+        transfer
+      }
+    },
     data() {
       return {
         ENTITY_TYPE,
-        loading: true,
+        loading: false,
         productId: Number(this.$route.query.productId) || null,
         isTransparent: true, // 导航头是否透明
         current: 0, // 导航页数
@@ -516,21 +522,19 @@
         showSoldOut: false, // 恢复预定通知弹窗
         priceExclude: [], // 不包含面板
         activeNotice: [1], // 注意事项折叠面板
-        showServiceCop:false,//显示优惠卷
-        couponList:[],//可用优惠卷列表
-        // 产品
-        product: {},
-        // 费用说明对象
-        expense: {},
-        // 注意事项
-        notice: [],
-        // 行程详情
-        itinerary: {},
-        attributes: [],
-        attributes_override: [],
-        transfer: [],
-        // 团期价格
-        top_price: [],
+        // // 产品
+        // product: {},
+        // // 费用说明对象
+        // expense: {},
+        // // 注意事项
+        // notice: [],
+        // // 行程详情
+        // itinerary: {},
+        // attributes: [],
+        // attributes_override: [],
+        // transfer: [],
+        // // 团期价格
+        // top_price: [],
         isTabFixed: false,
         showDay: 'D1',
         // 显示电话弹窗
@@ -539,7 +543,7 @@
         showMore: false,
         // 邮箱或手机号
         account: '',
-
+        timer: null,
       }
     },
     computed: {
@@ -612,6 +616,9 @@
       this.init()
       this.$refs.refProductDetailPage.addEventListener("scroll", _throttle(this.scrollFn, 200));
     },
+    destroyed() {
+      clearInterval(this.timer)
+    },
     methods: {
       ...mapMutations({
         vxSaveReservePro: 'product/saveReservePro',
@@ -619,7 +626,7 @@
         vxSetDlgType: 'setDlgType', // 设置弹窗类型
       }),
       async init() {
-        await this.getProductDetailData()
+        // await this.getProductDetailData() // 改用asyncData
         if (!(this.product && this.product.product_id)) {
           this.jumpTo('/')
         }
@@ -786,60 +793,64 @@
       },
       // 滚动函数
       scrollFn() {
-        const s1 = this.$refs.refProductDetailPage.scrollTop;
-        const s1H = this.$refs.refProductDetailPage.offsetHeight;
-        const allH = this.$refs.refProductDetail.offsetHeight;
-        let tabListH = this.$refs.refTabList.offsetTop - this.$refs.refTabList.offsetHeight;
-        let tabHeightH = this.$refs.refTabHeight.offsetTop - this.$refs.refTabList.offsetHeight;
-        // console.log(s1, tabListH, tabHeightH)
-        if (s1 > 0) {
-          this.isTransparent = false
-        } else {
-          this.isTransparent = true
-        }
-        if (s1 >= tabListH) {
-          this.isTabFixed = true
-        }
-        if (s1 <= tabHeightH) {
-          this.isTabFixed = false
-        }
-        // 判断方向
-        // setTimeout(() => {
-        //   const s2 = this.$refs.refProductDetailPage.scrollTop;
-        //   const direct = s2 - s1;
-        //   console.log("direct", direct);
-        // }, 17);
-        // D1-Dn变化
-        const listLen = this.showDayList.length
-        const showHeight = s1 + this.$refs.refTabList.offsetHeight + this.$refs.refProdctDetailHeader.$el.offsetHeight
-        // 根据tabList的高度,修改选中的tab
-        let refFeaturesH = this.$refs.refFeatures.offsetTop
-        let refTripH = this.$refs.refTrip.offsetTop
-        let refCostH = this.$refs.refCost.offsetTop
-        let refNoticeH = this.$refs.refNotice.offsetTop
-        // console.log('refFeaturesH', showHeight, refCostH)
-        if (showHeight >= refFeaturesH) {
-          this.activeTab = 1
-        }
-        if (showHeight >= refTripH) {
-          this.activeTab = 2
-        }
-        if (showHeight >= refCostH) {
-          this.activeTab = 3
-        }
-        // 到底部
-        if (s1 + s1H === allH) {
-          this.activeTab = 4
-        }
-        // console.log(this.activeTab, showHeight, refNoticeH)
-        let idx = this.showDayList.findIndex(item => item > showHeight)
-        // console.log('index：', idx)
-        if (idx === 0) {
-          this.showDay = `D1`
-        } else if (idx > 0) {
-          this.showDay = `D${idx}`
-        } else if (idx === -1) {
-          this.showDay = `D${listLen}`
+        try {
+          const s1 = this.$refs.refProductDetailPage.scrollTop;
+          const s1H = this.$refs.refProductDetailPage.offsetHeight;
+          const allH = this.$refs.refProductDetail.offsetHeight;
+          let tabListH = this.$refs.refTabList.offsetTop - this.$refs.refTabList.offsetHeight;
+          let tabHeightH = this.$refs.refTabHeight.offsetTop - this.$refs.refTabList.offsetHeight;
+          // console.log(s1, tabListH, tabHeightH)
+          if (s1 > 0) {
+            this.isTransparent = false
+          } else {
+            this.isTransparent = true
+          }
+          if (s1 >= tabListH) {
+            this.isTabFixed = true
+          }
+          if (s1 <= tabHeightH) {
+            this.isTabFixed = false
+          }
+          // 判断方向
+          // setTimeout(() => {
+          //   const s2 = this.$refs.refProductDetailPage.scrollTop;
+          //   const direct = s2 - s1;
+          //   console.log("direct", direct);
+          // }, 17);
+          // D1-Dn变化
+          const listLen = this.showDayList.length
+          const showHeight = s1 + this.$refs.refTabList.offsetHeight + this.$refs.refProdctDetailHeader.$el.offsetHeight
+          // 根据tabList的高度,修改选中的tab
+          let refFeaturesH = this.$refs.refFeatures.offsetTop
+          let refTripH = this.$refs.refTrip.offsetTop
+          let refCostH = this.$refs.refCost.offsetTop
+          let refNoticeH = this.$refs.refNotice.offsetTop
+          // console.log('refFeaturesH', showHeight, refCostH)
+          if (showHeight >= refFeaturesH) {
+            this.activeTab = 1
+          }
+          if (showHeight >= refTripH) {
+            this.activeTab = 2
+          }
+          if (showHeight >= refCostH) {
+            this.activeTab = 3
+          }
+          // 到底部
+          if (s1 + s1H === allH) {
+            this.activeTab = 4
+          }
+          // console.log(this.activeTab, showHeight, refNoticeH)
+          let idx = this.showDayList.findIndex(item => item > showHeight)
+          // console.log('index：', idx)
+          if (idx === 0) {
+            this.showDay = `D1`
+          } else if (idx > 0) {
+            this.showDay = `D${idx}`
+          } else if (idx === -1) {
+            this.showDay = `D${listLen}`
+          }
+        } catch (error) {
+          console.log(error)
         }
       },
       // 点击预览图片
