@@ -1,11 +1,12 @@
 const TerserPlugin = require('terser-webpack-plugin')
 const pkg = require('./package')
 const pluginConfig = require('./config/plugins')
-const apiConfig = require('./apiConf.env')
-const axiosUrl = `http://192.168.1.188:${apiConfig.port}`
-
+const apiConfig = require('./apiConf.env.js')
+const axiosUrl = `http://127.0.0.1:${apiConfig.port}`
 console.log('apiConfig:', apiConfig)
 console.log('axiosUrl:', axiosUrl)
+
+
 
 module.exports = {
   mode: 'universal',
@@ -18,7 +19,8 @@ module.exports = {
    */
   head: {
     title: '稀饭旅行网-美国旅游-加拿大当地跟团游-欧洲旅游-澳大利亚旅游-新西兰旅游-东南亚旅游-日本旅游',
-    meta: [{
+    meta: [
+      {
         charset: 'utf-8',
       },
       {
@@ -62,10 +64,6 @@ module.exports = {
       charset: 'utf-8',
     }, {
       src: 'https://hm.baidu.com/hm.js?9bfbbc9f24159633a14d3b4f37db769b'
-    }, {
-      src: 'https://hm.baidu.com/hm.js?03f91ebf7f5ac08015d9f98fa0dc22fc'
-    }, {
-      src: 'https://hm.baidu.com/hm.js?72a266736d8b5b47605e2d2ad18f0756'
     }],
     __dangerouslyDisableSanitizers: ['script'],
   },
@@ -105,7 +103,7 @@ module.exports = {
     '@nuxtjs/sentry',
   ],
   sentry: {
-    dsn: `${apiConfig.dsnSentry}`, // Enter your project's DSN here
+    dsn: apiConfig.dsnSentry, // Enter your project's DSN here
     config: {}, // Additional config
   },
   /*
@@ -133,10 +131,18 @@ module.exports = {
       },
       changeOrigin: true,
     },
+    '/union': {
+      target: `${apiConfig.union}/api/tour/v1`, // 联盟
+      pathRewrite: {
+        '^/union': '/',
+      },
+      changeOrigin: true,
+    }
   },
   server: {
     // 本地所起的服务配置
     port: apiConfig.port,
+    // host: apiConfig.host,
   },
   /*
    ** Build configuration
@@ -154,8 +160,8 @@ module.exports = {
     // https://github.com/nuxt/nuxt.js/pull/4600
     babel: {
       presets({
-        isServer
-      }) {
+                isServer
+              }) {
         return [
           [
             "@nuxt/babel-preset-app",

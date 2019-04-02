@@ -14,8 +14,17 @@ export const countprice = (data) => {
     }
   })
 }
-export const addorder = (data) => {
-  return axios.post(`/api/order`, data)
+export const addorder = (data,referrerId,channel) => {
+  // return axios.post(`/api/order`, data)
+  return axios({
+    method: 'post',
+    url: `/api/order`,
+    data,
+    headers: {
+      'Referrer-Id': referrerId || 0,
+      'Channel': channel || 'm'
+    }
+  })
 }
 //获取我的可用优惠卷
 export const orderCouponList = (data) => {

@@ -1,6 +1,7 @@
 let pluginConfig
 
-let plugins = [{
+let plugins = [
+  {
     src: '~/plugins/vant',
     ssr: true,
   },
@@ -19,6 +20,10 @@ let plugins = [{
   {
     src: '~/plugins/vue-cropper',
     ssr: false
+  },
+  {
+    src: '~/assets/js/mixins/shareReport',
+    ssr: false,
   },
   //vuex禁止ssr
   {
@@ -42,9 +47,14 @@ let plugins = [{
     src: '~/plugins/ga/facebook.js',
     ssr: false
   },
+  // {
+  //   src: '~/plugins/vconsole',
+  //   ssr: false
+  // },
 ]
 
-let devPlugins = [{
+let devPlugins = [
+  {
     src: '~/plugins/vant',
     ssr: true,
   },
@@ -81,6 +91,15 @@ let devPlugins = [{
     src: '~/plugins/ga/facebook.js',
     ssr: false
   },
+  // {
+  //   src: '~/plugins/vconsole',
+  //   ssr: false
+  // },
+  //vuex禁止ssr
+  // {
+  //   src: '~/plugins/vuex-persist',
+  //   ssr: false
+  // },
 ]
 
 if (process.env.ENV_TYPE === 'prodDev') {

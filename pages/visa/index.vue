@@ -306,7 +306,7 @@
 // (function() {
 //   var hm = document.createElement("script");
 //   hm.src = "https://hm.baidu.com/hm.js?72a266736d8b5b47605e2d2ad18f0756";
-//   var s = document.getElementsByTagName("script")[0]; 
+//   var s = document.getElementsByTagName("script")[0];
 //   s.parentNode.insertBefore(hm, s);
 // })();
 import { mapMutations, mapState } from "vuex";
@@ -324,6 +324,15 @@ export default {
         observeParents: true //修改swiper的父元素时，自动初始化swiper
       }
     };
+  },
+  head () {
+    return {
+      script: [
+        {
+          src: 'https://hm.baidu.com/hm.js?72a266736d8b5b47605e2d2ad18f0756'
+        }
+      ]
+    }
   },
   mounted() {
     setTimeout(() => {
@@ -564,7 +573,7 @@ export default {
           }
         }
       }
-      
+
     }
   }
   .footer-team {
@@ -671,3 +680,4 @@ export default {
   }
 }
 </style>
+

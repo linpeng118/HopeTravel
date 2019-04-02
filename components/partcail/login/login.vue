@@ -67,6 +67,7 @@
   import {LOGIN_TYPE, VERIFY_CODE, SMS_SCENE} from '@/assets/js/consts'
   import {DLG_TYPE} from '@/assets/js/consts/dialog'
   import {getSmsCode, login} from '@/api/member'
+  import {getProfile} from '@/api/profile'
 
   const TIME = 60 // 倒计时时间
 
@@ -104,6 +105,7 @@
         timer: null,
         countDownTime: TIME, // 倒计时时间
         codeType: VERIFY_CODE.START, // 获取验证码/倒计时/重新获取
+        profile: {}
       }
     },
     computed: {

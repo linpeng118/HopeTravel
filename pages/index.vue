@@ -121,6 +121,7 @@ import DriftAside from '@/components/drift_aside'
 import {throttle as _throttle} from 'lodash'
 import {setCookieByKey,getCookieByKey} from '@/assets/js/utils'
 import {mapGetters,mapMutations} from 'vuex'
+
 export default {
   name: 'home',
   components: {
@@ -265,13 +266,21 @@ export default {
         page: (this.prodPagination.page || 0) + 1
       }
       const res = await getHomeHotList(submitData)
-      this.productList.push(...res.data)
-      this.prodPagination = res.pagination
-      // 加载状态结束
-      this.prodLoading = false
-      // 数据全部加载完成
-      if (!this.prodPagination.more) {
-        this.prodFinished = true
+      if(res.code === 0) {
+        this.productList.push(...res.data)
+        this.prodPagination = res.pagination
+        // 加载状态结束
+        this.prodLoading = false
+        // 数据全部加载完成
+        if (!this.prodPagination.more) {
+          this.prodFinished = true
+        }
+      } else {
+        console.log(res.msg)
+        this.productList = []
+        this.prodPagination= {}
+        this.prodLoading = false
+        this.prodFinished = false
       }
     },
     // 滚动

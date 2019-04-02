@@ -18,9 +18,9 @@ html {
   box-sizing: inherit;
 }
 
-*:not(input, textarea) {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
+*:not(input, textarea, img) {
+  //-webkit-touch-callout: none;
+  //-webkit-user-select: none;
 }
 
 body {

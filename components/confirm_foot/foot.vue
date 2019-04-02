@@ -53,6 +53,8 @@
   import {addorder} from '@/api/confirm_order'
   import Loading from '@/components/loading'
   import {getProfile} from '@/api/profile'
+  import {SESSIONSTORE,PLATFORM} from '@/assets/js/config'
+  import {getSessionStore} from '@/assets/js/utils'
   import {
     getCookieByKey
   } from '@/assets/js/utils'
@@ -159,8 +161,11 @@
         this.loading = false;
       },
       async addOrderx(){
-        this.loading = true;
-        let {data, code , msg} = await addorder(this.addorder)
+        this.loading = true
+        let referer_id = getSessionStore(SESSIONSTORE) || ''
+        let platform = getSessionStore(PLATFORM) || ''
+        console.log(this.addorder, referer_id, platform)
+        let {data, code , msg} = await addorder(this.addorder, referer_id, platform)
         if (code === 0) {
           this.$refs.order_id.value=data.order_id;
           this.$refs.order_title.value=data.product_name;

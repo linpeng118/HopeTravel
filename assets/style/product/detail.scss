@@ -81,18 +81,30 @@
 
       .price-wrap {
         margin-top: 2px;
-
         .price {
           .unit {
             font-size: 24px;
           }
         }
-
         .default-price {
           font-size: 24px;
           font-weight: 300;
           color: #989898;
           text-decoration: line-through;
+        }
+        .share-btn{
+          float: right;
+          width:220px;
+          height:52px;
+          background:linear-gradient(180deg,rgba(253,141,103,1) 0%,rgba(245,41,30,1) 100%);
+          border-radius:40px;
+          font-size:22px;
+          text-align: center;
+          color: #fff;
+          line-height: 52px;
+          img{
+            vertical-align: text-top;
+          }
         }
       }
     }
@@ -775,6 +787,29 @@
         color: rgba(255, 255, 255, 1);
       }
     }
+  }
+
+  .share-box-show{
+    width:60px;
+    height:60px;
+    position: fixed;
+    right: 60px;
+    bottom: 300px;
+    background:linear-gradient(180deg,rgba(253,141,103,1) 0%,rgba(245,41,30,1) 100%);
+    border-radius:80px;
+    text-align: center;
+    img{
+      transform: translateY(50%);
+      margin-top: -10px;
+    }
+  }
+  .share-box .van-popup{
+    width: 100%;
+    height: 100vh;
+    background:rgba(0,0,0,0.7);
+    transform:translate3d(0,0,0);
+    top: 0;
+    left: 0;
   }
 }
 .setspecial{
