@@ -608,7 +608,6 @@
       this.getProductData()
       this.initProfileData()
       this.$refs.refProductDetailPage.addEventListener("scroll", _throttle(this.scrollFn, 200));
-      // window.location.href = window.location.href
     },
     methods: {
       ...mapMutations({
@@ -618,11 +617,20 @@
       }),
       async initProfileData() {
         const {code, msg, data} = await getProfile()
-        let _obj = {}
         if (code ===0) {
-          _obj = data
+          this.profile = data
+          if(this.profile.is_agent && this.$route.query.productId.indexOf('-') <= 0) {
+            this.$router.push({
+              name: 'product-detail',
+              query: {
+                productId: this.$route.query.productId + '-' + this.profile.customer_id
+              }
+            })
+          }
+        } else {
+          this.profile = {}
         }
-        this.profile = _obj
+        console.log(this.$route)
       },
       // 产品ID，session保存
       async init(){

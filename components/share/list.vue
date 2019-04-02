@@ -56,7 +56,7 @@
               v-clipboard:success="onCopy"
               v-clipboard:error="onError">
             <img src="../../assets/imgs/union/copy_link@2x.png" alt="">
-            <p>复制连接</p>
+            <p>复制链接</p>
           </li>
         </ul>
       </div>
@@ -169,14 +169,14 @@ export default {
       Mshare.to(value, config)
     },
     shareRenderAll() {
-      // if(navigator.userAgent.indexOf('MicroMessenger') >= 0) {
-      //   this.shareRender('wx')
-      // } else if(navigator.userAgent.indexOf('QBWebViewType') >= 0 || navigator.userAgent.indexOf('MQQBrowser') >= 0){
-      //   this.shareRender('qq')
-      // } else {
-      //   this.show = true
-      // }
-      this.show = true
+      if(navigator.userAgent.indexOf('MicroMessenger') >= 0) {
+        this.shareRender('wx')
+      } else if(navigator.userAgent.indexOf('QBWebViewType') >= 0 || navigator.userAgent.indexOf('MQQBrowser') >= 0){
+        this.shareRender('qq')
+      } else {
+        this.show = true
+      }
+      // this.show = true
     },
     copyLink(){
       return window.location.origin + '/product/detail?productId=' + this.data.product_id + '-' + this.data.customer_id
