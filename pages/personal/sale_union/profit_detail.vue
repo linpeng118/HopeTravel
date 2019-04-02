@@ -84,8 +84,12 @@ export default {
       this.incomeReport= _obj
     },
     async onLoad(){
-      // console.log('onLoad : ', this.currentTab)
-      let res = await getIncomeReport(this.currentTab)
+      let params = {
+        typeId: this.currentTab,
+        page: (this['prodPagination' + this.currentTab].page || 0) + 1
+      }
+      console.log(params)
+      let res = await getIncomeReport(params)
       this['incomeLists' + this.currentTab].push(...res.data.list)
       this['prodPagination' + this.currentTab] = res.pagination
       this['prodLoading' + this.currentTab] = false

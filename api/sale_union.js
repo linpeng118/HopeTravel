@@ -73,9 +73,14 @@ export const getFriendReport = () => {
   return axios.get(`/api/agent/friendReport`)
 }
 // 收益 incomeReport?test_id=100
-export const getIncomeReport = (typeId) => {
-  let url = typeId ? `/api/agent/incomeReport?sale_type=${typeId}`: '/api/agent/incomeReport'
-  return axios.get(url)
+export const getIncomeReport = (data) => {
+  // let url = typeId ? `/api/agent/incomeReport?sale_type=${data.typeId}`: '/api/agent/incomeReport'
+  return axios.get('/api/agent/incomeReport', {
+    params: {
+      page: data.page || null,
+      sale_type: data.typeId || null
+    }
+  })
 }
 
 // 收益汇总表 summaryReport?test_id=100

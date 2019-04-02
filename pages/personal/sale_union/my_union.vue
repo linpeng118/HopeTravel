@@ -7,7 +7,7 @@
           <img src="../../../assets/imgs/union/icon_union@2x.png" alt="">
           <div class="desc">
             <p class="name">稀饭盟友</p>
-            <p v-if="JSON.stringify(friendReport) !== '{}'">产生{{friendReport.total.order}}个订单，帮我赚取了{{friendReport.total.income}}</p>
+            <p v-if="JSON.stringify(friendReport) !== '{}'">产生{{friendReport.total.order}}个订单，帮我赚取了{{friendReport.currency}}{{friendReport.total.income}}</p>
           </div>
           <div class="right">
             <span class="num" v-if="JSON.stringify(friendReport) !== '{}'">{{friendReport.total.friend}}</span> 人
@@ -35,7 +35,7 @@
             <p>订单</p>
           </van-col>
           <van-col span="5">
-            <p class="num">{{item.income}}</p>
+            <p class="num">{{friendReport.currency}}{{item.income}}</p>
             <p>收益</p>
           </van-col>
         </van-row>

@@ -325,6 +325,15 @@ export default {
       }
     };
   },
+  head () {
+    return {
+      script: [
+        {
+          src: 'https://hm.baidu.com/hm.js?72a266736d8b5b47605e2d2ad18f0756'
+        }
+      ]
+    }
+  },
   mounted() {
     setTimeout(() => {
       if (document.querySelector("#newBridge")) {

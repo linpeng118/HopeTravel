@@ -65,10 +65,6 @@ module.exports = {
       charset: 'utf-8',
     }, {
       src: 'https://hm.baidu.com/hm.js?9bfbbc9f24159633a14d3b4f37db769b'
-    }, {
-      src: 'https://hm.baidu.com/hm.js?03f91ebf7f5ac08015d9f98fa0dc22fc'
-    }, {
-      src: 'https://hm.baidu.com/hm.js?72a266736d8b5b47605e2d2ad18f0756'
     }],
     __dangerouslyDisableSanitizers: ['script'],
   },
