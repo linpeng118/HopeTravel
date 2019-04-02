@@ -81,6 +81,8 @@
 
 <style lang="scss" scoped>
   .login-page {
+    height: 100%;
+    min-height: 100vh;
     text-align: center;
     .login-all-comp {
       padding: 136px 76px 0;
