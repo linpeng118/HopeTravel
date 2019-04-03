@@ -246,15 +246,15 @@
                 <div class="body">
                   <p class="breakfast"
                     v-if="item.meal.breakfast.contain_meal==1">
-                    早餐：{{item.meal.breakfast.remark}}
+                    早餐：{{item.meal.breakfast.remark || '包含'}}
                   </p>
                   <p class="lunch"
                     v-if="item.meal.lunch.contain_meal==1">
-                    午饭：{{item.meal.lunch.remark}}
+                    午饭：{{item.meal.lunch.remark || '包含'}}
                   </p>
                   <p class="dinner"
                     v-if="item.meal.dinner.contain_meal==1">
-                    晚饭：{{item.meal.dinner.remark}}
+                    晚饭：{{item.meal.dinner.remark || '包含'}}
                   </p>
                 </div>
               </div>
