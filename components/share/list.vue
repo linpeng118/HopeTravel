@@ -66,7 +66,7 @@
     </div>
     <div class="canvas-img" v-if="dataUrl">
       <!--<img src="../../assets/imgs/xifantours_code.jpg" alt="" width="100%">-->
-      <img :src="dataUrl" alt="">
+      <img :src="dataUrl" alt="" width="100%" height="100%">
     </div>
     <div class="sure-save">
       <van-popup v-model="show">
