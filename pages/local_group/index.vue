@@ -243,12 +243,13 @@
             productID: productId.toString()
           })
         } else {
-          this.$router.push({
-            path: '/product/detail',
+          let routeData = this.$router.resolve({
+            name: 'product-detail',
             query: {
               productId
             }
-          })
+          });
+          window.open(routeData.href, '_blank')
         }
       },
       onHotCity(hotCity) {
