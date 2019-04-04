@@ -62,6 +62,10 @@
           <div class="btn-login">
             <input type="button" @click="btnLogin" value="加入稀饭联盟">
           </div>
+          <div class="agreement">
+            <van-checkbox v-model="checked" checked-color="#FCAE26"></van-checkbox>
+            <nuxt-link tag="span" to="/protocol/union">接受邀请并与稀饭旅行签约</nuxt-link>
+          </div>
         </van-cell-group>
       </div>
     </div>
@@ -96,6 +100,7 @@ export default {
       codeType: 0, // 0开始, 1获取ing, 2重新获取
       countDownTime: TIME, // 倒计时时间
       araeList: [],
+      checked: false
     }
   },
   computed: {
@@ -143,10 +148,6 @@ export default {
     },
      // 获取验证码
     async getCode() {
-      if (!this.phoneForm.phone && !this.profile.phone) {
-        this.$toast('请输入手机号码')
-        return
-      }
       // 倒计时状态修改
       this.codeType = 1 // 正在请求数据
       try {
@@ -163,6 +164,14 @@ export default {
       }
     },
     async btnLogin() {
+      if (!this.checked) {
+        this.$toast('请接受稀饭旅行邀约')
+        return
+      }
+      if (!this.phoneForm.phone && !this.profile.phone) {
+        this.$toast('请输入手机号码')
+        return
+      }
       if (!this.phoneForm.phone && !this.profile.phone) {
         this.$toast('请输入手机号码')
         return
@@ -251,6 +260,20 @@ export default {
           &:focus{
           outline: none;
           }
+        }
+      }
+      .agreement{
+        text-align: center;
+        color: #9B9B9B;
+        font-size:20px;
+        margin-top: 10px;
+        & > div{
+          display: inline-block;
+          vertical-align: middle;
+          padding-right: 10px;
+        }
+        span{
+          vertical-align: middle;
         }
       }
     }

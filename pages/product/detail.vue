@@ -259,15 +259,15 @@
                 <div class="body">
                   <p class="breakfast"
                     v-if="item.meal.breakfast.contain_meal==1">
-                    早餐：{{item.meal.breakfast.remark}}
+                    早餐：{{item.meal.breakfast.remark || '包含'}}
                   </p>
                   <p class="lunch"
                     v-if="item.meal.lunch.contain_meal==1">
-                    午饭：{{item.meal.lunch.remark}}
+                    午饭：{{item.meal.lunch.remark || '包含'}}
                   </p>
                   <p class="dinner"
                     v-if="item.meal.dinner.contain_meal==1">
-                    晚饭：{{item.meal.dinner.remark}}
+                    晚饭：{{item.meal.dinner.remark || '包含'}}
                   </p>
                 </div>
               </div>
@@ -655,7 +655,6 @@
       this.getProductData()
       this.initProfileData()
       this.$refs.refProductDetailPage.addEventListener("scroll", _throttle(this.scrollFn, 200));
-      // window.location.href = window.location.href
     },
     destroyed() {
       clearInterval(this.timer)
@@ -668,11 +667,20 @@
       }),
       async initProfileData() {
         const {code, msg, data} = await getProfile()
-        let _obj = {}
         if (code ===0) {
-          _obj = data
+          this.profile = data
+          if(this.profile.is_agent && this.$route.query.productId.indexOf('-') <= 0) {
+            this.$router.push({
+              name: 'product-detail',
+              query: {
+                productId: this.$route.query.productId + '-' + this.profile.customer_id
+              }
+            })
+          }
+        } else {
+          this.profile = {}
         }
-        this.profile = _obj
+        console.log(this.$route)
       },
       // 产品ID，session保存
       async init(){

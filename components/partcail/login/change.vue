@@ -61,7 +61,7 @@
     methods: {
       init() {
         if (this.vxForgetForm.type === LOGIN_WAY.PHONE) {
-          this.account = this.vxForgetForm.phone
+          this.account = `${this.vxForgetForm.areaCode}-${this.vxForgetForm.phone}`
         } else if (this.vxForgetForm.type === LOGIN_WAY.EMAIL) {
           this.account = this.vxForgetForm.email
         } else {
@@ -84,13 +84,13 @@
         let subData = {}
         if (this.vxForgetForm.type === LOGIN_WAY.PHONE) {
           subData = {
-            account: `${this.vxForgetForm.areaCode}-${this.vxForgetForm.phone}`,
+            account: this.account,
             code: this.vxForgetForm.smsCode,
             password: this.password,
           }
         } else {
           subData = {
-            account: this.vxForgetForm.areaCode,
+            account: this.account,
             code: this.vxForgetForm.emailCode,
             password: this.password,
           }

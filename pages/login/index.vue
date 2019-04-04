@@ -6,7 +6,7 @@
       @callOnRight="btnRight" />
     <!-- 登录组件全套 -->
     <div class="login-all-comp">
-      <login-page-comp/>
+      <login-page-comp />
     </div>
   </div>
 </template>
@@ -81,6 +81,8 @@
 
 <style lang="scss" scoped>
   .login-page {
+    height: 100%;
+    min-height: 100vh;
     text-align: center;
     .login-all-comp {
       padding: 136px 76px 0;
