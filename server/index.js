@@ -18,8 +18,8 @@ async function start() {
 
   const {
 
-    host = process.env.HOST || '192.168.1.188',
-    // host = process.env.HOST || '127.0.0.1',
+    // host = process.env.HOST || '192.168.1.188',
+    host = process.env.HOST || '127.0.0.1',
     port = process.env.PORT || 3000
 
   } = nuxt.options.server
