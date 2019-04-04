@@ -793,7 +793,7 @@
           id:id
         })
         if (code === 0) {
-          this.showServiceCop=false;
+          // this.showServiceCop=false;
           this.$toast('领取成功')
           this.getcoupondetail();
         } else {
