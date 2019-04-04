@@ -193,7 +193,7 @@
             <div class="item">
               <img src="../../assets/imgs/product/trip_2@2x.png"
                 alt="trip">
-              <p>12个景点</p>
+              <p>{{itinerary.total_attractions}}个景点</p>
             </div>
             <div class="item">
               <img src="../../assets/imgs/product/trip_3@2x.png"
