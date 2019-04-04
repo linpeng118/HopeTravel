@@ -1,5 +1,5 @@
 <template>
-  <nuxt-link class="hot-item" @click="selectItem" target="_blank" :to="`/product/detail?productId=${proData.product_id}`">
+  <div class="hot-item" @click="selectItem" target="_blank">
     <div class="banner" :productId="proData.product_id">
       <img :src="proData.image"
         alt="banner">
@@ -32,7 +32,7 @@
         {{proData.default_price}}
       </span>
     </div>
-  </nuxt-link>
+  </div>
 </template>
 
 <script>
@@ -74,7 +74,7 @@
     mounted() {},
     methods: {
       selectItem() {
-        // this.$emit('selectItem', this.proData.product_id)
+        this.$emit('selectItem', this.proData.product_id)
       }
     },
   }

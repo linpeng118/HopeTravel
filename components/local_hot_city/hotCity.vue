@@ -3,7 +3,7 @@
     <h1 class="hot-title">热门城市</h1>
     <div class="hot-list">
       <div class="hot-item" v-for="item in hotCityList" :key="item.start_city" @click="selectItem(item.start_city)">
-        <img v-lazy="item.image_url" alt="">
+        <img :src="item.image_url" alt="">
         <div class="city-name">
           <span class="title">{{item.title}}</span>
         </div>

@@ -174,12 +174,21 @@
         } else {
           // m跳转
           // console.log('m跳转')
-          this.$router.push({
+          // this.$router.push({
+          //   path: '/product/detail',
+          //   query: {
+          //     productId
+          //   },
+          //   target: '_blank'
+          // })
+          //
+          let routeData = this.$router.resolve({
             path: '/product/detail',
             query: {
               productId
             }
-          })
+          });
+          window.open(routeData.href, '_blank')
         }
       },
       // 获取最近浏览
