@@ -211,31 +211,21 @@ export default {
           .share-p{
             color: #FF7246;
           }
-          .setspecial{
-            display: inline-block;
-            margin-right: 10px;
-            line-height: 20px;
-            font-size: 11px;
-            font-weight: 300;
-            color:rgba(251,96,93,1);
-            border: 2px dashed rgba(251,96,93,1);
-            padding: 10px;
-            border-radius: 8px;
-            overflow: hidden;
-            position: relative;
-          }
+
         }
       }
     }
   }
   .setspecial{
-    line-height: 22px;
-    font-size: 13px;
+    display: inline-block;
+    margin-right: 10px;
+    line-height: 20px;
+    font-size: 20px;
     font-weight: 300;
     color:rgba(251,96,93,1);
-    border: 1px solid rgba(251,96,93,1);
-    padding: 15px;
+    border: 2px solid rgba(251,96,93,1);
+    padding: 10px;
     border-radius: 8px;
-    margin-right: 10px;
+    position: relative;
   }
 </style>

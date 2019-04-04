@@ -2,7 +2,7 @@ const TerserPlugin = require('terser-webpack-plugin')
 const pkg = require('./package')
 const pluginConfig = require('./config/plugins')
 const apiConfig = require('./apiConf.env.js')
-const axiosUrl = `http://127.0.0.1:${apiConfig.port}`
+const axiosUrl = `http://192.168.1.188:${apiConfig.port}`
 console.log('apiConfig:', apiConfig)
 console.log('axiosUrl:', axiosUrl)
 
