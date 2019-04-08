@@ -190,7 +190,7 @@
                   <p class="p2">{{item.date_label}}</p>
                 </div>
                 <div class="cupright">
-                  <van-radio :name="item"></van-radio>
+                  <van-radio :name="index"></van-radio>
                 </div>
               </div>
             </van-radio-group>
@@ -328,6 +328,7 @@
 
       //获得可用优惠卷列表
       async getCouponList(type) {
+        console.log(this.setcou)
         let this_=this;
         let objdata = {
           product_id:this.product.product_id,
@@ -503,10 +504,10 @@
           this.$store.commit("countprice", {coupon_cus_id:''});
         }
         else{
-          this.showsetcou=this.setcou.title;
-          this.$store.commit("countprice", {coupon_cus_id:this.setcou.coupon_customer_id});
+          this.showsetcou=this.couponDetails[this.setcou].title;
+          this.$store.commit("countprice", {coupon_cus_id:this.couponDetails[this.setcou].coupon_customer_id});
         }
-        this.showcheckCou=false
+        this.showcheckCou=false;
       }
 
 

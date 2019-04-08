@@ -764,25 +764,6 @@
           this.couponDetails = data
         }
         this.loading = false;
-        //模拟数据1
-        // this.couponDetails = [
-        //   {
-        //     "id": 7,
-        //     "minus_label": "9折",
-        //     "full_label": "无限制条件",
-        //     "title": "享9折",
-        //     "date_label": "领取后6日内有效",
-        //     "is_received": 0
-        //   },
-        //   {
-        //     "id": 10,
-        //     "minus_label": "100",
-        //     "full_label": "满1000可用",
-        //     "title": "现金券$100",
-        //     "date_label": "2019.02.20-2019.03.30",
-        //     "is_received": 1
-        //   }
-        // ]
 
       },
       //领取某张优惠卷
@@ -794,10 +775,11 @@
         })
         if (code === 0) {
           // this.showServiceCop=false;
-          this.$toast('领取成功')
+          this.$toast('领取成功');
           this.getcoupondetail();
         } else {
-          this.$toast('领取失败')
+          this.$toast(msg);
+          this.getcoupondetail();
         }
         this.loading = false;
       },
