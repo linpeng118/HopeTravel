@@ -9,49 +9,43 @@
             <div class="s-pic">
                 <img class="img1" src="../../../assets/imgs/activity/yinghuaji/title/1.png" alt="">
             </div>
-            <!-- <div class="s-pic">
-                <img class="img2" src="../../../assets/imgs/activity/yinghuaji/title/2.png" alt="">
-            </div>
-            <div class="s-pic">
-                <img class="img3" src="../../../assets/imgs/activity/yinghuaji/protect/1.png" alt="">
-            </div> -->
             <div class="pro">
-                <a target="_blank" @click="jump('https://www.tourscool.com/tour2018.html','tourscool://open/LineDetailsVC?productID=2018')">
+                <a target="_blank" @click="jump('https://www.tourscool.com/tour2018.html','tourscool://open/LineDetailsVC?product_id=2018')">
                     <img class="img-large" src="../../../assets/imgs/activity/yinghuaji/protect/2.png" alt="">
                 </a>
             </div>
             <div class="pro">
-                <a @click="jump('https://www.tourscool.com/tour2407.html','tourscool://open/LineDetailsVC?productID=2407')">
+                <a @click="jump('https://www.tourscool.com/tour2407.html','tourscool://open/LineDetailsVC?product_id=2407')">
                     <img class="img-large" src="../../../assets/imgs/activity/yinghuaji/protect/3.png" alt="">
                 </a>
             </div>
             <div class="pro">
-                <a @click="jump('https://www.tourscool.com/tour2412.html','tourscool://open/LineDetailsVC?productID=2412')">
+                <a @click="jump('https://www.tourscool.com/tour2412.html','tourscool://open/LineDetailsVC?product_id=2412')">
                     <img class="img-large" src="../../../assets/imgs/activity/yinghuaji/protect/4.png" alt="">
                 </a>
             </div>
             <div class="pro">
-                <a @click="jump('https://www.tourscool.com/tour2406.html','tourscool://open/LineDetailsVC?productID=2406')">
+                <a @click="jump('https://www.tourscool.com/tour2406.html','tourscool://open/LineDetailsVC?product_id=2406')">
                     <img class="img-large" src="../../../assets/imgs/activity/yinghuaji/protect/5.png" alt="">
                 </a>
             </div>
             <div class="pro-flex">
-                <a @click="jump('https://www.tourscool.com/tour2409.html','tourscool://open/LineDetailsVC?productID=2409')">
+                <a @click="jump('https://www.tourscool.com/tour2409.html','tourscool://open/LineDetailsVC?product_id=2409')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/6.png" alt="">
                 </a>
-                <a @click="jump('https://www.tourscool.com/tour2019.html','tourscool://open/LineDetailsVC?productID=2019')">
+                <a @click="jump('https://www.tourscool.com/tour2019.html','tourscool://open/LineDetailsVC?product_id=2019')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/7.png" alt="">
                 </a>
-                <a @click="jump('https://www.tourscool.com/tour2002.html','tourscool://open/LineDetailsVC?productID=2002')">
+                <a @click="jump('https://www.tourscool.com/tour2002.html','tourscool://open/LineDetailsVC?product_id=2002')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/8.png" alt="">
                 </a>
-                <a @click="jump('https://www.tourscool.com/tour915.html','tourscool://open/LineDetailsVC?productID=915')">
+                <a @click="jump('https://www.tourscool.com/tour915.html','tourscool://open/LineDetailsVC?product_id=915')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/9.png" alt="">
                 </a>
-                <a @click="jump('https://www.tourscool.com/tour1400.html','tourscool://open/LineDetailsVC?productID=1400')">
+                <a @click="jump('https://www.tourscool.com/tour1400.html','tourscool://open/LineDetailsVC?product_id=1400')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/10.png" alt="">
                 </a>
-                <a @click="jump('https://www.tourscool.com/tour910.html','tourscool://open/LineDetailsVC?productID=910')">
+                <a @click="jump('https://www.tourscool.com/tour910.html','tourscool://open/LineDetailsVC?product_id=910')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/11.png" alt="">
                 </a>
             </div>
@@ -64,22 +58,22 @@
                 <img class="img5" src="../../../assets/imgs/activity/yinghuaji/title/5.png" alt="">
             </div>
             <div class="pro-flex">
-                <a @click="jump('https://www.tourscool.com/tour2368.html','tourscool://open/LineDetailsVC?productID=2368')">
+                <a @click="jump('https://www.tourscool.com/tour2368.html','tourscool://open/LineDetailsVC?product_id=2368')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/12.png" alt="">
                 </a>
-                <a @click="jump('https://www.tourscool.com/tour2365.html','tourscool://open/LineDetailsVC?productID=2365')">
+                <a @click="jump('https://www.tourscool.com/tour2365.html','tourscool://open/LineDetailsVC?product_id=2365')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/13.png" alt="">
                 </a>
-                <a @click="jump('https://www.tourscool.com/tour2363.html','tourscool://open/LineDetailsVC?productID=2363')">
+                <a @click="jump('https://www.tourscool.com/tour2363.html','tourscool://open/LineDetailsVC?product_id=2363')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/14.png" alt="">
                 </a>
-                <a @click="jump('https://www.tourscool.com/tour2355.html','tourscool://open/LineDetailsVC?productID=2355')">
+                <a @click="jump('https://www.tourscool.com/tour2355.html','tourscool://open/LineDetailsVC?product_id=2355')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/15.png" alt="">
                 </a>
-                <a @click="jump('https://www.tourscool.com/tour2349.html','tourscool://open/LineDetailsVC?productID=2349')">
+                <a @click="jump('https://www.tourscool.com/tour2349.html','tourscool://open/LineDetailsVC?product_id=2349')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/16.png" alt="">
                 </a>
-                <a @click="jump('https://www.tourscool.com/tour2358.html','tourscool://open/LineDetailsVC?productID=2358')">
+                <a @click="jump('https://www.tourscool.com/tour2358.html','tourscool://open/LineDetailsVC?product_id=2358')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/17.png" alt="">
                 </a>
             </div>
@@ -92,28 +86,28 @@
                 <img class="img6" src="../../../assets/imgs/activity/yinghuaji/title/4.png" alt="">
             </div>
             <div class="pro-flex">
-                <a @click="jump('https://www.tourscool.com/tour48.html','tourscool://open/LineDetailsVC?productID=48')">
+                <a @click="jump('https://www.tourscool.com/tour48.html','tourscool://open/LineDetailsVC?product_id=48')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/18.png" alt="">
                 </a>
-                <a @click="jump('https://www.tourscool.com/tour1941.html','tourscool://open/LineDetailsVC?productID=1941')">
+                <a @click="jump('https://www.tourscool.com/tour1941.html','tourscool://open/LineDetailsVC?product_id=1941')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/19.png" alt="">
                 </a>
-                <a @click="jump('https://www.tourscool.com/tour1944.html','tourscool://open/LineDetailsVC?productID=1944')">
+                <a @click="jump('https://www.tourscool.com/tour1944.html','tourscool://open/LineDetailsVC?product_id=1944')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/20.png" alt="">
                 </a>
-                <a @click="jump('https://www.tourscool.com/tour1981.html','tourscool://open/LineDetailsVC?productID=1981')">
+                <a @click="jump('https://www.tourscool.com/tour1981.html','tourscool://open/LineDetailsVC?product_id=1981')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/21.png" alt="">
                 </a>
-                <a @click="jump('https://www.tourscool.com/tour2.html','tourscool://open/LineDetailsVC?productID=2')">
+                <a @click="jump('https://www.tourscool.com/tour2.html','tourscool://open/LineDetailsVC?product_id=2')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/22.png" alt="">
                 </a>
-                <a @click="jump('https://www.tourscool.com/tour900.html','tourscool://open/LineDetailsVC?productID=900')">
+                <a @click="jump('https://www.tourscool.com/tour900.html','tourscool://open/LineDetailsVC?product_id=900')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/23.png" alt="">
                 </a>
-                <a @click="jump('https://www.tourscool.com/tour666.html','tourscool://open/LineDetailsVC?productID=666')">
+                <a @click="jump('https://www.tourscool.com/tour666.html','tourscool://open/LineDetailsVC?product_id=666')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/24.png" alt="">
                 </a>
-                <a @click="jump('https://www.tourscool.com/tour667.html','tourscool://open/LineDetailsVC?productID=667')">
+                <a @click="jump('https://www.tourscool.com/tour667.html','tourscool://open/LineDetailsVC?product_id=667')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/25.png" alt="">
                 </a>
             </div>
