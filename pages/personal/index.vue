@@ -10,7 +10,7 @@
           <div class="rice">
             <span>米粒：{{profile.total_points}}</span>
             <button @click="myRice">查看</button>
-            <span>优惠卷：{{profile.total_coupons||0}}张</span>
+            <span>优惠券：{{profile.total_coupons||0}}张</span>
             <button @click="myCon">查看</button>
           </div>
         </div>

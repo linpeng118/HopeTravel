@@ -367,9 +367,9 @@
       </van-actionsheet>
       <!-- 优惠卷展开 -->
       <van-actionsheet v-model="showServiceCop"
-                       title="优惠卷"
+                       title="优惠券"
                        class="service-note">
-        <p class="cup-class">可领取的优惠卷</p>
+        <p class="cup-class">可领取的优惠券</p>
         <div class="cup-item"
              v-for="(item,index) in couponDetails"
              :key="index">
@@ -380,6 +380,7 @@
           <div class="cupcon">
             <p class="p1">{{item.title}}</p>
             <p class="p2">{{item.date_label}}</p>
+            <p class="p2">{{item.period_label}}</p>
           </div>
           <div class="cupright">
             <span class="btn1" @click="getcouponobj(item.id)" v-if="item.is_received === false && item.is_receivable === true">领取</span>

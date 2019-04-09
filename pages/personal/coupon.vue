@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="nav-bar">
-      <van-nav-bar title="我的优惠卷" left-arrow @click-left="onClickLeft"/>
+      <van-nav-bar title="我的优惠券" left-arrow @click-left="onClickLeft"/>
     </div>
     <div class="tab">
       <van-tabs @click="onClick" v-model="active">
@@ -19,11 +19,11 @@
                 <div class="cupcon">
                   <p class="p1">{{item.title}}</p>
                   <p class="p2">{{item.date_label}}</p>
-                  <p class="p2" v-if="status=='unuse'" @click="item.show=(item.show=='0')?'1':'0'">使用说明
+                  <p class="p2">{{item.period_label}}</p>
+                  <p class="p2" @click="item.show=(item.show=='0')?'1':'0'">使用说明
                     <van-icon v-if="item.show=='0'" name="arrow-down" />
                     <van-icon v-if="item.show=='1'" name="arrow-up" />
                   </p>
-                  <p class="p2" v-else>使用说明<van-icon name="arrow-down" /></p>
                 </div>
                 <div class="cupright">
                   <span class="btn1" v-if="status==='unuse'">立即使用</span>

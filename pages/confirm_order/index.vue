@@ -158,7 +158,7 @@
           </div>
           <p class="item-con" @click="getCouponList('show')" style="border: 1px solid #ebedf0">
              <span>
-           <i class="seti">优惠卷</i>
+           <i class="seti">优惠券</i>
            <i v-if="showsetcou!=''" class="seti" style="color: #1989fa">
              {{showsetcou}}
            </i>
@@ -170,12 +170,12 @@
           </p>
         </div>
           <van-actionsheet v-model="showcheckCou"
-                           title="优惠卷"
+                           title="优惠券"
                            class="service-note">
             <van-radio-group v-model="setcou">
 
               <div class="setcheck">
-                <span>暂不选择任何优惠卷</span>
+                <span>暂不选择任何优惠券</span>
                 <van-radio name="null" style="width: 30%;float: right;display: inline-block"> </van-radio>
               </div>
               <div class="cup-item"
@@ -188,6 +188,7 @@
                 <div class="cupcon">
                   <p class="p1">{{item.title}}</p>
                   <p class="p2">{{item.date_label}}</p>
+                  <p class="p2">{{item.period_label}}</p>
                 </div>
                 <div class="cupright">
                   <van-radio :name="index"></van-radio>
@@ -592,7 +593,7 @@
       height: 140px;
       text-align: left;
       padding-left: 20px;
-      padding-top: 32px;
+      padding-top: 18px;
       .p1{
         font-size:24px;
         font-weight:bold;

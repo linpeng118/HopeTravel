@@ -22,8 +22,13 @@ export const couponList = (data) => {
  * @param {Object} data
  */
 export const couponDetail = (data) => {
-  return axios.get(`/api/product/${data.product_id}/coupons?type=detail`)
+  return axios.get(`/api/product/${data.product_id}/coupons?type=detail`,{
+    headers: {
+      'platform': 'mobile ',
+      'site' : 'mobile'
+    }
 }
+)}
 
 /**
  * 领取产品优惠卷
@@ -35,6 +40,7 @@ export const getcouponobj = (data) => {
   },{
     headers: {
       'platform': 'mobile ',
+      'site' : 'mobile'
   }
   }
 )
