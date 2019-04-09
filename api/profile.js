@@ -15,7 +15,12 @@ export const getOrderInfo = (status) => {
  * @param {Object} data
  */
 export const couponList = (data) => {
-  return axios.get(`/api/product/${data.product_id}/coupons?type=summary`)
+  return axios.get(`/api/product/${data.product_id}/coupons?type=summary`,{
+    headers: {
+    'platform': 'mobile ',
+      'site' : 'mobile'
+  }
+  })
 }
 /**
  * 展开产品可用优惠卷

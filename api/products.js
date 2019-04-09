@@ -25,11 +25,6 @@ export const getProductList = (data) => {
       'platform': 'mobile ',
       'site' : 'mobile'
     }
-  },{
-    headers: {
-      'platform': 'mobile ',
-      'site' : 'mobile'
-    }
   })
 }
 
