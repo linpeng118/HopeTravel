@@ -335,7 +335,7 @@
           departure:this.countprice.departure_date,
           price:this.pricelist.price,
         }
-        let {data, code} = await orderCouponList(objdata)
+        let {data={}, code} = await orderCouponList(objdata)
         if(code === 0) {
           this.couponDetails = data;
         }
