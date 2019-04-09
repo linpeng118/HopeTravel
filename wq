@@ -1,0 +1,604 @@
+[33mcommit 5e47a8ec88fb8aff763103d6546920baf9c1213a[m[33m ([m[1;36mHEAD -> [m[1;32mlitu[m[33m, [m[1;31morigin/litu[m[33m, [m[1;32mdevelop[m[33m)[m
+Author: litu <tutu_8936064@qq.com>
+Date:   Mon Apr 8 16:52:58 2019 +0800
+
+    secondchange
+
+[33mcommit e069640f8ea82cf34d78732d4e07cebb6184ac08[m[33m ([m[1;31morigin/caolin[m[33m)[m
+Author: litu <tutu_8936064@qq.com>
+Date:   Mon Apr 8 15:04:40 2019 +0800
+
+    yinghua fix
+
+[33mcommit 44b215a79514602136c9e79517880408ee12c239[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m
+Merge: 0c447ed d1f0ae5
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Thu Apr 4 17:20:03 2019 +0800
+
+    Merge branch 'yxh_fx' into develop
+
+[33mcommit d1f0ae56cd21c63416b9c919dec80c320c43fae5[m[33m ([m[1;31morigin/yxh_fx[m[33m)[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Thu Apr 4 15:10:26 2019 +0800
+
+    详情页的景点
+
+[33mcommit 9d4da6542d4854c700f9d6808b7d783f72c09fb4[m
+Merge: 7f97329 5cedb96
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Thu Apr 4 15:05:20 2019 +0800
+
+    Merge branch 'yxh_fx'
+
+[33mcommit 5cedb96ebed8cd060649d46d9b7cb74a30f05eee[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Thu Apr 4 15:04:54 2019 +0800
+
+    app手机打不开详情
+
+[33mcommit 0c447ed65c5483de53550814788b81d1d30f175a[m
+Author: c_illusion <670199384@qq.com>
+Date:   Thu Apr 4 14:43:14 2019 +0800
+
+    修改景点数
+
+[33mcommit 140b83ec60252b6fd53700e66812d2a0eece84da[m
+Author: xianmin <xianmin@tourscool.com>
+Date:   Thu Apr 4 10:11:44 2019 +0800
+
+    2
+
+[33mcommit 7fb79cc25a2c6bb5d50d68e9cb6ad4a50ab7ce54[m
+Author: xianmin <xianmin@tourscool.com>
+Date:   Thu Apr 4 10:03:53 2019 +0800
+
+    2
+
+[33mcommit a3d610089d383b98dd3768e17e24af4f2a63c13d[m
+Merge: f17eff4 71afad5
+Author: xianmin <xianmin@tourscool.com>
+Date:   Thu Apr 4 09:54:11 2019 +0800
+
+    Merge branch 'qa' into xm
+
+[33mcommit f17eff4f4b8c4f90aea15f4982367b740391ab52[m
+Author: xianmin <xianmin@tourscool.com>
+Date:   Thu Apr 4 09:53:34 2019 +0800
+
+    2
+
+[33mcommit 71afad5548942995c3de7468d0e2f74aed6284a7[m
+Merge: b3b0791 b64499a
+Author: c_illusion <670199384@qq.com>
+Date:   Wed Apr 3 17:38:37 2019 +0800
+
+    Merge branch 'develop' into qa
+
+[33mcommit b64499a5d889802c961c2d13df19f5e6c8dd38f5[m
+Merge: dd1fc47 808f829
+Author: c_illusion <670199384@qq.com>
+Date:   Wed Apr 3 17:37:10 2019 +0800
+
+    Merge branch 'caolin' into develop
+
+[33mcommit 808f8292e4a835d08c4cc893eb47e914e5de07c8[m
+Author: c_illusion <670199384@qq.com>
+Date:   Wed Apr 3 17:28:24 2019 +0800
+
+    餐食没有写就是包含
+
+[33mcommit 7f973296e69833efd72ec9a73bd7979f66bdb181[m
+Merge: 6114169 581bd12
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Wed Apr 3 16:54:27 2019 +0800
+
+    Merge branch 'yxh_fx'
+
+[33mcommit b3b07912997ff87551cc6610bcefd2555c68bebe[m
+Merge: 6114169 581bd12
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Wed Apr 3 16:53:33 2019 +0800
+
+    Merge branch 'yxh_fx' into qa
+
+[33mcommit dd1fc4719846119e90e7701fc324741aa9e96ac4[m
+Merge: 581bd12 6114169
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Wed Apr 3 16:52:07 2019 +0800
+
+    Merge branch 'develop' of http://git.tourscool.net:12588/rd/tours_mobile into develop
+
+[33mcommit 581bd12b6a46754282d6ddd2981ab6d88c7d6b38[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Wed Apr 3 16:51:17 2019 +0800
+
+    分享图片错位
+
+[33mcommit 611416994ea71482af4836fa3d3eb3a3facb7477[m
+Author: c_illusion <670199384@qq.com>
+Date:   Wed Apr 3 14:13:50 2019 +0800
+
+    定版本，测试修改
+
+[33mcommit 46405c9af3f45b1ace65d1e3d6263586e5e52e68[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Tue Apr 2 18:05:41 2019 +0800
+
+    分享页面调整
+
+[33mcommit 181f58d66cd4cb0aabcf47a85d3b948efc2248fd[m
+Merge: f0cc819 c6ce276
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Tue Apr 2 17:05:00 2019 +0800
+
+    Merge branch 'develop' of http://git.tourscool.net:12588/rd/tours_mobile into develop
+
+[33mcommit f0cc819d1b64ad063e8a67a3fb2ea0276d49bafc[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Tue Apr 2 17:04:22 2019 +0800
+
+    bug 详情添加联盟ID
+
+[33mcommit c6ce276a347f8a9f8cc0e2fdc3ffaef115df2d08[m
+Author: c_illusion <670199384@qq.com>
+Date:   Tue Apr 2 16:48:34 2019 +0800
+
+    合并dev
+
+[33mcommit 5befe4ae3fb2a9c4a5632dc4f5d621d9f04d5c7c[m
+Merge: bf4b061 ab7e0fe
+Author: xianmin <xianmin@tourscool.com>
+Date:   Tue Apr 2 15:38:30 2019 +0800
+
+    xiufu
+
+[33mcommit bf4b0618f58c8830dde7694a16779b5ba4c9294e[m
+Author: xianmin <xianmin@tourscool.com>
+Date:   Tue Apr 2 15:27:36 2019 +0800
+
+    2
+
+[33mcommit 913ed2baad2834f17a29f4135b8d9f5ba58bb456[m
+Author: xianmin <xianmin@tourscool.com>
+Date:   Tue Apr 2 15:06:30 2019 +0800
+
+    2
+
+[33mcommit 6a4f9c6c08ac389db1f6f4caa468aadc52e47c7c[m
+Author: xianmin <xianmin@tourscool.com>
+Date:   Tue Apr 2 14:59:15 2019 +0800
+
+    2
+
+[33mcommit cce7de97ab9f47b3c9f84a9db1eb41421d64d9d7[m
+Author: c_illusion <670199384@qq.com>
+Date:   Tue Mar 26 13:53:19 2019 +0800
+
+    修改配置
+
+[33mcommit def4dde0cd7d1f77773feccbc3f62fb45e136fff[m
+Author: c_illusion <670199384@qq.com>
+Date:   Tue Mar 26 13:05:47 2019 +0800
+
+    Notify
+
+[33mcommit 31ae51562116557fa8c0339f3a815dca7c7b4cfb[m
+Author: c_illusion <670199384@qq.com>
+Date:   Tue Mar 26 11:39:22 2019 +0800
+
+    修改baseURL
+
+[33mcommit 10e8a982bba3c8a26368ec1fc2c03cd1910cc3a5[m
+Author: c_illusion <670199384@qq.com>
+Date:   Tue Mar 26 11:19:41 2019 +0800
+
+    添加error页面
+
+[33mcommit c865bce7f736d7931e9a11225b1e7ffa6e41f594[m
+Author: xianmin <xianmin@tourscool.com>
+Date:   Tue Apr 2 15:15:36 2019 +0800
+
+    xiufu
+
+[33mcommit ea8b99f76c1fba954278434826ce198ea6264d4e[m
+Author: c_illusion <670199384@qq.com>
+Date:   Mon Mar 25 18:44:05 2019 +0800
+
+    修改本地跟团
+
+[33mcommit eb165c94bbb6c60f6b89bbf2a86d010686f72c74[m
+Author: c_illusion <670199384@qq.com>
+Date:   Mon Mar 25 17:58:34 2019 +0800
+
+    添加axios
+
+[33mcommit 5de4d2a51547a69e75960ad0b4157b332e4203ec[m
+Author: c_illusion <670199384@qq.com>
+Date:   Mon Mar 25 17:20:59 2019 +0800
+
+    polyfill 本地化
+
+[33mcommit 3d962e107200572e0e69eb3c8111456dc4529c42[m
+Author: c_illusion <670199384@qq.com>
+Date:   Mon Mar 25 15:25:52 2019 +0800
+
+    去除console
+
+[33mcommit 9fe9b4566947744410a1ea565e328b2d021cf38b[m
+Author: c_illusion <670199384@qq.com>
+Date:   Mon Mar 25 15:24:18 2019 +0800
+
+    添加fbq统计，修改谷歌，百度统计
+
+[33mcommit 1258296507e2c2ccb2700ce1d2957f604007880a[m
+Author: c_illusion <670199384@qq.com>
+Date:   Mon Mar 25 14:09:38 2019 +0800
+
+    注释fbq
+
+[33mcommit c0f4642d78b2fc326c0d80a1b064a8b79a537f5e[m
+Author: c_illusion <670199384@qq.com>
+Date:   Mon Mar 25 11:07:43 2019 +0800
+
+    添加登录注册 fbq
+
+[33mcommit 9249eb887919ef36a4c58d44d1c5492a88eb13d8[m
+Author: c_illusion <670199384@qq.com>
+Date:   Mon Mar 25 10:28:36 2019 +0800
+
+    添加fbq
+
+[33mcommit 6dc122a07ca60427c389fb0adc46b3bc605ed9c0[m
+Merge: ab7e0fe 6582d5b
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Tue Apr 2 14:35:19 2019 +0800
+
+    Merge branch 'qa' of http://git.tourscool.net:12588/rd/tours_mobile into qa
+
+[33mcommit ab7e0fe3b9224f861a86085f6d3a3e2dcddc0601[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Tue Apr 2 14:34:20 2019 +0800
+
+    confirmm_order
+
+[33mcommit 6582d5bfa3f26ed9d972ba394ea3d5aade12c097[m
+Merge: 60bdd30 c5ceaec
+Author: c_illusion <670199384@qq.com>
+Date:   Tue Apr 2 12:57:44 2019 +0800
+
+    Merge branch 'bug-1000053-dialog-keyboard' into qa
+
+[33mcommit c5ceaec30c3b443a7183ffd024654d2e0b166def[m
+Author: c_illusion <670199384@qq.com>
+Date:   Tue Apr 2 12:56:48 2019 +0800
+
+    添加登录页面最小高度
+
+[33mcommit 60bdd3011371ab51ed5657fc4267da7082fef6e0[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Tue Apr 2 10:41:58 2019 +0800
+
+    统计代码和收益列表
+
+[33mcommit db2f1014bd5f823f36f59c6f508fe8a1909902c2[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Mon Apr 1 18:20:06 2019 +0800
+
+    sssssssss
+
+[33mcommit b08feab6f4d6b1217bb7c55fd2090196abc04a5c[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Mon Apr 1 16:37:12 2019 +0800
+
+    ssssss
+
+[33mcommit 3c2e37663bdedc70d116f30c5da870d050ba6f69[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Mon Apr 1 16:34:36 2019 +0800
+
+    存储
+
+[33mcommit 2afbe669e64e5bda6aafdde217c3590bf48c26bf[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Mon Apr 1 16:34:05 2019 +0800
+
+    存储
+
+[33mcommit 07338e53128ee2592415b02150b84c1ef8f3d70d[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Mon Apr 1 16:17:10 2019 +0800
+
+    取消console
+
+[33mcommit 6c2b483030feec81966453a7cb039096ece39d1d[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Mon Apr 1 16:07:23 2019 +0800
+
+    邀请好友
+
+[33mcommit 3c692342ef848435013b09b74bcbd121e1d9caef[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Mon Apr 1 15:53:15 2019 +0800
+
+    store存储
+
+[33mcommit 73da4341a2d6ee8424b2466f41187ac0705b40f0[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Mon Apr 1 15:13:52 2019 +0800
+
+    store存储
+
+[33mcommit 284b18ae9f1409497003fa2360b7a5cd7f59975c[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Mon Apr 1 14:43:07 2019 +0800
+
+    存储store更改
+
+[33mcommit b915923bb72605b90d79649a7983b8bd452c57bc[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Mon Apr 1 14:35:55 2019 +0800
+
+    store改变
+
+[33mcommit 036dd17884fe3d5c2458d47d0c6b70c6d4f4c4f5[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Mon Apr 1 14:09:00 2019 +0800
+
+    sss
+
+[33mcommit d7a9fd5f1df2a3e0ae0ff274667a61ec309ab24f[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Mon Apr 1 13:58:41 2019 +0800
+
+    sss
+
+[33mcommit bcd57bf95c041f812203c44ab2be05fd305658ae[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Mon Apr 1 13:54:24 2019 +0800
+
+    console
+
+[33mcommit 3d39e687a093b172c09cb0cdf82b1033a4a313c7[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Mon Apr 1 13:53:10 2019 +0800
+
+    console
+
+[33mcommit 239aff53db7205e676f5b79a7d1623da55d0f292[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Mon Apr 1 13:42:45 2019 +0800
+
+    vuex的清除
+
+[33mcommit 899091a264bf8246dc2ecbd39db82f6e81fe8ed5[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Mon Apr 1 11:34:56 2019 +0800
+
+    详情页不能访问
+
+[33mcommit f7cefe2464cd2bdd1714354a4529e5142b5bf9ca[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Mon Apr 1 11:05:29 2019 +0800
+
+    详情页处理
+
+[33mcommit 8a24270201241a1ec6bece4fb1e0931e31ed7555[m
+Merge: 61a1194 6eb702b
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Mon Apr 1 10:48:36 2019 +0800
+
+    Merge branch 'yxh_fx' into develop
+
+[33mcommit 6eb702b0772460ae498534b5cc81608c736f9734[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Mon Apr 1 10:48:10 2019 +0800
+
+    store更改
+
+[33mcommit 61a11940af508d621daa12a97e756ca94fd0419f[m
+Merge: 38f771f f8b8f7a
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Fri Mar 29 21:17:10 2019 +0800
+
+    Merge branch 'yxh_fx' into develop
+
+[33mcommit f8b8f7a1f11eed5897a5eebbebe56816496057e7[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Fri Mar 29 21:16:50 2019 +0800
+
+    bug
+
+[33mcommit 38f771fdf22c1e1e63d447fd5c2d1302575996d2[m
+Merge: ff85f9c b976e2f
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Fri Mar 29 20:26:59 2019 +0800
+
+    Merge branch 'yxh_fx' into develop
+
+[33mcommit b976e2ffb12139140ed19603696b9be1a9c19024[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Fri Mar 29 20:26:31 2019 +0800
+
+    新浪微博
+
+[33mcommit ff85f9c112df0dcaf0f85d7a823891748bfeb6ed[m
+Merge: 811c66d 202be62
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Fri Mar 29 20:05:22 2019 +0800
+
+    Merge branch 'yxh_fx' into develop
+
+[33mcommit 202be6223cfa5a68b4dc0969f698d61560fae04f[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Fri Mar 29 20:04:50 2019 +0800
+
+    vuex-persist 注释
+
+[33mcommit 6e457db29042520e1fac67d45bf2e35f823d4388[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Fri Mar 29 18:50:52 2019 +0800
+
+    bug
+
+[33mcommit 811c66d552e8bcb3e5d304f6e5a3edca2761c129[m
+Merge: a5b18c7 034a905
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Fri Mar 29 18:36:17 2019 +0800
+
+    Merge branch 'yxh_fx' into develop
+
+[33mcommit 034a905248d7fab4d50797ef5bb48a4bccbd7011[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Fri Mar 29 18:35:47 2019 +0800
+
+    代理修改union
+
+[33mcommit a5b18c74751f5d343b4d6e04eaad0038f3b25c66[m
+Merge: 2c96706 5ae745d
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Fri Mar 29 18:21:04 2019 +0800
+
+    Merge branch 'develop' of http://git.tourscool.net:12588/rd/tours_mobile into develop
+
+[33mcommit 2c967066ff161e65ed4cc56d6e33753287a21c6b[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Fri Mar 29 18:19:14 2019 +0800
+
+    env
+
+[33mcommit e1df8f2545238226ed3ba1c8cb90f238e6d0ac0e[m
+Merge: 7296427 c7c51a9
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Fri Mar 29 18:14:46 2019 +0800
+
+    Merge branch 'yxh_fx' of http://git.tourscool.net:12588/rd/tours_mobile into yxh_fx
+
+[33mcommit 729642793c3e8df97d91aea4a44302f6084510e6[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Fri Mar 29 18:13:30 2019 +0800
+
+    bug修改
+
+[33mcommit 64e2f372b65d708c105466e3075d4ab6e8d9abe9[m
+Author: K <22442418@qq.com>
+Date:   Fri Mar 29 14:59:12 2019 +0800
+
+    Update .gitignore
+
+[33mcommit f5e532b6a44a5d2715f413306723ec67f71258c7[m
+Author: K <22442418@qq.com>
+Date:   Fri Mar 29 14:58:42 2019 +0800
+
+    Delete apiConf.env
+
+[33mcommit c7c51a95a832be6300ec39aaf7713de9d6a78015[m
+Author: K <22442418@qq.com>
+Date:   Fri Mar 29 14:58:00 2019 +0800
+
+    Delete apiConf.env.js
+
+[33mcommit 5ae745d24e3b2787ac6f62a6ae5b6516badfae4a[m
+Author: K <22442418@qq.com>
+Date:   Fri Mar 29 14:53:44 2019 +0800
+
+    Delete apiConf.env.js
+
+[33mcommit 9c093a6988edc5b8c199083fe94eea3a74c113b3[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Fri Mar 29 14:28:40 2019 +0800
+
+    文件地址修改
+
+[33mcommit 9e3aa9415636f1b88a62a44a8c696423f2ccc619[m
+Merge: b5bec9a 0eccf6b
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Fri Mar 29 14:21:57 2019 +0800
+
+    冲突解决
+
+[33mcommit 0eccf6ba921c59c436fd636bf0cf68622c705853[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Fri Mar 29 14:15:52 2019 +0800
+
+    bug329
+
+[33mcommit 33b801763f5e7f382628493a269a2dfb3e5be39c[m
+Merge: f04f878 b5bec9a
+Author: c_illusion <670199384@qq.com>
+Date:   Wed Mar 27 16:35:01 2019 +0800
+
+    Merge branch 'qa'
+
+[33mcommit b5bec9a0097d98111ebf4bbaa482ecababc6b160[m
+Author: c_illusion <670199384@qq.com>
+Date:   Wed Mar 27 16:33:47 2019 +0800
+
+    getHomeHotList添加code0判断
+
+[33mcommit baa8db7e32e87add4582d2922f8e5fd72257d5f2[m
+Author: 于雪花 <yuxuehua@tourscool.com>
+Date:   Wed Mar 27 16:01:24 2019 +0800
+
+    分销bug修改
+
+[33mcommit f04f878548a905d18f1b1cb941b66a4d66e72c16[m
+Merge: a6e696a 9803a87
+Author: litu <tutu_8936064@qq.com>
+Date:   Wed Mar 27 10:14:36 2019 +0800
+
+    Merge branch 'qa'
+
+[33mcommit 9803a877e82ce11f0861dd20327844831de1fefd[m
+Author: c_illusion <670199384@qq.com>
+Date:   Tue Mar 26 14:45:05 2019 +0800
+
+    测试
+
+[33mcommit 4cf1cbc51eeec0ef4c35dfc625feebc1f6ef2012[m
+Author: xianmin <xianmin@tourscool.com>
+Date:   Tue Mar 26 14:07:56 2019 +0800
+
+    2
+
+[33mcommit 6e1285af6cc26a4719fdc49f645671fbfff5feca[m
+Author: c_illusion <670199384@qq.com>
+Date:   Tue Mar 26 13:53:19 2019 +0800
+
+    修改配置
+
+[33mcommit 5a32b112860b1020c2c3d13c65be05a97f90fc06[m
+Author: c_illusion <670199384@qq.com>
+Date:   Tue Mar 26 13:05:47 2019 +0800
+
+    Notify
+
+[33mcommit 869eb435c4a68df4bf01a22740f266c3b8ee202a[m
+Author: c_illusion <670199384@qq.com>
+Date:   Tue Mar 26 11:46:55 2019 +0800
+
+    区分环境打包
+
+[33mcommit c28e0144f92e8923ef6512f710e96c8c666fff0a[m
+Merge: 882e1b7 a096a21
+Author: c_illusion <670199384@qq.com>
+Date:   Tue Mar 26 11:39:59 2019 +0800
+
+    合并
+
+[33mcommit 882e1b767d8d6c37a3bd70fb26331ce9912e1eb6[m
+Author: c_illusion <670199384@qq.com>
+Date:   Tue Mar 26 11:39:22 2019 +0800
+
+    修改baseURL
+
+[33mcommit a096a21a9fd9be58578441c0aa4a56a67d6c3679[m
+Author: c_illusion <670199384@qq.com>
+Date:   Tue Mar 26 11:19:41 2019 +0800
+
+    添加error页面
+
+[33mcommit d304a0c0e3e3619c21feb4658dd497e87e5d416a[m
+Author: c_illusion <670199384@qq.com>
+Date:   Tue Mar 26 10:20:08 2019 +0800
+
+    详情首页接口使用asyncData
