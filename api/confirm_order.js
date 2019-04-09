@@ -37,8 +37,7 @@ export const orderCouponList = (data) => {
       departure: data.departure,
       price:data.price,
     },
-  },{
     headers: {  'platform': 'mobile ',
       'site' : 'mobile'}
-  })
+  },)
 }
