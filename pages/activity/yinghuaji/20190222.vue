@@ -178,9 +178,9 @@ export default {
     }
     .section2{
         width:100%;
-        height:7500px;
+        height:6700px;
         text-align:center;
-        background:url('../../../assets/imgs/activity/yinghuaji/bg/2.jpg') no-repeat center center/750px 7500px;
+        background:url('../../../assets/imgs/activity/yinghuaji/bg/2.jpg') no-repeat center center/750px 6700px;
         .s-title{
             margin:0 auto;
             padding-top:0px;
