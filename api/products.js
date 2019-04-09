@@ -22,6 +22,11 @@ export const getProductList = (data) => {
       order_by: data.order_by || '',
       order: data.order || '',
     }
+  },{
+    headers: {
+      'platform': 'mobile ',
+      'site' : 'mobile'
+    }
   })
 }
 
