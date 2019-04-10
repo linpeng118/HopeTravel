@@ -418,8 +418,17 @@
         var obj=[];
         var this_=this;
         if(!this_.pricelist.coupons.id){
-          this.showsetcou='';
-          this.setcou=''
+          this_.showsetcou='';
+          this_.setcou=''
+        }
+        else{
+          this_.showsetcou=this_.pricelist.coupons.title;
+          for(let i=0;i<this_.couponDetails.length;i++){
+            if(this_.couponDetails[i].coupon_id == this_.pricelist.coupons.id){
+              this_.setcou=i;
+
+            }
+          }
         }
          for(let i=0;i<this_.pricelist.attributes.length;i++){
            let item=this_.pricelist.attributes[i];
