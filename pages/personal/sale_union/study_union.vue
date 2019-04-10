@@ -1,6 +1,6 @@
 <template>
   <div class="page-container">
-    <header-bar title="稀饭小哥哥"></header-bar>
+    <header-bar title="提现"></header-bar>
     <div style="padding-top: 46px;" class="bg-gradient">
       <div class="top-slg-b">
         <div class="share-code">

@@ -12,7 +12,7 @@
         <!--</div>-->
         <div class="fortune-center">
           <p class="price" v-if="JSON.stringify(incomeReport) !== '{}'">{{incomeReport.currency}}{{incomeReport.income.total_income}}</p>
-          <!--<nuxt-link to="/personal/transfercore" tag="p">我的收益，去提现 <van-icon name="arrow" /></nuxt-link>-->
+          <nuxt-link to="/personal/sale_union/study_union" tag="p">我的余额，去提现 <van-icon name="arrow" /></nuxt-link>
         </div>
         <van-row class="rich-info">
           <van-col span="8">
@@ -181,7 +181,7 @@ export default {
     .fortune-center{
       margin-bottom: 40px;
       text-align: center;
-      padding-top: 50px;
+      padding-top: 15px;
       .price{
         height: 66px;
         line-height: 66px;
