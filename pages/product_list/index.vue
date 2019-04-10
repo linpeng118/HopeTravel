@@ -132,7 +132,7 @@
           product_type: [],
           category: []
         },
-        isFilterShow: false
+        isFilterShow: false,
       }
     },
     computed: {

@@ -31,7 +31,7 @@
           <span v-for="(item,index) in data.coupons" class="setspecial" :key="index">
              <i>{{item}}</i>
           </span>
-          <span class="share-p">分享赚{{data.agent_fee}}</span>
+          <span class="share-p" v-if="isShowFx">分享赚{{data.agent_fee}}</span>
           <!--<p>-->
             <!--<span v-for="(item,index) in data.coupons" class="setspecial" :key="index">-->
               <!--<i>{{item}}</i>-->
@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import {getProfile} from '@/api/profile'
 export default {
   name: 'productList',
   filters: {
@@ -84,7 +85,7 @@ export default {
   },
   data(){
     return {
-      test: ['weqwe','213']
+      isShowFx: false
     }
   },
   computed: {
@@ -92,9 +93,18 @@ export default {
       return this.data.icons_tour
     }
   },
+  mounted(){
+    this.getProfile()
+  },
   methods: {
     selectDetail(productId) {
       // this.$emit('selectItem', productId)
+    },
+    async getProfile() {
+      const {data={}} = await getProfile()
+      if(data && data.is_agent){
+        this.isShowFx = true
+      }
     }
   }
 }
