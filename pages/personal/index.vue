@@ -257,6 +257,7 @@ export default {
           opacity: 1;
         }
         .rice {
+          margin-top: 8px;
           span {
             height: 32px;
             font-size: 22px;

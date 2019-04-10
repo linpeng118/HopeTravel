@@ -218,16 +218,4 @@
     opacity: 0.8;
   }
 }
-.van-tabs__line{
-  z-index: 1;
-  left: 0;
-  bottom: 15px;
-  height: 3px;
-  position: absolute;
-  border-radius: 3px;
-  background-color: rgba(0,0,0,0)!important;
-}
-.van-tab--active {
-  font-weight: 500;
-  color: #EF9A1A!important;
-}
+
