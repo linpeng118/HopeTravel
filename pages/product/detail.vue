@@ -660,6 +660,9 @@
     destroyed() {
       clearInterval(this.timer)
     },
+    beforeDestroy() {
+      window.removeEventListener('scroll', this.handleScroll)
+    },
     methods: {
       ...mapMutations({
         vxSaveReservePro: 'product/saveReservePro',
