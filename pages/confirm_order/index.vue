@@ -186,7 +186,6 @@
                 </div>
               </div>
           </van-radio-group>
-          <div class="checkcoubtn" @click="setcoupon()">确认</div>
           </van-actionsheet>
 
       </section>
@@ -291,7 +290,9 @@
       'countprice.is_point'(val){
         this.$store.commit("countprice", {is_point:val});
       },
-
+      'setcou'(){
+        this.setcoupon()
+      }
     },
     created(){
 
