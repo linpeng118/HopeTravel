@@ -144,6 +144,9 @@
         }
       }
     },
+    beforeDestroy() {
+      this.$refs.refLocalPlayPage.removeEventListener('scroll', this.scrollFn)
+    },
     methods: {
       ...mapMutations({
         vxChangeHeaderStatus: 'header/changeStatus', // 修改头部状态

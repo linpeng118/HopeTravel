@@ -188,6 +188,9 @@ export default {
     }
     // this.isAndroid = process.client ? !!window.cordova: ''
   },
+  beforeDestroy() {
+    this.$refs.refHomePage.removeEventListener('scroll', this.scrollFn)
+  },
   methods: {
     // 判断手机是安卓还是苹果
     downUrl() {

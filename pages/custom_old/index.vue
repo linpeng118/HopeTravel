@@ -298,6 +298,9 @@
         // console.log('web操作')
       }
     },
+    beforeDestroy() {
+      this.$refs.refCustomPage.removeEventListener('scroll', this.scrollFn)
+    },
     methods: {
       // 热门景点tag
       onTag(item) {

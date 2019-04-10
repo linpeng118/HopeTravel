@@ -290,6 +290,9 @@ export default {
       console.log("web操作");
     }
   },
+  beforeDestroy() {
+    this.$refs.refCustomPage.removeEventListener('scroll', this.scrollFn)
+  },
   methods: {
     ...mapMutations({
       vxToggleDialog: "toggleDialog", // 是否显示弹窗
