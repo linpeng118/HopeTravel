@@ -3,7 +3,7 @@
     <div class="nav-bar">
       <van-nav-bar title="我的优惠券" left-arrow @click-left="onClickLeft"/>
     </div>
-    <div class="tab">
+    <div class="tab" v-if="concover==3">
       <van-tabs @click="onClick" v-model="active">
         <van-tab v-for="(title,indw) in orderTile" :key="title.id" :title="title.title+'('+leng[indw]+')'" class="layout">
           <loading v-if="firstEnter"></loading>
@@ -56,10 +56,14 @@
         conList: [],
         firstEnter: true,
         status:'unuse',
-        leng:[0,1,2],
+        leng:[0,0,0],
+        concover:0
       }
     },
     created() {
+      this.getLength();
+      this.getLength1();
+      this.getLength2();
       this.orderTile = [
         {type: 'unuse', title: '未使用', id: 0},
         {type: 'used', title: '使用记录', id: 1},
@@ -73,7 +77,7 @@
         'expired': 2,
       }
       this.active = _obj[this.status]
-      this.getLength();
+
     },
     methods: {
       onClickLeft() {
@@ -102,33 +106,49 @@
       },
       async getLength() {
         this.conList=[];
+        let this_=this;
         let {code, data} = await getcouponList('unuse')
-        if (code === 0) {
-          this.firstEnter = false;
-          if(data.length){
-            this.leng[0] = data.length;
-            this.conList = data.map(v => {
-              this.$set(v, 'show', '0')
+        if (code == 0) {
+          this_.firstEnter = false;
+          if(data&&data.length){
+            this_.leng[0] = data.length;
+            this_.conList = data.map(v => {
+              this_.$set(v, 'show', '0')
               return v
             })
           }
           else{
-            this.conList = [];
+            this_.conList = [];
           }
         }
-        let {code2, data2} = await getcouponList('used')
-        if (code2 === 0) {
-          if(data2.length){
-            this.leng[1] = data2.length;
-          }
-        }
-        let {code3, data3} = await getcouponList('expired')
-        if (code3 === 0) {
-          if(data3.length){
-            this.leng[2] = data3.length;
-          }
-        }
+        this.concover+=1
 
+      },
+      async getLength1() {
+        let this_=this;
+        let {code, data} = await getcouponList('used')
+        if (code == 0) {
+          if(data&&data.length){
+            this_.leng[1] = data.length;
+          }
+          else{
+            this_.leng[1] = 0;
+          }
+        }
+        this.concover+=1
+      },
+      async getLength2() {
+        let this_=this;
+        let {code, data} = await getcouponList('expired')
+        if (code == 0) {
+          if(data&&data.length){
+            this_.leng[2] = data.length;
+          }
+          else{
+            this_.leng[2] = 0;
+          }
+        }
+        this.concover+=1
       },
       onClick(index) {
         this.firstEnter = true;
