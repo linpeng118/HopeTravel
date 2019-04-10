@@ -28,9 +28,12 @@
           <template v-else>
             <span class="sale-price"><strong>{{data.special_price | showInt}}</strong>/起</span><span class="default-price" style="text-decoration: line-through">原价：{{data.default_price | showInt}}</span>
           </template>
-          <span v-for="(item,index) in data.coupons" class="setspecial" :key="index">
-             <i>{{item}}</i>
+          <span class="setspecial">
+               <i class="ileft"></i>
+               <i class="icon">{{data.coupons[0]}}</i>
+               <i class="iright"></i>
           </span>
+          <span v-if="data.coupons.length>1" style="color:#fb605d">......</span>
           <span class="share-p">分享赚{{data.agent_fee}}</span>
           <!--<p>-->
             <!--<span v-for="(item,index) in data.coupons" class="setspecial" :key="index">-->
@@ -219,13 +222,40 @@ export default {
   .setspecial{
     display: inline-block;
     margin-right: 10px;
-    line-height: 20px;
     font-size: 20px;
     font-weight: 300;
     color:rgba(251,96,93,1);
-    border: 2px solid rgba(251,96,93,1);
-    padding: 10px;
-    border-radius: 8px;
     position: relative;
+    overflow: hidden;
+    padding: 2px 0 0 0 ;
+  }
+  .ileft{
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 14px;
+    background-color: #fff;
+    position: absolute;
+    border: 2px solid rgba(251,96,93,1);
+    margin-top: 15px;
+    margin-left: -7px;
+  }
+  .iright{
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 14px;
+    background-color: #fff;
+    position: absolute;
+    border: 2px solid rgba(251,96,93,1);
+    margin-top: -28px;
+    margin-left:calc(100% - 7px);
+  }
+  .icon{
+    border: 2px solid rgba(251,96,93,1);
+    padding: 10px 14px 10px 10px;
+    line-height: 20px;
+    border-radius: 8px;
+    display: inline-block;
   }
 </style>

@@ -32,7 +32,6 @@
             <span></span>
             <van-icon color="#404040" name="arrow" size="1.2em"/>
           </p>
-
         </div>
         <!--接送时间和地点弹出层-->
         <van-popup class="setprop" v-model="showchecktime" position="center" :overlay="true">
@@ -105,11 +104,9 @@
                 <span><i><van-icon name="edit"/></i></span>
               </nuxt-link>
             </template>
-
           </ul>
           <div class="btnbox">
-            <nuxt-link class="changeuser-btn" tag="button"
-                       :to="{path:'/personal/contactsList',query:{'adult':countprice.adult+countprice.child,'checker':paramcontanct}}" >选择出行人</nuxt-link>
+            <nuxt-link class="changeuser-btn" tag="button" :to="{path:'/personal/contactsList',query:{'adult':countprice.adult+countprice.child,'checker':paramcontanct}}" >选择出行人</nuxt-link>
           </div>
         </div>
       </section>
@@ -157,23 +154,17 @@
             />
           </div>
           <p class="item-con" @click="getCouponList('show')" style="border: 1px solid #ebedf0">
-             <span>
-           <i class="seti">优惠券</i>
-           <i v-if="showsetcou!=''" class="seti" style="color: #1989fa">
-             {{showsetcou}}
-           </i>
-           <i v-else class="seti" style="color: #bbb">暂未选择</i>
-             </span>
-            <span> <van-icon color="#404040" name="arrow" size="1.2em" class="settopicon"/></span>
-
-
+            <span>
+              <i class="seti">优惠券</i>
+              <i v-if="showsetcou!=''" class="seti" style="color: #1989fa">{{showsetcou}}</i>
+              <i v-else class="seti" style="color: #bbb">暂未选择</i>
+            </span>
+            <span></span>
+            <van-icon color="#404040" name="arrow" size="1.2em" class="settopicon"/>
           </p>
         </div>
-          <van-actionsheet v-model="showcheckCou"
-                           title="优惠券"
-                           class="service-note">
-            <van-radio-group v-model="setcou">
-
+          <van-actionsheet v-model="showcheckCou" title="优惠券" class="service-note">
+          <van-radio-group v-model="setcou">
               <div class="setcheck">
                 <span>暂不选择任何优惠券</span>
                 <van-radio name="null" style="width: 30%;float: right;display: inline-block"> </van-radio>
@@ -194,9 +185,8 @@
                   <van-radio :name="index"></van-radio>
                 </div>
               </div>
-            </van-radio-group>
-            <div class="checkcoubtn" @click="setcoupon()">确认</div>
-
+          </van-radio-group>
+          <div class="checkcoubtn" @click="setcoupon()">确认</div>
           </van-actionsheet>
 
       </section>
@@ -356,9 +346,17 @@
               }
             }
           }
+          else if(this_.couponDetails.length){
+            for(let i=0;i<this_.couponDetails.length;i++){
+              if(this_.couponDetails[i].is_best == true){
+                this_.setcou=this_.couponDetails[i];
+                this_.showsetcou=this_.couponDetails[i].title;
+                this_.$store.commit("countprice", {coupon_cus_id:this_.couponDetails[i].coupon_customer_id});
+              }
+            }
+          }
         }
       },
-
       //设置页头数据
       settitletip() {
         this.countprice=this.get_vuex_countprice;
@@ -510,9 +508,6 @@
         }
         this.showcheckCou=false;
       }
-
-
-
     }
   }
 
@@ -711,7 +706,6 @@
   .item-con i {
     top: 6px;
   }
-
   .item-tip {
     box-sizing: border-box;
     margin: 20px 24px 0 24px;
@@ -722,12 +716,10 @@
     font-size: 22px;
     color: rgba(142, 142, 142, 1);
   }
-
   .user-item {
     border-bottom: 1px solid #DEDEDE;
     margin: 0 24px;
   }
-
   .user-item span:nth-child(1) {
     width: 500px;
     height: 80px;
@@ -735,14 +727,12 @@
     font-size: 24px;
     color: #191919;
   }
-
   .user-item span:nth-child(1) i {
     color: #9F9F9F;
     font-size: 24px;
     font-style: normal;
     padding-left: 20px;
   }
-
   .user-item span:nth-child(2) {
     width: 80px;
     height: 80px;
@@ -754,13 +744,11 @@
    font-size: 48px;
     line-height: 220%;
   }
-
   .item-title > span {
     color: #989898;
     font-size: 20px;
     padding-left: 20px;
   }
-
   .changeuser-btn {
     width: 464px;
     height: 72px;
@@ -773,7 +761,6 @@
     border-radius: 8px;
 
   }
-
   .btnbox {
     text-align: center;
   }
@@ -782,7 +769,6 @@
     width: 650px;
     padding: 20px 24px;
   }
-
   .setvan {
     width: 120px;
     display: inline-block;
@@ -790,11 +776,9 @@
     text-align: center;
     margin-right: 12px;
   }
-
   .setvan i {
     top: 6px;
   }
-
   .seti {
     font-style: normal;
     display: inline-block;

@@ -5,7 +5,7 @@
     </div>
     <div class="tab">
       <van-tabs @click="onClick" v-model="active">
-        <van-tab v-for="title in orderTile" :key="title.id" :title="title.title" class="layout">
+        <van-tab v-for="(title,indw) in orderTile" :key="title.id" :title="title.title+'('+leng[indw]+')'" class="layout">
           <loading v-if="firstEnter"></loading>
           <div class="no-data" v-if="!firstEnter && !conList.length">暂无数据</div>
           <!-- 产品 -->
@@ -26,7 +26,7 @@
                   </p>
                 </div>
                 <div class="cupright">
-                  <span class="btn1" v-if="status==='unuse'">立即使用</span>
+                  <span v-if="status==='unuse'"></span>
                   <span class="btn2" v-else-if="status==='used'">已经使用</span>
                   <span class="btn2" v-else>已过期</span>
                 </div>
@@ -36,7 +36,6 @@
               </div>
             </div>
           </template>
-
         </van-tab>
       </van-tabs>
     </div>
@@ -56,7 +55,8 @@
         type: this.$route.query.type,
         conList: [],
         firstEnter: true,
-        status:'unuse'
+        status:'unuse',
+        leng:[0,1,2],
       }
     },
     created() {
@@ -73,7 +73,7 @@
         'expired': 2,
       }
       this.active = _obj[this.status]
-      this.getCouData();
+      this.getLength();
     },
     methods: {
       onClickLeft() {
@@ -98,6 +98,36 @@
 
         }
 
+
+      },
+      async getLength() {
+        this.conList=[];
+        let {code, data} = await getcouponList('unuse')
+        if (code === 0) {
+          this.firstEnter = false;
+          if(data.length){
+            this.leng[0] = data.length;
+            this.conList = data.map(v => {
+              this.$set(v, 'show', '0')
+              return v
+            })
+          }
+          else{
+            this.conList = [];
+          }
+        }
+        let {code2, data2} = await getcouponList('used')
+        if (code2 === 0) {
+          if(data2.length){
+            this.leng[1] = data2.length;
+          }
+        }
+        let {code3, data3} = await getcouponList('expired')
+        if (code3 === 0) {
+          if(data3.length){
+            this.leng[2] = data3.length;
+          }
+        }
 
       },
       onClick(index) {
