@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container containerxxx">
     <div class="nav-bar">
       <van-nav-bar title="我的优惠券" left-arrow @click-left="onClickLeft"/>
     </div>
@@ -263,19 +263,7 @@
         color: #aaa;
         font-size: 28px;
       }
-      .van-tabs__line{
-        z-index: 1;
-        left: 0;
-        bottom: 15px;
-        height: 3px;
-        position: absolute;
-        border-radius: 3px;
-        background-color: rgba(0,0,0,0)!important;
-      }
-      .van-tab--active {
-        font-weight: 500;
-        color: #EF9A1A!important;
-      }
     }
   }
+
 </style>
