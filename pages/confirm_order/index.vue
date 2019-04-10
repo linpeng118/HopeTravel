@@ -290,8 +290,8 @@
       'countprice.is_point'(val){
         this.$store.commit("countprice", {is_point:val});
       },
-      'setcou'(){
-        this.setcoupon()
+      'setcou'(val){
+        this.setcouponx()
       }
     },
     created(){
@@ -326,7 +326,7 @@
           departure:this.countprice.departure_date,
           price:this.pricelist.price,
         }
-        let {data={}, code} = await orderCouponList(objdata)
+        let {data, code} = await orderCouponList(objdata)
         if(code === 0) {
           this.couponDetails = data;
         }
@@ -339,7 +339,7 @@
         else{
           if(this_.couponDetails.length){
             for(let i=0;i<this_.couponDetails.length;i++){
-              if(this_.couponDetails[i].is_best == true){
+              if(this_.couponDetails[i].is_best === true){
                 this_.setcou=i;
                 this_.showsetcou=this_.couponDetails[i].title;
                 this_.$store.commit("countprice", {coupon_cus_id:this_.couponDetails[i].coupon_customer_id});
@@ -502,14 +502,15 @@
         }
          return addorder
       },
-      setcoupon(){
-        if(this.setcou==''){
-          this.showsetcou='';
-          this.$store.commit("countprice", {coupon_cus_id:''});
+      setcouponx(){
+        let this_=this;
+        if(this_.setcou === ''){
+          this_.showsetcou='';
+          this_.$store.commit("countprice", {coupon_cus_id:''});
         }
         else{
-          this.showsetcou=this.couponDetails[this.setcou].title;
-          this.$store.commit("countprice", {coupon_cus_id:this.couponDetails[this.setcou].coupon_customer_id});
+          this_.showsetcou=this_.couponDetails[this_.setcou].title;
+          this_.$store.commit("countprice", {coupon_cus_id:this_.couponDetails[this_.setcou].coupon_customer_id});
         }
         this.showcheckCou=false;
       }

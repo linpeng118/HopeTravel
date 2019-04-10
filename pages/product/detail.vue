@@ -384,9 +384,8 @@
             <p class="p2">{{item.period_label}}</p>
           </div>
           <div class="cupright">
-            <span class="btn1" @click="getcouponobj(item.id)" v-if="item.is_received === false && item.is_receivable === true">领取</span>
-            <span class="btn2" v-else-if="item.is_received === false && item.is_receivable === false">不可领取</span>
-            <span class="btn2" v-else>已领取</span>
+            <span class="btn1" @click="getcouponobj(item.id)" v-if="item.is_receivable === true">领取</span>
+            <span class="btn2" v-if="item.is_received === true && item.is_receivable === false">已领取</span>
           </div>
 
 
