@@ -256,7 +256,7 @@
         contact:{"name":"","phone":"","email":""},
         showcheckCou:false,
         couponDetails:[],//我的优惠卷列表
-        setcou:{},
+        setcou:'',
         showsetcou:'',
 
       }
@@ -319,7 +319,6 @@
 
       //获得可用优惠卷列表
       async getCouponList(type) {
-        console.log(this.setcou)
         let this_=this;
         let objdata = {
           product_id:this.product.product_id,
@@ -337,19 +336,10 @@
           this.showcheckCou=true;
         }
         else{
-          if(this_.countprice.coupon_cus_id!=''&&this_.couponDetails.length){
-            for(let i=0;i<this_.couponDetails.length;i++){
-              if(this_.couponDetails[i].coupon_customer_id == this_.countprice.coupon_cus_id){
-                this_.setcou=this_.couponDetails[i];
-                this_.showsetcou=this_.couponDetails[i].title;
-                this_.$store.commit("countprice", {coupon_cus_id:this_.couponDetails[i].coupon_customer_id});
-              }
-            }
-          }
-          else if(this_.couponDetails.length){
+          if(this_.couponDetails.length){
             for(let i=0;i<this_.couponDetails.length;i++){
               if(this_.couponDetails[i].is_best == true){
-                this_.setcou=this_.couponDetails[i];
+                this_.setcou=i;
                 this_.showsetcou=this_.couponDetails[i].title;
                 this_.$store.commit("countprice", {coupon_cus_id:this_.couponDetails[i].coupon_customer_id});
               }
@@ -427,6 +417,10 @@
       setshowtrvel(){
         var obj=[];
         var this_=this;
+        if(!this_.pricelist.coupons.id){
+          this.showsetcou='';
+          this.setcou=''
+        }
          for(let i=0;i<this_.pricelist.attributes.length;i++){
            let item=this_.pricelist.attributes[i];
            item.itemsx=null;
@@ -446,6 +440,7 @@
             }
           }
         }
+
         },
       onClickLeft(){
         this.$router.go(-1)
@@ -498,7 +493,7 @@
          return addorder
       },
       setcoupon(){
-        if(this.setcou=='null'){
+        if(this.setcou==''){
           this.showsetcou='';
           this.$store.commit("countprice", {coupon_cus_id:''});
         }
