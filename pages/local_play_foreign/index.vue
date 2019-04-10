@@ -177,6 +177,9 @@
       }
       this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 100))
     },
+    beforeDestroy() {
+      this.$refs.refLocalPlayForeign.removeEventListener('scroll', this.scrollFn)
+    },
     methods: {
       ...mapMutations({
         vxChangeTokens: 'setToken', // 改变token

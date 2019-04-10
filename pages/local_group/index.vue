@@ -182,6 +182,9 @@
         // console.log('web操作')
       }
     },
+    beforeDestroy() {
+      this.$refs.refLocalGroupPage.removeEventListener('scroll', this.scrollFn)
+    },
     methods: {
       ...mapMutations({
         vxChangeHeaderStatus: 'header/changeStatus' // 修改头部状态

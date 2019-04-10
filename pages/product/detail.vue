@@ -656,13 +656,13 @@
       this.init()
       this.getProductData()
       this.initProfileData()
-      this.$refs.refProductDetailPage.addEventListener("scroll", _throttle(this.scrollFn, 200));
+      this.$refs.refProductDetailPage.addEventListener("scroll", _throttle(this.scrollFn, 100));
+    },
+    beforeDestroy() {
+      this.$refs.refProductDetailPage.removeEventListener('scroll', this.scrollFn)
     },
     destroyed() {
       clearInterval(this.timer)
-    },
-    beforeDestroy() {
-      window.removeEventListener('scroll', this.handleScroll)
     },
     methods: {
       ...mapMutations({
