@@ -56,7 +56,7 @@
         conList: [],
         firstEnter: true,
         status:'unuse',
-        leng:[0,1,2],
+        leng:[0,0,0],
       }
     },
     created() {
@@ -121,11 +121,17 @@
           if(data2.length){
             this.leng[1] = data2.length;
           }
+          else{
+            this.leng[1] = 0;
+          }
         }
         let {code3, data3} = await getcouponList('expired')
         if (code3 === 0) {
           if(data3.length){
             this.leng[2] = data3.length;
+          }
+          else{
+            this.leng[2] = 0;
           }
         }
 

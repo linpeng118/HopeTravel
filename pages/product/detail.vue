@@ -66,7 +66,7 @@
         <div class="item-wrap"
              @click="onServerCop" v-if="couponList&&couponList.length">
           <div class="item-list">
-              <span class="item-titlex">领卷&nbsp;&nbsp;&nbsp;</span>
+              <span class="item-titlex">领券&nbsp;&nbsp;&nbsp;</span>
               <span v-for="(item,index) in couponList" class="setspecial" :key="index">
                 <i class="ileft"></i>
                 {{item}}
