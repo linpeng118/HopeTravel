@@ -164,7 +164,7 @@
           </p>
         </div>
           <van-actionsheet v-model="showcheckCou" title="优惠券" class="service-note">
-          <van-radio-group v-model="setcou">
+          <van-radio-group v-model="setcou" :change="setcouponx()">
               <div class="setcheck">
                 <span>暂不选择任何优惠券</span>
                 <van-radio name="null" style="width: 30%;float: right;display: inline-block"> </van-radio>
@@ -289,9 +289,6 @@
       },
       'countprice.is_point'(val){
         this.$store.commit("countprice", {is_point:val});
-      },
-      'setcou'(val){
-        this.setcouponx()
       }
     },
     created(){
