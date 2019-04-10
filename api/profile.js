@@ -15,15 +15,25 @@ export const getOrderInfo = (status) => {
  * @param {Object} data
  */
 export const couponList = (data) => {
-  return axios.get(`/api/product/${data.product_id}/coupons?type=summary`)
+  return axios.get(`/api/product/${data.product_id}/coupons?type=summary`,{
+    headers: {
+    'platform': 'mobile ',
+      'site' : 'mobile'
+  }
+  })
 }
 /**
  * 展开产品可用优惠卷
  * @param {Object} data
  */
 export const couponDetail = (data) => {
-  return axios.get(`/api/product/${data.product_id}/coupons?type=detail`)
+  return axios.get(`/api/product/${data.product_id}/coupons?type=detail`,{
+    headers: {
+      'platform': 'mobile ',
+      'site' : 'mobile'
+    }
 }
+)}
 
 /**
  * 领取产品优惠卷
@@ -35,6 +45,7 @@ export const getcouponobj = (data) => {
   },{
     headers: {
       'platform': 'mobile ',
+      'site' : 'mobile'
   }
   }
 )

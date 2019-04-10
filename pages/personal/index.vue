@@ -8,10 +8,8 @@
         <div class="user-info">
           <div class="name">{{profile.nickname || '昵称还没有设置呢~'}}</div>
           <div class="rice">
-            <span>米粒：{{profile.total_points}}</span>
-            <button @click="myRice">查看</button>
-            <span>优惠卷：{{profile.total_coupons||0}}张</span>
-            <button @click="myCon">查看</button>
+            <span @click="myRice">米粒：{{profile.total_points}} <van-icon color="#fff" name="arrow" size="1em" /></span>
+            <span @click="myCon">优惠券：{{profile.total_coupons||0}} <van-icon color="#fff" name="arrow" size="1em"/></span>
           </div>
         </div>
         <div class="user-edit" @click="editInfo">
@@ -259,14 +257,20 @@ export default {
           opacity: 1;
         }
         .rice {
+          margin-top: 8px;
           span {
-            width: 104px;
             height: 32px;
             font-size: 22px;
+            padding:3px 20px;
             font-weight: 300;
             line-height: 32px;
             color: rgba(255, 255, 255, 1);
             opacity: 1;
+            border-radius:20px;
+            border:2px solid rgba(255,255,255,1);
+            i{
+              top:5px;
+            }
           }
           button {
             height: 32px;

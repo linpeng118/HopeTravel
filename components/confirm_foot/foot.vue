@@ -133,6 +133,10 @@
           this.pricelist.child=this.get_vuex_countprice.child;
           this.$store.commit("pricelist", this.pricelist);
         }
+        else if(code === 11 || code === 12 || code === 13 || code === 14 || code === 15){
+          this.$store.commit("countprice", {coupon_cus_id:''});
+          this.getpricelist(this.get_vuex_countprice)
+        }
         else {
           this.$dialog.alert({
             message: msg

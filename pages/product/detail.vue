@@ -66,10 +66,11 @@
         <div class="item-wrap"
              @click="onServerCop" v-if="couponList&&couponList.length">
           <div class="item-list">
+              <span class="item-titlex">领卷&nbsp;&nbsp;&nbsp;</span>
               <span v-for="(item,index) in couponList" class="setspecial" :key="index">
                 <i class="ileft"></i>
                 {{item}}
-                 <i class="iright"></i>
+                <i class="iright"></i>
                 </span>
           </div>
           <div class="item-arrow">
@@ -367,9 +368,9 @@
       </van-actionsheet>
       <!-- 优惠卷展开 -->
       <van-actionsheet v-model="showServiceCop"
-                       title="优惠卷"
+                       title="优惠券"
                        class="service-note">
-        <p class="cup-class">可领取的优惠卷</p>
+        <p class="cup-class">可领取的优惠券</p>
         <div class="cup-item"
              v-for="(item,index) in couponDetails"
              :key="index">
@@ -380,6 +381,7 @@
           <div class="cupcon">
             <p class="p1">{{item.title}}</p>
             <p class="p2">{{item.date_label}}</p>
+            <p class="p2">{{item.period_label}}</p>
           </div>
           <div class="cupright">
             <span class="btn1" @click="getcouponobj(item.id)" v-if="item.is_received === false && item.is_receivable === true">领取</span>
@@ -654,7 +656,10 @@
       this.init()
       this.getProductData()
       this.initProfileData()
-      this.$refs.refProductDetailPage.addEventListener("scroll", _throttle(this.scrollFn, 200));
+      this.$refs.refProductDetailPage.addEventListener("scroll", _throttle(this.scrollFn, 100));
+    },
+    beforeDestroy() {
+      this.$refs.refProductDetailPage.removeEventListener('scroll', this.scrollFn)
     },
     destroyed() {
       clearInterval(this.timer)
@@ -764,25 +769,6 @@
           this.couponDetails = data
         }
         this.loading = false;
-        //模拟数据1
-        // this.couponDetails = [
-        //   {
-        //     "id": 7,
-        //     "minus_label": "9折",
-        //     "full_label": "无限制条件",
-        //     "title": "享9折",
-        //     "date_label": "领取后6日内有效",
-        //     "is_received": 0
-        //   },
-        //   {
-        //     "id": 10,
-        //     "minus_label": "100",
-        //     "full_label": "满1000可用",
-        //     "title": "现金券$100",
-        //     "date_label": "2019.02.20-2019.03.30",
-        //     "is_received": 1
-        //   }
-        // ]
 
       },
       //领取某张优惠卷
@@ -794,10 +780,11 @@
         })
         if (code === 0) {
           // this.showServiceCop=false;
-          this.$toast('领取成功')
+          this.$toast('领取成功');
           this.getcoupondetail();
         } else {
-          this.$toast('领取失败')
+          this.$toast(msg);
+          this.getcoupondetail();
         }
         this.loading = false;
       },

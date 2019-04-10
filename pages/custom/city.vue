@@ -312,7 +312,7 @@
 
 <script>
   import {throttle as _throttle} from "lodash";
-  import NormalHeader from "@/components/header/normal";
+  import NormalHeader from "@/components/header/custom2";
   import transpTag from "@/components/tags/transparent";
   import {custom} from "@/api/custom";
   import {getcitylist} from "@/api/custom";
@@ -462,6 +462,9 @@
       } else {
         console.log('web操作')
       }
+    },
+    beforeDestroy() {
+      this.$refs.refCustomPage.removeEventListener('scroll', this.scrollFn)
     },
     methods: {
       ...mapMutations({
