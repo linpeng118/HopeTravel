@@ -296,20 +296,6 @@
     created(){
 
     },
-    mounted() {
-      this.pricelist=this.get_vuex_pricelist;
-      this.product=this.get_vuex_pricelist;
-      this.countprice=this.get_vuex_countprice;
-      if(!this.product.product_id){
-        this.$router.go(-2);
-      }
-      this.getqu();
-      this.getCouponList();
-      if(this.setsaveuser==true){
-        this.contact={"name":this.countprice.savename,"phone":this.countprice.savephone,"email":this.countprice.saveemail},
-        this.setsaveuser=false;
-      }
-    },
     beforeRouterLeave(to,form,next){
       console.log(to.path)
       if(to.path.indexOf('personal')!=-1){
@@ -333,6 +319,21 @@
       }
 
     },
+    mounted() {
+      this.pricelist=this.get_vuex_pricelist;
+      this.product=this.get_vuex_pricelist;
+      this.countprice=this.get_vuex_countprice;
+      if(!this.product.product_id){
+        this.$router.go(-2);
+      }
+      this.getqu();
+      this.getCouponList();
+      if(this.setsaveuser==true){
+        this.contact={"name":this.countprice.savename,"phone":this.countprice.savephone,"email":this.countprice.saveemail},
+        this.setsaveuser=false;
+      }
+    },
+
     methods: {
       //获得价格日历数据
       async getpricedate(id) {
