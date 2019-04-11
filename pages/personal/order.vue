@@ -17,7 +17,7 @@
               </div>
               <div class="content">
                 <div class="pro-pic">
-                  <img v-lazy="order.image" alt>
+                  <img :src="order.image" alt>
                 </div>
                 <dl class="pro-content">
                   <!--<dt class="no-wrap-line3">{{order.product_name}}</dt>-->
