@@ -257,6 +257,7 @@
         couponDetails:[],//我的优惠卷列表
         setcou:'',
         showsetcou:'',
+        setsaveuser:false,
 
       }
     },
@@ -304,6 +305,31 @@
       }
       this.getqu();
       this.getCouponList();
+      if(this.setsaveuser==true){
+        this.contact={"name":this.countprice.savename,"phone":this.countprice.savephone,"email":this.countprice.saveemail},
+        this.setsaveuser=false;
+      }
+    },
+    beforeRouterLeave(to,form,next){
+      if(to.path.indexOf('personal')!=-1){
+        this.$store.commit("countprice", {
+          savename:this.contact.name,
+          saveemail:this.contact.email,
+          savephone:this.contact.phone,
+        });
+      }
+      next();
+    },
+    beforeRouterEnter(to,form,next){
+      if(form.path.indexOf('personal')!=-1){
+        next(vm=>{
+          vm.setsaveuser=true;
+        })
+      }
+      else{
+        next();
+      }
+
     },
     methods: {
       //获得价格日历数据
@@ -335,12 +361,20 @@
           this.showcheckCou=true;
         }
         else{
-          if(this_.couponDetails.length){
+          if(this_.couponDetails.length&&this_.countprice.coupon_cus_id==''){
             for(let i=0;i<this_.couponDetails.length;i++){
               if(this_.couponDetails[i].is_best === true){
                 this_.setcou=i;
                 this_.showsetcou=this_.couponDetails[i].title;
                 this_.$store.commit("countprice", {coupon_cus_id:this_.couponDetails[i].coupon_customer_id});
+              }
+            }
+          }
+          else if(this_.couponDetails.length&&this_.countprice.coupon_cus_id!=''){
+            for(let i=0;i<this_.couponDetails.length;i++){
+              if(this_.couponDetails[i].coupon_customer_id == this_.countprice.coupon_cus_id){
+                this_.setcou=i;
+                this_.showsetcou=this_.couponDetails[i].title;
               }
             }
           }
