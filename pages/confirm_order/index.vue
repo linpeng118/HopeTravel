@@ -502,8 +502,7 @@
       },
       setcouponx:function(x){
         let this_=this;
-        console.log("x")
-        if(this_.setcou === ''){
+        if(this_.setcou === 'null'){
           this_.showsetcou='';
           this_.$store.commit("countprice", {coupon_cus_id:''});
         }
