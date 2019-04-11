@@ -311,6 +311,7 @@
       }
     },
     beforeRouterLeave(to,form,next){
+      console.log(to.path)
       if(to.path.indexOf('personal')!=-1){
         this.$store.commit("countprice", {
           savename:this.contact.name,
@@ -321,6 +322,7 @@
       next();
     },
     beforeRouterEnter(to,form,next){
+      console.log(form.path)
       if(form.path.indexOf('personal')!=-1){
         next(vm=>{
           vm.setsaveuser=true;
