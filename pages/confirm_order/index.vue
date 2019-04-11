@@ -164,7 +164,7 @@
           </p>
         </div>
           <van-actionsheet v-model="showcheckCou" title="优惠券" class="service-note">
-          <van-radio-group v-model="setcou" :change="setcouponx()">
+          <van-radio-group v-model="setcou" @change="setcouponx()">
               <div class="setcheck">
                 <span>暂不选择任何优惠券</span>
                 <van-radio name="null" style="width: 30%;float: right;display: inline-block"> </van-radio>
@@ -181,7 +181,7 @@
                   <p class="p2">{{item.date_label}}</p>
                   <p class="p2">{{item.period_label}}</p>
                 </div>
-                <div class="cupright">
+                <div class="cupright" >
                   <van-radio :name="index"></van-radio>
                 </div>
               </div>
@@ -289,7 +289,8 @@
       },
       'countprice.is_point'(val){
         this.$store.commit("countprice", {is_point:val});
-      }
+      },
+
     },
     created(){
 
@@ -499,8 +500,9 @@
         }
          return addorder
       },
-      setcouponx(){
+      setcouponx:function(x){
         let this_=this;
+        console.log("x")
         if(this_.setcou === ''){
           this_.showsetcou='';
           this_.$store.commit("countprice", {coupon_cus_id:''});
