@@ -94,7 +94,7 @@
       </section>
       <!--游客信息-->
       <section>
-        <div class="confirm-item">
+        <div class="confirm-item" @click="setsave()">
           <p class="item-title">游客信息
             <span>务必确认填写信息与出游证件一致</span></p>
           <ul>
@@ -296,17 +296,6 @@
     created(){
 
     },
-    beforeRouterLeave(to,form,next){
-      console.log(to.path)
-      if(to.path.indexOf('personal')!=-1){
-        this.$store.commit("countprice", {
-          savename:this.contact.name,
-          saveemail:this.contact.email,
-          savephone:this.contact.phone,
-        });
-      }
-      next();
-    },
     beforeRouterEnter(to,form,next){
       console.log(form.path)
       if(form.path.indexOf('personal')!=-1){
@@ -328,10 +317,7 @@
       }
       this.getqu();
       this.getCouponList();
-      if(this.setsaveuser==true){
-        this.contact={"name":this.countprice.savename,"phone":this.countprice.savephone,"email":this.countprice.saveemail},
-        this.setsaveuser=false;
-      }
+      this.contact={"name":this.countprice.savename,"phone":this.countprice.savephone,"email":this.countprice.saveemail}
     },
 
     methods: {
@@ -548,7 +534,15 @@
           this_.$store.commit("countprice", {coupon_cus_id:this_.couponDetails[this_.setcou].coupon_customer_id});
         }
         this.showcheckCou=false;
-      }
+      },
+      setsave(){
+        console.log("1")
+        this.$store.commit("countprice", {
+          savename:this.contact.name,
+          saveemail:this.contact.email,
+          savephone:this.contact.phone,
+        });
+      },
     }
   }
 
