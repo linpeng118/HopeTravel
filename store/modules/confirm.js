@@ -19,7 +19,10 @@ export default {
       adult:0,
       child:0,
       coupon_cus_id:'',
-    },
+      savename:'',
+      saveemail:'',
+      savephone:'',
+      },
       pricelist: {}//价格明细列表和一些确认订单页面选项值
   },
 

@@ -120,12 +120,16 @@ export default {
     ])
   },
   async mounted() {
-    this.init()
     if(JSON.stringify(this.profile) === '{}'){
       this.$router.push({
         path: '/login?redirect=/personal/sale_union/union_apply'
       })
+    } else if(this.profile.is_agent){
+      this.$router.push({
+        path: '/personal/sale_union'
+      })
     }
+    this.init()
   },
   methods: {
     async init() {

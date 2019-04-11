@@ -94,7 +94,7 @@
       </section>
       <!--游客信息-->
       <section>
-        <div class="confirm-item">
+        <div class="confirm-item" @click="setsave()">
           <p class="item-title">游客信息
             <span>务必确认填写信息与出游证件一致</span></p>
           <ul>
@@ -164,7 +164,7 @@
           </p>
         </div>
           <van-actionsheet v-model="showcheckCou" title="优惠券" class="service-note">
-          <van-radio-group v-model="setcou">
+          <van-radio-group v-model="setcou" @change="setcouponx()">
               <div class="setcheck">
                 <span>暂不选择任何优惠券</span>
                 <van-radio name="null" style="width: 30%;float: right;display: inline-block"> </van-radio>
@@ -181,12 +181,11 @@
                   <p class="p2">{{item.date_label}}</p>
                   <p class="p2">{{item.period_label}}</p>
                 </div>
-                <div class="cupright">
+                <div class="cupright" >
                   <van-radio :name="index"></van-radio>
                 </div>
               </div>
           </van-radio-group>
-          <div class="checkcoubtn" @click="setcoupon()">确认</div>
           </van-actionsheet>
 
       </section>
@@ -258,6 +257,7 @@
         couponDetails:[],//我的优惠卷列表
         setcou:'',
         showsetcou:'',
+        setsaveuser:false,
 
       }
     },
@@ -296,6 +296,18 @@
     created(){
 
     },
+    beforeRouterEnter(to,form,next){
+      console.log(form.path)
+      if(form.path.indexOf('personal')!=-1){
+        next(vm=>{
+          vm.setsaveuser=true;
+        })
+      }
+      else{
+        next();
+      }
+
+    },
     mounted() {
       this.pricelist=this.get_vuex_pricelist;
       this.product=this.get_vuex_pricelist;
@@ -305,7 +317,9 @@
       }
       this.getqu();
       this.getCouponList();
+      this.contact={"name":this.countprice.savename,"phone":this.countprice.savephone,"email":this.countprice.saveemail}
     },
+
     methods: {
       //获得价格日历数据
       async getpricedate(id) {
@@ -325,7 +339,7 @@
           departure:this.countprice.departure_date,
           price:this.pricelist.price,
         }
-        let {data={}, code} = await orderCouponList(objdata)
+        let {data, code} = await orderCouponList(objdata)
         if(code === 0) {
           this.couponDetails = data;
         }
@@ -336,12 +350,20 @@
           this.showcheckCou=true;
         }
         else{
-          if(this_.couponDetails.length){
+          if(this_.couponDetails.length&&this_.countprice.coupon_cus_id==''){
             for(let i=0;i<this_.couponDetails.length;i++){
-              if(this_.couponDetails[i].is_best == true){
+              if(this_.couponDetails[i].is_best === true){
                 this_.setcou=i;
                 this_.showsetcou=this_.couponDetails[i].title;
                 this_.$store.commit("countprice", {coupon_cus_id:this_.couponDetails[i].coupon_customer_id});
+              }
+            }
+          }
+          else if(this_.couponDetails.length&&this_.countprice.coupon_cus_id!=''){
+            for(let i=0;i<this_.couponDetails.length;i++){
+              if(this_.couponDetails[i].coupon_customer_id == this_.countprice.coupon_cus_id){
+                this_.setcou=i;
+                this_.showsetcou=this_.couponDetails[i].title;
               }
             }
           }
@@ -501,17 +523,26 @@
         }
          return addorder
       },
-      setcoupon(){
-        if(this.setcou==''){
-          this.showsetcou='';
-          this.$store.commit("countprice", {coupon_cus_id:''});
+      setcouponx:function(x){
+        let this_=this;
+        if(this_.setcou === 'null'){
+          this_.showsetcou='';
+          this_.$store.commit("countprice", {coupon_cus_id:''});
         }
         else{
-          this.showsetcou=this.couponDetails[this.setcou].title;
-          this.$store.commit("countprice", {coupon_cus_id:this.couponDetails[this.setcou].coupon_customer_id});
+          this_.showsetcou=this_.couponDetails[this_.setcou].title;
+          this_.$store.commit("countprice", {coupon_cus_id:this_.couponDetails[this_.setcou].coupon_customer_id});
         }
         this.showcheckCou=false;
-      }
+      },
+      setsave(){
+        console.log("1")
+        this.$store.commit("countprice", {
+          savename:this.contact.name,
+          saveemail:this.contact.email,
+          savephone:this.contact.phone,
+        });
+      },
     }
   }
 

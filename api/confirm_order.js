@@ -26,6 +26,8 @@ export const addorder = (data,referrerId,channel) => {
     headers: {
       'Referrer-Id': referrerId || 0,
       'Channel': channel || 'm',
+      'platform': 'mobile ',
+      'site' : 'mobile'
 
     }
   })

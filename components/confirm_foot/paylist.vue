@@ -55,7 +55,7 @@
                 {{payData.points.discount}}</span>
           </p>
           <p class="payitem2" v-if="payData.coupons" >
-            <span>优惠卷</span>
+            <span>优惠券</span>
             <span style="text-decoration:line-through;color:#aaa;"><i :style="'color:#aaa'">-</i>
                 {{payData.coupons.save}}</span>
           </p>
