@@ -270,7 +270,7 @@ export default {
     // 监听滚动
     this.$refs.refCustomPage.addEventListener(
       "scroll",
-      _throttle(this.scrollFn, 200)
+      this.scrollFn
     );
 
     let this_ = this;

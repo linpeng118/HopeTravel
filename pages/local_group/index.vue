@@ -170,7 +170,7 @@
       // 初始化
       this.init()
       // 监听滚动
-      this.$refs.refLocalGroupPage.addEventListener('scroll', _throttle(this.scrollFn, 100))
+      this.$refs.refLocalGroupPage.addEventListener('scroll', this.scrollFn)
       // 判断机型
       if (this.isApp) {
         // 引入appBridge

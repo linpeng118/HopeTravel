@@ -655,7 +655,7 @@
       this.init()
       this.getProductData()
       this.initProfileData()
-      this.$refs.refProductDetailPage.addEventListener("scroll", _throttle(this.scrollFn, 100));
+      this.$refs.refProductDetailPage.addEventListener("scroll", this.scrollFn);
     },
     beforeDestroy() {
       this.$refs.refProductDetailPage.removeEventListener('scroll', this.scrollFn)

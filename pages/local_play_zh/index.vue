@@ -123,7 +123,7 @@
     },
     async mounted() {
       // 监听滚动
-      this.$refs.refLocalPlayPage.addEventListener('scroll', _throttle(this.scrollFn, 100))
+      this.$refs.refLocalPlayPage.addEventListener('scroll',this.scrollFn)
       this.init()
       if (this.isApp) {
         this.appBridge = require('@/assets/js/appBridge.js').default
