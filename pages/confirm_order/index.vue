@@ -153,7 +153,7 @@
               size="2em"
             />
           </div>
-          <p class="item-con" @click="getCouponList('show')" style="border: 1px solid #ebedf0">
+          <p v-if="couponDetails&&couponDetails.length" class="item-con" @click="getCouponList('show')" style="border: 1px solid #ebedf0">
             <span>
               <i class="seti">优惠券</i>
               <i v-if="showsetcou!=''" class="seti" style="color: #1989fa">{{showsetcou}}</i>
