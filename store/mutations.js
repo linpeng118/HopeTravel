@@ -26,4 +26,8 @@ export default {
   setDlgType(state, data) {
     state.dlgType = data
   },
+  // 保存产品详情
+  saveReservePro(state, data) {
+    state.reservePro = data
+  }
 }

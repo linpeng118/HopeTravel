@@ -121,7 +121,7 @@
     },
     methods: {
       ...mapMutations({
-        // vxSaveReservePro: 'product/saveReservePro',
+        // vxSaveReservePro: 'saveReservePro',
         vxToggleLoginDlg: 'login/toggleDialog', // 是否显示弹窗
       }),
       // 获取价格明细
