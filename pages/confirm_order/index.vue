@@ -258,7 +258,7 @@
         setcou:'',
         showsetcou:'',
         setsaveuser:false,
-
+        product: {}
       }
     },
     computed: {
@@ -267,10 +267,10 @@
         return this.$store.state.confirm.countprice;
       },
       //产品
-      product(){
-        return this.$store.state.product.reservePro;
-        // return this.$store.state.confirm.product;
-      },
+      // product(){
+      //   return this.$store.state.reservePro;
+      //   // return this.$store.state.confirm.product;
+      // },
       //获取价格数据
       get_vuex_pricelist() {
         return this.$store.state.confirm.pricelist;
@@ -292,6 +292,9 @@
         this.$store.commit("countprice", {is_point:val});
       },
 
+    },
+    created(){
+      this.product = JSON.parse(JSON.stringify(this.$store.state.reservePro))
     },
     beforeRouterEnter(to,form,next){
       console.log(form.path)

@@ -106,6 +106,7 @@
   import ConfirmFoot from '@/components/confirm_foot/foot.vue'
   import headerDate from '@/components/header/dateTrap.vue'
   import {getdateTrip} from '@/api/date_trip'
+  import {mapState} from 'vuex'
   export default {
     components: {
       dateTrip, ConfirmFoot , headerDate
@@ -153,18 +154,22 @@
 
             }
           }
-        }
+        },
+        product: {}
       }
     },
     computed: {
-      //获取计算价格参数
+      // 获取计算价格参数
       get_vuex_countprice() {
         return this.$store.state.confirm.countprice;
       },
-      //产品
-      product(){
-        return this.$store.state.product.reservePro;
-      }
+      // 产品
+      // product(){
+      //   return this.reservePro;
+      // },
+      ...mapState([
+        'reservePro'
+      ])
     },
     watch: {
       'rooms': {
@@ -278,8 +283,11 @@
         }
       }
     },
-    created() {},
+    created() {
+      console.log(11111, this.reservePro)
+    },
     mounted() {
+      this.product = JSON.parse(JSON.stringify(this.$store.state.reservePro))
       //进来清空一次之前的价格日历vuex，之后可能要考虑返回的情况
       this.$store.dispatch("emptyprice");
       //获得价格日历数据
