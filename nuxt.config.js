@@ -5,8 +5,7 @@ const apiConfig = require('./apiConf.env.js')
 const axiosUrl = `http://127.0.0.1:${apiConfig.port}`
 console.log('apiConfig:', apiConfig)
 console.log('axiosUrl:', axiosUrl)
-
-
+const LRU = require('lru-cache')
 
 module.exports = {
   mode: 'universal',
@@ -248,4 +247,5 @@ module.exports = {
 
   },
   buildDir: 'n-dist',
+
 }

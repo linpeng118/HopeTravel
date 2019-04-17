@@ -293,9 +293,6 @@
       },
 
     },
-    created(){
-
-    },
     beforeRouterEnter(to,form,next){
       console.log(form.path)
       if(form.path.indexOf('personal')!=-1){
@@ -310,11 +307,12 @@
     },
     mounted() {
       this.pricelist=this.get_vuex_pricelist;
-      this.product=this.get_vuex_pricelist;
+      // this.product=this.product;
+      console.log(this.product)
       this.countprice=this.get_vuex_countprice;
-      if(!this.product.product_id){
-        this.$router.go(-2);
-      }
+      // if(!this.product.product_id){
+      //   this.$router.go(-2);
+      // }
       this.getqu();
       this.getCouponList();
       this.contact={"name":this.countprice.savename,"phone":this.countprice.savephone,"email":this.countprice.saveemail}
@@ -350,7 +348,7 @@
           this.showcheckCou=true;
         }
         else{
-          if(this_.couponDetails.length&&this_.countprice.coupon_cus_id==''){
+          if(this_.couponDetails&&this_.couponDetails.length&&this_.countprice.coupon_cus_id==''){
             for(let i=0;i<this_.couponDetails.length;i++){
               if(this_.couponDetails[i].is_best === true){
                 this_.setcou=i;
@@ -359,7 +357,7 @@
               }
             }
           }
-          else if(this_.couponDetails.length&&this_.countprice.coupon_cus_id!=''){
+          else if(this_.couponDetails&&this_.couponDetails.length&&this_.countprice.coupon_cus_id!=''){
             for(let i=0;i<this_.couponDetails.length;i++){
               if(this_.couponDetails[i].coupon_customer_id == this_.countprice.coupon_cus_id){
                 this_.setcou=i;

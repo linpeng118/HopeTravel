@@ -542,7 +542,7 @@
     data() {
       return {
         ENTITY_TYPE,
-        loading: true,
+        loading: false,
         // productId: Number(this.$route.query.productId) || null,
         isTransparent: false, // 导航头是否透明
         current: 0, // 导航页数
@@ -568,6 +568,7 @@
         // attributes_override: [],
         // transfer: [],
         // // 团期价格
+        // top_price: []
         isTabFixed: false,
         showDay: 'D1',
         // 显示电话弹窗
@@ -688,6 +689,7 @@
       },
       // 产品ID，session保存
       async init(){
+        console.log('product:', this.product)
         let query = this.$route.query.productId + ''
         let platform = this.$route.query.platform
         let viewStat = {}
