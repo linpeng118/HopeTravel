@@ -690,7 +690,7 @@
     },
     methods: {
       ...mapMutations({
-        vxSaveReservePro: 'saveReservePro',
+        vxSaveReservePro: 'product/saveReservePro',
         vxToggleDialog: 'toggleDialog', // 是否显示弹窗
         vxSetDlgType: 'setDlgType', // 设置弹窗类型
       }),

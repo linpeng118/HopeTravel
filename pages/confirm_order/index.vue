@@ -293,9 +293,6 @@
       },
 
     },
-    created(){
-      this.product = JSON.parse(JSON.stringify(this.$store.state.reservePro))
-    },
     beforeRouterEnter(to,form,next){
       console.log(form.path)
       if(form.path.indexOf('personal')!=-1){
@@ -306,9 +303,9 @@
       else{
         next();
       }
-
     },
     mounted() {
+      this.product = JSON.parse(JSON.stringify(this.$store.state.product.reservePro))
       this.pricelist=this.get_vuex_pricelist;
       this.product=this.get_vuex_pricelist;
       this.countprice=this.get_vuex_countprice;

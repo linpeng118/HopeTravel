@@ -3,15 +3,21 @@ import createPersistedState from 'vuex-persistedstate'
 
 export default ({store}) => {
   window.onNuxtReady(() => {
+    // 本地化存储的store数据
     createPersistedState({
       key: 'tourscool_vuex',
-      reducer(state) {
-        return {
-          // 本地化存储的store数据
-          profile: state.profile.profile,
-          reservePro: state.reservePro,
-        }
-      }
+      paths: [
+        // product模块的reservePro数据
+        'product.reservePro',
+      ],
+      // 下面也是可行的
+      // reducer(state) {
+      //   return {
+      //     product: {
+      //       test: state.product.reservePro
+      //     },
+      //   }
+      // }
     })(store)
   })
 }
