@@ -17,7 +17,6 @@ export default {
     // },
     // 保存产品详情
     saveReservePro(state, data) {
-      console.log(123123, data);
       state.reservePro = data
     },
   }
