@@ -488,7 +488,7 @@
 </template>
 
 <script>
-  import {mapMutations} from 'vuex';
+  import {mapMutations, mapState, mapGetters} from 'vuex';
   import {throttle as _throttle} from 'lodash'
   import {ImagePreview} from 'vant';
   import ProductDetailHeader from '@/components/header/productDetail'
@@ -499,7 +499,7 @@
   import {ENTITY_TYPE} from '@/assets/js/consts/products'
   import {DLG_TYPE} from '@/assets/js/consts/dialog'
   import {getProductDetail, addFavorite, delFavorite, schedule} from '@/api/products'
-  import {getProfile, couponList, couponDetail, getcouponobj} from '@/api/profile'
+  import {couponList, couponDetail, getcouponobj} from '@/api/profile'
   import shareList from '@/components/share/list'
   import {getCode, getBase64, getViewStat} from '@/api/sale_union'
   import {SESSIONSTORE, PLATFORM} from '@/assets/js/config'
@@ -608,10 +608,12 @@
         referrerId: '',
         productId: '',
         ids: {},
-        profile: {}
       }
     },
     computed: {
+      ...mapGetters([
+        'profile'
+      ]),
       serviceNote() {
         return this.product && this.product.icons_tour || []
       },
@@ -711,19 +713,13 @@
       },
       // 获取profile-登录态
       async initProfileData() {
-        const {code, msg, data} = await getProfile()
-        if (code === 0) {
-          this.profile = data
-          if (this.profile.is_agent && this.$route.query.productId.indexOf('-') <= 0) {
-            this.$router.push({
-              name: 'product-detail',
-              query: {
-                productId: this.$route.query.productId + '-' + this.profile.customer_id
-              }
-            })
-          }
-        } else {
-          this.profile = {}
+        if (this.profile.is_agent && this.$route.query.productId.indexOf('-') <= 0) {
+          this.$router.push({
+            name: 'product-detail',
+            query: {
+              productId: this.$route.query.productId + '-' + this.profile.customer_id
+            }
+          })
         }
         console.log(this.$route)
       },
@@ -1090,16 +1086,10 @@
       },
       // 收藏页面
       async onFollow() {
-        const {code, msg, data} = await getProfile()
-        console.log(code, msg)
-        // console.log(this.product)
-        if (code === 700) {
-          console.log(this.$route.fullPath)
+        if (!this.profile.customer_id) {
           this.$router.push({
             path: `/login?redirect=${this.$route.fullPath}`,
           })
-        } else if (code === 401) {
-          return
         } else {
           this.jumpTo('/personal/follow')
         }
@@ -1124,14 +1114,10 @@
       },
       // 分享
       async shareProductHandle() {
-        const {code, data} = await getProfile()
-        if (code === 700) {
+        if (!this.profile.customer_id) {
           this.$router.push({
             path: `/login?redirect=${this.$route.fullPath}`,
           })
-        } else if (code === 401) {
-          // this.$notify(msg)
-          return
         } else {
           let {product_id, name, default_price, special_price, images} = this.product
           let {face, customer_id, chinese_name, email, phone, last_name, first_name, nickname} = data

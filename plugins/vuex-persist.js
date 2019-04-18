@@ -9,12 +9,14 @@ export default ({store}) => {
       paths: [
         // product模块的reservePro数据
         'product.reservePro',
+        // 用户信息
+        'profile.profile'
       ],
       // 下面也是可行的
       // reducer(state) {
       //   return {
       //     product: {
-      //       test: state.product.reservePro
+      //       reservePro: state.product.reservePro
       //     },
       //   }
       // }
