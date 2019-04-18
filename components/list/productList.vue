@@ -28,7 +28,7 @@
           <template v-else>
             <span class="sale-price"><strong>{{data.special_price | showInt}}</strong>/起</span><span class="default-price" style="text-decoration: line-through">原价：{{data.default_price | showInt}}</span>
           </template>
-          <span class="setspecial" v-if="data.coupons&&data.coupons.length>0">
+          <span v-if="data.coupons&&data.coupons.length" class="setspecial">
                <i class="ileft"></i>
                <i class="icon">{{data.coupons[0]}}</i>
                <i class="iright"></i>
