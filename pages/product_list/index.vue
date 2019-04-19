@@ -254,7 +254,6 @@
               productId
             }
           })
-
       },
       onSearch() {},
       searchStart() {},
