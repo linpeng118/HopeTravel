@@ -136,6 +136,14 @@ module.exports = {
         '^/union': '/',
       },
       changeOrigin: true,
+    },
+    //搜索列表分类下数据数量
+    '/serachtype': {
+      target: `${apiConfig.base}/api/categoryCount`, // 联盟
+      pathRewrite: {
+        '^/union': '/',
+      },
+      changeOrigin: true,
     }
   },
   server: {

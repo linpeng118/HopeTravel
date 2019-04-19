@@ -80,7 +80,6 @@
               </p>
             </div>
             <van-radio-group v-model="checktrvel" class="radiobox">
-
               <van-radio name="" class="radioitem">暂不选择行程</van-radio>
               <template v-for="(item,index) in seltrvel.items">
                 <van-radio class="radioitem" :key="index" :name="item.id">

@@ -35,6 +35,7 @@
             <!-- 手机号码 -->
             <div class="form-input phone">
               <div class="left-icon icon-phone"></div>
+              <div class="elsequ" @click="showsel=true">{{checkqu}}<van-icon name="arrow" /></div>
               <input type="text" placeholder="请填写您的电话号码" v-model="phone" class="setinput">
             </div>
             <!-- 定制按钮 -->
@@ -116,6 +117,9 @@
           <img class="abimg" src="../../assets/imgs/newcustom/921@2x.png" alt>
         </div>
       </div>
+      <van-popup v-model="showsel" position="bottom" :overlay="true">
+        <van-picker v-if="columns.length" :columns="columns" @confirm="onChangequ" show-toolbar title="选择区号"/>
+      </van-popup>
     </div>
     <div class="back-top" v-if="!isApp" @click="showcall2()"></div>
 
@@ -142,6 +146,7 @@ import { isMobile } from "@/assets/js/utils";
 import Loading from "@/components/loading";
 import { mapMutations, mapState } from "vuex";
 import { DLG_TYPE } from "@/assets/js/consts/dialog";
+import {getquhao} from '@/api/contacts'
 export default {
   name: "custom",
   components: {
@@ -259,12 +264,16 @@ export default {
       },
       listdiqu: [],
       objlist: [],
-      hidelist: true
+      hidelist: true,
+      showsel:false,//选择区号
+      columns:[],
+      checkqu:'86',
     };
   },
   activated() {
     this.getlist();
     this.getitem();
+    this.getqu();
   },
   mounted() {
     // 监听滚动
@@ -272,11 +281,10 @@ export default {
       "scroll",
       this.scrollFn
     );
-
     let this_ = this;
     this_.getlist();
     this_.getitem();
-
+    this_.getqu();
     if (this.setInv != null) {
       clearInterval(this.setInv);
     }
@@ -319,7 +327,27 @@ export default {
         this.tagList = data;
       }
     },
-
+    // 得到区号
+    async getqu() {
+      let this_=this;
+      let {data, code, msg} = await getquhao();
+      if(code === 0) {
+        this_.columns = data.map(v => {
+          this.$set(v, 'text',  v.tel_code+'('+v.countryName+')')
+          return v
+        })
+        console.log(this_.columns)
+      }
+      else {
+        this.$dialog.alert({
+          message: msg
+        });
+      }
+    },
+    onChangequ(picker){
+      this.checkqu=picker.tel_code;
+      this.showsel=false;
+    },
     // 热门景点tag
     onTag(item) {
       // console.log(item);
@@ -344,7 +372,7 @@ export default {
       }
       this.doCustom({
         destination: this.address,
-        phone: this.phone,
+        phone: this.checkqu+'-'+this.phone,
         wechat: ""
       });
     },
@@ -367,7 +395,7 @@ export default {
       }
       this.doCustom({
         destination: this.address1,
-        phone: this.phone1,
+        phone:  this.checkqu+'-'+this.phone1,
         wechat: this.wechat1
       });
     },
@@ -812,7 +840,7 @@ export default {
             -webkit-justify-content: space-between;
             align-content: center;
             .left-icon {
-              width: 50px;
+              width: 70px;
               &.icon-addr {
                 background: url("../../assets/imgs/newcustom/886@2x.png")
                   no-repeat;
@@ -1395,4 +1423,17 @@ export default {
     font-size: 36px;
   }
 }
+  .elsequ{
+    width: 2.5rem;
+    display: inline-block;
+    text-align: center;
+    line-height: 100px;
+    height: 100px;
+    font-size: 34px;
+    color: #333;
+    i{
+      position: relative;
+      top: 5px;
+    }
+  }
 </style>
