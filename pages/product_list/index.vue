@@ -8,32 +8,38 @@
       @query="queryChange"
       @leftClick="leftClick"
       :isProductList="true"
+      :serachtype="serachtype"
     ></lay-header>
     <div class="list-wrap">
       <div class="tabs-box">
         <van-tabs v-model="active" @click="changeTypeClick">
-          <van-tab v-for="item in tagsList" :title="item.title" :key="item.type">
-            <van-list v-model="prodLoading" :finished="prodFinished" finished-text="没有更多了" @load="onLoad">
-              <template v-if="active !== 0">
-                <div class="filter-box">
-                  <div class="sort-left" @click="sortChange">
-                    {{sortResult.name}}
-                    <van-icon name="arrow-down" />
-                  </div>
-                  <div class="right" @click="filterSelect">
-                    筛选
-                    <van-icon name="filter-o" />
-                  </div>
-                </div>
-              </template>
-              <template v-if="productList.length">
-                <van-cell v-for="item in productList" :key="item.product_id + Math.random()">
-                  <product-list :data="item" @selectItem="selectProductDetail" :showTag="active === 0"></product-list>
-                </van-cell>
-              </template>
-              <!--<div v-else>暂无数据</div>-->
-            </van-list>
-          </van-tab>
+          <template v-for="item in tagsList">
+            <van-tab :title="item.title" :key="item.type">
+              <van-pull-refresh v-model="prodLoading" @refresh="onRefresh">
+                <van-list v-model="prodLoading" :finished="prodFinished" finished-text="没有更多了" @load="onLoad">
+                  <template v-if="active !== 0">
+                    <div class="filter-box">
+                      <div class="sort-left" @click="sortChange">
+                        {{sortResult.name}}
+                        <van-icon name="arrow-down" />
+                      </div>
+                      <div class="right" @click="filterSelect">
+                        筛选
+                        <van-icon name="filter-o" />
+                      </div>
+                    </div>
+                  </template>
+                  <template v-if="productList.length">
+                    <van-cell v-for="item in productList" :key="item.product_id + Math.random()">
+                      <product-list :data="item" @selectItem="selectProductDetail" :showTag="active === 0"></product-list>
+                    </van-cell>
+                  </template>
+                  <!--<div v-else>暂无数据</div>-->
+                </van-list>
+              </van-pull-refresh>
+            </van-tab>
+          </template>
+
         </van-tabs>
       </div>
     </div>
@@ -87,6 +93,7 @@
   import ProductList from '@/components/list/productList'
   import CityList from '@/components/list/cityList'
   import {getProductList, getFilterList} from '@/api/products'
+  import {getmenuSearch} from '@/api/search'
   import DriftAside from '@/components/drift_aside'
   export default {
     name: 'product_list',
@@ -133,11 +140,15 @@
           category: []
         },
         isFilterShow: false,
+        firstload:true,
         submitserData:null,//跳转存储数据
+        serachtype: this.$route.query.sem+'' || '0', // 当前搜索的type值
+        menu:null,
       }
     },
     computed: {
-      currentType() { // 当前的type类型
+      currentType() {
+        // 当前的type类型
         // 如果有修改要特别注意类型
         // let _arr = [3,1,2,4,5,7,7]
         let _arr = [0,3,1,2,4,5,7]
@@ -149,16 +160,17 @@
     },
     watch: {
       searchKeyWords(newValue, oldValue) {
-        this.productList = []
+        this.productList = [];
         this.prodPagination = {}
-        console.log(this.prodFinished)
         if(this.prodFinished) { // 如果这个值为true，则不会触发onLoad, 所以要手动初始化一下
-          this.prodFinished = false
+          this.prodFinished = false;
         } else { // 如果为false则会触发onLoad
-          this.onLoad()
+          this.onLoad();
         }
         // 筛选条件更新
-        this.getFilterList()
+        this.getFilterList();
+        // this.menuset();
+
       }
     },
     created() {
@@ -176,22 +188,68 @@
         {id:3,type: 4,title: '门票演出'},
         {id:4,type: 5,title: '一日游'},
         {id:6,type: 7,title: '邮轮'}
-      ]
+      ];
       // console.log(this.$route.query)
+      // this.menuset();
     },
     mounted() {
       // 初始化
       if(this.currentType !== 0) {
-        this.getFilterList()
+        this.getFilterList();
       }
+      this.serachtype=this.$route.query.sem+'' || '0';
+
     },
     methods: {
       // 返回上一级
       leftClick() {
-        this.$router.go(-1)
+        if(this.serachtype=='1'){
+          this.$router.push({
+            path: '/'
+          })
+        }
+        else{
+          this.$router.go(-1)
+        }
+
+      },
+      //得到哪些菜单下有数据
+      async menuset(){
+        let {code, data} = await getmenuSearch(this.searchKeyWords)
+        if (code === 0) {
+          this.menu = data;
+          let objlist=[{id:10,type: 0,title: '稀饭推荐'}];
+          if(data.local_and_regiment>0){
+            objlist.push({id:1,type: 1,title: '当地跟团'})
+          }
+          if(data.local_play>0){
+            objlist.push({id:2,type: 2,title: '当地玩乐'})
+          }
+          if(data.boutique_group>0){
+            objlist.push({id:0,type: 3,title: '精品小团'})
+          }
+          if(data.tickets_performance>0){
+            objlist.push({id:3,type: 4,title: '门票演出'})
+          }
+          if(data.one_day_tour>0){
+            objlist.push({id:4,type: 5,title: '一日游'})
+          }
+          if(data.liner>0){
+            objlist.push({id:6,type: 7,title: '邮轮'})
+          }
+          console.log('xXXXXXXXXXXXXXXXXXXXXX')
+          console.log(objlist)
+          this.tagsList=objlist
+        }
       },
       // 跳转到详情页面
       selectProductDetail(productId) {
+
+        if( localStorage.getItem('plist')){
+          localStorage.removeItem('plist')
+        }
+          localStorage.setItem('plist',JSON.stringify(this.submitserData));
+
           this.$router.push({
             name: 'product-detail',
             query: {
@@ -232,11 +290,19 @@
       },
       // 初始化筛选列表
       async getFilterList() {
-        const submitData = {
-          type: this.currentType == 0 ? null: this.currentType,
-          keyword: this.searchKeyWords,
-          ...this.filterResult
+        let submitData = {};
+        if(localStorage.getItem('plist')&&this.firstload==true){
+          let submitData = JSON.parse(localStorage.getItem('plist'))
+          localStorage.removeItem('plist')
         }
+        else{
+          submitData = {
+            type: this.currentType == 0 ? null: this.currentType,
+            keyword: this.searchKeyWords,
+            ...this.filterResult
+          }
+        }
+        this.firstload=false;
         let {code, data} = await getFilterList(submitData)
         if (code === 0) {
           this.filterLists = data
@@ -246,19 +312,63 @@
       async onLoad() {
         // 获取数据
         console.log('onload')
-        const submitData = {
-          type: this.currentType == 0 ? null: this.currentType,
-          page: (this.prodPagination.page || 0) + 1,
-          order_by: this.sortResult.order_by || null,
-          order: this.sortResult.order || null,
-          keyword: this.searchKeyWords,
-          ...this.filterResult
+        let submitData = {};
+        if(localStorage.getItem('plist')&&this.firstload==true){
+          submitData = JSON.parse(localStorage.getItem('plist'))
+          localStorage.removeItem('plist')
         }
+        else{
+          submitData = {
+            type: this.currentType == 0 ? null: this.currentType,
+            page: (this.prodPagination.page || 0) + 1,
+            order_by: this.sortResult.order_by || null,
+            order: this.sortResult.order || null,
+            keyword: this.searchKeyWords,
+            ...this.filterResult
+          }
+        }
+        this.firstload=false;
         this.submitserData=submitData;
-        console.log(this.submitserData)
+        console.log(submitData)
         const res = await getProductList(submitData)
         this.productList.push(...res.data)
         this.prodPagination = res.pagination
+        // 加载状态结束
+        this.prodLoading = false
+        // 数据全部加载完成
+        if (!this.prodPagination.more) {
+          this.prodFinished = true
+        }
+      },
+      // 上拉刷新
+      async onRefresh(){
+        // 获取数据
+        console.log('onRefresh')
+        let submitData = {};
+        if(!this.prodPagination.page||this.prodPagination.page==1){
+          this.productList=[];
+        }
+        if(localStorage.getItem('plist')){
+          let submitData = JSON.parse(localStorage.getItem('plist'))
+          localStorage.removeItem('plist')
+        }
+        else{
+          submitData = {
+            type: this.currentType == 0 ? null: this.currentType,
+            page: (!this.prodPagination.page||this.prodPagination.page==1)?1:this.prodPagination.page-1,
+            order_by: this.sortResult.order_by || null,
+            order: this.sortResult.order || null,
+            keyword: this.searchKeyWords,
+            ...this.filterResult
+          }
+        }
+        this.firstload=false;
+        this.submitserData=submitData;
+        const res = await getProductList(submitData)
+        this.prodPagination = res.pagination
+        if(this.prodPagination!=1){
+          this.productList.unshift(...res.data)
+        }
         // 加载状态结束
         this.prodLoading = false
         // 数据全部加载完成

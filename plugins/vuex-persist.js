@@ -1,6 +1,5 @@
-// ~/plugins/vuex-persist.js
-import createPersistedState from 'vuex-persistedstate'
 
+import createPersistedState from 'vuex-persistedstate'
 export default ({store}) => {
   window.onNuxtReady(() => {
     // 本地化存储的store数据

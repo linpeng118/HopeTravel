@@ -33,7 +33,7 @@ export default ({
     hideDom('#newBridge')
 
     // 百度商桥
-    if (to.name.indexOf('custom') >= 0) {
+    if (to.name&&to.name.indexOf('custom') >= 0) {
       var _hmt = _hmt || [];
       (function () {
         var hm = document.createElement("script");

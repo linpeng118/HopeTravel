@@ -592,8 +592,6 @@
         // attributes: [],
         // attributes_override: [],
         // transfer: [],
-        // // 团期价格
-        // top_price: []
         isTabFixed: false,
         showDay: 'D1',
         // 显示电话弹窗
@@ -724,34 +722,6 @@
         console.log(this.$route)
       },
       // 产品ID，session保存
-
-      async init(){
-        console.log('product:', this.product)
-        let query = this.$route.query.productId + ''
-        let platform = this.$route.query.platform
-        let viewStat = {}
-        console.log(query)
-        if (query.indexOf('-') >= 0) {
-          this.productId = Number(query.split('-')[0])
-          setSessionStore(SESSIONSTORE, query.split('-')[1])
-          viewStat.referrer_id = query.split('-')[1]
-          if (navigator.userAgent.indexOf('MicroMessenger') >= 0) {
-            viewStat.platform = 'weixin'
-            setSessionStore(PLATFORM, 'weixin')
-            // alert('weixin')
-          } else if (navigator.userAgent.indexOf('QBWebViewType') >= 0 || navigator.userAgent.indexOf('MQQBrowser') >= 0) {
-            viewStat.platform = 'qq'
-            setSessionStore(PLATFORM, 'qq')
-            // alert('qq')
-          } else if (platform) {
-            viewStat.platform = platform
-            setSessionStore(PLATFORM, platform)
-          }
-          await getViewStat(viewStat)
-        } else {
-          this.productId = Number(query) || null
-        }
-      },
       // async getProductDetailData() {
       //   this.loading = true
       //   const {code, data, msg} = await getProductDetail({
