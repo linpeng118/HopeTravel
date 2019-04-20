@@ -1,5 +1,5 @@
 <template>
-  <section class="product-list-page">
+  <section class="product-list-page" ref="refprolistPage">
     <lay-header
       :searchKeyWords="searchKeyWords"
       :isSearch="isSearch"
@@ -133,6 +133,7 @@
           category: []
         },
         isFilterShow: false,
+        submitserData:null,//跳转存储数据
       }
     },
     computed: {
@@ -191,12 +192,13 @@
       },
       // 跳转到详情页面
       selectProductDetail(productId) {
-        this.$router.push({
-          name: 'product-detail',
-          query: {
-            productId
-          }
-        })
+          this.$router.push({
+            name: 'product-detail',
+            query: {
+              productId
+            }
+          })
+
       },
       onSearch() {},
       searchStart() {},
@@ -252,6 +254,8 @@
           keyword: this.searchKeyWords,
           ...this.filterResult
         }
+        this.submitserData=submitData;
+        console.log(this.submitserData)
         const res = await getProductList(submitData)
         this.productList.push(...res.data)
         this.prodPagination = res.pagination
@@ -423,7 +427,8 @@
           start_city: this.$route.query.start_city || null
         }
         console.log(this.filterResult)
-      }
+      },
+
     }
   }
 </script>

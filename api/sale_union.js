@@ -95,5 +95,5 @@ export const getNewIncome = () => {
 
 // news agent/newIncome?test_id=1000
 export const getViewStat = (data) => {
-  return axios.post(`/api/agent/viewStat`,data)
+  return axios.post(`/api/agent/viewStat`, data)
 }

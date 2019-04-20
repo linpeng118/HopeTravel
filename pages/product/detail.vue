@@ -593,7 +593,7 @@
         // attributes_override: [],
         // transfer: [],
         // // 团期价格
-        // top_price: [],
+        // top_price: []
         isTabFixed: false,
         showDay: 'D1',
         // 显示电话弹窗
@@ -724,7 +724,9 @@
         console.log(this.$route)
       },
       // 产品ID，session保存
-      async ashbackLogic() {
+
+      async init(){
+        console.log('product:', this.product)
         let query = this.$route.query.productId + ''
         let platform = this.$route.query.platform
         let viewStat = {}
