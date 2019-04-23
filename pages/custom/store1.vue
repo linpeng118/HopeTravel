@@ -343,7 +343,7 @@
       </div>
     </van-popup>
     <van-popup v-model="showsel" position="bottom" :overlay="true">
-      <van-picker v-if="columns.length" :columns="columns" @confirm="onChangequ" show-toolbar title="选择区号"/>
+      <van-picker v-if="columns.length" @cancel="showsel=false" :columns="columns" @confirm="onChangequ" show-toolbar title="选择区号"/>
     </van-popup>
   </div>
 </template>

@@ -118,7 +118,7 @@
         </div>
       </div>
       <van-popup v-model="showsel" position="bottom" :overlay="true">
-        <van-picker v-if="columns.length" :columns="columns" @confirm="onChangequ" show-toolbar title="选择区号"/>
+        <van-picker v-if="columns.length" :columns="columns" @confirm="onChangequ" @cancel="showsel=false" show-toolbar title="选择区号"/>
       </van-popup>
     </div>
     <div class="back-top" v-if="!isApp" @click="showcall2()"></div>
