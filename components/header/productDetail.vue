@@ -61,7 +61,7 @@
       color: #404040;
       font-size: 32px;
     }
-    .left-wrap{
+    .left-wrap {
       padding: 16px;
     }
     &.transparent {
@@ -69,7 +69,7 @@
       color: #fff;
       .left-wrap,
       .right-wrap {
-        background: rgba(0,0,0, 0.5);
+        background: rgba(0, 0, 0, 0.5);
         padding: 10px;
         border-radius: 50%;
         color: #fff;
