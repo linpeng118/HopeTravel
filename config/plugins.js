@@ -96,10 +96,10 @@ let devPlugins = [
   //   ssr: false
   // },
   //vuex禁止ssr
-  // {
-  //   src: '~/plugins/vuex-persist',
-  //   ssr: false
-  // },
+  {
+    src: '~/plugins/vuex-persist',
+    ssr: false
+  }
 ]
 
 if (process.env.ENV_TYPE === 'prodDev') {

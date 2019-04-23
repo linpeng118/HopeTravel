@@ -1,6 +1,6 @@
 <template>
   <div class="product-list">
-    <nuxt-link class="product-item" @click="selectDetail(data.product_id)" :to="`/product/detail?productId=${data.product_id}`" target="_blank">
+    <nuxt-link class="product-item" :to="`/product/detail?productId=${data.product_id}`" target="_blank">
       <div class="img-show">
         <img :src="data.image" alt="">
         <div class="tags" v-if="showTag">{{data.product_type | productTypeValue}}</div>
@@ -34,7 +34,7 @@
                <i class="iright"></i>
           </span>
           <span v-if="data.coupons.length>1" style="color:#fb605d">......</span>
-          <span class="share-p">分享赚{{data.agent_fee}}</span>
+          <span class="share-p" v-if="isShowFx">分享赚{{data.agent_fee}}</span>
           <!--<p>-->
             <!--<span v-for="(item,index) in data.coupons" class="setspecial" :key="index">-->
               <!--<i>{{item}}</i>-->
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import {getProfile} from '@/api/profile'
+import {mapGetters} from 'vuex'
 export default {
   name: 'productList',
   filters: {
@@ -94,20 +94,17 @@ export default {
   computed: {
     iconTour() {
       return this.data.icons_tour
-    }
+    },
+    ...mapGetters([
+      'profile'
+    ])
   },
   mounted(){
-    this.getProfile()
+    this.isShowFx = this.profile.is_agent ? true : false
   },
   methods: {
     selectDetail(productId) {
-      // this.$emit('selectItem', productId)
-    },
-    async getProfile() {
-      const {data={}} = await getProfile()
-      if(data && data.is_agent){
-        this.isShowFx = true
-      }
+      this.$emit('selectItem', productId)
     }
   }
 }

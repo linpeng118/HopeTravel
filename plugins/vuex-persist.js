@@ -1,9 +1,15 @@
-// ~/plugins/vuex-persist.js
-import VuexPersistence from 'vuex-persist'
+import createPersistedState from 'vuex-persistedstate'
 
 export default ({store}) => {
-  // console.log('1234567')
-  return new VuexPersistence({
-    /* your options */
-  }).plugin(store);
+  createPersistedState({
+    key: 'tourscool_vuex',
+    reducer(state) {
+      return {
+        // 本地化存储的store数据
+        profile: {
+          profile: state.profile.profile
+        }
+      }
+    }
+  })(store)
 }

@@ -50,13 +50,13 @@
       v-model="playMode"
       position="bottom">
       <h3 class="title">选择提现方式</h3>
-      <div class="item-pay" @click="goToNextPath('wx')">
+      <div class="item-pay" @click="goToNextPath('weixin')">
         <img src="../../../assets/imgs/weixin_pay.png" alt="">
-        <p>支付宝</p>
-      </div>
-      <div class="item-pay" @click="goToNextPath('ali')">
-        <img src="../../../assets/imgs/alipay.png" alt="">
         <p>微信支付</p>
+      </div>
+      <div class="item-pay" @click="goToNextPath('alipay')">
+        <img src="../../../assets/imgs/alipay.png" alt="">
+        <p>支付宝</p>
       </div>
       <div class="union-btn" @click="playMode=false">取消</div>
     </van-popup>
@@ -66,7 +66,10 @@
 <script>
 import HeaderBar from '@/components/header/sale_union'
 import {getSmsCode, register} from '@/api/sale_union'
-import {mapMutations, mapGetters} from 'vuex'
+import {isCard,isMobile} from '@/assets/js/utils'
+import {setPayIDCard} from '@/api/sale_union'
+import {payInfo} from '@/assets/js/mixins/getPayInfo'
+import {isAgent} from '@/assets/js/mixins/isAgent'
 const TIME = 60 // 倒计时时间
 export default {
   name: 'verify_identity',
@@ -76,15 +79,10 @@ export default {
       return tel.replace(/^(\d{3})\d{4}(\d+)/,"$1****$2")
     }
   },
+  mixins:[payInfo,isAgent],
   data(){
     return {
       value: '',
-      fillInfo: {
-        userName: '',
-        cardId: '',
-        smsCode: '',
-        phone: ''
-      },
       countDownTime: TIME, // 倒计时时间
       codeType: 0, // 0开始, 1获取ing, 2重新获取
       playMode: false, // 付款方式选择
@@ -102,16 +100,12 @@ export default {
         return '重新获取'
       }
     },
-    ...mapGetters([
-      'profile'
-    ])
   },
   mounted() {
-    console.log(this.profile)
-    if (!this.profile.phone) {
-      this.$router.push({
-        path: '/login?redirect=personal/transfercore/verify_identity'
-      })
+    this.fillInfo = {
+      userName: this.payInfo.chinese_name || '',
+      cardId: this.payInfo.idcard_no || '',
+      smsCode: 'validate',
     }
   },
   methods: {
@@ -143,10 +137,47 @@ export default {
         }
       }, 1000)
     },
-    submitValidate() {
-      this.playMode = true
+    async submitValidate() {
+      if(this.payInfo.idcard_no) {
+        this.playMode = true
+      } else {
+        var regName =/^[\u4e00-\u9fa5]{2,4}$/
+        let {userName, cardId, phone, smsCode} = this.fillInfo
+        if(!regName.test(userName)) {
+          this.$toast('姓名填写错误')
+          return false
+        }
+        if(!isCard(cardId)) {
+          this.$toast('身份证填写有误')
+          return false
+        }
+        if(!this.profile.phone) {
+          if(!isMobile(phone)){
+            this.$toast('手机号码填写有误')
+            return false
+          }
+        }
+        if(!smsCode) {
+          this.$toast('验证码不能为空')
+          return false
+        }
+        let param = {
+          userName,cardId,smsCode,
+          phone: this.profile.phone || phone
+        }
+        let {code,msg} = await setPayIDCard(param)
+        if(code === 0) {
+          this.$toast.success('添加成功')
+          setTimeout(() => {
+            this.playMode = true
+          }, 3000)
+        } else {
+          this.$toast.fail(msg)
+        }
+      }
     },
     goToNextPath(value){
+      // 进来了吗
       this.$router.push({
         name:'personal-transfercore-account_sure',
         query: {

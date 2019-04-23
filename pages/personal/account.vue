@@ -165,6 +165,7 @@ export default {
         message: '是否退出登录'
       }).then(() => {
         clearCookieByKey('token')
+        this.vxSetProfile({})
         this.$router.push({
           path: '/'
         })

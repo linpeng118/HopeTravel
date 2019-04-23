@@ -139,4 +139,5 @@ export default {
       text-indent: 30px;
     }
   }
+
 </style>

@@ -9,8 +9,8 @@ export default {
   },
   actions: {
     async getProfile({
-      commit
-    }, subData) {
+                       commit
+                     }, subData) {
       let res = await getProfile()
       return res
       // commit('setProfile', data)
