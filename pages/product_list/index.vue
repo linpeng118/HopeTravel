@@ -248,15 +248,14 @@
         if( localStorage.getItem('plist')){
           localStorage.removeItem('plist')
         }
-          localStorage.setItem('plist',JSON.stringify(this.submitserData));
-
-          this.$router.push({
-            name: 'product-detail',
-            query: {
-              productId
-            }
-          })
-
+        localStorage.setItem('plist',JSON.stringify(this.submitserData));
+        let routeData = this.$router.resolve({
+          name: 'product-detail',
+          query: {
+            productId
+          }
+        });
+        window.open(routeData.href, '_blank')
       },
       onSearch() {},
       searchStart() {},
