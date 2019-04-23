@@ -51,15 +51,6 @@
 <script>
 export default {
   name: "custom-list",
-  head () {
-    return {
-      script: [
-        {
-          src: 'https://hm.baidu.com/hm.js?03f91ebf7f5ac08015d9f98fa0dc22fc'
-        }
-      ]
-    }
-  },
   data() {
     return {
       isApp: this.$route.query.platform, // 有就是app
