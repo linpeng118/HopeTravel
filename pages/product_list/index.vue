@@ -292,7 +292,7 @@
         let submitData = {};
         if(localStorage.getItem('plist')&&this.firstload==true){
           submitData = JSON.parse(localStorage.getItem('plist'))
-          localStorage.removeItem('plist')
+          localStorage.removeItem('plist');
         }
         else{
           submitData = {
@@ -301,7 +301,6 @@
             ...this.filterResult
           }
         }
-        this.firstload=false;
         let {code, data} = await getFilterList(submitData)
         if (code === 0) {
           this.filterLists = data
