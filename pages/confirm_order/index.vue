@@ -11,9 +11,9 @@
 
       <!--页头信息-->
       <section>
-        <div class="confirm-title" v-if="countprice.departure_date">
-          <p>{{product.name}}</p>
-          <p v-html="settitletip()"></p>
+        <div class="confirm-title">
+          <p>{{xname}}</p>
+          <p>{{showtype}}</p>
         </div>
       </section>
       <!--接送服务-->
@@ -228,6 +228,7 @@
   import ConfirmFoot from '@/components/confirm_foot/foot.vue'
   import {getquhao} from '@/api/contacts'
   import {orderCouponList} from '@/api/confirm_order'
+  import {getSessionStore} from '@/assets/js/utils'
   export default {
     components: {
       ConfirmFoot
@@ -257,7 +258,9 @@
         setcou:'',
         showsetcou:'',
         setsaveuser:false,
-        product: {}
+        product: {},
+        showtype:'',
+        xname:'',
       }
     },
     computed: {
@@ -265,12 +268,6 @@
       get_vuex_countprice() {
         return this.$store.state.confirm.countprice;
       },
-      //产品
-      // product(){
-      //   return this.$store.state.reservePro;
-      //   // return this.$store.state.confirm.product;
-      // },
-      //获取价格数据
       get_vuex_pricelist() {
         return this.$store.state.confirm.pricelist;
       },
@@ -290,10 +287,8 @@
       'countprice.is_point'(val){
         this.$store.commit("countprice", {is_point:val});
       },
-
     },
     beforeRouterEnter(to,form,next){
-      console.log(form.path)
       if(form.path.indexOf('personal')!=-1){
         next(vm=>{
           vm.setsaveuser=true;
@@ -304,16 +299,20 @@
       }
     },
     mounted() {
-      this.product = JSON.parse(JSON.stringify(this.$store.state.product.reservePro))
+      let obj=getSessionStore('pricelist') ? JSON.parse(getSessionStore('pricelist')) : {};
+      let this_=this;
+      this.$store.commit("pricelist",obj);
+      let objw=getSessionStore('countprice') ? JSON.parse(getSessionStore('countprice')) : {};
+      this.$store.commit("countprice",objw);
+      this.product = this.$store.state.product.reservePro;
+      setTimeout(function () {
+        this_.xname=this_.$store.state.product.reservePro.name;
+      },100)
+
       this.pricelist=this.get_vuex_pricelist;
-      // this.product=this.product;
-      console.log(this.product)
-      this.countprice=this.get_vuex_countprice;
-      // if(!this.product.product_id){
-      //   this.$router.go(-2);
-      // }
       this.getqu();
       this.getCouponList();
+      this.settitletip();
       this.contact={"name":this.countprice.savename,"phone":this.countprice.savephone,"email":this.countprice.saveemail}
     },
 
@@ -372,9 +371,9 @@
         let date = new Date((this.countprice.departure_date).replace(/-/g, "/")).getTime();
         let date1 = this.timeFormat(date);
         if (this.product.product_entity_type == 1 && this.product.self_support == 0) {
-          return date1 + '  ' + this.countprice.adult + '成人  ' + this.countprice.child + '儿童  ' + this.countprice.room_total + '房间  '
+          this.showtype = date1 + '  ' + this.countprice.adult + '成人  ' + this.countprice.child + '儿童  ' + this.countprice.room_total + '房间  '
         } else {
-          return date1 + '  ' + this.countprice.adult + '成人  ' + this.countprice.child + '儿童  '
+          this.showtype =  date1 + '  ' + this.countprice.adult + '成人  ' + this.countprice.child + '儿童  '
         }
       },
       timeFormat(timestamp) {

@@ -116,6 +116,10 @@
     },
     mounted() {
       // this.$store.dispatch("initprice");
+      let obj=getSessionStore('pricelist') ? JSON.parse(getSessionStore('pricelist')) : {};
+      this.$store.commit("pricelist",obj);
+      let objw=getSessionStore('countprice') ? JSON.parse(getSessionStore('countprice')) : {};
+      this.$store.commit("countprice",objw);
       this.checkrouter();//判断当前位置
       console.log(this.apiPath)
     },

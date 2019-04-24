@@ -84,7 +84,7 @@ export default {
     },
     //
     initprice(state) {
-      state[mut.countprice]=sessionStorage.getItem('countprice') ? JSON.parse(sessionStorage.getItem('countprice')) : {
+      state[mut.countprice]=getSessionStore('countprice') ? JSON.parse(getSessionStore('countprice')) : {
         product_id: '',//产品id
         departure_date: '',//出发日期
         room_total: 0,//房间总数
@@ -99,12 +99,7 @@ export default {
       // console.log('成功执行init')
     },
     initpricelist(state) {
-      state[mut.countprice]=sessionStorage.getItem('pricelist') ? JSON.parse(sessionStorage.getItem('pricelist')) : {}
-        // console.log('成功执行init')
-    },
-    initproduct(state) {
-      state[mut.countprice]=sessionStorage.getItem('product') ? JSON.parse(sessionStorage.getItem('product')) : {
-      }
+      state[mut.countprice]=getSessionStore('pricelist') ? JSON.parse(getSessionStore('pricelist')) : {}
         // console.log('成功执行init')
     },
   },
