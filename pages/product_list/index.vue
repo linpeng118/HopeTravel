@@ -290,17 +290,11 @@
       // 初始化筛选列表
       async getFilterList() {
         let submitData = {};
-        if(localStorage.getItem('plist')&&this.firstload==true){
-          submitData = JSON.parse(localStorage.getItem('plist'))
-          localStorage.removeItem('plist');
-        }
-        else{
           submitData = {
             type: this.currentType == 0 ? null: this.currentType,
             keyword: this.searchKeyWords,
             ...this.filterResult
           }
-        }
         let {code, data} = await getFilterList(submitData)
         if (code === 0) {
           this.filterLists = data
@@ -309,7 +303,6 @@
       // 滑动会请求数据
       async onLoad() {
         // 获取数据
-
         let submitData = {};
         if(localStorage.getItem('plist')&&this.firstload==true){
           submitData = JSON.parse(localStorage.getItem('plist'))
