@@ -1,3 +1,4 @@
+import {setSessionStore, getSessionStore} from '@/assets/js/utils'
 const mut = {
   countprice:'countprice',
   pricelist:'pricelist',
@@ -34,6 +35,7 @@ export default {
         old[ish] = state[mut.countprice][ish]
       };
       state[mut.countprice] = {...state[mut.countprice], ...ob };
+      setSessionStore('countprice', JSON.stringify(state[mut.countprice]))
       // if(localStorage){
       //   localStorage.setItem('countprice', JSON.stringify(state[mut.countprice]))
       // }
@@ -49,6 +51,7 @@ export default {
       // if(localStorage){
       //   localStorage.setItem('pricelist', JSON.stringify(state[mut.pricelist]))
       // }
+      setSessionStore('pricelist', JSON.stringify(state[mut.pricelist]))
 
     },
     //产品详情
