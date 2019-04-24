@@ -217,9 +217,14 @@
         this.$refs.submitform.click();
       },
       topro(){
-        this.$router.push({
-          path:'/product/detail?productId='+this.details.product_id
-        })
+        let this_=this;
+        let routeData = this.$router.resolve({
+          name: 'product-detail',
+          query: {
+            'productId':this_.details.product_id
+          }
+        });
+        window.open(routeData.href, '_blank')
       }
     }
   }
