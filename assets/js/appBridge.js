@@ -33,6 +33,7 @@ function callApi(funcName, isAndroid, args) {;
   try {
     // 这里不能使用提前获取好的函数对象，也不是bind的问题
     if (isAndroid) {
+      console.log('isAndroid', args)
       if (args) {
         // 有参安卓
         const strJson = JSON.stringify(args)
