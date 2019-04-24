@@ -291,7 +291,7 @@
       async getFilterList() {
         let submitData = {};
         if(localStorage.getItem('plist')&&this.firstload==true){
-          let submitData = JSON.parse(localStorage.getItem('plist'))
+          submitData = JSON.parse(localStorage.getItem('plist'))
           localStorage.removeItem('plist')
         }
         else{
@@ -310,7 +310,7 @@
       // 滑动会请求数据
       async onLoad() {
         // 获取数据
-        console.log('onload')
+
         let submitData = {};
         if(localStorage.getItem('plist')&&this.firstload==true){
           submitData = JSON.parse(localStorage.getItem('plist'))
