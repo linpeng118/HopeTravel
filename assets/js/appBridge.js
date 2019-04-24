@@ -36,10 +36,10 @@ function callApi(funcName, isAndroid, args) {;
       if (args) {
         // 有参安卓
         const strJson = JSON.stringify(args)
-        window.android[funcName](strJson)
+        window[funcName].getData(strJson)
       } else {
         // 无参安卓
-        window.android[funcName]()
+        window[funcName].getData()
       }
     } else {
       // iOS只能传入一个参数，多的必须装到数组里
