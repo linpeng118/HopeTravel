@@ -448,11 +448,16 @@
             }
           }
         }
-         for(let i=0;i<this_.pricelist.attributes.length;i++){
+        for(let i=0;i<this_.pricelist.attributes.length;i++){
            let item=this_.pricelist.attributes[i];
            item.itemsx=null;
            obj.push(item);
           }
+        for(let i=0;i<this_.pricelist.attributes_override.length;i++){
+          let item=this_.pricelist.attributes_override[i];
+          item.itemsx=null;
+          obj.push(item);
+        }
          this_.showtrvel=obj;
          for(let i=0;i<this_.showtrvel.length;i++){
           let itemx=this_.showtrvel[i];
