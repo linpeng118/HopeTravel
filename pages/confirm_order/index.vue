@@ -307,11 +307,11 @@
       this.product = this.$store.state.product.reservePro;
       setTimeout(function () {
         this_.xname=this_.$store.state.product.reservePro.name;
+        this.getCouponList();
       },100)
 
       this.pricelist=this.get_vuex_pricelist;
       this.getqu();
-      this.getCouponList();
       this.settitletip();
       this.contact={"name":this.countprice.savename,"phone":this.countprice.savephone,"email":this.countprice.saveemail}
     },
