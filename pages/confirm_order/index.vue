@@ -307,7 +307,7 @@
       this.product = this.$store.state.product.reservePro;
       setTimeout(function () {
         this_.xname=this_.$store.state.product.reservePro.name;
-        this.getCouponList();
+        this_.getCouponList();
       },100)
 
       this.pricelist=this.get_vuex_pricelist;
