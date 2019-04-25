@@ -33,14 +33,13 @@ function callApi(funcName, isAndroid, args) {;
   try {
     // 这里不能使用提前获取好的函数对象，也不是bind的问题
     if (isAndroid) {
-      console.log('isAndroid', args)
       if (args) {
-        // 有参安卓
+        // 有参安卓（必须是小写android为interface名）
         const strJson = JSON.stringify(args)
-        window.Android[funcName](strJson)
+        window.android[funcName](strJson)
       } else {
-        // 无参安卓
-        window.Android[funcName]()
+        // 无参安卓（必须是小写android为interface名）
+        window.android[funcName]()
       }
     } else {
       // iOS只能传入一个参数，多的必须装到数组里
