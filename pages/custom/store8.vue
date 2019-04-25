@@ -386,6 +386,9 @@
           });
         }
       },
+      mounted() {
+        this.getqu();
+      },
       onChangequ(picker){
         this.checkqu=picker.tel_code;
         this.showsel=false;

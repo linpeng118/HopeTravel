@@ -302,7 +302,7 @@
     </van-popup>
   </div>
 </template>
-<<script>
+<script>
   import {custom} from "@/api/custom";
   import {getquhao} from '@/api/contacts'
   export default {
@@ -321,10 +321,14 @@
         checkqu:'86',
       };
     },
+    mounted() {
+      this.getqu();
+    },
     methods: {
       goBack() {
         window.history.go(-1);
       },
+
       clickcall(x){
         // this.showcall=false;
         window.location.href='tel://'+x;

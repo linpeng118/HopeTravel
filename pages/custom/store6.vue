@@ -284,6 +284,9 @@
         checkqu:'86',
       };
     },
+    mounted() {
+      this.getqu();
+    },
     methods: {
       goBack() {
         window.history.go(-1);
