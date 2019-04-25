@@ -259,12 +259,12 @@
         console.log('hotCity', hotCity)
         if (this.isApp) {
           const params = {
-            'item_type': LIST_TYPE.LOCAL_GROUP,
-            'category': hotCity.category,
-            'product_type': hotCity.product_type,
-            'span_city': hotCity.span_city,
-            'start_city': hotCity.span_city,
-            'placeholder': hotCity.title,
+            'item_type': String(LIST_TYPE.LOCAL_GROUP),
+            'category': String(hotCity.category),
+            'product_type': String(hotCity.product_type),
+            'span_city': String(hotCity.span_city),
+            'start_city': String(hotCity.span_city),
+            'placeholder': String(hotCity.title),
           }
           this.appBridge.jumpProductListView(params)
         } else {
