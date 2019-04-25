@@ -256,11 +256,15 @@
         }
       },
       onHotCity(hotCity) {
+        console.log('hotCity', hotCity)
         if (this.isApp) {
           const params = {
-            'itemType': LIST_TYPE.LOCAL_GROUP,
+            'item_type': LIST_TYPE.LOCAL_GROUP,
             'category': hotCity.category,
+            'product_type': hotCity.product_type,
             'span_city': hotCity.span_city,
+            'start_city': hotCity.span_city,
+            'placeholder': hotCity.title,
           }
           this.appBridge.jumpProductListView(params)
         } else {
