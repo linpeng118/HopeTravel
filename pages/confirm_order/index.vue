@@ -448,7 +448,7 @@
             }
           }
         }
-        for(let i=0;i<this_.pricelist.attributes.length;i++){
+         for(let i=0;i<this_.pricelist.attributes.length;i++){
            let item=this_.pricelist.attributes[i];
            item.itemsx=null;
            obj.push(item);
@@ -458,12 +458,13 @@
           item.itemsx=null;
           obj.push(item);
         }
+        console.log(this_.showtrvel)
          this_.showtrvel=obj;
          for(let i=0;i<this_.showtrvel.length;i++){
           let itemx=this_.showtrvel[i];
           for(let j=0;j<this_.checkedtrvel.length;j++){
             if(itemx.id==this_.checkedtrvel[j].option_id){
-              let kitem=this_.pricelist.attributes[i].items;
+              let kitem=this_.showtrvel[i].items;
               for(let k=0;k<kitem.length;k++){
                 if(kitem[k].id==this_.checkedtrvel[j].option_val_id){
                   this_.showtrvel[i].itemsx=kitem[k]
