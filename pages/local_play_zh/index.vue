@@ -172,7 +172,7 @@
       selectItem(productId) {
         if (this.isApp) {
           // app详情跳转
-          var json = {productID: productId.toString()}
+          var json = {product_id: productId.toString()}
           this.appBridge.jumpProductDetailView(json)
         } else {
           // m跳转

@@ -243,7 +243,7 @@
       onHot(productId) {
         if (this.isApp) {
           this.appBridge.jumpProductDetailView({
-            productID: productId.toString()
+            product_id: productId.toString()
           })
         } else {
           let routeData = this.$router.resolve({
@@ -263,7 +263,7 @@
             'category': String(hotCity.category),
             'product_type': String(hotCity.product_type),
             'span_city': String(hotCity.span_city),
-            'start_city': String(hotCity.span_city),
+            'start_city': String(hotCity.start_city),
             'placeholder': String(hotCity.title),
           }
           this.appBridge.jumpProductListView(params)
