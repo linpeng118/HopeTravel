@@ -259,7 +259,7 @@
         console.log('hotCity', hotCity)
         if (this.isApp) {
           const params = {
-            'item_type': LIST_TYPE.LOCAL_GROUP,
+            'item_type': String(LIST_TYPE.LOCAL_GROUP),
             'category': hotCity.category,
             'product_type': hotCity.product_type,
             'span_city': hotCity.span_city,
