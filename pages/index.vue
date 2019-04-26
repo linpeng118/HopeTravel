@@ -178,7 +178,7 @@ export default {
     this.getHomeInitData()
     this.getTime()
     // 监听滚动
-    this.$refs.refHomePage.addEventListener('scroll', _throttle(this.scrollFn, 50))
+    this.$refs.refHomePage.addEventListener('scroll',this.scrollFn)
     //
     let u = navigator.userAgent
     if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {

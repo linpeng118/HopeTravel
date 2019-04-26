@@ -116,12 +116,16 @@
     },
     mounted() {
       // this.$store.dispatch("initprice");
+      let obj=getSessionStore('pricelist') ? JSON.parse(getSessionStore('pricelist')) : {};
+      this.$store.commit("pricelist",obj);
+      let objw=getSessionStore('countprice') ? JSON.parse(getSessionStore('countprice')) : {};
+      this.$store.commit("countprice",objw);
       this.checkrouter();//判断当前位置
       console.log(this.apiPath)
     },
     methods: {
       ...mapMutations({
-        // vxSaveReservePro: 'product/saveReservePro',
+        // vxSaveReservePro: 'saveReservePro',
         vxToggleLoginDlg: 'login/toggleDialog', // 是否显示弹窗
       }),
       // 获取价格明细

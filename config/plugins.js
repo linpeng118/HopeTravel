@@ -91,15 +91,15 @@ let devPlugins = [
     src: '~/plugins/ga/facebook.js',
     ssr: false
   },
-  // {
-  //   src: '~/plugins/vconsole',
-  //   ssr: false
-  // },
   //vuex禁止ssr
   {
     src: '~/plugins/vuex-persist',
     ssr: false
-  }
+  },
+  // {
+  //   src: '~/plugins/vconsole',
+  //   ssr: false
+  // },
 ]
 
 if (process.env.ENV_TYPE === 'prodDev') {

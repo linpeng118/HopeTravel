@@ -1,8 +1,8 @@
 import NProgress from 'nprogress'
 import '@/assets/style/nprogress.css'
 export default ({
-                  app
-                }) => {
+  app
+}) => {
   app.router.beforeEach((to, from, next) => {
     // 获取dom
     function getDom(dom) {
@@ -28,22 +28,16 @@ export default ({
           clearInterval(timer)
           hideDom(dom)
         }
-      }, 1000, dom)
+      }, 5000, dom)
     }
-    hideDom('#newBridge')
+    try {
+      hideDom('#newBridge')
 
-    // 百度商桥
-    if (to.name.indexOf('custom') >= 0) {
-      var _hmt = _hmt || [];
-      (function () {
-        var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?72a266736d8b5b47605e2d2ad18f0756";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
-      })();
+      NProgress.start()
+      if (to.path.indexOf('.html') >= 0) {}
+    } catch (error) {
+      console.log(error)
     }
-    NProgress.start()
-    if (to.path.indexOf('.html') >= 0) {}
     next()
   })
   app.router.afterEach(() => {

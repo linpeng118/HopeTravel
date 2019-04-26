@@ -287,7 +287,7 @@
       // 监听滚动
       this.$refs.refCustomPage.addEventListener(
         "scroll",
-        _throttle(this.scrollFn, 200)
+        this.scrollFn
       );
       // 判断机型
       if (this.isApp) {

@@ -17,7 +17,7 @@
     <section class="section0">
       <section>
         <div class="confirm-item">
-          <p class="item-con">
+          <p class="item-con" @click="topro()">
             <span style="width: 80%"
                   v-html="details.product_name.length>45?details.product_name.substr(0,40)+'...':details.product_name"></span>
             <span style="width: 10%"></span>
@@ -216,7 +216,16 @@
         this.$refs.jwt.value=token;
         this.$refs.submitform.click();
       },
-
+      topro(){
+        let this_=this;
+        let routeData = this.$router.resolve({
+          name: 'product-detail',
+          query: {
+            'productId':this_.details.product_id
+          }
+        });
+        window.open(routeData.href, '_blank')
+      }
     }
   }
 

@@ -34,11 +34,11 @@ function callApi(funcName, isAndroid, args) {
     // 这里不能使用提前获取好的函数对象，也不是bind的问题
     if (isAndroid) {
       if (args) {
-        // 有参安卓
+        // 有参安卓（必须是小写android为interface名）
         const strJson = JSON.stringify(args)
         window.android[funcName](strJson)
       } else {
-        // 无参安卓
+        // 无参安卓（必须是小写android为interface名）
         window.android[funcName]()
       }
     } else {

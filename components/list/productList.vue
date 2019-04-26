@@ -1,6 +1,6 @@
 <template>
   <div class="product-list">
-    <nuxt-link class="product-item" :to="`/product/detail?productId=${data.product_id}`" target="_blank">
+    <div class="product-item" @click="selectDetail(data.product_id)" target="_blank">
       <div class="img-show">
         <img :src="data.image" alt="">
         <div class="tags" v-if="showTag">{{data.product_type | productTypeValue}}</div>
@@ -42,12 +42,12 @@
           <!--</p>-->
         </div>
       </div>
-    </nuxt-link>
+    </div>
   </div>
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {getProfile} from '@/api/profile'
 export default {
   name: 'productList',
   filters: {
@@ -100,11 +100,16 @@ export default {
     ])
   },
   mounted(){
-    this.isShowFx = this.profile.is_agent ? true : false
+    this.getProfile()
   },
   methods: {
     selectDetail(productId) {
       this.$emit('selectItem', productId)
+    },
+    getProfile() {
+      if(this.profile && this.profile.is_agent){
+        this.isShowFx = true
+      }
     }
   }
 }

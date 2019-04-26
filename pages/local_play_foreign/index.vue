@@ -175,7 +175,7 @@
           this.getViewedList(productIds)
         }
       }
-      this.$refs.refLocalPlayForeign.addEventListener('scroll', _throttle(this.scrollFn, 100))
+      this.$refs.refLocalPlayForeign.addEventListener('scroll', this.scrollFn)
     },
     beforeDestroy() {
       this.$refs.refLocalPlayForeign.removeEventListener('scroll', this.scrollFn)

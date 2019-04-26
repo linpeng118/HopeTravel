@@ -60,13 +60,13 @@ export default {
   mounted() {
     // 监听滚动
     if(!this.isHome) {
-      window.addEventListener('scroll', _throttle(this.scrollFn, 100))
+      window.addEventListener('scroll', this.scrollFn)
     }
   },
   destroyed () {
     // 移除监听
     if(!this.isHome) {
-      window.removeEventListener('scroll', _throttle(this.scrollFn, 100))
+      window.removeEventListener('scroll', this.scrollFn)
     }
   },
   methods: {

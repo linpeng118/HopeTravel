@@ -129,12 +129,11 @@
           console.log(error)
         }
         // 弹窗登录/页面登录
-        // this.getUserInfo()
+        await this.getUserInfo()
         if (this.isDialog) {
           this.vxToggleLoginDlg(false)
         } else {
           if (this.redirect) {
-            await this.getUserInfo()
             this.$router.push({
               path: this.redirect
             })

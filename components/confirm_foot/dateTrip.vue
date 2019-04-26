@@ -60,6 +60,8 @@
     },
     mounted(){
       //初始化
+      this.$store.commit("pricelist",{});
+      this.$store.commit("countprice",{});
       this.mGetDate(this.dateprice.years,this.dateprice.month);
 
     },

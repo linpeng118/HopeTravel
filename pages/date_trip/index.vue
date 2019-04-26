@@ -1,22 +1,27 @@
 <template>
   <section class="section0">
     <section>
-      <header-date :title="'选择日期和人数'" ></header-date>
+      <header-date :title="'选择日期和人数'"></header-date>
     </section>
-    <section class="section1" >
+    <section class="section1">
       <!--日历head-->
       <ul class="trip-head">
-        <div class="swiper-container" v-swiper:mySwiper="swiperOption">
+        <div class="swiper-container"
+          v-swiper:mySwiper="swiperOption">
           <div class="swiper-wrapper">
-              <template v-for="(item,ind) in pricedate">
-                <li @click="setMonth(item.month,ind)" :key="ind" class="trip-head-con  swiper-slide"
-                    :class="item.month==activeMonth?'active-head-con':''">{{item.month}}月
-                </li>
-              </template>
+            <template v-for="(item,ind) in pricedate">
+              <li @click="setMonth(item.month,ind)"
+                :key="ind"
+                class="trip-head-con  swiper-slide"
+                :class="item.month==activeMonth?'active-head-con':''">{{item.month}}月
+              </li>
+            </template>
           </div>
         </div>
       </ul>
-      <date-trip :dateprice="datedata" :checkdayx="checkday+''" @setcheckday="setcheckday"></date-trip>
+      <date-trip :dateprice="datedata"
+        :checkdayx="checkday+''"
+        @setcheckday="setcheckday"></date-trip>
       <!--日历foot-->
       <p class="trip-tip">
         <span v-show="showsday!=''">{{showsday}}出发 - {{showeday}}返回</span>
@@ -27,40 +32,42 @@
     <section v-if="product.product_entity_type==1&&product.self_support==0">
       <ul class="checkroom">
         <template v-for="(item,ind) in rooms">
-          <li :key="ind" class="checkitem" v-if="product.max_num_guest">
+          <li :key="ind"
+            class="checkitem"
+            v-if="product.max_num_guest">
             <p class="checkitem_title">房间 {{ind+1}}
-              <span v-if="item.add" @click="roomdel(ind)">删除</span>
+              <span v-if="item.add"
+                @click="roomdel(ind)">删除</span>
             </p>
             <div class="checkitem_con">
               <span>成人</span>
               <span>
-              <van-stepper
-                integer
-                v-model="item.adult"
-                :min="1"
-                :disable-input="true"
-                :max="product.max_num_guest-item.child"
-              />
-            </span>
+                <van-stepper integer
+                  v-model="item.adult"
+                  :min="1"
+                  :disable-input="true"
+                  :max="product.max_num_guest-item.child" />
+              </span>
             </div>
-            <div v-if="product.is_kids" class="checkitem_con">
+            <div v-if="product.is_kids"
+              class="checkitem_con">
               <span>儿童 <i v-if="product.max_child_age!=-1">&nbsp;0-{{product.max_child_age}}周岁</i></span>
               <span>
-              <van-stepper
-                integer
-                :min="0"
-                :disable-input="true"
-                v-model="item.child"
-                :max="product.max_num_guest-item.adult"
-              />
-            </span>
+                <van-stepper integer
+                  :min="0"
+                  :disable-input="true"
+                  v-model="item.child"
+                  :max="product.max_num_guest-item.adult" />
+              </span>
             </div>
-            <van-checkbox class="checkitem-btn" v-if="product.is_single_pu&&item.adult==1&&item.child==0" v-model="item.pair"><span
-              style="color:#399EF6;">接受单人配房</span></van-checkbox>
+            <van-checkbox class="checkitem-btn"
+              v-if="product.is_single_pu&&item.adult==1&&item.child==0"
+              v-model="item.pair"><span style="color:#399EF6;">接受单人配房</span></van-checkbox>
           </li>
         </template>
-        <div class="addroom-btn" @click="roomadd()">
-          <van-icon name="plus"/>
+        <div class="addroom-btn"
+          @click="roomadd()">
+          <van-icon name="plus" />
           添加房间
         </div>
       </ul>
@@ -72,23 +79,20 @@
           <div class="checkitem_con">
             <span>成人</span>
             <span>
-              <van-stepper
-                v-model="total_adult"
+              <van-stepper v-model="total_adult"
                 integer
                 :min="1"
-                :disable-input="true"
-              />
+                :disable-input="true" />
             </span>
           </div>
-          <div v-if="product.is_kids" class="checkitem_con">
+          <div v-if="product.is_kids"
+            class="checkitem_con">
             <span>儿童 <i v-if="product.max_child_age!=-1">&nbsp;0-{{product.max_child_age}}周岁</i></span>
             <span>
-              <van-stepper
-                integer
+              <van-stepper integer
                 :min="0"
                 v-model="total_kids"
-                :disable-input="true"
-              />
+                :disable-input="true" />
             </span>
           </div>
         </li>
@@ -102,13 +106,15 @@
 </template>
 
 <script>
+  import {mapState, mapGetters} from 'vuex'
   import dateTrip from '@/components/confirm_foot/dateTrip'
   import ConfirmFoot from '@/components/confirm_foot/foot.vue'
   import headerDate from '@/components/header/dateTrap.vue'
   import {getdateTrip} from '@/api/date_trip'
+
   export default {
     components: {
-      dateTrip, ConfirmFoot , headerDate
+      dateTrip, ConfirmFoot, headerDate
     },
     data() {
       return {
@@ -123,7 +129,7 @@
         //子日历组件的数据
         datedata: {},
         showsday: '',
-        roomintnum:0,
+        roomintnum: 0,
         showeday: '',
         //房间信息
         rooms: [
@@ -137,9 +143,9 @@
         //选择人数时参数
         total_kids: 0,
         total_adult: 0,
-        firstyear:this.$route.query.year||'',
-        firstmonth:this.$route.query.month||'',
-        firstday:this.$route.query.day|'',
+        firstyear: this.$route.query.year || '',
+        firstmonth: this.$route.query.month || '',
+        firstday: this.$route.query.day | '',
         swiperOption: {
           slidesPerView: 'auto',
           slidesOffsetBefore: 16,
@@ -153,29 +159,36 @@
 
             }
           }
-        }
+        },
+        product: {}
       }
     },
     computed: {
-      //获取计算价格参数
+      ...mapState({
+        vxReservePro: state => state.product.reservePro
+      }),
+      // 获取计算价格参数
       get_vuex_countprice() {
         return this.$store.state.confirm.countprice;
       },
-      //产品
-      product(){
-        return this.$store.state.product.reservePro;
-      }
+      // 产品
+      // product(){
+      //   return this.reservePro;
+      // },
+      // ...mapState([
+      //   'product/reservePro'
+      // ])
     },
     watch: {
       'rooms': {
         handler: function (val, oldval) {   //特别注意，不能用箭头函数，箭头函数，this指向全局
           let countchind = 0;
           let countadult = 0;
-          let objval=[];
+          let objval = [];
           for (let i = 0; i < val.length; i++) {
             countadult += val[i].adult;
             countchind += val[i].child;
-            let objarrx={adult:val[i].adult, child:val[i].child, pair:val[i].pair==true?'Y':'N',};
+            let objarrx = {adult: val[i].adult, child: val[i].child, pair: val[i].pair == true ? 'Y' : 'N', };
             objval.push(objarrx)
           }
           if (this.product.product_entity_type == 1 && this.product.self_support == 0 && this.roomintnum == 1) {
@@ -188,7 +201,7 @@
                 child: countchind
               });
             }
-            else if(this.product.product_id){
+            else if (this.product.product_id) {
               this.$store.commit("countprice", {
                 room_total: 0,//房间总数
                 room_attributes: [],//房间数据,
@@ -203,7 +216,7 @@
             }
 
           }
-          else{
+          else {
             this.$store.commit("countprice", {
               room_total: objval.length,//房间总数
               room_attributes: objval,//房间数据,
@@ -214,10 +227,10 @@
         },
         deep: true
       },
-      'total_adult'(val,oldval) {
-        if(this.roomintnum == 1){
+      'total_adult'(val, oldval) {
+        if (this.roomintnum == 1) {
           if (this.product.product_entity_type == 1 && this.product.self_support == 0) {}
-          else  {
+          else {
             let countperson = val + this.total_kids;
             if (countperson >= this.product.min_num_guest) {
               this.$store.commit("countprice", {
@@ -232,7 +245,7 @@
 
               });
             }
-            else if(this.product.product_id){
+            else if (this.product.product_id) {
               this.$store.commit("countprice", {
                 room_total: 0,//房间总数
                 room_attributes: [],//房间数据,
@@ -278,42 +291,44 @@
         }
       }
     },
-    created() {},
     mounted() {
-      //进来清空一次之前的价格日历vuex，之后可能要考虑返回的情况
-      this.$store.dispatch("emptyprice");
-      //获得价格日历数据
-      if(this.product.product_id){
-        this.getpricedate(this.product.product_id);
-      }
-      else{
-       this.$router.go(-1);
-      }
+      setTimeout(() => {
+        this.product = JSON.parse(JSON.stringify(this.vxReservePro))
+        //进来清空一次之前的价格日历vuex，之后可能要考虑返回的情况
+        this.$store.dispatch("emptyprice");
+        //获得价格日历数据
+        if (this.product.product_id) {
+          this.getpricedate(this.product.product_id);
+        }
+        else {
+          this.$router.go(-1);
+        }
+      }, 20)
     },
     methods: {
       //获得价格日历数据
       async getpricedate(id) {
         let {data, code} = await getdateTrip(id)
-        if(code === 0) {
+        if (code === 0) {
           this.pricedate = data;
           //初始化选择第一条给子组件的数据和第一个月份数据
-          var this_=this;
+          var this_ = this;
           //初始化生成房间
           this.roomint();
-          if(this.firstyear!=''&&this.firstmonth!=''&&this.firstday!=''){
-            for(let i=0;i< this_.pricedate.length;i++){
-              if(this_.pricedate[i].years==this_.firstyear&&this_.pricedate[i].month==this_.firstmonth){
+          if (this.firstyear != '' && this.firstmonth != '' && this.firstday != '') {
+            for (let i = 0; i < this_.pricedate.length; i++) {
+              if (this_.pricedate[i].years == this_.firstyear && this_.pricedate[i].month == this_.firstmonth) {
                 this_.datedata = this_.pricedate[i];
                 this_.activeMonth = this_.firstmonth;
-                this_.checkday = this_.firstday+'';
+                this_.checkday = this_.firstday + '';
               }
             }
-            if(this.activeMonth ==''){
+            if (this.activeMonth == '') {
               this.datedata = this.pricedate[0];
               this.activeMonth = this.pricedate[0].month;
             }
           }
-          else{
+          else {
             this.datedata = this.pricedate[0];
             this.activeMonth = this.pricedate[0].month;
           }
@@ -335,7 +350,7 @@
       setcheckday(val) {
         this.checkday = val;
         let sday1 = new Date(parseInt(this.datedata.years) + '/' + parseInt(this.datedata.month) + '/' + parseInt(this.checkday));
-        let day1en = sday1.getTime() + (this.product.duration_days-1) * 24 * 60 * 60 * 1000;
+        let day1en = sday1.getTime() + (this.product.duration_days - 1) * 24 * 60 * 60 * 1000;
         let eday1 = new Date(day1en);
         let sday2 = (sday1.getMonth() + 1) + '月' + (sday1.getDate()) + '日';
         let eday2 = (eday1.getMonth() + 1) + '月' + (eday1.getDate()) + '日';
@@ -362,7 +377,7 @@
                 add: false
               }
             }
-            else if(this.product.min_num_guest==this.product.max_num_guest){
+            else if (this.product.min_num_guest == this.product.max_num_guest) {
               objroom = {
                 adult: this.product.min_num_guest,
                 child: 0,
@@ -391,7 +406,7 @@
             add: false
           }]
         }
-        this.roomintnum=1;
+        this.roomintnum = 1;
       },
       //添加房间
       roomadd() {
@@ -427,10 +442,10 @@
     width: 116.5px;
     box-sizing: border-box;
     border-bottom: 4px solid #fff;
-    color: #191919
+    color: #191919;
   }
   .active-head-con {
-    border-bottom: 4px solid #399EF6 !important;
+    border-bottom: 4px solid #399ef6 !important;
   }
   .trip-tip {
     font-size: 20px;
@@ -452,7 +467,7 @@
     display: inline-block;
     width: 40%;
     text-align: right;
-    color: #FB6865;
+    color: #fb6865;
   }
   .section0 {
     background-color: #f3f3f3;
@@ -461,7 +476,8 @@
     background-color: #fff;
     box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1);
   }
-  .checkroom, .checkperson {
+  .checkroom,
+  .checkperson {
     padding: 0 32px;
     padding-bottom: 180px;
   }
@@ -497,7 +513,7 @@
     border-bottom: 3px solid #e4e4e4;
   }
   .checkitem_title span {
-    color: #399EF6;
+    color: #399ef6;
     float: right;
     font-size: 24px;
   }
@@ -512,7 +528,6 @@
     color: #191919;
     font-size: 28px;
     line-height: 80px;
-
   }
   .checkitem_con span:nth-child(1) i {
     color: #b2b2b2;
@@ -531,5 +546,4 @@
     height: 60px;
     line-height: 60px;
   }
-
 </style>

@@ -95,7 +95,7 @@ export const getNewIncome = () => {
 
 // news agent/newIncome?test_id=1000
 export const getViewStat = (data) => {
-  return axios.post(`/api/agent/viewStat`,data)
+  return axios.post(`/api/agent/viewStat`, data)
 }
 
 // GET http://192.168.1.190:9001/api/tour/v1/agent/payinfo/payinfo

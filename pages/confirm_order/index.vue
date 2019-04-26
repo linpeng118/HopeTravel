@@ -11,9 +11,9 @@
 
       <!--页头信息-->
       <section>
-        <div class="confirm-title" v-if="countprice.departure_date">
-          <p>{{product.name}}</p>
-          <p v-html="settitletip()"></p>
+        <div class="confirm-title">
+          <p>{{xname}}</p>
+          <p>{{showtype}}</p>
         </div>
       </section>
       <!--接送服务-->
@@ -80,7 +80,6 @@
               </p>
             </div>
             <van-radio-group v-model="checktrvel" class="radiobox">
-
               <van-radio name="" class="radioitem">暂不选择行程</van-radio>
               <template v-for="(item,index) in seltrvel.items">
                 <van-radio class="radioitem" :key="index" :name="item.id">
@@ -229,6 +228,7 @@
   import ConfirmFoot from '@/components/confirm_foot/foot.vue'
   import {getquhao} from '@/api/contacts'
   import {orderCouponList} from '@/api/confirm_order'
+  import {getSessionStore} from '@/assets/js/utils'
   export default {
     components: {
       ConfirmFoot
@@ -258,7 +258,9 @@
         setcou:'',
         showsetcou:'',
         setsaveuser:false,
-
+        product: {},
+        showtype:'',
+        xname:'',
       }
     },
     computed: {
@@ -266,12 +268,6 @@
       get_vuex_countprice() {
         return this.$store.state.confirm.countprice;
       },
-      //产品
-      product(){
-        return this.$store.state.product.reservePro;
-        // return this.$store.state.confirm.product;
-      },
-      //获取价格数据
       get_vuex_pricelist() {
         return this.$store.state.confirm.pricelist;
       },
@@ -291,13 +287,8 @@
       'countprice.is_point'(val){
         this.$store.commit("countprice", {is_point:val});
       },
-
-    },
-    created(){
-
     },
     beforeRouterEnter(to,form,next){
-      console.log(form.path)
       if(form.path.indexOf('personal')!=-1){
         next(vm=>{
           vm.setsaveuser=true;
@@ -306,17 +297,22 @@
       else{
         next();
       }
-
     },
     mounted() {
+      let obj=getSessionStore('pricelist') ? JSON.parse(getSessionStore('pricelist')) : {};
+      let this_=this;
+      this.$store.commit("pricelist",obj);
+      let objw=getSessionStore('countprice') ? JSON.parse(getSessionStore('countprice')) : {};
+      this.$store.commit("countprice",objw);
+      this.product = this.$store.state.product.reservePro;
+      setTimeout(function () {
+        this_.xname=this_.$store.state.product.reservePro.name;
+        this_.getCouponList();
+      },100)
+
       this.pricelist=this.get_vuex_pricelist;
-      this.product=this.get_vuex_pricelist;
-      this.countprice=this.get_vuex_countprice;
-      if(!this.product.product_id){
-        this.$router.go(-2);
-      }
       this.getqu();
-      this.getCouponList();
+      this.settitletip();
       this.contact={"name":this.countprice.savename,"phone":this.countprice.savephone,"email":this.countprice.saveemail}
     },
 
@@ -350,7 +346,7 @@
           this.showcheckCou=true;
         }
         else{
-          if(this_.couponDetails.length&&this_.countprice.coupon_cus_id==''){
+          if(this_.couponDetails&&this_.couponDetails.length&&this_.countprice.coupon_cus_id==''){
             for(let i=0;i<this_.couponDetails.length;i++){
               if(this_.couponDetails[i].is_best === true){
                 this_.setcou=i;
@@ -359,7 +355,7 @@
               }
             }
           }
-          else if(this_.couponDetails.length&&this_.countprice.coupon_cus_id!=''){
+          else if(this_.couponDetails&&this_.couponDetails.length&&this_.countprice.coupon_cus_id!=''){
             for(let i=0;i<this_.couponDetails.length;i++){
               if(this_.couponDetails[i].coupon_customer_id == this_.countprice.coupon_cus_id){
                 this_.setcou=i;
@@ -375,9 +371,9 @@
         let date = new Date((this.countprice.departure_date).replace(/-/g, "/")).getTime();
         let date1 = this.timeFormat(date);
         if (this.product.product_entity_type == 1 && this.product.self_support == 0) {
-          return date1 + '  ' + this.countprice.adult + '成人  ' + this.countprice.child + '儿童  ' + this.countprice.room_total + '房间  '
+          this.showtype = date1 + '  ' + this.countprice.adult + '成人  ' + this.countprice.child + '儿童  ' + this.countprice.room_total + '房间  '
         } else {
-          return date1 + '  ' + this.countprice.adult + '成人  ' + this.countprice.child + '儿童  '
+          this.showtype =  date1 + '  ' + this.countprice.adult + '成人  ' + this.countprice.child + '儿童  '
         }
       },
       timeFormat(timestamp) {
@@ -457,12 +453,18 @@
            item.itemsx=null;
            obj.push(item);
           }
+        for(let i=0;i<this_.pricelist.attributes_override.length;i++){
+          let item=this_.pricelist.attributes_override[i];
+          item.itemsx=null;
+          obj.push(item);
+        }
+        console.log(this_.showtrvel)
          this_.showtrvel=obj;
          for(let i=0;i<this_.showtrvel.length;i++){
           let itemx=this_.showtrvel[i];
           for(let j=0;j<this_.checkedtrvel.length;j++){
             if(itemx.id==this_.checkedtrvel[j].option_id){
-              let kitem=this_.pricelist.attributes[i].items;
+              let kitem=this_.showtrvel[i].items;
               for(let k=0;k<kitem.length;k++){
                 if(kitem[k].id==this_.checkedtrvel[j].option_val_id){
                   this_.showtrvel[i].itemsx=kitem[k]

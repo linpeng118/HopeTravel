@@ -235,11 +235,10 @@
             <!-- 手机号码 -->
             <div class="form-input phone">
               <div class="left-icon icon-phone"></div>
-              <van-cell-group class="transparent-input tours-input-no-bg">
-                <van-field v-model="phone1" style="border-bottom: 1px solid #C9C9C9;color: #000"
-                           placeholder="请填写您的电话号码" />
-              </van-cell-group>
-              <div class="right ">*</div>
+              <div class="elsequ2" @click="showsel=true">{{checkqu}}<van-icon name="arrow" /></div>
+              <input type="text" style="border-bottom: 1px solid #C9C9C9;color: #000" placeholder="请填写您的电话号码" v-model="phone1"
+                     class="setinput2">
+              <div class="right basecolor">*</div>
             </div>
             <!-- 微信 -->
             <div class="form-input wechat">
@@ -259,72 +258,127 @@
         </div>
       </div>
     </van-popup>
+    <van-popup v-model="showsel" position="bottom" :overlay="true">
+      <van-picker v-if="columns.length" :columns="columns" @confirm="onChangequ" @cancel="showsel=false" show-toolbar title="选择区号"/>
+    </van-popup>
 
 
   </div>
 </template>
 <script>
-import {custom} from "@/api/custom";
-export default {
-  name: "component_name",
-  data() {
-    return {
-         isApp: this.$route.query.platform,
-         showcall:false,
-         address1:"",
-         phone1:'',
-         wechat1:'',
-         submiting: false,
-         showform:false,
+  import {custom} from "@/api/custom";
+  import {getquhao} from '@/api/contacts'
+  export default {
+    name: "component_name",
+    data() {
+      return {
+        isApp: this.$route.query.platform,
+        showcall:false,
+        address1:"",
+        phone1:'',
+        wechat1:'',
+        submiting: false,
+        showform:false,
+        showsel:false,//选择区号
+        columns:[],
+        checkqu:'86',
+      };
+    },
+    mounted() {
+      this.getqu();
+    },
+    methods: {
+      goBack() {
+        window.history.go(-1);
+      },
+      clickcall(x){
+        // this.showcall=false;
+        window.location.href='tel://'+x;
+      },
+      // 查看全部list
+      toList2() {
+        window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12918104&userId=26301226'
+      },
+      // 得到区号
+      async getqu() {
+        let this_=this;
+        let {data, code, msg} = await getquhao();
+        if(code === 0) {
+          this_.columns = data.map(v => {
+            this.$set(v, 'text',  v.tel_code+'('+v.countryName+')')
+            return v
+          })
+          console.log(this_.columns)
+        }
+        else {
+          this.$dialog.alert({
+            message: msg
+          });
+        }
+      },
+      onChangequ(picker){
+        this.checkqu=picker.tel_code;
+        this.showsel=false;
+      },
+      onCustom() {
+        if (!this.address1) {
+          this.$toast("请输入想去的地址或景点");
+          this.submiting = false;
+          return;
+        }
 
-    };
-  },
-  methods: {
-    goBack() {
-      window.history.go(-1);
-    },
-    clickcall(x){
-      // this.showcall=false;
-      window.location.href='tel://'+x;
-    },
-    // 查看全部list
-    toList2() {
-      window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12918104&userId=26301226'
-    },
-    onCustom() {
-      if (!this.address1) {
-        this.$toast("请输入想去的地址或景点");
+        if (!this.phone1 && !this.wechat1) {
+          this.$toast("请输入电话号码或者微信号码至少一个");
+          this.submiting = false;
+          return;
+        }
+        this.doCustom({
+          destination: this.address1,
+          phone: this.checkqu+'-'+this.phone1,
+          wechat: this.wechat1,
+        });
+      },
+      // 提交定制
+      async doCustom(subData) {
+        this.submiting = true;
+        let {code, data, msg} = await custom(subData);
+        this.$toast(msg);
         this.submiting = false;
-        return;
-      }
-      if (!this.phone1 && !this.wechat1) {
-        this.$toast("请输入电话号码或者微信号码至少一个");
-        this.submiting = false;
-        return;
-      }
-      this.doCustom({
-        destination: this.address1,
-        phone: this.phone1,
-        wechat: this.wechat1,
-      });
-    },
-    // 提交定制
-    async doCustom(subData) {
-      this.submiting = true;
-      let {code, data, msg} = await custom(subData);
-      this.$toast(msg);
-      this.submiting = false;
-      this.showform = false;
-      this.address1='';
-      this.phone1='';
-      this.wechat1='';
-    },
+        this.showform = false;
+        this.address1='';
+        this.phone1='';
+        this.wechat1='';
+      },
 
-  }
-};
+    }
+  };
 </script>
 <style lang="scss" scoped>
 @import '../../assets/style/custom/index';
+.elsequ2{
+  width: 2.5rem;
+  display: inline-block;
+  text-align: center;
+  line-height: 80px;
+  height: 80px;
+  font-size: 30px;
+  color: #333;
+  i{
+    position: relative;
+    top: 5px;
+  }
+}
+.setinput2{
+  border: none;
+  border-bottom:2px solid #C9C9C9;
+  text-align: left;
+  font-size: 30px;
+  color: #474747;
+  width: 515px;
+  height: 80px;
+  line-height: 80px;
+  background: none;
+}
 .banner {
   background: url("../../assets/imgs/custom/store6/6.0.png") no-repeat center
     center/750px 438px;

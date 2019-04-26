@@ -170,7 +170,7 @@
       // 初始化
       this.init()
       // 监听滚动
-      this.$refs.refLocalGroupPage.addEventListener('scroll', _throttle(this.scrollFn, 100))
+      this.$refs.refLocalGroupPage.addEventListener('scroll', this.scrollFn)
       // 判断机型
       if (this.isApp) {
         // 引入appBridge
@@ -243,7 +243,7 @@
       onHot(productId) {
         if (this.isApp) {
           this.appBridge.jumpProductDetailView({
-            productID: productId.toString()
+            product_id: productId.toString()
           })
         } else {
           let routeData = this.$router.resolve({
@@ -256,11 +256,15 @@
         }
       },
       onHotCity(hotCity) {
+        console.log('hotCity', hotCity)
         if (this.isApp) {
           const params = {
-            'itemType': LIST_TYPE.LOCAL_GROUP,
-            'category': hotCity.category,
-            'span_city': hotCity.span_city,
+            'item_type': String(LIST_TYPE.LOCAL_GROUP),
+            'category': String(hotCity.category),
+            'product_type': String(hotCity.product_type),
+            'span_city': String(hotCity.span_city),
+            'start_city': String(hotCity.start_city),
+            'placeholder': String(hotCity.title),
           }
           this.appBridge.jumpProductListView(params)
         } else {

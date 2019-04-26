@@ -5,8 +5,7 @@ const apiConfig = require('./apiConf.env.js')
 const axiosUrl = `http://127.0.0.1:${apiConfig.port}`
 console.log('apiConfig:', apiConfig)
 console.log('axiosUrl:', axiosUrl)
-
-
+const LRU = require('lru-cache')
 
 module.exports = {
   mode: 'universal',
@@ -137,6 +136,14 @@ module.exports = {
         '^/union': '/',
       },
       changeOrigin: true,
+    },
+    //搜索列表分类下数据数量
+    '/serachtype': {
+      target: `${apiConfig.base}/api/categoryCount`, // 联盟
+      pathRewrite: {
+        '^/union': '/',
+      },
+      changeOrigin: true,
     }
   },
   server: {
@@ -248,4 +255,5 @@ module.exports = {
 
   },
   buildDir: 'n-dist',
+
 }

@@ -48,15 +48,22 @@
         </p>
         <!-- 价格 -->
         <div class="price-wrap">
-          <span class="share-btn" @click="shareProductHandle" v-if="profile.is_agent">
-            <img src="../../assets/imgs/union/icon_share@2x.png" alt="" width="16" height="16" />
+          <span class="share-btn"
+            @click="shareProductHandle"
+            v-if="profile.is_agent">
+            <img src="../../assets/imgs/union/icon_share@2x.png"
+              alt=""
+              width="16"
+              height="16" />
             <span>分享赚{{product.agent_fee}}</span>
           </span>
-          <span class="price fs-48 fw-800" :style="{'color': product.self_support ? '#EF9A1A' : '#fb605d'}">
+          <span class="price fs-48 fw-800"
+            :style="{'color': product.self_support ? '#EF9A1A' : '#fb605d'}">
             {{product.special_price ? product.special_price: product.default_price}}
             <span class="unit">&nbsp;起</span>
           </span>
-          <span class="default-price" v-if="product.special_price">
+          <span class="default-price"
+            v-if="product.special_price">
             {{product.special_price}}
           </span>
         </div>
@@ -64,14 +71,17 @@
       <!-- 特色 -->
       <div class="destination mt-24">
         <div class="item-wrap"
-             @click="onServerCop" v-if="couponList&&couponList.length">
+          @click="onServerCop"
+          v-if="couponList&&couponList.length">
           <div class="item-list">
-              <span class="item-titlex">领券&nbsp;&nbsp;&nbsp;</span>
-              <span v-for="(item,index) in couponList" class="setspecial" :key="index">
-                <i class="ileft"></i>
-                {{item}}
-                <i class="iright"></i>
-                </span>
+            <span class="item-titlex">领券&nbsp;&nbsp;&nbsp;</span>
+            <span v-for="(item,index) in couponList"
+              class="setspecial"
+              :key="index">
+              <i class="ileft"></i>
+              {{item}}
+              <i class="iright"></i>
+            </span>
           </div>
           <div class="item-arrow">
             <van-icon name="arrow" />
@@ -368,12 +378,12 @@
       </van-actionsheet>
       <!-- 优惠卷展开 -->
       <van-actionsheet v-model="showServiceCop"
-                       title="优惠券"
-                       class="service-note">
+        title="优惠券"
+        class="service-note">
         <p class="cup-class">可领取的优惠券</p>
         <div class="cup-item"
-             v-for="(item,index) in couponDetails"
-             :key="index">
+          v-for="(item,index) in couponDetails"
+          :key="index">
           <div class="cupleft">
             <p class="p1">{{item.minus_label}}</p>
             <p class="p2">{{item.full_label}}</p>
@@ -384,10 +394,12 @@
             <p class="p2">{{item.period_label}}</p>
           </div>
           <div class="cupright">
-            <span class="btn1" @click="getcouponobj(item.id)" v-if="item.is_receivable === true">领取</span>
-            <span class="btn2" v-if="item.is_received === true && item.is_receivable === false">已领取</span>
+            <span class="btn1"
+              @click="getcouponobj(item.id)"
+              v-if="item.is_receivable === true">领取</span>
+            <span class="btn2"
+              v-if="item.is_received === true && item.is_receivable === false">已领取</span>
           </div>
-
 
         </div>
       </van-actionsheet>
@@ -456,19 +468,27 @@
       </div>
     </transition>
     <!--分享按钮-->
-    <div v-if="isShareBtn && profile.is_agent" class="share-box-show" @click="shareProductHandle">
-      <img src="../../assets/imgs/union/icon_share@2x.png" alt="" width="20" height="20">
+    <div v-if="isShareBtn && profile.is_agent"
+      class="share-box-show"
+      @click="shareProductHandle">
+      <img src="../../assets/imgs/union/icon_share@2x.png"
+        alt=""
+        width="20"
+        height="20">
     </div>
     <div class="share-box">
-      <van-popup v-model="shareListShow" :overlay="false">
-        <share-list @close="shareListShow = false" :data="shareDataInfo" :ids="ids"></share-list>
+      <van-popup v-model="shareListShow"
+        :overlay="false">
+        <share-list @close="shareListShow = false"
+          :data="shareDataInfo"
+          :ids="ids"></share-list>
       </van-popup>
     </div>
   </div>
 </template>
 
 <script>
-  import {mapMutations} from 'vuex';
+  import {mapMutations, mapState, mapGetters} from 'vuex';
   import {throttle as _throttle} from 'lodash'
   import {ImagePreview} from 'vant';
   import ProductDetailHeader from '@/components/header/productDetail'
@@ -479,11 +499,10 @@
   import {ENTITY_TYPE} from '@/assets/js/consts/products'
   import {DLG_TYPE} from '@/assets/js/consts/dialog'
   import {getProductDetail, addFavorite, delFavorite, schedule} from '@/api/products'
-  import {getProfile,couponList,couponDetail,getcouponobj} from '@/api/profile'
+  import {couponList, couponDetail, getcouponobj} from '@/api/profile'
   import shareList from '@/components/share/list'
-  import {getCode,getBase64,getViewStat} from '@/api/sale_union'
-  import {SESSIONSTORE,PLATFORM} from '@/assets/js/config'
-
+  import {getCode, getBase64, getViewStat} from '@/api/sale_union'
+  import {SESSIONSTORE, PLATFORM} from '@/assets/js/config'
 
   export default {
     layout: 'default',
@@ -497,7 +516,8 @@
       shareList
     },
     async asyncData({$axios, query}) {
-      let attributes,
+      let productId,
+        attributes,
         attributes_override,
         expense,
         itinerary,
@@ -505,8 +525,13 @@
         product,
         top_price,
         transfer
+      if (query.productId.indexOf('-') >= 0) {
+        productId = Number(query.productId.split('-')[0])
+      } else {
+        productId = Number(query.productId)
+      }
       try {
-        let {code, msg, data} = await $axios.$get(`/api/product/${query.productId}`, {
+        let {code, msg, data} = await $axios.$get(`/api/product/${productId}`, {
           headers: {
             'platform': 'app',
             'phoneType': 'iOS',
@@ -542,7 +567,7 @@
     data() {
       return {
         ENTITY_TYPE,
-        loading: true,
+        loading: false,
         // productId: Number(this.$route.query.productId) || null,
         isTransparent: false, // 导航头是否透明
         current: 0, // 导航页数
@@ -553,9 +578,9 @@
         showSoldOut: false, // 恢复预定通知弹窗
         priceExclude: [], // 不包含面板
         activeNotice: [1], // 注意事项折叠面板
-        showServiceCop:false,//显示优惠卷
-        couponList:[],//可用优惠卷列表
-        couponDetails:[],//可用优惠卷列表-详情版
+        showServiceCop: false,//显示优惠卷
+        couponList: [],//可用优惠卷列表
+        couponDetails: [],//可用优惠卷列表-详情版
         // // 产品
         // product: {},
         // // 费用说明对象
@@ -567,7 +592,6 @@
         // attributes: [],
         // attributes_override: [],
         // transfer: [],
-        // // 团期价格
         isTabFixed: false,
         showDay: 'D1',
         // 显示电话弹窗
@@ -582,10 +606,12 @@
         referrerId: '',
         productId: '',
         ids: {},
-        profile: {}
       }
     },
     computed: {
+      ...mapGetters([
+        'profile'
+      ]),
       serviceNote() {
         return this.product && this.product.icons_tour || []
       },
@@ -657,10 +683,9 @@
       }
     },
     async mounted() {
+      console.log('product', this.product)
       this.init()
-      this.getProductData()
-      this.initProfileData()
-      this.$refs.refProductDetailPage.addEventListener("scroll", _throttle(this.scrollFn, 100));
+      this.$refs.refProductDetailPage.addEventListener("scroll", this.scrollFn);
     },
     beforeDestroy() {
       this.$refs.refProductDetailPage.removeEventListener('scroll', this.scrollFn)
@@ -674,42 +699,52 @@
         vxToggleDialog: 'toggleDialog', // 是否显示弹窗
         vxSetDlgType: 'setDlgType', // 设置弹窗类型
       }),
+      async init() {
+        if (!(this.product && this.product.product_id)) {
+          this.jumpTo('/')
+        }
+        // 是否有登录态
+        await this.initProfileData()
+        // 改用asyncData()
+        // await this.getProductDetailData()
+        // 返现逻辑
+        await this.ashbackLogic()
+        // 存储浏览记录
+        await this.saveLocal();
+        // 获取优惠卷列表
+        await this.getcouponList()
+      },
+      // 获取profile-登录态
       async initProfileData() {
-        const {code, msg, data} = await getProfile()
-        if (code ===0) {
-          this.profile = data
-          if(this.profile.is_agent && this.$route.query.productId.indexOf('-') <= 0) {
-            this.$router.push({
-              name: 'product-detail',
-              query: {
-                productId: this.$route.query.productId + '-' + this.profile.customer_id
-              }
-            })
-          }
-        } else {
-          this.profile = {}
+        if (this.profile.is_agent && this.$route.query.productId.indexOf('-') <= 0) {
+          this.$router.push({
+            name: 'product-detail',
+            query: {
+              productId: this.$route.query.productId + '-' + this.profile.customer_id
+            }
+          })
         }
         console.log(this.$route)
       },
       // 产品ID，session保存
-      async init(){
+      async ashbackLogic() {
         let query = this.$route.query.productId + ''
         let platform = this.$route.query.platform
         let viewStat = {}
         console.log(query)
-        if(query.indexOf('-') >= 0){
+        if (query.indexOf('-') >= 0) {
           this.productId = Number(query.split('-')[0])
           setSessionStore(SESSIONSTORE, query.split('-')[1])
           viewStat.referrer_id = query.split('-')[1]
-          if(navigator.userAgent.indexOf('MicroMessenger') >= 0) {
+          if (navigator.userAgent.indexOf('MicroMessenger') >= 0) {
             viewStat.platform = 'weixin'
             setSessionStore(PLATFORM, 'weixin')
             // alert('weixin')
-          } else if(navigator.userAgent.indexOf('QBWebViewType') >= 0 || navigator.userAgent.indexOf('MQQBrowser') >= 0){
+          } else if (navigator.userAgent.indexOf('QBWebViewType') >= 0 || navigator.userAgent.indexOf('MQQBrowser') >= 0) {
             viewStat.platform = 'qq'
             setSessionStore(PLATFORM, 'qq')
             // alert('qq')
-          } else if(platform) {
+          } else if (platform) {
             viewStat.platform = platform
             setSessionStore(PLATFORM, platform)
           }
@@ -718,36 +753,27 @@
           this.productId = Number(query) || null
         }
       },
-      async getProductData() {
-        await this.getProductDetailData()
-        if (!(this.product && this.product.product_id)) {
-          this.jumpTo('/')
-        }
-        await this.saveLocal();
-        await this.getcouponList()
-      },
-      async getProductDetailData() {
-        this.loading = true
-        const {code, data, msg} = await getProductDetail({
-          product_id: this.productId,
-        })
-        // console.log(code, data, msg)
-        if (code === 0) {
-          this.attributes = data.attributes
-          this.attributes_override = data.attributes_override
-          this.expense = data.expense
-          this.itinerary = data.itinerary
-          this.notice = data.notice
-          this.product = data.product
-          this.top_price = data.top_price
-          this.transfer = data.transfer
-        }
-        document.title = this.product.name
-        this.loading = false
-      },
-      //获取优惠卷列表
+      // async getProductDetailData() {
+      //   this.loading = true
+      //   const {code, data, msg} = await getProductDetail({
+      //     product_id: this.productId,
+      //   })
+      //   console.log(code, data, msg)
+      //   if (code === 0) {
+      //     this.attributes = data.attributes
+      //     this.attributes_override = data.attributes_override
+      //     this.expense = data.expense
+      //     this.itinerary = data.itinerary
+      //     this.notice = data.notice
+      //     this.product = data.product
+      //     this.top_price = data.top_price
+      //     this.transfer = data.transfer
+      //   }
+      //   document.title = this.product.name
+      //   this.loading = false
+      // },
+      // 获取优惠卷列表
       async getcouponList() {
-        this.loading = true;
         const {code, data, msg} = await couponList({
           product_id: this.productId,
         })
@@ -755,14 +781,13 @@
         if (code === 0) {
           this.couponList = data
         }
-        this.loading = false;
         //模拟数据2
         // this.couponList = [
         //   "折扣9折",
         //   "现金100"
         // ]
       },
-      //获取优惠卷列表展开
+      // 获取优惠卷列表展开
       async getcoupondetail() {
         this.loading = true;
         const {code, data, msg} = await couponDetail({
@@ -775,12 +800,12 @@
         this.loading = false;
 
       },
-      //领取某张优惠卷
-      async getcouponobj(id){
+      // 领取某张优惠卷
+      async getcouponobj(id) {
         this.loading = true;
         const {code, data, msg} = await getcouponobj({
           product_id: this.productId,
-          id:id
+          id: id
         })
         if (code === 0) {
           // this.showServiceCop=false;
@@ -1064,16 +1089,10 @@
       },
       // 收藏页面
       async onFollow() {
-        const {code, msg, data} = await getProfile()
-        console.log(code, msg)
-        // console.log(this.product)
-        if (code === 700) {
-          console.log(this.$route.fullPath)
+        if (!this.profile.customer_id) {
           this.$router.push({
             path: `/login?redirect=${this.$route.fullPath}`,
           })
-        } else if (code === 401) {
-          return
         } else {
           this.jumpTo('/personal/follow')
         }
@@ -1098,17 +1117,13 @@
       },
       // 分享
       async shareProductHandle() {
-        const {code, data} = await getProfile()
-        if (code === 700) {
+        if (!this.profile.customer_id) {
           this.$router.push({
             path: `/login?redirect=${this.$route.fullPath}`,
           })
-        } else if (code === 401) {
-          // this.$notify(msg)
-          return
         } else {
-          let {product_id,name,default_price,special_price,images} = this.product
-          let {face,customer_id,chinese_name,email,phone,last_name,first_name,nickname} = data
+          let {product_id, name, default_price, special_price, images} = this.product
+          let {face, customer_id, chinese_name, email, phone, last_name, first_name, nickname} = data
           this.shareListShow = true
           this.ids = {
             product_id,
@@ -1118,9 +1133,9 @@
           let productImg = await getBase64(images[0])
           let code = await getCode(`${window.location.origin}/product/detail?productId=${product_id}-${customer_id}`)
           this.shareDataInfo = {
-            product_id,name,default_price,special_price,customer_id,chinese_name,email,phone,last_name,first_name,nickname,
-            image: 'data:image/jpg;base64,'+ productImg.data,
-            face: 'data:image/jpg;base64,'+ faceImg.data,
+            product_id, name, default_price, special_price, customer_id, chinese_name, email, phone, last_name, first_name, nickname,
+            image: 'data:image/jpg;base64,' + productImg.data,
+            face: 'data:image/jpg;base64,' + faceImg.data,
             code: code.data
           }
           console.log(this.shareDataInfo)

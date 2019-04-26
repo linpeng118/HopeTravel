@@ -123,7 +123,7 @@
     },
     async mounted() {
       // 监听滚动
-      this.$refs.refLocalPlayPage.addEventListener('scroll', _throttle(this.scrollFn, 100))
+      this.$refs.refLocalPlayPage.addEventListener('scroll',this.scrollFn)
       this.init()
       if (this.isApp) {
         this.appBridge = require('@/assets/js/appBridge.js').default
@@ -172,7 +172,7 @@
       selectItem(productId) {
         if (this.isApp) {
           // app详情跳转
-          var json = {productID: productId.toString()}
+          var json = {product_id: productId.toString()}
           this.appBridge.jumpProductDetailView(json)
         } else {
           // m跳转
