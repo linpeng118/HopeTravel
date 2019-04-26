@@ -1118,7 +1118,7 @@
           })
         } else {
           let {product_id, name, default_price, special_price, images} = this.product
-          let {face, customer_id, chinese_name, email, phone, last_name, first_name, nickname} = data
+          let {face, customer_id, chinese_name, email, phone, last_name, first_name, nickname} = this.profile
           this.shareListShow = true
           this.ids = {
             product_id,
