@@ -100,12 +100,12 @@ export const getViewStat = (data) => {
 
 // GET http://192.168.1.190:9001/api/tour/v1/agent/payinfo/payinfo
 export const getPayInfo = () => {
-  return axios.get(`/union/agent/payinfo`)
+  return axios.get(`/api/agent/payinfo`)
 }
 
 // GET agent/payinfo/idcard
 export const setPayIDCard = (data) => {
-  return axios.put(`/union/agent/payinfo/idcard `, {
+  return axios.put(`/api/agent/payinfo/idcard `, {
     name: data.userName,
     number:data.cardId,
     account: '86-' + data.phone,
@@ -115,7 +115,7 @@ export const setPayIDCard = (data) => {
 
 // PUT /agent/payinfo/alipay
 export const setPayAccount = (data) => {
-  let url = `/union/agent/payinfo/${data.type}`
+  let url = `/api/agent/payinfo/${data.type}`
   return axios.put(url, {
     number: data.number,
     account: '86-' + data.account || null,
@@ -125,7 +125,7 @@ export const setPayAccount = (data) => {
 
 // POST /agent/withdraw
 export const startWithdraw = (data) => {
-  return axios.post('/union/agent/withdraw', {
+  return axios.post('/api/agent/withdraw', {
     account_type: data.type,
     account_no: data.account_no,
     amount:data.amount
@@ -134,5 +134,5 @@ export const startWithdraw = (data) => {
 
 // GET http://192.168.1.190:9001/api/tour/v1/agent/withdraw?test_id=1035
 export const getWithdraw = () => {
-  return axios.get('/union/agent/withdraw?test_id=1035')
+  return axios.get('/api/agent/withdraw?test_id=1035')
 }
