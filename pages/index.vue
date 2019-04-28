@@ -7,7 +7,8 @@
         <div class="down-box" v-if="closeDown === 'no'" ref="refDownBox">
           <div class="left" @click="changeCloseDown">
             <van-icon name="close" />
-            <span v-t="'homePage.downloadText'"></span>
+            <!--<span v-t="'homePage.downloadText'"></span>-->
+            <span>{{$t('homePage.downloadText')}}</span>
           </div>
           <div class="right">
             <a :href="downUrl">去下载</a>
