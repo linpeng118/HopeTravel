@@ -47,6 +47,11 @@ let plugins = [
     src: '~/plugins/ga/facebook.js',
     ssr: false
   },
+  //语言包
+  {
+    src: '~/plugins/i18n/i18n.js',
+    ssr: false
+  },
   // {
   //   src: '~/plugins/vconsole',
   //   ssr: false
