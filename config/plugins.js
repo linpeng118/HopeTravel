@@ -47,15 +47,10 @@ let plugins = [
     src: '~/plugins/ga/facebook.js',
     ssr: false
   },
-  //语言包
   {
-    src: '~/plugins/i18n/i18n.js',
-    ssr: false
+    src: '~/plugins/i18n',
+    ssr: true
   },
-  // {
-  //   src: '~/plugins/vconsole',
-  //   ssr: false
-  // },
 ]
 
 let devPlugins = [
@@ -101,10 +96,11 @@ let devPlugins = [
     src: '~/plugins/vuex-persist',
     ssr: false
   },
-  // {
-  //   src: '~/plugins/vconsole',
-  //   ssr: false
-  // },
+  {
+    src: '~/plugins/i18n',
+    ssr: true
+  },
+  // '~/plugins/i18n'
 ]
 
 if (process.env.ENV_TYPE === 'prodDev') {

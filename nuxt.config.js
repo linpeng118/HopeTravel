@@ -7,6 +7,8 @@ console.log('apiConfig:', apiConfig)
 console.log('axiosUrl:', axiosUrl)
 const LRU = require('lru-cache')
 const i18nExtensions = require('vue-i18n-extensions')
+
+
 module.exports = {
   mode: 'universal',
   dev: (process.env.NODE_ENV !== 'production'),
@@ -85,8 +87,7 @@ module.exports = {
   plugins: pluginConfig,
   render: {
     resourceHints: false,
-    // confiture `render`
-    // see Nuxt.js docs: https://nuxtjs.org/api/configuration-render#bundleRenderer
+    
     bundleRenderer: {
       directives: {
         t: i18nExtensions.directive
