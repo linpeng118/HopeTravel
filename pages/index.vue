@@ -7,7 +7,7 @@
         <div class="down-box" v-if="closeDown === 'no'" ref="refDownBox">
           <div class="left" @click="changeCloseDown">
             <van-icon name="close" />
-            <span>下载稀饭APP，领新人福利</span>
+            <span v-t="'homePage.downloadText'"></span>
           </div>
           <div class="right">
             <a :href="downUrl">去下载</a>

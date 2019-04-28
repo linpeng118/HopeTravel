@@ -6,6 +6,7 @@ const axiosUrl = `http://127.0.0.1:${apiConfig.port}`
 console.log('apiConfig:', apiConfig)
 console.log('axiosUrl:', axiosUrl)
 const LRU = require('lru-cache')
+const i18nExtensions = require('vue-i18n-extensions')
 
 module.exports = {
   mode: 'universal',
@@ -85,6 +86,11 @@ module.exports = {
   plugins: pluginConfig,
   render: {
     resourceHints: false,
+    bundleRenderer: {
+      directives: {
+        t: i18nExtensions.directive
+      }
+    }
   },
   /*
    ** middleware
