@@ -5,9 +5,9 @@ Vue.use(VueI18n)
 
 export default ({ app, store }) => {
   app.i18n = new VueI18n({
-    locale: 'zh-ch',
+    locale: 'zh-CN',
     messages: {
-      'zh-ch': require('./lang.json'),
+      'zh-CN': require('./lang/zh.json'),
     }
   })
 }
