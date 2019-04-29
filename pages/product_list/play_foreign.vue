@@ -10,7 +10,7 @@
       </van-nav-bar>
     </div>
     <div class="product-box">
-      <van-list v-model="prodLoading" :finished="prodFinished" finished-text="没有更多数据了" @load="onLoad">
+      <van-list v-model="prodLoading" :finished="prodFinished" :finished-text="$t('noMore')" @load="onLoad">
         <van-cell v-for="item in productList" :key="item.product_id + Math.random()">
           <product-list :data="item" @selectItem="selectProductDetail"></product-list>
         </van-cell>
@@ -42,7 +42,7 @@ export default {
   },
   computed: {
     title() {
-      let tit = this.$route.query.itemType == 1 ? '-全部跟团' : '-全部玩乐'
+      let tit = this.$route.query.itemType == 1 ? '-'+this.$t('productListPage.allWithGroup') : '-'+this.$t('productListPage.playClassify')
       return this.keyword + tit
     }
   },

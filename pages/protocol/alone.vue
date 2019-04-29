@@ -1,7 +1,7 @@
 <template>
   <div class="alone-wrap out-layer-con">
-    <van-cell title="委托协议" is-link to="weituo" />
-    <van-cell title="安全提醒" is-link to="security" />
+    <van-cell :title="$t('alonePage.entrustment')" is-link to="weituo" />
+    <van-cell :title="$t('alonePage.selfActive')" is-link to="security" />
   </div>
 </template>
 
@@ -10,7 +10,7 @@ export default {
   name: 'more',
   head() {
     return {
-      title: '预定协议'
+      title: this.$t('alonePage.reservation')
     }
   },
 }

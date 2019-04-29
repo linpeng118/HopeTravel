@@ -2,11 +2,11 @@
   <div class="visa">
     <van-nav-bar left-arrow
       @click-left="onClickLeft"
-      title="签证" />
+      :title="$t('visaPage.pageHead')" />
     <div class="top-banner">
       <div class="content">
-        <h6>全球签证，一键办理</h6>
-        <p>已成功服务100,000出境人次</p>
+        <h6>{{$t('visaPage.title')}}</h6>
+        <p>{{$t('visaPage.describe')}}</p>
       </div>
     </div>
     <div class="bottom-content">
@@ -19,7 +19,7 @@
               <img src="../../assets/imgs/visa/s1.png"
                 alt>
             </dt>
-            <dd>过签率99%</dd>
+            <dd>{{$t('visaPage.signRate')}}</dd>
           </dl>
         </van-col>
         <van-col span="5">
@@ -28,7 +28,7 @@
               <img src="../../assets/imgs/visa/s2.png"
                 alt>
             </dt>
-            <dd>最快5天过签</dd>
+            <dd>{{$t('visaPage.signTime')}}</dd>
           </dl>
         </van-col>
         <van-col span="5">
@@ -37,7 +37,7 @@
               <img src="../../assets/imgs/visa/s3.png"
                 alt>
             </dt>
-            <dd>加急预约</dd>
+            <dd>{{$t('visaPage.urgentAppoint')}}</dd>
           </dl>
         </van-col>
         <van-col span="5">
@@ -46,7 +46,7 @@
               <img src="../../assets/imgs/visa/s4.png"
                 alt>
             </dt>
-            <dd>拒签退款</dd>
+            <dd>{{$t('visaPage.refusedRefund')}}</dd>
           </dl>
         </van-col>
         <van-col span="4">
@@ -55,7 +55,7 @@
               <img src="../../assets/imgs/visa/s5.png"
                 alt>
             </dt>
-            <dd>全国送签</dd>
+            <dd>{{$t('visaPage.countrySent')}}</dd>
           </dl>
         </van-col>
       </van-row>
@@ -81,22 +81,22 @@
           <div class="right">
             <div class="price">
               <strong>{{item.price}}</strong>
-              <span>起</span>
+              <span>{{$t('since')}}</span>
             </div>
             <div class="btn">
-              <button @click="tel">电话咨询</button>
+              <button @click="tel">{{$t('phoneConsult')}}</button>
             </div>
           </div>
         </div>
       </div>
       <div class="more">
-        <span>没有想要的？</span>
-        <a @click="zixun()">马上咨询签证小姐姐吧</a>
+        <span>{{$t('visaPage.noNeed')}}</span>
+        <a @click="zixun()">{{$t('visaPage.consultSister')}}</a>
       </div>
     </div>
     <div class="bar"></div>
     <div class="advantage">
-      <h6>全国送签，办理无忧</h6>
+      <h6>{{$t('visaPage.nationalAndFree')}}</h6>
       <div class="item">
         <van-row class="item-row"
           type="flex"
@@ -130,7 +130,7 @@
     </div>
     <div class="footer-team">
       <div class="bg"></div>
-      <h6>专业团队，服务无忧</h6>
+      <h6>{{$t('visaPage.professionalAndFree')}}</h6>
       <div class="season-wrap swiper-container"
         v-swiper:mySwiper="swiperOption">
         <div class="swiper-wrapper litu-swper">
@@ -149,14 +149,14 @@
         </div>
       </div>
       <div class="copyright">
-        <p>稀饭旅行所有 仿版必究</p>
-        <p>蜀ICP备18023967号-1</p>
+        <p>{{$t('visaPage.copyright')}}</p>
+        <p>{{$t('visaPage.icp')}}</p>
       </div>
     </div>
     <div class="consultant"
       @click="zixun()">
-      <span>前100名咨询，可获得特价签证，最低65元</span>
-      <button>马上咨询</button>
+      <span>{{$t('visaPage.preferential')}}</span>
+      <button>{{$t('visaPage.immediatelyConsult')}}</button>
     </div>
     <div class="ab-icom"
       @click="zixun()">
@@ -196,56 +196,32 @@
         visaList: [
           {
             img: require('~/assets/imgs/visa/title_america.png'),
-            content: [
-              '面试培训，专家指导',
-              '全国范围约签',
-              '办签进度实时反馈',
-            ],
+            content: this.$t('visaPage.visaList.content1'),
             price: "￥1140",
           },
           {
             img: require('~/assets/imgs/visa/title_japan.png'),
-            content: [
-              '最快6个工作日出签',
-              '极简办理，全程指导',
-              '办签进度实时反馈',
-            ],
+            content: this.$t('visaPage.visaList.content2'),
             price: "￥99",
           },
           {
             img: require('~/assets/imgs/visa/title_australia.png'),
-            content: [
-              '全国受理，1对1指导',
-              '团购优惠，当日送签',
-              '游/探亲/商务/毕业典礼',
-            ],
+            content:this.$t('visaPage.visaList.content3'),
             price: "￥899",
           },
           {
             img: require('~/assets/imgs/visa/title_thai.png'),
-            content: [
-              '极速办理，最快5-30分钟办理',
-              '电子落地签，方便快捷',
-              '过签率，出签有保障',
-            ],
+            content:this.$t('visaPage.visaList.content4'),
             price: "￥150",
           },
           {
             img: require('~/assets/imgs/visa/title_new_zealand.png'),
-            content: [
-              '从业10年以上专业顾问',
-              '当日递交，最快5个工作日出签',
-              '99%过签率，出签有保障',
-            ],
+            content:this.$t('visaPage.visaList.content5'),
             price: "￥1099",
           },
           {
             img: require('~/assets/imgs/visa/title_schengen.png'),
-            content: [
-              '最快5个工作日出签',
-              '超值，一签畅游欧洲26国',
-              '99%过签率，出签有保障',
-            ],
+            content:this.$t('visaPage.visaList.content6'),
             price: "￥899",
           }
         ]
