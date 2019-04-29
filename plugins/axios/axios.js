@@ -21,7 +21,8 @@ let httprequest = axios.create({
     'Content-Type': 'application/json; charset=utf-8', // json格式通信
     'platform': 'app',
     'phoneType': 'iOS',
-    'App-Version': '1.0.0'
+    'App-Version': '1.0.0',
+    'language': 'zh-TW'  // zh-TW=繁体；zh-CN=中文简体
   }
 })
 

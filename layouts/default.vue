@@ -18,6 +18,7 @@
   import {mapState, mapMutations} from 'vuex'
   import GlobalDialog from '@/components/dialog'
   import LoginDialog from '@/components/dialog/login'
+  import {getLanguage} from '@/api/index'
 
   export default {
     components: {
@@ -35,6 +36,9 @@
         vxShowDlg: state => state.isShowDlg,
         vxDlgType: state => state.dlgType
       })
+    },
+    mounted(){
+      this.initLanguage()
     },
     methods: {
       ...mapMutations({
@@ -54,6 +58,13 @@
       },
       setDlgType(val) {
         this.vxSetDlgType(val)
+      },
+      // 获取语言
+      async initLanguage(){
+        let {code,data} = await getLanguage()
+        if(code === 0) {
+          console.log(data)
+        }
       }
     }
   }
