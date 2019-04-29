@@ -174,19 +174,19 @@
     },
     created() {
       this.sortTypes = [
-        {id:1, order: '', order_by: '', name: '默认排序'},
-        {id:2, order: 'asc', order_by: 'price', name: '价格从低到高'},
-        {id:3, order: 'desc', order_by: 'price', name: '价格从高到底'},
-        {id:4, order: '', order_by: 'sales', name: '最受欢迎'}
+        {id:1, order: '', order_by: '', name: this.$t('productListPage.sortDefault')},
+        {id:2, order: 'asc', order_by: 'price', name: this.$t('productListPage.sortPriceLowToHigh')},
+        {id:3, order: 'desc', order_by: 'price', name: this.$t('productListPage.sortPriceHighToLow')},
+        {id:4, order: '', order_by: 'sales', name:this.$t('productListPage.sortPopular')}
       ]
       this.tagsList = [
-        {id:10,type: 0,title: '稀饭推荐'},
-        {id:0,type: 3,title: '精品小团'},
-        {id:1,type: 1,title: '当地跟团'},
-        {id:2,type: 2,title: '当地玩乐'},
-        {id:3,type: 4,title: '门票演出'},
-        {id:4,type: 5,title: '一日游'},
-        {id:6,type: 7,title: '邮轮'}
+        {id:10,type: 0,title:this.$t('tours.torusRecommend')},
+        {id:0,type: 3,title: this.$t('tours.exquisiteGroup')},
+        {id:1,type: 1,title: this.$t('tours.localGroup')},
+        {id:2,type: 2,title: this.$t('tours.localPlay')},
+        {id:3,type: 4,title: this.$t('tours.tickets')},
+        {id:4,type: 5,title: this.$t('tours.aDayTrip')},
+        {id:6,type: 7,title: this.$t('tours.cruise')}
       ];
       // console.log(this.$route.query)
       // this.menuset();
