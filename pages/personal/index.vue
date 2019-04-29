@@ -82,7 +82,7 @@
       <van-tabbar v-model="active" active-color="#399EF6">
         <van-tabbar-item icon="wap-home" to="/">{{$t('personalPage.homepage')}}</van-tabbar-item>
         <van-tabbar-item icon="location-o" to="/search">{{$t('personalPage.myDistribution')}}</van-tabbar-item>
-        <van-tabbar-item icon="chat-o" url="http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226">{{$t('onlineConsult')}}}</van-tabbar-item>
+        <van-tabbar-item icon="chat-o" url="http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226">{{$t('onlineConsult')}}</van-tabbar-item>
         <van-tabbar-item icon="user-o" to="/personal">{{$t('personalPage.userCenter')}}</van-tabbar-item>
       </van-tabbar>
     </div>
