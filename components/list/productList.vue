@@ -3,7 +3,7 @@
     <div class="product-item" @click="selectDetail(data.product_id)" target="_blank">
       <div class="img-show">
         <img :src="data.image" alt="">
-        <div class="tags" v-if="showTag">{{data.product_type | productTypeValue}}</div>
+        <div class="tags" v-if="showTag">{{productTypeValue(data.product_type)}}</div>
         <div class="special-icon">
           <span v-for="(item,index) in data.special_icons" :class="item.type === 'special' ? 'color': ''" :key="index">{{item.title}}</span>
           <!--<span>3折</span>-->
@@ -55,21 +55,21 @@ export default {
     showInt(val) {
       return val.split('.')[0]
     },
-    productTypeValue(val) {
-      const type = [
-        {type: 3,title: this.$t('tours.exquisiteGroup')},
-        {type: 1,title: this.$t('tours.localGroup')},
-        {type: 2,title: this.$t('tours.localPlay')},
-        {type: 4,title: this.$t('tours.tickets')},
-        {type: 5,title: this.$t('tours.aDayTrip')},
-        {type: 6,title: this.$t('tours.connectionService')},
-        {type: 7,title: this.$t('tours.cruise')},
-      ]
-      let target = type.find(item => {
-        return item.type === val
-      })
-      return target.title
-    }
+    // productTypeValue(val) {
+    //   const type = [
+    //     {type: 3,title: this.$t('tours.exquisiteGroup')},
+    //     {type: 1,title: this.$t('tours.localGroup')},
+    //     {type: 2,title: this.$t('tours.localPlay')},
+    //     {type: 4,title: this.$t('tours.tickets')},
+    //     {type: 5,title: this.$t('tours.aDayTrip')},
+    //     {type: 6,title: this.$t('tours.connectionService')},
+    //     {type: 7,title: this.$t('tours.cruise')},
+    //   ]
+    //   let target = type.find(item => {
+    //     return item.type === val
+    //   })
+    //   return target.title
+    // }
   },
   props: {
     data: {
@@ -104,6 +104,21 @@ export default {
     this.getProfile()
   },
   methods: {
+    productTypeValue(val) {
+      const type = [
+        {type: 3,title: this.$t('tours.exquisiteGroup')},
+        {type: 1,title: this.$t('tours.localGroup')},
+        {type: 2,title: this.$t('tours.localPlay')},
+        {type: 4,title: this.$t('tours.tickets')},
+        {type: 5,title: this.$t('tours.aDayTrip')},
+        {type: 6,title: this.$t('tours.connectionService')},
+        {type: 7,title: this.$t('tours.cruise')},
+      ]
+      let target = type.find(item => {
+        return item.type === val
+      })
+      return target.title
+    },
     selectDetail(productId) {
       this.$emit('selectItem', productId)
     },
