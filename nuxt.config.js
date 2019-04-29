@@ -87,7 +87,7 @@ module.exports = {
   plugins: pluginConfig,
   render: {
     resourceHints: false,
-    
+
     bundleRenderer: {
       directives: {
         t: i18nExtensions.directive
