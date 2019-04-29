@@ -37,8 +37,8 @@ export default ({
       }
 
       // 隐藏百度商桥
-      hideDom('#newBridge')
-
+      that.hideDom('#newBridge')
+      
       NProgress.start()
       if (to.path.indexOf('.html') >= 0) {}
     } catch (error) {
