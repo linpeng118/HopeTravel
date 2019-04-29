@@ -4,6 +4,7 @@ export default ({
   app
 }) => {
   app.router.beforeEach((to, from, next) => {
+    let that = this
     // 获取dom
     function getDom(dom) {
       return document.querySelector(dom) || null
@@ -26,9 +27,9 @@ export default ({
           }
         } else {
           clearInterval(timer)
-          hideDom(dom)
+          that.hideDom(dom)
         }
-      }, 5000, dom)
+      }, 4000, dom)
     }
     try {
       hideDom('#newBridge')
