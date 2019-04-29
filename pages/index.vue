@@ -132,15 +132,22 @@ export default {
     countDown,
     DriftAside
   },
-  async asyncData({$axios}){
+  async asyncData({$axios, store}){
     let indexData
-    let {code,data} = await $axios.$get('/api/index/mobile')
+    let {code,data} = await $axios.$get('/api/index/mobile',{
+      headers: {
+        'language': store.getters.language
+      }
+    })
     if(code === 0 ) {
       indexData = data
     }
     return {
       indexData
     }
+  },
+  fetch({store}){
+    store.commit('setLanguage', store.getters.language)
   },
   data() {
     return {
@@ -175,7 +182,7 @@ export default {
       'closeDown'
     ])
   },
-  mounted() {
+  async mounted() {
     this.getHomeInitData()
     this.getTime()
     // 监听滚动

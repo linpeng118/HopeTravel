@@ -19,6 +19,8 @@
   import GlobalDialog from '@/components/dialog'
   import LoginDialog from '@/components/dialog/login'
   import {getLanguage} from '@/api/index'
+  import {setCookieByKey} from '@/assets/js/utils'
+  import {LANGUAGE} from '@/assets/js/config'
 
   export default {
     components: {
@@ -47,6 +49,7 @@
         // 是否显示通用弹窗
         vxToggleDialog: 'toggleDialog',
         vxSetDlgType: 'setDlgType',
+        vxSetLanguage: 'setLanguage'
       }),
       // 显示/隐藏登录弹窗
       toggleLoginDlg(val) {
@@ -61,9 +64,10 @@
       },
       // 获取语言
       async initLanguage(){
-        let {code,data} = await getLanguage()
+        let {code, data} = await getLanguage()
         if(code === 0) {
-          console.log(data)
+          setCookieByKey(LANGUAGE, data.language)
+          this.vxSetLanguage(data.language)
         }
       }
     }

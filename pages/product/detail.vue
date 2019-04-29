@@ -145,7 +145,7 @@
           </div>
         </div>
       </div>
-      <!-- 稀饭推荐 -->
+      <!-- api -->
       <div class="recommend mt-24">
         <div class="title">
           <img src="../../assets/imgs/product/praise@2x.png"
@@ -522,7 +522,7 @@
       Loading,
       shareList
     },
-    async asyncData({$axios, query}) {
+    async asyncData({$axios, query,store}) {
       let productId,
         attributes,
         attributes_override,
@@ -542,7 +542,8 @@
           headers: {
             'platform': 'app',
             'phoneType': 'iOS',
-            'App-Version': '1.0.0'
+            'App-Version': '1.0.0',
+            'language': store.getters.language
           }
         })
         if (code === 0) {
@@ -650,7 +651,7 @@
         return [
           {id: 1, name: this.$t('productDetailPage.productFeature'), ref: 'refFeatures', isShow: this.hasFeature},
           {id: 2, name: this.itinerary.duration_days + this.$t('productDetailPage.dayTrip'), ref: 'refTrip', isShow: true},
-          {id: 3, name: this.$t('productDetailPage.costDetail'), ref: 'refCost', isShow: true},
+          {id: 3, name: this.$t('costDetail'), ref: 'refCost', isShow: true},
           {id: 4, name: this.$t('productDetailPage.notice'), ref: 'refNotice', isShow: true},
         ]
       },
