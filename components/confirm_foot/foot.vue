@@ -4,23 +4,23 @@
     <div class="confirm-foot">
       <span class="confirm-price" v-if="showbtn">
         <i>{{pricelist.total_price}}</i>
-        <i v-if="showpops" @click="showpops=false">明细
+        <i v-if="showpops" @click="showpops=false">{{$t('confirmFootComp.detail')}}明细
           <van-icon name="arrow-down"/>
         </i>
-         <i v-else @click="showpops=true">明细
+         <i v-else @click="showpops=true">{{$t('confirmFootComp.detail')}}明细
             <van-icon name="arrow-up"/>
         </i>
       </span>
       <span class="confirm-price" v-else>
         <i style="color: #bbb">0.00</i>
-        <i style="color: #bbb">请选择相关信息</i>
+        <i style="color: #bbb">{{$t('confirmFootComp.chooseRelateInfo')}}</i>
       </span>
-      <span :class="showbtn?'showbtn':''" class="confirm-next-btn" v-if="thisrouter=='date_trip'" @click="showbtn?islogin():''">下一步</span>
-      <span v-else-if="showbtn2==false" class="confirm-next-btn">下一步</span>
-      <span v-else class="confirm-next-btn showbtn" @click="addOrderx()" >下一步</span>
+      <span :class="showbtn?'showbtn':''" class="confirm-next-btn" v-if="thisrouter=='date_trip'" @click="showbtn?islogin():''">{{$t('confirmFootComp.nextStep')}}</span>
+      <span v-else-if="showbtn2==false" class="confirm-next-btn">{{$t('confirmFootComp.nextStep')}}</span>
+      <span v-else class="confirm-next-btn showbtn" @click="addOrderx()" >{{$t('confirmFootComp.nextStep')}}</span>
       <span class="contact-service" @click="contactCustom()">
         <i></i>
-        <i>联系客服</i>
+        <i>{{$t('contactService')}}</i>
       </span>
     </div>
     <van-popup v-model="showpops" class="setbottom" position="bottom" :overlay="true">

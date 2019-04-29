@@ -1,33 +1,33 @@
 <template>
   <div class="login-comp">
-    <h1 class="title">稀饭旅行账号登录</h1>
+    <h1 class="title">{{$t('partcailComp.loginTips')}}</h1>
     <van-tabs class="content tours-tabs-nowrap"
       @change="changeTabs">
       <!-- 普通登录 -->
       <van-tab class="login"
-        title="普通登录">
+        :title="$t('partcailComp.ptlogin')">
         <van-cell-group>
           <van-field class="username tours-input"
             v-model="formData.username"
-            placeholder="用户名 / 邮箱" />
+            :placeholder="$t('partcailComp.placeUsername')" />
           <van-field class="password tours-input"
             v-model="formData.password"
             center
             clearable
             icon="eye-o"
-            placeholder="登录密码"
+            :placeholder="$t('partcailComp.ptlogin')"
             :type="pswInputType"
             @click-icon="toggleInputType">
             <van-button class="btn-forget tours-button-noborder"
               slot="button"
               size="small"
-              @click="forgetPsw">忘记密码</van-button>
+              @click="forgetPsw">{{$t('partcailComp.forgetPass')}}</van-button>
           </van-field>
         </van-cell-group>
       </van-tab>
       <!-- 手机验证码登录 -->
       <van-tab class="mobile-login"
-        title="手机验证码登录">
+        :title="$t('partcailComp.phoneCodeLogin')">
         <van-cell-group>
           <area-code-input class="phone"
             :proAreaCode.sync="phoneForm.areaCode"
@@ -48,15 +48,15 @@
       <!-- 按钮 -->
       <div class="to-regist"
         v-if="showRegistTip">
-        <span>还没有账号？</span>
+        <span>{{$t('partcailComp.notUser')}}？</span>
         <span class="blue"
-          @click="toRegist">去注册</span>
+          @click="toRegist">{{$t('partcailComp.toreg')}}</span>
       </div>
       <van-button class="btn-login tours-button"
         size="large"
         :loading="submiting"
-        @click="btnLogin">登录</van-button>
-      <p class="text">登录即代表您已同意我们的<span @click="onAgreement">&nbsp;服务协议</span></p>
+        @click="btnLogin">{{$t('login')}}</van-button>
+      <p class="text">{{$t('partcailComp.AgreementLogin')}}<span @click="onAgreement">&nbsp;{{$t('partcailComp.AgreementName')}}</span></p>
     </van-tabs>
   </div>
 </template>
@@ -74,7 +74,7 @@
   export default {
     name: 'login-comp',
     head: {
-      title: '登录'
+      title: this.$t('login')
     },
     components: {
       AreaCodeInput,
@@ -112,12 +112,12 @@
       showText() {
         if (this.codeType === VERIFY_CODE.START) {
           clearInterval(this.timer)
-          return '获取验证码'
+          return this.$t('getVerifyCode')
         } else if (this.codeType === VERIFY_CODE.GETTING) {
           return `${this.countDownTime} s`
         } else {
           clearInterval(this.timer)
-          return '重新获取'
+          return this.$t('partcailComp.resetVerifyCode')
         }
       }
     },
@@ -146,7 +146,7 @@
       // 获取验证码
       async getCode() {
         if (!this.phoneForm.phone) {
-          this.$toast('请输入手机号码')
+          this.$toast(this.$t('partcailComp.enterPhone'))
           return
         }
         // 倒计时状态修改
@@ -190,11 +190,11 @@
       // 普通登录
       async login() {
         if (!this.formData.username) {
-          this.$toast('请输入用户名')
+          this.$toast(this.$t('partcailComp.enterUsername'))
           return
         }
         if (!this.formData.password) {
-          this.$toast('请输入密码')
+          this.$toast(this.$t('partcailComp.enterPass'))
           return
         }
         try {
@@ -217,11 +217,11 @@
       // 手机登录
       async loginByPhone() {
         if (!this.phoneForm.phone) {
-          this.$toast('请输入手机号码')
+          this.$toast(this.$t('partcailComp.enterPhone'))
           return
         }
         if (!this.phoneForm.smsCode) {
-          this.$toast('请输入手机验证码')
+          this.$toast(this.$t('partcailComp.enterPhoneCode'))
           return
         }
         try {

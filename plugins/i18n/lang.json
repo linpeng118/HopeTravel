@@ -87,6 +87,8 @@
   "pleaseChoose":"请选择",
   "cancel":"取消",
   "chooseCode": "选择区号",
+  "titleHeader":"标题",
+  "more":"更多",
   "tours": {
     "torusRecommend": "稀饭推荐",
     "exquisiteGroup": "精品小团",
@@ -94,7 +96,8 @@
     "localPlay": "当地玩乐",
     "tickets": "门票演出",
     "aDayTrip": "一日游",
-    "cruise": "邮轮"
+    "cruise": "邮轮",
+    "connectionService": "接驳服务"
   },
   "homePage": {
     "title": "首页",
@@ -468,8 +471,8 @@
     "shareTrip": "向您推荐了一个行程",
     "savePicTips": "长按图片保存",
     "wxFriends": "微信好友",
-    "qqFriends": "qq好友",
-    "wxCircles": "微信朋友圈吧",
+    "qqFriends": "QQ好友",
+    "wxCircles": "微信朋友圈",
     "SinaWeibo": "新浪微博",
     "copyUrl": "复制链接",
     "touchShare": "长按保存海报去分享",
@@ -536,7 +539,8 @@
     "emailErrorTosat": "请输入正确的email",
     "englishName": "英文名",
     "plhdPhoneNumber": "请输入手机号码",
-    "checkPhoneNumber": "请检查手机号"
+    "checkPhoneNumber": "请检查手机号",
+    "chineseNoEnglish":"英文名中包含了中文"
   },
   "localHotCityComp": {
     "hotCity": "热门城市"
@@ -555,12 +559,19 @@
     "basicTourFee": "基本团费",
     "travelCost": "行程费用",
     "discount": "优惠",
-    "riceGrains": "米粒"
+    "riceGrains": "米粒",
+    "priceTotal":"合计"
   },
   "countDownComp": {
     "tipText": "距离开始",
     "tipTextEnd": "距离结束",
     "endText": "已结束"
+  },
+  "listComp":{
+    "eliminate":"清除",
+    "selection":"选中",
+    "originalPrice":"原价",
+    "orderAmount":"订单金额",
   },
   "headerSearch": {
     "search": "搜索"

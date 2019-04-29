@@ -6,7 +6,7 @@
         <div class="city-wrap">
           <van-nav-bar class="login-header tours-no-bb"
                        ref="loginHeader"
-                       title="选择国家或地区"
+                       :title="$t('confirmFootComp.titleCityList')"
                        :z-index="999"
                        @click-left="onClickLeft">
             <van-icon class="left-wrap" name="arrow-left" slot="left" />

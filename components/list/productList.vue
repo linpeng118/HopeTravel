@@ -14,7 +14,7 @@
           {{data.name}}
         </div>
         <div class="tags-wrap">
-          <span class="solid" v-if="data.self_support">自营</span>
+          <span class="solid" v-if="data.self_support">{{$t('selfSupport')}}</span>
           <span v-for="item in data.icons_show" :key="item" class="hollow color">{{item}}</span>
           <span v-for="(item,index) in data.icons_tour" :key="index" class="hollow">
             <!--<template v-if="index < 2">{{item.title}}</template>-->
@@ -23,10 +23,10 @@
         </div>
         <div class="product-price">
           <template v-if="!data.special_price">
-            <span class="sale-price"><strong>{{data.default_price | showInt}}</strong>/起</span>
+            <span class="sale-price"><strong>{{data.default_price | showInt}}</strong>/{{$t('since')}}</span>
           </template>
           <template v-else>
-            <span class="sale-price"><strong>{{data.special_price | showInt}}</strong>/起</span><span class="default-price" style="text-decoration: line-through">原价：{{data.default_price | showInt}}</span>
+            <span class="sale-price"><strong>{{data.special_price | showInt}}</strong>/{{$t('since')}}</span><span class="default-price" style="text-decoration: line-through">{{$t('listComp.originalPrice')}}：{{data.default_price | showInt}}</span>
           </template>
           <span v-if="data.coupons&&data.coupons.length" class="setspecial">
                <i class="ileft"></i>
@@ -34,7 +34,7 @@
                <i class="iright"></i>
           </span>
           <span v-if="data.coupons.length>1" style="color:#fb605d">......</span>
-          <span class="share-p" v-if="isShowFx">分享赚{{data.agent_fee}}</span>
+          <span class="share-p" v-if="isShowFx">{{$t('productDetailPage.shareMakes')}}{{data.agent_fee}}</span>
           <!--<p>-->
             <!--<span v-for="(item,index) in data.coupons" class="setspecial" :key="index">-->
               <!--<i>{{item}}</i>-->
@@ -57,13 +57,13 @@ export default {
     },
     productTypeValue(val) {
       const type = [
-        {type: 3,title: '精品小团'},
-        {type: 1,title: '当地跟团'},
-        {type: 2,title: '当地玩乐'},
-        {type: 4,title: '门票演出'},
-        {type: 5,title: '一日游'},
-        {type: 6,title: '接驳服务'},
-        {type: 7,title: '邮轮'},
+        {type: 3,title: this.$t('tours.exquisiteGroup')},
+        {type: 1,title: this.$t('tours.localGroup')},
+        {type: 2,title: this.$t('tours.localPlay')},
+        {type: 4,title: this.$t('tours.tickets')},
+        {type: 5,title: this.$t('tours.aDayTrip')},
+        {type: 6,title: this.$t('tours.connectionService')},
+        {type: 7,title: this.$t('tours.cruise')},
       ]
       let target = type.find(item => {
         return item.type === val

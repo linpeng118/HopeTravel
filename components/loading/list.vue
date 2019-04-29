@@ -11,7 +11,7 @@ export default {
   props: {
     loading: {
       type: String,
-      default: '加载中...'
+      default: this.$t('dataLoading')
     }
   }
 }
