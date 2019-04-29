@@ -304,7 +304,7 @@
         ref="refCost"
         v-show="product.product_entity_type || product.tour_category==='Unassigned'">
         <h1 class="title">
-          {{$t('productDetailPage.costDetail')}}
+          {{$t('costDetail')}}
         </h1>
         <div class="group-price-desc">
           <h3 class="title-s">{{$t('productDetailPage.groupCostDetail')}}</h3>
