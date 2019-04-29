@@ -17,7 +17,7 @@ export default ({
       function hideDom(dom) {
         let timer
         // console.log(1, dom);
-        timer = setTimeout((dom) => {
+        timer = setTimeout((dom, that) => {
           // console.log(2, dom);
           const hideDom = getDom(dom)
           if (hideDom) {
@@ -33,7 +33,7 @@ export default ({
             clearInterval(timer)
             that.hideDom(dom)
           }
-        }, 3000, dom)
+        }, 3000, dom, that)
       }
 
       // 隐藏百度商桥
