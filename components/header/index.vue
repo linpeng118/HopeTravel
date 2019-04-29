@@ -37,7 +37,7 @@
     props: {
       title: {
         type: String,
-        default: this.$t('titleHeader')
+        default: ''
       },
       isBgHeader: {
         type: Boolean,

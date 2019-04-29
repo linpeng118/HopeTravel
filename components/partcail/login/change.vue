@@ -34,7 +34,7 @@
   export default {
     layout: 'default',
     head: {
-      title: this.$t('personalPage.changePassword')
+      title: '修改密码'
     },
     components: {
       areaCodeInput

@@ -18,12 +18,12 @@
       //距离开始提示文字
       tipText: {
         type: String,
-        default: this.$t('countDownComp.tipText')
+        default: '距离开始'
       },
       //距离结束提示文字
       tipTextEnd: {
         type: String,
-        default: this.$t('countDownComp.tipTextEnd')
+        default: '距离结束'
       },
       //时间控件ID
       id: {
@@ -45,7 +45,7 @@
       // 倒计时结束显示文本
       endText: {
         type: String,
-        default: this.$t('countDownComp.endText')
+        default: '已结束'
       },
       //自定义显示文字:天
       dayTxt: {

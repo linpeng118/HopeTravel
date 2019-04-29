@@ -171,11 +171,11 @@
       // 获取验证码
       async getCode(type) {
         if (type === LOGIN_WAY.PHONE && !this.phoneForm.phone) {
-          this.$toast(this.$t('')'请输入手机号码')
+          this.$toast(this.$t('partcailComp.enterPhone'))
           return
         }
         if (type === LOGIN_WAY.EMAIL && !this.emailForm.email) {
-          this.$toast(this.$t('')'请输入邮箱')
+          this.$toast(this.$t('partcailComp.enterEmail'))
           return
         }
         // 定时器

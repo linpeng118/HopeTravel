@@ -74,7 +74,7 @@
   export default {
     name: 'login-comp',
     head: {
-      title: this.$t('login')
+      title: '登陆'
     },
     components: {
       AreaCodeInput,
