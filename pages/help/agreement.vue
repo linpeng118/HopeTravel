@@ -27,7 +27,7 @@
     },
     head() {
       return {
-        title: this.$t('helpPage.userAgreement')
+        title: '用户协议'
       }
     },
     methods: {

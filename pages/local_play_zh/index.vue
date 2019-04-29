@@ -118,7 +118,7 @@
     },
     head() {
       return {
-        title: this.$t('tours.localPlay')
+        title: '当地玩乐'
       }
     },
     async mounted() {

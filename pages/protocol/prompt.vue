@@ -9,7 +9,7 @@ export default {
   name: 'prompt',
   head() {
     return {
-      title: this.$t('alonePage.selfActive')
+      title: '安全提示'
     }
   },
 }

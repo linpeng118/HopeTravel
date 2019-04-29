@@ -19,7 +19,7 @@ export default {
   name: "weituo",
   head() {
     return {
-      title: this.$t('personalPage.aboutUs')
+      title: '关于我们'
     }
   },
   data() {

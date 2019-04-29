@@ -157,7 +157,7 @@
     },
     head() {
       return {
-        title: this.$t('tours.localGroup')
+        title: '当地跟团'
       }
     },
     watch: {

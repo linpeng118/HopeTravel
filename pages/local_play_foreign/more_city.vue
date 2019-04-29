@@ -45,7 +45,7 @@
     },
     head() {
       return {
-        title: this.$t('localPlayPage.moreCity')
+        title: '更多城市'
       }
     },
     created() {

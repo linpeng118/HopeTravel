@@ -10,7 +10,7 @@ export default {
   name: 'more',
   head() {
     return {
-      title: this.$t('alonePage.reservation')
+      title: '预定协议'
     }
   },
 }

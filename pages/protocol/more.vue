@@ -10,7 +10,7 @@
     name: 'more',
     head() {
       return {
-        title: this.$t('contractPage.travelSelf')
+        title: '旅行合同及安全提示'
       }
     },
   }

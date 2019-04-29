@@ -11,7 +11,7 @@ export default {
   name: 'contract',
   head() {
     return {
-      title: this.$t('contractPage.travelContract')
+      title: '旅行合同'
     }
   }
 }

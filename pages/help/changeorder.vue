@@ -23,7 +23,7 @@
     },
     head() {
       return {
-        title: this.$t('helpPage.changeorder')
+        title: '取消和修改条例'
       }
     },
     methods: {
