@@ -3,15 +3,15 @@
     <div class="header">
       <div class="nav-bar">
         <van-icon class="arrow" name="arrow-left" @click="onClickLeft"></van-icon>
-        <span class="tittle">我的米粒</span>
-        <i class="description" @click="riceDetail">米粒说明</i>
+        <span class="tittle">{{$t('personalPage.myRiceGrain')}}</span>
+        <i class="description" @click="riceDetail">{{$t('personalPage.riceGrainDesc')}}</i>
       </div>
       <div class="usable-rice">
         <div class="usable-left">
-          <h6>当前可用米粒</h6>
+          <h6>{{$t('personalPage.currentRiceGrain')}}</h6>
           <div class="num">{{profile.total_points}}</div>
         </div>
-        <div class="usable-right">等值于{{profile.exchange_price}}</div>
+        <div class="usable-right">{{$t('personalPage.equivalent')}}{{profile.exchange_price}}</div>
       </div>
     </div>
     <div class="body">
@@ -22,7 +22,7 @@
 
           <!--</van-cell>-->
         <!--</van-list>-->
-        <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+        <van-list v-model="loading" :finished="finished" :finished-text="$t('noMore')" @load="onLoad">
           <van-cell class="half-item" tagPos="bottom" v-for="(points,index) in pointsList" :key="index">
             <div class="line clearfix">
               <div class="line-left fl">

@@ -4,13 +4,13 @@
     <div class="header">
       <van-nav-bar
         class="bar-shadow"
-        title="我的收藏"
+        :title="$t('personalPage.myCollection')"
         @click-left="onClickLeft"
         @click-right="saveFollow"
         left-arrow
       >
-        <span class="header-btn" slot="right" @click="isModify =!isModify" v-if="!isModify">编辑</span>
-        <span class="header-btn" slot="right" @click="isModify =!isModify" v-else>取消</span>
+        <span class="header-btn" slot="right" @click="isModify =!isModify" v-if="!isModify">{{$t('edit')}}</span>
+        <span class="header-btn" slot="right" @click="isModify =!isModify" v-else>{{$t('cancel')}}</span>
       </van-nav-bar>
     </div>
     <div class="product-wrap">
@@ -30,16 +30,16 @@
               </div>
               <dl class="pro-content">
                 <dt class="no-wrap-line3">{{item.name}}</dt>
-                <dd>价格：<span class="price">{{item.default_price}}</span></dd>
+                <dd>{{$t('personalPage.price')}}}：<span class="price">{{item.default_price}}</span></dd>
               </dl>
             </div>
           </van-cell>
         </van-cell-group>
       </van-checkbox-group>
 
-      <div class="no-product" v-if="!productList.length && !firstLoad">暂无收藏，快去收藏吧</div>
-      <div class="no-product" v-if="firstLoad">数据加载中...</div>
-      <div v-if="isModify" class="btn-delete"><van-button block @click="deleteProductFavorites">删除</van-button></div>
+      <div class="no-product" v-if="!productList.length && !firstLoad">{{$t('personalPage.goToCollect')}}</div>
+      <div class="no-product" v-if="firstLoad">{{$t('dataLoading')}}</div>
+      <div v-if="isModify" class="btn-delete"><van-button block @click="deleteProductFavorites">{{$t('delete')}}</van-button></div>
     </div>
   </div>
 </template>
@@ -87,10 +87,10 @@ export default {
         product_id: this.result.join(',')
       })
       if(code === 0) {
-        this.$toast('删除成功')
+        this.$toast(this.$t('operateSuc'))
         this.init()
       } else {
-        this.$toast('删除失败')
+        this.$toast(this.$t('operateFail'))
       }
     },
     // 详情跳转

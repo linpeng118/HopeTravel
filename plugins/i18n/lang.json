@@ -46,7 +46,7 @@
   "man": "男",
   "woman": "女",
   "edit": "编辑",
-  "RMB": "人名币",
+  "RMB": "人民币",
   "dollar": "美元",
   "noData": "暂无数据",
   "loading": "加载中",
@@ -80,6 +80,9 @@
   "verify": "验证",
   "validatePhone": "验证手机号",
   "plhdSMS": "请输入短信验证码",
+  "sex": "性别",
+  "pleaseChoose":"请选择",
+  "cancel":"取消",
   "tours": {
     "torusRecommend": "稀饭推荐",
     "exquisiteGroup": "精品小团",
@@ -166,6 +169,7 @@
     "cancelCollection": "取消收藏",
     "cancelCollectionFail": "取消收藏失败",
     "collectionSuc": "收藏成功",
+    "collectionFail": "收藏失败",
     "moreCity": "更多城市"
   },
   "loginPage": {},
@@ -198,7 +202,7 @@
     "newPasswordTips": "请输入新密码",
     "againPasswordTips": "请再次输入新密码",
     "oldPassword": "旧密码",
-    "newPassword": "旧密码",
+    "newPassword": "新密码",
     "againPassword": "确认新密码",
     "confirmChange": "确认修改",
     "wxPublic": "微信公众号",
@@ -208,7 +212,42 @@
     "welcomeFllow": "欢迎扫描关注",
     "aboutUs": "关于我们",
     "userAgreement": "用户协议",
-    "privacyPoli": "隐私政策"
+    "privacyPoli": "隐私政策",
+    "avatar": "头像",
+    "nickName":"昵称",
+    "plhdNickName": "请输入用户昵称",
+    "dateOfBirth": "出生日期",
+    "sex": "性别",
+    "phoneNumber":"手机号码",
+    "verifyPhone":"请验证手机号码",
+    "plhdEmail":"完善邮箱信息，可获得100米粒",
+    "logout":"退出登录",
+    "myRiceGrain":"我的米粒",
+    "riceGrainDesc":"米粒说明",
+    "currentRiceGrain":"当前可用米粒",
+    "equivalent":"等值于",
+    "travelPeople":"位出行人",
+    "addIncompleteInfo":"信息不全，请补充",
+    "myCoupon":"我的优惠券",
+    "alreadyUsed":"已经使用",
+    "myCollection":"我的收藏",
+    "price":"价格",
+    "goToCollect":"暂无收藏，快去收藏吧",
+    "noNickName":"昵称还没有设置呢",
+    "riceGrain":"米粒",
+    "commonPassenger":"常用旅客",
+    "homepage":"主页",
+    "myDistribution":"目的地",
+    "destinationAlone":"在线咨询",
+    "userCenter":"我的",
+    "allOrder":"全部订单",
+    "waitPay":"待支付",
+    "waitTrip": "待出行",
+    "alreadyTrip": "已出行",
+    "myOrder":"我的订单",
+    "orderNumber":"订单号",
+    "travelDate":"出行日期",
+    "totalPrice":"共计"
   },
   "productDetailPage": {
     "title": "详情页面",
@@ -293,7 +332,11 @@
     "plhdEnlastName": "请输入英文名",
     "mustWithIdFit": "须与证件上一致",
     "plndAreaSelect": "请注意区域选择",
-    "selectDate": "选择日期"
+    "selectDate": "选择日期",
+    "englishLastName":"英文姓",
+    "deleteContact":"删除联系人",
+    "sureDeleteContact":"是否确认删除联系人",
+    "englishName": "英文名"
   },
   "couponsPage": {
     "title": "我的优惠劵",
@@ -484,5 +527,9 @@
   },
   "headerSearch": {
     "search": "搜索"
+  },
+  "html":{
+    "aboutXFUnion": "<h2 class='title'>什么是稀饭联盟？</h2><p>稀饭联盟是稀饭旅行提供给注册用户的分享平台，联盟成员可通过分享获得奖励金。</p><p>分享获益方式如下：</p><h3 class='title'>分享产品</h3><p>产品分享奖励金将在产品列表以及产品详情展示，联盟成员可通过产品推广链接进行分享，当产品完成订单后即可获得相应奖励金。</p><h3 class='title'>邀请好友</h3><p>联盟成员通过邀请新人加入联盟，新人首单获得奖励金时，即可获得新人首单奖励金的25%</p><p>分享越多，就能获得越多收益。成为稀饭联盟成员后，还能享受平台不定期的专属购买福利，欢迎你的加入！</p>",
+    "riceDetail": "<h6 class='title'>什么是米粒？</h6><p>粒是稀饭旅行网对会员的一种奖励，是会员财富的象征。米粒是稀饭旅行网对会员的一种奖励，是会员财富的象征。米粒饭旅行网对会员的一种奖励，是会员财富的象征。米粒是稀饭旅行网对会员的一种奖励，是会员财富的象征。米粒是稀饭旅行网对会员的一种奖励，是会员财富的征。</p>"
   }
 }

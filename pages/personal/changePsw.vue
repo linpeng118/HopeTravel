@@ -1,33 +1,33 @@
 <template>
   <div class="change-psw-page">
-    <normal-header title="修改密码" />
+    <normal-header :title="$t('personalPage.changePassword')" />
     <div class="change-psw">
       <div class="input-item">
-        <div class="name">旧密码：</div>
+        <div class="name">{{$t('personalPage.oldPassword')}}：</div>
         <div class="input">
           <van-cell-group class="no-border-top-input">
             <van-field v-model="oldPsw"
-              placeholder="请输入旧密码"
+              :placeholder="$t('personalPage.oldPasswordTips')"
               type="password" />
           </van-cell-group>
         </div>
       </div>
       <div class="input-item">
-        <div class="name">新密码：</div>
+        <div class="name">{{$t('personalPage.newPassword')}}：</div>
         <div class="input">
           <van-cell-group class="no-border-top-input">
             <van-field v-model="password"
-              placeholder="请输入新密码"
+              :placeholder="$t('personalPage.newPasswordTips')"
               type="password" />
           </van-cell-group>
         </div>
       </div>
       <div class="input-item">
-        <div class="name">确认新密码：</div>
+        <div class="name">{{$t('personalPage.againPassword')}}：</div>
         <div class="input">
           <van-cell-group class="no-border-top-input">
             <van-field v-model="checkPsw"
-              placeholder="请再次输入新密码"
+              :placeholder="$t('personalPage.againPasswordTips')"
               type="password" />
           </van-cell-group>
         </div>
@@ -36,7 +36,7 @@
       <van-button class="btn-change"
         size="large"
         :loading="submiting"
-        @click="onChangePsw">确认修改</van-button>
+        @click="onChangePsw">{{$t('personalPage.confirmChange')}}</van-button>
     </div>
   </div>
 </template>
@@ -62,19 +62,19 @@
     methods: {
       async onChangePsw() {
         if (!this.oldPsw) {
-          this.$toast('请输入旧密码')
+          this.$toast(this.$t('personalPage.oldPasswordTips'))
           return
         }
         if (!this.password) {
-          this.$toast('请输入新密码')
+          this.$toast(this.$t('personalPage.newPasswordTips'))
           return
         }
         if (!this.checkPsw) {
-          this.$toast('请输入确认密码')
+          this.$toast(this.$t('personalPage.againPasswordTips'))
           return
         }
         if (this.password !== this.checkPsw) {
-          this.$toast('密码不一致，请重新输入')
+          this.$toast(this.$t('partcailComp.enterError'))
           return
         }
         this.submiting = true
@@ -84,7 +84,7 @@
           checkPsw: this.checkPsw,
         })
         if (code === 0) {
-          this.$toast('修改成功')
+          this.$toast(this.$t('operateSuc'))
         } else {
           this.$toast(msg)
         }

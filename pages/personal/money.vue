@@ -3,7 +3,7 @@
     <div class="header">
       <van-nav-bar
         class="bar-shadow"
-        title="切换货币"
+        :title="$t('personalPage.switchMoney')"
         @click-left="onClickLeft"
         left-arrow>
       </van-nav-bar>
@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       currencyList: [
-        {name:'$美元',type:'USD'},
+        {name:`$${this.$t('dollar')}`,type:'USD'},
         // {name:'€欧元',type:'EUR'},
         // {name:'£英镑',type:'GBP'},
         // {name:'$加拿大元',type:'CAD'},
@@ -36,7 +36,7 @@ export default {
         // {name:'$澳大利亚元',type:'AUD'},
         // {name:'R.兰特',type:'AZR'},
         // {name:'NT$台币',type:'TWD'},
-        {name:'¥人民币',type:'CNY'},
+        {name:`¥${this.$t('RMB')}`,type:'CNY'},
         // {name:'$新西兰元',type:'NZD'},
       ],
       radio: process.client ? getCookieByKey('currency') || 'CNY' : ''
@@ -52,7 +52,7 @@ export default {
     // 存货币
     radioChange(name) {
       this.setCurrency(name)
-      this.$toast('设置成功')
+      this.$toast($this.$t('operateSuc'))
       setTimeout(() => {
         this.onClickLeft()
       },500)
