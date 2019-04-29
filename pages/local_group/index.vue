@@ -3,7 +3,7 @@
     ref="refLocalGroupPage">
     <!-- header -->
     <search-header v-if="!isApp"
-      :title="'当地跟团'"
+      :title="$t('tours.localGroup')"
       ref="refSearchHeader"
       @leftClick="leftClick"
       @rightClick="rightClick" />
@@ -37,7 +37,7 @@
             :tag="city"
             @callOnTag="onHotCity(city)" />
           <hot-city-tag className="active"
-            :tag="{title: '更多目的地'}"
+            :tag="{title: $t('localGroupPage.moreDestinations')}"
             @callOnTag="onMoreCity" />
         </div>
       </div>
@@ -56,8 +56,8 @@
           <div class="hq-tags"
             :class="{'fixed-tag': isFixedTags}"
             :style="{paddingTop: isFixedTags ? `calc(100vw * ${isApp? 40 : 90} / 375 + 24px`: '24px'}">
-            <hot-city-tag :class="{'active': activeCity==='全部'}"
-              :tag="{title: '全部'}"
+            <hot-city-tag :class="{'active': activeCity===$t('all')}"
+              :tag="{title: $t('all')}"
               @callOnTag="onCityAll" />
             <hot-city-tag v-for="item in localgroupData[2].data[selected] && localgroupData[2].data[selected].sub"
               :key="item.title"
@@ -76,7 +76,7 @@
             <van-list class="high-quality-list tours-list-no-bb"
               v-model="prodLoading"
               :prodFinished="prodFinished"
-              finished-text="没有更多了"
+              :finished-text="$t('noMore')"
               @load="onLoad">
               <van-cell class="high-quality-item"
                 tagPos="bottom"
@@ -157,7 +157,7 @@
     },
     head() {
       return {
-        title: '当地跟团'
+        title: this.$t('tours.localGroup')
       }
     },
     watch: {
@@ -318,7 +318,7 @@
       },
       // 点击全部
       onCityAll() {
-        this.activeCity = '全部'
+        this.activeCity = this.$t('all')
         this.getProductListData()
       },
       /**

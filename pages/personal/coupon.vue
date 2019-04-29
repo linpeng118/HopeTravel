@@ -1,13 +1,13 @@
 <template>
   <div class="container containerxxx">
     <div class="nav-bar">
-      <van-nav-bar title="我的优惠券" left-arrow @click-left="onClickLeft"/>
+      <van-nav-bar :title="$t('personalPage.myCoupon')" left-arrow @click-left="onClickLeft"/>
     </div>
     <div class="tab" v-if="concover==3">
       <van-tabs @click="onClick" v-model="active">
         <van-tab v-for="(title,indw) in orderTile" :key="title.id" :title="title.title+'('+leng[indw]+')'" class="layout">
           <loading v-if="firstEnter"></loading>
-          <div class="no-data" v-if="!firstEnter && !conList.length">暂无数据</div>
+          <div class="no-data" v-if="!firstEnter && !conList.length">{{$t('noData')}}</div>
           <!-- 产品 -->
           <template v-if="conList.length">
             <div v-for="(item,index) in conList" :key="index">
@@ -20,15 +20,15 @@
                   <p class="p1">{{item.title}}</p>
                   <p class="p2">{{item.date_label}}</p>
                   <p class="p2">{{item.period_label}}</p>
-                  <p class="p2" @click="item.show=(item.show=='0')?'1':'0'">使用说明
+                  <p class="p2" @click="item.show=(item.show=='0')?'1':'0'">{{$t('couponsPage.instructions')}}
                     <van-icon v-if="item.show=='0'" name="arrow-down" />
                     <van-icon v-if="item.show=='1'" name="arrow-up" />
                   </p>
                 </div>
                 <div class="cupright">
                   <span v-if="status==='unuse'"></span>
-                  <span class="btn2" v-else-if="status==='used'">已经使用</span>
-                  <span class="btn2" v-else>已过期</span>
+                  <span class="btn2" v-else-if="status==='used'">{{$t('personalPage.alreadyUsed')}}</span>
+                  <span class="btn2" v-else>{{$t('couponsPage.overDate')}}</span>
                 </div>
               </div>
               <div class="cup-else" v-show="item.show==='1'">
@@ -65,9 +65,9 @@
       this.getLength1();
       this.getLength2();
       this.orderTile = [
-        {type: 'unuse', title: '未使用', id: 0},
-        {type: 'used', title: '使用记录', id: 1},
-        {type: 'expired', title: '已过期', id: 2},
+        {type: 'unuse', title: this.$t('couponsPage.unuser'), id: 0},
+        {type: 'used', title: this.$t('couponsPage.useList'), id: 1},
+        {type: 'expired', title: this.$t('couponsPage.overDate'), id: 2},
       ]
     },
     mounted(){

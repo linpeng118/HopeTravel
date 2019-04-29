@@ -1,14 +1,14 @@
 <template>
   <section>
-    <van-nav-bar class="login-header tours-no-bb" ref="loginHeader" title="订单详情" :z-index="999"
+    <van-nav-bar class="login-header tours-no-bb" ref="loginHeader" :title="$t('orderDetailPage.title')" :z-index="999"
                  @click-left="onClickLeft">
       <van-icon class="left-wrap" name="arrow-left" slot="left"/>
     </van-nav-bar>
     <div class="details-head">
       <div class="head-left">
         <p>{{details.status.name}}</p>
-        <p>订单号：{{details.order_id}}</p>
-        <p>下单时间：{{details.created.substr(0,10)}}</p>
+        <p>{{$t('orderDetailPage.orderId')}}：{{details.order_id}}</p>
+        <p>{{$t('orderDetailPage.orderTime')}}：{{details.created.substr(0,10)}}</p>
       </div>
       <div class="head-right">
         <p>{{details.price}}</p>
@@ -29,9 +29,9 @@
               <i>{{details.product_departure_city}}</i>
             </span>
             <span>
-              <i>{{details.ault_count}}成人</i>
+              <i>{{details.ault_count}}{{$t('adult')}}</i>
               <i class="hr"></i>
-              <i>{{details.created.substr(0,10)}}预定</i>
+              <i>{{details.created.substr(0,10)}}{{$t('reserve')}}</i>
             </span>
             <span>
               <i>{{details.product_end_date}}</i>
@@ -42,7 +42,7 @@
       </section>
       <section>
         <div class="confirm-item" v-if="details.attribute">
-          <p class="item-title">行程选项信息</p>
+          <p class="item-title">{{$t('orderDetailPage.tripInfo')}}</p>
           <template v-for="(item,index) in details.attribute">
             <div :key="index">
               <p class="item-tip">{{item.product_option}}</p>
@@ -57,14 +57,14 @@
       </section>
       <section>
         <div class="confirm-item" v-if="details.guest_name">
-          <p class="item-title">出行人信息</p>
+          <p class="item-title">{{$t('orderDetailPage.travlerInfo')}}</p>
           <template v-for="(item,index) in details.guest_name">
             <div :key="index" class="item-contanct">
               <div>{{index+1}}.{{item.name}}</div>
               <div>
-                <p>{{item.passport||'暂无'}}</p>
-                <p>{{item.email||'暂无'}}</p>
-                <p>{{item.phone||'暂无'}}</p>
+                <p>{{item.passport||$t('notHave')}}</p>
+                <p>{{item.email||$t('notHave')}}</p>
+                <p>{{item.phone||$t('notHave')}}</p>
               </div>
             </div>
           </template>
@@ -72,9 +72,9 @@
       </section>
       <section>
         <div class="confirm-item">
-          <p class="item-title">联系人信息</p>
+          <p class="item-title">{{$t('orderDetailPage.contactInfo')}}</p>
           <div class="item-contanct2">
-            <div>联系人</div>
+            <div>{{$t('orderDetailPage.contact')}}</div>
             <div>
               <p>{{details.contact_name}}</p>
               <p>{{details.contact_phone}}</p>
@@ -97,7 +97,7 @@
             <input type="submit" ref="submitform">
           </form>
         </div>
-        <button class="pay-btn" @click="subData()">去支付</button>
+        <button class="pay-btn" @click="subData()">{{$t('orderDetailPage.goPay')}}</button>
       </section>
     </section>
   </section>
@@ -120,7 +120,7 @@
           "created": "2018-07-13 01:18:33",
           "status": {
             "code": 0,
-            "name": "待支付"
+            "name": this.$t('orderDetailPage.waitPay')
           },
           "price": "$547.00",
           "ault_count": 1,

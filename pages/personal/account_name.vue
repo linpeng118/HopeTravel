@@ -1,18 +1,18 @@
 <template>
   <div>
-    <van-nav-bar title="姓名" left-arrow @click-left="onClickLeft"/>
+    <van-nav-bar :title="$t('name')" left-arrow @click-left="onClickLeft"/>
     <div class="line">
-      <label class="tit">英文</label>
-      <input class="en-f-name" type="text" placeholder="名:" v-model="last_name" >
+      <label class="tit">{{$t('english')}}</label>
+      <input class="en-f-name" type="text" :placeholder="$t('lastName')" v-model="last_name" >
       <span class="cut">|</span>
-      <input class="en-l-name" type="text" placeholder="姓:" v-model="first_name" >
+      <input class="en-l-name" type="text" :placeholder="$t('firstName')" v-model="first_name" >
     </div>
     <div class="line">
-      <label class="tit">中文名</label>
-      <input class="ch-name" type="text" placeholder="请输入中文名" v-model="chinese_name">
+      <label class="tit">{{$t('chineseName')}}</label>
+      <input class="ch-name" type="text" :placeholder="$t('plhdChineseName')" v-model="chinese_name">
     </div>
     <div class="btn_container" @click="nameChange">
-      <button class="sure">确定</button>
+      <button class="sure">{{$t('sure')}}</button>
     </div>
   </div>
 </template>
