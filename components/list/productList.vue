@@ -104,7 +104,6 @@ export default {
     this.getProfile()
   },
   methods: {
-
     productTypeValue(val) {
       const type = [
         {type: 3,title: this.$t('tours.exquisiteGroup')},
@@ -120,7 +119,6 @@ export default {
       })
       return target.title
     },
-
     selectDetail(productId) {
       this.$emit('selectItem', productId)
     },
