@@ -8,7 +8,7 @@
         <div class="user-info">
           <div class="name">{{profile.nickname || $t('personalPage.noNickName')}}</div>
           <div class="rice">
-            <span @click="myRice">{{$t('riceGrain')}}}：{{profile.total_points}} <van-icon color="#fff" name="arrow" size="1em" /></span>
+            <span @click="myRice">{{$t('personalPage.riceGrain')}}：{{profile.total_points}} <van-icon color="#fff" name="arrow" size="1em" /></span>
             <span @click="myCon">{{$t('coupons')}}：{{profile.total_coupons||0}} <van-icon color="#fff" name="arrow" size="1em"/></span>
           </div>
         </div>

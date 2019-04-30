@@ -9,13 +9,13 @@
         <van-cell-group>
           <van-field class="username tours-input"
             v-model="formData.username"
-            :placeholder="$t('partcailComp.placeUsername')" />
+            :placeholder="$t('plhdNameEmail')" />
           <van-field class="password tours-input"
             v-model="formData.password"
             center
             clearable
             icon="eye-o"
-            :placeholder="$t('partcailComp.ptlogin')"
+            :placeholder="$t('partcailComp.placePassword')"
             :type="pswInputType"
             @click-icon="toggleInputType">
             <van-button class="btn-forget tours-button-noborder"
