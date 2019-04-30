@@ -529,14 +529,14 @@
         productId = Number(query.productId)
       }
       try {
-        let currency = getCookie('currency', req.headers && req.headers.cookie)
+        let currency = getCookie('currency', req && req.headers && req.headers.cookie)
         let {code, msg, data} = await $axios.$get(`/api/product/${productId}`, {
           headers: {
             'platform': 'app',
             'phoneType': 'iOS',
             'App-Version': '1.0.0',
             'language': store.getters.language,
-            'currency': currency || 'CNY'
+            'currency': currency ? currency : 'CNY'
           }
         })
         if (code === 0) {
