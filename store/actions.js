@@ -4,6 +4,6 @@ export default {
   }, {
     req
   }) {
-    ('nuxtServerInit')
+    // commit('setCurrency', 'test')
   }
 }
