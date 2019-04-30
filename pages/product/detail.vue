@@ -706,7 +706,7 @@
           this.$router.push({
             name: 'product-detail',
             query: {
-              productId: this.$route.query.productId + '-' + this.profile.customer_id
+              productId: String(this.$route.query.productId) + '-' + this.profile.customer_id
             }
           })
         }
@@ -714,7 +714,7 @@
       },
       // 产品ID，session保存
       async ashbackLogic() {
-        let query = this.$route.query.productId + ''
+        let query = String(this.$route.query.productId)
         let platform = this.$route.query.platform
         let viewStat = {}
         console.log(query)
