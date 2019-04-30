@@ -325,6 +325,8 @@
   import {mapMutations, mapState} from 'vuex';
   import {DLG_TYPE} from '@/assets/js/consts/dialog';
   import {getquhao} from '@/api/contacts'
+  import onCustomerService from '@/assets/js/customerService.js'
+
   export default {
     name: 'custom',
     components: {
@@ -605,7 +607,7 @@
       },
       // 查看全部list
       toList2() {
-        window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12918104&userId=26301226'
+        onCustomerService('custom')
       },
       // 故事
       onSlide(val) {

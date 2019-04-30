@@ -33,10 +33,10 @@
     <div class="btn_container clearfix">
       <a
         target="_blank"
-        href="http://p.qiao.baidu.com/cps/chat?siteId=12918104&userId=26301226"
         class="btn_online fl"
         data-ajax="false"
         id="qa-wangqiao-btn"
+        @click="onlineCounsel"
       >
         <img class="online" src="../../assets/imgs/custom/btn1.png" alt>
         在线咨询

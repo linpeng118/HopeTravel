@@ -427,16 +427,6 @@
     </div>
     <!-- 加载态 -->
     <loading v-if="loading"></loading>
-    <!-- 弹出咨询层 -->
-    <!-- <van-popup class="show-consult"
-      v-model="showConsult"
-      position="bottom"
-      :overlay="true">
-      <iframe src="http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226"
-        frameborder="0"
-        width="100%"
-        height="100%"></iframe>
-    </van-popup> -->
     <!-- 右上角更多操作 -->
     <transition name="fade">
       <div class="show-more"
@@ -503,6 +493,7 @@
   import shareList from '@/components/share/list'
   import {getCode, getBase64, getViewStat} from '@/api/sale_union'
   import {SESSIONSTORE, PLATFORM} from '@/assets/js/config'
+  import onCustomerService from '@/assets/js/customerService.js'
 
   export default {
     layout: 'default',
@@ -1035,7 +1026,7 @@
       },
       // 在线咨询
       onlineCounsel() {
-        window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226'
+        onCustomerService()
       },
       // 立即定制
       async btnReserve() {

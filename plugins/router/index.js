@@ -1,5 +1,7 @@
 import NProgress from 'nprogress'
 import '@/assets/style/nprogress.css'
+import apiConf from '@/apiConf.env.js'
+
 export default ({
   app
 }) => {
@@ -28,14 +30,16 @@ export default ({
             clearInterval(timer)
             hideDom(domName)
           } catch (error) {
-            console.log(error)            
+            console.log(error)
           }
         }
       }, 4000, domName)
     }
     try {
-      hideDom('#newBridge')
-
+      if (process.env.customerService === 'baidu') {
+        console.log('百度商桥')
+        hideDom('#newBridge')
+      }
       NProgress.start()
       if (to.path.indexOf('.html') >= 0) {}
     } catch (error) {
