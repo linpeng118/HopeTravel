@@ -47,7 +47,7 @@
         </van-cell>
         <!--分销-->
         <!--<van-cell title="我的分销" is-link :to="isLogin ? '/personal/sale_union': '/login?redirect=personal'">-->
-        <van-cell :title="$t('personalPage.myDistribution')" is-link @click="goToUnion">
+        <van-cell :title="$t('distributionPage.distribution')" is-link @click="goToUnion">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/sales.png">
           </template>

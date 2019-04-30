@@ -53,7 +53,7 @@ export default function ({
       }
     } else if (config.method == 'get') {
       config.params = {
-        t: +(Date.parse(new Date()) / 1000) + 'hahhaha',
+        t: +(Date.parse(new Date()) / 1000),
         ...config.params
       }
     }

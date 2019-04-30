@@ -524,19 +524,19 @@
         top_price,
         transfer
       if (String(query.productId).indexOf('-') >= 0) {
-        productId = Number(String(query.productId).split('-')[0])
+        productId = Number(query.productId.toString().split('-')[0])
       } else {
-        productId = Number(String(query.productId))
+        productId = Number(query.productId)
       }
       try {
-        let currency = getCookie('currency', req.headers&&req.headers.cookie)
+        let currency = getCookie('currency', req.headers && req.headers.cookie)
         let {code, msg, data} = await $axios.$get(`/api/product/${productId}`, {
           headers: {
             'platform': 'app',
             'phoneType': 'iOS',
             'App-Version': '1.0.0',
             'language': store.getters.language,
-            'currency': currency || store.state.currency
+            'currency': currency || 'CNY'
           }
         })
         if (code === 0) {
