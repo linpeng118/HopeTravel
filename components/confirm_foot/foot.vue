@@ -4,10 +4,10 @@
     <div class="confirm-foot">
       <span class="confirm-price" v-if="showbtn">
         <i>{{pricelist.total_price}}</i>
-        <i v-if="showpops" @click="showpops=false">{{$t('confirmFootComp.detail')}}明细
+        <i v-if="showpops" @click="showpops=false">{{$t('confirmFootComp.detail')}}
           <van-icon name="arrow-down"/>
         </i>
-         <i v-else @click="showpops=true">{{$t('confirmFootComp.detail')}}明细
+         <i v-else @click="showpops=true">{{$t('confirmFootComp.detail')}}
             <van-icon name="arrow-up"/>
         </i>
       </span>
