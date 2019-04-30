@@ -9,6 +9,7 @@
  * 签证页面:
  *   https://tb.53kf.com/code/code/10181581/4
  *   短链接：https://tb.53kf.com/code/client/10181581/4
+ * @param {Object} page 'visa'或'custom'
  */
 export default function (page) {
   if (page === 'visa') {
