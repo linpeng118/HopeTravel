@@ -8,6 +8,8 @@ const axiosUrl = `http://127.0.0.1:${apiConfig.port}`
 console.log('apiConfig:', apiConfig)
 console.log('axiosUrl:', axiosUrl)
 const LRU = require('lru-cache')
+const i18nExtensions = require('vue-i18n-extensions')
+
 
 
 module.exports = {
@@ -79,6 +81,12 @@ module.exports = {
   plugins: pluginConfig,
   render: {
     resourceHints: false,
+
+    bundleRenderer: {
+      directives: {
+        t: i18nExtensions.directive
+      }
+    }
   },
   /*
    ** middleware
@@ -159,6 +167,7 @@ module.exports = {
     // https://github.com/nuxt/nuxt.js/issues/4432
     // https://github.com/nuxt/nuxt.js/issues/4643
     // https://github.com/nuxt/nuxt.js/pull/4600
+    vendor: ['vue-i18n'],//语言包转换
     babel: {
       presets({
         isServer

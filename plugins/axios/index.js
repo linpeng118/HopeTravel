@@ -12,7 +12,8 @@ import {
 
 export default function ({
                            $axios,
-                           redirect
+                           redirect,
+                           store
                          }) {
   // 设置基础配置
   $axios.defaults.timeout = 10000
@@ -21,7 +22,8 @@ export default function ({
     'Content-Type': 'application/json; charset=utf-8', // json格式通信
     'platform': 'app',
     'phoneType': 'iOS',
-    'App-Version': '1.0.0'
+    'App-Version': '1.0.0',
+    'language': store.getters.language  // zh-TW=繁体；zh-CN=中文简体
   }
   // if (process.env.NODE_ENV === 'production') {
   //   $axios.defaults.baseURL = apiConfig.base

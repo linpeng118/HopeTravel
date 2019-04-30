@@ -25,10 +25,10 @@ export default {
   },
   created() {
     this.sortTypes = [
-      {id:1, order: '', order_by: '', name: '默认排序'},
-      {id:2, order: 'asc', order_by: 'price', name: '价格从低到高'},
-      {id:3, order: 'desc', order_by: 'price', name: '价格从高到底'},
-      {id:4, order: '', order_by: 'sales', name: '最受欢迎'}
+      {id:1, order: '', order_by: '', name: this.$t('productListPage.sortDefault')},
+      {id:2, order: 'asc', order_by: 'price', name: this.$t('productListPage.sortPriceLowToHigh')},
+      {id:3, order: 'desc', order_by: 'price', name: this.$t('productListPage.sortPriceHighToLow')},
+      {id:4, order: '', order_by: 'sales', name: this.$t('productListPage.sortPopular')}
     ]
   },
   methods: {

@@ -2,14 +2,14 @@
   <div class="search-main">
     <div class="country-bg" @click="selectCountryLine(data.allLines)">
       <img :src="data.allLines.image" alt="">
-      <div class="desc">{{data.cityName}}全部线路{{data.allLines.content}}条</div>
+      <div class="desc">{{data.cityName}}{{$t('searchComp.allWay')}}{{data.allLines.content}}条</div>
     </div>
     <div class="hot-box" v-if="data.hotTarget && data.hotTarget.length">
-      <h2>热门目的地</h2>
+      <h2>{{$t('searchComp.hotDestinations')}}</h2>
       <hot-place :lists="data.hotTarget" :isDesc="false" @selectDetail="selectDetail"></hot-place>
     </div>
     <div class="result-line" v-if="data.allArea && data.allArea.length">
-      <h2>全部目的地</h2>
+      <h2>{{$t('searchCompallDestinations')}}</h2>
       <div class="line">
         <hot-city-tag v-for="line in data.allArea"
                       :key="line.id"

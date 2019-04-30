@@ -4,21 +4,21 @@
 
     <div class="paylist">
       <p class="paytitle">
-        费用明细
+        {{$t('costDetail')}}
         <van-icon @click="closepops()" name="cross"/>
       </p>
       <ul>
         <li class="paysection">
           <p class="payitem" v-if="payData.base_price">
-            <span>基本团费:</span>
+            <span>{{$t('confirmFootComp.basicTourFee')}}:</span>
             <span>{{payData.base_price}}</span>
           </p>
           <p class="payitem2" >
-            <span>成人:</span>
+            <span>{{$t('adult')}}:</span>
             <span>{{payData.adult}}</span>
           </p>
           <p class="payitem2" v-if="payData.child!=0">
-            <span>儿童:</span>
+            <span>{{$t('child')}}:</span>
             <span>{{payData.child}}</span>
           </p>
         </li>
@@ -31,7 +31,7 @@
         </li>
         <li class="paysection" v-if="payData.attributes_selected">
           <p class="payitem" >
-            <span>行程费用:</span>
+            <span>{{$t('confirmFootComp.travelCost')}}:</span>
             <span>{{payData.attributes_selected.total_price}}</span>
           </p>
           <template v-for="(item,ind) in payData.attributes_selected.items">
@@ -46,16 +46,16 @@
 
         <li class="paysection" v-if="payData.discount">
           <p class="payitem">
-            <span>优惠:</span>
+            <span>{{$t('confirmFootComp.discount')}}:</span>
             <span :style="'color:#aaa;text-decoration:line-through'">-{{payData.discount}}</span>
           </p>
           <p class="payitem2" v-if="payData.points&&showmili=='1'" >
-            <span>米粒</span>
+            <span>{{$t('confirmFootComp.riceGrains')}}</span>
             <span style="text-decoration:line-through;color:#aaa;"><i :style="'color:#aaa'">-</i>
                 {{payData.points.discount}}</span>
           </p>
           <p class="payitem2" v-if="payData.coupons" >
-            <span>优惠券</span>
+            <span>{{$t('coupons')}}</span>
             <span style="text-decoration:line-through;color:#aaa;"><i :style="'color:#aaa'">-</i>
                 {{payData.coupons.save}}</span>
           </p>
@@ -64,7 +64,7 @@
 
       </ul>
       <p class="payall">
-        <span>合计</span>
+        <span>{{$t('confirmFootComp.priceTotal')}}</span>
         <span>{{payData.total_price}}</span>
       </p>
 

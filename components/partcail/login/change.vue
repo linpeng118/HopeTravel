@@ -1,26 +1,26 @@
 <template>
   <div class="change-comp">
-    <h1 class="title">请设置你的新密码</h1>
+    <h1 class="title">{{$t('partcailComp.setNewPass')}}</h1>
     <div class="content tours-tabs-nowrap">
       <van-cell-group>
         <van-field class="phone tours-input"
           v-model="account"
-          placeholder="请输入"
+          :placeholder="$t('partcailComp.pleaseInput')"
           disabled />
         <van-field class="password tours-input"
           v-model="password"
           type="password"
-          placeholder="请设置密码" />
+          :placeholder="$t('partcailComp.setPass')" />
         <van-field class="check-password tours-input"
           v-model="checkPassword"
           type="password"
-          placeholder="确认密码" />
+          :placeholder="$t('partcailComp.confirmPass')" />
       </van-cell-group>
-      <span class="tip-text">密码为6-20位，支持数字和字母</span>
+      <span class="tip-text">{{$t('partcailComp.passInputTips')}}</span>
       <van-button class="btn-change-psw tours-button"
         size="large"
         :loading="submiting"
-        @click="changePsw">完成</van-button>
+        @click="changePsw">{{$t('partcailComp.accomplish')}}</van-button>
     </div>
   </div>
 </template>
@@ -75,10 +75,10 @@
       // 修改密码
       async changePsw() {
         if (!this.password) {
-          this.$toast('请输入密码')
+          this.$toast(this.$t('partcailComp.nodataTips'))
         }
         if (this.checkPassword !== this.password) {
-          this.$toast('密码不一致，请重新输入')
+          this.$toast(this.$t('partcailComp.enterError'))
         }
         // 构造数据
         let subData = {}
@@ -99,7 +99,7 @@
         try {
           const {code, data, msg} = await findPwd(subData)
           if (code === 0) {
-            this.$toast('修改密码成功！')
+            this.$toast(`${this.$t('partcailComp.updateSuccess')}！`)
             setTimeout(() => {
               this.$emit('changeCallBack')
             }, 1000)

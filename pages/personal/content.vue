@@ -3,15 +3,15 @@
     <div class="header">
       <van-nav-bar
         class="bar-shadow"
-        title="意见反馈"
+        :title="$t('personalPage.feedback')"
         @click-left="onClickLeft"
         left-arrow
       >
       </van-nav-bar>
     </div>
     <div class="content-wrap">
-      <textarea class="text-area" placeholder="请留下你的意见和建议，我们一定认真阅读。" v-model="content"></textarea>
-      <div class="btn-sure"><van-button block @click="submitContent">提交</van-button></div>
+      <textarea class="text-area" :placeholder="$t('personalPage.feedbackPlaceHold')" v-model="content"></textarea>
+      <div class="btn-sure"><van-button block @click="submitContent">{{$t('submit')}}</van-button></div>
     </div>
   </div>
 </template>
@@ -34,7 +34,7 @@ export default {
       let {code} = await submitContent()
       if(code === 0) {
         this.$dialog.alert({
-          message: '提交信息成功'
+          message: this.$t('operateSuc')
         }).then(() => {
           this.onClickLeft()
         })

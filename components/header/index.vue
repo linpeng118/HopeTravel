@@ -37,7 +37,7 @@
     props: {
       title: {
         type: String,
-        default: '标题'
+        default: ''
       },
       isBgHeader: {
         type: Boolean,

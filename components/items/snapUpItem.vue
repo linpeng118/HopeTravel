@@ -32,7 +32,7 @@
       </div>
     </div>
     <div class="desc">
-      <span class="tag tag1" v-if="proData.self_support===0">自营</span>
+      <span class="tag tag1" v-if="proData.self_support===0">{{$t('selfSupport')}}自营</span>
       <!--<div class="tags-wrap" :class="tagPos">-->
         <!--<span class="tag tag1" v-if="proData.self_support===0">自营</span>-->
       <!--</div>-->
@@ -41,12 +41,12 @@
     <div class="price-wrap">
       <div v-if="proData.special_price">
         <span class="price">{{proData.special_price}}</span>
-        <span class="unit">/起&emsp;</span>
+        <span class="unit">/{{$t('since')}}起</span>
         <span class="ori-price">{{proData.default_price}}</span>
       </div>
       <div v-else>
         <span class="price">{{proData.default_price}}</span>
-        <span class="unit">/起&emsp;</span>
+        <span class="unit">/{{$t('since')}}起&emsp;</span>
       </div>
     </div>
   </div>

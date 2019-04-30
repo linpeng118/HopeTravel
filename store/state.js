@@ -12,4 +12,5 @@ export default {
   dlgType: DLG_TYPE.NORMAL, // 显示的弹窗类型
   currency: process.client ? (getCookieByKey('currency') ? getCookieByKey('currency') : 'CNY') : 'CNY', // 货币类型
   closeDown: 'no',
+  language: 'zh-CN'
 }

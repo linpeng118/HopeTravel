@@ -4,6 +4,7 @@ export const getHomeData = () => {
 }
 
 export const getHomeHotList = (data) => {
+  console.log(9999999)
   return axios.get('/api/index/topsales',{
     params: data
   })

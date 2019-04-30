@@ -16,7 +16,7 @@
           <template v-for="item in tagsList">
             <van-tab :title="item.title" :key="item.type">
               <van-pull-refresh v-model="prodLoading" @refresh="onRefresh">
-                <van-list v-model="prodLoading" :finished="prodFinished" finished-text="没有更多了" @load="onLoad">
+                <van-list v-model="prodLoading" :finished="prodFinished" :finished-text="$t('noMore')" @load="onLoad">
                   <template v-if="active !== 0">
                     <div class="filter-box">
                       <div class="sort-left" @click="sortChange">
@@ -24,7 +24,7 @@
                         <van-icon name="arrow-down" />
                       </div>
                       <div class="right" @click="filterSelect">
-                        筛选
+                        {{$t('screen')}}
                         <van-icon name="filter-o" />
                       </div>
                     </div>
@@ -68,8 +68,8 @@
         </div>
       </div>
       <div class="bottom-btn">
-        <div class="left" @click="resetFilter">重置</div>
-        <div class="right" @click="againSearch">选好了</div>
+        <div class="left" @click="resetFilter">{{$t('reset')}}</div>
+        <div class="right" @click="againSearch">{{$t('chosen')}}</div>
       </div>
     </van-popup>
 
@@ -115,7 +115,7 @@
         productList: [], // 产品列表数据
         showFilter: false, // 显示筛选条件
         showList: false, // 更多列表的选择
-        sortResult:{id:1, order: '', order_by: '', name: '默认排序'}, // 排序的选择条件
+        sortResult:{id:1, order: '', order_by: '', name:this.$t('productListPage.sortDefault')}, // 排序的选择条件
         sortShow: false,
         filterLists: {},
         startCity: [],
@@ -170,24 +170,23 @@
         // 筛选条件更新
         this.getFilterList();
         // this.menuset();
-
       }
     },
     created() {
       this.sortTypes = [
-        {id:1, order: '', order_by: '', name: '默认排序'},
-        {id:2, order: 'asc', order_by: 'price', name: '价格从低到高'},
-        {id:3, order: 'desc', order_by: 'price', name: '价格从高到底'},
-        {id:4, order: '', order_by: 'sales', name: '最受欢迎'}
+        {id:1, order: '', order_by: '', name: this.$t('productListPage.sortDefault')},
+        {id:2, order: 'asc', order_by: 'price', name: this.$t('productListPage.sortPriceLowToHigh')},
+        {id:3, order: 'desc', order_by: 'price', name: this.$t('productListPage.sortPriceHighToLow')},
+        {id:4, order: '', order_by: 'sales', name:this.$t('productListPage.sortPopular')}
       ]
       this.tagsList = [
-        {id:10,type: 0,title: '稀饭推荐'},
-        {id:0,type: 3,title: '精品小团'},
-        {id:1,type: 1,title: '当地跟团'},
-        {id:2,type: 2,title: '当地玩乐'},
-        {id:3,type: 4,title: '门票演出'},
-        {id:4,type: 5,title: '一日游'},
-        {id:6,type: 7,title: '邮轮'}
+        {id:10,type: 0,title:this.$t('tours.torusRecommend')},
+        {id:0,type: 3,title: this.$t('tours.exquisiteGroup')},
+        {id:1,type: 1,title: this.$t('tours.localGroup')},
+        {id:2,type: 2,title: this.$t('tours.localPlay')},
+        {id:3,type: 4,title: this.$t('tours.tickets')},
+        {id:4,type: 5,title: this.$t('tours.aDayTrip')},
+        {id:6,type: 7,title: this.$t('tours.cruise')}
       ];
       // console.log(this.$route.query)
       // this.menuset();
@@ -218,24 +217,24 @@
         let {code, data} = await getmenuSearch(this.searchKeyWords)
         if (code === 0) {
           this.menu = data;
-          let objlist=[{id:10,type: 0,title: '稀饭推荐'}];
+          let objlist=[{id:10,type: 0,title: this.$t('tours.torusRecommend')}];
           if(data.local_and_regiment>0){
-            objlist.push({id:1,type: 1,title: '当地跟团'})
+            objlist.push({id:1,type: 1,title: this.$t('tours.localGroup')})
           }
           if(data.local_play>0){
-            objlist.push({id:2,type: 2,title: '当地玩乐'})
+            objlist.push({id:2,type: 2,title: this.$t('tours.localPlay')})
           }
           if(data.boutique_group>0){
-            objlist.push({id:0,type: 3,title: '精品小团'})
+            objlist.push({id:0,type: 3,title: this.$t('tours.exquisiteGroup')})
           }
           if(data.tickets_performance>0){
-            objlist.push({id:3,type: 4,title: '门票演出'})
+            objlist.push({id:3,type: 4,title: this.$t('tours.tickets')})
           }
           if(data.one_day_tour>0){
-            objlist.push({id:4,type: 5,title: '一日游'})
+            objlist.push({id:4,type: 5,title: this.$t('tours.aDayTrip')})
           }
           if(data.liner>0){
-            objlist.push({id:6,type: 7,title: '邮轮'})
+            objlist.push({id:6,type: 7,title: this.$t('tours.cruise')})
           }
           console.log('xXXXXXXXXXXXXXXXXXXXXX')
           console.log(objlist)
@@ -244,7 +243,6 @@
       },
       // 跳转到详情页面
       selectProductDetail(productId) {
-
         if( localStorage.getItem('plist')){
           localStorage.removeItem('plist')
         }
@@ -438,13 +436,13 @@
       // 显示title
       showTitle(name) {
         let obj = {
-          start_city: '出发城市',
-          span_city: '途径景点',
-          stop_city: '结束城市',
-          duration: '行程天数',
-          price: '价格预算',
-          tag: '行程特色',
-          product_type: '玩乐分类'
+          start_city:this.$t('productListPage.startCity'),
+          span_city: this.$t('productListPage.spanCity'),
+          stop_city: this.$t('productListPage.stopCity'),
+          duration: this.$t('productListPage.duration'),
+          price: this.$t('productListPage.budgetPrice'),
+          tag: this.$t('productListPage.tag'),
+          product_type: this.$t('productListPage.productType')
         }
         return obj[name]
       },

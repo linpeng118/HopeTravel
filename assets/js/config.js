@@ -7,3 +7,6 @@ export const SESSIONSTORE = '__tourscool__referrer_id'
 
 // platform
 export const PLATFORM = '__tourscool__platform'
+
+// language
+export const LANGUAGE = '__tourscool__language'

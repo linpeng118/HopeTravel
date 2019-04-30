@@ -6,17 +6,17 @@
           <img class :src="profile.face" alt>
         </div>
         <div class="user-info">
-          <div class="name">{{profile.nickname || '昵称还没有设置呢~'}}</div>
+          <div class="name">{{profile.nickname || $t('personalPage.noNickName')}}</div>
           <div class="rice">
-            <span @click="myRice">米粒：{{profile.total_points}} <van-icon color="#fff" name="arrow" size="1em" /></span>
-            <span @click="myCon">优惠券：{{profile.total_coupons||0}} <van-icon color="#fff" name="arrow" size="1em"/></span>
+            <span @click="myRice">{{$t('personalPage.riceGrain')}}：{{profile.total_points}} <van-icon color="#fff" name="arrow" size="1em" /></span>
+            <span @click="myCon">{{$t('coupons')}}：{{profile.total_coupons||0}} <van-icon color="#fff" name="arrow" size="1em"/></span>
           </div>
         </div>
         <div class="user-edit" @click="editInfo">
           <img src="../../assets/imgs/personal/index/edit.png" alt>
         </div>
       </div>
-      <nuxt-link tag="div" to="/login" class="go-login" v-else>登录/注册</nuxt-link>
+      <nuxt-link tag="div" to="/login" class="go-login" v-else>{{$t('login')}}/{{$t('regist')}}</nuxt-link>
     </div>
     <div class="body">
       <!-- 主要菜单 -->
@@ -35,24 +35,24 @@
       </div>
       <!-- 次级菜单 -->
       <div class="sub-menu">
-        <van-cell title="我的收藏" is-link :to="isLogin ? '/personal/follow': '/login?redirect=personal'">
+        <van-cell :title="$t('personalPage.myCollection')" is-link :to="isLogin ? '/personal/follow': '/login?redirect=personal'">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/attention.png">
           </template>
         </van-cell>
-        <van-cell title="常用旅客" is-link :to="isLogin ? '/personal/contactsList?type=list': '/login?redirect=personal'">
+        <van-cell :title="$t('personalPage.commonPassenger')" is-link :to="isLogin ? '/personal/contactsList?type=list': '/login?redirect=personal'">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/passenger.png">
           </template>
         </van-cell>
         <!--分销-->
         <!--<van-cell title="我的分销" is-link :to="isLogin ? '/personal/sale_union': '/login?redirect=personal'">-->
-        <van-cell title="我的分销" is-link @click="goToUnion">
+        <van-cell :title="$t('personalPage.myDistribution')" is-link @click="goToUnion">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/sales.png">
           </template>
         </van-cell>
-        <van-cell title="切换货币" is-link to="/personal/money">
+        <van-cell :title="$t('personalPage.switchMoney')" is-link to="/personal/money">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/currency.png">
           </template>
@@ -60,17 +60,17 @@
       </div>
       <!-- 次级菜单 -->
       <div class="sub-menu">
-        <van-cell title="意见反馈" is-link to="/personal/content">
+        <van-cell :title="$t('personalPage.feedback')" is-link to="/personal/content">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/feedback.png">
           </template>
         </van-cell>
-        <van-cell title="联系客服" is-link @click="contactCustom">
+        <van-cell :title="$t('contactService')" is-link url="http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/service.png">
           </template>
         </van-cell>
-        <van-cell title="设置" is-link to="/personal/setting">
+        <van-cell :title="$t('personalPage.seting')" is-link to="/personal/setting">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/setting.png">
           </template>
@@ -80,10 +80,10 @@
 
     <div>
       <van-tabbar v-model="active" active-color="#399EF6">
-        <van-tabbar-item icon="wap-home" to="/">主页</van-tabbar-item>
-        <van-tabbar-item icon="location-o" to="/search">目的地</van-tabbar-item>
-        <van-tabbar-item icon="chat-o" @click="contactCustom">在线咨询</van-tabbar-item>
-        <van-tabbar-item icon="user-o" to="/personal">我的</van-tabbar-item>
+        <van-tabbar-item icon="wap-home" to="/">{{$t('personalPage.homepage')}}</van-tabbar-item>
+        <van-tabbar-item icon="location-o" to="/search">{{$t('personalPage.myDistribution')}}</van-tabbar-item>
+        <van-tabbar-item icon="chat-o" url="http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226">{{$t('onlineConsult')}}</van-tabbar-item>
+        <van-tabbar-item icon="user-o" to="/personal">{{$t('personalPage.userCenter')}}</van-tabbar-item>
       </van-tabbar>
     </div>
 
@@ -107,10 +107,10 @@ export default {
   },
   created() {
     this.statusList = [
-      {status:'', title: '全部订单'},
-      {status:'unpaid', title: '待支付'},
-      {status:'wait', title: '待出行'},
-      {status:'finish', title: '已出行'},
+      {status:'', title: this.$t('personalPage.allOrder')},
+      {status:'unpaid', title: this.$t('personalPage.waitPay')},
+      {status:'wait', title: this.$t('personalPage.waitTrip')},
+      {status:'finish', title: this.$t('personalPage.alreadyTrip')},
     ]
   },
   mounted() {

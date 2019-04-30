@@ -84,3 +84,8 @@ export const saveProfile = (data) => {
     data: data
   })
 }
+
+// 个人中心验证邮箱
+export const captchaEmail = (email) => {
+  return axios.get(`/api/email/captcha?email=${email}`)
+}
