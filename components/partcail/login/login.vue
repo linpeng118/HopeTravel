@@ -36,7 +36,7 @@
             v-model="phoneForm.smsCode"
             center
             clearable
-            placeholder="验证码">
+             :placeholder="$t('verifyCode')">
             <van-button class="btn-get-code tours-button-noborder"
               slot="button"
               size="small"

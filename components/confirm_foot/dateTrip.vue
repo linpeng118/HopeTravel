@@ -3,13 +3,13 @@
   <section>
     <div class="date-price">
       <ul class="date-head">
-        <li>{{$t('confirmFootComp.mondayS')}}一</li>
-        <li>{{$t('confirmFootComp.tuesdayS')}}二</li>
-        <li>{{$t('confirmFootComp.wednesdayS')}}三</li>
-        <li>{{$t('confirmFootComp.thursdayS')}}四</li>
-        <li>{{$t('confirmFootComp.fridayS')}}五</li>
-        <li>{{$t('confirmFootComp.saturdayS')}}六</li>
-        <li>{{$t('day')}}日</li>
+        <li>{{$t('confirmFootComp.mondayS')}}</li>
+        <li>{{$t('confirmFootComp.tuesdayS')}}</li>
+        <li>{{$t('confirmFootComp.wednesdayS')}}</li>
+        <li>{{$t('confirmFootComp.thursdayS')}}</li>
+        <li>{{$t('confirmFootComp.fridayS')}}</li>
+        <li>{{$t('confirmFootComp.saturdayS')}}</li>
+        <li>{{$t('day')}}</li>
       </ul>
       <ul class="date-con">
         <template v-for="(item,ind) in dayprice">
