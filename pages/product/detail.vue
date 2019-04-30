@@ -516,10 +516,10 @@
         product,
         top_price,
         transfer
-      if (query.productId.indexOf('-') >= 0) {
-        productId = Number(query.productId.split('-')[0])
+      if (String(query.productId).indexOf('-') >= 0) {
+        productId = Number(String(query.productId).split('-')[0])
       } else {
-        productId = Number(query.productId)
+        productId = Number(String(query.productId))
       }
       try {
         let {code, msg, data} = await $axios.$get(`/api/product/${productId}`, {
@@ -707,11 +707,11 @@
       },
       // 获取profile-登录态
       async initProfileData() {
-        if (this.profile.is_agent && this.$route.query.productId.indexOf('-') <= 0) {
+        if (this.profile.is_agent && String(this.$route.query.productId).indexOf('-') <= 0) {
           this.$router.push({
             name: 'product-detail',
             query: {
-              productId: this.$route.query.productId + '-' + this.profile.customer_id
+              productId: String(this.$route.query.productId) + '-' + this.profile.customer_id
             }
           })
         }
@@ -719,7 +719,7 @@
       },
       // 产品ID，session保存
       async ashbackLogic() {
-        let query = this.$route.query.productId + ''
+        let query = String(this.$route.query.productId)
         let platform = this.$route.query.platform
         let viewStat = {}
         console.log(query)
