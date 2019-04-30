@@ -532,8 +532,8 @@
         product,
         top_price,
         transfer
-      if (query.productId.indexOf('-') >= 0) {
-        productId = Number(query.productId.split('-')[0])
+      if (String(query.productId).indexOf('-') >= 0) {
+        productId = Number(String(query.productId).split('-')[0])
       } else {
         productId = Number(query.productId)
       }
@@ -719,7 +719,7 @@
       },
       // 获取profile-登录态
       async initProfileData() {
-        if (this.profile.is_agent && this.$route.query.productId.indexOf('-') <= 0) {
+        if (this.profile.is_agent && String(this.$route.query.productId).indexOf('-') <= 0) {
           this.$router.push({
             name: 'product-detail',
             query: {

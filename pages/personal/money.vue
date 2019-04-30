@@ -52,7 +52,7 @@ export default {
     // 存货币
     radioChange(name) {
       this.setCurrency(name)
-      this.$toast($this.$t('operateSuc'))
+      this.$toast(this.$t('operateSuc'))
       setTimeout(() => {
         this.onClickLeft()
       },500)
