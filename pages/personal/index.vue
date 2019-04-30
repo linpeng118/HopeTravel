@@ -65,7 +65,7 @@
             <img class="icon-size" src="../../assets/imgs/personal/index/feedback.png">
           </template>
         </van-cell>
-        <van-cell title="联系客服" is-link url="http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226">
+        <van-cell title="联系客服" is-link @click="contactCustom">
           <template slot="icon">
             <img class="icon-size" src="../../assets/imgs/personal/index/service.png">
           </template>
@@ -82,7 +82,7 @@
       <van-tabbar v-model="active" active-color="#399EF6">
         <van-tabbar-item icon="wap-home" to="/">主页</van-tabbar-item>
         <van-tabbar-item icon="location-o" to="/search">目的地</van-tabbar-item>
-        <van-tabbar-item icon="chat-o" url="http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226">在线咨询</van-tabbar-item>
+        <van-tabbar-item icon="chat-o" @click="contactCustom">在线咨询</van-tabbar-item>
         <van-tabbar-item icon="user-o" to="/personal">我的</van-tabbar-item>
       </van-tabbar>
     </div>
@@ -94,6 +94,7 @@
 import {mapMutations} from 'vuex'
 import { getProfile } from "@/api/profile"
 import { joinStatus } from "@/api/sale_union"
+import onCustomerService from '@/assets/js/customerService.js'
 
 export default {
   name: "component_name",
@@ -204,6 +205,9 @@ export default {
           path: '/login?redirect=personal'
         })
       }
+    },
+    contactCustom() {
+      onCustomerService()
     },
     ...mapMutations({
       vxSetProfile: 'profile/setProfile'

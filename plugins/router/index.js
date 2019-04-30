@@ -1,44 +1,45 @@
 import NProgress from 'nprogress'
 import '@/assets/style/nprogress.css'
-
-// 获取dom
-function getDom(dom) {
-  return document.querySelector(dom) || null
-}
+import apiConf from '@/apiConf.env.js'
 
 export default ({
   app
 }) => {
   app.router.beforeEach((to, from, next) => {
-    let that = this
-
-    try {
-      // 隐藏dom
-      function hideDom(dom) {
-        let timer
-        // console.log(1, dom);
-        timer = setTimeout((dom, that) => {
-          // console.log(2, dom);
-          const hideDom = getDom(dom)
-          if (hideDom) {
-            console.log('hideDom', hideDom);
-            if (!(to.name === 'index' || to.name === 'product_list')) {
-              console.log('#newBridge hide');
-              hideDom.style.display = 'none'
-            } else {
-              console.log('#newBridge show');
-              hideDom.style.display = 'block'
-            }
+    // 获取dom
+    function getDom(domName) {
+      return document.querySelector(domName) || null
+    }
+    // 隐藏dom
+    function hideDom(domName) {
+      let timer
+      // console.log(1, domName);
+      timer = setTimeout(() => {
+        const dom = getDom(domName)
+        if (dom) {
+          console.log('dom', dom);
+          if (!(to.name === 'index' || to.name === 'product_list')) {
+            console.log('#newBridge hide');
+            dom.style.display = 'none'
           } else {
-            clearInterval(timer)
-            that.hideDom(dom)
+            console.log('#newBridge show');
+            dom.style.display = 'block'
           }
-        }, 3000, dom, that)
+        } else {
+          try {
+            clearInterval(timer)
+            hideDom(domName)
+          } catch (error) {
+            console.log(error)
+          }
+        }
+      }, 4000, domName)
+    }
+    try {
+      if (process.env.customerService === 'baidu') {
+        console.log('百度商桥')
+        hideDom('#newBridge')
       }
-
-      // 隐藏百度商桥
-      that.hideDom('#newBridge')
-      
       NProgress.start()
       if (to.path.indexOf('.html') >= 0) {}
     } catch (error) {

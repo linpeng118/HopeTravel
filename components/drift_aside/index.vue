@@ -1,7 +1,7 @@
 <template>
   <div class="drift-wrap" v-if="isShowDrift">
     <div>
-      <a href="http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226"><img src="../../assets/imgs/home/icon_contact.png" alt=""></a>
+      <a @click="contactCustom"><img src="../../assets/imgs/home/icon_contact.png" alt=""></a>
     </div>
     <div @click="callPhone">
       <img src="../../assets/imgs/home/icon_phone.png" alt="">
@@ -41,7 +41,8 @@
 </template>
 
 <script>
-import {throttle as _throttle} from 'lodash'
+import onCustomerService from '@/assets/js/customerService.js'
+
 export default {
   name: 'drift_aside',
   props: {
@@ -104,7 +105,10 @@ export default {
     },
     homeScrollHide() {
       this.isShowDrift = false
-    }
+    },
+    contactCustom() {
+      onCustomerService()
+    },
   }
 }
 </script>
