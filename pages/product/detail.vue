@@ -491,7 +491,7 @@
   import ProductDetailHeader from '@/components/header/productDetail'
   import ProdDetailImgItem from '@/components/items/prodDetailImgItem'
   import Loading from '@/components/loading'
-  import {getLocalStore, setLocalStore, setSessionStore} from '@/assets/js/utils'
+  import {getCookie, getLocalStore, setLocalStore, setSessionStore} from '@/assets/js/utils'
   import {OPERATE_TYPE} from '@/assets/js/consts'
   import {ENTITY_TYPE} from '@/assets/js/consts/products'
   import {DLG_TYPE} from '@/assets/js/consts/dialog'
@@ -513,7 +513,7 @@
       Loading,
       shareList
     },
-    async asyncData({$axios, query,store}) {
+    async asyncData({$axios, query, store, req}) {
       let productId,
         attributes,
         attributes_override,
@@ -529,12 +529,14 @@
         productId = Number(String(query.productId))
       }
       try {
+        let currency = getCookie('currency', req.headers&&req.headers.cookie)
         let {code, msg, data} = await $axios.$get(`/api/product/${productId}`, {
           headers: {
             'platform': 'app',
             'phoneType': 'iOS',
             'App-Version': '1.0.0',
-            'language': store.getters.language
+            'language': store.getters.language,
+            'currency': currency || store.state.currency
           }
         })
         if (code === 0) {
