@@ -58,7 +58,7 @@ module.exports = {
       rel: 'icon',
       type: 'image/x-icon',
       href: '/favicon.ico',
-    }, ],
+    },],
     script: scriptConfig,
     __dangerouslyDisableSanitizers: ['script'],
   },
