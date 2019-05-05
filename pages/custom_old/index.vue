@@ -287,7 +287,7 @@
       // 监听滚动
       this.$refs.refCustomPage.addEventListener(
         "scroll",
-        _throttle(this.scrollFn, 200)
+        this.scrollFn
       );
       // 判断机型
       if (this.isApp) {
@@ -297,6 +297,9 @@
       } else {
         // console.log('web操作')
       }
+    },
+    beforeDestroy() {
+      this.$refs.refCustomPage.removeEventListener('scroll', this.scrollFn)
     },
     methods: {
       // 热门景点tag

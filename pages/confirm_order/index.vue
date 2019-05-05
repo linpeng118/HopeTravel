@@ -2,24 +2,23 @@
   <section>
     <van-nav-bar class="login-header tours-no-bb"
                  ref="loginHeader"
-                 title="确认订单"
+                 :title="$t('confirmPage.title')"
                  :z-index="999"
                  @click-left="onClickLeft">
       <van-icon class="left-wrap" name="arrow-left" slot="left" />
     </van-nav-bar>
     <section class="section0">
-
       <!--页头信息-->
       <section>
-        <div class="confirm-title" v-if="countprice.departure_date">
-          <p>{{product.name}}</p>
-          <p v-html="settitletip()"></p>
+        <div class="confirm-title">
+          <p>{{xname}}</p>
+          <p>{{showtype}}</p>
         </div>
       </section>
       <!--接送服务-->
       <section>
         <div class="confirm-item">
-          <p class="item-title">接送时间和地点</p>
+          <p class="item-title">{{$t('confirmPage.transferTitle')}}</p>
           <template v-for="(item,ind) in pricelist.transfer">
             <p v-if="countprice.product_departure==item.product_departure_id" :key="ind" class="item-con" @click="showchecktime=true">
               <span>{{item.time}}&nbsp;{{item.region}}&nbsp;{{item.address}}&nbsp;{{item.full_address}}</span>
@@ -28,22 +27,21 @@
             </p>
           </template>
           <p class="item-con" v-if="countprice.product_departure==''" @click="showchecktime=true">
-            <span>暂未选择接送机服务</span>
+            <span>{{$t('confirmPage.noTransfer')}}</span>
             <span></span>
             <van-icon color="#404040" name="arrow" size="1.2em"/>
           </p>
-
         </div>
         <!--接送时间和地点弹出层-->
         <van-popup class="setprop" v-model="showchecktime" position="center" :overlay="true">
           <div class="item-title">
             <p>
-              <span>接送时间和地点</span>
-              <span style="float:right;color:#399EF6" @click="checktime()">确认</span>
+              <span>{{$t('confirmPage.transferTitle')}}</span>
+              <span style="float:right;color:#399EF6" @click="checktime()">{{$t('sured')}}</span>
             </p>
           </div>
           <van-radio-group v-model="countprice.product_departure" class="radiobox">
-            <van-radio name="" class="radioitem">不选择接送机</van-radio>
+            <van-radio name="" class="radioitem">{{$t('confirmPage.nocheckPlane')}}</van-radio>
             <template v-for="(item,ind) in pricelist.transfer">
               <van-radio class="radioitem" :key="ind" :name="item.product_departure_id">
                 {{item.time||''}}&nbsp;{{item.region||''}}&nbsp;{{item.address||''}}&nbsp;{{item.full_address||''}}
@@ -55,13 +53,13 @@
       <!--行程选择-->
       <section>
         <div class="confirm-item" v-if="pricelist.attributes&&pricelist.attributes.length>0">
-          <p class="item-title">行程选项</p>
+          <p class="item-title">{{$t('confirmPage.tripSel')}}</p>
           <template v-for="(attrx,ind) in showtrvel">
             <div :key="ind">
               <p class="item-tip">{{attrx.title}}</p>
               <p class="item-con" @click="checktrver(attrx,ind)">
                 <template v-if="!attrx.itemsx">
-                  <span>暂未选择行程</span>
+                  <span>{{$t('confirmPage.noSeltrip')}}</span>
                   <span></span>
                 </template>
                 <template v-else>
@@ -77,12 +75,11 @@
             <div class="item-title">
               <p>
                 <span>{{seltrvel.title}}</span>
-                <span @click="checktrverend()" style="float:right;color:#399EF6">确认</span>
+                <span @click="checktrverend()" style="float:right;color:#399EF6">{{$t('sured')}}</span>
               </p>
             </div>
             <van-radio-group v-model="checktrvel" class="radiobox">
-
-              <van-radio name="" class="radioitem">暂不选择行程</van-radio>
+              <van-radio name="" class="radioitem">{{$t('confirmPage.noSeltrip')}}</van-radio>
               <template v-for="(item,index) in seltrvel.items">
                 <van-radio class="radioitem" :key="index" :name="item.id">
                   {{item.title}}
@@ -95,7 +92,7 @@
       </section>
       <!--游客信息-->
       <section>
-        <div class="confirm-item">
+        <div class="confirm-item" @click="setsave()">
           <p class="item-title">游客信息
             <span>务必确认填写信息与出游证件一致</span></p>
           <ul>
@@ -105,49 +102,47 @@
                 <span><i><van-icon name="edit"/></i></span>
               </nuxt-link>
             </template>
-
           </ul>
           <div class="btnbox">
-            <nuxt-link class="changeuser-btn" tag="button"
-                       :to="{path:'/personal/contactsList',query:{'adult':countprice.adult+countprice.child,'checker':paramcontanct}}" >选择出行人</nuxt-link>
+            <nuxt-link class="changeuser-btn" tag="button" :to="{path:'/personal/contactsList',query:{'adult':countprice.adult+countprice.child,'checker':paramcontanct}}" >选择出行人</nuxt-link>
           </div>
         </div>
       </section>
       <!--联系人信息-->
       <section>
         <div class="confirm-item">
-          <p class="item-title">联系人信息</p>
+          <p class="item-title">{{$t('contactInfo')}}</p>
           <van-field
-            label="联系人"
+            :label="$t('orderDetailPage.contact')"
             v-model="contact.name"
-            placeholder="填写联系人姓名"
+            :placeholder="$t('confirmPage.enterConName')"
           />
           <div data-v-0ea3802e="" class="van-cell van-field">
             <div class="van-cell__title">
-              <span>手机号码</span>
+              <span>{{$t('phoneNumberCode')}}</span>
             </div>
             <div class="van-cell__value">
               <div class="van-field__body">
                 <i class="setvan" @click="showsel=true">+{{checkqu}}<van-icon name="arrow" /></i>
-                <input type="text" v-model="contact.phone" placeholder="必填，用于接收信息" class="van-field__control">
+                <input type="text" v-model="contact.phone" :placeholder="$t('confirmPage.mustTipsInfo')" class="van-field__control">
               </div>
             </div>
           </div>
-          <van-field label="邮箱" v-model="contact.email" placeholder="必填，用于接收电子客票"/>
+          <van-field :label="$t('email')" v-model="contact.email" :placeholder="$t('confirmPage.mustTipskp')"/>
           <van-popup v-model="showsel" position="bottom" :overlay="true">
-            <van-picker :columns="columns" @confirm="onChangequ" show-toolbar title="选择区号"/>
+            <van-picker :columns="columns" @confirm="onChangequ" show-toolbar :title="$t('chooseCode')"/>
           </van-popup>
         </div>
       </section>
       <!--优惠信息-->
       <section >
         <div class="confirm-item">
-          <p class="item-title">优惠信息</p>
+          <p class="item-title">{{$t('confirmPage.saveInfo')}}</p>
           <div class="item-con" v-if="pricelist.points&&pricelist.points.point">
          <span>
-           <i class="seti">米粒</i>
+           <i class="seti">{{$t('confirmFootComp.riceGrains')}}</i>
            <i class="seti" style="color: #bbb">
-             共有米粒{{pricelist.points.total_point}}，本次可用{{pricelist.points.point}}米粒抵用{{pricelist.points.discount}}
+             {{$t('confirmPage.saveInfoTip1')}}{{pricelist.points.total_point}}，{{$t('confirmPage.saveInfoTip2')}}{{pricelist.points.point}}{{$t('confirmPage.saveInfoTip3')}}{{pricelist.points.discount}}
            </i>
          </span>
             <van-switch
@@ -156,26 +151,20 @@
               size="2em"
             />
           </div>
-          <p class="item-con" @click="getCouponList('show')" style="border: 1px solid #ebedf0">
-             <span>
-           <i class="seti">优惠卷</i>
-           <i v-if="showsetcou!=''" class="seti" style="color: #1989fa">
-             {{showsetcou}}
-           </i>
-           <i v-else class="seti" style="color: #bbb">暂未选择</i>
-             </span>
-            <span> <van-icon color="#404040" name="arrow" size="1.2em" class="settopicon"/></span>
-
-
+          <p v-if="couponDetails&&couponDetails.length" class="item-con" @click="getCouponList('show')" style="border: 1px solid #ebedf0">
+            <span>
+              <i class="seti">{{$t('coupons')}}</i>
+              <i v-if="showsetcou!=''" class="seti" style="color: #1989fa">{{showsetcou}}</i>
+              <i v-else class="seti" style="color: #bbb">{{$t('confirmPage.notsel')}}</i>
+            </span>
+            <span></span>
+            <van-icon color="#404040" name="arrow" size="1.2em" class="settopicon"/>
           </p>
         </div>
-          <van-actionsheet v-model="showcheckCou"
-                           title="优惠卷"
-                           class="service-note">
-            <van-radio-group v-model="setcou">
-
+          <van-actionsheet v-model="showcheckCou" :title="$t('coupons')" class="service-note">
+          <van-radio-group v-model="setcou" @change="setcouponx()">
               <div class="setcheck">
-                <span>暂不选择任何优惠卷</span>
+                <span>{{$t('confirmPage.yetNotSelCop')}}</span>
                 <van-radio name="null" style="width: 30%;float: right;display: inline-block"> </van-radio>
               </div>
               <div class="cup-item"
@@ -188,25 +177,24 @@
                 <div class="cupcon">
                   <p class="p1">{{item.title}}</p>
                   <p class="p2">{{item.date_label}}</p>
+                  <p class="p2">{{item.period_label}}</p>
                 </div>
-                <div class="cupright">
-                  <van-radio :name="item"></van-radio>
+                <div class="cupright" >
+                  <van-radio :name="index"></van-radio>
                 </div>
               </div>
-            </van-radio-group>
-            <div class="checkcoubtn" @click="setcoupon()">确认</div>
-
+          </van-radio-group>
           </van-actionsheet>
 
       </section>
       <!--预定留言-->
       <section>
         <div class="confirm-item">
-          <p class="item-title">预订留言</p>
+          <p class="item-title">{{$t('confirmPage.leaveMessage')}}</p>
           <div class="item-con">
             <van-field
               type="textarea"
-              placeholder="选填，你可备注预订相关要求"
+              :placeholder="$t('confirmPage.tipsRequire')"
               rows="2"
               autosize
               v-model="comment"
@@ -218,9 +206,10 @@
       <section>
         <div class="confirm-item">
           <div class="item-con">
-            <van-checkbox v-model="tongyi">我已阅读并接受
+            <van-checkbox v-model="tongyi">
+              {{$t('confirmPage.acceptRead')}}
               <nuxt-link :to="{path:'/protocol/user'}">
-                <a style="color: #216BFF">《稀饭旅行用户服务条款》</a>
+                <a style="color: #216BFF">{{$t('confirmPage.agreeXifanServer')}}</a>
               </nuxt-link>
               </van-checkbox>
           </div>
@@ -239,6 +228,7 @@
   import ConfirmFoot from '@/components/confirm_foot/foot.vue'
   import {getquhao} from '@/api/contacts'
   import {orderCouponList} from '@/api/confirm_order'
+  import {getSessionStore} from '@/assets/js/utils'
   export default {
     components: {
       ConfirmFoot
@@ -248,7 +238,7 @@
         countprice:{},//vuex里面的价格计算参数
         pricelist:{},//vuex里面的价格返回参数
         showchecktime:false,//是否显示选择出发时间组件
-        checktimeval:'暂未选择接送机服务',
+
         showchecktrver:false,//是否显示行程组件
         seltrvel:{},//某一组行程数据的值
         checktrvel:'',//弹层临时选择的trvel
@@ -265,9 +255,12 @@
         contact:{"name":"","phone":"","email":""},
         showcheckCou:false,
         couponDetails:[],//我的优惠卷列表
-        setcou:{},
+        setcou:'',
         showsetcou:'',
-
+        setsaveuser:false,
+        product: {},
+        showtype:'',
+        xname:'',
       }
     },
     computed: {
@@ -275,12 +268,6 @@
       get_vuex_countprice() {
         return this.$store.state.confirm.countprice;
       },
-      //产品
-      product(){
-        return this.$store.state.product.reservePro;
-        // return this.$store.state.confirm.product;
-      },
-      //获取价格数据
       get_vuex_pricelist() {
         return this.$store.state.confirm.pricelist;
       },
@@ -300,21 +287,35 @@
       'countprice.is_point'(val){
         this.$store.commit("countprice", {is_point:val});
       },
-
     },
-    created(){
-
+    beforeRouterEnter(to,form,next){
+      if(form.path.indexOf('personal')!=-1){
+        next(vm=>{
+          vm.setsaveuser=true;
+        })
+      }
+      else{
+        next();
+      }
     },
     mounted() {
+      let obj=getSessionStore('pricelist') ? JSON.parse(getSessionStore('pricelist')) : {};
+      let this_=this;
+      this.$store.commit("pricelist",obj);
+      let objw=getSessionStore('countprice') ? JSON.parse(getSessionStore('countprice')) : {};
+      this.$store.commit("countprice",objw);
+      this.product = this.$store.state.product.reservePro;
+      setTimeout(function () {
+        this_.xname=this_.$store.state.product.reservePro.name;
+        this_.getCouponList();
+      },100)
+
       this.pricelist=this.get_vuex_pricelist;
-      this.product=this.get_vuex_pricelist;
-      this.countprice=this.get_vuex_countprice;
-      if(!this.product.product_id){
-        this.$router.go(-2);
-      }
       this.getqu();
-      this.getCouponList();
+      this.settitletip();
+      this.contact={"name":this.countprice.savename,"phone":this.countprice.savephone,"email":this.countprice.saveemail}
     },
+
     methods: {
       //获得价格日历数据
       async getpricedate(id) {
@@ -345,27 +346,34 @@
           this.showcheckCou=true;
         }
         else{
-          if(this_.countprice.coupon_cus_id!=''&&this_.couponDetails.length){
+          if(this_.couponDetails&&this_.couponDetails.length&&this_.countprice.coupon_cus_id==''){
             for(let i=0;i<this_.couponDetails.length;i++){
-              if(this_.couponDetails[i].coupon_customer_id == this_.countprice.coupon_cus_id){
-                this_.setcou=this_.couponDetails[i];
+              if(this_.couponDetails[i].is_best === true){
+                this_.setcou=i;
                 this_.showsetcou=this_.couponDetails[i].title;
                 this_.$store.commit("countprice", {coupon_cus_id:this_.couponDetails[i].coupon_customer_id});
               }
             }
           }
+          else if(this_.couponDetails&&this_.couponDetails.length&&this_.countprice.coupon_cus_id!=''){
+            for(let i=0;i<this_.couponDetails.length;i++){
+              if(this_.couponDetails[i].coupon_customer_id == this_.countprice.coupon_cus_id){
+                this_.setcou=i;
+                this_.showsetcou=this_.couponDetails[i].title;
+              }
+            }
+          }
         }
       },
-
       //设置页头数据
       settitletip() {
         this.countprice=this.get_vuex_countprice;
         let date = new Date((this.countprice.departure_date).replace(/-/g, "/")).getTime();
         let date1 = this.timeFormat(date);
         if (this.product.product_entity_type == 1 && this.product.self_support == 0) {
-          return date1 + '  ' + this.countprice.adult + '成人  ' + this.countprice.child + '儿童  ' + this.countprice.room_total + '房间  '
+          this.showtype = date1 + '  ' + this.countprice.adult + '成人  ' + this.countprice.child + '儿童  ' + this.countprice.room_total + '房间  '
         } else {
-          return date1 + '  ' + this.countprice.adult + '成人  ' + this.countprice.child + '儿童  '
+          this.showtype =  date1 + '  ' + this.countprice.adult + '成人  ' + this.countprice.child + '儿童  '
         }
       },
       timeFormat(timestamp) {
@@ -377,17 +385,6 @@
       },
       //选择行程以后
       checktime(){
-        if(this.countprice.product_departure==''){
-          this.checktimeval='暂不需要接送机服务'
-        }
-        else{
-          for(let i=0;i<this.pricelist.transfer.length;i++){
-            var obj=this.pricelist.transfer[i];
-            if(obj.product_departure_id==this.countprice.product_departure){
-              this.checktimeval=obj.time+"  "+obj.full_address
-            }
-          }
-        }
         this.$store.commit("countprice", {product_departure:this.countprice.product_departure});
         this.showchecktime=false;
       },
@@ -427,17 +424,36 @@
       setshowtrvel(){
         var obj=[];
         var this_=this;
+        if(!this_.pricelist.coupons.id){
+          this_.showsetcou='';
+          this_.setcou=''
+        }
+        else{
+          this_.showsetcou=this_.pricelist.coupons.title;
+          for(let i=0;i<this_.couponDetails.length;i++){
+            if(this_.couponDetails[i].coupon_id == this_.pricelist.coupons.id){
+              this_.setcou=i;
+
+            }
+          }
+        }
          for(let i=0;i<this_.pricelist.attributes.length;i++){
            let item=this_.pricelist.attributes[i];
            item.itemsx=null;
            obj.push(item);
           }
+        for(let i=0;i<this_.pricelist.attributes_override.length;i++){
+          let item=this_.pricelist.attributes_override[i];
+          item.itemsx=null;
+          obj.push(item);
+        }
+        console.log(this_.showtrvel)
          this_.showtrvel=obj;
          for(let i=0;i<this_.showtrvel.length;i++){
           let itemx=this_.showtrvel[i];
           for(let j=0;j<this_.checkedtrvel.length;j++){
             if(itemx.id==this_.checkedtrvel[j].option_id){
-              let kitem=this_.pricelist.attributes[i].items;
+              let kitem=this_.showtrvel[i].items;
               for(let k=0;k<kitem.length;k++){
                 if(kitem[k].id==this_.checkedtrvel[j].option_val_id){
                   this_.showtrvel[i].itemsx=kitem[k]
@@ -446,6 +462,7 @@
             }
           }
         }
+
         },
       onClickLeft(){
         this.$router.go(-1)
@@ -497,20 +514,26 @@
         }
          return addorder
       },
-      setcoupon(){
-        if(this.setcou=='null'){
-          this.showsetcou='';
-          this.$store.commit("countprice", {coupon_cus_id:''});
+      setcouponx:function(x){
+        let this_=this;
+        if(this_.setcou === 'null'){
+          this_.showsetcou='';
+          this_.$store.commit("countprice", {coupon_cus_id:''});
         }
         else{
-          this.showsetcou=this.setcou.title;
-          this.$store.commit("countprice", {coupon_cus_id:this.setcou.coupon_customer_id});
+          this_.showsetcou=this_.couponDetails[this_.setcou].title;
+          this_.$store.commit("countprice", {coupon_cus_id:this_.couponDetails[this_.setcou].coupon_customer_id});
         }
-        this.showcheckCou=false
-      }
-
-
-
+        this.showcheckCou=false;
+      },
+      setsave(){
+        console.log("1")
+        this.$store.commit("countprice", {
+          savename:this.contact.name,
+          saveemail:this.contact.email,
+          savephone:this.contact.phone,
+        });
+      },
     }
   }
 
@@ -591,7 +614,7 @@
       height: 140px;
       text-align: left;
       padding-left: 20px;
-      padding-top: 32px;
+      padding-top: 18px;
       .p1{
         font-size:24px;
         font-weight:bold;
@@ -709,7 +732,6 @@
   .item-con i {
     top: 6px;
   }
-
   .item-tip {
     box-sizing: border-box;
     margin: 20px 24px 0 24px;
@@ -720,12 +742,10 @@
     font-size: 22px;
     color: rgba(142, 142, 142, 1);
   }
-
   .user-item {
     border-bottom: 1px solid #DEDEDE;
     margin: 0 24px;
   }
-
   .user-item span:nth-child(1) {
     width: 500px;
     height: 80px;
@@ -733,14 +753,12 @@
     font-size: 24px;
     color: #191919;
   }
-
   .user-item span:nth-child(1) i {
     color: #9F9F9F;
     font-size: 24px;
     font-style: normal;
     padding-left: 20px;
   }
-
   .user-item span:nth-child(2) {
     width: 80px;
     height: 80px;
@@ -752,13 +770,11 @@
    font-size: 48px;
     line-height: 220%;
   }
-
   .item-title > span {
     color: #989898;
     font-size: 20px;
     padding-left: 20px;
   }
-
   .changeuser-btn {
     width: 464px;
     height: 72px;
@@ -771,7 +787,6 @@
     border-radius: 8px;
 
   }
-
   .btnbox {
     text-align: center;
   }
@@ -780,7 +795,6 @@
     width: 650px;
     padding: 20px 24px;
   }
-
   .setvan {
     width: 120px;
     display: inline-block;
@@ -788,11 +802,9 @@
     text-align: center;
     margin-right: 12px;
   }
-
   .setvan i {
     top: 6px;
   }
-
   .seti {
     font-style: normal;
     display: inline-block;

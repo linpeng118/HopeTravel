@@ -1,6 +1,6 @@
 <template>
   <div class="hot-city">
-    <h1 class="hot-title">热门城市</h1>
+    <h1 class="hot-title">{{$t('localHotCityComp.hotCity')}}</h1>
     <div class="hot-list">
       <div class="hot-item" v-for="item in hotCityList" :key="item.start_city" @click="selectItem(item.start_city)">
         <img :src="item.image_url" alt="">
@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="hot-more">
-      <div class="link" @click="selectMore">更多</div>
+      <div class="link" @click="selectMore">{{$t('more')}}</div>
     </div>
   </div>
 </template>

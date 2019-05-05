@@ -1,9 +1,25 @@
-// ~/plugins/vuex-persist.js
-import VuexPersistence from 'vuex-persist'
 
+import createPersistedState from 'vuex-persistedstate'
 export default ({store}) => {
-  // console.log('1234567')
-  return new VuexPersistence({
-    /* your options */
-  }).plugin(store);
+  window.onNuxtReady(() => {
+    // 本地化存储的store数据
+    createPersistedState({
+      key: 'tourscool_vuex',
+      paths: [
+        // product模块的reservePro数据
+        'product.reservePro',
+        // 用户信息
+        'profile.profile',
+        'language'
+      ],
+      // 下面也是可行的
+      // reducer(state) {
+      //   return {
+      //     product: {
+      //       reservePro: state.product.reservePro
+      //     },
+      //   }
+      // }
+    })(store)
+  })
 }

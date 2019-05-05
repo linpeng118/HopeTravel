@@ -1,13 +1,13 @@
 <template>
-  <div class="container">
+  <div class="container containerxxx">
     <div class="nav-bar">
-      <van-nav-bar title="我的优惠卷" left-arrow @click-left="onClickLeft"/>
+      <van-nav-bar :title="$t('personalPage.myCoupon')" left-arrow @click-left="onClickLeft"/>
     </div>
-    <div class="tab">
+    <div class="tab" v-if="concover==3">
       <van-tabs @click="onClick" v-model="active">
-        <van-tab v-for="title in orderTile" :key="title.id" :title="title.title" class="layout">
+        <van-tab v-for="(title,indw) in orderTile" :key="title.id" :title="title.title+'('+leng[indw]+')'" class="layout">
           <loading v-if="firstEnter"></loading>
-          <div class="no-data" v-if="!firstEnter && !conList.length">暂无数据</div>
+          <div class="no-data" v-if="!firstEnter && !conList.length">{{$t('noData')}}</div>
           <!-- 产品 -->
           <template v-if="conList.length">
             <div v-for="(item,index) in conList" :key="index">
@@ -19,16 +19,16 @@
                 <div class="cupcon">
                   <p class="p1">{{item.title}}</p>
                   <p class="p2">{{item.date_label}}</p>
-                  <p class="p2" v-if="status=='unuse'" @click="item.show=(item.show=='0')?'1':'0'">使用说明
+                  <p class="p2">{{item.period_label}}</p>
+                  <p class="p2" @click="item.show=(item.show=='0')?'1':'0'">{{$t('couponsPage.instructions')}}
                     <van-icon v-if="item.show=='0'" name="arrow-down" />
                     <van-icon v-if="item.show=='1'" name="arrow-up" />
                   </p>
-                  <p class="p2" v-else>使用说明<van-icon name="arrow-down" /></p>
                 </div>
                 <div class="cupright">
-                  <span class="btn1" v-if="status==='unuse'">立即使用</span>
-                  <span class="btn2" v-else-if="status==='used'">已经使用</span>
-                  <span class="btn2" v-else>已过期</span>
+                  <span v-if="status==='unuse'"></span>
+                  <span class="btn2" v-else-if="status==='used'">{{$t('personalPage.alreadyUsed')}}</span>
+                  <span class="btn2" v-else>{{$t('couponsPage.overDate')}}</span>
                 </div>
               </div>
               <div class="cup-else" v-show="item.show==='1'">
@@ -36,7 +36,6 @@
               </div>
             </div>
           </template>
-
         </van-tab>
       </van-tabs>
     </div>
@@ -56,14 +55,19 @@
         type: this.$route.query.type,
         conList: [],
         firstEnter: true,
-        status:'unuse'
+        status:'unuse',
+        leng:[0,0,0],
+        concover:0
       }
     },
     created() {
+      this.getLength();
+      this.getLength1();
+      this.getLength2();
       this.orderTile = [
-        {type: 'unuse', title: '未使用', id: 0},
-        {type: 'used', title: '使用记录', id: 1},
-        {type: 'expired', title: '已过期', id: 2},
+        {type: 'unuse', title: this.$t('couponsPage.unuser'), id: 0},
+        {type: 'used', title: this.$t('couponsPage.useList'), id: 1},
+        {type: 'expired', title: this.$t('couponsPage.overDate'), id: 2},
       ]
     },
     mounted(){
@@ -73,7 +77,7 @@
         'expired': 2,
       }
       this.active = _obj[this.status]
-      this.getCouData();
+
     },
     methods: {
       onClickLeft() {
@@ -99,6 +103,52 @@
         }
 
 
+      },
+      async getLength() {
+        this.conList=[];
+        let this_=this;
+        let {code, data} = await getcouponList('unuse')
+        if (code == 0) {
+          this_.firstEnter = false;
+          if(data&&data.length){
+            this_.leng[0] = data.length;
+            this_.conList = data.map(v => {
+              this_.$set(v, 'show', '0')
+              return v
+            })
+          }
+          else{
+            this_.conList = [];
+          }
+        }
+        this.concover+=1
+
+      },
+      async getLength1() {
+        let this_=this;
+        let {code, data} = await getcouponList('used')
+        if (code == 0) {
+          if(data&&data.length){
+            this_.leng[1] = data.length;
+          }
+          else{
+            this_.leng[1] = 0;
+          }
+        }
+        this.concover+=1
+      },
+      async getLength2() {
+        let this_=this;
+        let {code, data} = await getcouponList('expired')
+        if (code == 0) {
+          if(data&&data.length){
+            this_.leng[2] = data.length;
+          }
+          else{
+            this_.leng[2] = 0;
+          }
+        }
+        this.concover+=1
       },
       onClick(index) {
         this.firstEnter = true;
@@ -235,4 +285,5 @@
       }
     }
   }
+
 </style>

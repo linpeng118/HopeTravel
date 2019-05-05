@@ -1,9 +1,9 @@
 <template>
   <div class="product-list">
-    <nuxt-link class="product-item" @click="selectDetail(data.product_id)" :to="`/product/detail?productId=${data.product_id}`" target="_blank">
+    <div class="product-item" @click="selectDetail(data.product_id)" target="_blank">
       <div class="img-show">
         <img :src="data.image" alt="">
-        <div class="tags" v-if="showTag">{{data.product_type | productTypeValue}}</div>
+        <div class="tags" v-if="showTag">{{productTypeValue(data.product_type)}}</div>
         <div class="special-icon">
           <span v-for="(item,index) in data.special_icons" :class="item.type === 'special' ? 'color': ''" :key="index">{{item.title}}</span>
           <!--<span>3折</span>-->
@@ -14,7 +14,7 @@
           {{data.name}}
         </div>
         <div class="tags-wrap">
-          <span class="solid" v-if="data.self_support">自营</span>
+          <span class="solid" v-if="data.self_support">{{$t('selfSupport')}}</span>
           <span v-for="item in data.icons_show" :key="item" class="hollow color">{{item}}</span>
           <span v-for="(item,index) in data.icons_tour" :key="index" class="hollow">
             <!--<template v-if="index < 2">{{item.title}}</template>-->
@@ -23,15 +23,18 @@
         </div>
         <div class="product-price">
           <template v-if="!data.special_price">
-            <span class="sale-price"><strong>{{data.default_price | showInt}}</strong>/起</span>
+            <span class="sale-price"><strong>{{data.default_price | showInt}}</strong>/{{$t('since')}}</span>
           </template>
           <template v-else>
-            <span class="sale-price"><strong>{{data.special_price | showInt}}</strong>/起</span><span class="default-price" style="text-decoration: line-through">原价：{{data.default_price | showInt}}</span>
+            <span class="sale-price"><strong>{{data.special_price | showInt}}</strong>/{{$t('since')}}</span><span class="default-price" style="text-decoration: line-through">{{$t('listComp.originalPrice')}}：{{data.default_price | showInt}}</span>
           </template>
-          <span v-for="(item,index) in data.coupons" class="setspecial" :key="index">
-             <i>{{item}}</i>
+          <span v-if="data.coupons&&data.coupons.length" class="setspecial">
+               <i class="ileft"></i>
+               <i class="icon">{{data.coupons[0]}}</i>
+               <i class="iright"></i>
           </span>
-          <span class="share-p" v-if="isShowFx">分享赚{{data.agent_fee}}</span>
+          <span v-if="data.coupons.length>1" style="color:#fb605d">......</span>
+          <span class="share-p" v-if="isShowFx">{{$t('productDetailPage.shareMakes')}}{{data.agent_fee}}</span>
           <!--<p>-->
             <!--<span v-for="(item,index) in data.coupons" class="setspecial" :key="index">-->
               <!--<i>{{item}}</i>-->
@@ -39,33 +42,34 @@
           <!--</p>-->
         </div>
       </div>
-    </nuxt-link>
+    </div>
   </div>
 </template>
 
 <script>
 import {getProfile} from '@/api/profile'
+import {mapGetters} from 'vuex'
 export default {
   name: 'productList',
   filters: {
     showInt(val) {
       return val.split('.')[0]
     },
-    productTypeValue(val) {
-      const type = [
-        {type: 3,title: '精品小团'},
-        {type: 1,title: '当地跟团'},
-        {type: 2,title: '当地玩乐'},
-        {type: 4,title: '门票演出'},
-        {type: 5,title: '一日游'},
-        {type: 6,title: '接驳服务'},
-        {type: 7,title: '邮轮'},
-      ]
-      let target = type.find(item => {
-        return item.type === val
-      })
-      return target.title
-    }
+    // productTypeValue(val) {
+    //   const type = [
+    //     {type: 3,title: this.$t('tours.exquisiteGroup')},
+    //     {type: 1,title: this.$t('tours.localGroup')},
+    //     {type: 2,title: this.$t('tours.localPlay')},
+    //     {type: 4,title: this.$t('tours.tickets')},
+    //     {type: 5,title: this.$t('tours.aDayTrip')},
+    //     {type: 6,title: this.$t('tours.connectionService')},
+    //     {type: 7,title: this.$t('tours.cruise')},
+    //   ]
+    //   let target = type.find(item => {
+    //     return item.type === val
+    //   })
+    //   return target.title
+    // }
   },
   props: {
     data: {
@@ -91,18 +95,35 @@ export default {
   computed: {
     iconTour() {
       return this.data.icons_tour
-    }
+    },
+    ...mapGetters([
+      'profile'
+    ])
   },
   mounted(){
     this.getProfile()
   },
   methods: {
-    selectDetail(productId) {
-      // this.$emit('selectItem', productId)
+    productTypeValue(val) {
+      const type = [
+        {type: 3,title: this.$t('tours.exquisiteGroup')},
+        {type: 1,title: this.$t('tours.localGroup')},
+        {type: 2,title: this.$t('tours.localPlay')},
+        {type: 4,title: this.$t('tours.tickets')},
+        {type: 5,title: this.$t('tours.aDayTrip')},
+        {type: 6,title: this.$t('tours.connectionService')},
+        {type: 7,title: this.$t('tours.cruise')},
+      ]
+      let target = type.find(item => {
+        return item.type === val
+      })
+      return target.title
     },
-    async getProfile() {
-      const {data={}} = await getProfile()
-      if(data && data.is_agent){
+    selectDetail(productId) {
+      this.$emit('selectItem', productId)
+    },
+    getProfile() {
+      if(this.profile && this.profile.is_agent){
         this.isShowFx = true
       }
     }
@@ -229,13 +250,40 @@ export default {
   .setspecial{
     display: inline-block;
     margin-right: 10px;
-    line-height: 20px;
     font-size: 20px;
     font-weight: 300;
     color:rgba(251,96,93,1);
-    border: 2px solid rgba(251,96,93,1);
-    padding: 10px;
-    border-radius: 8px;
     position: relative;
+    overflow: hidden;
+    padding: 2px 0 0 0 ;
+  }
+  .ileft{
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 14px;
+    background-color: #fff;
+    position: absolute;
+    border: 2px solid rgba(251,96,93,1);
+    margin-top: 15px;
+    margin-left: -7px;
+  }
+  .iright{
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 14px;
+    background-color: #fff;
+    position: absolute;
+    border: 2px solid rgba(251,96,93,1);
+    margin-top: -28px;
+    margin-left:calc(100% - 7px);
+  }
+  .icon{
+    border: 2px solid rgba(251,96,93,1);
+    padding: 10px 14px 10px 10px;
+    line-height: 20px;
+    border-radius: 8px;
+    display: inline-block;
   }
 </style>

@@ -1,35 +1,35 @@
 <template>
   <div class="container">
     <div class="nav-bar">
-      <van-nav-bar title="我的订单" left-arrow @click-left="onClickLeft"/>
+      <van-nav-bar :title="$t('personalPage.myOrder')" left-arrow @click-left="onClickLeft"/>
     </div>
     <div class="tab">
       <van-tabs @click="onClick" v-model="active">
         <van-tab v-for="title in orderTile" :key="title.id" :title="title.title" class="layout">
           <loading v-if="firstEnter"></loading>
-          <div class="no-data" v-if="!firstEnter && !orderList.length">暂无数据</div>
+          <div class="no-data" v-if="!firstEnter && !orderList.length">{{$t('noData')}}</div>
           <!-- 产品 -->
           <template v-if="orderList.length">
             <div class="prodect" v-for="order in orderList" :key="order.order_id" @click="selectProduct(order)">
               <div class="header clearfix">
-                <span class="fl">订单号： {{order.order_id}}</span>
-                <i class="fr">产品编号：{{order.product_id}}</i>
+                <span class="fl">{{$t('personalPage.orderNumber')}}： {{order.order_id}}</span>
+                <i class="fr">{{$t('productDetailPage.productId')}}：{{order.product_id}}</i>
               </div>
               <div class="content">
                 <div class="pro-pic">
-                  <img v-lazy="order.image" alt>
+                  <img :src="order.image" alt>
                 </div>
                 <dl class="pro-content">
                   <!--<dt class="no-wrap-line3">{{order.product_name}}</dt>-->
                   <dt class="title-wrap-line3">
                     <div class="text">{{order.product_name}}</div>
                   </dt>
-                  <dd>出行日期:{{order.product_departure_date.split(' ')[0]}}</dd>
+                  <dd>{{$t('personalPage.travelDate')}}:{{order.product_departure_date.split(' ')[0]}}</dd>
                 </dl>
               </div>
               <div class="footer clearfix">
                 <div class="fl left-f">
-                  <span>共计：</span>
+                  <span>{{$t('personalPage.totalPrice')}}：</span>
                   <strong>￥{{order.cny_price}}</strong>
                 </div>
                 <div class="fr right-f">

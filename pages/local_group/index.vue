@@ -3,7 +3,7 @@
     ref="refLocalGroupPage">
     <!-- header -->
     <search-header v-if="!isApp"
-      :title="'当地跟团'"
+      :title="$t('tours.localGroup')"
       ref="refSearchHeader"
       @leftClick="leftClick"
       @rightClick="rightClick" />
@@ -37,7 +37,7 @@
             :tag="city"
             @callOnTag="onHotCity(city)" />
           <hot-city-tag className="active"
-            :tag="{title: '更多目的地'}"
+            :tag="{title: $t('localGroupPage.moreDestinations')}"
             @callOnTag="onMoreCity" />
         </div>
       </div>
@@ -56,8 +56,8 @@
           <div class="hq-tags"
             :class="{'fixed-tag': isFixedTags}"
             :style="{paddingTop: isFixedTags ? `calc(100vw * ${isApp? 40 : 90} / 375 + 24px`: '24px'}">
-            <hot-city-tag :class="{'active': activeCity==='全部'}"
-              :tag="{title: '全部'}"
+            <hot-city-tag :class="{'active': activeCity===$t('all')}"
+              :tag="{title: $t('all')}"
               @callOnTag="onCityAll" />
             <hot-city-tag v-for="item in localgroupData[2].data[selected] && localgroupData[2].data[selected].sub"
               :key="item.title"
@@ -76,7 +76,7 @@
             <van-list class="high-quality-list tours-list-no-bb"
               v-model="prodLoading"
               :prodFinished="prodFinished"
-              finished-text="没有更多了"
+              :finished-text="$t('noMore')"
               @load="onLoad">
               <van-cell class="high-quality-item"
                 tagPos="bottom"
@@ -170,7 +170,7 @@
       // 初始化
       this.init()
       // 监听滚动
-      this.$refs.refLocalGroupPage.addEventListener('scroll', _throttle(this.scrollFn, 100))
+      this.$refs.refLocalGroupPage.addEventListener('scroll', this.scrollFn)
       // 判断机型
       if (this.isApp) {
         // 引入appBridge
@@ -181,6 +181,9 @@
       } else {
         // console.log('web操作')
       }
+    },
+    beforeDestroy() {
+      this.$refs.refLocalGroupPage.removeEventListener('scroll', this.scrollFn)
     },
     methods: {
       ...mapMutations({
@@ -240,7 +243,7 @@
       onHot(productId) {
         if (this.isApp) {
           this.appBridge.jumpProductDetailView({
-            productID: productId.toString()
+            product_id: productId.toString()
           })
         } else {
           let routeData = this.$router.resolve({
@@ -253,11 +256,15 @@
         }
       },
       onHotCity(hotCity) {
+        console.log('hotCity', hotCity)
         if (this.isApp) {
           const params = {
-            'itemType': LIST_TYPE.LOCAL_GROUP,
-            'category': hotCity.category,
-            'span_city': hotCity.span_city,
+            'item_type': String(LIST_TYPE.LOCAL_GROUP),
+            'category': String(hotCity.category),
+            'product_type': String(hotCity.product_type),
+            'span_city': String(hotCity.span_city),
+            'start_city': String(hotCity.start_city),
+            'placeholder': String(hotCity.title),
           }
           this.appBridge.jumpProductListView(params)
         } else {
@@ -311,7 +318,7 @@
       },
       // 点击全部
       onCityAll() {
-        this.activeCity = '全部'
+        this.activeCity = this.$t('all')
         this.getProductListData()
       },
       /**

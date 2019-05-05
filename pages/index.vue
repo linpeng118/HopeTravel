@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div class="home-wrap" ref="refHomePage">
     <!--头部-->
     <div class="header">
@@ -7,10 +7,11 @@
         <div class="down-box" v-if="closeDown === 'no'" ref="refDownBox">
           <div class="left" @click="changeCloseDown">
             <van-icon name="close" />
-            <span>下载稀饭APP，领新人福利</span>
+            <!--<span v-t="'homePage.downloadText'"></span>-->
+            <span>{{$t('homePage.downloadText')}}</span>
           </div>
           <div class="right">
-            <a :href="downUrl">去下载</a>
+            <a :href="downUrl">{{$t('homePage.goDownload')}}</a>
           </div>
         </div>
       </template>
@@ -18,7 +19,7 @@
       <div class="search-box" ref="searchBox">
         <nuxt-link tag="div" class="left" to="/search" id="searchLeft">
           <van-icon name="search" />
-          <span>目的地/关键词</span>
+          <span>{{$t('homePage.desKeywords')}}</span>
         </nuxt-link>
         <nuxt-link tag="div" class="right" to="/personal" >
           <van-icon name="user-circle-o" />
@@ -39,31 +40,31 @@
     <div class="entry-block">
       <nuxt-link tag="div" class="entry-tourism" to="/local_play_zh">
         <img src="../assets/imgs/home/icon_play.png" alt="">
-        <p class="title">当地玩乐</p>
+        <p class="title">{{$t('tours.localPlay')}}</p>
       </nuxt-link>
       <nuxt-link tag="div" class="entry-tourism" to="/local_group">
         <img src="../assets/imgs/home/icon_local.png" alt="">
-        <p class="title">当地跟团</p>
+        <p class="title">{{$t('tours.localGroup')}}</p>
       </nuxt-link>
       <nuxt-link tag="div" class="entry-tourism" :to="{ name: 'product_list', query: { itemType: 1 }}">
         <img src="../assets/imgs/home/icon_group.png" alt="">
-        <p class="title">精品小团</p>
+        <p class="title">{{$t('tours.exquisiteGroup')}}</p>
       </nuxt-link>
       <nuxt-link tag="div" class="entry-tourism" to="/custom">
         <img src="../assets/imgs/home/icon_day.png" alt="">
-        <p class="title">个性定制</p>
+        <p class="title">{{$t('homePage.customNav')}}</p>
       </nuxt-link>
       <nuxt-link tag="div" class="entry-tourism" to="/visa">
         <img src="../assets/imgs/home/icon_visa.png" alt="">
-        <p class="title">签证办理</p>
+        <p class="title">{{$t('homePage.visaNav')}}</p>
       </nuxt-link>
     </div>
     <!--热门目的地-->
     <div class="hot-target">
       <div class="title">
-        <div class="name">热门目的地</div>
+        <div class="name">{{$t('homePage.hotDes')}}</div>
         <nuxt-link tag="div" class="link-all" to="/search">
-          查看全部
+          {{$t('seeAll')}}
           <van-icon name="arrow"/>
         </nuxt-link>
       </div>
@@ -72,7 +73,7 @@
     <!--限时抢购-->
     <div class="sale-time-box"
          v-if="timeSalesList.length">
-      <h1 class="title">限时特价</h1>
+      <h1 class="title">{{$t('homePage.timedSpecials')}}</h1>
       <div v-swiper:mySwiper="viewedSwiperOption">
         <div class="swiper-wrapper">
           <div class="swiper-slide"
@@ -90,11 +91,11 @@
     </div>
     <!--精选商品-->
     <div class="product-list">
-      <h1 class="title">精选商品</h1>
+      <h1 class="title">{{$t('homePage.siftProduct')}}</h1>
       <van-list class="half"
                 v-model="prodLoading"
                 :prodFinished="prodFinished"
-                finished-text="没有更多了"
+                :finished-text="$t('noMore')"
                 @load="onLoad">
         <van-cell class="half-item"
                   tagPos="bottom"
@@ -131,15 +132,38 @@ export default {
     countDown,
     DriftAside
   },
-  async asyncData({$axios}){
+  head() {
+    let srcCustomerService
+    if (process.env.customerService === "53kf") {
+      srcCustomerService = 'https://tb.53kf.com/code/code/10181581/2'
+    }
+    if (process.env.customerService === "baidu") {
+      srcCustomerService = 'https://hm.baidu.com/hm.js?9bfbbc9f24159633a14d3b4f37db769b'
+    }
+    return {
+      script: [
+        {
+          src: srcCustomerService
+        },
+      ]
+    }
+  },
+  async asyncData({$axios, store}){
     let indexData
-    let {code,data} = await $axios.$get('/api/index/mobile')
+    let {code,data} = await $axios.$get('/api/index/mobile',{
+      headers: {
+        'language': store.getters.language
+      }
+    })
     if(code === 0 ) {
       indexData = data
     }
     return {
       indexData
     }
+  },
+  fetch({store}){
+    store.commit('setLanguage', store.getters.language)
   },
   data() {
     return {
@@ -174,11 +198,11 @@ export default {
       'closeDown'
     ])
   },
-  mounted() {
+  async mounted() {
     this.getHomeInitData()
     this.getTime()
     // 监听滚动
-    this.$refs.refHomePage.addEventListener('scroll', _throttle(this.scrollFn, 50))
+    this.$refs.refHomePage.addEventListener('scroll',this.scrollFn)
     //
     let u = navigator.userAgent
     if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
@@ -187,6 +211,9 @@ export default {
       this.downUrl = 'https://itunes.apple.com/cn/app/稀饭旅行/id1449120712?mt=8'
     }
     // this.isAndroid = process.client ? !!window.cordova: ''
+  },
+  beforeDestroy() {
+    this.$refs.refHomePage.removeEventListener('scroll', this.scrollFn)
   },
   methods: {
     // 判断手机是安卓还是苹果

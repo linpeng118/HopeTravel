@@ -1,3 +1,4 @@
+import {setSessionStore, getSessionStore} from '@/assets/js/utils'
 const mut = {
   countprice:'countprice',
   pricelist:'pricelist',
@@ -19,7 +20,10 @@ export default {
       adult:0,
       child:0,
       coupon_cus_id:'',
-    },
+      savename:'',
+      saveemail:'',
+      savephone:'',
+      },
       pricelist: {}//价格明细列表和一些确认订单页面选项值
   },
 
@@ -31,6 +35,7 @@ export default {
         old[ish] = state[mut.countprice][ish]
       };
       state[mut.countprice] = {...state[mut.countprice], ...ob };
+      setSessionStore('countprice', JSON.stringify(state[mut.countprice]))
       // if(localStorage){
       //   localStorage.setItem('countprice', JSON.stringify(state[mut.countprice]))
       // }
@@ -46,6 +51,7 @@ export default {
       // if(localStorage){
       //   localStorage.setItem('pricelist', JSON.stringify(state[mut.pricelist]))
       // }
+      setSessionStore('pricelist', JSON.stringify(state[mut.pricelist]))
 
     },
     //产品详情
@@ -66,7 +72,7 @@ export default {
         product_id: '',//产品id
         departure_date: '',//出发日期
         room_total: 0,//房间总数
-        room_attributes: [  ],//房间数据,
+        room_attributes: [],//房间数据,
         product_departure: '',//出发地点，接驳服务
         attributes:[],//行程/升级选择对象
         is_point: false,//是否使用积分
@@ -74,11 +80,11 @@ export default {
         child:0,
         coupon_cus_id:''
       }
-      localStorage.setItem('countprice', JSON.stringify(state[mut.countprice]))
+      sessionStorage.setItem('countprice', JSON.stringify(state[mut.countprice]))
     },
     //
     initprice(state) {
-      state[mut.countprice]=localStorage.getItem('countprice') ? JSON.parse(localStorage.getItem('countprice')) : {
+      state[mut.countprice]=getSessionStore('countprice') ? JSON.parse(getSessionStore('countprice')) : {
         product_id: '',//产品id
         departure_date: '',//出发日期
         room_total: 0,//房间总数
@@ -93,12 +99,7 @@ export default {
       // console.log('成功执行init')
     },
     initpricelist(state) {
-      state[mut.countprice]=localStorage.getItem('pricelist') ? JSON.parse(localStorage.getItem('pricelist')) : {}
-        // console.log('成功执行init')
-    },
-    initproduct(state) {
-      state[mut.countprice]=localStorage.getItem('product') ? JSON.parse(localStorage.getItem('product')) : {
-      }
+      state[mut.countprice]=getSessionStore('pricelist') ? JSON.parse(getSessionStore('pricelist')) : {}
         // console.log('成功执行init')
     },
   },

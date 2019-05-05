@@ -35,6 +35,7 @@
             <!-- 手机号码 -->
             <div class="form-input phone">
               <div class="left-icon icon-phone"></div>
+              <div class="elsequ" @click="showsel=true">{{checkqu}}<van-icon name="arrow" /></div>
               <input type="text" placeholder="请填写您的电话号码" v-model="phone" class="setinput">
             </div>
             <!-- 定制按钮 -->
@@ -116,6 +117,9 @@
           <img class="abimg" src="../../assets/imgs/newcustom/921@2x.png" alt>
         </div>
       </div>
+      <van-popup v-model="showsel" position="bottom" :overlay="true">
+        <van-picker v-if="columns.length" :columns="columns" @confirm="onChangequ" @cancel="showsel=false" show-toolbar title="选择区号"/>
+      </van-popup>
     </div>
     <div class="back-top" v-if="!isApp" @click="showcall2()"></div>
 
@@ -124,13 +128,6 @@
 </template>
 
 <script>
-// var _hmt = _hmt || [];
-// (function() {
-//   var hm = document.createElement("script");
-//   hm.src = "https://hm.baidu.com/hm.js?03f91ebf7f5ac08015d9f98fa0dc22fc";
-//   var s = document.getElementsByTagName("script")[0];
-//   s.parentNode.insertBefore(hm, s);
-// })();
 import { throttle as _throttle } from "lodash";
 import NormalHeader from "@/components/header/custom";
 import transpTag from "@/components/tags/transparent";
@@ -142,21 +139,15 @@ import { isMobile } from "@/assets/js/utils";
 import Loading from "@/components/loading";
 import { mapMutations, mapState } from "vuex";
 import { DLG_TYPE } from "@/assets/js/consts/dialog";
+import {getquhao} from '@/api/contacts'
+import onCustomerService from '@/assets/js/customerService.js'
+
 export default {
   name: "custom",
   components: {
     NormalHeader,
     transpTag,
     Loading
-  },
-  head () {
-    return {
-      script: [
-        {
-          src: 'https://hm.baidu.com/hm.js?03f91ebf7f5ac08015d9f98fa0dc22fc'
-        }
-      ]
-    }
   },
   data() {
     return {
@@ -259,24 +250,27 @@ export default {
       },
       listdiqu: [],
       objlist: [],
-      hidelist: true
+      hidelist: true,
+      showsel:false,//选择区号
+      columns:[],
+      checkqu:'86',
     };
   },
   activated() {
     this.getlist();
     this.getitem();
+    this.getqu();
   },
   mounted() {
     // 监听滚动
     this.$refs.refCustomPage.addEventListener(
       "scroll",
-      _throttle(this.scrollFn, 200)
+      this.scrollFn
     );
-
     let this_ = this;
     this_.getlist();
     this_.getitem();
-
+    this_.getqu();
     if (this.setInv != null) {
       clearInterval(this.setInv);
     }
@@ -289,6 +283,9 @@ export default {
     } else {
       console.log("web操作");
     }
+  },
+  beforeDestroy() {
+    this.$refs.refCustomPage.removeEventListener('scroll', this.scrollFn)
   },
   methods: {
     ...mapMutations({
@@ -316,7 +313,27 @@ export default {
         this.tagList = data;
       }
     },
-
+    // 得到区号
+    async getqu() {
+      let this_=this;
+      let {data, code, msg} = await getquhao();
+      if(code === 0) {
+        this_.columns = data.map(v => {
+          this.$set(v, 'text',  v.tel_code+'('+v.countryName+')')
+          return v
+        })
+        console.log(this_.columns)
+      }
+      else {
+        this.$dialog.alert({
+          message: msg
+        });
+      }
+    },
+    onChangequ(picker){
+      this.checkqu=picker.tel_code;
+      this.showsel=false;
+    },
     // 热门景点tag
     onTag(item) {
       // console.log(item);
@@ -341,7 +358,7 @@ export default {
       }
       this.doCustom({
         destination: this.address,
-        phone: this.phone,
+        phone: this.checkqu+'-'+this.phone,
         wechat: ""
       });
     },
@@ -364,7 +381,7 @@ export default {
       }
       this.doCustom({
         destination: this.address1,
-        phone: this.phone1,
+        phone:  this.checkqu+'-'+this.phone1,
         wechat: this.wechat1
       });
     },
@@ -397,8 +414,7 @@ export default {
     },
     // 查看全部list
     toList2() {
-      window.location.href =
-        "http://p.qiao.baidu.com/cps/chat?siteId=12918104&userId=26301226";
+      onCustomerService('custom')
     },
     // 故事
     onSlide(val) {
@@ -809,7 +825,7 @@ export default {
             -webkit-justify-content: space-between;
             align-content: center;
             .left-icon {
-              width: 50px;
+              width: 70px;
               &.icon-addr {
                 background: url("../../assets/imgs/newcustom/886@2x.png")
                   no-repeat;
@@ -1392,4 +1408,17 @@ export default {
     font-size: 36px;
   }
 }
+  .elsequ{
+    width: 2.5rem;
+    display: inline-block;
+    text-align: center;
+    line-height: 100px;
+    height: 100px;
+    font-size: 34px;
+    color: #333;
+    i{
+      position: relative;
+      top: 5px;
+    }
+  }
 </style>

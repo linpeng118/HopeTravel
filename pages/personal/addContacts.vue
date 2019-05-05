@@ -9,82 +9,82 @@
       <van-icon class="left-wrap" name="arrow-left" slot="left" />
       <van-icon class="right-wrap" slot="right">
         <div class="search">
-          <div class="text">保存</div>
+          <div class="text">{{$t('save')}}</div>
         </div>
       </van-icon>
     </van-nav-bar>
     <div class="new-connect">
-      <p class="connet-title">顾客姓名</p>
+      <p class="connet-title">{{$t('selectTravlerPage.customerName')}}</p>
       <van-field
         v-model="userform.name_cn"
-        label="中文名"
-        placeholder="请输入用户名"
+        :label="$t('chineseName')"
+        :placeholder="$t('selectTravlerPage.plhdUserName')"
       />
       <van-field
         v-model="userform.firstname"
         required
-        label="英文姓"
-        placeholder="请输入英文姓"
+        :label="$t('selectTravlerPage.englishLastName')"
+        :placeholder="$t('selectTravlerPage.plhdEnFirstName')"
       />
       <van-field
         required
         v-model="userform.lastname"
-        label="英文名"
-        placeholder="请输入英文名"
+        :label="$t('accountComp.englishName')"
+        :placeholder="$t('selectTravlerPage.plhdEnlastName')"
       />
-      <p class="connet-title">证件信息</p>
+      <p class="connet-title">{{$t('selectTravlerPage.documentsInformatio')}}</p>
       <van-field
-        label="证件类型"
+        :label="$t('typeOfId')"
         disabled
-        placeholder="护照"
+        :placeholder="$t('passport')"
       />
       <van-field
         v-model="userform.passport"
         required
         clearable
-        label="护照号码"
+        :label="$t('passportNumber')"
         icon="question-o"
-        placeholder="须与证件上一致"
-        @click-icon="$toast('须与证件上一致')"
+        :placeholder="$t('selectTravlerPage.mustWithIdFit')"
+        @click-icon="$toast($t('selectTravlerPage.mustWithIdFit'))"
       />
-      <van-cell @click="shownationality=true" title="国籍" is-link :value="userform.nationality!=''?userform.nationality:'请选择'" />
-      <p class="connet-title">联系方式</p>
+      <van-cell @click="shownationality=true" :title="$t('selectTravlerPage.nationality')" is-link :value="userform.nationality!=''?userform.nationality: $t('pleaseChoose')" />
+      <p class="connet-title">{{$t('contact')}}</p>
       <div class="van-cell van-field">
         <div class="van-cell__title">
-          <span>电话</span>
+          <span>{{$t('telephone')}}</span>
         </div>
         <div class="van-cell__value">
           <div class="van-field__body">
             <i class="setvan" @click="showselqu=true">+{{userform.phone_country}}<van-icon name="arrow" /></i>
-            <input type="text" v-model="userform.phonex" placeholder="请注意区域选择" class="van-field__control">
+            <input type="text" v-model="userform.phonex" :placeholder="$t('selectTravlerPage.plndAreaSelect')" class="van-field__control">
           </div>
         </div>
       </div>
       <van-popup v-model="showselqu" position="bottom" :overlay="true">
-        <van-picker :columns="columns" @confirm="onChangequ" show-toolbar title="选择区号"/>
+        <van-picker :columns="columns" @confirm="onChangequ" show-toolbar :title="$t('personalPage.chooseAreaCode')"/>
       </van-popup>
 
       <van-field
         v-model="userform.email"
-        label="邮箱"
+        :label="$t('email')"
         type="email"
       />
-      <p class="connet-title">其他</p>
-      <van-cell title="出生日期" @click="showdate=true" is-link :value="!userform.dob?'选择日期':userform.dob" />
+      <p class="connet-title">{{$t('else')}}</p>
+      <van-cell :title="$t('selectTravlerPage.dateOfBirth')" @click="showdate=true" is-link :value="!userform.dob?$t('selectTravlerPage.selectDate'):userform.dob" />
       <van-row class="setcheckbox">
-        <van-col span="6">性别</van-col>
+        <van-col span="6">{{$t('sex')}}</van-col>
         <van-col span="18">
           <van-radio-group v-model="userform.gender">
-            <van-radio style="width: 20%;float: left" name="f">女</van-radio>
-            <van-radio style="width: 20%" name="m">男</van-radio>
+            <van-radio style="width: 20%;float: left" name="f">{{$t('woman')}}</van-radio>
+            <van-radio style="width: 20%" name="m">{{$t('man')}}</van-radio>
           </van-radio-group>
         </van-col>
       </van-row>
       <van-cell-group>
-        <van-switch-cell v-model="userform.isuser" title="是否本人" />
+        <van-switch-cell v-model="userform.isuser" :title="$t('selectTravlerPage.isSelf')" />
       </van-cell-group>
       <van-cell-group v-if="queryid!=0">
-        <div class="deluser" @click="delconfirm()">删除出行人</div>
+        <div class="deluser" @click="delconfirm()">{{$t('selectTravlerPage.delBtn')}}</div>
       </van-cell-group>
     </div>
     <van-popup v-model="shownationality" position="right" style="width:100%;height: 100%;">
@@ -132,7 +132,7 @@
          "dob":"",
          "email":"",
          "passport":"",
-         "nationality":"中国",
+         "nationality":this.$t('china'),
          "six":0,
          "phone_country":'86',
          "identity":null,
@@ -141,7 +141,7 @@
         shownationality: false,
         datedob:new Date('1990-01-01'),
         showdate:false,
-        title:'新增出行人',
+        title:this.$t('selectTravlerPage.addTitle'),
         queryid:this.$route.query.id||0,
         adult:this.$route.query.adult||null,
         checker:this.$route.query.checker||[],
@@ -156,7 +156,7 @@
     },
     mounted(){
       if(this.queryid!=0){
-        this.title='编辑出行人';
+        this.title= this.$t('selectTravlerPage.editTitle');
         this.getcontant();
       }
       this.guojia();
@@ -224,7 +224,7 @@
         }
       },
       async onClickRight() {
-        if(  this.title=='编辑出行人'){
+        if(  this.title==this.$t('selectTravlerPage.editTitle')){
           this.userform.phone=this.userform.phone_country+'-'+this.userform.phonex;
           let {data, code, msg} = await setcontanct(this.userform,this.queryid)
           if (code === 0) {
@@ -282,8 +282,8 @@
       delconfirm(){
         var this_=this;
         this.$dialog.confirm({
-          title: '删除联系人',
-          message: '是否确认删除联系人?'
+          title: this.$t('selectTravlerPage.deleteContact'),
+          message: this.$t('selectTravlerPage.sureDeleteContact')
         }).then(() => {
           this_.deluser();
         }).catch(() => {
@@ -293,7 +293,7 @@
       async deluser(){
         let {data, code,msg} = await delcontanct(this.queryid)
         if (code === 0) {
-          this.$toast('删除成功')
+          this.$toast(this.$t('operateSuc'))
           this.$router.go(-1)
         }
         else {

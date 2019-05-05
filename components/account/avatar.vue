@@ -3,12 +3,12 @@
     <div class="header">
       <van-nav-bar
         class="bar-shadow"
-        title="上传头像"
+        :title="$t('accountComp.avatarTitle')"
         @click-left="onClickLeft"
         @click-right="saveProfile"
         left-arrow
       >
-        <span class="header-btn" slot="right">保存</span>
+        <span class="header-btn" slot="right">{{$t('save')}}</span>
       </van-nav-bar>
     </div>
     <div class="imgShow">

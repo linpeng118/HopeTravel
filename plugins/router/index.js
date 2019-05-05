@@ -1,28 +1,46 @@
 import NProgress from 'nprogress'
 import '@/assets/style/nprogress.css'
+import apiConf from '@/apiConf.env.js'
+
 export default ({
   app
 }) => {
   app.router.beforeEach((to, from, next) => {
-    console.log(1111111111)
-
-    // 除了首页，列表,定制，其他页面都不弹
-    setTimeout(() => {
-      if (!(to.name === 'index' || to.name === 'product_list')) {
-        document.querySelector('#newBridge').style.display = 'none'
-      } else {
-        document.querySelector('#newBridge').style.display = 'block'
-      }
-    },3000)
-    if(to.name.indexOf('custom') >= 0) {
-      var _hmt = _hmt || [];
-      (function() { var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?72a266736d8b5b47605e2d2ad18f0756";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s); })();
+    // 获取dom
+    function getDom(domName) {
+      return document.querySelector(domName) || null
     }
-    NProgress.start()
-    if (to.path.indexOf('.html') >= 0) {}
+    // 隐藏dom
+    function hideDom(domName) {
+      let timer
+      // console.log(1, domName);
+      timer = setTimeout(() => {
+        const dom = getDom(domName)
+        if (dom) {
+          console.log('dom', dom);
+          if (!(to.name === 'index' || to.name === 'product_list')) {
+            console.log('#newBridge hide');
+            dom.style.display = 'none'
+          } else {
+            console.log('#newBridge show');
+            dom.style.display = 'block'
+          }
+        } else {
+          try {
+            clearInterval(timer)
+            hideDom(domName)
+          } catch (error) {
+            console.log(error)
+          }
+        }
+      }, 4000, domName)
+    }
+    try {
+      NProgress.start()
+      if (to.path.indexOf('.html') >= 0) {}
+    } catch (error) {
+      console.log(error)
+    }
     next()
   })
   app.router.afterEach(() => {

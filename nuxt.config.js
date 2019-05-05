@@ -1,10 +1,14 @@
 const TerserPlugin = require('terser-webpack-plugin')
 const pkg = require('./package')
-const pluginConfig = require('./config/plugins')
 const apiConfig = require('./apiConf.env.js')
+const pluginConfig = require('./config/plugins')
+const scriptConfig = require('./config/scripts')
+
 const axiosUrl = `http://127.0.0.1:${apiConfig.port}`
 console.log('apiConfig:', apiConfig)
 console.log('axiosUrl:', axiosUrl)
+const LRU = require('lru-cache')
+const i18nExtensions = require('vue-i18n-extensions')
 
 
 
@@ -13,6 +17,7 @@ module.exports = {
   dev: (process.env.NODE_ENV !== 'production'),
   env: {
     ENV_TYPE: process.env.ENV_TYPE, // 添加一个环境变量
+    customerService: apiConfig.customerService
   },
   /*
    ** Headers of the page
@@ -53,18 +58,8 @@ module.exports = {
       rel: 'icon',
       type: 'image/x-icon',
       href: '/favicon.ico',
-    }, ],
-    script: [{
-      src: '/flexible/flexible.js',
-      type: 'text/javascript',
-      charset: 'utf-8',
-    }, {
-      src: '/polyfill/index.js',
-      type: 'text/javascript',
-      charset: 'utf-8',
-    }, {
-      src: 'https://hm.baidu.com/hm.js?9bfbbc9f24159633a14d3b4f37db769b'
-    }],
+    },],
+    script: scriptConfig,
     __dangerouslyDisableSanitizers: ['script'],
   },
 
@@ -86,6 +81,12 @@ module.exports = {
   plugins: pluginConfig,
   render: {
     resourceHints: false,
+
+    bundleRenderer: {
+      directives: {
+        t: i18nExtensions.directive
+      }
+    }
   },
   /*
    ** middleware
@@ -137,6 +138,14 @@ module.exports = {
         '^/union': '/',
       },
       changeOrigin: true,
+    },
+    //搜索列表分类下数据数量
+    '/serachtype': {
+      target: `${apiConfig.base}/api/categoryCount`, // 联盟
+      pathRewrite: {
+        '^/union': '/',
+      },
+      changeOrigin: true,
     }
   },
   server: {
@@ -158,10 +167,11 @@ module.exports = {
     // https://github.com/nuxt/nuxt.js/issues/4432
     // https://github.com/nuxt/nuxt.js/issues/4643
     // https://github.com/nuxt/nuxt.js/pull/4600
+    vendor: ['vue-i18n'],//语言包转换
     babel: {
       presets({
-                isServer
-              }) {
+        isServer
+      }) {
         return [
           [
             "@nuxt/babel-preset-app",
@@ -169,8 +179,8 @@ module.exports = {
               targets: isServer ? {
                 node: "current"
               } : {
-                browsers: ["ie >= 10"],
-              }
+                  browsers: ["ie >= 10"],
+                }
             },
             "es2015",
           ]
@@ -248,4 +258,5 @@ module.exports = {
 
   },
   buildDir: 'n-dist',
+
 }

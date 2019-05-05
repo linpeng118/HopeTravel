@@ -3,12 +3,12 @@
     <div class="header">
       <van-nav-bar
         class="bar-shadow"
-        title="我的账号"
+        :title="$t('personalPage.myAccount')"
         @click-left="onClickLeft"
         @click-right="saveProfile"
         left-arrow
       >
-        <span class="header-btn" slot="right">保存</span>
+        <span class="header-btn" slot="right">{{$t('save')}}</span>
       </van-nav-bar>
     </div>
     <vue-cropper ref="cropper"
@@ -80,7 +80,8 @@
       realTime(data) {
         this.previews = data
         // console.log(this.previews)
-      }
+      },
+      saveProfile(){}
     }
 
   }

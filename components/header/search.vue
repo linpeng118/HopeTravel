@@ -13,12 +13,16 @@
               slot="right">
       <div class="big-search">
         <div :class="isSearch || isProductList ?'has-keyword': ''">
-          <div class="search-box">
+          <div class="search-box" v-if="serachtype=='1'" @click="pushserach()">
+            <van-icon name="search" @click="pushserach()" />
+            <input class="box" @click="pushserach()" :placeholder="searchKeyWords" v-model="query1" ref="query1" :class="isProductList ? 'list' : ''" />
+          </div>
+          <div class="search-box" v-else>
             <van-icon name="search" />
             <input class="box" :placeholder="searchKeyWords" v-model="query" ref="query" :class="isProductList ? 'list' : ''" />
             <van-icon name="clear" v-show="query" @click="clear" />
           </div>
-          <div class="search-btn" @click="getSearchList" v-if="isSearch">搜索</div>
+          <div class="search-btn" @click="getSearchList" v-if="isSearch">{{$t('headerSearch.search')}}</div>
           <nuxt-link tag="div" class="personal-btn" to="/personal" v-if="isProductList">
             <van-icon name="user-circle-o" color="#666" />
           </nuxt-link>
@@ -49,11 +53,16 @@
       isProductList: {
         type:Boolean,
         default: false
+      },
+      serachtype:{
+        type:String,
+        default: '0'
       }
     },
     data() {
       return {
-        query: this.$route.query.keyWords || ''
+        query: this.$route.query.keyWords || '',
+        query1: this.$route.query.keyWords || '',
       }
     },
     created() {
@@ -72,7 +81,13 @@
       getSearchList() {
         this.$emit('searchList', this.query)
       },
+      pushserach(){
+          this.$router.push({
+            path: '/search'
+          })
+      },
       goPersonal(){
+
 
       }
     }

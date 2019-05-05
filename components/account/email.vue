@@ -1,8 +1,8 @@
 <template>
   <div>
-    <van-nav-bar title="验证邮箱号码" left-arrow @click-left="onClickLeft" class="header"/>
-    <van-field v-model="email" placeholder="请输入邮箱地址"></van-field>
-    <van-field v-model="emailCode" placeholder="请输入邮箱验证码">
+    <van-nav-bar :title="$t('accountComp.emailTitle')" left-arrow @click-left="onClickLeft" class="header"/>
+    <van-field v-model="email" :placeholder="$t('accountComp.plhdEmail')"></van-field>
+    <van-field v-model="emailCode" :placeholder="$t('enterEmailCode')">
       <van-button
         slot="button"
         size="small"
@@ -13,12 +13,12 @@
       >{{showText}}</van-button>
     </van-field>
     <div class="btn_container" @click="bindEmail">
-      <button class="sure">验证</button>
+      <button class="sure">{{$t('verify')}}</button>
     </div>
   </div>
 </template>
 <script>
-  import {validateEmail, getEmailCode} from '@/api/member'
+  import {validateEmail, captchaEmail} from '@/api/member'
   import {VERIFY_CODE} from '@/assets/js/consts'
   import {isEmail} from '@/assets/js/utils'
   const TIME = 120 // 倒计时时间
@@ -38,12 +38,12 @@
       showText() {
         if (this.codeType === VERIFY_CODE.START) {
           clearInterval(this.timer)
-          return '获取验证码'
+          return this.$t('getVerifyCode')
         } else if (this.codeType === VERIFY_CODE.GETTING) {
           return `${this.countDownTime} s`
         } else {
           clearInterval(this.timer)
-          return '重新获取'
+          return this.$t('accountComp.getVerifyCodeAgain')
         }
       }
     },
@@ -55,7 +55,7 @@
         if(isEmail(this.email)) {
           // 倒计时状态修改
           this.codeType = VERIFY_CODE.GETTING // 获取验证码
-          let {code,msg} = await getEmailCode(this.email)
+          let {code,msg} = await captchaEmail(this.email)
           if(code === 0) {
             await this.countDown()
             this.$toast(msg)
@@ -64,7 +64,7 @@
             this.codeType = VERIFY_CODE.START
           }
         } else {
-          this.$toast('请输入正确的email')
+          this.$toast(this.$t('accountComp.emailErrorTosat'))
         }
       },
       async bindEmail() {

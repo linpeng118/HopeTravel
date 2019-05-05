@@ -218,3 +218,10 @@
     opacity: 0.8;
   }
 }
+.containerxxx .tab .van-tabs__line{
+  background-color: rgba(0,0,0,0)!important;
+}
+.containerxxx .tab .van-tab--active {
+  font-weight: 500;
+  color: #EF9A1A!important;
+}

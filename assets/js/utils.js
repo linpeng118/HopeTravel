@@ -149,6 +149,20 @@ function isEmail(val) {
   return /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/i.test(val);
 }
 
+/**
+ * @param {String} cookieName cookie名，比如：currency
+ * @param {String} stringCookie 整体的cookie字符串
+ */
+function getCookie(cookieName, stringCookie) {
+  let cookie = new RegExp('' + cookieName + '[^;]+').exec(stringCookie)
+
+  if (!(cookie&&cookie.length)) {
+    return null
+  } else {
+    let strCookie = cookie[0]
+    return unescape(strCookie ? strCookie.toString().replace(/^[^=]+./, '') : '')
+  }
+}
 
 export {
   setLocalStore,
@@ -156,6 +170,7 @@ export {
   clearLocalStore,
   setCookieByKey,
   getCookieByKey,
+  getCookie,
   clearCookieByKey,
   getBrowserVersion,
   randomString,

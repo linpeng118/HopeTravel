@@ -41,7 +41,11 @@
     },
     methods: {
       onClickLeft() {
-        this.$router.go(-1)
+        // 返回上一页（打开新页面问题处理）
+        // this.$router.go(-1);
+        var backUrl = document.referrer;
+        console.log(backUrl);
+        window.location.href = backUrl
       },
       onClickRight() {
         this.$emit('callOnRight')
@@ -61,7 +65,7 @@
       color: #404040;
       font-size: 32px;
     }
-    .left-wrap{
+    .left-wrap {
       padding: 16px;
     }
     &.transparent {
@@ -69,7 +73,7 @@
       color: #fff;
       .left-wrap,
       .right-wrap {
-        background: rgba(0,0,0, 0.5);
+        background: rgba(0, 0, 0, 0.5);
         padding: 10px;
         border-radius: 50%;
         color: #fff;

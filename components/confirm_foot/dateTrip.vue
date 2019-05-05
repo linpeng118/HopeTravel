@@ -3,13 +3,13 @@
   <section>
     <div class="date-price">
       <ul class="date-head">
-        <li>一</li>
-        <li>二</li>
-        <li>三</li>
-        <li>四</li>
-        <li>五</li>
-        <li>六</li>
-        <li>日</li>
+        <li>{{$t('confirmFootComp.mondayS')}}</li>
+        <li>{{$t('confirmFootComp.tuesdayS')}}</li>
+        <li>{{$t('confirmFootComp.wednesdayS')}}</li>
+        <li>{{$t('confirmFootComp.thursdayS')}}</li>
+        <li>{{$t('confirmFootComp.fridayS')}}</li>
+        <li>{{$t('confirmFootComp.saturdayS')}}</li>
+        <li>{{$t('day')}}</li>
       </ul>
       <ul class="date-con">
         <template v-for="(item,ind) in dayprice">
@@ -60,6 +60,8 @@
     },
     mounted(){
       //初始化
+      this.$store.commit("pricelist",{});
+      this.$store.commit("countprice",{});
       this.mGetDate(this.dateprice.years,this.dateprice.month);
 
     },

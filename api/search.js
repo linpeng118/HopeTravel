@@ -10,3 +10,8 @@ export const getAssociateSearch = (keyword) => {
     }
   })
 }
+// 搜索列表下的数据
+export const getmenuSearch = (keyword) => {
+  let keywordx=(keyword!=null)?keyword:''
+  return axios.get('/api/categoryCount?keyword='+(keywordx))
+}

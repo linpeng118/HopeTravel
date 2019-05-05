@@ -13,8 +13,8 @@
       </div>
     </div>
     <div class="bottom-btn">
-      <div class="left">重置</div>
-      <div class="right">选好了</div>
+      <div class="left">{{$t('reset')}}</div>
+      <div class="right">{{$t('chosen')}}</div>
     </div>
   </div>
 </template>
@@ -45,12 +45,12 @@ export default {
     },
     showTitle(name) {
       let obj = {
-        start_city: '出发城市',
-        span_city: '途径景点',
-        stop_city: '结束城市',
-        duration: '行程天数',
-        price: '价格预算',
-        tag: '行程特色'
+        start_city: this.$t('searchComp.startCity'),
+        span_city: this.$t('searchComp.spanCity'),
+        stop_city: this.$t('searchComp.endCity'),
+        duration: this.$t('searchComp.duration'),
+        price: this.$t('searchComp.priceBudget'),
+        tag: this.$t('searchComp.characteristic')
       }
       return obj[name]
     }

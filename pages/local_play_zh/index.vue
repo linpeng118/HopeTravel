@@ -2,7 +2,7 @@
   <div class="local-play-zh"
     ref="refLocalPlayPage">
     <lay-header v-if="!isApp"
-      title="当地玩乐"
+      :title="$t('tours.localPlay')"
       @leftClick="leftClick"
       @rightClick="rightClick"></lay-header>
     <div v-if="showList.length">
@@ -15,7 +15,7 @@
       <!-- 最近浏览 -->
       <div class="recently-viewed"
         v-if="viewedList.length">
-        <h1 class="title">最近浏览</h1>
+        <h1 class="title">{{$t('recentlyViewed')}}</h1>
         <div v-swiper:mySwiper="viewedSwiperOption">
           <div class="swiper-wrapper">
             <div class="swiper-slide"
@@ -123,7 +123,7 @@
     },
     async mounted() {
       // 监听滚动
-      this.$refs.refLocalPlayPage.addEventListener('scroll', _throttle(this.scrollFn, 100))
+      this.$refs.refLocalPlayPage.addEventListener('scroll',this.scrollFn)
       this.init()
       if (this.isApp) {
         this.appBridge = require('@/assets/js/appBridge.js').default
@@ -143,6 +143,9 @@
           this.getViewedList(productIds)
         }
       }
+    },
+    beforeDestroy() {
+      this.$refs.refLocalPlayPage.removeEventListener('scroll', this.scrollFn)
     },
     methods: {
       ...mapMutations({
@@ -169,7 +172,7 @@
       selectItem(productId) {
         if (this.isApp) {
           // app详情跳转
-          var json = {productID: productId.toString()}
+          var json = {product_id: productId.toString()}
           this.appBridge.jumpProductDetailView(json)
         } else {
           // m跳转
@@ -286,13 +289,13 @@
           this.appBridge.userCollectProduct(json)
           this.appBridge.collectProductResult().then(res => {
             if (res.code == 0) {
-              this.$toast('操作成功')
+              this.$toast(this.$t('operateSuc'))
               let index = this.viewedList.findIndex(item => {
                 return item.product_id === val.product_id
               })
               this.viewedList[index].is_favorite = !this.viewedList[index].is_favorite
             } else {
-              this.$toast('操作失败')
+              this.$toast(this.$t('operateFail'))
             }
           })
           // let res = await this.appBridge.collectProductResult()
@@ -309,18 +312,18 @@
               product_id: val.product_id
             })
             if(code===0) {
-              this.$toast('取消收藏')
+              this.$toast(this.$t('localPlayPage.cancelCollection'))
             } else {
-              this.$toast('取消收藏失败')
+              this.$toast(this.$t('localPlayPage.cancelCollectionFail'))
             }
           } else {
             let {code} =  await addFavorite({
               product_id: val.product_id
             })
             if(code===0) {
-              this.$toast('收藏成功')
+              this.$toast(this.$t(localPlayPage.collectionSuc))
             } else {
-              this.$toast('收藏失败')
+              this.$toast(this.$t(localPlayPage.collectionFail))
             }
           }
           const index = this.viewedList.findIndex(item => {

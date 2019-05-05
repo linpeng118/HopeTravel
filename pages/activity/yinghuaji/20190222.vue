@@ -1,11 +1,11 @@
 <template>
     <div>
-        <div class="section1">   
+        <div class="section1">
         </div>
-        <div class="section2"> 
+        <div class="section2">
             <div class="s-title">
                 <img class="coupon-size" src="../../../assets/imgs/activity/yinghuaji/title/13.png" alt="">
-            </div> 
+            </div>
             <div class="s-pic">
                 <img class="img1" src="../../../assets/imgs/activity/yinghuaji/title/1.png" alt="">
             </div>
@@ -52,6 +52,7 @@
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/10.png" alt="">
                 </a>
                 <a @click="jump('https://www.tourscool.com/tour910.html','tourscool://xf.qa.tourscool.net/product/detail?product_id=910')">
+
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/11.png" alt="">
                 </a>
             </div>
@@ -120,7 +121,7 @@
             <div class="s-pic">
                 <a @click="jump('http://m.tourscool.com/product_list?itemType=0&keyWords=%E7%BE%8E%E5%9B%BD','tourscool://xf.qa.tourscool.net/product/list?item_type=1&keyword=%E7%BE%8E%E5%9B%BD')">
                     <img class="img4" src="../../../assets/imgs/activity/yinghuaji/title/3.png" alt="">
-                </a>       
+                </a>
             </div>
             <div class="s-pic">
                 <img class="img7" src="../../../assets/imgs/activity/yinghuaji/title/6.png" alt="">
@@ -128,13 +129,13 @@
             <div class="pro-flex2">
                 <a @click="jump('http://m.tourscool.com/act/visa.html')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/26.png" alt="">
-                </a> 
+                </a>
                 <a @click="jump('https://m.tourscool.com/act/nationalpack2019.html')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/27.png" alt="">
-                </a> 
+                </a>
                 <a @click="jump('http://m.tourscool.com/product_list?itemType=0&keyWords=%E6%B3%B0%E5%9B%BD','tourscool://xf.qa.tourscool.net/product/list?item_type=1&keyword=%E6%B3%B0%E5%9B%BD')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/28.png" alt="">
-                </a> 
+                </a>
                 <a @click="jump('http://m.tourscool.com/product_list?itemType=2&keyWords=%E5%8D%A1%E5%8A%A0%E5%88%A9','tourscool://xf.qa.tourscool.net/product/list?item_type=1&keyword=%E5%8D%A1%E5%8A%A0%E5%88%A9')">
                     <img class="" src="../../../assets/imgs/activity/yinghuaji/protect/29.png" alt="">
                 </a>
@@ -268,5 +269,5 @@ export default {
             }
         }
     }
-    
+
 </style>

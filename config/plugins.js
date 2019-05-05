@@ -47,10 +47,10 @@ let plugins = [
     src: '~/plugins/ga/facebook.js',
     ssr: false
   },
-  // {
-  //   src: '~/plugins/vconsole',
-  //   ssr: false
-  // },
+  {
+    src: '~/plugins/i18n',
+    ssr: true
+  },
 ]
 
 let devPlugins = [
@@ -91,15 +91,16 @@ let devPlugins = [
     src: '~/plugins/ga/facebook.js',
     ssr: false
   },
-  // {
-  //   src: '~/plugins/vconsole',
-  //   ssr: false
-  // },
   //vuex禁止ssr
-  // {
-  //   src: '~/plugins/vuex-persist',
-  //   ssr: false
-  // },
+  {
+    src: '~/plugins/vuex-persist',
+    ssr: false
+  },
+  {
+    src: '~/plugins/i18n',
+    ssr: true
+  },
+  // '~/plugins/i18n'
 ]
 
 if (process.env.ENV_TYPE === 'prodDev') {
