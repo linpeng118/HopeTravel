@@ -1,4 +1,4 @@
-const apiConfig = require('../apiConf.env.js')
+// const apiConfig = require('../apiConf.env.js')
 
 let scriptArr = [{
   src: '/flexible/flexible.js',
@@ -10,16 +10,16 @@ let scriptArr = [{
   charset: 'utf-8',
 },]
 
-if (apiConfig.customerService === '53kf') {
-  scriptArr.push({
-    src: 'https://tb.53kf.com/code/code/10181581/2'
-  })
-}
+// if (apiConfig.customerService === '53kf') {
+//   scriptArr.push({
+//     src: 'https://tb.53kf.com/code/code/10181581/2'
+//   })
+// }
 
-if (apiConfig.customerService === 'baidu') {
-  scriptArr.push({
-    src: 'https://hm.baidu.com/hm.js?9bfbbc9f24159633a14d3b4f37db769b'
-  })
-}
+// if (apiConfig.customerService === 'baidu') {
+//   scriptArr.push({
+//     src: 'https://hm.baidu.com/hm.js?9bfbbc9f24159633a14d3b4f37db769b'
+//   })
+// }
 
 module.exports = scriptArr
