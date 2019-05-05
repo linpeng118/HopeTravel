@@ -230,7 +230,7 @@ export default {
       let minite = Math.floor((maxtime / 60) % 60); //计算分
       let hour = Math.floor((maxtime / 3600) % 24 ); //计算小时
       let day = Math.floor((maxtime / 3600) / 24);//计算天
-      return `<span>${this.numChangeT(day)}</span>${this.$t('dayT')}<span>${this.numChangeT(hour)}</span>${this.$t('hour')}<span>${this.numChangeT(minite)}</span>${this.$t('minite')}<span>${this.numChangeT(second)}</span>${this.$t('second')}`
+      return `<span>${this.numChangeT(day)}</span>天<span>${this.numChangeT(hour)}</span>时<span>${this.numChangeT(minite)}</span>分<span>${this.numChangeT(second)}</span>秒`
       // return day+':'+this.numChangeT(hour)+':'+this.numChangeT(minite)+':'+this.numChangeT(second)
     },
     getTime() {

@@ -36,10 +36,6 @@ export default ({
       }, 4000, domName)
     }
     try {
-      if (process.env.customerService === 'baidu') {
-        console.log('百度商桥')
-        hideDom('#newBridge')
-      }
       NProgress.start()
       if (to.path.indexOf('.html') >= 0) {}
     } catch (error) {
