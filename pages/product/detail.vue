@@ -712,16 +712,18 @@
       },
       // 获取profile-登录态
       async initProfileData() {
-        console.log(4444, this.$route.query.productId)
-        if (this.profile.is_agent && String(this.$route.query.productId).indexOf('-') <= 0) {
-          this.$router.push({
-            name: 'product-detail',
-            query: {
-              productId: String(this.$route.query.productId) + '-' + this.profile.customer_id
-            }
-          })
-        }
-        console.log(this.$route)
+        setTimeout(() => {
+          console.log(4444, this.profile.is_agent, String(this.$route.query.productId).indexOf('-') <= 0)
+          if (this.profile.is_agent && String(this.$route.query.productId).indexOf('-') <= 0) {
+            this.$router.push({
+              name: 'product-detail',
+              query: {
+                productId: String(this.$route.query.productId) + '-' + this.profile.customer_id
+              }
+            })
+          }
+        }, 50)
+        // console.log(this.$route)
       },
       // 产品ID，session保存
       async ashbackLogic() {
