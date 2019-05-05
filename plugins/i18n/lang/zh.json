@@ -179,7 +179,8 @@
     "inGroup": "人成团",
     "acceptSingleRoom": "接受单人配房",
     "addRoom": "添加房间",
-    "notEnoughPeople": "总人数不足最少成团人数，请添加"
+    "notEnoughPeople": "总人数不足最少成团人数，请添加",
+    "back": "返"
   },
   "helpPage": {
     "userAgreement": "用户协议",

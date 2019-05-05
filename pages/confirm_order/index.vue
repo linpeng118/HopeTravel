@@ -111,7 +111,7 @@
       <!--联系人信息-->
       <section>
         <div class="confirm-item">
-          <p class="item-title">{{$t('confirmPage.contactInfo')}}</p>
+          <p class="item-title">{{$t('contactInfo')}}</p>
           <van-field
             :label="$t('orderDetailPage.contact')"
             v-model="contact.name"
@@ -190,11 +190,11 @@
       <!--预定留言-->
       <section>
         <div class="confirm-item">
-          <p class="item-title">{{$t('confirmPage.leaveMessage ')}}</p>
+          <p class="item-title">{{$t('confirmPage.leaveMessage')}}</p>
           <div class="item-con">
             <van-field
               type="textarea"
-              :placeholder="$t('confirmPage.tipsRequire ')"
+              :placeholder="$t('confirmPage.tipsRequire')"
               rows="2"
               autosize
               v-model="comment"

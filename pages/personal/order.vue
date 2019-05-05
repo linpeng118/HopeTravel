@@ -24,12 +24,12 @@
                   <dt class="title-wrap-line3">
                     <div class="text">{{order.product_name}}</div>
                   </dt>
-                  <dd>{{$t('productDetailPage.travelDate')}}:{{order.product_departure_date.split(' ')[0]}}</dd>
+                  <dd>{{$t('personalPage.travelDate')}}:{{order.product_departure_date.split(' ')[0]}}</dd>
                 </dl>
               </div>
               <div class="footer clearfix">
                 <div class="fl left-f">
-                  <span>{{$t('productDetailPage.totalPrice')}}：</span>
+                  <span>{{$t('personalPage.totalPrice')}}：</span>
                   <strong>￥{{order.cny_price}}</strong>
                 </div>
                 <div class="fr right-f">
