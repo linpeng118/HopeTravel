@@ -4,23 +4,23 @@
     <div class="confirm-foot">
       <span class="confirm-price" v-if="showbtn">
         <i>{{pricelist.total_price}}</i>
-        <i v-if="showpops" @click="showpops=false">明细
+        <i v-if="showpops" @click="showpops=false">{{$t('confirmFootComp.detail')}}
           <van-icon name="arrow-down"/>
         </i>
-         <i v-else @click="showpops=true">明细
+         <i v-else @click="showpops=true">{{$t('confirmFootComp.detail')}}
             <van-icon name="arrow-up"/>
         </i>
       </span>
       <span class="confirm-price" v-else>
         <i style="color: #bbb">0.00</i>
-        <i style="color: #bbb">请选择相关信息</i>
+        <i style="color: #bbb">{{$t('confirmFootComp.chooseRelateInfo')}}</i>
       </span>
-      <span :class="showbtn?'showbtn':''" class="confirm-next-btn" v-if="thisrouter=='date_trip'" @click="showbtn?islogin():''">下一步</span>
-      <span v-else-if="showbtn2==false" class="confirm-next-btn">下一步</span>
-      <span v-else class="confirm-next-btn showbtn" @click="addOrderx()" >下一步</span>
+      <span :class="showbtn?'showbtn':''" class="confirm-next-btn" v-if="thisrouter=='date_trip'" @click="showbtn?islogin():''">{{$t('confirmFootComp.nextStep')}}</span>
+      <span v-else-if="showbtn2==false" class="confirm-next-btn">{{$t('confirmFootComp.nextStep')}}</span>
+      <span v-else class="confirm-next-btn showbtn" @click="addOrderx()" >{{$t('confirmFootComp.nextStep')}}</span>
       <span class="contact-service" @click="contactCustom()">
         <i></i>
-        <i>联系客服</i>
+        <i>{{$t('contactService')}}</i>
       </span>
     </div>
     <van-popup v-model="showpops" class="setbottom" position="bottom" :overlay="true">
@@ -55,6 +55,8 @@
   import {getProfile} from '@/api/profile'
   import {SESSIONSTORE,PLATFORM} from '@/assets/js/config'
   import {getSessionStore} from '@/assets/js/utils'
+  import onCustomerService from '@/assets/js/customerService.js'
+
   import {
     getCookieByKey
   } from '@/assets/js/utils'
@@ -198,7 +200,7 @@
         }
       },
       contactCustom() {
-        window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226'
+        onCustomerService()
       },
       //是否需要登录弹窗
       async islogin() {

@@ -1,7 +1,7 @@
 <template>
   <div class="alone-wrap out-layer-con">
-    <van-cell title="旅行合同" is-link to="contract" />
-    <van-cell title="安全提示" is-link to="prompt" />
+    <van-cell :title="$t('contractPage.travelContract')" is-link to="contract" />
+    <van-cell :title="$t('alonePage.selfActive')" is-link to="prompt" />
   </div>
 </template>
 

@@ -1,12 +1,12 @@
 <template>
   <div>
-    <van-nav-bar title="验证手机号" left-arrow @click-left="onClickLeft" class="header"/>
+    <van-nav-bar :title="$t('validatePhone')" left-arrow @click-left="onClickLeft" class="header"/>
     <div class="phone-vali">
       <area-code :proAreaCode.sync="phoneForm.areaCode"
                  :proMobile.sync="phoneForm.phone"
                  className="no-border"
       ></area-code>
-      <van-field v-model="phoneForm.smsCode" placeholder="请输入短信验证码">
+      <van-field v-model="phoneForm.smsCode" :placeholder="$t('plhdSMS')">
         <van-button
           slot="button"
           size="small"
@@ -17,7 +17,7 @@
         >{{showText}}</van-button>
       </van-field>
       <div class="btn_container" @click="validateCode">
-        <button class="sure">验证</button>
+        <button class="sure">{{$t('verify')}}</button>
       </div>
     </div>
   </div>
@@ -48,12 +48,12 @@ export default {
     showText() {
       if (this.codeType === VERIFY_CODE.START) {
         clearInterval(this.timer)
-        return '获取验证码'
+        return this.$t('getVerifyCode')
       } else if (this.codeType === VERIFY_CODE.GETTING) {
         return `${this.countDownTime} s`
       } else {
         clearInterval(this.timer)
-        return '重新获取'
+        return this.$t('accountComp.getVerifyCodeAgain')
       }
     }
   },
@@ -64,7 +64,7 @@ export default {
     // 获取验证码
     async getCode() {
       if (!this.phoneForm.phone) {
-        this.$toast('请输入手机号码')
+        this.$toast(this.$t('accountComp.plhdPhoneNumber'))
         return
       }
       // 倒计时状态修改
@@ -76,7 +76,7 @@ export default {
       if (code === 0) {
         await this.countDown()
       } else {
-        this.$toast(msg + '，请检查手机号')
+        this.$toast(msg + '，' + this.$t('accountComp.checkPhoneNumber'))
         this.codeType = VERIFY_CODE.START
       }
     },

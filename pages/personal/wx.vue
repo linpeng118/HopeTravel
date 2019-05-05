@@ -1,14 +1,14 @@
 <template>
   <div class="personal-wx-page">
-    <normal-header title="微信公众号" />
+    <normal-header :title="$t('personalPage.wxPublic')" />
     <div class="code"></div>
-    <p class="text">欢迎扫描关注</p>
+    <p class="text">{{$t('personalPage.welcomeFllow')}}</p>
     <p class="name">{{publicName}}</p>
     <van-button class="btn-copy"
       round
       v-clipboard:copy="publicName"
       v-clipboard:success="onCopy"
-      v-clipboard:error="onError">点击复制公众号</van-button>
+      v-clipboard:error="onError">{{$t('personalPage.wxPublicCopy')}}</van-button>
   </div>
 </template>
 
@@ -28,11 +28,11 @@
     mounted() {},
     methods: {
       onCopy(e) {
-        this.$toast("复制成功");
+        this.$toast(this.$t('shareComp.copySuccess'));
       },
       // 复制失败
       onError(e) {
-        this.$toast("复制失败");
+        this.$toast(this.$t('shareComp.复制失败'));
       },
     },
   }

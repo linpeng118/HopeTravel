@@ -1,13 +1,13 @@
 <template>
   <div>
-    <van-nav-bar title="验证手机号" left-arrow @click-left="onClickLeft"/>
+    <van-nav-bar :title="$t('validatePhone')" left-arrow @click-left="onClickLeft"/>
     <div class="van-cell van-field">
       <div class="van-cell__title">
         <span @click="showsel=true" > {{areaCode}} <van-icon name="arrow"/></span>
       </div>
       <div class="van-cell__value">
         <div class="van-field__body">
-          <input type="text" placeholder="请输入电话号码" class="van-field__control">
+          <input type="text" :placeholder="$t('personalPage.plhdPhoneNum')" class="van-field__control">
         </div>
       </div>
     </div>
@@ -15,7 +15,7 @@
     <van-popup v-model="showsel" position="bottom" :overlay="true">
         <van-picker
             show-toolbar
-            title="请选择区号"
+            :title="$t('personalPage.chooseAreaCode')"
             :columns="columns"
             @cancel="onCancel"
             @confirm="onConfirm"
@@ -24,12 +24,12 @@
 
     <van-field
         v-model="verification"
-        placeholder="请输入短信验证码"
+        :placeholder="$t('plhdSMS')"
     >
-        <van-button slot="button" size="small" type="primary">发送验证码</van-button>
+        <van-button slot="button" size="small" type="primary">{{$t('personalPage.sendVerifyCode')}}</van-button>
     </van-field>
     <div class="btn_container">
-      <button class="sure">验证</button>
+      <button class="sure">{{$t('sure')}}</button>
     </div>
 
 

@@ -17,7 +17,7 @@
       <van-field class="mobile"
         style=""
         v-model="mobile"
-        placeholder="手机号">
+        :placeholder="$t('phoneNumber')">
       </van-field>
     </van-col>
     <van-col v-show="isShowList"

@@ -18,6 +18,9 @@
   import {mapState, mapMutations} from 'vuex'
   import GlobalDialog from '@/components/dialog'
   import LoginDialog from '@/components/dialog/login'
+  import {getLanguage} from '@/api/index'
+  import {setCookieByKey} from '@/assets/js/utils'
+  import {LANGUAGE} from '@/assets/js/config'
 
   export default {
     components: {
@@ -36,6 +39,9 @@
         vxDlgType: state => state.dlgType
       })
     },
+    mounted(){
+      this.initLanguage()
+    },
     methods: {
       ...mapMutations({
         // 是否显示登录弹窗
@@ -43,6 +49,7 @@
         // 是否显示通用弹窗
         vxToggleDialog: 'toggleDialog',
         vxSetDlgType: 'setDlgType',
+        vxSetLanguage: 'setLanguage'
       }),
       // 显示/隐藏登录弹窗
       toggleLoginDlg(val) {
@@ -54,6 +61,14 @@
       },
       setDlgType(val) {
         this.vxSetDlgType(val)
+      },
+      // 获取语言
+      async initLanguage(){
+        let {code, data} = await getLanguage()
+        if(code === 0) {
+          setCookieByKey(LANGUAGE, data.language)
+          this.vxSetLanguage(data.language)
+        }
       }
     }
   }

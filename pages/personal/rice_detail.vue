@@ -1,15 +1,12 @@
 <template>
   <div class="container">
     <div class="nav-bar">
-        <van-nav-bar class="nav-bar" title="米粒说明" left-arrow @click-left="onClickLeft"/>
+        <van-nav-bar class="nav-bar" :title="$t('personalPage.riceGrainDesc')" left-arrow @click-left="onClickLeft"/>
     </div>
     <div class="body">
-        <div class="section">
-            <h6>什么是米粒？</h6>
-            <p>
-                粒是稀饭旅行网对会员的一种奖励，是会员财富的象征。米粒是稀饭旅行网对会员的一种奖励，是会员财富的象征。米粒是稀饭旅行网对会员的一种奖励，是会员财富的象征。米粒是稀饭旅行网对会员的一种奖励，是会员财富的象征。米粒是稀饭旅行网对会员的一种奖励，是会员财富的象征。
-            </p>
-        </div>
+      <div class="rice-detail" v-html="$t('html.riceDetail')">
+        <div></div>
+      </div>
     </div>
   </div>
 </template>
@@ -28,7 +25,7 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
     .container{
         .nav-bar{
             color:#191919;
@@ -38,17 +35,14 @@ export default {
             padding: 34px 35px 24px;
             background:#fff;
             text-align: justify;
-            .section{
-                h6{
-                    font:28px/60px "";
-                    color:#191919;
-                }
-                p{
-                    font:28px/50px "";
-                    color:#989898;
-                }
-            }
-
         }
     }
+  .rice-detail{
+    font:28px/50px "";
+    color:#989898;
+    h6.title{
+      font:28px/60px "";
+      color:#191919;
+    }
+  }
 </style>

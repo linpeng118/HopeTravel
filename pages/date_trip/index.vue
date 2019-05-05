@@ -1,7 +1,7 @@
 <template>
   <section class="section0">
     <section>
-      <header-date :title="'选择日期和人数'"></header-date>
+      <header-date :title="$t('dateTripPage.title')"></header-date>
     </section>
     <section class="section1">
       <!--日历head-->
@@ -13,7 +13,7 @@
               <li @click="setMonth(item.month,ind)"
                 :key="ind"
                 class="trip-head-con  swiper-slide"
-                :class="item.month==activeMonth?'active-head-con':''">{{item.month}}月
+                :class="item.month==activeMonth?'active-head-con':''">{{item.month}}{{$t('month')}}
               </li>
             </template>
           </div>
@@ -24,8 +24,8 @@
         @setcheckday="setcheckday"></date-trip>
       <!--日历foot-->
       <p class="trip-tip">
-        <span v-show="showsday!=''">{{showsday}}出发 - {{showeday}}返回</span>
-        <span>最少{{product.min_num_guest}}人成团</span>
+        <span v-show="showsday!=''">{{showsday}}{{$t('dateTripPage.startOff')}} - {{showeday}}{{$t('dateTripPage.back')}}</span>
+        <span>{{$t('dateTripPage.atLeast')}}{{product.min_num_guest}}{{$t('dateTripPage.inGroup')}}</span>
       </p>
     </section>
     <!--选择房间-->
@@ -35,12 +35,12 @@
           <li :key="ind"
             class="checkitem"
             v-if="product.max_num_guest">
-            <p class="checkitem_title">房间 {{ind+1}}
+            <p class="checkitem_title">{{$t('room')}} {{ind+1}}
               <span v-if="item.add"
-                @click="roomdel(ind)">删除</span>
+                @click="roomdel(ind)">{{$t('delete')}}</span>
             </p>
             <div class="checkitem_con">
-              <span>成人</span>
+              <span>{{$t('adult')}}</span>
               <span>
                 <van-stepper integer
                   v-model="item.adult"
@@ -51,7 +51,7 @@
             </div>
             <div v-if="product.is_kids"
               class="checkitem_con">
-              <span>儿童 <i v-if="product.max_child_age!=-1">&nbsp;0-{{product.max_child_age}}周岁</i></span>
+              <span>{{$t('child')}} <i v-if="product.max_child_age!=-1">&nbsp;0-{{product.max_child_age}}{{$t('yearsOld')}}</i></span>
               <span>
                 <van-stepper integer
                   :min="0"
@@ -62,13 +62,13 @@
             </div>
             <van-checkbox class="checkitem-btn"
               v-if="product.is_single_pu&&item.adult==1&&item.child==0"
-              v-model="item.pair"><span style="color:#399EF6;">接受单人配房</span></van-checkbox>
+              v-model="item.pair"><span style="color:#399EF6;">{{$t('dateTripPage.acceptSingleRoom')}}</span></van-checkbox>
           </li>
         </template>
         <div class="addroom-btn"
           @click="roomadd()">
           <van-icon name="plus" />
-          添加房间
+          {{$t('dateTripPage.addRoom')}}
         </div>
       </ul>
     </section>
@@ -77,7 +77,7 @@
       <div class="checkperson">
         <li class="checkitem">
           <div class="checkitem_con">
-            <span>成人</span>
+            <span>{{$t('adult')}}</span>
             <span>
               <van-stepper v-model="total_adult"
                 integer
@@ -87,7 +87,7 @@
           </div>
           <div v-if="product.is_kids"
             class="checkitem_con">
-            <span>儿童 <i v-if="product.max_child_age!=-1">&nbsp;0-{{product.max_child_age}}周岁</i></span>
+            <span>{{$t('child')}} <i v-if="product.max_child_age!=-1">&nbsp;0-{{product.max_child_age}}{{$t('yearsOld')}}</i></span>
             <span>
               <van-stepper integer
                 :min="0"
@@ -185,6 +185,7 @@
           let countchind = 0;
           let countadult = 0;
           let objval = [];
+          let this_=this;
           for (let i = 0; i < val.length; i++) {
             countadult += val[i].adult;
             countchind += val[i].child;
@@ -210,7 +211,7 @@
 
               });
               this.$dialog.alert({
-                message: '总人数不足最少成团人数，请添加'
+                message: this_.$t('dateTripPage.notEnoughPeople')
               });
 
             }
@@ -228,6 +229,7 @@
         deep: true
       },
       'total_adult'(val, oldval) {
+        let this_=this;
         if (this.roomintnum == 1) {
           if (this.product.product_entity_type == 1 && this.product.self_support == 0) {}
           else {
@@ -254,13 +256,14 @@
 
               });
               this.$dialog.alert({
-                message: '总人数不足最少成团人数，请添加'
+                message: this_.$t('dateTripPage.notEnoughPeople')
               });
             }
           }
         }
       },
       'total_kids'(val) {
+        let this_=this;
         if (this.roomintnum == 1) {
           if (this.product.product_entity_type == 1 && this.product.self_support == 0) {
           } else {
@@ -284,7 +287,7 @@
                 child: 0
               });
               this.$dialog.alert({
-                message: '总人数不足最少成团人数，请添加'
+                message: this_.$t('dateTripPage.notEnoughPeople')
               });
             }
           }

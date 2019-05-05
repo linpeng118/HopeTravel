@@ -26,4 +26,9 @@ export default {
   setDlgType(state, data) {
     state.dlgType = data
   },
+  // 设置语言
+  setLanguage(state, data) {
+    // setCookieByKey('language', state.language)
+    state.language = data
+  },
 }

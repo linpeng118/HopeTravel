@@ -208,10 +208,10 @@
     <div class="btn_container clearfix">
       <a
         target="_blank"
-        href="http://p.qiao.baidu.com/cps/chat?siteId=12918104&userId=26301226"
         class="btn_online fl"
         data-ajax="false"
         id="qa-wangqiao-btn"
+        @click="onlineCounsel"
       >
         <img style="widht:.52rem;height:.52rem;" src="../../assets/imgs/custom/btn1.png" alt>
         在线咨询
@@ -224,17 +224,23 @@
   </div>
 </template>
 <script>
+import onCustomerService from '@/assets/js/customerService.js'
+
 export default {
   name: "component_name",
   data() {
     return {
-       isApp: this.$route.query.platform,
+      isApp: this.$route.query.platform,
     };
   },
   methods: {
     goBack() {
       window.history.go(-1);
-    }
+    },
+    // 在线咨询
+    onlineCounsel() {
+      onCustomerService()
+    },
   }
 };
 </script>

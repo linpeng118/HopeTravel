@@ -1,11 +1,11 @@
 <template>
   <div class="regist-comp">
-    <h1 class="title">稀饭旅行账号注册</h1>
+    <h1 class="title">{{$t('partcailComp.regTips')}}</h1>
     <van-tabs class="content tours-tabs-nowrap"
       @change="changeTabs">
       <!-- 手机号注册 -->
       <van-tab class="regist"
-        title="手机号注册">
+        :title="$t('partcailComp.phoneReg')">
         <van-cell-group>
           <!-- 手机号 -->
           <area-code-input class="phone"
@@ -17,7 +17,7 @@
             center
             clearable
             icon="eye-o"
-            placeholder="登录密码"
+            :placeholder="$t('partcailComp.placePassword')"
             :type="pswInputType"
             @click-icon="toggleInputType">
           </van-field>
@@ -36,17 +36,17 @@
       </van-tab>
       <!-- 请输入邮箱 -->
       <van-tab class="email-regist"
-        title="邮箱注册">
+        :title="$t('partcailComp.emailReg')">
         <van-cell-group>
           <van-field class="email tours-input"
             v-model="emailForm.email"
-            placeholder="邮箱" />
+            :placeholder="$t('email')" />
           <van-field class="password tours-input"
             v-model="emailForm.password"
             center
             clearable
             icon="eye-o"
-            placeholder="登录密码"
+            :placeholder="$t('partcailComp.placePassword')"
             :type="pswInputType"
             @click-icon="toggleInputType">
           </van-field>
@@ -54,7 +54,7 @@
             v-model="emailForm.emailCode"
             center
             clearable
-            placeholder="验证码">
+            :placeholder="$t('verifyCode')">
             <van-button class="tours-button-noborder"
               slot="button"
               size="small"
@@ -66,19 +66,19 @@
       <!-- 按钮 -->
       <div class="to-login"
         v-if="showLoginTip">
-        <span>已有账号？</span>
+        <span>{{$t('partcailComp.hoveUser')}}</span>
         <span class="blue"
-          @click="toLogin">马上登录</span>
+          @click="toLogin">{{$t('partcailComp.nowLogin')}}</span>
       </div>
       <van-button class="btn-regist tours-button"
         size="large"
         :disabled="!checked"
         :loading="submiting"
-        @click="btnRegist">注册</van-button>
+        @click="btnRegist">{{$t('regist')}}</van-button>
       <div class="text">
         <van-checkbox class="tour-checkbox"
           v-model="checked">
-          <span @click="onAgreement">我已经阅读并同意《服务协议》</span>
+          <span @click="onAgreement">{{$t('AgreementReg')}}</span>
         </van-checkbox>
       </div>
     </van-tabs>
@@ -142,12 +142,12 @@
       showText() {
         if (this.codeType === VERIFY_CODE.START) {
           clearInterval(this.timer)
-          return '获取验证码'
+          return this.$t('getVerifyCode')
         } else if (this.codeType === VERIFY_CODE.GETTING) {
           return `${this.countDownTime} s`
         } else {
           clearInterval(this.timer)
-          return '重新获取'
+          return this.$t('partcailComp.resetVerifyCode')
         }
       }
     },
@@ -171,11 +171,11 @@
       // 获取验证码
       async getCode(type) {
         if (type === LOGIN_WAY.PHONE && !this.phoneForm.phone) {
-          this.$toast('请输入手机号码')
+          this.$toast(this.$t('partcailComp.enterPhone'))
           return
         }
         if (type === LOGIN_WAY.EMAIL && !this.emailForm.email) {
-          this.$toast('请输入邮箱')
+          this.$toast(this.$t('partcailComp.enterEmail'))
           return
         }
         // 定时器
@@ -230,19 +230,19 @@
       // 手机注册
       async registByPhone() {
         if (!this.phoneForm.phone) {
-          this.$toast('请输入手机号码')
+          this.$toast(this.$t('partcailComp.enterPhone'))
           return
         }
         if (!this.phoneForm.smsCode) {
-          this.$toast('请输入短信验证码')
+          this.$toast(this.$t('plhdSMS'))
           return
         }
         if (!this.phoneForm.password) {
-          this.$toast('请输入密码')
+          this.$toast(this.$t('partcailComp.nodataTips'))
           return
         }
         if (this.phoneForm.password.length < 6 || this.phoneForm.password.length > 20) {
-          this.$toast('请输入6-20位密码')
+          this.$toast(this.$t('partcailComp.passEnterType'))
           return
         }
         this.submiting = true // 开始提交
@@ -255,7 +255,7 @@
         })
         this.submiting = false
         if (code === 0) {
-          this.$toast('手机号注册成功！')
+          this.$toast(this.$t('partcailComp.phoneRegsucess'))
           this.$emit('registCallBack')
           // fbq('track', 'CompleteRegistration')
         } else {
@@ -265,15 +265,15 @@
       // 邮箱注册
       async registByEmail() {
         if (!this.emailForm.emailCode) {
-          this.$toast('请输入邮箱验证码')
+          this.$toast(this.$t('enterEmailCode'))
           return
         }
         if (!this.emailForm.password) {
-          this.$toast('请输入密码')
+          this.$toast(this.$t('partcailComp.nodataTips'))
           return
         }
         if (this.emailForm.password.length < 6 || this.emailForm.password.length > 20) {
-          this.$toast('请输入6-20位密码')
+          this.$toast(this.$t('partcailComp.passEnterType'))
           return
         }
         this.submiting = true // 开始提交
@@ -286,7 +286,7 @@
             code: this.emailForm.emailCode
           })
           if (code === 0) {
-            this.$toast('邮箱注册成功！')
+            this.$toast(this.$t('partcailComp.emailRegsucess'))
             this.$emit('registCallBack')
           } else {
             this.$toast(msg)

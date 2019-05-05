@@ -1,11 +1,11 @@
 <template>
   <div class="forget-comp">
-    <h1 class="title">别担心，在这里找回密码</h1>
+    <h1 class="title">{{$t('partcailComp.forgetPassTips')}}</h1>
     <van-tabs class="content forget-wrap tours-tabs-nowrap"
       @change="changeTabs">
       <!-- 手机号 -->
       <van-tab class="regist"
-        title="手机号">
+        :title="$t('phoneNumber')">
         <van-cell-group>
           <area-code-input class="phone"
             :proAreaCode.sync="phoneForm.areaCode"
@@ -14,7 +14,7 @@
             v-model="phoneForm.smsCode"
             center
             clearable
-            placeholder="验证码">
+            :placeholder="$t('verifyCode')">
             <van-button class="tours-button-noborder"
               slot="button"
               size="small"
@@ -25,20 +25,20 @@
         <van-button class="btn-login tours-button"
           size="large"
           :loading="submiting"
-          @click="toNextByPhone">下一步</van-button>
+          @click="toNextByPhone">{{$t('partcailComp.next')}}</van-button>
       </van-tab>
       <!-- 邮箱 -->
       <van-tab class="email-regist"
-        title="邮箱">
+        :title="$t('email')">
         <van-cell-group>
           <van-field class="email tours-input"
             v-model="emailForm.email"
-            placeholder="邮箱" />
+            :placeholder="$t('email')" />
           <van-field class="auth-code tours-input"
             v-model="emailForm.emailCode"
             center
             clearable
-            placeholder="验证码">
+            :placeholder="$t('verifyCode')">
             <van-button class="tours-button-noborder"
               slot="button"
               size="small"
@@ -49,7 +49,7 @@
         <van-button class="btn-login tours-button"
           size="large"
           :loading="submiting"
-          @click="toNextByEmail">下一步</van-button>
+          @click="toNextByEmail">{{$t('partcailComp.next')}}</van-button>
       </van-tab>
     </van-tabs>
   </div>
@@ -100,12 +100,12 @@
       showText() {
         if (this.codeType === VERIFY_CODE.START) {
           clearInterval(this.timer)
-          return '获取验证码'
+          return this.$t('getVerifyCode')
         } else if (this.codeType === VERIFY_CODE.GETTING) {
           return `${this.countDownTime} s`
         } else {
           clearInterval(this.timer)
-          return '重新获取'
+          return this.$t('partcailComp.resetVerifyCode')
         }
       }
     },
@@ -127,7 +127,7 @@
       // 获取手机验证码
       async getPhoneCode() {
         if (!this.phoneForm.phone) {
-          this.$toast('请输入手机号码')
+          this.$toast(this.$t('partcailComp.enterPhone'))
           return
         }
         // 定时器
@@ -146,7 +146,7 @@
       // 获取邮箱验证码
       async getEmailCode() {
         if (!this.emailForm.email) {
-          this.$toast('请输入邮箱号码')
+          this.$toast(this.$t('partcailComp.enterEmail'))
           return
         }
         // 定时器
@@ -179,11 +179,11 @@
       // 使用手机号找回（验证手机号）
       async toNextByPhone() {
         if (!this.phoneForm.phone) {
-          this.$toast('请输入手机号码')
+          this.$toast(this.$t('partcailComp.enterPhone'))
           return
         }
         if (!this.phoneForm.smsCode) {
-          this.$toast('请输入手机验证码')
+          this.$toast(this.$t('partcailComp.enterPhoneCode'))
           return
         }
         // 存数据
@@ -199,11 +199,11 @@
       // 使用邮箱找回（验证邮箱）
       async toNextByEmail() {
         if (!this.emailForm.email) {
-          this.$toast('请输入邮箱号码')
+          this.$toast(this.$t('partcailComp.enterEmail'))
           return
         }
         if (!this.emailForm.emailCode) {
-          this.$toast('请输入邮箱验证码')
+          this.$toast(this.$t('enterEmailCode'))
           return
         }
         // 存数据
