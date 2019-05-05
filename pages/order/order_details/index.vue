@@ -72,7 +72,7 @@
       </section>
       <section>
         <div class="confirm-item">
-          <p class="item-title">{{$t('orderDetailPage.contactInfo')}}</p>
+          <p class="item-title">{{$t('contactInfo')}}</p>
           <div class="item-contanct2">
             <div>{{$t('orderDetailPage.contact')}}</div>
             <div>
