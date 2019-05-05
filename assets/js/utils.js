@@ -186,6 +186,7 @@ export {
   validDomain,
   isMobile,
   isEmail,
+  isCard,
   setSessionStore,
   getSessionStore
 }
