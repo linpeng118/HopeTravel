@@ -164,7 +164,7 @@
           <van-actionsheet v-model="showcheckCou" :title="$t('coupons')" class="service-note">
           <van-radio-group v-model="setcou" @change="setcouponx()">
               <div class="setcheck">
-                <span>{{$t('confirmPage.yetNotSelCop ')}}</span>
+                <span>{{$t('confirmPage.yetNotSelCop')}}</span>
                 <van-radio name="null" style="width: 30%;float: right;display: inline-block"> </van-radio>
               </div>
               <div class="cup-item"
