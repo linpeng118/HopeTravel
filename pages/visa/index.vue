@@ -171,18 +171,10 @@
 <script>
   import {mapMutations, mapState} from "vuex";
   import {DLG_TYPE} from "@/assets/js/consts/dialog";
+  import onCustomerService from '@/assets/js/customerService.js'
 
   export default {
     name: "",
-    head() {
-      return {
-        script: [
-          {
-            src: 'https://hm.baidu.com/hm.js?72a266736d8b5b47605e2d2ad18f0756'
-          }
-        ]
-      }
-    },
     data() {
       return {
         isApp: this.$route.query.platform,
@@ -191,7 +183,7 @@
           initialSlide: 1,
           slidesPerView: "auto",
           observer: true, //修改swiper自己或子元素时，自动初始化swiper
-          observeParents: true //修改swiper的父元素时，自动初始化swiper
+          observeParents: true, //修改swiper的父元素时，自动初始化swiper
         },
         visaList: [
           {
@@ -227,6 +219,29 @@
         ]
       };
     },
+    head() {
+      let srcCustomerService
+      if (process.env.customerService === "53kf") {
+        srcCustomerService = 'https://tb.53kf.com/code/code/10181581/4'
+      }
+      if (process.env.customerService === "baidu") {
+        srcCustomerService = 'https://hm.baidu.com/hm.js?72a266736d8b5b47605e2d2ad18f0756'
+      }
+      return {
+        script: [
+          {
+            src: srcCustomerService
+          },
+        ]
+      }
+    },
+    mounted() {
+      setTimeout(() => {
+        if (document.querySelector("#newBridge")) {
+          document.querySelector("#newBridge").style.display = "none";
+        }
+      }, 3000);
+    },
     methods: {
       ...mapMutations({
         vxToggleDialog: "toggleDialog", // 是否显示弹窗
@@ -241,8 +256,7 @@
         window.location.href = "tel://400-118-1388";
       },
       zixun() {
-        window.location.href =
-          "http://p.qiao.baidu.com/cps/chat?siteId=13206734&userId=26301226";
+        onCustomerService('visa')
       },
       // 电话咨询
       showcall2() {

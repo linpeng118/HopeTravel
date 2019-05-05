@@ -55,6 +55,8 @@
   import {getProfile} from '@/api/profile'
   import {SESSIONSTORE,PLATFORM} from '@/assets/js/config'
   import {getSessionStore} from '@/assets/js/utils'
+  import onCustomerService from '@/assets/js/customerService.js'
+
   import {
     getCookieByKey
   } from '@/assets/js/utils'
@@ -198,7 +200,7 @@
         }
       },
       contactCustom() {
-        window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226'
+        onCustomerService()
       },
       //是否需要登录弹窗
       async islogin() {

@@ -434,16 +434,6 @@
     </div>
     <!-- 加载态 -->
     <loading v-if="loading"></loading>
-    <!-- 弹出咨询层 -->
-    <!-- <van-popup class="show-consult"
-      v-model="showConsult"
-      position="bottom"
-      :overlay="true">
-      <iframe src="http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226"
-        frameborder="0"
-        width="100%"
-        height="100%"></iframe>
-    </van-popup> -->
     <!-- 右上角更多操作 -->
     <transition name="fade">
       <div class="show-more"
@@ -501,7 +491,7 @@
   import ProductDetailHeader from '@/components/header/productDetail'
   import ProdDetailImgItem from '@/components/items/prodDetailImgItem'
   import Loading from '@/components/loading'
-  import {getLocalStore, setLocalStore, setSessionStore} from '@/assets/js/utils'
+  import {getCookie, getLocalStore, setLocalStore, setSessionStore} from '@/assets/js/utils'
   import {OPERATE_TYPE} from '@/assets/js/consts'
   import {ENTITY_TYPE} from '@/assets/js/consts/products'
   import {DLG_TYPE} from '@/assets/js/consts/dialog'
@@ -510,6 +500,7 @@
   import shareList from '@/components/share/list'
   import {getCode, getBase64, getViewStat} from '@/api/sale_union'
   import {SESSIONSTORE, PLATFORM} from '@/assets/js/config'
+  import onCustomerService from '@/assets/js/customerService.js'
 
   export default {
     layout: 'default',
@@ -522,7 +513,7 @@
       Loading,
       shareList
     },
-    async asyncData({$axios, query,store}) {
+    async asyncData({$axios, query, store, req}) {
       let productId,
         attributes,
         attributes_override,
@@ -533,17 +524,19 @@
         top_price,
         transfer
       if (String(query.productId).indexOf('-') >= 0) {
-        productId = Number(String(query.productId).split('-')[0])
+        productId = Number(query.productId.toString().split('-')[0])
       } else {
         productId = Number(query.productId)
       }
       try {
+        let currency = getCookie('currency', req && req.headers && req.headers.cookie)
         let {code, msg, data} = await $axios.$get(`/api/product/${productId}`, {
           headers: {
             'platform': 'app',
             'phoneType': 'iOS',
             'App-Version': '1.0.0',
-            'language': store.getters.language
+            'language': store.getters.language,
+            'currency': currency ? currency : 'CNY'
           }
         })
         if (code === 0) {
@@ -724,7 +717,7 @@
           this.$router.push({
             name: 'product-detail',
             query: {
-              productId: this.$route.query.productId + '-' + this.profile.customer_id
+              productId: String(this.$route.query.productId) + '-' + this.profile.customer_id
             }
           })
         }
@@ -732,7 +725,7 @@
       },
       // 产品ID，session保存
       async ashbackLogic() {
-        let query = this.$route.query.productId + ''
+        let query = String(this.$route.query.productId)
         let platform = this.$route.query.platform
         let viewStat = {}
         console.log(query)
@@ -1039,7 +1032,7 @@
       },
       // 在线咨询
       onlineCounsel() {
-        window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226'
+        onCustomerService()
       },
       // 立即定制
       async btnReserve() {

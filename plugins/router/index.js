@@ -1,38 +1,45 @@
 import NProgress from 'nprogress'
 import '@/assets/style/nprogress.css'
+import apiConf from '@/apiConf.env.js'
+
 export default ({
   app
 }) => {
   app.router.beforeEach((to, from, next) => {
     // 获取dom
-    function getDom(dom) {
-      return document.querySelector(dom) || null
+    function getDom(domName) {
+      return document.querySelector(domName) || null
     }
     // 隐藏dom
-    function hideDom(dom) {
+    function hideDom(domName) {
       let timer
-      // console.log(1, dom);
-      timer = setTimeout((dom) => {
-        // console.log(2, dom);
-        const hideDom = getDom(dom)
-        if (hideDom) {
-          console.log('hideDom', hideDom);
+      // console.log(1, domName);
+      timer = setTimeout(() => {
+        const dom = getDom(domName)
+        if (dom) {
+          console.log('dom', dom);
           if (!(to.name === 'index' || to.name === 'product_list')) {
             console.log('#newBridge hide');
-            hideDom.style.display = 'none'
+            dom.style.display = 'none'
           } else {
             console.log('#newBridge show');
-            hideDom.style.display = 'block'
+            dom.style.display = 'block'
           }
         } else {
-          clearInterval(timer)
-          hideDom(dom)
+          try {
+            clearInterval(timer)
+            hideDom(domName)
+          } catch (error) {
+            console.log(error)
+          }
         }
-      }, 5000, dom)
+      }, 4000, domName)
     }
     try {
-      hideDom('#newBridge')
-
+      if (process.env.customerService === 'baidu') {
+        console.log('百度商桥')
+        hideDom('#newBridge')
+      }
       NProgress.start()
       if (to.path.indexOf('.html') >= 0) {}
     } catch (error) {

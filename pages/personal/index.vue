@@ -94,6 +94,7 @@
 import {mapMutations} from 'vuex'
 import { getProfile } from "@/api/profile"
 import { joinStatus } from "@/api/sale_union"
+import onCustomerService from '@/assets/js/customerService.js'
 
 export default {
   name: "component_name",
@@ -204,6 +205,9 @@ export default {
           path: '/login?redirect=personal'
         })
       }
+    },
+    contactCustom() {
+      onCustomerService()
     },
     ...mapMutations({
       vxSetProfile: 'profile/setProfile'
