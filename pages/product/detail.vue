@@ -35,7 +35,7 @@
         </van-swipe>
         <!-- 产品编号 -->
         <div class="serial-num">
-          产品编号：{{product.code}}
+          {{$t('productDetailPage.productId')}}：{{product.code}}
         </div>
       </div>
       <!-- 产品 -->
@@ -43,7 +43,7 @@
         <!-- name -->
         <p class="name">
           <span class="prod-tag"
-            v-if="product.self_support">自营</span>
+            v-if="product.self_support">{{$t('selfSupport')}}</span>
           {{product.name}}
         </p>
         <!-- 价格 -->
@@ -55,12 +55,12 @@
               alt=""
               width="16"
               height="16" />
-            <span>分享赚{{product.agent_fee}}</span>
+            <span>{{$t('productDetailPage.shareMakes')}}{{product.agent_fee}}</span>
           </span>
           <span class="price fs-48 fw-800"
             :style="{'color': product.self_support ? '#EF9A1A' : '#fb605d'}">
             {{product.special_price ? product.special_price: product.default_price}}
-            <span class="unit">&nbsp;起</span>
+            <span class="unit">&nbsp;{{$t('since')}}</span>
           </span>
           <span class="default-price"
             v-if="product.special_price">
@@ -74,7 +74,7 @@
           @click="onServerCop"
           v-if="couponList&&couponList.length">
           <div class="item-list">
-            <span class="item-titlex">领券&nbsp;&nbsp;&nbsp;</span>
+            <span class="item-titlex">{{$t('productDetailPage.getCoupon')}}&nbsp;&nbsp;&nbsp;</span>
             <span v-for="(item,index) in couponList"
               class="setspecial"
               :key="index">
@@ -108,13 +108,13 @@
           <div class="from">
             <img src="../../assets/imgs/product/from@2x.png"
               alt="from">
-            <span class="title">出发地</span>
+            <span class="title">{{$t('productDetailPage.origin')}}</span>
             <span class="addr">{{product.departure_city}}</span>
           </div>
           <div class="to">
             <img src="../../assets/imgs/product/to@2x.png"
               alt="from">
-            <span class="title">结束地</span>
+            <span class="title">{{$t('productDetailPage.inTheEnd')}}</span>
             <span class="addr">{{product.end_city}}</span>
           </div>
         </div>
@@ -125,7 +125,7 @@
         <div class="title">
           <img src="../../assets/imgs/product/price@2x.png"
             alt="icon">
-          团期价格
+          {{$t('productDetailPage.groupPrice')}}
         </div>
         <div class="content mt-12">
           <div v-for="(item,index) in topPrice"
@@ -141,16 +141,16 @@
           </div>
           <div class="g-price-item more"
             @click="onGroupPriceMore">
-            更多团期
+            {{$t('productDetailPage.moreGroup')}}
           </div>
         </div>
       </div>
-      <!-- 稀饭推荐 -->
+      <!-- api -->
       <div class="recommend mt-24">
         <div class="title">
           <img src="../../assets/imgs/product/praise@2x.png"
             alt="icon">
-          稀饭推荐
+          {{$t('tours.torusRecommend')}}
         </div>
         <div class="content mt-12"
           v-html="product.small_description"></div>
@@ -194,27 +194,27 @@
         ref="refTrip">
         <div class="header-wrap"
           v-show="product.product_entity_type || product.tour_category==='Unassigned'">
-          <h3 class="header-title">行程概要</h3>
+          <h3 class="header-title">{{$t('productDetailPage.travelProfile')}}</h3>
           <div class="header-content">
             <div class="item">
               <img src="../../assets/imgs/product/trip_1@2x.png"
                 alt="trip">
-              <p>{{itinerary.duration_days}}天行程</p>
+              <p>{{$t('productDetailPage.dayTrip')}}</p>
             </div>
             <div class="item">
               <img src="../../assets/imgs/product/trip_2@2x.png"
                 alt="trip">
-              <p>{{itinerary.total_attractions}}个景点</p>
+              <p>{{itinerary.total_attractions}}{{$t('productDetailPage.scenicSpot')}}</p>
             </div>
             <div class="item">
               <img src="../../assets/imgs/product/trip_3@2x.png"
                 alt="trip">
-              <p>中英双语</p>
+              <p>{{$t('productDetailPage.zhEn')}}</p>
             </div>
           </div>
         </div>
         <div class="content-wrap">
-          <div class="content-title">行程详情</div>
+          <div class="content-title">{{$t('productDetailPage.itineraryDetail')}}</div>
           <div class="content"
             v-for="item in itinerary.items"
             :key="item.product_itinerary_id"
@@ -228,7 +228,7 @@
               <div class="summarize-wrap">
                 <h3 class="title">
                   <img src="../../assets/imgs/product/text@2x.png"
-                    alt="icon">&nbsp;概况
+                    alt="icon">&nbsp;{{$t('productDetailPage.general')}}
                 </h3>
                 <div class="body"
                   v-html="item.content"></div>
@@ -255,7 +255,7 @@
                 v-if="item.hotel">
                 <h3 class="title">
                   <img src="../../assets/imgs/product/text@2x.png"
-                    alt="icon">&nbsp;酒店
+                    alt="icon">&nbsp;{{$t('productDetailPage.hotel')}}
                 </h3>
                 <div class="body"
                   v-html="item.hotel"></div>
@@ -265,20 +265,26 @@
                 v-if="item.meal.breakfast.contain_meal==1 || item.meal.lunch.contain_meal==1 || item.meal.dinner.contain_meal==1">
                 <h3 class="title">
                   <img src="../../assets/imgs/product/text@2x.png"
-                    alt="icon">&nbsp;餐食
+                    alt="icon">&nbsp;{{$t('productDetailPage.meals')}}
                 </h3>
                 <div class="body">
                   <p class="breakfast"
                     v-if="item.meal.breakfast.contain_meal==1">
-                    早餐：{{item.meal.breakfast.remark || '包含'}}
+                    {{$t('productDetailPage.breakfast')}}：
+                    <span v-if="item.meal.breakfast.remark">{{item.meal.breakfast.remark}}</span>
+                    <span v-else>{{$t('productDetailPage.include')}}</span>
                   </p>
                   <p class="lunch"
                     v-if="item.meal.lunch.contain_meal==1">
-                    午饭：{{item.meal.lunch.remark || '包含'}}
+                    {{$t('productDetailPage.lunch')}}：
+                    <span v-if="item.meal.lunch.remark">{{item.meal.lunch.remark}}</span>
+                    <span v-else>{{$t('productDetailPage.include')}}</span>
                   </p>
                   <p class="dinner"
                     v-if="item.meal.dinner.contain_meal==1">
-                    晚饭：{{item.meal.dinner.remark || '包含'}}
+                    {{$t('productDetailPage.dinner')}}：
+                    <span v-if="item.meal.dinner.remark">{{item.meal.dinner.remark}}</span>
+                    <span v-else>{{$t('productDetailPage.include')}}</span>
                   </p>
                 </div>
               </div>
@@ -289,19 +295,19 @@
       <!-- AD-custom -->
       <div class="ad-custom"
         v-show="product.product_entity_type || product.tour_category==='Unassigned'">
-        <span>行程不满意？您还可以找</span>
+        <span>{{$t('productDetailPage.adCustomText')}}</span>
         <span class="custom"
-          @click="onAdCustom">稀饭旅行定制师</span>
+          @click="onAdCustom">{{$t('productDetailPage.customText')}}</span>
       </div>
       <!-- 费用明细 -->
       <div class="cost"
         ref="refCost"
         v-show="product.product_entity_type || product.tour_category==='Unassigned'">
         <h1 class="title">
-          费用明细
+          {{$t('costDetail')}}
         </h1>
         <div class="group-price-desc">
-          <h3 class="title-s">团费说明</h3>
+          <h3 class="title-s">{{$t('productDetailPage.groupCostDetail')}}</h3>
           <div class="price-item-wrap">
             <div class="price-item"
               v-for="item in standartPrice"
@@ -312,17 +318,17 @@
           </div>
         </div>
         <div class="price-desc">
-          <h3 class="title-s">价格说明</h3>
+          <h3 class="title-s">{{$t('productDetailPage.priceDescription')}}</h3>
           <div class="text"
             v-html="expense.price_notice"></div>
         </div>
         <div class="price-include">
-          <h3 class="title-s">费用包含</h3>
+          <h3 class="title-s">{{$t('productDetailPage.feeIncludes')}}</h3>
           <div class="text"
             v-html="expense.package_include"></div>
         </div>
         <van-collapse v-model="priceExclude">
-          <van-collapse-item title="费用不含"
+          <van-collapse-item :title="$t('productDetailPage.feeExcludes')"
             name="exclude">
             <span v-html="expense.package_exclude"></span>
           </van-collapse-item>
@@ -358,13 +364,15 @@
             <van-button class="btn-reserve"
               :style="{'background': product.self_support ? '#EF9A1A' : '#fb605d'}"
               size="large"
-              @click="btnReserve">{{product.is_soldout? '恢复预定通知' : '立即预定'}}</van-button>
+              @click="btnReserve">{{product.is_soldout
+              ? $t('productDetailPage.orderNotice')
+              : $t('productDetailPage.orderNow')}}</van-button>
           </div>
         </div>
       </div>
       <!-- 服务说明 -->
       <van-actionsheet v-model="showServiceNode"
-        title="服务说明"
+        :title="$t('productDetailPage.serviceDescription')"
         class="service-note">
         <div class="servive-item mt-50"
           v-for="(item,index) in serviceNote"
@@ -378,9 +386,9 @@
       </van-actionsheet>
       <!-- 优惠卷展开 -->
       <van-actionsheet v-model="showServiceCop"
-        title="优惠券"
+        :title="$t('coupons')"
         class="service-note">
-        <p class="cup-class">可领取的优惠券</p>
+        <p class="cup-class">{{$t('productDetailPage.availableCoupons')}}</p>
         <div class="cup-item"
           v-for="(item,index) in couponDetails"
           :key="index">
@@ -396,11 +404,10 @@
           <div class="cupright">
             <span class="btn1"
               @click="getcouponobj(item.id)"
-              v-if="item.is_receivable === true">领取</span>
+              v-if="item.is_receivable === true">{{$t('productDetailPage.receive')}}</span>
             <span class="btn2"
-              v-if="item.is_received === true && item.is_receivable === false">已领取</span>
+              v-if="item.is_received === true && item.is_receivable === false">{{$t('productDetailPage.haveReceive')}}</span>
           </div>
-
         </div>
       </van-actionsheet>
       <!-- 恢复预定通知 -->
@@ -408,35 +415,25 @@
         title=" "
         class="sold-out">
         <div class="sold-out-content">
-          <h3 class="title">该行程暂时未开放预订，请在下面输入您的E-mail地址或手机号码，当恢复预定时我们会发邮件或短信通知您！</h3>
-          <p class="desc mt-30">邮件或手机号</p>
+          <h3 class="title">{{$t('productDetailPage.soldOutDesc')}}</h3>
+          <p class="desc mt-30">{{$t('productDetailPage.emailOrPhone')}}</p>
           <div class="account-wrap mt-30">
             <van-cell-group class="account-input">
               <van-field class="tours-input"
                 v-model="account"
-                placeholder="用户名 / 邮箱">
+                :placeholder="$t('plhdNameEmail')">
               </van-field>
             </van-cell-group>
             <van-button class="account-btn"
               slot="button"
               size="small"
-              @click="btnOrder">提交</van-button>
+              @click="btnOrder">{{$t('submit')}}</van-button>
           </div>
         </div>
       </van-actionsheet>
     </div>
     <!-- 加载态 -->
     <loading v-if="loading"></loading>
-    <!-- 弹出咨询层 -->
-    <!-- <van-popup class="show-consult"
-      v-model="showConsult"
-      position="bottom"
-      :overlay="true">
-      <iframe src="http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226"
-        frameborder="0"
-        width="100%"
-        height="100%"></iframe>
-    </van-popup> -->
     <!-- 右上角更多操作 -->
     <transition name="fade">
       <div class="show-more"
@@ -445,25 +442,25 @@
           @click="onHomePage">
           <img src="~/assets/imgs/product/icon_home@2x.png"
             alt="">
-          <span class="item-title">首页</span>
+          <span class="item-title">{{$t('productDetailPage.homePage')}}</span>
         </div>
         <div class="show-more-item"
           @click="onDest">
           <img src="~/assets/imgs/product/icon_pos@2x.png"
             alt="">
-          <span class="item-title">目的地</span>
+          <span class="item-title">{{$t('productDetailPage.destination')}}</span>
         </div>
         <div class="show-more-item"
           @click="onPersonal">
           <img src="~/assets/imgs/product/icon_person@2x.png"
             alt="">
-          <span class="item-title">个人中心</span>
+          <span class="item-title">{{$t('productDetailPage.personal')}}</span>
         </div>
         <div class="show-more-item"
           @click="onFollow">
           <img src="~/assets/imgs/product/icon_star@2x.png"
             alt="">
-          <span class="item-title">我的收藏</span>
+          <span class="item-title">{{$t('productDetailPage.myFollow')}}</span>
         </div>
       </div>
     </transition>
@@ -494,7 +491,7 @@
   import ProductDetailHeader from '@/components/header/productDetail'
   import ProdDetailImgItem from '@/components/items/prodDetailImgItem'
   import Loading from '@/components/loading'
-  import {getLocalStore, setLocalStore, setSessionStore} from '@/assets/js/utils'
+  import {getCookie, getLocalStore, setLocalStore, setSessionStore} from '@/assets/js/utils'
   import {OPERATE_TYPE} from '@/assets/js/consts'
   import {ENTITY_TYPE} from '@/assets/js/consts/products'
   import {DLG_TYPE} from '@/assets/js/consts/dialog'
@@ -503,6 +500,7 @@
   import shareList from '@/components/share/list'
   import {getCode, getBase64, getViewStat} from '@/api/sale_union'
   import {SESSIONSTORE, PLATFORM} from '@/assets/js/config'
+  import onCustomerService from '@/assets/js/customerService.js'
 
   export default {
     layout: 'default',
@@ -515,7 +513,7 @@
       Loading,
       shareList
     },
-    async asyncData({$axios, query}) {
+    async asyncData({$axios, query, store, req}) {
       let productId,
         attributes,
         attributes_override,
@@ -525,17 +523,20 @@
         product,
         top_price,
         transfer
-      if (query.productId.indexOf('-') >= 0) {
-        productId = Number(query.productId.split('-')[0])
+      if (String(query.productId).indexOf('-') >= 0) {
+        productId = Number(query.productId.toString().split('-')[0])
       } else {
         productId = Number(query.productId)
       }
       try {
+        let currency = getCookie('currency', req && req.headers && req.headers.cookie)
         let {code, msg, data} = await $axios.$get(`/api/product/${productId}`, {
           headers: {
             'platform': 'app',
             'phoneType': 'iOS',
-            'App-Version': '1.0.0'
+            'App-Version': '1.0.0',
+            'language': store.getters.language,
+            'currency': currency ? currency : 'CNY'
           }
         })
         if (code === 0) {
@@ -617,17 +618,17 @@
       },
       standartPrice() {
         let newData = [
-          {name: '单人一间', type: 'price_single', price: ''},
-          {name: '单人标配', type: 'price_single_pu', price: ''},
-          {name: '双人一间', type: 'price_double', price: ''},
-          {name: '三人一间', type: 'price_triple', price: ''},
-          {name: '四人一间', type: 'price_quad', price: ''},
-          {name: '小孩价格', type: 'price_kids', price: ''},
-          {name: '五人一间', type: 'price_five', price: ''},
-          {name: '六人一间', type: 'price_six', price: ''},
-          {name: '七人一间', type: 'price_seven', price: ''},
-          {name: '八人一间', type: 'price_eight', price: ''},
-          {name: '成人价格', type: 'price_adult', price: ''},
+          {name: this.$t('productDetailPage.priceSingle'), type: 'price_single', price: ''},
+          {name: this.$t('productDetailPage.priceSinglePu'), type: 'price_single_pu', price: ''},
+          {name: this.$t('productDetailPage.priceDouble'), type: 'price_double', price: ''},
+          {name: this.$t('productDetailPage.priceTriple'), type: 'price_triple', price: ''},
+          {name: this.$t('productDetailPage.priceQuad'), type: 'price_quad', price: ''},
+          {name: this.$t('productDetailPage.priceKids'), type: 'price_kids', price: ''},
+          {name: this.$t('productDetailPage.priceFive'), type: 'price_five', price: ''},
+          {name: this.$t('productDetailPage.priceSix'), type: 'price_six', price: ''},
+          {name: this.$t('productDetailPage.priceSeven'), type: 'price_seven', price: ''},
+          {name: this.$t('productDetailPage.priceEight'), type: 'price_eight', price: ''},
+          {name: this.$t('productDetailPage.priceAdult'), type: 'price_adult', price: ''},
         ]
         newData.forEach(item => {
           if (this.expense.standard_price && this.expense.standard_price[item.type] && this.expense.standard_price[item.type]) {
@@ -641,17 +642,17 @@
       },
       tabList() {
         return [
-          {id: 1, name: '产品特色', ref: 'refFeatures', isShow: this.hasFeature},
-          {id: 2, name: this.itinerary.duration_days + '天行程', ref: 'refTrip', isShow: true},
-          {id: 3, name: '费用明细', ref: 'refCost', isShow: true},
-          {id: 4, name: '注意事项', ref: 'refNotice', isShow: true},
+          {id: 1, name: this.$t('productDetailPage.productFeature'), ref: 'refFeatures', isShow: this.hasFeature},
+          {id: 2, name: this.itinerary.duration_days + this.$t('productDetailPage.dayTrip'), ref: 'refTrip', isShow: true},
+          {id: 3, name: this.$t('costDetail'), ref: 'refCost', isShow: true},
+          {id: 4, name: this.$t('productDetailPage.notice'), ref: 'refNotice', isShow: true},
         ]
       },
       operateTabbar() {
         return [
-          {type: OPERATE_TYPE.ATTR, name: '收藏', icon: this.product.is_favorite ? require('../../assets/imgs/product/star_active@2x.png') : require('../../assets/imgs/product/star@2x.png')},
-          {type: OPERATE_TYPE.PHONE, name: '电话咨询', icon: require('../../assets/imgs/product/phone@2x.png')},
-          {type: OPERATE_TYPE.ONLINE, name: '在线咨询', icon: require('../../assets/imgs/product/consult@2x.png')},
+          {type: OPERATE_TYPE.ATTR, name: this.$t('productDetailPage.follow'), icon: this.product.is_favorite ? require('../../assets/imgs/product/star_active@2x.png') : require('../../assets/imgs/product/star@2x.png')},
+          {type: OPERATE_TYPE.PHONE, name: this.$t('phoneConsult'), icon: require('../../assets/imgs/product/phone@2x.png')},
+          {type: OPERATE_TYPE.ONLINE, name: this.$t('onlineConsult'), icon: require('../../assets/imgs/product/consult@2x.png')},
         ]
       },
       showDayList() {
@@ -716,19 +717,22 @@
       },
       // 获取profile-登录态
       async initProfileData() {
-        if (this.profile.is_agent && this.$route.query.productId.indexOf('-') <= 0) {
-          this.$router.push({
-            name: 'product-detail',
-            query: {
-              productId: this.$route.query.productId + '-' + this.profile.customer_id
-            }
-          })
-        }
-        console.log(this.$route)
+        setTimeout(() => {
+          console.log(4444, this.profile.is_agent, String(this.$route.query.productId).indexOf('-') <= 0)
+          if (this.profile.is_agent && String(this.$route.query.productId).indexOf('-') <= 0) {
+            this.$router.push({
+              name: 'product-detail',
+              query: {
+                productId: String(this.$route.query.productId) + '-' + this.profile.customer_id
+              }
+            })
+          }
+        }, 50)
+        // console.log(this.$route)
       },
       // 产品ID，session保存
       async ashbackLogic() {
-        let query = this.$route.query.productId + ''
+        let query = String(this.$route.query.productId)
         let platform = this.$route.query.platform
         let viewStat = {}
         console.log(query)
@@ -809,7 +813,7 @@
         })
         if (code === 0) {
           // this.showServiceCop=false;
-          this.$toast('领取成功');
+          this.$toast(this.$t('productDetailPage.getSuccess'));
           this.getcoupondetail();
         } else {
           this.$toast(msg);
@@ -847,25 +851,25 @@
         let week = new Date(date).getDay()
         switch (week) {
           case 0:
-            return '周末'
+            return this.$t('weekend')
             break;
           case 1:
-            return '周一'
+            return this.$t('monday')
             break;
           case 2:
-            return '周二'
+            return this.$t('tuesday')
             break;
           case 3:
-            return '周三'
+            return this.$t('wednesday')
             break;
           case 4:
-            return '周四'
+            return this.$t('thursday')
             break;
           case 5:
-            return '周五'
+            return this.$t('friday')
             break;
           case 6:
-            return '周六'
+            return this.$t('saturday')
             break;
           default:
             // console.log(`${week} is not found`)
@@ -1011,20 +1015,20 @@
             product_id: this.product.product_id
           })
           if (code === 0) {
-            this.$toast('取关成功')
+            this.$toast(this.$t('takeOffSuc'))
             this.getProductDetailData()
           } else {
-            this.$toast('取关失败')
+            this.$toast(this.$t('takeOffFail'))
           }
         } else {
           const {code, data, msg} = await addFavorite({
             product_id: this.product.product_id
           })
           if (code === 0) {
-            this.$toast('关注成功')
+            this.$toast(this.$t('focusOnSuc'))
             this.getProductDetailData()
           } else {
-            this.$toast('关注失败')
+            this.$toast(this.$t('focusOnFail'))
           }
         }
       },
@@ -1035,7 +1039,7 @@
       },
       // 在线咨询
       onlineCounsel() {
-        window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12524949&userId=26301226'
+        onCustomerService()
       },
       // 立即定制
       async btnReserve() {

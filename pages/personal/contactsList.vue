@@ -9,16 +9,16 @@
       <van-icon class="left-wrap" name="arrow-left" slot="left" />
       <van-icon class="right-wrap" slot="right" v-if="type!='list'">
         <div class="search active " v-if="checkuser.length==adult" >
-          <div class="text ">完成</div>
+          <div class="text ">{{$t('partcailComp.accomplish')}}</div>
         </div>
         <div class="search " v-else>
-          <div class="text ">完成</div>
+          <div class="text ">{{$t('partcailComp.accomplish')}}</div>
         </div>
 
       </van-icon>
     </van-nav-bar>
     <div v-if="$route.query.adult">
-      <p v-if="adult" class="contancts-title">请选择{{adult}}位出行人</p>
+      <p v-if="adult" class="contancts-title">{{$t('pleaseChoose')}}{{adult}}{{$t('personalPage.travelPeople')}}</p>
     </div>
     <van-checkbox-group v-if="type!='list'" v-model="checkuser" class="checkboxall" :max="parseInt(adult)">
       <van-checkbox
@@ -29,14 +29,14 @@
         <span class="objitem">
             <i>
               {{item.lastname}}&nbsp;{{item.firstname}}
-              <a>{{(item.six==0)?'女':'男'}}</a>
+              <a>{{(item.six==0)?$t('woman'):$t('man')}}</a>
             </i>
             <template v-if="item.phone&&item.passport">
-               <i>护照号&nbsp;&nbsp;{{item.passport}} </i>
-               <i>手机号&nbsp;&nbsp;{{item.phone}} </i>
+               <i>{{$t('passportNumber')}}&nbsp;&nbsp;{{item.passport}} </i>
+               <i>{{$t('phoneNumber')}}&nbsp;&nbsp;{{item.phone}} </i>
             </template>
             <template v-else>
-               <i style="color: red">信息不全，请补充</i>
+               <i style="color: red">{{$t('personalPage.addIncompleteInfo')}}</i>
             </template>
         </span>
         <nuxt-link :to="{path:'/personal/addContacts',query:{'id':item.customer_contract_id,'adult':$route.query.adult}}">
@@ -49,14 +49,14 @@
          <span class="objitem">
             <i>
               {{item.lastname}}&nbsp;{{item.firstname}}
-              <a>{{(item.six==0)?'女':'男'}}</a>
+              <a>{{(item.six==0)?$t('woman'):$t('man')}}</a>
             </i>
             <template v-if="item.phone&&item.passport">
-               <i>护照号&nbsp;&nbsp;{{item.passport}} </i>
-               <i>手机号&nbsp;&nbsp;{{item.phone}} </i>
+               <i>{{$t('passportNumber')}}&nbsp;&nbsp;{{item.passport}} </i>
+               <i>{{$t('phoneNumber')}}&nbsp;&nbsp;{{item.phone}} </i>
             </template>
             <template v-else>
-               <i style="color: red">信息不全，请补充</i>
+               <i style="color: red">{{$t('personalPage.addIncompleteInfo')}}</i>
             </template>
         </span>
         <nuxt-link :to="{path:'/personal/addContacts',query:{'id':item.customer_contract_id}}">
@@ -67,7 +67,7 @@
     </ul>
     <div class="btnbox">
       <nuxt-link class="changeuser-btn" tag="button" :to="{path:'/personal/addContacts'}">
-        <van-icon name="plus" color="#fff;"/>&nbsp;新增旅客
+        <van-icon name="plus" color="#fff;"/>&nbsp;{{$t('selectTravlerPage.addTravler')}}
       </nuxt-link>
     </div>
   </section>

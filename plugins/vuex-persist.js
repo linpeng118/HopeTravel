@@ -9,7 +9,8 @@ export default ({store}) => {
         // product模块的reservePro数据
         'product.reservePro',
         // 用户信息
-        'profile.profile'
+        'profile.profile',
+        'language'
       ],
       // 下面也是可行的
       // reducer(state) {

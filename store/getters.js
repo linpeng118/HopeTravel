@@ -2,6 +2,7 @@ import state from "./state";
 
 const getters = {
     token: state => state.token,
+    language: state => state.language,
     deviceType: state => state.deviceType,
     profile: state => state.profile.profile,
     closeDown: state => state.closeDown,

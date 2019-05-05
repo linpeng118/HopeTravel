@@ -9,7 +9,7 @@
           <img :src="data.face" alt="">
           <div class="name">
             <p><strong>{{data | getName}}</strong></p>
-            <p style="color:#989898">向您推荐了一个行程</p>
+            <p style="color:#989898">{{$t('shareComp.shareTrip')}}</p>
           </div>
         </div>
         <div class="img-product">
@@ -22,14 +22,14 @@
         <div class="desc-product">
           <div class="title">{{data.name}}</div>
           <div class="price-box">
-            <p v-if="data.special_price"><span class="special"><strong>{{data.special_price}}</strong>起</span><span class="default">{{data.default_price}}</span></p>
-            <p v-else><span class="special"><strong>{{data.default_price}}</strong>起</span></p>
+            <p v-if="data.special_price"><span class="special"><strong>{{data.special_price}}</strong>{{$t('since')}}</span><span class="default">{{data.default_price}}</span></p>
+            <p v-else><span class="special"><strong>{{data.default_price}}</strong>{{$t('since')}}</span></p>
           </div>
         </div>
       </section>
       <!--<div class="save-pic" @click="show = true">-->
       <div class="save-pic" @click="show=true">
-        <img src="../../assets/imgs/union/icon_down@2x.png" alt="">长按图片保存
+        <img src="../../assets/imgs/union/icon_down@2x.png" alt="">{{$t('shareComp.savePicTips')}}
       </div>
     </div>
     <div class="native-share">
@@ -37,26 +37,26 @@
         <ul>
           <li @click="shareRenderAll">
             <img src="../../assets/imgs/union/weixin_friend@2x.png" alt="">
-            <p>微信好友</p>
+            <p>{{$t('shareComp.wxFriends')}}</p>
           </li>
           <li @click="shareRenderAll">
             <img src="../../assets/imgs/union/qq@2x.png" alt="">
-            <p>QQ好友</p>
+            <p>{{$t('shareComp.qqFriends')}}</p>
           </li>
           <li @click="shareRenderAll">
             <img src="../../assets/imgs/union/weixin@2x.png" alt="">
-            <p>微信朋友圈</p>
+            <p>{{$t('shareComp.wxCircles')}}</p>
           </li>
           <li @click="shareRender('sina')">
             <img src="../../assets/imgs/union/sinaWeibo@2x.png" alt="">
-            <p>新浪微博</p>
+            <p>{{$t('shareComp.SinaWeibo')}}</p>
           </li>
           <li @click="copySomething"
               v-clipboard:copy="copyLink()"
               v-clipboard:success="onCopy"
               v-clipboard:error="onError">
             <img src="../../assets/imgs/union/copy_link@2x.png" alt="">
-            <p>复制链接</p>
+            <p>{{$t('shareComp.copyUrl')}}</p>
           </li>
         </ul>
       </div>
@@ -71,8 +71,8 @@
     <div class="sure-save">
       <van-popup v-model="show">
         <div>
-          <p>长按保存海报去分享</br>或者使用浏览器的分享</p>
-          <div class="sure-save-img" @click="show=false">我知道了</div>
+          <p>{{$t('shareComp.touchShare')}}</br>{{$t('shareComp.browserShare')}}</p>
+          <div class="sure-save-img" @click="show=false">{{$t('shareComp.iKnow')}}</div>
         </div>
       </van-popup>
     </div>
@@ -138,17 +138,17 @@ export default {
       try {
         let text = window.location.href + 'referrer_id=' + this.data.customer_id
         await this.$copyText(text)
-        this.$toast('复制成功')
+        this.$toast(this.$t('shareComp.copySuccess'))
       } catch (e) {
         console.error(e)
       }
     },
     onCopy(e) {
-      this.$toast("复制成功")
+      this.$toast(this.$t('shareComp.copySuccess'))
     },
     // 复制失败
     onError(e) {
-      this.$toast("复制失败")
+      this.$toast(this.$t('shareComp.copyFail'))
     },
     async imgSwitchBase64(){
       let face = await getBase64(this.data.face)

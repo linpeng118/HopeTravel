@@ -1,6 +1,6 @@
 <template>
   <div class="personal-about-page">
-    <normal-header title="关于稀饭" />
+    <normal-header :title="$t('personalPage.aboutScool')" />
     <div class="banner"></div>
     <van-cell v-for="item in aboutList"
       :key="item.type"
@@ -12,6 +12,7 @@
           :src="item.icon"
           alt="icon">
         <span class="custom-text">{{item.title}}</span>
+
       </template>
     </van-cell>
   </div>
@@ -35,10 +36,10 @@
     data() {
       return {
         aboutList: [
-          {type: SETTING.CHANGE_PSW, icon: require('~/assets/imgs/personal/about_1@2x.png'), title: '微信公众号', isRightIcon: true, value: '', path: '/personal/wx'},
-          {type: SETTING.ABOUT, icon: require('~/assets/imgs/personal/about_2@2x.png'), title: '关于稀饭', isRightIcon: true, value: '', path: '/protocol/about'},
-          {type: SETTING.VERSION, icon: require('~/assets/imgs/personal/about_3@2x.png'), title: '用户服务协议', isRightIcon: true, value: '', path: '/protocol/user'},
-          {type: SETTING.GRADE, icon: require('~/assets/imgs/personal/about_4@2x.png'), title: '隐私保护', isRightIcon: true, value: '', path: '/protocol/xifan'},
+          {type: SETTING.CHANGE_PSW, icon: require('~/assets/imgs/personal/about_1@2x.png'), title: this.$t('personalPage.wxPublic'), isRightIcon: true, value: '', path: '/personal/wx'},
+          {type: SETTING.ABOUT, icon: require('~/assets/imgs/personal/about_2@2x.png'), title: this.$t('personalPage.aboutXifan'), isRightIcon: true, value: '', path: '/protocol/about'},
+          {type: SETTING.VERSION, icon: require('~/assets/imgs/personal/about_3@2x.png'), title: this.$t('personalPage.userServerText'), isRightIcon: true, value: '', path: '/protocol/user'},
+          {type: SETTING.GRADE, icon: require('~/assets/imgs/personal/about_4@2x.png'), title: this.$t('personalPage.Privacy'), isRightIcon: true, value: '', path: '/protocol/xifan'},
         ]
       }
     },

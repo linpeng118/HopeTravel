@@ -12,7 +12,7 @@
     ></lay-header>
     <div class="search-wrap" v-if="searchWrapShow">
       <div class="history-list" v-if="historyList.length" ref="historyBox">
-        <h2 class="title">历史搜索</h2>
+        <h2 class="title">{{$t('searchPage.searchHistory')}}</h2>
         <div class="search-items">
           <div class="main-item">
             <div class="item-info" v-for="(item, index) in historyList" :key="item" ref="searchItems">
@@ -44,7 +44,7 @@
     </div>
     <div class="search-result" v-if="searchResult">
       <template v-if="searchResultList.searchCategory.length">
-        <h2 class="title">{{searchWords}} 的产品</h2>
+        <h2 class="title">{{searchWords}} {{$t('searchPage.products')}}</h2>
         <square-tag :lists="searchResultList.searchCategory" @selectProductList="selectProductList"></square-tag>
       </template>
       <search-result :lists="searchResultList.searchProduct" @selectItem="selectProductInfo"></search-result>
@@ -90,7 +90,7 @@
         isSearch: false, // 是否搜索
         searchResultList: {}, // 搜索结果
         searchLoading: false, // 搜索结果监听
-        loading: '数据加载中...',
+        loading: this.$t('dataLoading'),
         startLoading: true, // 进入时加载是否显示
         historyList: []
       }
@@ -113,7 +113,7 @@
       searchWords(newValue) {
         if (!newValue) { // 没有数据恢复原状
           this.searchLoading = false
-          this.loading = '数据加载中...'
+          this.loading = this.$t('dataLoading')
           this.isSearch = false
         } else {
           this.isSearch = true

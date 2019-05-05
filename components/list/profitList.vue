@@ -3,7 +3,7 @@
     <div class="desc-w">
       <div class="name">
         <p class="title">{{item.product_name}}</p>
-        <p>订单金额：{{item.currency}}{{item.order_total}}</p>
+        <p>{{$t('listComp.orderAmount')}}：{{item.currency}}{{item.order_total}}</p>
       </div>
       <div class="price-box">
         <p class="get-p">{{item.currency}}{{item.income}}</p>
@@ -12,7 +12,7 @@
         </p>
       </div>
     </div>
-    <div class="btm-area">{{item.created}} 直接收益</div>
+    <div class="btm-area">{{item.created}} {{$t('distributionPage.directBenefit')}}</div>
   </div>
 </template>
 

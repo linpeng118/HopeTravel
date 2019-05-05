@@ -22,7 +22,7 @@
             <input class="box" :placeholder="searchKeyWords" v-model="query" ref="query" :class="isProductList ? 'list' : ''" />
             <van-icon name="clear" v-show="query" @click="clear" />
           </div>
-          <div class="search-btn" @click="getSearchList" v-if="isSearch">搜索</div>
+          <div class="search-btn" @click="getSearchList" v-if="isSearch">{{$t('headerSearch.search')}}</div>
           <nuxt-link tag="div" class="personal-btn" to="/personal" v-if="isProductList">
             <van-icon name="user-circle-o" color="#666" />
           </nuxt-link>

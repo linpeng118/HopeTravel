@@ -9,70 +9,70 @@
       <van-icon class="left-wrap" name="arrow-left" slot="left" />
       <van-icon class="right-wrap" slot="right">
         <div class="search">
-          <div class="text">保存</div>
+          <div class="text">{{$t('save')}}</div>
         </div>
       </van-icon>
     </van-nav-bar>
     <div class="new-connect">
-      <p class="connet-title">顾客姓名</p>
+      <p class="connet-title">{{$t('selectTravlerPage.customerName')}}</p>
       <van-field
         v-model="userform.name_cn"
-        label="中文名"
-        placeholder="请输入用户名"
+        :label="$t('chineseName')"
+        :placeholder="$t('selectTravlerPage.plhdUserName')"
       />
       <van-field
         v-model="userform.firstname"
         required
-        label="英文姓"
-        placeholder="请输入英文姓"
+        :label="$t('selectTravlerPage.englishLastName')"
+        :placeholder="$t('selectTravlerPage.plhdEnFirstName')"
       />
       <van-field
         required
         v-model="userform.lastname"
-        label="英文名"
-        placeholder="请输入英文名"
+        :label="$t('selectTravlerPage.englishName')"
+        :placeholder="$t('selectTravlerPage.plhdEnlastName')"
       />
-      <p class="connet-title">证件信息</p>
+      <p class="connet-title">{{$t('selectTravlerPage.documentsInformatio')}}</p>
       <van-field
-        label="证件类型"
+        :label="$t('typeOfId')"
         disabled
-        placeholder="护照"
+        :placeholder="$t('passport')"
       />
       <van-field
         v-model="userform.passport"
         required
         clearable
-        label="护照号码"
+        :label="$t('passportNumber')"
         icon="question-o"
-        placeholder="须与证件上一致"
-        @click-icon="$toast('须与证件上一致')"
+        :placeholder="$t('selectTravlerPage.mustWithIdFit')"
+        @click-icon="$toast($t('selectTravlerPage.mustWithIdFit'))"
       />
-      <van-cell @click="shownationality=true" title="国籍" is-link :value="userform.nationality!=''?userform.nationality:'请选择'" />
+      <van-cell @click="shownationality=true" :title="$t('selectTravlerPage.nationality')" is-link :value="userform.nationality!=''?userform.nationality:$t('pleaseChoose')" />
 
-      <p class="connet-title">联系方式</p>
+      <p class="connet-title">{{$t('contact')}}</p>
       <van-field
         required
         v-model="userform.phone"
         icon="friends-o "
-        label="电话"
+        :label="$t('telephone')"
         type="number"
-        placeholder="请注意区域选择"
+        :placeholder="$t('selectTravlerPage.plndAreaSelect')"
       />
       <van-field
         v-model="userform.email"
-        label="邮箱"
+        :label="$t('email')"
         type="email"
       />
-      <p class="connet-title">其他</p>
+      <p class="connet-title">$t('else')</p>
 
-      <van-cell title="出生日期" @click="showdate=true" is-link :value="!userform.dob?'选择日期':userform.dob" />
+      <van-cell :title="$t('personalPage.dateOfBirth')" @click="showdate=true" is-link :value="!userform.dob?$t('selectTravlerPage.selectDate'):userform.dob" />
 
       <van-row class="setcheckbox">
-        <van-col span="6">性别</van-col>
+        <van-col span="6">{{$t('sex')}}</van-col>
         <van-col span="18">
           <van-radio-group v-model="userform.gender">
-            <van-radio style="width: 50%;float: left" name="f">女</van-radio>
-            <van-radio style="width: 50%" name="m">男</van-radio>
+            <van-radio style="width: 50%;float: left" name="f">{{$t('woman')}}</van-radio>
+            <van-radio style="width: 50%" name="m">{{$t('man')}}</van-radio>
           </van-radio-group>
         </van-col>
       </van-row>
@@ -120,7 +120,7 @@
         shownationality: false,
         datedob:new Date('1990-01-01'),
         showdate:false,
-        title:'编辑出行人'
+        title:this.$t('selectTravlerPage.editTitle')
       }
     },
     computed: {},

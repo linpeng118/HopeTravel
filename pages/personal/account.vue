@@ -3,61 +3,61 @@
     <div class="header">
       <van-nav-bar
         class="bar-shadow"
-        title="我的账号"
+        :title="$t('personalPage.myAccount')"
         @click-left="onClickLeft"
         @click-right="savePersonalInfo"
         left-arrow
       >
-        <span class="header-btn" slot="right">保存</span>
+        <span class="header-btn" slot="right">{{$t('save')}}</span>
       </van-nav-bar>
     </div>
     <div class="body">
       <van-cell>
         <template slot="title">
-          <span class="custom-text">头像</span>
+          <span class="custom-text">{{$t('personalPage.avatar')}}</span>
           <van-uploader :after-read="onRead">
             <img v-if="newProfile.face" :src="newProfile.face" class="avatar">
           </van-uploader>
           <!--<div><img class="user-pic" slot="right-icon" :src="newProfile.face" alt></div>-->
         </template>
       </van-cell>
-      <van-field label="昵称" v-model="newProfile.nickname" placeholder="请输入用户昵称"/>
+      <van-field :label="$t('personalPage.nickName')" v-model="newProfile.nickname" :placeholder="$t('personalPage.plhdNickName')"/>
       <div class="space-line"></div>
       <!--姓名-->
-      <van-cell title="姓名" is-link @click="modifyNames">
+      <van-cell :title="$t('name')" is-link @click="modifyNames">
         <template slot="title">
-          <span class="custom-text">姓名</span>
+          <span class="custom-text">{{$t('name')}}</span>
           <span class="all-name" v-if="newProfile.last_name">{{newProfile.chinese_name}} {{newProfile.last_name}}/{{newProfile.first_name}}</span>
         </template>
       </van-cell>
       <!--性别-->
       <div class="sex">
-        <div class="title">性别：</div>
+        <div class="title">{{$t('personalPage.sex')}}：</div>
         <div class="sex-radio">
           <van-radio-group v-model="newProfile.gender">
-            <van-radio class="man" name="m">男</van-radio>
-            <van-radio class="woman" name="f">女</van-radio>
+            <van-radio class="man" name="m">{{$t('man')}}</van-radio>
+            <van-radio class="woman" name="f">{{$t('woman')}}</van-radio>
           </van-radio-group>
         </div>
       </div>
-      <van-cell title="出生日期" @click="showBirthday = !showBirthday">
+      <van-cell :title="$t('personalPage.dateOfBirth')" @click="showBirthday = !showBirthday">
         <span>{{newProfile.dob}}</span>
       </van-cell>
       <div class="space-line"></div>
       <!--手机号码-->
       <van-cell :isLink="newProfile.phone ? false : true" @click="changePhone">
         <template slot="title">
-          <span class="custom-text">手机号码</span>
+          <span class="custom-text">{{$t('personalPage.phoneNumber')}}</span>
           <span v-if="newProfile.phone">{{newProfile.phone}}</span>
-          <span v-else class="color-g">请验证手机号码</span>
+          <span v-else class="color-g">{{$t('personalPage.verifyPhone')}}</span>
         </template>
       </van-cell>
 
       <van-cell :isLink="newProfile.email ? false : true" @click="changeEmail">
         <template slot="title">
-          <span class="custom-text">邮箱</span>
+          <span class="custom-text">{{$t('email')}}</span>
           <span v-if="newProfile.email">{{newProfile.email}}</span>
-          <span v-else class="color-g">完善邮箱信息，可获得100米粒</span>
+          <span v-else class="color-g">{{$t('personalPage.plhdEmail')}}</span>
         </template>
       </van-cell>
 
@@ -91,7 +91,7 @@
     </van-popup>
     <!-- 退出登录 -->
     <div class="sign-out-btn-con">
-      <van-button class="sign-out-btn" @click="logout" block>退出登录</van-button>
+      <van-button class="sign-out-btn" @click="logout" block>{{$t('personalPage.logout')}}</van-button>
     </div>
   </div>
 </template>

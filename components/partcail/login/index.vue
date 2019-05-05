@@ -83,9 +83,9 @@
       // 头部右侧文字
       rightText() {
         if (this.vxPage === PAGE_TYPE.LOGIN) {
-          return '注册'
+          return this.$t('regist')
         }
-        return '登录'
+        return this.$t('login')
       }
     },
     methods: {

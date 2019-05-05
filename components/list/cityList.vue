@@ -34,8 +34,8 @@
       </div>
     </div>
     <div class="bottom-btn">
-      <div class="left" @click="reset">清除</div>
-      <div class="right" @click="sendEvent">选中</div>
+      <div class="left" @click="reset">{{$t('listComp.eliminate')}}清除</div>
+      <div class="right" @click="sendEvent">{{$t('listComp.selection')}}选中</div>
     </div>
   </div>
 

@@ -32,8 +32,8 @@
           <div class="area-entrance">
             <div class="c-title"
               @click="selectProductList(null)">
-              <div class="link">查看全部</div>
-              <span>当地玩乐</span>
+              <div class="link">{{$t('seeAll')}}</div>
+              <span v-t="'tours.localPlay'"></span>
             </div>
             <div class="guide-list">
               <ul>
@@ -57,7 +57,7 @@
       <!-- 最近浏览 -->
       <div class="recently-viewed"
         v-if="viewedList.length">
-        <h1 class="title">最近浏览</h1>
+        <h1 class="title">{{$t('recentlyViewed')}}</h1>
         <div v-swiper:mySwiper="viewedSwiperOption">
           <div class="swiper-wrapper">
             <div class="swiper-slide"
@@ -95,7 +95,6 @@
   import {mapMutations} from 'vuex'
   import {HEADER_TYPE} from '@/assets/js/consts/headerType'
   import SnapUpItem from '@/components/items/snapUpItem'
-  import {Toast} from 'vant'
   import {setCookieByKey, getLocalStore} from '@/assets/js/utils'
   export default {
     // layout: 'default',
@@ -133,7 +132,7 @@
           }
         },
         imgShow: false,
-        title: '当地玩乐',
+        title: this.$t('tours.localPlay'),
         barSearch: false,
         showList: [],
         searchKeyWords: '',
@@ -211,7 +210,7 @@
           this.categoryList = data.category
           this.showList = this._nomalLizeshowList(data)
         } else {
-          Toast('加载失败')
+          this.$toast(this.$t('loadFail'))
         }
       },
       // 获取最近浏览
@@ -258,9 +257,9 @@
       _nomalLizeshowList(data) {
         if (!data) return []
         let obj = {
-          activity: '最新活动',
-          boutique: '稀饭精选',
-          welcome: '最受欢迎'
+          activity: this.$t('localPlayPage.activity'),
+          boutique: this.$t('localPlayPage.boutique'),
+          welcome: this.$t('localPlayPage.welcome')
         }
 
         // if(data) return false
@@ -306,7 +305,7 @@
             // this.barSearch = true
             // this.searchKeyWords = `查找${this.cityInfo.name}的活动`
           } else {
-            this.title = '当地玩乐'
+            this.title = this.$t('tours.localPlay')
             // this.barSearch = false
           }
         }, 17)
@@ -345,13 +344,13 @@
           this.appBridge.userCollectProduct(json)
           this.appBridge.collectProductResult().then(res => {
             if (res.code == 0) {
-              this.$toast('操作成功')
+              this.$toast(this.$t('operateSuc'))
               const index = this.viewedList.findIndex(item => {
                 return item.product_id === val.product_id
               })
               this.viewedList[index].is_favorite = !this.viewedList[index].is_favorite
             } else {
-              this.$toast('操作失败')
+              this.$toast(this.$t('operateFail'))
             }
           })
           // let res = await this.appBridge.collectProductResult()
@@ -380,18 +379,18 @@
               product_id: val.product_id
             })
             if(code===0) {
-              this.$toast('取消收藏')
+              this.$toast(this.$t('localPlayPage.cancelCollection'))
             } else {
-              this.$toast('取消收藏失败')
+              this.$toast(this.$t('localPlayPage.cancelCollectionFail'))
             }
           } else {
             let {code} =  await addFavorite({
               product_id: val.product_id
             })
             if(code===0) {
-              this.$toast('收藏成功')
+              this.$toast(this.$t('localPlayPage.collectionSuc'))
             } else {
-              this.$toast('收藏失败')
+              this.$toast(this.$t('localPlayPage.collectionFail'))
             }
           }
           const index = this.viewedList.findIndex(item => {

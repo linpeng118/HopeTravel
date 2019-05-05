@@ -219,6 +219,8 @@
 <script>
   import {custom} from "@/api/custom";
   import {getquhao} from '@/api/contacts'
+  import onCustomerService from '@/assets/js/customerService.js'
+  
   export default {
     name: "component_name",
     data() {
@@ -248,7 +250,7 @@
       },
       // 查看全部list
       toList2() {
-        window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=12918104&userId=26301226'
+        onCustomerService('custom')
       },
       // 得到区号
       async getqu() {
