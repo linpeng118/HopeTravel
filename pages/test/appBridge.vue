@@ -18,18 +18,17 @@
     </mt-switch> -->
     <h4>需要传递给移动端</h4>
     <div class="btn"
-      v-for="(item, index) in funcNamesNeedArg"
+      v-for="(item, idx) in funcNamesNeedArg"
       :key="item"
       @click="callArgFunc(item)">
-      {{index + funcNames.length}}.{{item}}
+      {{idx + funcNames.length}}.{{item}}
     </div>
   </section>
 </template>
 
 <script>
   import {mapState} from 'vuex'
-  import appBridge from '@/assets/js/appBridge.js'
-  
+
   export default {
     components: {},
     data() {
@@ -57,13 +56,25 @@
         vxDeviceType: state => state.deviceType
       })
     },
+    beforeMount() {
+      this.appBridge = require('@/assets/js/appBridge.js')
+      // test方法
+      window.test = (params) => {
+        console.log('test')
+        alert(params)
+      }
+    },
+    mounted() {
+      // test()
+    },
     methods: {
       /**
        * 无参数请求app接口
        */
       async callNoArgFunc(funcName) {
-        ('方法名（无参）：', funcName, appBridge)
-        appBridge[funcName]()
+        console.log('方法名（无参）：', funcName, this.appBridge)
+        const res = await this.appBridge[funcName]()
+        // alert(res)
       },
       /**
        * 带参数请求app接口
@@ -73,12 +84,12 @@
         switch (funcName) {
           case 'jumpProductListView':
             //  1=当地跟团，2=当地玩乐，3=稀饭精品，4=门票演出，5=一日游，6=接驳服务，7=邮轮
-            appBridge[funcName]({
+            this.appBridge[funcName]({
               'itemType': 1
             })
             break;
           case 'jumpProductDetailView':
-            appBridge[funcName]({
+            this.appBridge[funcName]({
               'productID': 958
             })
             break;

@@ -51,6 +51,11 @@ let plugins = [
     src: '~/plugins/i18n',
     ssr: true
   },
+  // vconsole
+  {
+    src: '~/plugins/vconsole',
+    ssr: false
+  },
 ]
 
 let devPlugins = [
