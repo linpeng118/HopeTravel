@@ -292,6 +292,10 @@
           }
           this.appBridge.userCollectProduct(json)
           this.appBridge.collectProductResult().then(res => {
+            // 安卓只能返回JSON字符串
+            if (this.appBridge.browserVersion&&this.appBridge.browserVersion.isAndroid()) {
+              res = JSON.parse(res)
+            }
             if (res.code == 0) {
               this.$toast(this.$t('operateSuc'))
               let index = this.viewedList.findIndex(item => {
