@@ -6,7 +6,7 @@ import {
   randomString
 } from './utils'
 
-const browserVersion = getBrowserVersion()
+export const browserVersion = getBrowserVersion()
 
 /**
  * 测试接口是否存在,业务不需要根据此判断接口存在，只需要对jumpToVerify等暴露接口判空
@@ -288,6 +288,7 @@ export const backPreviousView = createNoArgApi('jumpDestinationView', 'jumpDesti
 
 
 export default {
+  browserVersion,
   // 以下接口需传参调用
   jumpProductListView,
   jumpProductDetailView,
