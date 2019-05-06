@@ -60,8 +60,8 @@
   import Loading from '@/components/loading'
   import {HEADER_TYPE} from '@/assets/js/consts/headerType'
   import {PRODUCTIDS} from '@/assets/js/config'
-  import {setCookieByKey,getLocalStore} from '@/assets/js/utils'
-  import {addFavorite,delFavorite} from '@/api/products'
+  import {setCookieByKey, getLocalStore} from '@/assets/js/utils'
+  import {addFavorite, delFavorite} from '@/api/products'
   export default {
     components: {
       HotCity,
@@ -112,8 +112,6 @@
     //     }
     //   }
     // },
-    fetch({store}) {
-    },
     head() {
       return {
         title: '当地玩乐'
@@ -121,14 +119,17 @@
     },
     async mounted() {
       // 监听滚动
-      this.$refs.refLocalPlayPage.addEventListener('scroll',this.scrollFn)
-      this.init()
+      this.$refs.refLocalPlayPage.addEventListener('scroll', this.scrollFn)
       if (this.isApp) {
         this.appBridge = require('@/assets/js/appBridge.js').default
         // this.appBridge.hideNavigationBar()
         let currency = await this.appBridge.obtainUserCurrency()
-
-        setCookieByKey('currency', currency.userCurrency)
+        // 安卓只能返回JSON字符串
+        if (this.appBridge.browserVersion&&this.appBridge.browserVersion.isAndroid()) {
+          setCookieByKey('currency', currency)
+        } else {
+          setCookieByKey('currency', currency.userCurrency)
+        }
         let productIds = await this.appBridge.getLocalStorage()
         if (productIds) {
           this.getViewedList(productIds)
@@ -137,10 +138,11 @@
         this.vxChangeTokens(token)
       } else {
         let productIds = getLocalStore('browsList')
-        if(productIds && productIds.length) {
+        if (productIds && productIds.length) {
           this.getViewedList(productIds)
         }
       }
+      this.init()
     },
     beforeDestroy() {
       this.$refs.refLocalPlayPage.removeEventListener('scroll', this.scrollFn)
@@ -202,9 +204,13 @@
         }
       },
       async init() {
-        let {data, code} = await getPlay()
-        if (code === 0) {
-          this.showList = this._nomalLizeshowList(data)
+        try {
+          let {data, code} = await getPlay()
+          if (code === 0) {
+            this.showList = this._nomalLizeshowList(data)
+          }
+        } catch (error) {
+          console.log(error)
         }
       },
       // 序列化数据
@@ -304,21 +310,21 @@
       },
       // 取消收藏和添加收藏
       async addCollectOrNot(val) {
-        if(!this.isApp) {
-          if(val.is_favorite) {
-            let {code} =  await delFavorite({
+        if (!this.isApp) {
+          if (val.is_favorite) {
+            let {code} = await delFavorite({
               product_id: val.product_id
             })
-            if(code===0) {
+            if (code === 0) {
               this.$toast(this.$t('localPlayPage.cancelCollection'))
             } else {
               this.$toast(this.$t('localPlayPage.cancelCollectionFail'))
             }
           } else {
-            let {code} =  await addFavorite({
+            let {code} = await addFavorite({
               product_id: val.product_id
             })
-            if(code===0) {
+            if (code === 0) {
               this.$toast(this.$t(localPlayPage.collectionSuc))
             } else {
               this.$toast(this.$t(localPlayPage.collectionFail))
