@@ -5,12 +5,11 @@ const pluginConfig = require('./config/plugins')
 const scriptConfig = require('./config/scripts')
 
 const axiosUrl = `http://127.0.0.1:${apiConfig.port}`
+// const axiosUrl = `http://192.168.1.226:${apiConfig.port}`
 console.log('apiConfig:', apiConfig)
 console.log('axiosUrl:', axiosUrl)
 const LRU = require('lru-cache')
 const i18nExtensions = require('vue-i18n-extensions')
-
-
 
 module.exports = {
   mode: 'universal',
