@@ -35,7 +35,12 @@ function callApi(funcName, isAndroid, args) {;
     if (isAndroid) {
       if (args) {
         // 有参安卓（必须是小写android为interface名）
-        const strJson = JSON.stringify(args)
+        let strJson
+        if (Object.prototype.toString.call(args) !== "[object String]") {
+          strJson = JSON.stringify(args)
+        } else {
+          strJson = args
+        }
         window.android[funcName](strJson)
       } else {
         // 无参安卓（必须是小写android为interface名）
@@ -131,6 +136,7 @@ export const getLocalStorage = (() => {
       return new Promise(resolve => {
         const oldFunc = window.getLocalStorage
         window.getLocalStorage = localStorage => {
+          // localStorage就是APP返回的参数
           window.getLocalStorage = oldFunc
           resolve(localStorage)
         }
