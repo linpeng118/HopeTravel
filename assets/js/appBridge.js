@@ -126,7 +126,9 @@ export const getLocalStorage = (() => {
     return () => {
       return new Promise(resolve => {
         const funcName = `__API__${randomString(6)}`
+        // 全局注入一个不重复的方法名[返回安卓传过来的参数]，让安卓调用
         window[funcName] = resolve
+        // 调用安卓
         callApi('getLocalStorage', true, funcName)
       })
     }

@@ -114,8 +114,6 @@
     // },
     fetch({store}) {
     },
-    created() {
-    },
     head() {
       return {
         title: '当地玩乐'
