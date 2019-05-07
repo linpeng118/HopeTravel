@@ -6,36 +6,17 @@ export default ({
   app
 }) => {
   app.router.beforeEach((to, from, next) => {
-    // 获取dom
-    function getDom(domName) {
-      return document.querySelector(domName) || null
-    }
-    // 隐藏dom
-    function hideDom(domName) {
-      let timer
-      // console.log(1, domName);
-      timer = setTimeout(() => {
-        const dom = getDom(domName)
-        if (dom) {
-          console.log('dom', dom);
-          if (!(to.name === 'index' || to.name === 'product_list')) {
-            console.log('#newBridge hide');
-            dom.style.display = 'none'
-          } else {
-            console.log('#newBridge show');
-            dom.style.display = 'block'
-          }
-        } else {
-          try {
-            clearInterval(timer)
-            hideDom(domName)
-          } catch (error) {
-            console.log(error)
-          }
-        }
-      }, 4000, domName)
-    }
+    console.log('router name: ', to.name);
+    
     try {
+      // M站客服系统：首页/列表/定制/签证/活动
+      if (to.name === 'index' || to.name === 'product_list' || to.name === 'visa' || to.name === 'custom') {
+        console.log('show customer service');
+        document.body.setAttribute('class', 'show-customer-service')
+      } else {
+        console.log('hide customer service');
+        document.body.setAttribute('class', 'hide-customer-service')
+      }
       NProgress.start()
       if (to.path.indexOf('.html') >= 0) {}
     } catch (error) {

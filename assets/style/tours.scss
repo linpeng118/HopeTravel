@@ -1,13 +1,38 @@
-// tours.scss 用于覆盖使用的vant的UI样式，定制公司自己的一套样式规范
+.hide-customer-service {
+  // 53客服隐藏
+  #mini_chat,
+  #mobile_minchat_div,
+  #mobile_ivt_div,
+  #mobile_icon_div {
+    display: none !important;
+  }
+  // 百度隐藏
+  #newBridge {
+    display: none !important;
+  }
+}
+.show-customer-service {
+  // 53客服显示
+  #mini_chat,
+  #mobile_icon_div {
+    display: block;
+  }
+  // 百度显示
+  #newBridge {
+    display: block;
+  }
+}
+
+// ============= 用于覆盖使用的vant的UI样式，定制公司自己的一套样式规范 ===========
+
 .tours-tabs {
   .van-tabs__line {
-    background-color: #399EF6;
-
+    background-color: #399ef6;
   }
 
   .van-tabs__wrap {
     left: 32px;
-    border-bottom: 2px solid #E4E4E4;
+    border-bottom: 2px solid #e4e4e4;
   }
 
   .van-hairline--top-bottom::after {
@@ -17,7 +42,7 @@
 
 .tours-tabs-nowrap {
   .van-tabs__line {
-    background-color: #399EF6;
+    background-color: #399ef6;
   }
 
   .van-hairline--top-bottom::after {
@@ -74,7 +99,7 @@
   &.van-button--default {
     height: 84px;
     line-height: 84px;
-    background: #399EF6 !important;
+    background: #399ef6 !important;
     color: #fff;
     border: 0;
     border-radius: 10px;
@@ -86,7 +111,7 @@
   &.van-button--default {
     height: 84px;
     line-height: 84px;
-    color: #399EF6;
+    color: #399ef6;
     border: 0;
     border-radius: 10px;
   }
