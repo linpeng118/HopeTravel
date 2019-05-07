@@ -11,7 +11,7 @@
           <!--<p><strong>黄金会员</strong> 收益提升10%</p>-->
         <!--</div>-->
         <div class="fortune-center">
-          <p class="price" v-if="JSON.stringify(incomeReport) !== '{}'">{{incomeReport.currency}}{{incomeReport.income.total_income}}</p>
+          <p class="price" v-if="JSON.stringify(incomeReport) !== '{}'">{{incomeReport.currency}} <span>{{incomeReport.income.total_income}}</span></p>
           <nuxt-link to="/personal/transfercore" tag="p">我的余额，去提现 <van-icon name="arrow" /></nuxt-link>
         </div>
         <van-row class="rich-info">
@@ -22,13 +22,13 @@
             </nuxt-link>
           </van-col>
           <van-col span="8">
-            <nuxt-link to="/personal/sale_union/profit_detail" tag="div" class="item">
+            <nuxt-link to="/personal/sale_union/profit_detail?type=1" tag="div" class="item">
               <p>直接收益<van-icon name="question-o" /></p>
               <p v-if="JSON.stringify(incomeReport) !== '{}'">{{incomeReport.currency}}{{incomeReport.income.income_one}}</p>
             </nuxt-link>
           </van-col>
           <van-col span="8">
-            <nuxt-link to="/personal/sale_union/profit_detail" tag="div" class="item">
+            <nuxt-link to="/personal/sale_union/profit_detail?type=2" tag="div" class="item">
               <p>间接收益<van-icon name="question-o" /></p>
               <p v-if="JSON.stringify(incomeReport) !== '{}'">{{incomeReport.currency}}{{incomeReport.income.income_two}}</p>
             </nuxt-link>
@@ -160,7 +160,7 @@ export default {
     min-height: 100vh;
   }
   .income-detail{
-    height:280px;
+    height:300px;
     padding: 20px 36px;
     background:linear-gradient(180deg,rgba(253,141,103,1) 0%,rgba(245,41,30,1) 100%);
     box-shadow:0px 6px 12px rgba(0,43,100,0.16);
@@ -183,11 +183,15 @@ export default {
       text-align: center;
       padding-top: 15px;
       .price{
+        margin-top: 20px;
         height: 66px;
+        font-size:32px;
         line-height: 66px;
-        font-size:52px;
-        font-weight: bold;
         margin-bottom: 10px;
+        span{
+          font-size:52px;
+          font-weight: bold;
+        }
       }
       i{
         vertical-align: text-bottom;

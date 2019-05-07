@@ -1,6 +1,6 @@
 <template>
   <div class="union-page-container">
-    <header-bar title="收益提现"></header-bar>
+    <header-bar title="收益提现" :controlJump="true" @leftJump="onClickLeft"></header-bar>
     <div style="padding-top: 46px">
       <div class="verify-box">
         <h4>提现到{{type}}</h4>
@@ -14,16 +14,18 @@
             <span style="margin-left: 10px;" v-else>{{payInfo.alipay_no}}</span>
           </template>
         </van-cell>
-        <h3>当日12点前申请体现，当日处理。处理12点后申请体现，次日处理。</h3>
-        <van-field v-model="money" type="number" class="money-input">
+        <h3>当日12点前申请提现，当日处理。处理12点后申请提现，次日处理。</h3>
+        <van-field v-model="money" type="number" class="money-input" :disabled="payInfo.agent_balance < payInfo.min_amount ? true: false">
           <template slot="label">
             <span class="money">￥</span>
           </template>
         </van-field>
         <p class="note">可体现余额：￥{{payInfo.agent_balance}}，至少￥{{payInfo.min_amount}}才可提现</p>
       </div>
-      <div class="union-btn-submit" @click="submitValidate">提交提现申请</div>
+      <div class="union-btn-submit" @click="submitValidate" v-if="payInfo.agent_balance > payInfo.min_amount">提交提现申请</div>
+      <div class="union-btn-disable" v-else>提交提现申请</div>
     </div>
+
     <van-popup
       v-model="playMode"
       position="bottom">
@@ -59,6 +61,11 @@ export default {
     }
   },
   methods:{
+    onClickLeft(){
+      this.$router.push({
+        name: 'personal-transfercore'
+      })
+    },
     async submitValidate() {
       if(Number(this.money) > Number(this.payInfo.agent_balance)) {
         this.$toast.fail('金额太大了')

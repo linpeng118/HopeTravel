@@ -9,7 +9,7 @@
       <hot-place :lists="data.hotTarget" :isDesc="false" @selectDetail="selectDetail"></hot-place>
     </div>
     <div class="result-line" v-if="data.allArea && data.allArea.length">
-      <h2>{{$t('searchCompallDestinations')}}</h2>
+      <h2>{{$t('searchComp.allDestinations')}}</h2>
       <div class="line">
         <hot-city-tag v-for="line in data.allArea"
                       :key="line.id"

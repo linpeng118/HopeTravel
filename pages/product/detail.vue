@@ -50,7 +50,7 @@
         <div class="price-wrap">
           <span class="share-btn"
             @click="shareProductHandle"
-            v-if="profile.is_agent">
+            v-if="profile.is_agent && product.agent_fee > 0">
             <img src="../../assets/imgs/union/icon_share@2x.png"
               alt=""
               width="16"
@@ -465,7 +465,7 @@
       </div>
     </transition>
     <!--分享按钮-->
-    <div v-if="isShareBtn && profile.is_agent"
+    <div v-if="isShareBtn && profile.is_agent && product.agent_fee > 0"
       class="share-box-show"
       @click="shareProductHandle">
       <img src="../../assets/imgs/union/icon_share@2x.png"

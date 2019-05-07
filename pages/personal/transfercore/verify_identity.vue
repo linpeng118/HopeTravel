@@ -105,7 +105,7 @@ export default {
     this.fillInfo = {
       userName: this.payInfo.chinese_name || '',
       cardId: this.payInfo.idcard_no || '',
-      smsCode: 'validate',
+      smsCode: '',
     }
   },
   methods: {
@@ -167,6 +167,7 @@ export default {
         }
         let {code,msg} = await setPayIDCard(param)
         if(code === 0) {
+          this.init()
           this.$toast.success('添加成功')
           setTimeout(() => {
             this.playMode = true

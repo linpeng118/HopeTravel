@@ -115,19 +115,26 @@ export default {
         this.$toast.success('提交成功')
         this.getPayDetail()
         setTimeout(() => {
-          if(this.isAgain) {
-            // 如果是修改则跳转到提现页面
-            this.$router.push({
-              name: 'personal-transfercore-withdrawal',
-              query:{
-                type: this.$route.query.type
-              }
-            })
-          } else {
-            this.$router.push({
-              name: 'personal-transfercore'
-            })
+          let query = {
+            type: this.$route.query.type
           }
+          this.$router.push({
+            name: 'personal-transfercore-withdrawal',
+            query
+          })
+          // if(this.isAgain) {
+          //   // 如果是修改则跳转到提现页面
+          //   this.$router.push({
+          //     name: 'personal-transfercore-withdrawal',
+          //     query:{
+          //       type: this.$route.query.type
+          //     }
+          //   })
+          // } else {
+          //   this.$router.push({
+          //     name: 'personal-transfercore'
+          //   })
+          // }
         }, 3000)
       } else {
         this.$toast.fail(msg)
