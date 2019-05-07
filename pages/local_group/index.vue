@@ -177,7 +177,13 @@
         this.appBridge = require('@/assets/js/appBridge').default
         // this.appBridge.hideNavigationBar()
         let currency = await this.appBridge.obtainUserCurrency()
-        setCookieByKey('currency', currency.userCurrency)
+        // setCookieByKey('currency', currency.userCurrency)
+        // 安卓只能返回JSON字符串
+        if (this.appBridge.browserVersion&&this.appBridge.browserVersion.isAndroid()) {
+          setCookieByKey('currency', currency)
+        } else {
+          setCookieByKey('currency', currency.userCurrency)
+        }
       } else {
         // console.log('web操作')
       }

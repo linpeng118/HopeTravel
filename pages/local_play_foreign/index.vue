@@ -161,7 +161,12 @@
         this.appBridge = require('@/assets/js/appBridge.js').default
         // this.appBridge.hideNavigationBar()
         let currency = await this.appBridge.obtainUserCurrency()
-        setCookieByKey('currency', currency.userCurrency)
+        // 安卓只能返回JSON字符串
+        if (this.appBridge.browserVersion&&this.appBridge.browserVersion.isAndroid()) {
+          setCookieByKey('currency', currency)
+        } else {
+          setCookieByKey('currency', currency.userCurrency)
+        }
         let productIds = await this.appBridge.getLocalStorage()
         if (productIds) {
           this.getViewedList(productIds)
@@ -343,6 +348,10 @@
           }
           this.appBridge.userCollectProduct(json)
           this.appBridge.collectProductResult().then(res => {
+            // 安卓只能返回JSON字符串
+            if (this.appBridge.browserVersion&&this.appBridge.browserVersion.isAndroid()) {
+              res = JSON.parse(res)
+            }
             if (res.code == 0) {
               this.$toast(this.$t('operateSuc'))
               const index = this.viewedList.findIndex(item => {
