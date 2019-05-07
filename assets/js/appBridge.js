@@ -6,7 +6,7 @@ import {
   randomString
 } from './utils'
 
-const browserVersion = getBrowserVersion()
+export const browserVersion = getBrowserVersion()
 
 /**
  * 测试接口是否存在,业务不需要根据此判断接口存在，只需要对jumpToVerify等暴露接口判空
@@ -35,7 +35,12 @@ function callApi(funcName, isAndroid, args) {;
     if (isAndroid) {
       if (args) {
         // 有参安卓（必须是小写android为interface名）
-        const strJson = JSON.stringify(args)
+        let strJson
+        if (Object.prototype.toString.call(args) !== "[object String]") {
+          strJson = JSON.stringify(args)
+        } else {
+          strJson = args
+        }
         window.android[funcName](strJson)
       } else {
         // 无参安卓（必须是小写android为interface名）
@@ -121,7 +126,9 @@ export const getLocalStorage = (() => {
     return () => {
       return new Promise(resolve => {
         const funcName = `__API__${randomString(6)}`
+        // 全局注入一个不重复的方法名[返回安卓传过来的参数]，让安卓调用
         window[funcName] = resolve
+        // 调用安卓
         callApi('getLocalStorage', true, funcName)
       })
     }
@@ -131,6 +138,7 @@ export const getLocalStorage = (() => {
       return new Promise(resolve => {
         const oldFunc = window.getLocalStorage
         window.getLocalStorage = localStorage => {
+          // localStorage就是APP返回的参数
           window.getLocalStorage = oldFunc
           resolve(localStorage)
         }
@@ -280,6 +288,7 @@ export const backPreviousView = createNoArgApi('jumpDestinationView', 'jumpDesti
 
 
 export default {
+  browserVersion,
   // 以下接口需传参调用
   jumpProductListView,
   jumpProductDetailView,
