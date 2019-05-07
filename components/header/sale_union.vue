@@ -15,11 +15,19 @@ export default {
     title: {
       type: String,
       default: ''
+    },
+    controlJump:{
+      type: Boolean,
+      default: false
     }
   },
   methods: {
     onClickLeft() {
-      this.$router.go(-1)
+      if(this.controlJump) {
+        this.$emit('leftJump')
+      } else {
+        this.$router.go(-1)
+      }
     }
   }
 }

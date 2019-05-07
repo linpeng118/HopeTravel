@@ -45,7 +45,7 @@ export default {
   components: {HeaderBar,profitDetail},
   data() {
     return {
-      currentTab: 0,
+      currentTab: this.$route.query.type || 0,
       incomeLists0: [],
       incomeLists1: [],
       incomeLists2: [],

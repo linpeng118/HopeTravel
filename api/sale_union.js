@@ -134,5 +134,5 @@ export const startWithdraw = (data) => {
 
 // GET http://192.168.1.190:9001/api/tour/v1/agent/withdraw?test_id=1035
 export const getWithdraw = () => {
-  return axios.get('/api/agent/withdraw?test_id=1035')
+  return axios.get('/api/agent/withdraw')
 }
