@@ -546,7 +546,8 @@
     "travelCost": "行程费用",
     "discount": "优惠",
     "riceGrains": "米粒",
-    "priceTotal":"合计"
+    "priceTotal":"合计",
+    "unionSave":"联盟折扣"
   },
   "countDownComp": {
     "tipText": "距离开始",
