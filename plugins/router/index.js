@@ -36,6 +36,7 @@ export default ({
       }, 4000, domName)
     }
     try {
+      // document.getElementsByTagName('body')[0].className = ''
       NProgress.start()
       if (to.path.indexOf('.html') >= 0) {}
     } catch (error) {
