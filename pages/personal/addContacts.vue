@@ -364,8 +364,8 @@
    border-bottom:1px solid rgb(238, 238, 238);
    transition: all 0.5s;
    .left-wrap {
-     color: #404040;
-     font-size: 32px;
+     /*color: #404040;*/
+     /*font-size: 32px;*/
    }
    .right-wrap {
      .search {

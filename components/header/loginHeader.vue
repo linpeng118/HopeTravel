@@ -63,9 +63,9 @@
     background-color: transparent;
     transition: all 0.5s;
     .left-wrap {
-      color: #404040;
-      font-size: 32px;
-      padding: 16px;
+      /*color: #404040;*/
+      /*font-size: 32px;*/
+      /*padding: 16px;*/
     }
     .right-wrap {
       .search {

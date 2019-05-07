@@ -66,7 +66,7 @@
       font-size: 32px;
     }
     .left-wrap {
-      padding: 16px;
+      /*padding: 16px;*/
     }
     &.transparent {
       background-color: transparent;
@@ -74,10 +74,10 @@
       .left-wrap,
       .right-wrap {
         background: rgba(0, 0, 0, 0.5);
-        padding: 10px;
+        /*padding: 10px;*/
         border-radius: 50%;
         color: #fff;
-        font-size: 32px;
+        /*font-size: 32px;*/
       }
     }
   }

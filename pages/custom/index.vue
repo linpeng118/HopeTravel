@@ -569,16 +569,16 @@ export default {
   transition: all 0.5s;
   background-color: #fff;
   .left-wrap {
-    color: #404040;
-    font-size: 32px;
-    padding: 16px;
+    /*color: #404040;*/
+    /*font-size: 32px;*/
+    /*padding: 16px;*/
   }
   &.transparent {
     background-color: transparent;
     color: #fff;
     .left-wrap {
-      color: #fff;
-      font-size: 32px;
+      color: #fff !important;
+      /*font-size: 32px;*/
     }
   }
 }

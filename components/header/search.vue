@@ -107,8 +107,7 @@
       color: #191919;
       box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.14);
       .left-wrap {
-        color: #191919;
-        padding: 16px;
+        /*color: #191919;*/
       }
     }
     .right-wrap {
