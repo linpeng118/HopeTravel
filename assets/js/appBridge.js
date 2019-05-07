@@ -24,7 +24,7 @@ export function testApi(funcName, isAndroid) {
  * @param {boolean} isAndroid 是否是安卓机型
  * @param {Object} args 传给api接口的参数对象
  */
-function callApi(funcName, isAndroid, args) {;
+function callApi(funcName, isAndroid, args) {
   `call ${isAndroid ? 'Android' : 'iOS'} api: ${funcName} args: ${args}`
   // 无参iOS（iOS接口必须有且仅有一个参数，否则会调用失败, 这里随意创建一个参数)
   if (!args && !isAndroid) {

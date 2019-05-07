@@ -48,7 +48,6 @@
 
 <script>
 import {getProfile} from '@/api/profile'
-import {mapGetters} from 'vuex'
 export default {
   name: 'productList',
   filters: {

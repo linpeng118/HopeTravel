@@ -5,23 +5,23 @@
       <div class="verify-box">
         <van-cell-group>
           <van-field
-            v-model="fillInfo.userName"
-            placeholder="填写姓名"
+            :value="fillInfo.userName"
             label="姓名"
+            disabled
           />
           <van-field
-            v-model="fillInfo.cardId"
-            placeholder="填写身份证号"
+            :value="fillInfo.cardId | hideCard"
             label="身份证号"
+            disabled
           />
           <van-field
-            v-model="fillInfo.cardId"
+            v-model="accountNum"
             :placeholder="'填写'+type+'账号'"
             :label="type+'账号'"
           />
         </van-cell-group>
       </div>
-      <div class="verify-box" v-if="$route.query.again">
+      <div class="verify-box" v-if="isAgain">
         <van-cell-group>
           <van-field
             v-if="profile.phone"
@@ -53,22 +53,27 @@
 
 <script>
 import HeaderBar from '@/components/header/sale_union'
-import {mapGetters} from 'vuex'
+import {payInfo} from '@/assets/js/mixins/getPayInfo'
+import {isAgent} from '@/assets/js/mixins/isAgent'
+import {setPayAccount, getPayInfo} from '@/api/sale_union'
+import {mapMutations} from 'vuex'
 export default {
   name: 'withdrawal',
   components: {HeaderBar},
   filters: {
     hidePhone(tel){
       return tel.replace(/^(\d{3})\d{4}(\d+)/,"$1****$2")
+    },
+    hideCard(tel){
+      return tel.replace(/^(\d{3})\d{10}(\d+)/,"$1****$2")
     }
   },
+  mixins: [payInfo, isAgent],
   data(){
     return {
-      type: this.$route.query.type === 'wx' ? '微信' : '支付宝',
-      fillInfo: {
-        userName:'',
-        cardId: ''
-      }
+      type: this.$route.query.type === 'weixin' ? '微信' : '支付宝',
+      accountNum: '',
+      isAgain: this.$route.query.again
     }
   },
   computed:{
@@ -82,24 +87,51 @@ export default {
         clearInterval(this.timer)
         return '重新获取'
       }
-    },
-    ...mapGetters([
-      'profile'
-    ])
+    }
   },
   mounted(){
-    console.log(this.profile)
-    if (!this.profile.phone) {
-      let url = this.$route.query
-      console.log(url)
-      this.$router.push({
-        path: '/login?redirect=personal/transfercore/account_sure?' + url
-      })
+    this.fillInfo = {
+      userName: this.payInfo.chinese_name || '',
+      cardId: this.payInfo.idcard_no || '',
+      smsCode: '',
     }
   },
   methods:{
-    submitValidate() {
-
+    async submitValidate() {
+      if(!this.accountNum){
+        this.$toast.fail('账户信息为空')
+        return false
+      }
+      let params = {
+        number: this.accountNum,
+        type: this.$route.query.type,
+      }
+      if(this.isAgain) {
+        params.account = this.profile.phone
+        params.code = this.fillInfo.smsCode
+      }
+      let {code, msg} = await setPayAccount(params)
+      if(code === 0) {
+        this.$toast.success('提交成功')
+        this.getPayDetail()
+        setTimeout(() => {
+          if(this.isAgain) {
+            // 如果是修改则跳转到提现页面
+            this.$router.push({
+              name: 'personal-transfercore-withdrawal',
+              query:{
+                type: this.$route.query.type
+              }
+            })
+          } else {
+            this.$router.push({
+              name: 'personal-transfercore'
+            })
+          }
+        }, 3000)
+      } else {
+        this.$toast.fail(msg)
+      }
     },
     // 获取验证码
     async getCode() {
@@ -129,6 +161,17 @@ export default {
         }
       }, 1000)
     },
+    async getPayDetail() {
+      let {code,data} = await getPayInfo()
+      let _obj = {}
+      if(code === 0) {
+        _obj= data
+      }
+      this.vxSetPayInfo(_obj)
+    },
+    ...mapMutations({
+      vxSetPayInfo: 'saleUnion/setPayInfo'
+    })
   }
 }
 </script>

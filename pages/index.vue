@@ -199,6 +199,7 @@ export default {
     ])
   },
   async mounted() {
+    // document.getElementsByTagName('body')[0].className = 'show-kf'
     this.getHomeInitData()
     this.getTime()
     // 监听滚动

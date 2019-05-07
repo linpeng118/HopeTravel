@@ -9,6 +9,7 @@ const getters = {
   shareReport: state => state.saleUnion.shareReport,
   friendReport: state => state.saleUnion.friendReport,
   incomeReport: state => state.saleUnion.incomeReport,
+  payInfo: state => state.saleUnion.payInfo,
   reservePro: state => state.product.reservePro,
 }
 export default getters

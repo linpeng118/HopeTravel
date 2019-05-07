@@ -4,7 +4,7 @@ import axios from '@/plugins/axios/axios'
 export const getSmsCode = (data) => {
   return axios.post('/api/oauth/sms/send', {
     phone: data.phone,
-    scene: 'validate'
+    scene: ''
   })
 }
 
@@ -96,4 +96,43 @@ export const getNewIncome = () => {
 // news agent/newIncome?test_id=1000
 export const getViewStat = (data) => {
   return axios.post(`/api/agent/viewStat`, data)
+}
+
+// GET http://192.168.1.190:9001/api/tour/v1/agent/payinfo/payinfo
+export const getPayInfo = () => {
+  return axios.get(`/api/agent/payinfo`)
+}
+
+// GET agent/payinfo/idcard
+export const setPayIDCard = (data) => {
+  return axios.put(`/api/agent/payinfo/idcard `, {
+    name: data.userName,
+    number:data.cardId,
+    account: '86-' + data.phone,
+    code: data.smsCode
+  })
+}
+
+// PUT /agent/payinfo/alipay
+export const setPayAccount = (data) => {
+  let url = `/api/agent/payinfo/${data.type}`
+  return axios.put(url, {
+    number: data.number,
+    account: '86-' + data.account || null,
+    code:data.code || null
+  })
+}
+
+// POST /agent/withdraw
+export const startWithdraw = (data) => {
+  return axios.post('/api/agent/withdraw', {
+    account_type: data.type,
+    account_no: data.account_no,
+    amount:data.amount
+  })
+}
+
+// GET http://192.168.1.190:9001/api/tour/v1/agent/withdraw?test_id=1035
+export const getWithdraw = () => {
+  return axios.get('/api/agent/withdraw?test_id=1035')
 }

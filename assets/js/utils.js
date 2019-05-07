@@ -163,6 +163,14 @@ function getCookie(cookieName, stringCookie) {
     return unescape(strCookie ? strCookie.toString().replace(/^[^=]+./, '') : '')
   }
 }
+/**
+ * 验证身份证是否合法
+ * @returns {boolean}
+ */
+function isCard(val) {
+  // /^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test(val)
+  return /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(val);
+}
 
 export {
   setLocalStore,
@@ -178,6 +186,7 @@ export {
   validDomain,
   isMobile,
   isEmail,
+  isCard,
   setSessionStore,
   getSessionStore
 }

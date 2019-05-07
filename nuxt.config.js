@@ -178,8 +178,8 @@ module.exports = {
               targets: isServer ? {
                 node: "current"
               } : {
-                  browsers: ["ie >= 10"],
-                }
+                browsers: ["ie >= 10"],
+              }
             },
             "es2015",
           ]

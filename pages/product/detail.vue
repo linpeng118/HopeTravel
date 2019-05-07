@@ -678,6 +678,11 @@
         return newData.slice(0, 5)
       }
     },
+    watch:{
+      $route(to,from) {
+        console.log(to, from)
+      }
+    },
     async mounted() {
       console.log('product', this.product)
       this.init()

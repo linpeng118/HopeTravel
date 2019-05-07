@@ -3,7 +3,8 @@ export default {
   state: {
     shareReport: {},
     friendReport: {},
-    incomeReport: {}
+    incomeReport: {},
+    payInfo: {}
   },
   actions: {
     // changeStatus({commit}, data) {
@@ -20,5 +21,8 @@ export default {
     changeIncomeReport(state, data) {
       state.incomeReport = data
     },
+    setPayInfo(state, data) {
+      state.payInfo = data
+    }
   }
 }
