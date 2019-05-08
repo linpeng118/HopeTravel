@@ -20,14 +20,14 @@
             {{cityInfo.description}}
           </div>
           <!--<div class="area-search"-->
-            <!--ref="refAreaSeach"-->
-            <!--@click="selectSearch">-->
-            <!--<span class="icon-search">-->
-              <!--<van-icon name="search"-->
-                <!--color="white"-->
-                <!--size="0.6rem" />-->
-            <!--</span>-->
-            <!--<span class="search-box">查找{{cityInfo.name}}的活动</span>-->
+          <!--ref="refAreaSeach"-->
+          <!--@click="selectSearch">-->
+          <!--<span class="icon-search">-->
+          <!--<van-icon name="search"-->
+          <!--color="white"-->
+          <!--size="0.6rem" />-->
+          <!--</span>-->
+          <!--<span class="search-box">查找{{cityInfo.name}}的活动</span>-->
           <!--</div>-->
           <div class="area-entrance">
             <div class="c-title"
@@ -88,7 +88,7 @@
 <script>
   import SwipeItem from '@/components/items/swipeItem'
   import {getCityInfo, getProductList} from '@/api/local_play'
-  import {addFavorite,delFavorite} from '@/api/products'
+  import {addFavorite, delFavorite} from '@/api/products'
   import LayHeader from '@/components/header/index.vue'
   import Loading from '@/components/loading'
   import {throttle as _throttle} from 'lodash'
@@ -160,22 +160,30 @@
       if (this.isApp) {
         this.appBridge = require('@/assets/js/appBridge.js').default
         // this.appBridge.hideNavigationBar()
-        let currency = await this.appBridge.obtainUserCurrency()
-        // 安卓只能返回JSON字符串
-        if (this.appBridge.browserVersion&&this.appBridge.browserVersion.isAndroid()) {
-          setCookieByKey('currency', currency)
-        } else {
-          setCookieByKey('currency', currency.userCurrency)
+        try {
+          let currency = await this.appBridge.obtainUserCurrency()
+          // 安卓只能返回JSON字符串
+          if (this.appBridge.browserVersion && this.appBridge.browserVersion.isAndroid()) {
+            setCookieByKey('currency', currency)
+          } else {
+            setCookieByKey('currency', currency.userCurrency)
+          }
+        } catch (error) {
+          console.log(error)
         }
-        let productIds = await this.appBridge.getLocalStorage()
-        if (productIds) {
-          this.getViewedList(productIds)
+        try {
+          let productIds = await this.appBridge.getLocalStorage()
+          if (productIds) {
+            this.getViewedList(productIds)
+          }
+          let token = await this.appBridge.obtainUserToken()
+          this.vxChangeTokens(token)
+        } catch (error) {
+          console.log(error)
         }
-        let token = await this.appBridge.obtainUserToken()
-        this.vxChangeTokens(token)
       } else {
         let productIds = getLocalStore('browsList')
-        if(productIds.length) {
+        if (productIds&&productIds.length) {
           this.getViewedList(productIds)
         }
       }
@@ -292,7 +300,7 @@
         // console.log('滚动了')
         const s1 = this.$refs.refLocalPlayForeign.scrollTop
         const s3 = this.$refs.refAreaMain.offsetHeight
-         if (this.isApp) {
+        if (this.isApp) {
           this.appBridge.webViewScrollViewDidScroll({'top': s1.toString()})
         }
         setTimeout(() => {
@@ -349,7 +357,7 @@
           this.appBridge.userCollectProduct(json)
           this.appBridge.collectProductResult().then(res => {
             // 安卓只能返回JSON字符串
-            if (this.appBridge.browserVersion&&this.appBridge.browserVersion.isAndroid()) {
+            if (this.appBridge.browserVersion && this.appBridge.browserVersion.isAndroid()) {
               res = JSON.parse(res)
             }
             if (res.code == 0) {
@@ -371,9 +379,13 @@
       moreCity() {
         if (this.isApp) {
           query.platform = 'app'
-          this.appBridge.jumpWebHTML({
-            path: 'local_play_foreign/more_city?platform=app'
-          })
+          try {
+            this.appBridge.jumpWebHTML({
+              path: 'local_play_foreign/more_city?platform=app'
+            })
+          } catch (error) {
+            console.log(error);
+          }
         } else {
           this.$router.push({
             path: `/local_play_foreign/more_city`
@@ -382,21 +394,21 @@
       },
       // 取消收藏和添加收藏
       async addCollectOrNot(val) {
-        if(!this.isApp) {
-          if(val.is_favorite) {
-            let {code} =  await delFavorite({
+        if (!this.isApp) {
+          if (val.is_favorite) {
+            let {code} = await delFavorite({
               product_id: val.product_id
             })
-            if(code===0) {
+            if (code === 0) {
               this.$toast(this.$t('localPlayPage.cancelCollection'))
             } else {
               this.$toast(this.$t('localPlayPage.cancelCollectionFail'))
             }
           } else {
-            let {code} =  await addFavorite({
+            let {code} = await addFavorite({
               product_id: val.product_id
             })
-            if(code===0) {
+            if (code === 0) {
               this.$toast(this.$t('localPlayPage.collectionSuc'))
             } else {
               this.$toast(this.$t('localPlayPage.collectionFail'))
