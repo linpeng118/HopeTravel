@@ -4,7 +4,7 @@ import axios from '@/plugins/axios/axios'
 export const getSmsCode = (data) => {
   return axios.post('/api/oauth/sms/send', {
     phone: data.phone,
-    scene: ''
+    scene: data.scene || 'general'
   })
 }
 

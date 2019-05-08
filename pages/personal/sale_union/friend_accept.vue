@@ -89,7 +89,9 @@
       this.codeType = 1 // 正在请求数据
       try {
         const {code, msg} = await getSmsCode({
-          phone: `${this.phoneForm.areaCode}-${this.phoneForm.phone}`
+          phone: `${this.phoneForm.areaCode}-${this.phoneForm.phone}`,
+          scene: 'acceptFriend'
+
         })
         if (code !== 0) {
           this.$toast(msg)
