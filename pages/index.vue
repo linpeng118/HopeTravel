@@ -207,7 +207,7 @@ export default {
     //
     let u = navigator.userAgent
     if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
-      this.downUrl = 'http://www.htw.tourscool.net/uploads/tourscool.apk'
+      this.downUrl = 'https://a.app.qq.com/o/simple.jsp?pkgname=com.zmcs.tourscool'
     } else if (u.indexOf('iPhone') > -1) {
       this.downUrl = 'https://itunes.apple.com/cn/app/稀饭旅行/id1449120712?mt=8'
     }

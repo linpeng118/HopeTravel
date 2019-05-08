@@ -156,8 +156,7 @@ export default {
       this.codeType = 1 // 正在请求数据
       try {
         const {code, msg} = await getSmsCode({
-          phone: `${this.phoneForm.areaCode}-${this.profile.phone || this.phoneForm.phone}`,
-          scene: 'applyUnion'
+          phone: `${this.phoneForm.areaCode}-${this.profile.phone || this.phoneForm.phone}`
         })
         if (code !== 0) {
           this.$toast(msg)

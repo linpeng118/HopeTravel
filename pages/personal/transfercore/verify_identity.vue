@@ -115,8 +115,7 @@ export default {
       this.codeType = 1 // 正在请求数据
       try {
         const {code, msg} = await getSmsCode({
-          phone: this.profile.phone,
-          scene: 'money'
+          phone: this.profile.phone
         })
         if (code !== 0) {
           this.$toast(msg)

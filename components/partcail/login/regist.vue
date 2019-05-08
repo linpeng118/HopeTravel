@@ -78,7 +78,7 @@
       <div class="text">
         <van-checkbox class="tour-checkbox"
           v-model="checked">
-          <span @click="onAgreement">{{$t('AgreementReg')}}</span>
+          <span @click="onAgreement">{{$t('partcailComp.AgreementReg')}}</span>
         </van-checkbox>
       </div>
     </van-tabs>

@@ -1,6 +1,6 @@
 <template>
   <div class="personal-setting-page">
-    <normal-header :title="$t('seting')" />
+    <normal-header :title="$t('personalPage.seting')" />
     <van-cell v-for="item in settingList"
       :key="item.type"
       :value="item.value"
