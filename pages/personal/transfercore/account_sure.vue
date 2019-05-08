@@ -55,8 +55,9 @@
 import HeaderBar from '@/components/header/sale_union'
 import {payInfo} from '@/assets/js/mixins/getPayInfo'
 import {isAgent} from '@/assets/js/mixins/isAgent'
-import {setPayAccount, getPayInfo} from '@/api/sale_union'
+import {setPayAccount, getPayInfo, getSmsCode} from '@/api/sale_union'
 import {mapMutations} from 'vuex'
+const TIME = 60 // 倒计时时间
 export default {
   name: 'withdrawal',
   components: {HeaderBar},
@@ -73,7 +74,9 @@ export default {
     return {
       type: this.$route.query.type === 'weixin' ? '微信' : '支付宝',
       accountNum: '',
-      isAgain: this.$route.query.again
+      isAgain: this.$route.query.again,
+      codeType: 0,
+      countDownTime: TIME, // 倒计时时间
     }
   },
   computed:{
@@ -144,6 +147,7 @@ export default {
     async getCode() {
       // 倒计时状态修改
       this.codeType = 1 // 正在请求数据
+      console.log('sdasdasdas')
       try {
         const {code, msg} = await getSmsCode({
           phone: this.profile.phone
