@@ -123,19 +123,27 @@
       if (this.isApp) {
         this.appBridge = require('@/assets/js/appBridge.js').default
         // this.appBridge.hideNavigationBar()
-        let currency = await this.appBridge.obtainUserCurrency()
-        // 安卓只能返回JSON字符串
-        if (this.appBridge.browserVersion&&this.appBridge.browserVersion.isAndroid()) {
-          setCookieByKey('currency', currency)
-        } else {
-          setCookieByKey('currency', currency.userCurrency)
+        try {
+          let currency = await this.appBridge.obtainUserCurrency()
+          // 安卓只能返回JSON字符串
+          if (this.appBridge.browserVersion && this.appBridge.browserVersion.isAndroid()) {
+            setCookieByKey('currency', currency)
+          } else {
+            setCookieByKey('currency', currency.userCurrency)
+          }
+        } catch (error) {
+          console.log(error)
         }
-        let productIds = await this.appBridge.getLocalStorage()
-        if (productIds) {
-          this.getViewedList(productIds)
+        try {
+          let productIds = await this.appBridge.getLocalStorage()
+          if (productIds) {
+            this.getViewedList(productIds)
+          }
+          let token = await this.appBridge.obtainUserToken()
+          this.vxChangeTokens(token)
+        } catch (error) {
+          console.log(error)
         }
-        let token = await this.appBridge.obtainUserToken()
-        this.vxChangeTokens(token)
       } else {
         let productIds = getLocalStore('browsList')
         if (productIds && productIds.length) {
@@ -273,9 +281,13 @@
         if (this.isApp) {
           query.platform = 'app'
           // jumpWebHTML
-          this.appBridge.jumpWebHTML({
-            path: 'local_play_foreign/more_city?platform=app'
-          })
+          try {
+            this.appBridge.jumpWebHTML({
+              path: 'local_play_foreign/more_city?platform=app'
+            })
+          } catch (error) {
+            console.log(error)
+          }
         } else {
           this.$router.push({
             path: `/local_play_foreign/more_city`,
@@ -293,7 +305,7 @@
           this.appBridge.userCollectProduct(json)
           this.appBridge.collectProductResult().then(res => {
             // 安卓只能返回JSON字符串
-            if (this.appBridge.browserVersion&&this.appBridge.browserVersion.isAndroid()) {
+            if (this.appBridge.browserVersion && this.appBridge.browserVersion.isAndroid()) {
               res = JSON.parse(res)
             }
             if (res.code == 0) {
