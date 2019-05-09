@@ -1,12 +1,12 @@
 <template>
   <div class="pull-new-page">
-    <div class="price-content">
-      <header>
-        <h1 class="title">稀饭大礼</h1>
-        <img class="img-desc"
-          src="~/assets/imgs/invite/send_2600@2x.png"
-          alt="">
-      </header>
+    <!-- 默认 -->
+    <div class="price-content default"
+      v-if="receiveStatus===RECEIVE_TYPE.default">
+      <h1 class="title">稀饭大礼</h1>
+      <img class="img-desc"
+        src="~/assets/imgs/invite/send_2600@2x.png"
+        alt="">
       <div class="price-box">
         <img class="img-box"
           src="~/assets/imgs/invite/box@2x.png"
@@ -15,11 +15,53 @@
       <!-- 区号+手机号 -->
       <area-code-default :proAreaCode="areaCode"
         :proPhone.sync="phone" />
-      <!-- 立即领取 -->
-      <van-button class="btn-receive"
+      <van-button class="button-activity"
         :disabled="submiting"
         @click="onReceive"
         type="default">立刻领取</van-button>
+    </div>
+    <!-- 领取成功 -->
+    <div class="price-content success"
+      v-if="receiveStatus===0">
+      <img class="img-success mt-20"
+        src="~/assets/imgs/invite/reveive_suc@2x.png"
+        alt="">
+      <div class="price-box">
+        <img class="img-box"
+          src="~/assets/imgs/invite/box@2x.png"
+          alt="">
+      </div>
+      <p class="tip-text">已放入稀饭旅行APP【我的-我的券】</p>
+      <van-button class="button-activity mt-26"
+        @click="onOpenApp"
+        type="default">打开稀饭APP查看</van-button>
+    </div>
+    <!-- 重新输入 -->
+    <div class="price-content old"
+      v-if="receiveStatus===RECEIVE_TYPE.old">
+      <div class="price-box">
+        <img class="img-box"
+          src="~/assets/imgs/invite/box@2x.png"
+          alt="">
+      </div>
+      <p class="tip-text old-tip">{{msg}}</p>
+      <van-button class="button-activity mt-26"
+        type="default"
+        @click="onAgain">重新输入</van-button>
+    </div>
+    <!-- 已领取 -->
+    <div class="price-content again"
+      v-if="receiveStatus===RECEIVE_TYPE.again">
+      <div class="price-box">
+        <img class="img-box"
+          src="~/assets/imgs/invite/box@2x.png"
+          alt="">
+      </div>
+      <p class="tip-text again-tip">{{msg}}</p>
+      <!-- 打开稀饭APP查看 -->
+      <van-button class="button-activity mt-26"
+        @click="onOpenApp"
+        type="default">打开稀饭APP查看</van-button>
     </div>
     <h1 class="rule-title">活动规则</h1>
     <section class="rule-desc"
@@ -32,6 +74,7 @@
   import loginHeader from '@/components/header/loginHeader'
   import areaCodeDefault from '@/components/input/areaCodeDefault'
   import {getPullNewRules, getCouponsExternal} from '@/api/activity'
+  import {RECEIVE_TYPE} from '@/assets/js/consts/activity'
 
   export default {
     components: {
@@ -39,6 +82,7 @@
     },
     data() {
       return {
+        RECEIVE_TYPE,
         // 重定向地址
         redirect: this.$route.query.redirect ? decodeURIComponent(this.$route.query.redirect) : '',
         // 活动id
@@ -50,6 +94,8 @@
         phone: '',
         // 是否正在提交
         submiting: false,
+        // 领取状态
+        receiveStatus: RECEIVE_TYPE.default
       }
     },
     computed: {
@@ -77,10 +123,30 @@
           id: this.id,
           phone: `${this.areaCode}-${this.phone}`
         })
-        if(code === 0) {
-          this.$toast(msg);
+        this.msg = msg
+        if (code === 0) {
+          // 领取成功
+          this.receiveStatus = 0
+        } else if (code === RECEIVE_TYPE.end) {
+          // 活动结束
+          this.receiveStatus = RECEIVE_TYPE.end
+        } else if (code === RECEIVE_TYPE.old) {
+          // 老用户
+          this.receiveStatus = RECEIVE_TYPE.old
+        } else if (code === RECEIVE_TYPE.again) {
+          // 已领取
+          this.receiveStatus = RECEIVE_TYPE.old
+        } else {
+          this.$toast(msg)
         }
         this.submiting = false
+      },
+      onAgain() {
+        this.phone = ''
+        this.$set(this, 'receiveStatus', RECEIVE_TYPE.default)
+      },
+      onOpenApp() {
+        console.log('onOpenApp');
       },
     },
   }
@@ -96,34 +162,34 @@
     overflow: hidden;
     .price-content {
       margin: 668px auto 0;
-      padding: 0 42px 36px;
       width: 620px;
       background: #fff;
       border-radius: 20px;
       border: 10px solid #ffa53c;
-      .title {
-        margin-top: 12px;
-        text-align: center;
-        font-size: 48px;
-        font-family: PingFang SC;
-        font-weight: 600;
-        line-height: 66px;
-        color: rgba(0, 0, 0, 1);
-      }
+
       .img-desc {
         width: 346px;
         height: 44px;
       }
       .price-box {
-        margin-top: 28px;
         .img-box {
           width: 199px;
           height: 166px;
         }
       }
-      .btn-receive {
+      .tip-text {
+        margin-top: 80px;
+        text-align: center;
+        height: 40px;
+        font-size: 28px;
+        font-family: PingFang SC;
+        font-weight: 400;
+        line-height: 40px;
+        color: #000;
+      }
+      .button-activity {
         margin-top: 30px;
-        width: 538px;
+        width: 100%;
         height: 78px;
         font-size: 36px;
         font-family: PingFang SC;
@@ -137,6 +203,54 @@
         );
         box-shadow: 0px 4px 12px rgba(165, 69, 10, 0.16);
         border-radius: 44px;
+      }
+    }
+    .default {
+      padding: 0 40px 36px;
+      .title {
+        margin-top: 12px;
+        text-align: center;
+        font-size: 48px;
+        font-family: PingFang SC;
+        font-weight: 600;
+        line-height: 66px;
+        color: rgba(0, 0, 0, 1);
+      }
+      .price-box {
+        margin-top: 28px;
+      }
+    }
+    .success {
+      padding: 0 40px 36px;
+      .img-success {
+        width: 346px;
+        height: 110px;
+      }
+      .price-box {
+        margin-top: 16px;
+      }
+      .success-tip {
+        margin-top: 46px;
+      }
+    }
+    .old {
+      padding: 0 30px 36px;
+      .old-tip {
+        margin-top: 80px;
+      }
+      .price-box {
+        margin-top: 72px;
+      }
+    }
+    .end {
+      padding: 0 40px 36px;
+    }
+    .again {
+      .price-box {
+        margin-top: 72px;
+      }
+      .again-tip {
+        margin-top: 80px;
       }
     }
     .rule-title {

@@ -39,7 +39,7 @@ httprequest.interceptors.request.use(
       let token = getCookieByKey('token');
       let currency = getCookieByKey('currency') || store().state.currency; // 货币类型获取
       let language = getCookieByKey(LANGUAGE) || store().state.language
-      console.log(22222222, getCookieByKey(LANGUAGE))
+      // console.log(22222222, getCookieByKey(LANGUAGE))
       if (token || currency || language) {
         config.headers[TOKEN_KEY] = token
         config.headers.currency = currency
