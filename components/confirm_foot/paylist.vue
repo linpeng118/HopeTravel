@@ -54,7 +54,7 @@
             <span style="text-decoration:line-through;color:#aaa;"><i :style="'color:#aaa'">-</i>
                 {{payData.points.discount}}</span>
           </p>
-          <p class="payitem2" v-if="payData.agent && payData.agent.discount.substring(1) > 0" >
+          <p class="payitem2" v-if="payData.agent.discount&&payData.agent.discount!=''&& payData.agent.discount.substring(1) > 0" >
             <span>{{$t('confirmFootComp.unionSave')}}</span>
             <span><i :style="'color:#aaa'">-</i>
                 {{payData.agent.discount}}</span>
