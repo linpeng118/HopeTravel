@@ -304,7 +304,7 @@
       async guojia(){
         let {data, code,msg} = await guojialist()
         if (code === 0) {
-          console.log( this._nomalLizePinyin(data))
+          this._nomalLizePinyin(data)
         }
         else {
 
