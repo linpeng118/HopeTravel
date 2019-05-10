@@ -20,3 +20,12 @@ export const getCouponsExternal = (data) => {
 export const getCouponsReceive = (data) => {
 	return axios.post(`/api/activity/reduction/${data.id}/receive`)
 }
+
+// 领取新人立减优惠券（站内）
+export const getProducts = (data) => {
+	return axios.get(`/api/activity/reduction/products`, {
+		params: {
+			page_size: data.pageSize
+		}
+	})
+}

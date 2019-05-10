@@ -12,9 +12,6 @@
           src="~/assets/imgs/invite/box@2x.png"
           alt="">
       </div>
-      <!-- 区号+手机号 -->
-      <area-code-default :proAreaCode="areaCode"
-        :proPhone.sync="phone" />
       <van-button class="button-activity"
         :disabled="submiting"
         @click="onReceive"
@@ -63,35 +60,59 @@
         @click="onOpenApp"
         type="default">打开稀饭APP查看</van-button>
     </div>
-    <h1 class="rule-title">活动规则</h1>
-    <section class="rule-desc"
-      v-html="rules"></section>
+    <h1 class="exclusive-title">新人专享</h1>
+    <!-- 热门城市 -->
+    <div class="hot-city-list">
+      <template v-for="(product, index) in products">
+        <div class="city-item"
+          :key="product.title"
+          @click="onCity(index)">{{product.title}}</div>
+      </template>
+    </div>
+    <!-- 推荐产品 -->
+    <section class="product-list"
+      v-if="products[activeCity]&&products[activeCity].items">
+      <template v-for="item in products[activeCity].items">
+        <div class="product"
+          :key="item.product_id">
+          <div class="banner"
+            :style="{'background': `#eee url(${item.image}) no-repeat center/100%`}">
+            <span class="discount">{{item.coupon}}</span>
+          </div>
+          <div class="more">
+            <p class="name no-wrap-line3">{{item.name}}</p>
+            <p class="price">
+              <span class="p-old">{{item.default_price}}</span>
+              <span class="p-now">{{item.default_price}}</span>
+              <span class="text">起</span>
+            </p>
+          </div>
+        </div>
+      </template>
+    </section>
   </div>
 </template>
 
 <script>
   import {mapState, mapMutations} from 'vuex'
-  import loginHeader from '@/components/header/loginHeader'
-  import areaCodeDefault from '@/components/input/areaCodeDefault'
-  import {getPullNewRules, getCouponsExternal} from '@/api/activity'
+  import {getPullNewRules, getProducts, getCouponsReceive} from '@/api/activity'
   import {RECEIVE_TYPE} from '@/assets/js/consts/activity'
 
   export default {
     components: {
-      areaCodeDefault
     },
     data() {
       return {
         RECEIVE_TYPE,
-        // 重定向地址
-        redirect: this.$route.query.redirect ? decodeURIComponent(this.$route.query.redirect) : '',
+        // 是否是app
+        isApp: this.$route.query.platform,
         // 活动id
         id: '',
         // 活动规则
         rules: '',
-        // 区号与电话
-        areaCode: '86',
-        phone: '',
+        // 推荐列表
+        products: [],
+        activeCity: 0,
         // 是否正在提交
         submiting: false,
         // 领取状态
@@ -103,23 +124,56 @@
       //   vxPage: state => state.login.page // 登录展示哪个页面
       // }),
     },
+    beforeMount() {
+      this.appBridge = require('@/assets/js/appBridge.js').default
+    },
     mounted() {
       this.init()
     },
     methods: {
+      ...mapMutations({
+        vxChangeTokens: 'setToken',
+      }),
       async init() {
+        await this.getRules()
+        await this.getProductList()
+        await this.getTokenFromApp()
+      },
+      // 活动信息
+      async getRules() {
         const {code, msg, data} = await getPullNewRules({
           type: 'reduction'
         })
         if (code === 0) {
           this.id = data.id
-          this.rules = data.rules
         }
       },
+      /**
+       * 获取推荐产品列表,page_size默认20条
+       */
+      async getProductList() {
+        const {code, msg, data} = await getProducts({
+          pageSize: 20,
+        })
+        if (code === 0) {
+          this.products = data
+        }
+      },
+      // 获取token
+      async getTokenFromApp() {
+        try {
+          let token = await this.appBridge.obtainUserToken()
+          // 设置token
+          this.vxChangeTokens(token)
+        } catch (error) {
+          console.log(error)
+        }
+      },
+      // 点击领取
       async onReceive() {
         this.submiting = true
         console.log('onReceive', `${this.areaCode}-${this.phone}`)
-        const {code, msg, data} = await getCouponsExternal({
+        const {code, msg, data} = await getCouponsReceive({
           id: this.id,
           phone: `${this.areaCode}-${this.phone}`
         })
@@ -141,10 +195,15 @@
         }
         this.submiting = false
       },
+      onCity(city) {
+        this.activeCity = city
+      },
+      // 重新领取
       onAgain() {
         this.phone = ''
         this.$set(this, 'receiveStatus', RECEIVE_TYPE.default)
       },
+      // 打开APP
       onOpenApp() {
         console.log('onOpenApp');
       },
@@ -157,7 +216,7 @@
     height: 100%;
     min-height: 100vh;
     text-align: center;
-    background: #ff3b01 url("~assets/imgs/invite/bg_new.png") no-repeat center
+    background: #fff url("~assets/imgs/invite/bg_new.png") no-repeat center
       top/100%;
     overflow: hidden;
     .price-content {
@@ -166,7 +225,6 @@
       background: #fff;
       border-radius: 20px;
       border: 10px solid #ffa53c;
-
       .img-desc {
         width: 346px;
         height: 44px;
@@ -188,7 +246,7 @@
         color: #000;
       }
       .button-activity {
-        margin-top: 30px;
+        margin-top: 72px;
         width: 100%;
         height: 78px;
         font-size: 36px;
@@ -217,7 +275,7 @@
         color: rgba(0, 0, 0, 1);
       }
       .price-box {
-        margin-top: 28px;
+        margin-top: 36px;
       }
     }
     .success {
@@ -253,20 +311,111 @@
         margin-top: 80px;
       }
     }
-    .rule-title {
-      margin: 30px auto 0;
-      font-size: 32px;
+    .exclusive-title {
+      position: relative;
+      margin: 60px auto 0;
+      width: 200px;
+      font-size: 44px;
       font-family: PingFang SC;
       font-weight: 500;
-      line-height: 44px;
-      color: rgba(255, 255, 255, 1);
+      color: #fff;
+      &:before,
+      &:after {
+        display: block;
+        content: "";
+        position: absolute;
+        top: 30px;
+        width: 108px;
+        height: 2px;
+        background: #fff;
+      }
+      &:before {
+        left: -150px;
+      }
+      &:after {
+        right: -150px;
+      }
     }
-    .rule-desc {
-      padding: 40px;
-      font-size: 28px;
-      font-family: PingFang SC;
-      font-weight: 500;
-      color: rgba(255, 255, 255, 1);
+    // 热门城市
+    .hot-city-list {
+      margin: 22px 0;
+      text-align: center;
+      .city-item {
+        margin: 0 16px;
+        padding: 0px 20px;
+        display: inline-block;
+        font-size: 18px;
+        line-height: 36px;
+        color: #fff;
+        background: linear-gradient(
+          90deg,
+          rgba(253, 179, 0, 1) 0%,
+          rgba(253, 165, 0, 1) 100%
+        );
+        border-radius: 22px;
+      }
+    }
+    .product-list {
+      overflow: hidden;
+      padding-top: 40px;
+      .product {
+        display: inline-block;
+        margin: 20px 20px 0;
+        width: 278px;
+        .banner {
+          position: relative;
+          height: 210px;
+          width: 278px;
+          .discount {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 146px;
+            height: 46px;
+            line-height: 46px;
+            background: #000;
+            opacity: 0.51;
+            font-size: 26px;
+            font-family: PingFang SC;
+            font-weight: 600;
+            color: #fff;
+          }
+        }
+        .more {
+          padding: 12px 20px;
+          .name {
+            width: 240px;
+            font-size: 20px;
+            font-family: PingFang SC;
+            font-weight: 400;
+            line-height: 28px;
+            color: #000;
+          }
+          .price {
+            .p-old,
+            .text {
+              height: 28px;
+              font-size: 20px;
+              font-family: PingFang SC;
+              font-weight: 400;
+              line-height: 28px;
+              color: rgba(198, 198, 198, 1);
+              opacity: 1;
+            }
+            .p-old {
+              text-decoration: line-through;
+            }
+            .p-now {
+              height: 48px;
+              font-size: 34px;
+              font-family: PingFang SC;
+              font-weight: 600;
+              line-height: 48px;
+              color: rgba(255, 0, 0, 1);
+            }
+          }
+        }
+      }
     }
   }
 </style>
