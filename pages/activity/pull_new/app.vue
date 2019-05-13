@@ -357,7 +357,7 @@
     }
     .product-list {
       overflow: hidden;
-      padding-top: 40px;
+      padding: 40px 0;
       .product {
         display: inline-block;
         margin: 20px 20px 0;
