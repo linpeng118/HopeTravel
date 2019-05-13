@@ -201,6 +201,8 @@
         } else if (code === RECEIVE_TYPE.again) {
           // 已领取
           this.receiveStatus = RECEIVE_TYPE.again
+        } else if (code === 401) {
+          console.log(msg)
         } else {
           this.$toast(msg)
         }
@@ -230,7 +232,8 @@
     height: 100%;
     min-height: 100vh;
     text-align: center;
-    background: #ff3b01 url("~assets/imgs/invite/bg_new.png") no-repeat center top/100%;
+    background: #ff3b01 url("~assets/imgs/invite/bg_new.png") no-repeat center
+      top/100%;
     overflow: hidden;
     .price-content {
       margin: 668px auto 0;
