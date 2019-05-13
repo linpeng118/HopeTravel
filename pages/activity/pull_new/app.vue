@@ -21,17 +21,21 @@
     <div class="price-content success"
       v-if="receiveStatus===0">
       <img class="img-success mt-20"
-        src="~/assets/imgs/invite/reveive_suc@2x.png"
+        src="~/assets/imgs/invite/reveive@2x.png"
         alt="">
-      <div class="price-box">
-        <img class="img-box"
-          src="~/assets/imgs/invite/box@2x.png"
-          alt="">
-      </div>
-      <p class="tip-text">已放入稀饭旅行APP【我的-我的券】</p>
+      <!-- 优惠券列表 -->
+      <template v-for="(invite, index) in inviteLists">
+        <div class="coupon-list"
+          :key="invite.rule_coupon_id">
+          <coupon-comp :item="invite"
+            @showAll="showExplain"
+            :typeOne="index == 1"
+            :index="index"></coupon-comp>
+        </div>
+      </template>
       <van-button class="button-activity mt-26"
         @click="onOpenApp"
-        type="default">打开稀饭APP查看</van-button>
+        type="default">去使用</van-button>
     </div>
     <!-- 重新输入 -->
     <div class="price-content old"
@@ -97,9 +101,11 @@
   import {mapState, mapMutations} from 'vuex'
   import {getPullNewRules, getProducts, getCouponsReceive} from '@/api/activity'
   import {RECEIVE_TYPE} from '@/assets/js/consts/activity'
+  import {CouponComp} from '@/components/coupons'
 
   export default {
     components: {
+      CouponComp
     },
     data() {
       return {
@@ -225,6 +231,7 @@
       background: #fff;
       border-radius: 20px;
       border: 10px solid #ffa53c;
+      box-shadow: 0px 5px 30px red;
       .img-desc {
         width: 346px;
         height: 44px;
@@ -284,7 +291,7 @@
         width: 346px;
         height: 110px;
       }
-      .price-box {
+      .coupon-list {
         margin-top: 16px;
       }
       .success-tip {

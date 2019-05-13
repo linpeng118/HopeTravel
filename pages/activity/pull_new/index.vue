@@ -178,6 +178,7 @@
         background: #fff;
         border-radius: 20px;
         border: 10px solid #ffa53c;
+        box-shadow: 0px 5px 30px red;
 
         .img-desc {
           width: 346px;
