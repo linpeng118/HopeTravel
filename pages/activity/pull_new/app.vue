@@ -86,7 +86,6 @@
           <div class="more">
             <p class="name no-wrap-line3">{{item.name}}</p>
             <p class="price">
-              <span class="p-old">{{item.default_price}}</span>
               <span class="p-now">{{item.default_price}}</span>
               <span class="text">起</span>
             </p>
@@ -101,7 +100,7 @@
   import {mapState, mapMutations} from 'vuex'
   import {getPullNewRules, getProducts, getCouponsReceive} from '@/api/activity'
   import {RECEIVE_TYPE} from '@/assets/js/consts/activity'
-  import {CouponComp} from '@/components/coupons'
+  import CouponComp from '@/components/coupons'
 
   export default {
     components: {
@@ -200,6 +199,9 @@
           this.$toast(msg)
         }
         this.submiting = false
+      },
+      showExplain(index) {
+        this.$set(this.inviteLists[index], 'isShow', !this.inviteLists[index].isShow)
       },
       onCity(city) {
         this.activeCity = city
@@ -399,6 +401,7 @@
             color: #000;
           }
           .price {
+            text-align: right;
             .p-old,
             .text {
               height: 28px;
@@ -408,6 +411,7 @@
               line-height: 28px;
               color: rgba(198, 198, 198, 1);
               opacity: 1;
+              letter-spacing: -1px;
             }
             .p-old {
               text-decoration: line-through;
