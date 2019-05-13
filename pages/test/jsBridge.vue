@@ -51,9 +51,8 @@
       })
     },
     beforeMount() {
-      require('@/assets/js/jsBridge.js')
+      this.jsBridge = require('@/assets/js/jsBridge.js')
       // test方法
-      console.log('vxDeviceType', this.vxDeviceType)
       window.test = (params) => {
         console.log('test')
         alert(params)
@@ -67,7 +66,7 @@
        * 无参数请求app接口
        */
       async callNoArgFunc(funcName) {
-        console.log('方法名（无参）：', funcName, this.jsBridge)
+        console.log('方法名（无参）：', funcName, JSON.stringify(this.jsBridge))
         const res = await this.jsBridge[funcName]()
         // alert(res)
       },
