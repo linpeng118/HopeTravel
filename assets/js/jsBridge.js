@@ -3,12 +3,11 @@ import {
 } from 'lodash'
 import {
   getBrowserVersion,
-  randomString
 } from './utils'
 
-export const browserVersion = getBrowserVersion()
+const browserVersion = getBrowserVersion()
 
-
+// 调用IOS
 function setupWebViewJavascriptBridge(callback) {
   if (window.WebViewJavascriptBridge) {
     return callback(WebViewJavascriptBridge);
@@ -26,17 +25,55 @@ function setupWebViewJavascriptBridge(callback) {
   }, 0)
 }
 
-setupWebViewJavascriptBridge((bridge) => {
-  // APP调用web
-  bridge.registerHandler('noArgTest', function (data, responseCallback) {
-    console.log('ObjC called noArgTest with', data)
-    var responseData = {'Javascript': 'test!'}
-    console.log('JS responding with', responseData)
-    responseCallback(responseData)
-  })
-  bridge.callHandler('testObjcCallback', {'test': '123'}, function (response) {
-    console.log('JS got response', response)
-  })
-})
+// 调用安卓
+function connectWebViewJavascriptBridge(callback) {
+  if (window.WebViewJavascriptBridge) {
+    callback(WebViewJavascriptBridge)
+  } else {
+    document.addEventListener(
+      'WebViewJavascriptBridgeReady'
+      , function () {
+        callback(WebViewJavascriptBridge)
+      },
+      false
+    );
+  }
+}
 
-
+export default {
+  // {isIos(), isAndroid()}
+  browserVersion,
+  callHandler(name, data, callback) {
+    if (browserVersion.isIos()) {
+      setupWebViewJavascriptBridge((bridge) => {
+        bridge.callHandler(name, data, callback)
+      })
+    } else if (browserVersion.isAndroid()) {
+      connectWebViewJavascriptBridge(bridge => {
+        bridge.init(function (data, callback) {
+          console.log('data', data);
+          if (callback) {
+            callback(data);
+          }
+        })
+      })
+    }
+  },
+  registerHandler(name, callback) {
+    if (browserVersion.isIos()) {
+      setupWebViewJavascriptBridge((bridge) => {
+        bridge.registerHandler(name, (data, responseCallback) => {
+          callback(data, responseCallback)
+        })
+      })
+    } else if (browserVersion.isAndroid()) {
+      connectWebViewJavascriptBridge(bridge => {
+        bridge.registerHandler(name, function (data, responseCallback) {
+          if (responseCallback) {
+            responseCallback(data);
+          }
+        })
+      })
+    }
+  }
+}

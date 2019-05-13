@@ -5,25 +5,22 @@
         <van-icon name="arrow-left" />
       </nuxt-link>
     </div>
-    <div id="buttons"></div>
-    <div id="log"></div>
     <!-- 例子 -->
-    <h4>不需要传参给移动端</h4>
+    <!-- app调用web -->
+    <h4>app调用web</h4>
     <div class="btn"
-      v-for="(item, index) in funcNames"
-      :key="item"
-      @click="callNoArgFunc(item)">
-      {{index}}.{{item}}
+      v-for="(webFn, idx) in appCallWebList"
+      :key="webFn"
+      @click="appCallWeb(webFn)">
+      {{idx}}.{{webFn}}
     </div>
-    <!-- <mt-switch v-model="holdPage">
-      {{holdPage ? 'new window' : 'replace window'}}
-    </mt-switch> -->
-    <h4>需要传递给移动端</h4>
+    <!-- web调用app -->
+    <h4>web调用app</h4>
     <div class="btn"
-      v-for="(item, idx) in funcNamesNeedArg"
-      :key="item"
-      @click="callArgFunc(item)">
-      {{idx + funcNames.length}}.{{item}}
+      v-for="(appFn, index) in webCallAppList"
+      :key="appFn"
+      @click="webCallApp(appFn)">
+      {{index}}.{{appFn}}
     </div>
   </section>
 </template>
@@ -36,12 +33,12 @@
     data() {
       return {
         // 不需要传参也不需要返回值的方法列表
-        funcNames: [
-          'argTest',
+        webCallAppList: [
+          'getToken',
         ],
         // 有参数需要传递
-        funcNamesNeedArg: [
-          'noArgTest',
+        appCallWebList: [
+          'getSharedImage',
         ],
       }
     },
@@ -51,44 +48,49 @@
       })
     },
     beforeMount() {
-      this.jsBridge = require('@/assets/js/jsBridge.js')
+      this.jsBridge = require('@/assets/js/jsBridge.js').default
       // test方法
-      window.test = (params) => {
-        console.log('test')
-        alert(params)
+      window.test = (test) => {
+        alert(test)
       }
     },
     mounted() {
       // test()
+      console.log('$jsBridge', this.jsBridge)
+      this.jsBridge.registerHandler('getSharedImage', (res) => {
+        console.log(res);
+      })
     },
     methods: {
       /**
-       * 无参数请求app接口
+       * web调用app
+       * @param {String} fnName 方法名
        */
-      async callNoArgFunc(funcName) {
-        console.log('方法名（无参）：', funcName, JSON.stringify(this.jsBridge))
-        const res = await this.jsBridge[funcName]()
-        // alert(res)
+      async webCallApp(fnName) {
+        this.jsBridge.callHandler(fnName, {'data': 123}, (res) => {
+          console.log(111, res);
+        })
       },
       /**
-       * 带参数请求app接口
+       * app调用web
+       * @param {String} fnName 方法名
        */
-      async callArgFunc(funcName) {
-        console.log('方法名（带参）', funcName)
-        switch (funcName) {
+      async appCallweb(fnName) {
+        console.log('方法名（带参）', fnName)
+        switch (fnName) {
           case 'jumpProductListView':
             //  1=当地跟团，2=当地玩乐，3=稀饭精品，4=门票演出，5=一日游，6=接驳服务，7=邮轮
-            this.jsBridge[funcName]({
+            this.jsBridge[fnName]({
               'itemType': 1
             })
             break;
           case 'jumpProductDetailView':
-            this.jsBridge[funcName]({
+            this.jsBridge[fnName]({
               'productID': 958
             })
             break;
           default:
-            (`not found ${funcName}`)
+            (`not found ${fnName}`)
             break;
         }
       },
