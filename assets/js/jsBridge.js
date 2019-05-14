@@ -43,6 +43,7 @@ function connectWebViewJavascriptBridge(callback) {
 export default {
   // {isIos(), isAndroid()}
   browserVersion,
+  // web调用app
   callHandler(name, data, callback) {
     if (browserVersion.isIos()) {
       setupWebViewJavascriptBridge((bridge) => {
@@ -59,6 +60,7 @@ export default {
       })
     }
   },
+  // app调用web
   registerHandler(name, callback) {
     if (browserVersion.isIos()) {
       setupWebViewJavascriptBridge((bridge) => {
