@@ -6,8 +6,11 @@
       </nuxt-link>
     </div>
     <!-- 例子 -->
-    <!-- app调用web -->
     <h4>app调用web</h4>
+    <van-button type="primary"
+      @click="jsToJavaSpec">js发送给java指定接收</van-button>
+    <div id="show">打印信息</div>
+    <!-- app调用web -->
     <div class="btn"
       v-for="(webFn, idx) in appCallWebList"
       :key="webFn"
@@ -30,15 +33,18 @@
 
   export default {
     components: {},
+    head: {
+      title: 'JsBridge'
+    },
     data() {
       return {
-        // 不需要传参也不需要返回值的方法列表
-        webCallAppList: [
-          'getToken',
-        ],
-        // 有参数需要传递
+        // app调用web
         appCallWebList: [
           'getSharedImage',
+        ],
+        // web调用app
+        webCallAppList: [
+          'getToken',
         ],
       }
     },
@@ -55,20 +61,42 @@
       }
     },
     mounted() {
-      // test()
       console.log('$jsBridge', this.jsBridge)
-      this.jsBridge.registerHandler('getSharedImage', (res) => {
-        console.log(res);
-      })
+      // test()
+      this.init()
     },
     methods: {
+      init() {
+        // this.jsBridge.registerHandler('getSharedImage', (res) => {
+        //   console.log(res);
+        // })
+      },
+      jsToJavaSpec() {
+        var data = '发送数据给java指定接收';
+        // alert(window.WebViewJavascriptBridge.callHandler)
+        // 指定接收参数 submitFromWeb与java一致
+        window.WebViewJavascriptBridge.callHandler(
+          'getToken',
+          {t: 12},
+          function (responseData) {
+            //处理java回传的数据
+            document.getElementById("show").innerHTML = responseData;
+          }
+        );
+      },
       /**
        * web调用app
        * @param {String} fnName 方法名
        */
       async webCallApp(fnName) {
-        this.jsBridge.callHandler(fnName, {'data': 123}, (res) => {
-          console.log(111, res);
+        // alert(window.WebViewJavascriptBridge.callHandler)
+        // console.log('app fn：', fnName)
+        // window.WebViewJavascriptBridge.callHandler(fnName, {test: 123}, (responseData) => {
+        //   console.log(responseData);
+        // }
+        // );
+        this.jsBridge.callHandler(fnName, {test: 123}, (responseData) => {
+          console.log(responseData);
         })
       },
       /**
@@ -76,23 +104,10 @@
        * @param {String} fnName 方法名
        */
       async appCallweb(fnName) {
-        console.log('方法名（带参）', fnName)
-        switch (fnName) {
-          case 'jumpProductListView':
-            //  1=当地跟团，2=当地玩乐，3=稀饭精品，4=门票演出，5=一日游，6=接驳服务，7=邮轮
-            this.jsBridge[fnName]({
-              'itemType': 1
-            })
-            break;
-          case 'jumpProductDetailView':
-            this.jsBridge[fnName]({
-              'productID': 958
-            })
-            break;
-          default:
-            (`not found ${fnName}`)
-            break;
-        }
+        console.log('方法名', fnName)
+        this.jsBridge.registerHandler(fnName, (res) => {
+          console.log('appCallweb: ', res);
+        })
       },
     }
   }
