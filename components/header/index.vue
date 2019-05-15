@@ -96,7 +96,7 @@
       color: #191919;
       box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.14);
       .left-wrap {
-        color: #191919;
+        color: #191919 !important;
       }
       .right-wrap {
         .search {
@@ -107,15 +107,16 @@
       }
     }
     .left-wrap {
-      color: #fff;
-      padding: 16px;
+      color: #fff !important;
+      /*padding: 16px;*/
     }
     .right-wrap {
       .search {
         /*width: 118px;*/
         height: 100%;
         i{
-          font-size: 48px;
+          font-size: 48px !important;
+          color: #fff !important;
         }
         .icon {
           display: inline-block;

@@ -150,9 +150,11 @@ export default {
   },
   async asyncData({$axios, store}){
     let indexData
+    console.log(store.getters.currency)
     let {code,data} = await $axios.$get('/api/index/mobile',{
       headers: {
-        'language': store.getters.language
+        'language': store.getters.language,
+        'currency': store.getters.currency
       }
     })
     if(code === 0 ) {

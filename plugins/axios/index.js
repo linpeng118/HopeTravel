@@ -23,7 +23,7 @@ export default function ({
     'platform': 'app',
     'phoneType': 'iOS',
     'App-Version': '1.0.0',
-    'language': store.getters.language  // zh-TW=繁体；zh-CN=中文简体
+    'language': store.getters.language,  // zh-TW=繁体；zh-CN=中文简体
   }
   // if (process.env.NODE_ENV === 'production') {
   //   $axios.defaults.baseURL = apiConfig.base

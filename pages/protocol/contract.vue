@@ -1,9 +1,21 @@
 <template>
-  <div class="weituo out-layer-con">
-    <div class="notice_txt">
-      {{$t('html.contract')}}
+  <div>
+    <div class="header" v-if="!isApp">
+      <van-nav-bar
+        class="bar-shadow"
+        :title="$t('contractPage.travelContract')"
+        @click-left="onClickLeft"
+        left-arrow
+        v-if="!isApp"
+      >
+      </van-nav-bar>
+    </div>
+    <div class="weituo out-layer-con">
+      <div class="notice_txt" v-html="$t('html.contract')">
       </div>
+    </div>
   </div>
+
 </template>
 
 <script>
@@ -13,11 +25,21 @@ export default {
     return {
       title: '旅行合同'
     }
+  },
+  data() {
+    return {
+      isApp: this.$route.query.platform,
+    }
+  },
+  methods: {
+    onClickLeft() {
+      this.$router.go(-1)
+    }
   }
 }
 </script>
 
-<style type="text/scss" lang="scss" scoped>
+<style type="text/scss" lang="scss">
   .out-layer-con{
     position: relative;
     border-top: 2px solid #D8D8D8;

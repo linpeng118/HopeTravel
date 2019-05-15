@@ -182,6 +182,7 @@
       padding-left: 10px;
       i{
         vertical-align: bottom;
+        font-size: 48px !important;
       }
     }
   }
