@@ -2,7 +2,7 @@ import {
   getBrowserVersion,
 } from './utils'
 
-export const browserVersion = getBrowserVersion()
+const browserVersion = getBrowserVersion()
 
 // 注册事件监听，初始化(bridge===WebViewJavascriptBridge)
 function setupWebViewJavascriptBridge(callback) {
@@ -35,6 +35,8 @@ function setupWebViewJavascriptBridge(callback) {
         false
       );
     }
+  } else {
+    console.log('other navigator');
   }
 }
 
@@ -42,21 +44,18 @@ export default {
   // {isIos(), isAndroid()}
   browserVersion,
   // web调用app
-  callHandler(name, data, callback) {
+  webCallHandler(name, data, callback) {
     setupWebViewJavascriptBridge((bridge) => {
-      if (browserVersion.isAndroid()) {
-        bridge.init((data, responseCallback) => {})
-      }
       bridge.callHandler(name, data, callback)
     })
   },
   // app调用web
-  registerHandler(name, callback) {
+  webRegisterHandler(name, callback) {
     setupWebViewJavascriptBridge((bridge) => {
       if (browserVersion.isAndroid()) {
         bridge.init((data, responseCallback) => {})
       }
-      bridge.registerHandler(name, (data, responseCallback) => {
+      bridge.registerHandler('getSharedImage', (data, responseCallback) => {
         callback(data, responseCallback)
       })
     })

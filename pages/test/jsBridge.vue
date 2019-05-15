@@ -67,9 +67,12 @@
     },
     methods: {
       init() {
-        // this.jsBridge.registerHandler('getSharedImage', (res) => {
-        //   console.log(res);
-        // })
+        // 注册方法给APP备用
+        this.jsBridge.webRegisterHandler('getSharedImage', (res, callback) => {
+          console.log(res);
+          // APP传入的回调函数，可传参数
+          callback('callback success')
+        })
       },
       jsToJavaSpec() {
         var data = '发送数据给java指定接收';
@@ -91,7 +94,7 @@
       async webCallApp(fnName) {
         alert(window.WebViewJavascriptBridge)
         // console.log('app fn：', fnName)
-        this.jsBridge.callHandler(fnName, {test: 123}, (responseData) => {
+        this.jsBridge.webCallHandler(fnName, {test: 123}, (responseData) => {
           console.log(responseData);
         })
       },
