@@ -1,6 +1,6 @@
 <template>
   <div class="alone-wrap out-layer-con">
-    <van-cell :title="$t('alonePage.entrustment')" is-link to="weituo" />
+    <van-cell :title="$t('alonePage.agreement')" is-link to="weituo" />
     <van-cell :title="$t('alonePage.selfActive')" is-link to="security" />
   </div>
 </template>

@@ -3,15 +3,14 @@
     <div class="header" v-if="!isApp">
       <van-nav-bar
         class="bar-shadow"
-        title="用户协议"
+        :title="$t('helpPage.userAgreement')"
         @click-left="onClickLeft"
         left-arrow
         v-if="!isApp"
       >
       </van-nav-bar>
     </div>
-    <div class="weituo out-layer-con">
-      {{$t('helpPage.agreement')}}
+    <div class="weituo out-layer-con" v-html="$t('helpPage.agreement')">
     </div>
   </div>
 
@@ -38,7 +37,7 @@
   }
 </script>
 
-<style type="text/scss" lang="scss" scoped>
+<style type="text/scss" lang="scss">
   .out-layer-con {
     position: relative;
     border-top: 2px solid #D8D8D8;
@@ -46,7 +45,7 @@
 
   .weituo {
     font-size: 28px;
-    line-height: 34px;
+    /*line-height: 34px;*/
     padding: 32px;
     h2.title {
       text-align: center;
