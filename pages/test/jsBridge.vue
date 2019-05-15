@@ -73,7 +73,7 @@
       },
       jsToJavaSpec() {
         var data = '发送数据给java指定接收';
-        // alert(window.WebViewJavascriptBridge.callHandler)
+        // alert(window.WebViewJavascriptBridge)
         // 指定接收参数 submitFromWeb与java一致
         window.WebViewJavascriptBridge.callHandler(
           'getToken',
@@ -89,12 +89,8 @@
        * @param {String} fnName 方法名
        */
       async webCallApp(fnName) {
-        // alert(window.WebViewJavascriptBridge.callHandler)
+        alert(window.WebViewJavascriptBridge)
         // console.log('app fn：', fnName)
-        // window.WebViewJavascriptBridge.callHandler(fnName, {test: 123}, (responseData) => {
-        //   console.log(responseData);
-        // }
-        // );
         this.jsBridge.callHandler(fnName, {test: 123}, (responseData) => {
           console.log(responseData);
         })

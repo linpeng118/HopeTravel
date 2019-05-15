@@ -1,4 +1,3 @@
-import './WebViewJavascriptBridge.js'
 import {
   getBrowserVersion,
 } from './utils'
@@ -7,8 +6,8 @@ export const browserVersion = getBrowserVersion()
 
 // 注册事件监听，初始化(bridge===WebViewJavascriptBridge)
 function setupWebViewJavascriptBridge(callback) {
-  // IOS
   if (browserVersion.isIos()) {
+    // IOS
     if (window.WebViewJavascriptBridge) {
       return callback(WebViewJavascriptBridge);
     }
@@ -39,7 +38,6 @@ function setupWebViewJavascriptBridge(callback) {
   }
 }
 
-
 export default {
   // {isIos(), isAndroid()}
   browserVersion,
@@ -64,24 +62,3 @@ export default {
     })
   }
 }
-
-//回调函数，接收java发送来的数据
-// connectWebViewJavascriptBridge(function (bridge) {
-//   //默认接收
-//   bridge.init(function (message, responseCallback) {
-//     document.getElementById("show").innerHTML = '默认接收到Java的数据： ' + message;
-
-//     var responseData = 'js默认接收完毕，并回传数据给java';
-//     // 回传数据给java
-//     responseCallback(responseData);
-//   });
-
-//   //指定接收，参数functionInJs 与java保持一致
-//   bridge.registerHandler("functionInJs", function (data, responseCallback) {
-//     document.getElementById("show").innerHTML = '指定接收到Java的数据： ' + data;
-
-//     var responseData = 'js指定接收完毕，并回传数据给java';
-//     // 回传数据给java
-//     responseCallback(responseData);
-//   });
-// })
