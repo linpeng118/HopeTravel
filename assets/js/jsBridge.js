@@ -55,7 +55,7 @@ export default {
       if (browserVersion.isAndroid()) {
         bridge.init((data, responseCallback) => {})
       }
-      bridge.registerHandler('getSharedImage', (data, responseCallback) => {
+      bridge.registerHandler(name, (data, responseCallback) => {
         callback(data, responseCallback)
       })
     })

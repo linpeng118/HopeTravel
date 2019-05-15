@@ -55,14 +55,9 @@
     },
     beforeMount() {
       this.jsBridge = require('@/assets/js/jsBridge.js').default
-      // test方法
-      window.test = (test) => {
-        alert(test)
-      }
     },
     mounted() {
-      console.log('$jsBridge', this.jsBridge)
-      // test()
+      // console.log('$jsBridge', this.jsBridge)
       this.init()
     },
     methods: {
@@ -77,7 +72,7 @@
       jsToJavaSpec() {
         var data = '发送数据给java指定接收';
         // alert(window.WebViewJavascriptBridge)
-        // 指定接收参数 submitFromWeb与java一致
+        // 指定接收参数 getToken 为方法名
         window.WebViewJavascriptBridge.callHandler(
           'getToken',
           {t: 12},

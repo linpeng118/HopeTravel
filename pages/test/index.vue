@@ -27,6 +27,14 @@
 <script>
   export default {
     components: {},
+    validate({params, query}) {
+      // url: xxx.net?page=test 防止外人访问
+      if (query.page === 'test') {
+        return true
+      } else {
+        return false
+      }
+    },
     data() {
       return {
         testList: [
