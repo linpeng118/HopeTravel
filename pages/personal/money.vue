@@ -9,8 +9,8 @@
       </van-nav-bar>
     </div>
     <div class="list">
-      <van-radio-group v-model="radio" @change="radioChange">
-        <van-radio v-for="item in currencyList" :key="item.type" :name="item.type">
+      <van-radio-group v-model="radio">
+        <van-radio v-for="item in currencyList" :key="item.type" :name="item.type" @click="radioChange(item.type)">
           <span>{{item.name}}</span>
           <span class="type">{{item.type}}</span>
         </van-radio>
@@ -21,7 +21,7 @@
 
 <script>
   import {getCookieByKey,setCookieByKey} from '@/assets/js/utils'
-  import {mapMutations} from 'vuex'
+  import {mapMutations,mapGetters} from 'vuex'
 export default {
   name: 'money',
   data() {
@@ -39,11 +39,18 @@ export default {
         {name:`¥${this.$t('RMB')}`,type:'CNY'},
         // {name:'$新西兰元',type:'NZD'},
       ],
-      radio: process.client ? getCookieByKey('currency') || 'CNY' : ''
+      radio: ''
     }
+  },
+  computed: {
+    ...mapGetters([
+      'currency'
+    ])
   },
   mounted() {
     // console.log(this.radio)
+    this.radio = this.currency
+    // alert(this.currency)
   },
   methods: {
     onClickLeft(){
