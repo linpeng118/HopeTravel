@@ -10,8 +10,7 @@
       >
       </van-nav-bar>
     </div>
-    <div class="weituo out-layer-con">
-      {{$t('helpPage.agreement')}}
+    <div class="weituo out-layer-con" v-html="$t('helpPage.agreement')">
     </div>
   </div>
 
@@ -46,7 +45,7 @@
 
   .weituo {
     font-size: 28px;
-    line-height: 34px;
+    /*line-height: 34px;*/
     padding: 32px;
     h2.title {
       text-align: center;

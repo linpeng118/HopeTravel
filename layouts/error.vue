@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <div v-if="error.statusCode === 404" class="result-box">
+    <div class="result-box">
       <img src="~/assets/imgs/net_error_no_data_img@2x.png" alt="">
       <h2>已经搜肠刮肚了了，还是没有找到</h2>
       <h3>别紧张，您可以进行一下操作</h3>

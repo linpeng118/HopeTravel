@@ -3,14 +3,13 @@
     <div class="header"
       v-if="!isApp">
       <van-nav-bar class="bar-shadow"
-        :title="$t('helpPage.changeHtml')"
+        :title="$t('helpPage.changeorder')"
         @click-left="onClickLeft"
         left-arrow
         v-if="!isApp">
       </van-nav-bar>
     </div>
-    <div class="advantage_wrap">
-      {{$t('helpPage.changeHtml')}}
+    <div class="advantage_wrap" v-html="$t('helpPage.changeHtml')">
     </div>
   </div>
 </template>

@@ -1,174 +1,153 @@
 <template>
   <div class="invite-friend-wrap">
     <div class="banner">
-      <img src="../../assets/imgs/invite/index_banner@2x.png" alt="">
+      <img src="../../assets/imgs/invite/icon_gift@2x.png" alt="">
     </div>
     <div class="main-content">
-      <div class="msg-notice">
-        <van-notice-bar background="#ffffff" color="#383838"
-          text="足协杯战线连续第2年上演广州德比战，上赛季半决赛上恒大以两回合5-3的总比分淘汰富力。"
-          left-icon="volume-o"
-        />
-      </div>
-      <div class="coupons-list">
-        <template v-for="(invite, index) in inviteLists">
-          <div :key="invite.rule_coupon_id">
-            <div class="title">
-              <span>{{invite.hint}}</span>
-              <img v-if="invite.rule_coupon_id == 2" src="../../assets/imgs/invite/icon_bag@2x.png" alt="">
-              <img v-else src="../../assets/imgs/invite/icon_money@2x.png" alt="">
-              {{invite.main_title}}
-            </div>
-            <coupons :item="invite" @showAll="showExplain" :typeOne="index == 1" :index="index"></coupons>
-          </div>
-        </template>
-        <div class="invite-btn m-t">立即分享</div>
-        <div class="create-poster">
-          <img src="../../assets/imgs/invite/icon_img@2x.png" alt=""> 生成海报
+      <div class="gift-box">
+        <div class="name-show">
+          <img :src="profile.face" alt="">
+          <p>{{profile | getName}}</p>
+          <p>分享给你的旅行大礼包</p>
         </div>
-      </div>
-      <div class="invite-list">
-        <dl>
-          <dt>已邀请</dt>
-          <dt>获得奖励</dt>
-        </dl>
-        <ul class="user-list">
-          <li v-for="(history,index) in historyLists" :key="index">
-            <div class="left-u">
-              <img :src="history.acceptor_avatar" alt="">
-              <div>
-                <p class="title">{{history.acceptor_name}} <van-tag color="#FDA500" round v-if="history.order_label">{{history.order_label}}</van-tag></p>
-                <p class="time">{{history.created_at}}</p>
-              </div>
-            </div>
-            <div class="right-i">
-              <span :class="history.status ? '': 'color'">{{history.reward_label}}</span>
-            </div>
-          </li>
-        </ul>
+        <div class="img-gift">
+          <img src="../../assets/imgs/invite/box@2x.png" alt="">
+        </div>
+        <div class="result-box">
+          <area-code-default :proPhone.sync="phone" :proAreaCode="areaCode" v-if="submitRes"></area-code-default>
+          <p v-else>{{resultStr}}</p>
+          <a class="invite-btn" :href="downUrl" v-if="receiveStatus === 0">{{btnString}}</a>
+          <van-button v-else round block class="invite-btn" @click="getWish">{{btnString}}</van-button>
+          <p class="get-ok" v-if="getOk">小主可前往稀饭个人中心查看优惠券</p>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Coupons from '@/components/coupons'
-import {inviteCoupons, inviteHistory} from '@/api/invite'
+import {getProfile} from '@/api/sale_union'
+import {acceptExternal} from '@/api/invite'
+import areaCodeDefault from '@/components/input/areaCodeDefault'
+import {RECEIVE_TYPE} from '@/assets/js/consts/activity'
 export default {
-  name: 'invite_friend',
+  name: 'gift_giving',
   components:{
-    Coupons
+    areaCodeDefault
+  },
+  filters:{
+    getName(profile){
+      if(profile.nickname){
+        return profile.nickname
+      } else if(profile.first_name || profile.last_name){
+        return profile.first_name + profile.last_name
+      } else if(profile.phone) {
+        return profile.phone.replace(/^(\d{3})\d{4}(\d+)/,"$1****$2")
+      } else if(profile.email){
+        let str = profile.split('.')[1]
+        return `${profile.substring(0,4)}****.${str}`
+      }
+    }
+  },
+  head(){
+    return{
+      title:'稀饭大礼相送'
+    }
   },
   data(){
     return{
-      inviteLists: [],
-      activityId: 0,
-      historyLists: []
+      profile: {},
+      // 区号与电话
+      areaCode: '86',
+      phone:'',
+      btnString:'收下心愿',
+      resultStr: '',
+      submitRes: true,
+      // 领取状态
+      receiveStatus: RECEIVE_TYPE.default,
+      getOk: false
     }
   },
+  asyncData({query}){
+    let _obj = {}
+    let _arr = query.search.split('/')
+    for(let i=0,len= _arr.length;i<len;i++){
+      _obj[_arr[i].split('=')[0]] = _arr[i].split('=')[1]
+    }
+    return {
+      queryPath:_obj
+    }
+  },
+  validate({query}) { // 判断路由是否正确
+    let _obj = {}
+    let _arr = query.search.split('/')
+    for(let i=0,len= _arr.length;i<len;i++){
+      _obj[_arr[i].split('=')[0]] = _arr[i].split('=')[1]
+    }
+    return /^[0-9]*$/.test(_obj.referrer) && /^[0-9]*$/.test(_obj.rule) && /^[0-9]*$/.test(_obj.activity)
+  },
   async mounted(){
-    await this.init()
-    this.getHistoryList()
-    window.addEventListener('scroll', this.scrollFn)
+    this.init()
+    //
+    let u = navigator.userAgent
+    if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
+      this.downUrl = 'https://a.app.qq.com/o/simple.jsp?pkgname=com.zmcs.tourscool'
+    } else if (u.indexOf('iPhone') > -1) {
+      this.downUrl = 'https://itunes.apple.com/cn/app/稀饭旅行/id1449120712?mt=8'
+    }
   },
   methods:{
     async init(){
-      let {code, data} = await inviteCoupons()
+      let {code,data = {}} = await getProfile(this.queryPath.referrer)
       if(code === 0) {
-        this.inviteLists = data.coupons || []
-        this.activityId = data.activity_id || 0
+        this.profile = data
       } else {
-        this.inviteLists = []
-        this.activityId = 0
+        this.profile = {}
       }
     },
-    async getHistoryList(){
-      let {code, data = []} = await inviteHistory(this.activityId)
-      if(code === 0) {
-        // this.historyLists = data
-        this.historyLists = [
-          {
-            acceptor_avatar: "https://img.tourscool.net/images/head.png",
-            acceptor_name: "",
-            status: 1,
-            created_at: "2019-05-05",
-            reward_label: "$1,000優惠券",
-            order_label: ""
-          },
-          {
-            acceptor_avatar: "https://img.tourscool.net/images/head.png",
-            acceptor_name: "",
-            status: 1,
-            created_at: "2019-05-05",
-            reward_label: "$1,000優惠券",
-            order_label: ""
-          },
-          {
-            acceptor_avatar: "https://img.tourscool.net/images/head.png",
-            acceptor_name: "",
-            status: 0,
-            created_at: "2019-05-05",
-            reward_label: "已被他人邀請",
-            order_label: ""
-          },
-          {
-            acceptor_avatar: "https://img.tourscool.net/images/head.png",
-            acceptor_name: "",
-            status: 1,
-            created_at: "2019-05-05",
-            reward_label: "$0優惠券",
-            order_label: ""
-          },
-          {
-            acceptor_avatar: "https://img.tourscool.net/images/head.png",
-            acceptor_name: "",
-            status: 0,
-            created_at: "2019-05-05",
-            reward_label: "已被他人邀請",
-            order_label: ""
-          },
-          {
-            acceptor_avatar: "https://img.tourscool.net/images/head.png",
-            acceptor_name: "",
-            status: 0,
-            created_at: "2019-05-05",
-            reward_label: "已被他人邀請",
-            order_label: ""
-          },
-          {
-            acceptor_avatar: "https://img.tourscool.net/images/head.png",
-            acceptor_name: "",
-            status: 0,
-            created_at: "2019-05-05",
-            reward_label: "已被他人邀請",
-            order_label: ""
-          },
-          {
-            acceptor_avatar: "https://img.tourscool.net/images/head.png",
-            acceptor_name: "",
-            status: 0,
-            created_at: "2019-05-05",
-            reward_label: "已被他人邀請",
-            order_label: ""
-          },
-          {
-            acceptor_avatar: "https://img.tourscool.net/images/head.png",
-            acceptor_name: "",
-            status: 0,
-            created_at: "2019-05-05",
-            reward_label: "不是新用戶",
-            order_label: ""
-          }
-        ]
-      } else {
-        this.historyLists = []
+    async getWish(){
+      if(this.submitRes) {
+        if(!/^[0-9]*$/.test(this.phone) || !this.phone) {
+          this.$toast.fail('手机号码不正确')
+          return false
+        }
+        let params = {
+          phone: `${this.areaCode}-${this.phone}`,
+          customer: this.queryPath.referrer,
+          rule: this.queryPath.rule,
+          activity: this.queryPath.activity
+        }
+        let {code,msg} = await acceptExternal(params)
+        this.resultStr = msg
+        this.submitRes = false
+        this.btnString = '打开稀饭APP'
+        this.receiveStatus = code
+        if(code === RECEIVE_TYPE.old) {
+          this.btnString = '重新输入'
+        }
+        if(code === 0) {
+          this.getOk = true
+        }
+        if(code === 1) {
+          this.submitRes = true
+          this.resultStr = ''
+          this.btnString = '收下心愿'
+          this.receiveStatus = RECEIVE_TYPE.default
+          this.getOk = false
+          this.phone = ''
+          this.$toast.fail('出错啦')
+        }
+        if(code === RECEIVE_TYPE.end) {
+          this.$toast.fail('活动结束啦')
+        }
+      } else if(this.receiveStatus === RECEIVE_TYPE.old) {
+        this.submitRes = true
+        this.resultStr = ''
+        this.btnString = '收下心愿'
+        this.receiveStatus = RECEIVE_TYPE.default
+        this.getOk = false
+        this.phone = ''
       }
-    },
-    showExplain(index){
-      this.$set(this.inviteLists[index], 'isShow', !this.inviteLists[index].isShow)
-    },
-    scrollFn(){
-
     }
   }
 }
@@ -186,93 +165,59 @@ export default {
     }
     .main-content{
       padding: 0 32px;
-      .msg-notice{
-        height:60px;
-        background:#fff;
-        border-radius: 44px;
-        padding: 0 22px;
-        font-size:24px;
-        overflow: hidden;
-      }
-      .coupons-list{
-        padding: 18px 40px;
-        margin-top: 20px;
+      .gift-box{
+        padding: 15px 24px;
+        padding-bottom: 50px;
         background-color: #ffffff;
         border-radius:32px;
-        line-height: 60px;
-        .title{
-          color: #383838;
-          font-size:28px;
-          font-weight:bold;
-          margin-top: 18px;
-          span{
-            float: right;
-            color: #BEBEBE;
-            font-weight: normal;
-          }
-          img{
-            width: 57px;
-            vertical-align: middle;
-          }
-        }
-        .m-t{
-          margin-top: 30px;
-        }
-        .create-poster{
-          color: #656565;
+        .name-show{
           text-align: center;
-          font-size:32px;
-          margin-top: 10px;
-          img{
-            width: 27px;
-            vertical-align: middle;
-          }
-        }
-      }
-      .invite-list{
-        border-radius:32px;
-        background-color: #fff;
-        padding: 40px 56px;
-        margin-top: 20px;
-        dl{
-          font-size:24px;
-          line-height: 34px;
-          display: flex;
-          justify-content: space-around;
-          color: #656565;
-        }
-        .user-list{
-          padding-top: 44px;
-          li{
-            display: flex;
-            justify-content: space-between;
+          p{
             font-size:24px;
-            padding-bottom: 28px;
-            align-items: center;
-          }
-          .left-u{
-            display: flex;
-            .time{
-              font-size:18px;
-              color: #656565;
-            }
-          }
-          .right-i{
-            font-weight: bold;
-            text-align: center;
-            width: 50%;
-            .color{
-              color: #FF0000;
-            }
+            line-height: 34px;
           }
           img {
-            width: 82px;
-            height: 82px;
-            margin-right: 16px;
-            border-radius: 50%;
-            overflow: hidden;
+           height: 82px;
+           width: 82px;
+           border-radius: 50%;
           }
         }
+        .img-gift{
+           margin-top: 50px;
+           margin-bottom: 50px;
+           text-align: center;
+          img{
+           width: 270px;
+          }
+        }
+        .result-box{
+          font-size:28px;
+          line-height:34px;
+          text-align: center;
+        }
+        .get-ok{
+          color: #B2B2B2;
+          font-size:24px;
+          line-height:34px;
+          text-align: center;
+          margin-top: 20px;
+        }
+      }
+      .invite-btn{
+        display: block;
+        margin-top: 40px;
+        width: 100%;
+        height: 78px;
+        line-height: 78px;
+        font-size: 36px;
+        color: rgba(255, 255, 255, 1);
+        background: linear-gradient(
+            90deg,
+            rgba(253, 179, 0, 1) 0%,
+            rgba(253, 165, 0, 1) 100%
+        );
+        box-shadow: 0px 4px 12px rgba(165, 69, 10, 0.16);
+        border-radius: 44px;
       }
     }
   }

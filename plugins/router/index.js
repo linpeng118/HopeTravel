@@ -6,8 +6,7 @@ export default ({
   app
 }) => {
   app.router.beforeEach((to, from, next) => {
-    console.log('router name: ', to.name);
-    
+    console.log('router namedfd333333333: ', to.fullPath);
     try {
       // M站客服系统：首页/列表/定制/签证/活动
       if (to.name === 'index' || to.name === 'product_list' || to.name === 'visa' || to.name === 'custom') {

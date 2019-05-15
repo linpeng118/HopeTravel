@@ -120,6 +120,9 @@
         ]
       }
     },
+    asyncData({route}){
+      // console.log(2222222222, route)
+    },
     data() {
       return {
         isSearch: false,
