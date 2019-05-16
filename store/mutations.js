@@ -15,6 +15,11 @@ export default {
     state.currency = data
     setCookieByKey('currency', state.currency)
   },
+  // 设置语言
+  setLanguage(state, data) {
+    // setCookieByKey('language', state.language)
+    state.language = data
+  },
   updateToken(state, token) {
     state.token = token
   },
@@ -25,10 +30,5 @@ export default {
   // 设置显示的弹窗类型
   setDlgType(state, data) {
     state.dlgType = data
-  },
-  // 设置语言
-  setLanguage(state, data) {
-    // setCookieByKey('language', state.language)
-    state.language = data
   },
 }

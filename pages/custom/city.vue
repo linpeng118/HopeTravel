@@ -337,6 +337,9 @@
     data() {
       return {
         isApp: this.$route.query.platform,
+        appVersion: this.$route.query.app_version,
+        appLanguage: this.$route.query.language,
+        appCurrency: this.$route.query.currency,
         isTransparent: true, // 导航头是否透明
         showcall:false,
         swiperOption: {
@@ -451,6 +454,18 @@
       this.getitem();
       this.getqu();
     },
+    beforeMount() {
+      // 判断是否APP
+      if (this.isApp) {
+        if (this.appVersion) {
+          this.jsBridge = require("@/assets/js/jsBridge").default;
+          this.vxSetLanguage('appLanguage')
+          this.vxSetCurrency('appCurrency')
+        } else {
+          this.appBridge = require("@/assets/js/appBridge").default;
+        }
+      }
+    },
     mounted() {
       // 监听滚动
       this.$refs.refCustomPage.addEventListener(
@@ -467,12 +482,6 @@
         clearInterval(this.setInv)
       }
       this.setInv= setInterval(function(){ this_.setover();}, 1000);
-      // 判断机型
-      if (this.isApp) {
-        this.appBridge = require('@/assets/js/appBridge').default
-      } else {
-        console.log('web操作')
-      }
     },
     beforeDestroy() {
       this.$refs.refCustomPage.removeEventListener('scroll', this.scrollFn)
@@ -481,6 +490,8 @@
       ...mapMutations({
         vxToggleDialog: 'toggleDialog', // 是否显示弹窗
         vxSetDlgType: 'setDlgType', // 设置弹窗类型
+        vxSetLanguage: "setLanguage", // 设置语言
+        vxSetCurrency: "setCurrency" // 设置货币
       }),
       //   得到详细信息
       async getitem(x) {
@@ -662,7 +673,11 @@
         this.hidelist=true;
         const s1 = this.$refs.refCustomPage.scrollTop;
         if (this.isApp) {
-          this.appBridge.webViewScrollViewDidScroll({'top': s1.toString()})
+          if (this.appVersion) {
+            this.jsBridge.webCallHandler('webViewScrollViewDidScroll', {top: s1.toString()})
+          } else {
+            this.appBridge.webViewScrollViewDidScroll({top: s1.toString()});
+          }
         }
         setTimeout(() => {
           const s2 = this.$refs.refCustomPage.scrollTop;
