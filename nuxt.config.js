@@ -204,20 +204,20 @@ module.exports = {
         browsers: ['last 5 versions'],
       }),
     ],
-    optimization: {
-      minimize: (process.env.NODE_ENV === 'production'),
-      minimizer: [
-        new TerserPlugin({
-          terserOptions: {
-            warnings: false,
-            compress: {
-              drop_debugger: true,
-              drop_console: true
-            }
-          }
-        })
-      ]
-    },
+    // optimization: {
+    //   minimize: (process.env.NODE_ENV === 'production'),
+    //   minimizer: [
+    //     new TerserPlugin({
+    //       terserOptions: {
+    //         warnings: false,
+    //         compress: {
+    //           drop_debugger: true,
+    //           drop_console: true
+    //         }
+    //       }
+    //     })
+    //   ]
+    // },
     extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {

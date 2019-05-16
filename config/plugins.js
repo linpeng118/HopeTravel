@@ -52,10 +52,10 @@ let plugins = [
     ssr: true
   },
   // vconsole
-  {
-    src: '~/plugins/vconsole',
-    ssr: false
-  },
+  // {
+  //   src: '~/plugins/vconsole',
+  //   ssr: false
+  // },
 ]
 
 let devPlugins = [
@@ -106,10 +106,10 @@ let devPlugins = [
     ssr: true
   },
   // '~/plugins/i18n'
-  {
-    src: '~/plugins/vconsole',
-    ssr: false
-  },
+  // {
+  //   src: '~/plugins/vconsole',
+  //   ssr: false
+  // },
 ]
 
 if (process.env.ENV_TYPE === 'prodDev') {
