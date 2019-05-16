@@ -92,7 +92,7 @@ module.exports = {
    */
   router: {
     extendRoutes (routes, resolve) {
-      // console.log(routes)
+      console.log(routes)
       routes.push({
         name: 'error404',
         path: '*',
