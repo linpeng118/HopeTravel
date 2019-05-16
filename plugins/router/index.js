@@ -6,8 +6,7 @@ export default ({
   app
 }) => {
   app.router.beforeEach((to, from, next) => {
-    console.log('router name: ', to, from);
-
+    console.log('router name: ', to, from)
     let reg=/(\/){2,}/
     let path = to.fullPath.replace(reg, '/')
     if(reg.test(to.fullPath)) {

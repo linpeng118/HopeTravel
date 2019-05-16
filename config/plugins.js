@@ -52,10 +52,10 @@ let plugins = [
     ssr: true
   },
   // vconsole
-  // {
-  //   src: '~/plugins/vconsole',
-  //   ssr: false
-  // },
+  {
+    src: '~/plugins/vconsole',
+    ssr: false
+  },
 ]
 
 let devPlugins = [
