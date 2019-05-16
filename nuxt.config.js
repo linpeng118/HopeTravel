@@ -90,7 +90,16 @@ module.exports = {
   /*
    ** middleware
    */
-  router: {},
+  router: {
+    extendRoutes (routes, resolve) {
+      // console.log(routes)
+      routes.push({
+        name: 'error404',
+        path: '*',
+        component: resolve(__dirname, 'pages/error.vue')
+      })
+    }
+  },
   /*
    ** Nuxt.js modules
    */
