@@ -15,6 +15,14 @@ export default {
     state.currency = data
     setCookieByKey('currency', state.currency)
   },
+  setPhoneType(state, data) {
+    state.phoneType = data
+    setCookieByKey('phoneType', state.phoneType)
+  },
+  setPlatform(state, data) {
+    state.platform = data
+    setCookieByKey('platform', state.platform)
+  },
   // 设置语言
   setLanguage(state, data) {
     // setCookieByKey('language', state.language)
