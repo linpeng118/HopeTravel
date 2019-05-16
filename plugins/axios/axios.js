@@ -6,8 +6,8 @@ import {
 }
 from '@/assets/js/utils'
 import {
-  TOKEN_KEY,
-  LANGUAGE
+  LANGUAGE,
+  CURRENCY
 } from '@/assets/js/config'
 // 使用UI库的弹窗
 import {
@@ -20,13 +20,13 @@ let httprequest = axios.create({
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json; charset=utf-8', // json格式通信
-    'platform': 'app',
-    'phoneType': 'iOS',
+    'Platform': 'app',
+    'Phone-Type': 'iOS',
     'App-Version': '1.0.0'
   }
 })
 // 修改默认配置-post请求头的设置
-httprequest.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+// httprequest.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 // 临时测试用，
 // httprequest.defaults.headers.post['Authorization'] = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xOTIuMTY4LjEuMTkwOjkwMDFcL2FwaVwvdG91clwvdjFcL29hdXRoXC9sb2dpbiIsImlhdCI6MTU1MjkwMjQ2MywiZXhwIjoxNTUyOTAyNzYzLCJuYmYiOjE1NTI5MDI0NjMsImp0aSI6InZYdWtGWmwxdmx6dHdwNlEiLCJzdWIiOjEwMzUsInBydiI6IjFkMGEwMjBhY2Y1YzRiNmM0OTc5ODlkZjFhYmYwZmJkNGU4YzhkNjMiLCJ1aWQiOjEwMzV9.6MUo75YSNQ_Uo46ZnRqvhwjBAw-wPZ1_56QXkxBHJk';
 
@@ -39,11 +39,11 @@ httprequest.interceptors.request.use(
       let token = getCookieByKey('token');
       let currency = getCookieByKey('currency') || store().state.currency; // 货币类型获取
       let language = getCookieByKey(LANGUAGE) || store().state.language
-      console.log(22222222, getCookieByKey(LANGUAGE))
+      // console.log(22222222, getCookieByKey(LANGUAGE))
       if (token || currency || language) {
-        config.headers[TOKEN_KEY] = token
-        config.headers.currency = currency
-        config.headers.language = language
+        config.headers['Authorization'] = token
+        config.headers['Currency'] = currency
+        config.headers['Language'] = language
       }
       // 请求接口添加时间戳
       if (config.method == 'post') {
@@ -75,7 +75,7 @@ httprequest.interceptors.response.use(
         window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname + window.location.search)
       } else if (res.data.code === 401) {
         const token = res.data.data.token
-        res.config.headers[TOKEN_KEY] = token
+        res.config.headers['Authorization'] = token
         setCookieByKey('token', token)
         return axios(res.config)
       } else {

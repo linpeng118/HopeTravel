@@ -20,10 +20,10 @@ export default function ({
   $axios.defaults.withCredentials = true
   $axios.defaults.headers = {
     'Content-Type': 'application/json; charset=utf-8', // json格式通信
-    'platform': 'app',
-    'phoneType': 'iOS',
+    'Platform': 'app',
+    'Phone-Type': 'iOS',
     'App-Version': '1.0.0',
-    'language': store.getters.language  // zh-TW=繁体；zh-CN=中文简体
+    'Language': store.getters.language  // zh-TW=繁体；zh-CN=中文简体
   }
   // if (process.env.NODE_ENV === 'production') {
   //   $axios.defaults.baseURL = apiConfig.base
@@ -34,18 +34,6 @@ export default function ({
   // 请求回调
   $axios.onRequest(config => {
     console.log('Making request to ssr' + config.url)
-    // 替换baseURL和代理字段
-    // if (process.env.NODE_ENV === 'production') {
-    //   let realUrl = ''
-    //   if (config.url.indexOf('htwPay') > 0) {
-    //     config.baseURL = apiConfig.payment
-    //     realUrl = config.url
-    //   } else {
-    //     config.baseURL = apiConfig.base
-    //     realUrl = config.url.replace(/api/, 'api/tour/v1')
-    //   }
-    //   config.url = realUrl
-    // }
     // post和get数据处理
     if (config.method == 'post') {
       config.data = {

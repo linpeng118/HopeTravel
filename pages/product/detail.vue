@@ -532,11 +532,11 @@
         let currency = getCookie('currency', req && req.headers && req.headers.cookie)
         let {code, msg, data} = await $axios.$get(`/api/product/${productId}`, {
           headers: {
-            'platform': 'app',
-            'phoneType': 'iOS',
+            'Platform': 'app',
+            'Phone-Type': 'iOS',
             'App-Version': '1.0.0',
-            'language': store.getters.language,
-            'currency': currency ? currency : 'CNY'
+            'Language': store.getters.language,
+            'Currency': currency ? currency : 'CNY'
           }
         })
         if (code === 0) {

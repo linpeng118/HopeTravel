@@ -64,9 +64,9 @@
       init() {
         // 注册方法给APP备用
         this.jsBridge.webRegisterHandler('getSharedImage', (res, callback) => {
-          console.log(res);
+          console.log(JSON.parse(res).name);
           // APP传入的回调函数，可传参数
-          callback('callback success')
+          callback({test: 'callback success!!'})
         })
       },
       jsToJavaSpec() {
@@ -99,7 +99,7 @@
        */
       async appCallweb(fnName) {
         console.log('方法名', fnName)
-        this.jsBridge.registerHandler(fnName, (res) => {
+        this.jsBridge.webRegisterHandler(fnName, (res) => {
           console.log('appCallweb: ', res);
         })
       },

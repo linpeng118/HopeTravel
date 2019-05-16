@@ -152,7 +152,7 @@ export default {
     let indexData
     let {code,data} = await $axios.$get('/api/index/mobile',{
       headers: {
-        'language': store.getters.language
+        'Language': store.getters.language
       }
     })
     if(code === 0 ) {
