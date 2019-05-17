@@ -195,20 +195,6 @@
       this.init()
       // 监听滚动
       this.$refs.refLocalGroupPage.addEventListener('scroll', this.scrollFn)
-      // 判断机型
-      // if (this.isApp) {
-      // 引入appBridge
-      // this.appBridge = require('@/assets/js/appBridge').default
-      // this.appBridge.hideNavigationBar()
-      // let currency = await this.appBridge.obtainUserCurrency()
-      // // setCookieByKey('currency', currency.userCurrency)
-      // // 安卓只能返回JSON字符串
-      // if (this.appBridge.browserVersion&&this.appBridge.browserVersion.isAndroid()) {
-      //   setCookieByKey('currency', currency)
-      // } else {
-      //   setCookieByKey('currency', currency.userCurrency)
-      // }
-      // }
     },
     beforeDestroy() {
       this.$refs.refLocalGroupPage.removeEventListener('scroll', this.scrollFn)

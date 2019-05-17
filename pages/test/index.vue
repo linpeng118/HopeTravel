@@ -46,7 +46,7 @@
         ],
         testPages: [
           {path: '/local_group?platform=app', name: '测试当地跟团页面', color: '#40E0D0'},
-          {path: '/local_play_zh?platform=app', name: '测试当地玩乐页面（国内）', color: '#40E0D0'},
+          {path: '/local_play_zh?platform=app&language=zh-CN&currency=CNY&app_version=1.4.0&phone_type=ios', name: '测试当地玩乐页面（国内）', color: '#40E0D0'},
           {path: '/local_play_foreign/more_city', name: '更多城市', color: '#40E0D0'},
           {path: '/custom?platform=app', name: '私人定制页面', color: '#40E0D0'},
           {path: '/login', name: '登录页面', color: '#40E0D0'},
