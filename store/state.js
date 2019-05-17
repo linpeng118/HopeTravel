@@ -3,8 +3,8 @@ import {
 } from '@/assets/js/utils'
 import {
   DLG_TYPE
-}
-from '@/assets/js/consts/dialog'
+} from '@/assets/js/consts/dialog'
+
 export default {
   token: process.client ? (getCookieByKey('token') ? getCookieByKey('token') : '') : '',
   deviceType: {},

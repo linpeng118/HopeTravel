@@ -175,8 +175,8 @@
       if (this.isApp) {
         if (this.appVersion) {
           this.jsBridge = require("@/assets/js/jsBridge").default;
-          this.vxSetLanguage('appLanguage')
-          this.vxSetCurrency('appCurrency')
+          this.vxSetLanguage(this.appLanguage)
+          this.vxSetCurrency(this.appCurrency)
         } else {
           this.appBridge = require("@/assets/js/appBridge").default;
           // 货币

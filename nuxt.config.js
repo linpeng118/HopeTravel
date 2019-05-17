@@ -227,16 +227,14 @@ module.exports = {
           exclude: /(node_modules)/,
         })
       }
-      if (ctx.isDev) {
-        if (config.entry) {
-          config.entry.push('babel-polyfill')
-          config.entry.push('eventsource-polyfill')
-        } else {
-          config.entry = [
-            'babel-polyfill',
-            'eventsource-polyfill'
-          ]
-        }
+      if (config.entry) {
+        config.entry.push('babel-polyfill')
+        config.entry.push('eventsource-polyfill')
+      } else {
+        config.entry = [
+          'babel-polyfill',
+          'eventsource-polyfill'
+        ]
       }
       if (!ctx.isDev) {
         config.devtool = false
