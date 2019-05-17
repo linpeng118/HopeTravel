@@ -20,9 +20,6 @@ let httprequest = axios.create({
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json; charset=utf-8', // json格式通信
-    'Platform': 'app',
-    'Phone-Type': 'iOS',
-    'App-Version': '1.0.0'
   }
 })
 // 修改默认配置-post请求头的设置
@@ -38,12 +35,18 @@ httprequest.interceptors.request.use(
       // TODO:这里不能动态获取到store中的数据
       let token = getCookieByKey('token');
       let currency = getCookieByKey('currency') || store().state.currency; // 货币类型获取
-      let language = getCookieByKey(LANGUAGE) || store().state.language
+      let language = getCookieByKey(LANGUAGE) || store().state.language; // 语言
+      let platform = getCookieByKey('platform') || store().state.platform; // 平台
+      let phoneType = getCookieByKey('phoneType') || store().state.phoneType; // 机型
+      let appVersion = getCookieByKey('appVersion') || store().state.appVersion; // APP版本
       // console.log(22222222, getCookieByKey(LANGUAGE))
-      if (token || currency || language) {
+      if (token || currency || language || platform) {
         config.headers['Authorization'] = token
         config.headers['Currency'] = currency
         config.headers['Language'] = language
+        config.headers['Platform'] = platform
+        config.headers['Phone-Type'] = phoneType
+        config.headers['App-Version'] = appVersion
       }
       // 请求接口添加时间戳
       if (config.method == 'post') {

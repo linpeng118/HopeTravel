@@ -23,10 +23,14 @@ export default {
     state.platform = data
     setCookieByKey('platform', state.platform)
   },
+  setAppVersion(state, data) {
+    state.appVersion = data
+    setCookieByKey('appVersion', state.appVersion)
+  },
   // 设置语言
   setLanguage(state, data) {
-    // setCookieByKey('language', state.language)
     state.language = data
+    // setCookieByKey('language', state.language)
   },
   updateToken(state, token) {
     state.token = token
