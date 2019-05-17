@@ -4,12 +4,12 @@
       <img src="../../assets/imgs/invite/index_banner@2x.png" alt="">
     </div>
     <div class="main-content">
-      <div class="msg-notice">
-        <van-notice-bar background="#ffffff" color="#383838"
-          text="足协杯战线连续第2年上演广州德比战，上赛季半决赛上恒大以两回合5-3的总比分淘汰富力。"
-          left-icon="volume-o"
-        />
-      </div>
+      <!--<div class="msg-notice">-->
+        <!--<van-notice-bar background="#ffffff" color="#383838"-->
+          <!--text="足协杯战线连续第2年上演广州德比战，上赛季半决赛上恒大以两回合5-3的总比分淘汰富力。"-->
+          <!--left-icon="volume-o"-->
+        <!--/>-->
+      <!--</div>-->
       <div class="coupons-list">
         <template v-for="(invite, index) in inviteLists">
           <div :key="invite.rule_coupon_id">
@@ -22,8 +22,10 @@
             <coupons :item="invite" @showAll="showExplain" :typeOne="index == 1" :index="index"></coupons>
           </div>
         </template>
-        <div class="invite-btn m-t">立即分享</div>
-        <div class="create-poster">
+        <div class="m-t">
+          <van-button round block class="invite-btn" @click="share('on')">立即分享</van-button>
+        </div>
+        <div class="create-poster" @click="share('poster')">
           <img src="../../assets/imgs/invite/icon_img@2x.png" alt=""> 生成海报
         </div>
       </div>
@@ -32,20 +34,31 @@
           <dt>已邀请</dt>
           <dt>获得奖励</dt>
         </dl>
-        <ul class="user-list">
-          <li v-for="(history,index) in historyLists" :key="index">
-            <div class="left-u">
-              <img :src="history.acceptor_avatar" alt="">
-              <div>
-                <p class="title">{{history.acceptor_name}} <van-tag color="#FDA500" round v-if="history.order_label">{{history.order_label}}</van-tag></p>
-                <p class="time">{{history.created_at}}</p>
+        <van-list
+          v-model="loading"
+          :finished="finished"
+          finished-text="没有更多了"
+          @load="getHistoryList"
+        >
+          <ul class="user-list">
+            <li v-for="(history,index) in historyLists" :key="index">
+              <div class="left-u">
+                <img :src="history.acceptor_avatar" alt="">
+                <div>
+                  <p class="title">{{history.acceptor_name | getName}} <van-tag color="#FDA500" round v-if="history.order_label">{{history.order_label}}</van-tag></p>
+                  <p class="time">{{history.created_at}}</p>
+                </div>
               </div>
-            </div>
-            <div class="right-i">
-              <span :class="history.status ? '': 'color'">{{history.reward_label}}</span>
-            </div>
-          </li>
-        </ul>
+              <div class="right-i">
+                <span :class="history.status ? '': 'color'">{{history.reward_label}}</span>
+              </div>
+            </li>
+          </ul>
+        </van-list>
+
+        <div v-if="isShowDrift">
+          <van-button round block class="invite-btn">立即分享</van-button>
+        </div>
       </div>
     </div>
   </div>
@@ -54,121 +67,147 @@
 <script>
 import Coupons from '@/components/coupons'
 import {inviteCoupons, inviteHistory} from '@/api/invite'
+import {mapMutations,mapGetters} from 'vuex'
+import axios from 'axios'
 export default {
   name: 'invite_friend',
   components:{
     Coupons
   },
+  filters:{
+    getName(name){
+      if(name.indexOf('@') >= 0) {
+        let str = name.split('.')[1]
+        return `${name.substring(0,4)}****.${str}`
+      } else if(/^[0-9]*$/.test(name)) {
+        return name.replace(/^(\d{3})\d{4}(\d+)/,"$1****$2")
+      }
+      return name
+    }
+  },
   data(){
     return{
       inviteLists: [],
       activityId: 0,
-      historyLists: []
+      historyLists: [],
+      isApp: this.$route.query.platform,
+      scrollTop: 0, // 滚动的距离
+      isShowDrift: false, // 是否显示
+      acceptorRuleId: '',
+      inviterId: '',
+      loading: false,
+      finished: false,
+      prodPagination: {}
     }
   },
+  computed:{
+    ...mapGetters([
+      'token'
+    ])
+  },
   async mounted(){
-    await this.init()
-    this.getHistoryList()
+    if(this.isApp) {
+      this.appBridge = require('@/assets/js/appBridge.js').default
+      try {
+        let token = await this.appBridge.obtainUserToken()
+        this.vxChangeTokens(token)
+        console.log(22222, token)
+        let {code, data} = await inviteCoupons()
+        if(code === 0) {
+          this.inviteLists = data.coupons || []
+          this.activityId = data.activity_id || 0
+          this.acceptorRuleId = data.acceptor_rule_id || 0
+          this.inviterId = data.inviter_id || 0
+        } else {
+          this.inviteLists = []
+          this.activityId = 0
+          this.acceptorRuleId = 0
+          this.inviterId = 0
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    // await this.init()
     window.addEventListener('scroll', this.scrollFn)
   },
   methods:{
+    ...mapMutations({
+      vxChangeTokens: 'setToken', // 改变token
+    }),
     async init(){
-      let {code, data} = await inviteCoupons()
-      if(code === 0) {
-        this.inviteLists = data.coupons || []
-        this.activityId = data.activity_id || 0
-      } else {
-        this.inviteLists = []
-        this.activityId = 0
+      if(this.isApp) {
+        try {
+          let token = await this.appBridge.obtainUserToken()
+          this.vxChangeTokens(token)
+          let {code, data} = await inviteCoupons()
+          if(code === 0) {
+            this.inviteLists = data.coupons || []
+            this.activityId = data.activity_id || 0
+            this.acceptorRuleId = data.acceptor_rule_id || 0
+            this.inviterId = data.inviter_id || 0
+          } else {
+            this.inviteLists = []
+            this.activityId = 0
+            this.acceptorRuleId = 0
+            this.inviterId = 0
+          }
+        } catch (error) {
+          console.log(error)
+        }
       }
     },
     async getHistoryList(){
-      let {code, data = []} = await inviteHistory(this.activityId)
-      if(code === 0) {
-        // this.historyLists = data
-        this.historyLists = [
-          {
-            acceptor_avatar: "https://img.tourscool.net/images/head.png",
-            acceptor_name: "",
-            status: 1,
-            created_at: "2019-05-05",
-            reward_label: "$1,000優惠券",
-            order_label: ""
-          },
-          {
-            acceptor_avatar: "https://img.tourscool.net/images/head.png",
-            acceptor_name: "",
-            status: 1,
-            created_at: "2019-05-05",
-            reward_label: "$1,000優惠券",
-            order_label: ""
-          },
-          {
-            acceptor_avatar: "https://img.tourscool.net/images/head.png",
-            acceptor_name: "",
-            status: 0,
-            created_at: "2019-05-05",
-            reward_label: "已被他人邀請",
-            order_label: ""
-          },
-          {
-            acceptor_avatar: "https://img.tourscool.net/images/head.png",
-            acceptor_name: "",
-            status: 1,
-            created_at: "2019-05-05",
-            reward_label: "$0優惠券",
-            order_label: ""
-          },
-          {
-            acceptor_avatar: "https://img.tourscool.net/images/head.png",
-            acceptor_name: "",
-            status: 0,
-            created_at: "2019-05-05",
-            reward_label: "已被他人邀請",
-            order_label: ""
-          },
-          {
-            acceptor_avatar: "https://img.tourscool.net/images/head.png",
-            acceptor_name: "",
-            status: 0,
-            created_at: "2019-05-05",
-            reward_label: "已被他人邀請",
-            order_label: ""
-          },
-          {
-            acceptor_avatar: "https://img.tourscool.net/images/head.png",
-            acceptor_name: "",
-            status: 0,
-            created_at: "2019-05-05",
-            reward_label: "已被他人邀請",
-            order_label: ""
-          },
-          {
-            acceptor_avatar: "https://img.tourscool.net/images/head.png",
-            acceptor_name: "",
-            status: 0,
-            created_at: "2019-05-05",
-            reward_label: "已被他人邀請",
-            order_label: ""
-          },
-          {
-            acceptor_avatar: "https://img.tourscool.net/images/head.png",
-            acceptor_name: "",
-            status: 0,
-            created_at: "2019-05-05",
-            reward_label: "不是新用戶",
-            order_label: ""
+      try {
+        let token = await this.appBridge.obtainUserToken()
+        this.vxChangeTokens(token)
+        let submitData = {
+          page: (this.prodPagination.page || 0) + 1,
+          id: this.activityId
+        }
+        inviteHistory(submitData).then(res=> {
+          this.historyLists.push(...res.data)
+          this.prodPagination = res.pagination
+          // 加载状态结束
+          this.loading = false
+          // 数据全部加载完成
+          if (!this.prodPagination.more) {
+            this.finished = true
           }
-        ]
-      } else {
-        this.historyLists = []
+        })
+      } catch (error) {
+        console.log(error)
       }
     },
     showExplain(index){
       this.$set(this.inviteLists[index], 'isShow', !this.inviteLists[index].isShow)
     },
+    share(type){
+      if (this.isApp) {
+        try {
+          let data = {
+            price: this.inviteLists[0].minus_label.substring(1),
+            inviterId: this.inviterId,
+            type: type == 'poster' ? 1 : 2,
+            url: `${window.location.origin}/invite_friend/gift_giving?search=platform=app/rule=${this.acceptorRuleId}/activity=${this.activityId}/referrer=${this.inviterId}`,
+            localUrl: `${window.location.origin}/invite_friend/share_poster?search=platform=app/rule=${this.acceptorRuleId}/activity=${this.activityId}/referrer=${this.inviterId}`,
+          }
+          this.appBridge.jumpSharedView(data)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    },
     scrollFn(){
-
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+      let height = document.body.clientHeight
+      this.scrollTop = scrollTop
+      console.log(scrollTop, height)
+      if (this.scrollTop > height) {
+        this.isShowDrift = true
+      } else {
+        this.isShowDrift = false
+      }
     }
   }
 }
@@ -196,7 +235,6 @@ export default {
       }
       .coupons-list{
         padding: 18px 40px;
-        margin-top: 20px;
         background-color: #ffffff;
         border-radius:32px;
         line-height: 60px;
@@ -252,6 +290,7 @@ export default {
           }
           .left-u{
             display: flex;
+            line-height: 40px;
             .time{
               font-size:18px;
               color: #656565;
@@ -273,6 +312,21 @@ export default {
             overflow: hidden;
           }
         }
+      }
+      .invite-btn{
+        margin-top: 72px;
+        width: 100%;
+        height: 78px;
+        font-size: 36px;
+        line-height: 50px;
+        color: rgba(255, 255, 255, 1);
+        background: linear-gradient(
+            90deg,
+            rgba(253, 179, 0, 1) 0%,
+            rgba(253, 165, 0, 1) 100%
+        );
+        box-shadow: 0px 4px 12px rgba(165, 69, 10, 0.16);
+        border-radius: 44px;
       }
     }
   }

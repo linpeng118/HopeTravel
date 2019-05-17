@@ -286,6 +286,11 @@ export const jumpDestinationView = createNoArgApi('jumpDestinationView', 'jumpDe
  */
 export const backPreviousView = createNoArgApi('jumpDestinationView', 'jumpDestinationView')
 
+/**
+ * 跳转城市详情
+ */
+export const jumpSharedView = createArgApi('jumpSharedView', 'jumpSharedView')
+
 
 export default {
   browserVersion,
@@ -296,6 +301,7 @@ export default {
   collectProductResult,
   webViewScrollViewDidScroll,
   jumpWebHTML,
+  jumpSharedView,
   // 以下接口无需参数
   hideNavigationBar,
   showNavigationBar,
