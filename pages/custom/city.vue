@@ -340,6 +340,7 @@
         appVersion: this.$route.query.app_version,
         appLanguage: this.$route.query.language,
         appCurrency: this.$route.query.currency,
+        appPhoneType: this.$route.query.phone_type,
         isTransparent: true, // 导航头是否透明
         showcall:false,
         swiperOption: {
@@ -461,6 +462,8 @@
           this.jsBridge = require("@/assets/js/jsBridge").default;
           this.vxSetLanguage(this.appLanguage)
           this.vxSetCurrency(this.appCurrency)
+          this.vxSetPhoneType(this.appPhoneType)
+          this.vxSetAppVersion(this.appVersion)
         } else {
           this.appBridge = require("@/assets/js/appBridge").default;
         }
@@ -491,7 +494,9 @@
         vxToggleDialog: 'toggleDialog', // 是否显示弹窗
         vxSetDlgType: 'setDlgType', // 设置弹窗类型
         vxSetLanguage: "setLanguage", // 设置语言
-        vxSetCurrency: "setCurrency" // 设置货币
+        vxSetCurrency: "setCurrency", // 设置货币
+        vxSetPhoneType: "setPhoneType", // 设置机型
+        vxSetAppVersion: "setAppVersion" // 设置版本
       }),
       //   得到详细信息
       async getitem(x) {

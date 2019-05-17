@@ -9,8 +9,6 @@
       :proDlgType="vxDlgType"
       @callToggleShow="toggleDialog"
       @callSetDlgType="setDlgType" />
-
-
   </div>
 </template>
 

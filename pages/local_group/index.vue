@@ -177,6 +177,8 @@
           this.jsBridge = require("@/assets/js/jsBridge").default;
           this.vxSetLanguage(this.appLanguage)
           this.vxSetCurrency(this.appCurrency)
+          this.vxSetPhoneType(this.appPhoneType)
+          this.vxSetAppVersion(this.appVersion)
         } else {
           this.appBridge = require("@/assets/js/appBridge").default;
           // 货币
@@ -203,7 +205,9 @@
       ...mapMutations({
         vxChangeHeaderStatus: 'header/changeStatus', // 修改头部状态
         vxSetLanguage: "setLanguage", // 设置语言
-        vxSetCurrency: "setCurrency" // 设置货币
+        vxSetCurrency: "setCurrency", // 设置货币
+        vxSetPhoneType: "setPhoneType", // 设置机型
+        vxSetAppVersion: "setAppVersion" // 设置版本
       }),
       // rightClick
       rightClick() {

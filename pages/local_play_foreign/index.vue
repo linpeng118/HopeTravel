@@ -164,6 +164,8 @@
           this.jsBridge = require("@/assets/js/jsBridge").default;
           this.vxSetLanguage(this.appLanguage)
           this.vxSetCurrency(this.appCurrency)
+          this.vxSetPhoneType(this.appPhoneType)
+          this.vxSetAppVersion(this.appVersion)
           console.log(this.appLanguage, this.appCurrency, this.appPhoneType, this.appVersion);
           await this.jsBridge.webRegisterHandler('obtainUserToken', (token, callback) => {
             // console.log(111, token);
@@ -230,8 +232,12 @@
         vxSetLanguage: "setLanguage",
         // 设置货币
         vxSetCurrency: "setCurrency",
-        vxChangeHeaderStatus: 'header/changeStatus', // 修改头部状态
-
+        // 设置机型
+        vxSetPhoneType: "setPhoneType",
+        // 设置版本
+        vxSetAppVersion: "setAppVersion",
+        // 修改头部状态
+        vxChangeHeaderStatus: 'header/changeStatus',
       }),
       // 返回上一级菜单
       leftClick() {

@@ -135,6 +135,8 @@
         this.jsBridge = require("@/assets/js/jsBridge").default;
         this.vxSetLanguage(this.appLanguage)
         this.vxSetCurrency(this.appCurrency)
+        this.vxSetPhoneType(this.appPhoneType)
+        this.vxSetAppVersion(this.appVersion)
         console.log(this.appLanguage, this.appCurrency, this.appPhoneType, this.appVersion);
         await this.jsBridge.webRegisterHandler('obtainUserToken', (token, callback) => {
           console.log(111, token);
@@ -159,7 +161,11 @@
         // 设置语言
         vxSetLanguage: 'setLanguage',
         // 设置货币
-        vxSetCurrency: 'setCurrency'
+        vxSetCurrency: 'setCurrency',
+        // 设置机型
+        vxSetPhoneType: "setPhoneType",
+        // 设置版本
+        vxSetAppVersion: "setAppVersion"
       }),
       // 获取优惠卷列表
       async getInviteCoupons() {
