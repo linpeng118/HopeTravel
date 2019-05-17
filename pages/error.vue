@@ -10,26 +10,22 @@
       <div @click="$router.go(-1)" class="link">
         返回上一步
       </div>
-      <div>
-        {{error}}
-      </div>
     </div>
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'error',
-    props: {
-      error: {
-        type: Object,
-        default: null
-      }
-    },
-    created(){
-
-    },
+export default {
+  name: 'error404',
+  asyncData({route, redirect}){
+    let reg=/(\/)*/
+    let path = route.fullPath.replace(reg, '/')
+    redirect(path)
+  },
+  created(){
+    console.log(2112121221, this.$route.fullPath)
   }
+}
 </script>
 
 <style type="text/scss" lang="scss" scoped>

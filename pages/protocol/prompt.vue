@@ -1,6 +1,5 @@
 <template>
-  <div class="weituo out-layer-con">
-    {{$t('html.prompt')}}
+  <div class="weituo out-layer-con" v-html="$t('html.prompt')">
   </div>
 </template>
 

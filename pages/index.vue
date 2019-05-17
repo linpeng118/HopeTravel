@@ -150,9 +150,11 @@ export default {
   },
   async asyncData({$axios, store}){
     let indexData
+    console.log(store.getters.currency)
     let {code,data} = await $axios.$get('/api/index/mobile',{
       headers: {
-        'Language': store.getters.language
+        'language': store.getters.language,
+        'currency': store.getters.currency
       }
     })
     if(code === 0 ) {
@@ -200,6 +202,7 @@ export default {
   },
   async mounted() {
     // document.getElementsByTagName('body')[0].className = 'show-kf'
+    console.log(this.$router)
     this.getHomeInitData()
     this.getTime()
     // 监听滚动

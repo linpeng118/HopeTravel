@@ -8,9 +8,7 @@
         left-arrow>
       </van-nav-bar>
     </div>
-    <div class="out-layer-con integral">
-      {{$t('integralPage.integrHtml')}}
-
+    <div class="out-layer-con integral" v-html="$t('integralPage.integrHtml')">
     </div>
   </div>
 </template>
@@ -36,7 +34,7 @@ export default {
 }
 </script>
 
-<style type="text/scss" lang="scss" scoped>
+<style type="text/scss" lang="scss">
   .out-layer-con{
     position: relative;
     border-top: 2px solid #D8D8D8;

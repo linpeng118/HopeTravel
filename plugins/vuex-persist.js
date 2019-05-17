@@ -10,7 +10,8 @@ export default ({store}) => {
         'product.reservePro',
         // 用户信息
         'profile.profile',
-        'language'
+        'language',
+        'currency'
       ],
       // 下面也是可行的
       // reducer(state) {
