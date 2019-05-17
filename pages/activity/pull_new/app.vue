@@ -21,17 +21,21 @@
     <div class="price-content success"
       v-if="receiveStatus===0">
       <img class="img-success mt-20"
-        src="~/assets/imgs/invite/reveive_suc@2x.png"
+        src="~/assets/imgs/invite/reveive@2x.png"
         alt="">
-      <div class="price-box">
-        <img class="img-box"
-          src="~/assets/imgs/invite/box@2x.png"
-          alt="">
-      </div>
-      <p class="tip-text">已放入稀饭旅行APP【我的-我的券】</p>
+      <!-- 优惠券列表 -->
+      <template v-for="(coupon, index) in couponlist">
+        <div class="coupon-list"
+          :key="coupon.rule_coupon_id">
+          <coupon-comp :item="coupon"
+            @showAll="showExplain"
+            :typeOne="index === 1"
+            :index="index"></coupon-comp>
+        </div>
+      </template>
       <van-button class="button-activity mt-26"
         @click="onOpenApp"
-        type="default">打开稀饭APP查看</van-button>
+        type="default">去使用</van-button>
     </div>
     <!-- 重新输入 -->
     <div class="price-content old"
@@ -44,7 +48,7 @@
       <p class="tip-text old-tip">{{msg}}</p>
       <van-button class="button-activity mt-26"
         type="default"
-        @click="onAgain">重新输入</van-button>
+        @click="onOpenApp">去看看</van-button>
     </div>
     <!-- 已领取 -->
     <div class="price-content again"
@@ -56,7 +60,7 @@
       </div>
       <p class="tip-text again-tip">{{msg}}</p>
       <!-- 打开稀饭APP查看 -->
-      <van-button class="button-activity mt-26"
+      <van-button class="button-activity mt-24"
         @click="onOpenApp"
         type="default">打开稀饭APP查看</van-button>
     </div>
@@ -76,13 +80,12 @@
         <div class="product"
           :key="item.product_id">
           <div class="banner"
-            :style="{'background': `#eee url(${item.image}) no-repeat center/100%`}">
+            :style="{'background': `#eee url(${item.image}) no-repeat center/100% 100% `}">
             <span class="discount">{{item.coupon}}</span>
           </div>
           <div class="more">
             <p class="name no-wrap-line3">{{item.name}}</p>
             <p class="price">
-              <span class="p-old">{{item.default_price}}</span>
               <span class="p-now">{{item.default_price}}</span>
               <span class="text">起</span>
             </p>
@@ -97,9 +100,11 @@
   import {mapState, mapMutations} from 'vuex'
   import {getPullNewRules, getProducts, getCouponsReceive} from '@/api/activity'
   import {RECEIVE_TYPE} from '@/assets/js/consts/activity'
+  import CouponComp from '@/components/coupons'
 
   export default {
     components: {
+      CouponComp
     },
     data() {
       return {
@@ -113,6 +118,8 @@
         // 推荐列表
         products: [],
         activeCity: 0,
+        // 优惠券列表
+        couponlist: [],
         // 是否正在提交
         submiting: false,
         // 领取状态
@@ -181,6 +188,10 @@
         if (code === 0) {
           // 领取成功
           this.receiveStatus = 0
+          this.couponlist = data.map(item => ({
+            ...item,
+            isShow: false
+          }))
         } else if (code === RECEIVE_TYPE.end) {
           // 活动结束
           this.receiveStatus = RECEIVE_TYPE.end
@@ -189,11 +200,16 @@
           this.receiveStatus = RECEIVE_TYPE.old
         } else if (code === RECEIVE_TYPE.again) {
           // 已领取
-          this.receiveStatus = RECEIVE_TYPE.old
+          this.receiveStatus = RECEIVE_TYPE.again
+        } else if (code === 401) {
+          console.log(msg)
         } else {
           this.$toast(msg)
         }
         this.submiting = false
+      },
+      showExplain(index) {
+        this.$set(this.couponlist[index], 'isShow', !this.couponlist[index].isShow)
       },
       onCity(city) {
         this.activeCity = city
@@ -216,15 +232,17 @@
     height: 100%;
     min-height: 100vh;
     text-align: center;
-    background: #fff url("~assets/imgs/invite/bg_new.png") no-repeat center
+    background: #ff3b01 url("~assets/imgs/invite/bg_new.png") no-repeat center
       top/100%;
     overflow: hidden;
     .price-content {
       margin: 668px auto 0;
+      padding-bottom: 50px;
       width: 620px;
       background: #fff;
       border-radius: 20px;
       border: 10px solid #ffa53c;
+      box-shadow: 0px 1px 50px #ff3b01;
       .img-desc {
         width: 346px;
         height: 44px;
@@ -246,8 +264,8 @@
         color: #000;
       }
       .button-activity {
-        margin-top: 72px;
         width: 100%;
+        max-width: 538px;
         height: 78px;
         font-size: 36px;
         font-family: PingFang SC;
@@ -277,6 +295,9 @@
       .price-box {
         margin-top: 36px;
       }
+      .button-activity {
+        margin-top: 72px;
+      }
     }
     .success {
       padding: 0 40px 36px;
@@ -284,8 +305,9 @@
         width: 346px;
         height: 110px;
       }
-      .price-box {
+      .coupon-list {
         margin-top: 16px;
+        text-align: left;
       }
       .success-tip {
         margin-top: 46px;
@@ -308,7 +330,7 @@
         margin-top: 72px;
       }
       .again-tip {
-        margin-top: 80px;
+        margin-top: 30px;
       }
     }
     .exclusive-title {
@@ -357,11 +379,12 @@
     }
     .product-list {
       overflow: hidden;
-      padding-top: 40px;
+      padding: 40px 0;
       .product {
         display: inline-block;
         margin: 20px 20px 0;
         width: 278px;
+        background: #fff;
         .banner {
           position: relative;
           height: 210px;
@@ -392,6 +415,7 @@
             color: #000;
           }
           .price {
+            text-align: right;
             .p-old,
             .text {
               height: 28px;
@@ -401,6 +425,7 @@
               line-height: 28px;
               color: rgba(198, 198, 198, 1);
               opacity: 1;
+              letter-spacing: -1px;
             }
             .p-old {
               text-decoration: line-through;
