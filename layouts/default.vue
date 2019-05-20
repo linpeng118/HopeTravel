@@ -9,8 +9,6 @@
       :proDlgType="vxDlgType"
       @callToggleShow="toggleDialog"
       @callSetDlgType="setDlgType" />
-
-
   </div>
 </template>
 
@@ -32,6 +30,7 @@
     },
     computed: {
       ...mapState({
+        vxLanguage: state => state.language,
         // 登录弹窗
         vxShowLoginDlg: state => state.login.isShowDlg,
         // 通用弹窗
@@ -39,7 +38,7 @@
         vxDlgType: state => state.dlgType
       })
     },
-    mounted(){
+    created(){
       this.initLanguage()
     },
     methods: {
@@ -68,6 +67,9 @@
         if(code === 0) {
           setCookieByKey(LANGUAGE, data.language)
           this.vxSetLanguage(data.language)
+        } else {
+          console.log(this.vxLanguage);
+          setCookieByKey(LANGUAGE, this.vxLanguage)
         }
       }
     }

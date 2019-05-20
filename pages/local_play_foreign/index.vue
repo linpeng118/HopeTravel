@@ -96,6 +96,8 @@
   import {HEADER_TYPE} from '@/assets/js/consts/headerType'
   import SnapUpItem from '@/components/items/snapUpItem'
   import {setCookieByKey, getLocalStore} from '@/assets/js/utils'
+  import {TOKEN, CURRENCY} from '@/assets/js/config'
+
   export default {
     // layout: 'default',
     transition: 'page',
@@ -116,7 +118,12 @@
     },
     data() {
       return {
+        CURRENCY,
         isApp: this.$route.query.platform,
+        appVersion: this.$route.query.app_version,
+        appLanguage: this.$route.query.language,
+        appCurrency: this.$route.query.currency,
+        appPhoneType: this.$route.query.phone_type,
         // swiper配置
         viewedSwiperOption: {
           slidesPerView: 'auto',
@@ -153,40 +160,69 @@
         return `background-image:url(${this.cityInfo.image})`
       }
     },
-    created() {
-    },
-    async mounted() {
-      this.init()
+    async beforeMount() {
+      // 判断是否APP
       if (this.isApp) {
-        this.appBridge = require('@/assets/js/appBridge.js').default
-        // this.appBridge.hideNavigationBar()
-        try {
-          let currency = await this.appBridge.obtainUserCurrency()
-          // 安卓只能返回JSON字符串
-          if (this.appBridge.browserVersion && this.appBridge.browserVersion.isAndroid()) {
-            setCookieByKey('currency', currency)
-          } else {
-            setCookieByKey('currency', currency.userCurrency)
+        if (this.appVersion) {
+          this.jsBridge = require("@/assets/js/jsBridge").default;
+          this.vxSetPlatform(this.isApp)
+          this.vxSetLanguage(this.appLanguage)
+          this.vxSetCurrency(this.appCurrency)
+          this.vxSetPhoneType(this.appPhoneType)
+          this.vxSetAppVersion(this.appVersion)
+          console.log(this.appLanguage, this.appCurrency, this.appPhoneType, this.appVersion);
+          await this.jsBridge.webRegisterHandler('obtainUserToken', (token, callback) => {
+            // console.log(111, token);
+            if (token) {
+              this.vxSetToken(token)
+            }
+            // callback({test: 'obtainUserToken callback success!!'})
+          })
+          await this.jsBridge.webRegisterHandler('getLocalStorage', (productIds, callback) => {
+            // console.log(222, JSON.parse(productIds));
+            if (productIds) {
+              this.getViewedList(JSON.parse(productIds))
+              // callback({test: 'getLocalStorage callback success!!'})
+            }
+          })
+        } else {
+          this.appBridge = require("@/assets/js/appBridge").default;
+          // 货币
+          try {
+            let currency = await this.appBridge.obtainUserCurrency()
+            // 安卓只能返回JSON字符串
+            if (this.appBridge.browserVersion && this.appBridge.browserVersion.isAndroid()) {
+              setCookieByKey(CURRENCY, currency)
+            } else {
+              setCookieByKey(CURRENCY, currency.userCurrency)
+            }
+          } catch (error) {
+            console.log(error);
           }
-        } catch (error) {
-          console.log(error)
-        }
-        try {
-          let productIds = await this.appBridge.getLocalStorage()
-          if (productIds) {
-            this.getViewedList(productIds)
+          // APP浏览记录数据及token
+          try {
+            let token = await this.appBridge.obtainUserToken()
+            if (token) {
+              this.vxSetToken(token)
+            }
+            let productIds = await this.appBridge.getLocalStorage()
+            if (productIds) {
+              this.getViewedList(productIds)
+            }
+          } catch (error) {
+            console.log(error)
           }
-          let token = await this.appBridge.obtainUserToken()
-          this.vxChangeTokens(token)
-        } catch (error) {
-          console.log(error)
         }
       } else {
         let productIds = getLocalStore('browsList')
-        if (productIds&&productIds.length) {
+        if (productIds && productIds.length) {
           this.getViewedList(productIds)
         }
       }
+    },
+    async mounted() {
+      this.init()
+      // 监听滚动
       this.$refs.refLocalPlayForeign.addEventListener('scroll', this.scrollFn)
     },
     beforeDestroy() {
@@ -194,13 +230,29 @@
     },
     methods: {
       ...mapMutations({
-        vxChangeTokens: 'setToken', // 改变token
-        vxChangeHeaderStatus: 'header/changeStatus' // 修改头部状态
+        // 设置品台
+        vxSetPlatform: 'setPlatform',
+        // 改变token
+        vxSetToken: 'setToken',
+        // 设置语言
+        vxSetLanguage: "setLanguage",
+        // 设置货币
+        vxSetCurrency: "setCurrency",
+        // 设置机型
+        vxSetPhoneType: "setPhoneType",
+        // 设置版本
+        vxSetAppVersion: "setAppVersion",
+        // 修改头部状态
+        vxChangeHeaderStatus: 'header/changeStatus',
       }),
       // 返回上一级菜单
       leftClick() {
         if (this.isApp) {
-          this.appBridge.backPreviousView()
+          if (this.appVersion) {
+            this.jsBridge.webCallHandler('backPreviousView')
+          } else {
+            this.appBridge.backPreviousView()
+          }
         } else {
           this.$router.go(-1)
         }
@@ -240,27 +292,33 @@
       selectItem(productId) {
         // console.log(productId)
         if (this.isApp) {
-          // app详情跳转
-          // console.log('app详情跳转')
-          this.appBridge.jumpProductDetailView({
-            productID: productId.toString()
-          })
+          let params = {
+            product_id: productId.toString()
+          }
+          if (this.appVersion) {
+            this.jsBridge.webCallHandler('jumpProductDetailView', params)
+          } else {
+            this.appBridge.jumpProductDetailView(params)
+          }
         } else {
           // m跳转
-          // console.log('m跳转')
-          this.$router.push({
+          let routeData = this.$router.resolve({
             path: '/product/detail',
             query: {
               productId
             }
-          })
+          });
+          window.open(routeData.href, '_blank')
         }
       },
-      // 跳转search
+      // 跳转search,搜索
       selectSearch() {
         if (this.isApp) {
-          // console.log('app搜索')
-          this.appBridge.jumpSearchView()
+          if (this.appVersion) {
+            this.jsBridge.webCallHandler('jumpSearchView')
+          } else {
+            this.appBridge.jumpSearchView()
+          }
         } else {
           // m跳转
           // console.log('m搜索')
@@ -301,7 +359,11 @@
         const s1 = this.$refs.refLocalPlayForeign.scrollTop
         const s3 = this.$refs.refAreaMain.offsetHeight
         if (this.isApp) {
-          this.appBridge.webViewScrollViewDidScroll({'top': s1.toString()})
+          if (this.appVersion) {
+            this.jsBridge.webCallHandler('webViewScrollViewDidScroll', {top: s1.toString()})
+          } else {
+            this.appBridge.webViewScrollViewDidScroll({top: s1.toString()});
+          }
         }
         setTimeout(() => {
           const s2 = this.$refs.refLocalPlayForeign.scrollTop
@@ -332,7 +394,11 @@
           if (typeId !== null) {
             data.product_type = typeId.toString()
           }
-          this.appBridge.jumpProductListView(data)
+          if (this.appVersion) {
+            this.jsBridge.webCallHandler('jumpProductListView', data)
+          } else {
+            this.appBridge.jumpProductListView(data);
+          }
         } else {
           let query = {
             keyword: encodeURIComponent(this.cityInfo.name),
@@ -347,42 +413,72 @@
           })
         }
       },
-      // 搜藏
+      // 收藏
       async callCollect(val) {
-        if (this.isApp) {
-          let json = {
-            type: val.is_favorite ? '1' : '0',
-            product_id: val.product_id.toString()
+        let token = getCookieByKey(TOKEN);
+        console.log(token);
+        if (!token) {
+          if (this.appVersion) {
+            this.jsBridge.webCallHandler('jumpToLoginView')
+          } else {
+            this.appBridge.jumpToLoginView();
           }
-          this.appBridge.userCollectProduct(json)
-          this.appBridge.collectProductResult().then(res => {
-            // 安卓只能返回JSON字符串
-            if (this.appBridge.browserVersion && this.appBridge.browserVersion.isAndroid()) {
-              res = JSON.parse(res)
-            }
-            if (res.code == 0) {
-              this.$toast(this.$t('operateSuc'))
-              const index = this.viewedList.findIndex(item => {
-                return item.product_id === val.product_id
-              })
-              this.viewedList[index].is_favorite = !this.viewedList[index].is_favorite
-            } else {
-              this.$toast(this.$t('operateFail'))
-            }
-          })
-          // let res = await this.appBridge.collectProductResult()
+          return
+        }
+        let data = {
+          product_id: val.product_id.toString()
+        }
+        if (val.is_favorite) {
+          // 取消收藏
+          await this.removeFavorite(data)
         } else {
-          // console.log(val.product_id)
-          this.addCollectOrNot(val)
+          // 添加收藏
+          await this.addFavorite(data)
+        }
+        const index = this.viewedList.findIndex(item => {
+          return item.product_id === val.product_id
+        })
+        this.viewedList[index].is_favorite = !this.viewedList[index].is_favorite
+      },
+      // 添加收藏
+      async addFavorite(val) {
+        try {
+          let {code} = await this.$api.products.addFavorite(data)
+          if (code === 0) {
+            this.$toast(this.$t(localPlayPage.collectionSuc))
+          } else {
+            this.$toast(this.$t(localPlayPage.collectionFail))
+          }
+        } catch (error) {
+          console.log(error);
         }
       },
+      // 取消收藏
+      async removeFavorite(val) {
+        try {
+          let {code} = await this.$api.products.addFavorite(data)
+          if (code === 0) {
+            this.$toast(this.$t('localPlayPage.collectionSuc'))
+          } else {
+            this.$toast(this.$t('localPlayPage.collectionFail'))
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      // 更多城市
       moreCity() {
         if (this.isApp) {
           query.platform = 'app'
           try {
-            this.appBridge.jumpWebHTML({
-              path: 'local_play_foreign/more_city?platform=app'
-            })
+            const params = {
+              path: `local_play_foreign/more_city?touCityId=${cityId}&platform=${this.isApp}`
+            }
+            if (this.appVersion) {
+              this.jsBridge.webCallHandler('jumpWebHTML', params)
+            } else {
+              this.appBridge.jumpWebHTML(params);
+            }
           } catch (error) {
             console.log(error);
           }
@@ -392,34 +488,6 @@
           })
         }
       },
-      // 取消收藏和添加收藏
-      async addCollectOrNot(val) {
-        if (!this.isApp) {
-          if (val.is_favorite) {
-            let {code} = await delFavorite({
-              product_id: val.product_id
-            })
-            if (code === 0) {
-              this.$toast(this.$t('localPlayPage.cancelCollection'))
-            } else {
-              this.$toast(this.$t('localPlayPage.cancelCollectionFail'))
-            }
-          } else {
-            let {code} = await addFavorite({
-              product_id: val.product_id
-            })
-            if (code === 0) {
-              this.$toast(this.$t('localPlayPage.collectionSuc'))
-            } else {
-              this.$toast(this.$t('localPlayPage.collectionFail'))
-            }
-          }
-          const index = this.viewedList.findIndex(item => {
-            return item.product_id === val.product_id
-          })
-          this.viewedList[index].is_favorite = !this.viewedList[index].is_favorite
-        }
-      }
     }
   }
 </script>

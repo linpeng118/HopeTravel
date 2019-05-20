@@ -15,25 +15,15 @@ export const getOrderInfo = (status) => {
  * @param {Object} data
  */
 export const couponList = (data) => {
-  return axios.get(`/api/product/${data.product_id}/coupons?type=summary`,{
-    headers: {
-    'platform': 'mobile ',
-      'site' : 'mobile'
-  }
-  })
+  return axios.get(`/api/product/${data.product_id}/coupons?type=summary`)
 }
 /**
  * 展开产品可用优惠卷
  * @param {Object} data
  */
 export const couponDetail = (data) => {
-  return axios.get(`/api/product/${data.product_id}/coupons?type=detail`,{
-    headers: {
-      'platform': 'mobile ',
-      'site' : 'mobile'
-    }
+  return axios.get(`/api/product/${data.product_id}/coupons?type=detail`)
 }
-)}
 
 /**
  * 领取产品优惠卷
@@ -42,14 +32,8 @@ export const couponDetail = (data) => {
 export const getcouponobj = (data) => {
   return axios.post(`/api/product/${data.product_id}/receive/${data.id}`, {
     position: 'detail'
-  },{
-    headers: {
-      'platform': 'mobile ',
-      'site' : 'mobile'
   }
-  }
-)
-}
+)}
 
 
 // 获取米粒信息

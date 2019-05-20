@@ -59,7 +59,7 @@ module.exports = {
       href: '/favicon.ico',
     },],
     script: scriptConfig,
-    __dangerouslyDisableSanitizers: ['script'],
+    _dangerouslyDisableSanitizers_: ['script'],
   },
 
   /*
@@ -236,16 +236,14 @@ module.exports = {
           exclude: /(node_modules)/,
         })
       }
-      if (ctx.isDev) {
-        if (config.entry) {
-          config.entry.push('babel-polyfill')
-          config.entry.push('eventsource-polyfill')
-        } else {
-          config.entry = [
-            'babel-polyfill',
-            'eventsource-polyfill'
-          ]
-        }
+      if (config.entry) {
+        config.entry.push('babel-polyfill')
+        config.entry.push('eventsource-polyfill')
+      } else {
+        config.entry = [
+          'babel-polyfill',
+          'eventsource-polyfill'
+        ]
       }
       if (!ctx.isDev) {
         config.devtool = false

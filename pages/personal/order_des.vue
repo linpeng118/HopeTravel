@@ -1,8 +1,13 @@
 <template>
   <section>
-    <van-nav-bar class="login-header tours-no-bb" ref="loginHeader" :title="$t('orderDetailPage.title')" :z-index="999"
-                 @click-left="onClickLeft">
-      <van-icon class="left-wrap" name="arrow-left" slot="left"/>
+    <van-nav-bar class="login-header tours-no-bb"
+      ref="loginHeader"
+      :title="$t('orderDetailPage.title')"
+      :z-index="999"
+      @click-left="onClickLeft">
+      <van-icon class="left-wrap"
+        name="arrow-left"
+        slot="left" />
     </van-nav-bar>
     <div class="details-head">
       <div class="head-left">
@@ -17,11 +22,14 @@
     <section class="section0">
       <section>
         <div class="confirm-item">
-          <p class="item-con" @click="topro()">
+          <p class="item-con"
+            @click="topro()">
             <span style="width: 80%"
-                  v-html="details.product_name.length>45?details.product_name.substr(0,40)+'...':details.product_name"></span>
+              v-html="details.product_name.length>45?details.product_name.substr(0,40)+'...':details.product_name"></span>
             <span style="width: 10%"></span>
-            <van-icon color="#404040" name="arrow" size="1.2em"/>
+            <van-icon color="#404040"
+              name="arrow"
+              size="1.2em" />
           </p>
           <p class="item-conx">
             <span>
@@ -41,7 +49,8 @@
         </div>
       </section>
       <section>
-        <div class="confirm-item" v-if="details.attribute">
+        <div class="confirm-item"
+          v-if="details.attribute">
           <p class="item-title">{{$t('orderDetailPage.tripInfo')}}</p>
           <template v-for="(item,index) in details.attribute">
             <div :key="index">
@@ -52,14 +61,15 @@
             </div>
           </template>
 
-
         </div>
       </section>
       <section>
-        <div class="confirm-item" v-if="details.guest_name">
+        <div class="confirm-item"
+          v-if="details.guest_name">
           <p class="item-title">{{$t('orderDetailPage.travlerInfo')}}</p>
           <template v-for="(item,index) in details.guest_name">
-            <div :key="index" class="item-contanct">
+            <div :key="index"
+              class="item-contanct">
               <div>{{index+1}}.{{item.name}}</div>
               <div>
                 <p>{{item.passport||$t('notHave')}}</p>
@@ -83,21 +93,46 @@
           </div>
         </div>
       </section>
-      <section v-show="details.status&&details.status.code==0" style="text-align: center;width: 100%">
-        <div style="display: none" >
-          <form :action="apiPath.payment+'/payment/mobile/checkout'" method="post">
-            <input type="text" name="order_id" value="" ref="order_id">
-            <input type="text" name="order_title" value="" ref="order_title">
-            <input type="text" name="total_fee[CNY]" value="" ref="total_feecny">
-            <input type="text" name="total_fee[USD]" value="" ref="total_feeusd">
-            <input type="text" name="client_type" value="tourscool">
-            <input type="text" name="jwt" ref="jwt" value="" >
-            <input type="text" name="success_url" ref="success_url">
-            <input type="text" name="failure_url" ref="failure_url">
-            <input type="submit" ref="submitform">
+      <section v-show="details.status&&details.status.code==0"
+        style="text-align: center;width: 100%">
+        <div style="display: none">
+          <form :action="apiPath.payment+'/payment/mobile/checkout'"
+            method="post">
+            <input type="text"
+              name="order_id"
+              value=""
+              ref="order_id">
+            <input type="text"
+              name="order_title"
+              value=""
+              ref="order_title">
+            <input type="text"
+              name="total_fee[CNY]"
+              value=""
+              ref="total_feecny">
+            <input type="text"
+              name="total_fee[USD]"
+              value=""
+              ref="total_feeusd">
+            <input type="text"
+              name="client_type"
+              value="tourscool">
+            <input type="text"
+              name="jwt"
+              ref="jwt"
+              value="">
+            <input type="text"
+              name="success_url"
+              ref="success_url">
+            <input type="text"
+              name="failure_url"
+              ref="failure_url">
+            <input type="submit"
+              ref="submitform">
           </form>
         </div>
-        <button class="pay-btn" @click="subData()">{{$t('orderDetailPage.goPay')}}</button>
+        <button class="pay-btn"
+          @click="subData()">{{$t('orderDetailPage.goPay')}}</button>
       </section>
     </section>
   </section>
@@ -109,6 +144,10 @@
     getCookieByKey
   } from '@/assets/js/utils'
   import {orderdetails} from '@/api/order'
+  import {
+    TOKEN,
+  } from '@/assets/js/config'
+
   export default {
     name: "order_details",
     components: {
@@ -172,7 +211,7 @@
           ]
         },
         order_id: this.$route.query.order_id,
-        apiPath:require('@/apiConf.env'),
+        apiPath: require('@/apiConf.env'),
       }
     },
     computed: {},
@@ -189,39 +228,39 @@
         if (code === 0) {
           this.details = data
         }
-        else if(code === 404){
+        else if (code === 404) {
           this.details = null;
           this.$router.push({
-            path:'/'
+            path: '/'
           })
         }
-        else{
+        else {
           this.details = null;
         }
       },
       onClickLeft() {
         this.$router.push({
-          path:'/personal/order?status=null'
+          path: '/personal/order?status=null'
         })
       },
-      subData(){
-        this.$refs.order_id.value=this.details.order_id;
-        this.$refs.order_title.value=this.details.product_name;
-        this.$refs.total_feeusd.value=Number(this.details.price.substr(1).replace(',',''))*100;
-        this.$refs.total_feecny.value=this.details.cny_price*100||0;
-        this.$refs.success_url.value='//'+window.location.host+"/personal/order_des?order_id="+this.details.order_id;
-        this.$refs.failure_url.value='//'+window.location.host+"/personal/order?status=null";
-        var token=getCookieByKey('token') ? getCookieByKey('token') : '';
-        token=token.replace('Bearer ','');
-        this.$refs.jwt.value=token;
+      subData() {
+        this.$refs.order_id.value = this.details.order_id;
+        this.$refs.order_title.value = this.details.product_name;
+        this.$refs.total_feeusd.value = Number(this.details.price.substr(1).replace(',', '')) * 100;
+        this.$refs.total_feecny.value = this.details.cny_price * 100 || 0;
+        this.$refs.success_url.value = '//' + window.location.host + "/personal/order_des?order_id=" + this.details.order_id;
+        this.$refs.failure_url.value = '//' + window.location.host + "/personal/order?status=null";
+        var token = getCookieByKey(TOKEN) ? getCookieByKey(TOKEN) : '';
+        token = token.replace('Bearer ', '');
+        this.$refs.jwt.value = token;
         this.$refs.submitform.click();
       },
-      topro(){
-        let this_=this;
+      topro() {
+        let this_ = this;
         let routeData = this.$router.resolve({
           name: 'product-detail',
           query: {
-            'productId':this_.details.product_id
+            'productId': this_.details.product_id
           }
         });
         window.open(routeData.href, '_blank')
@@ -243,7 +282,6 @@
     height: 160px;
     float: left;
     padding-left: 32px;
-
   }
 
   .head-right {
@@ -255,21 +293,21 @@
   }
 
   .head-right p {
-    color: #FF5454;
+    color: #ff5454;
     font-weight: bold;
     line-height: 60px;
     font-size: 32px;
   }
 
   .head-left p:nth-child(1) {
-    color: #3E3E3E;
+    color: #3e3e3e;
     line-height: 60px;
     font-size: 32px;
     font-weight: bold;
   }
 
   .head-left p:nth-child(2) {
-    color: #399EF6;
+    color: #399ef6;
     line-height: 50px;
     font-size: 22px;
   }
@@ -322,7 +360,7 @@
     color: rgba(19, 19, 19, 1);
     font-weight: bold;
     font-size: 24px;
-    border-bottom: 2px solid #DEDEDE;
+    border-bottom: 2px solid #dedede;
   }
 
   .item-con {
@@ -343,7 +381,7 @@
     width: 150px;
     font-size: 24px;
     display: inline-block;
-    color: #FF9100;
+    color: #ff9100;
     text-align: right;
   }
 
@@ -363,7 +401,7 @@
   }
 
   .user-item {
-    border-bottom: 1px solid #DEDEDE;
+    border-bottom: 1px solid #dedede;
     margin: 0 24px;
   }
 
@@ -376,7 +414,7 @@
   }
 
   .user-item span:nth-child(1) i {
-    color: #9F9F9F;
+    color: #9f9f9f;
     font-size: 24px;
     font-style: normal;
     padding-left: 20px;
@@ -387,7 +425,7 @@
     height: 80px;
     line-height: 80px;
     float: right;
-    color: #399EF6;
+    color: #399ef6;
   }
 
   .user-item > span:nth-child(2) {
@@ -411,7 +449,6 @@
     color: #fff;
     margin: 28px 100px;
     border-radius: 8px;
-
   }
 
   .btnbox {
@@ -445,7 +482,6 @@
   .radiobox {
     max-height: 800px;
     overflow-y: scroll;
-
   }
 
   .login-header {
@@ -504,7 +540,8 @@
     margin-top: 30px;
   }
 
-  .item-conx > span:nth-child(1) > i:nth-child(1), .item-conx > span:nth-child(3) > i:nth-child(1) {
+  .item-conx > span:nth-child(1) > i:nth-child(1),
+  .item-conx > span:nth-child(3) > i:nth-child(1) {
     color: #191919;
     font-size: 24px;
     font-weight: bold;
@@ -519,7 +556,7 @@
     width: 100%;
     height: 150px;
     background-color: #fff;
-    border-bottom: 1px solid #DEDEDE;
+    border-bottom: 1px solid #dedede;
     padding: 24px;
   }
 
@@ -545,7 +582,7 @@
     width: 100%;
     height: 150px;
     background-color: #fff;
-    border-bottom: 1px solid #DEDEDE;
+    border-bottom: 1px solid #dedede;
     padding: 24px;
   }
 
@@ -565,7 +602,6 @@
     font-size: 24px;
     line-height: 40px;
     color: #191919;
-
   }
 
   .pay-btn {
@@ -579,5 +615,4 @@
     line-height: 80px;
     font-size: 32px;
   }
-
 </style>

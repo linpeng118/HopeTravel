@@ -6,8 +6,12 @@ import {
 }
 from '@/assets/js/utils'
 import {
-  TOKEN_KEY,
-  LANGUAGE
+  TOKEN,
+  LANGUAGE,
+  CURRENCY,
+  PLATFORM,
+  PHONE_TYPE,
+  APP_VERSION
 } from '@/assets/js/config'
 // 使用UI库的弹窗
 import {
@@ -20,13 +24,10 @@ let httprequest = axios.create({
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json; charset=utf-8', // json格式通信
-    'platform': 'app',
-    'phoneType': 'iOS',
-    'App-Version': '1.0.0'
   }
 })
 // 修改默认配置-post请求头的设置
-httprequest.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+// httprequest.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 // 临时测试用，
 // httprequest.defaults.headers.post['Authorization'] = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xOTIuMTY4LjEuMTkwOjkwMDFcL2FwaVwvdG91clwvdjFcL29hdXRoXC9sb2dpbiIsImlhdCI6MTU1MjkwMjQ2MywiZXhwIjoxNTUyOTAyNzYzLCJuYmYiOjE1NTI5MDI0NjMsImp0aSI6InZYdWtGWmwxdmx6dHdwNlEiLCJzdWIiOjEwMzUsInBydiI6IjFkMGEwMjBhY2Y1YzRiNmM0OTc5ODlkZjFhYmYwZmJkNGU4YzhkNjMiLCJ1aWQiOjEwMzV9.6MUo75YSNQ_Uo46ZnRqvhwjBAw-wPZ1_56QXkxBHJk';
 
@@ -35,15 +36,21 @@ httprequest.interceptors.request.use(
   config => {
     console.log('Making request to ' + config.url)
     if (process.client) {
-      // TODO:这里不能动态获取到store中的数据
-      let token = getCookieByKey('token');
-      let currency = getCookieByKey('currency') || store().state.currency; // 货币类型获取
-      let language = getCookieByKey(LANGUAGE) || store().state.language
-      console.log(22222222, getCookieByKey(LANGUAGE))
-      if (token || currency || language) {
-        config.headers[TOKEN_KEY] = token
-        config.headers.currency = currency
-        config.headers.language = language
+      // TODO:这里不能动态获取到store中的数据,使用axios问题
+      let token = getCookieByKey(TOKEN) || '';
+      let currency = getCookieByKey(CURRENCY) || store().state.currency; // 货币类型获取
+      let language = getCookieByKey(LANGUAGE) || store().state.language; // 语言
+      let platform = getCookieByKey(PLATFORM) || store().state.platform; // 平台
+      let phoneType = getCookieByKey(PHONE_TYPE) || store().state.phoneType; // 机型
+      let appVersion = getCookieByKey(APP_VERSION) || store().state.appVersion; // APP版本
+      // console.log('language', language)
+      if (token || currency || language || platform) {
+        config.headers['Authorization'] = token
+        config.headers['Currency'] = currency
+        config.headers['Language'] = language
+        config.headers['Platform'] = platform
+        config.headers['Phone-Type'] = phoneType
+        config.headers['App-Version'] = appVersion
       }
       // 请求接口添加时间戳
       if (config.method == 'post') {
@@ -57,7 +64,6 @@ httprequest.interceptors.request.use(
         }
       }
     }
-    // 'language': store().getters.language  // zh-TW=繁体；zh-CN=中文简体
     return config
   },
   error => {
@@ -75,8 +81,8 @@ httprequest.interceptors.response.use(
         window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname + window.location.search)
       } else if (res.data.code === 401) {
         const token = res.data.data.token
-        res.config.headers[TOKEN_KEY] = token
-        setCookieByKey('token', token)
+        res.config.headers['Authorization'] = token
+        setCookieByKey(TOKEN, token)
         return axios(res.config)
       } else {
         return Promise.resolve(res.data)
@@ -121,7 +127,7 @@ const errorHandle = (status, other) => {
       // 清除token并跳转登录页
     case 403:
       tip('登录过期，请重新登录');
-      // localStorage.removeItem('token');
+      // localStorage.removeItem(TOKEN);
       // store.commit('loginSuccess', null);
       // setTimeout(() => {
       //   toLogin();

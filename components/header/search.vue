@@ -178,7 +178,7 @@
       color: #00ABF9;
     }
     .personal-btn{
-      font-size: 48px;
+      font-size: 48px !important;
       padding-left: 10px;
       i{
         vertical-align: bottom;
