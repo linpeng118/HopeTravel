@@ -20,9 +20,10 @@ export default function ({
   $axios.defaults.withCredentials = true
   $axios.defaults.headers = {
     'Content-Type': 'application/json; charset=utf-8', // json格式通信
-    'Platform': 'app',
-    'Phone-Type': 'iOS',
-    'App-Version': '1.0.0',
+    'Currency': store().state.currency,
+    'Platform': store().state.platform,
+    'Phone-Type': store().state.phoneType,
+    'App-Version': store().state.appVersion,
     'Language': store.getters.language  // zh-TW=繁体；zh-CN=中文简体
   }
   // if (process.env.NODE_ENV === 'production') {
