@@ -34,7 +34,7 @@
         </div>
       </template>
       <van-button class="button-activity mt-26"
-        @click="onOpenApp"
+        @click="jumpToAppCoupon"
         type="default">去使用</van-button>
     </div>
     <!-- 重新输入 -->
@@ -48,7 +48,7 @@
       <p class="tip-text old-tip">{{msg}}</p>
       <van-button class="button-activity mt-26"
         type="default"
-        @click="onOpenApp">去看看</van-button>
+        @click="jumpToAppCoupon">去看看</van-button>
     </div>
     <!-- 已领取 -->
     <div class="price-content again"
@@ -61,7 +61,7 @@
       <p class="tip-text again-tip">{{msg}}</p>
       <!-- 打开稀饭APP查看 -->
       <van-button class="button-activity mt-24"
-        @click="onOpenApp"
+        @click="jumpToAppCoupon"
         type="default">打开稀饭APP查看</van-button>
     </div>
     <h1 class="exclusive-title">新人专享</h1>
@@ -78,7 +78,8 @@
       v-if="products&&products.length&&products[activeCity]&&products[activeCity].items">
       <template v-for="item in products[activeCity].items">
         <div class="product"
-          :key="item.product_id">
+          :key="item.product_id"
+          @click="jumpToDetail(item.product_id)">
           <div class="banner"
             :style="{'background': `#eee url(${item.image}) no-repeat center/100% 100% `}">
             <span class="discount">{{item.coupon}}</span>
@@ -138,7 +139,7 @@
     async beforeMount() {
       this.jsBridge = require('@/assets/js/jsBridge.js').default
       await this.jsBridge.webRegisterHandler('obtainUserToken', (token, callback) => {
-        // console.log(111, token);
+        console.log(111, token);
         if (token) {
           this.vxSetToken(token)
         }
@@ -178,7 +179,8 @@
           type: 'reduction'
         })
         if (code === 0) {
-          this.id = data.id
+          this.id = data.id,
+            this.rules = data.rules
         }
       },
       /**
@@ -196,6 +198,10 @@
       async onReceive() {
         this.submiting = true
         console.log('onReceive', `${this.areaCode}-${this.phone}`)
+        // if(!this.vxToken) {
+        //   this.jsBridge.webCallHandler('jumpToLoginView')
+        //   return
+        // }
         const {code, msg, data} = await getCouponsReceive({
           id: this.id,
           phone: `${this.areaCode}-${this.phone}`
@@ -208,6 +214,7 @@
             ...item,
             isShow: false
           }))
+          this.jsBridge.webCallHandler('userObtainNewcomerGiftSuccessful')
         } else if (code === RECEIVE_TYPE.end) {
           // 活动结束
           this.receiveStatus = RECEIVE_TYPE.end
@@ -235,10 +242,17 @@
         this.phone = ''
         this.$set(this, 'receiveStatus', RECEIVE_TYPE.default)
       },
-      // 打开APP
-      onOpenApp() {
-        console.log('onOpenApp');
+      // 跳转至优惠卷列表
+      jumpToAppCoupon() {
+        console.log('jumpToAppCoupon');
+        this.jsBridge.webCallHandler('jumpCouponsListView')
       },
+      // 跳转到详情
+      jumpToDetail(id) {
+        this.jsBridge.webCallHandler('jumpProductDetailView', {
+          product_id: id
+        })
+      }
     },
   }
 </script>

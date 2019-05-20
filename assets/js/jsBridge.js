@@ -43,13 +43,13 @@ function setupWebViewJavascriptBridge(callback) {
 export default {
   // {isIos(), isAndroid()}
   browserVersion,
-  // web调用app
+  // web 调用 app
   webCallHandler(name, data, callback) {
     setupWebViewJavascriptBridge((bridge) => {
       bridge.callHandler(name, data, callback)
     })
   },
-  // app调用web
+  // app 调用 web
   webRegisterHandler(name, callback) {
     setupWebViewJavascriptBridge((bridge) => {
       if (browserVersion.isAndroid()) {
