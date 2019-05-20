@@ -75,7 +75,7 @@
     </div>
     <!-- 推荐产品 -->
     <section class="product-list"
-      v-if="products[activeCity]&&products[activeCity].items">
+      v-if="products&&products.length&&products[activeCity]&&products[activeCity].items">
       <template v-for="item in products[activeCity].items">
         <div class="product"
           :key="item.product_id">
@@ -111,6 +111,10 @@
         RECEIVE_TYPE,
         // 是否是app
         isApp: this.$route.query.platform,
+        appVersion: this.$route.query.app_version,
+        appLanguage: this.$route.query.language,
+        appCurrency: this.$route.query.currency,
+        appPhoneType: this.$route.query.phone_type,
         // 活动id
         id: '',
         // 活动规则
@@ -127,24 +131,45 @@
       }
     },
     computed: {
-      // ...mapState({
-      //   vxPage: state => state.login.page // 登录展示哪个页面
-      // }),
+      ...mapState({
+        vxToken: state => state.token // 登录展示哪个页面
+      }),
     },
-    beforeMount() {
-      this.appBridge = require('@/assets/js/appBridge.js').default
+    async beforeMount() {
+      this.jsBridge = require('@/assets/js/jsBridge.js').default
+      await this.jsBridge.webRegisterHandler('obtainUserToken', (token, callback) => {
+        // console.log(111, token);
+        if (token) {
+          this.vxSetToken(token)
+        }
+      })
     },
     mounted() {
       this.init()
     },
     methods: {
       ...mapMutations({
-        vxChangeTokens: 'setToken',
+        vxSetPlatform: 'setPlatform',
+        // 改变token
+        vxSetToken: 'setToken',
+        // 设置语言
+        vxSetLanguage: "setLanguage",
+        // 设置货币
+        vxSetCurrency: "setCurrency",
+        // 设置机型
+        vxSetPhoneType: "setPhoneType",
+        // 设置版本
+        vxSetAppVersion: "setAppVersion"
       }),
       async init() {
+        await this.vxSetPlatform(this.isApp)
+        await this.vxSetLanguage(this.appLanguage)
+        await this.vxSetCurrency(this.appCurrency)
+        await this.vxSetPhoneType(this.appPhoneType)
+        await this.vxSetAppVersion(this.appVersion)
+        // await this.getTokenFromApp()
         await this.getRules()
         await this.getProductList()
-        await this.getTokenFromApp()
       },
       // 活动信息
       async getRules() {
@@ -164,16 +189,6 @@
         })
         if (code === 0) {
           this.products = data
-        }
-      },
-      // 获取token
-      async getTokenFromApp() {
-        try {
-          let token = await this.appBridge.obtainUserToken()
-          // 设置token
-          this.vxChangeTokens(token)
-        } catch (error) {
-          console.log(error)
         }
       },
       // 点击领取
@@ -256,7 +271,6 @@
       .tip-text {
         margin-top: 80px;
         text-align: center;
-        height: 40px;
         font-size: 28px;
         font-family: PingFang SC;
         font-weight: 400;

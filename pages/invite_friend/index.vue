@@ -1,6 +1,5 @@
 <template>
-  <div class="invite-friend-wrap"
-    v-if="token">
+  <div class="invite-friend-wrap">
     <div class="banner">
       <img src="../../assets/imgs/invite/index_banner@2x.png"
         alt="">
@@ -48,7 +47,8 @@
           <dt>已邀请</dt>
           <dt>获得奖励</dt>
         </dl>
-        <van-list v-model="loading"
+        <van-list v-if="token"
+          v-model="loading"
           :finished="finished"
           finished-text="没有更多了"
           @load="getHistoryList">
@@ -130,18 +130,21 @@
     },
     async beforeMount() {
       // 判断是否APP
-      const that = this
       if (this.isApp) {
         this.jsBridge = require("@/assets/js/jsBridge").default;
+        this.vxSetPlatform(this.isApp)
         this.vxSetLanguage(this.appLanguage)
         this.vxSetCurrency(this.appCurrency)
         this.vxSetPhoneType(this.appPhoneType)
         this.vxSetAppVersion(this.appVersion)
         console.log(this.appLanguage, this.appCurrency, this.appPhoneType, this.appVersion);
+        // 获取到APP的token后请求列表
         await this.jsBridge.webRegisterHandler('obtainUserToken', (token, callback) => {
           console.log(111, token);
           if (token) {
+            // 设置token
             this.vxChangeTokens(token)
+            // 获取优惠卷列表
             this.getInviteCoupons()
           }
           callback('obtainUserToken success!')
@@ -165,7 +168,9 @@
         // 设置机型
         vxSetPhoneType: "setPhoneType",
         // 设置版本
-        vxSetAppVersion: "setAppVersion"
+        vxSetAppVersion: "setAppVersion",
+         // 设置平台
+        vxSetPlatform: "setPlatform"
       }),
       // 获取优惠卷列表
       async getInviteCoupons() {

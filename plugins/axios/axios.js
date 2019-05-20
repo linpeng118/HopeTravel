@@ -32,14 +32,14 @@ httprequest.interceptors.request.use(
   config => {
     console.log('Making request to ' + config.url)
     if (process.client) {
-      // TODO:这里不能动态获取到store中的数据
-      let token = getCookieByKey('token');
+      // TODO:这里不能动态获取到store中的数据,使用axios问题
+      let token = getCookieByKey('token') || '';
       let currency = getCookieByKey('currency') || store().state.currency; // 货币类型获取
       let language = getCookieByKey(LANGUAGE) || store().state.language; // 语言
       let platform = getCookieByKey('platform') || store().state.platform; // 平台
       let phoneType = getCookieByKey('phoneType') || store().state.phoneType; // 机型
       let appVersion = getCookieByKey('appVersion') || store().state.appVersion; // APP版本
-      // console.log(22222222, getCookieByKey(LANGUAGE))
+      // console.log('language', language)
       if (token || currency || language || platform) {
         config.headers['Authorization'] = token
         config.headers['Currency'] = currency

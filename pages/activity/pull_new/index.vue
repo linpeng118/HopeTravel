@@ -193,7 +193,6 @@
         .tip-text {
           margin-top: 80px;
           text-align: center;
-          height: 40px;
           font-size: 28px;
           font-family: PingFang SC;
           font-weight: 400;

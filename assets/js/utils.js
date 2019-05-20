@@ -52,9 +52,10 @@ function getSessionStore(name) {
  */
 function setCookieByKey(key, value, exdays = 365) {
   let d = new Date();
+  let str = `__tourscool_`
   d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
   let expires = `expires=${d.toUTCString()}`
-  document.cookie = `${key}=${value};expires=${expires};path=/`;
+  document.cookie = `${str}${key}=${value};expires=${expires};path=/`;
   // Cookies.set(key, value, { path: '/' })
   // document.cookie = `${key}=${value}`;
 }
@@ -65,9 +66,11 @@ function setCookieByKey(key, value, exdays = 365) {
  */
 function getCookieByKey(key) {
   if (document.cookie.length > 0) {
-    let cStart = document.cookie.indexOf(`${key}=`); // 获取字符串的起点
+    let str = '__tourscool_'
+    let cStart = document.cookie.indexOf(`${str}${key}=`); // 获取字符串的起点
+    
     if (cStart !== -1) {
-      cStart = cStart + key.length + 1; // 获取值的起点
+      cStart = cStart + key.length + str.length + 1; // 获取值的起点
       let cEnd = document.cookie.indexOf(';', cStart); // 获取结尾处
       if (cEnd === -1) cEnd = document.cookie.length; // 如果是最后一个，结尾就是cookie字符串的结尾
       return decodeURI(document.cookie.substring(cStart, cEnd)); // 截取字符串返回

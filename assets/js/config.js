@@ -1,12 +1,12 @@
 export const CODE_OK = 0
 // 产品id列表
-export const PRODUCTIDS = '__tourscool__product_ids'
+export const PRODUCTIDS = 'product_ids'
 // SessionStore
-export const SESSIONSTORE = '__tourscool__referrer_id'
+export const SESSIONSTORE = 'referrer_id'
 // 平台
-export const PLATFORM = '__tourscool__platform'
+export const PLATFORM = 'platform'
 // 语言
-export const LANGUAGE = '__tourscool__language'
+export const LANGUAGE = 'language'
 // 货币符号
-export const CURRENCY = '__tourscool__currency'
+export const CURRENCY = 'currency'
 
