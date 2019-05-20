@@ -460,6 +460,7 @@
       if (this.isApp) {
         if (this.appVersion) {
           this.jsBridge = require("@/assets/js/jsBridge").default;
+          this.vxSetPlatform(this.isApp)
           this.vxSetLanguage(this.appLanguage)
           this.vxSetCurrency(this.appCurrency)
           this.vxSetPhoneType(this.appPhoneType)
@@ -491,6 +492,7 @@
     },
     methods: {
       ...mapMutations({
+        vxSetPlatform: 'setPlatform', // 设置品台
         vxToggleDialog: 'toggleDialog', // 是否显示弹窗
         vxSetDlgType: 'setDlgType', // 设置弹窗类型
         vxSetLanguage: "setLanguage", // 设置语言

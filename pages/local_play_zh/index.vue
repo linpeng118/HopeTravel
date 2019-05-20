@@ -113,6 +113,7 @@
       if (this.isApp) {
         if (this.appVersion) {
           this.jsBridge = require("@/assets/js/jsBridge").default;
+          this.vxSetPlatform(this.isApp)
           this.vxSetLanguage(this.appLanguage)
           this.vxSetCurrency(this.appCurrency)
           this.vxSetPhoneType(this.appPhoneType)
@@ -177,8 +178,8 @@
     },
     methods: {
       ...mapMutations({
-        // 修改头部状态
-        vxChangeHeaderStatus: 'header/changeStatus',
+        // 设置品台
+        vxSetPlatform: 'setPlatform',
         // 改变token
         vxSetToken: 'setToken',
         // 设置语言
@@ -188,7 +189,9 @@
         // 设置机型
         vxSetPhoneType: "setPhoneType",
         // 设置版本
-        vxSetAppVersion: "setAppVersion"
+        vxSetAppVersion: "setAppVersion",
+        // 修改头部状态
+        vxChangeHeaderStatus: 'header/changeStatus',
       }),
       // 头部返回按钮
       leftClick() {

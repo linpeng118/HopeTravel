@@ -149,6 +149,7 @@
     },
     methods: {
       ...mapMutations({
+        // 设置品台
         vxSetPlatform: 'setPlatform',
         // 改变token
         vxSetToken: 'setToken',

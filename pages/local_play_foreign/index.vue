@@ -162,6 +162,7 @@
       if (this.isApp) {
         if (this.appVersion) {
           this.jsBridge = require("@/assets/js/jsBridge").default;
+          this.vxSetPlatform(this.isApp)
           this.vxSetLanguage(this.appLanguage)
           this.vxSetCurrency(this.appCurrency)
           this.vxSetPhoneType(this.appPhoneType)
@@ -226,6 +227,8 @@
     },
     methods: {
       ...mapMutations({
+        // 设置品台
+        vxSetPlatform: 'setPlatform',
         // 改变token
         vxSetToken: 'setToken',
         // 设置语言
