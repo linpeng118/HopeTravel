@@ -414,6 +414,7 @@
         display: inline-block;
         margin: 20px 20px 0;
         width: 278px;
+        height: 360px;
         background: #fff;
         .banner {
           position: relative;
