@@ -3,7 +3,7 @@
     <div>
       <a @click="contactCustom"><img src="../../assets/imgs/home/icon_contact.png" alt=""></a>
     </div>
-    <div @click="callPhone">
+    <div @click="showcall">
       <img src="../../assets/imgs/home/icon_phone.png" alt="">
     </div>
     <div @click="backTop">
@@ -41,8 +41,9 @@
 </template>
 
 <script>
+import {DLG_TYPE} from '@/assets/js/consts/dialog'
 import onCustomerService from '@/assets/js/customerService.js'
-
+import {mapMutations, mapState, mapGetters} from 'vuex';
 export default {
   name: 'drift_aside',
   props: {
@@ -71,6 +72,11 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      vxSaveReservePro: 'product/saveReservePro',
+      vxToggleDialog: 'toggleDialog', // 是否显示弹窗
+      vxSetDlgType: 'setDlgType', // 设置弹窗类型
+    }),
     backTop() {
       if(!this.isHome) {
         let timer = setInterval(() => {
@@ -99,7 +105,12 @@ export default {
           this.isShowDrift = false
         }
       }
+    },// 电话咨询
+    showcall() {
+      this.vxToggleDialog(true)
+      this.vxSetDlgType(DLG_TYPE.PHONE)
     },
+
     homeScrollShow() {
       this.isShowDrift = true
     },

@@ -14,6 +14,7 @@
         <p class="number">{{item.number}}</p>
       </div>
     </div>
+    <div class="elseitem">说明：拨打您所在区域无需拨添加区号</div>
   </div>
 </template>
 
@@ -31,7 +32,7 @@
         show: this.proIsShow,
         phoneList: [
           {title: this.$t('customerPhoneZH'), number: '400-118-1388', desc: '(8:00am - 11:00pm) EN\\CN', phone: '400-118-1388'},
-          {title: this.$t('customerPhoneEN'), number: '(001)888-933-0336', desc: '(9:00am - 6:00pm) EN\\CN', phone: '001-888-933-0336'},
+          {title: this.$t('customerPhoneEN'), number: '(001)888-933-0336', desc: '(0:00am - 0:00pm) EN\\CN', phone: '001-888-933-0336'},
         ]
       }
     },
@@ -49,6 +50,10 @@
 </script>
 
 <style lang="scss" scoped>
+  .elseitem{
+    font-size: 24px;
+    padding: 30px 0;
+  }
   .phone-dialog-comp {
     margin: 0 auto;
     width: 500px;

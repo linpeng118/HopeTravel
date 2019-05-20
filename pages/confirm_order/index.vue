@@ -64,7 +64,7 @@
                 </template>
                 <template v-else>
                   <span>{{attrx.itemsx.title}}</span>
-                  <span><i :style="attrx.itemsx.prefix=='+'?'color:#24E44A':'color:#D51D28'">{{attrx.itemsx.prefix}} </i>{{attrx.itemsx.price}}</span>
+                  <span>{{attrx.itemsx.price}}</span>
                 </template>
                 <van-icon color="#404040" name="arrow" size="1.2em"></van-icon>
               </p>
@@ -129,9 +129,16 @@
             </div>
           </div>
           <van-field :label="$t('email')" v-model="contact.email" :placeholder="$t('confirmPage.mustTipskp')"/>
-          <van-popup v-model="showsel" position="bottom" :overlay="true">
-            <van-picker :columns="columns" @confirm="onChangequ" show-toolbar :title="$t('chooseCode')"/>
+
+          <van-popup v-model="showsel" position="right" style="width:100%;height: 100%;">
+            <tel-code :pageparent="'/personal/addContacts'"
+                      :dataObj="columns"
+                      @selectCode="onChangequ"
+                      @back="showsel=false">
+            </tel-code>
           </van-popup>
+
+
         </div>
       </section>
       <!--优惠信息-->
@@ -141,7 +148,7 @@
           <div class="item-con" v-if="pricelist.points&&pricelist.points.point">
          <span>
            <i class="seti">{{$t('confirmFootComp.riceGrains')}}</i>
-           <i class="seti" style="color: #bbb">
+           <i class="seti2" style="color: #bbb">
              {{$t('confirmPage.saveInfoTip1')}}{{pricelist.points.total_point}}，{{$t('confirmPage.saveInfoTip2')}}{{pricelist.points.point}}{{$t('confirmPage.saveInfoTip3')}}{{pricelist.points.discount}}
            </i>
          </span>
@@ -154,8 +161,8 @@
           <p v-if="couponDetails&&couponDetails.length" class="item-con" @click="getCouponList('show')" style="border: 1px solid #ebedf0">
             <span>
               <i class="seti">{{$t('coupons')}}</i>
-              <i v-if="showsetcou!=''" class="seti" style="color: #1989fa">{{showsetcou}}</i>
-              <i v-else class="seti" style="color: #bbb">{{$t('confirmPage.notsel')}}</i>
+              <i v-if="showsetcou!=''" class="seti2" style="color: #1989fa">{{showsetcou}}</i>
+              <i v-else class="seti2" style="color: #bbb">{{$t('confirmPage.notsel')}}</i>
             </span>
             <span></span>
             <van-icon color="#404040" name="arrow" size="1.2em" class="settopicon"/>
@@ -191,7 +198,7 @@
       <section>
         <div class="confirm-item">
           <p class="item-title">{{$t('confirmPage.leaveMessage')}}</p>
-          <div class="item-con">
+          <div class="item-con" style="padding-left: 0">
             <van-field
               type="textarea"
               :placeholder="$t('confirmPage.tipsRequire')"
@@ -207,9 +214,11 @@
         <div class="confirm-item">
           <div class="item-con">
             <van-checkbox v-model="tongyi">
-              {{$t('confirmPage.acceptRead')}}
+              <i class="agreea">
+                 {{$t('confirmPage.acceptRead')}}
+              </i>
               <nuxt-link :to="{path:'/protocol/user'}">
-                <a style="color: #216BFF">{{$t('confirmPage.agreeXifanServer')}}</a>
+                <a class="agreea" style="color: #216BFF">{{$t('confirmPage.agreeXifanServer')}}</a>
               </nuxt-link>
               </van-checkbox>
           </div>
@@ -228,10 +237,13 @@
   import ConfirmFoot from '@/components/confirm_foot/foot.vue'
   import {getquhao} from '@/api/contacts'
   import {orderCouponList} from '@/api/confirm_order'
+  import { getProfile } from "@/api/profile"
   import {getSessionStore} from '@/assets/js/utils'
+  import {guojialist} from '@/api/contacts'
+  import TelCode from '@/components/confirm_foot/telcode'
   export default {
     components: {
-      ConfirmFoot
+      ConfirmFoot,TelCode
     },
     data() {
       return {
@@ -261,6 +273,7 @@
         product: {},
         showtype:'',
         xname:'',
+        profile:'',//用户信息
       }
     },
     computed: {
@@ -309,14 +322,36 @@
         this_.xname=this_.$store.state.product.reservePro.name;
         this_.getCouponList();
       },100)
-
+      this.countprice = this.$store.state.confirm.countprice;;
+      console.log(this.countprice.savephone)
+      if(this.countprice.savephone==''){
+        this.init();
+      }
+      this.contact={"name":this.countprice.savename,"phone":this.countprice.savephone,"email":this.countprice.saveemail}
       this.pricelist=this.get_vuex_pricelist;
       this.getqu();
       this.settitletip();
-      this.contact={"name":this.countprice.savename,"phone":this.countprice.savephone,"email":this.countprice.saveemail}
+
+
     },
 
     methods: {
+      async init() {
+        // 1. 是否有token。有就请求个人信息；无则return
+        let res = await getProfile();
+        let {code, data} = res;
+        if(code === 0) {
+          this.profile = data;
+          this.$store.commit("countprice", {
+            savename:data.nickname||data.chinese_name,
+            saveemail:data.email,
+            savephone:data.phone,
+          });
+
+        } else {
+          this.profile = {}
+        }
+      },
       //获得价格日历数据
       async getpricedate(id) {
         let {data, code} = await getdateTrip(id)
@@ -469,21 +504,36 @@
       },
       // 得到区号
       async getqu() {
-        let {data, code, msg} = await getquhao();
-        if(code === 0) {
-          this.columns = data.map(v => {
-            this.$set(v, 'text',  '+'+v.tel_code+'('+v.countryName+')')
-            return v
-          })
+
+        let {data, code,msg,hot_country} = await guojialist()
+        if (code === 0) {
+          this._nomalLizePinyin(data,hot_country)
         }
         else {
-          this.$dialog.alert({
-            message: msg
-          });
         }
+
+      },
+      _nomalLizePinyin(data,hot) {
+        let len = data.length;
+        let len2 = hot.length;
+        let obj = {
+          '热门城市':[]
+        };
+        for(let i= 0; i<len2; i++) {
+          obj['热门城市'].push({...hot[i]})
+        }
+        for(let i= 0; i<len; i++) {
+          if(!obj[data[i].key]) {
+            obj[data[i].key] = []
+          }
+          obj[data[i].key].push({...data[i]})
+        }
+
+
+        this.columns=obj
       },
       onChangequ(picker){
-       this.checkqu=picker.tel_code;
+       this.checkqu=picker[0].telcode;
        this.showsel=false;
       },
       getaddoder(){
@@ -658,7 +708,7 @@
   }
   .setprop{
     width: 90%;
-    border-radius: 12px;
+    border-radius: 8px;
     padding-bottom: 30px;
   }
 
@@ -672,7 +722,7 @@
   .confirm-title p:nth-child(1) {
     padding-top: 10px;
     width: 100%;
-    font-size: 24px;
+    font-size: 28px;
     font-weight: 700;
     line-height: 32px;
     color: rgba(19, 19, 19, 1);
@@ -681,7 +731,7 @@
 
   .confirm-title p:nth-child(2) {
     width: 100%;
-    font-size: 22px;
+    font-size: 24px;
     line-height: 60px;
     color: rgba(168, 168, 168, 1);
     opacity: 1;
@@ -692,6 +742,7 @@
     background: rgba(255, 255, 255, 1);
     box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1);
     opacity: 1;
+    font-size: 24px;
     border-radius: 8px;
     margin-bottom: 28px;
   }
@@ -703,7 +754,7 @@
     box-sizing: border-box;
     color: rgba(19, 19, 19, 1);
     font-weight: bold;
-    font-size: 24px;
+    font-size: 32px;
     border-bottom: 2px solid #DEDEDE;
   }
 
@@ -711,7 +762,7 @@
     width: 100%;
     box-sizing: border-box;
     padding: 20px 24px;
-    font-size: 24px;
+    font-size: 28px;
   }
 
   .item-con span:nth-child(1) {
@@ -739,7 +790,7 @@
     background: rgba(241, 241, 241, 1);
     opacity: 1;
     line-height: 48px;
-    font-size: 22px;
+    font-size: 24px;
     color: rgba(142, 142, 142, 1);
   }
   .user-item {
@@ -775,16 +826,21 @@
     font-size: 20px;
     padding-left: 20px;
   }
+  .item-title >p>span:nth-child(2){
+    font-size: 24px;
+    font-weight: normal;
+  }
   .changeuser-btn {
     width: 464px;
     height: 72px;
-    background: rgba(57, 158, 246, 1);
-    opacity: 1;
-    line-height: 72px;
-    font-size: 24px;
-    color: #fff;
+    background:rgba(57,158,246,0);
+    border:2px solid rgba(57,158,246,1);
+    opacity:1;
+    border-radius:36px;
+    line-height: 67px;
+    font-size: 28px;
+    color: #399EF6;
     margin: 28px 0;
-    border-radius: 8px;
 
   }
   .btnbox {
@@ -801,6 +857,8 @@
     border-right: 1px solid #dedede;
     text-align: center;
     margin-right: 12px;
+    font-style: normal;
+    font-size: 24px;
   }
   .setvan i {
     top: 6px;
@@ -809,6 +867,13 @@
     font-style: normal;
     display: inline-block;
     width: 100%;
+    font-size: 24px;
+  }
+  .seti2 {
+    font-style: normal;
+    display: inline-block;
+    width: 100%;
+    font-size: 22px;
   }
   .radiobox{
     max-height: 800px;
@@ -840,6 +905,11 @@
 .settopicon{
   top: -8.5px!important;
 }
+  .agreea{
+    font-size:24px;
+    font-weight: normal;
+    font-style: normal;
+  }
 
 
 </style>

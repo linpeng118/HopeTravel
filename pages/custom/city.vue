@@ -300,8 +300,12 @@
           </div>
         </div>
       </div>
-      <van-popup v-model="showsel" position="bottom" :overlay="true">
-        <van-picker v-if="columns.length" :columns="columns" @confirm="onChangequ" @cancel="showsel=false" show-toolbar title="选择区号"/>
+      <van-popup v-model="showsel" position="right" style="width:100%;height: 100%;">
+        <tel-code :pageparent="'/personal/addContacts'"
+                  :dataObj="columns"
+                  @selectCode="onChangequ"
+                  @back="showsel=false">
+        </tel-code>
       </van-popup>
 
     </div>
@@ -326,13 +330,15 @@
   import {DLG_TYPE} from '@/assets/js/consts/dialog';
   import {getquhao} from '@/api/contacts'
   import onCustomerService from '@/assets/js/customerService.js'
-
+  import {guojialist} from '@/api/contacts'
+  import TelCode from '@/components/confirm_foot/telcode'
   export default {
     name: 'custom',
     components: {
       NormalHeader,
       transpTag,
-      Loading
+      Loading,
+      TelCode
     },
     data() {
       return {
@@ -518,23 +524,36 @@
       },
       // 得到区号
       async getqu() {
-        let this_=this;
-        let {data, code, msg} = await getquhao();
-        if(code === 0) {
-          this_.columns = data.map(v => {
-            this.$set(v, 'text',  v.tel_code+'('+v.countryName+')')
-            return v
-          })
-          console.log(this_.columns)
+
+        let {data, code,msg,hot_country} = await guojialist()
+        if (code === 0) {
+          this._nomalLizePinyin(data,hot_country)
         }
         else {
-          this.$dialog.alert({
-            message: msg
-          });
         }
+
+      },
+      _nomalLizePinyin(data,hot) {
+        let len = data.length;
+        let len2 = hot.length;
+        let obj = {
+          '热门城市':[]
+        };
+        for(let i= 0; i<len2; i++) {
+          obj['热门城市'].push({...hot[i]})
+        }
+        for(let i= 0; i<len; i++) {
+          if(!obj[data[i].key]) {
+            obj[data[i].key] = []
+          }
+          obj[data[i].key].push({...data[i]})
+        }
+
+
+        this.columns=obj
       },
       onChangequ(picker){
-        this.checkqu=picker.tel_code;
+        this.checkqu=picker[0].telcode;
         this.showsel=false;
       },
       // 定制

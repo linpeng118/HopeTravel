@@ -15,11 +15,11 @@
           </p>
           <p class="payitem2" >
             <span>{{$t('adult')}}:</span>
-            <span>{{payData.adult}}</span>
+            <span>{{payData.adult}} {{$t('person')}}</span>
           </p>
           <p class="payitem2" v-if="payData.child!=0">
             <span>{{$t('child')}}:</span>
-            <span>{{payData.child}}</span>
+            <span>{{payData.child}} {{$t('person')}}</span>
           </p>
         </li>
         <li class="paysection" v-if="payData.dfc.price!=0">
@@ -122,6 +122,7 @@
     opacity: 1;
     overflow: hidden;
     border-radius: 24px 24px 0px 0px;
+    padding-bottom: 40px;
 
   }
 

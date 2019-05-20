@@ -14,9 +14,9 @@
       <ul class="date-con">
         <template v-for="(item,ind) in dayprice">
           <li :key="ind" v-if="item.price!=''&&item.status" @click="checkday=item.day" :class="checkday==item.day?'activebg':''" >
-            <span >{{item.day||''}}</span>
+            <span style="color: #ff0000">{{item.day||''}}</span>
             <template v-if="item.is_special">
-              <span style="color:#FB6865" v-html="item.price?fiterPri(item.price):''"></span>
+              <span style="color:#ff0000" v-html="item.price?fiterPri(item.price):''"></span>
             </template>
             <template v-else>
               <span v-html="item.price?fiterPri(item.price):''"></span>
@@ -106,22 +106,7 @@
         }
       },
       fiterPri(x){
-        let j=null;
-          let arrx=x.split(".");
-          if(arrx[1]=='00'){
-            j=arrx[0]
-          }
-          else{
-            let arrx2=arrx[1].split('');
-            if(arrx2[1]=='0'){
-              j=arrx[0]+'.'+arrx2[0]
-            }
-            else{
-              j=arrx[0]+'.'+arrx[1]
-            }
-          }
-          return j
-
+          return x
       }
     }
 
@@ -150,9 +135,10 @@
     line-height: 60px;
     text-align: center;
     color: #434343;
+    font-size: 24px;
   }
-  .date-head li:nth-child(6n):nth-child(2),.date-head li:nth-child(7n){
-    color: #399EF6;
+  .date-head li:nth-child(1),.date-head li:nth-child(7n){
+    color: #FF0000;
   }
   .date-con{
     width: 750px;
@@ -177,7 +163,7 @@
       display: inline-block;
       height: 40px;
       line-height: 40px;
-      font-size: 20px;
+      font-size: 24px;
     }
   .activebg{
     background-color: #399EF6;

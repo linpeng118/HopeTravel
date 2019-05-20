@@ -47,7 +47,16 @@
         :placeholder="$t('selectTravlerPage.mustWithIdFit')"
         @click-icon="$toast($t('selectTravlerPage.mustWithIdFit'))"
       />
-      <van-cell @click="shownationality=true" :title="$t('selectTravlerPage.nationality')" is-link :value="userform.nationality!=''?userform.nationality: $t('pleaseChoose')" />
+
+      <div class="van-cell van-field" @click="shownationality=true">
+        <div class="van-cell__title">
+          <span>{{$t('selectTravlerPage.nationality')}}</span>
+        </div>
+        <div class="van-cell__value"><span>{{userform.nationality!=''?userform.nationality: $t('pleaseChoose')}}</span></div>
+        <i class="van-icon van-icon-arrow van-cell__right-icon"></i>
+
+
+      </div>
       <p class="connet-title">{{$t('contact')}}</p>
       <div class="van-cell van-field">
         <div class="van-cell__title">
@@ -60,9 +69,9 @@
           </div>
         </div>
       </div>
-      <van-popup v-model="showselqu" position="bottom" :overlay="true">
-        <van-picker :columns="columns" @confirm="onChangequ" show-toolbar :title="$t('personalPage.chooseAreaCode')"/>
-      </van-popup>
+      <!--<van-popup v-model="showselqu" position="bottom" :overlay="true">-->
+        <!--<van-picker :columns="columns" @confirm="onChangequ" show-toolbar :title="$t('personalPage.chooseAreaCode')"/>-->
+      <!--</van-popup>-->
 
       <van-field
         v-model="userform.email"
@@ -70,22 +79,41 @@
         type="email"
       />
       <p class="connet-title">{{$t('else')}}</p>
-      <van-cell :title="$t('selectTravlerPage.dateOfBirth')" @click="showdate=true" is-link :value="!userform.dob?$t('selectTravlerPage.selectDate'):userform.dob" />
+      <div class="van-cell van-field" @click="showdate=true"><!---->
+        <div class="van-cell__title"><span>{{$t('selectTravlerPage.dateOfBirth')}}</span><!----></div>
+        <div class="van-cell__value"><span>{{!userform.dob?$t('selectTravlerPage.selectDate'):userform.dob}}</span></div>
+        <i class="van-icon van-icon-arrow van-cell__right-icon"></i>
+      </div>
+
       <van-row class="setcheckbox">
-        <van-col span="6">{{$t('sex')}}</van-col>
-        <van-col span="18">
+        <van-col span="5" style="text-align: right">{{$t('sex')}}</van-col>
+        <van-col span="3" style="text-align: right">&nbsp;</van-col>
+        <van-col span="16">
           <van-radio-group v-model="userform.gender">
-            <van-radio style="width: 20%;float: left" name="f">{{$t('woman')}}</van-radio>
-            <van-radio style="width: 20%" name="m">{{$t('man')}}</van-radio>
+            <van-radio style="width: 30%;float: left" name="f">{{$t('woman')}}</van-radio>
+            <van-radio style="width: 30%" name="m">{{$t('man')}}</van-radio>
           </van-radio-group>
         </van-col>
       </van-row>
+
+
       <van-cell-group>
-        <van-switch-cell v-model="userform.isuser" :title="$t('selectTravlerPage.isSelf')" />
+
       </van-cell-group>
+
+      <div class="van-cell-group van-hairline--top-bottom">
+        <div class="van-cell van-cell--center van-cell--borderless van-switch-cell van-field"><!---->
+          <div class="van-cell__title"><span>{{$t('selectTravlerPage.isSelf')}}</span><!----></div>
+          <div class="van-cell__value">
+            <van-switch-cell v-model="userform.isuser"/>
+          </div><!----></div></div>
+
+
       <van-cell-group v-if="queryid!=0">
-        <div class="deluser" @click="delconfirm()">{{$t('selectTravlerPage.delBtn')}}</div>
+        <p @click="delconfirm()" style="float: right"><van-icon name="delete" class="elseicon" color="#399EF6;"/>&nbsp;<span class="elsespan">{{$t('delete')}}</span></p>
       </van-cell-group>
+
+
     </div>
     <van-popup v-model="shownationality" position="right" style="width:100%;height: 100%;">
       <city-list :pageparent="'/personal/addContacts'"
@@ -96,6 +124,16 @@
                  @countryName="countryName" >
       </city-list>
     </van-popup>
+    <van-popup v-model="showselqu" position="right" style="width:100%;height: 100%;">
+      <tel-code :pageparent="'/personal/addContacts'"
+                 :dataObj="moreLists"
+                 @selectCode="selectCode"
+                 ref="moreList2"
+                 @back="moreListBack2"
+                 @countryCode="countryCode" >
+      </tel-code>
+    </van-popup>
+
     <van-popup v-model="showdate" position="bottom" :overlay="true" style="width: 100%">
       <van-datetime-picker
         v-model="datedob"
@@ -116,10 +154,11 @@
   import {getcontants} from '@/api/contacts'
   import {getcontant} from '@/api/contacts'
   import CityList from '@/components/confirm_foot/cityList'
+  import TelCode from '@/components/confirm_foot/telcode'
   import {getquhao} from '@/api/contacts'
   export default {
     components: {
-      CityList
+      CityList,TelCode
     },
     data() {
       return {
@@ -174,6 +213,10 @@
       countryName(data){
         this.userform.nationality=data;
         this.shownationality=false
+      },
+      countryCode(data){
+        this.userform.phone_country=data;
+        this.showselqu=false
       },
       // 得到区号
       async getqu() {
@@ -291,7 +334,7 @@
         });
       },
       async deluser(){
-        let {data, code,msg} = await delcontanct(this.queryid)
+        let {data,code,msg} = await delcontanct(this.queryid)
         if (code === 0) {
           this.$toast(this.$t('operateSuc'))
           this.$router.go(-1)
@@ -302,9 +345,9 @@
 
       },
       async guojia(){
-        let {data, code,msg} = await guojialist()
+        let {data, code,msg,hot_country} = await guojialist()
         if (code === 0) {
-          this._nomalLizePinyin(data)
+          this._nomalLizePinyin(data,hot_country)
         }
         else {
 
@@ -312,9 +355,15 @@
 
       },
       //格式化拼音列表
-      _nomalLizePinyin(data) {
+      _nomalLizePinyin(data,hot) {
         let len = data.length;
-        let obj = {};
+        let len2 = hot.length;
+        let obj = {
+          '热门城市':[]
+        };
+        for(let i= 0; i<len2; i++) {
+          obj['热门城市'].push({...hot[i]})
+        }
         for(let i= 0; i<len; i++) {
           if(!obj[data[i].key]) {
             obj[data[i].key] = []
@@ -323,24 +372,50 @@
         }
         this.moreLists=obj
       },
+
       selectItem(lists,type) { // 关闭更多选择层
         this.userform.nationality=lists[0].name;
         this.shownationality = false
+      },
+      selectCode(lists,type) { // 关闭更多选择层
+        this.userform.phone_country=lists[0].telcode;
+        this.showselqu = false
       },
       // 更多列表返回
       moreListBack() {
         this.shownationality = false
       },
-      onChangequ(picker){
-        this.userform.phone_country =picker.tel_code;
-        this.showselqu=false
+      // 更多列表返回
+      moreListBack2() {
+        this.showselqu = false
       },
 
     },
   }
 </script>
-
+<style>
+  .new-connect .van-cell{
+    box-sizing: border-box!important;
+    text-align: right;
+  }
+  .new-connect .van-cell .van-cell__title{
+    width:18%!important;
+    padding-right: 30px;
+    box-sizing: border-box!important;
+  }
+  .new-connect .van-cell--required .van-cell__title::before {
+    content: '* ';
+    position: relative!important;
+    left: 0!important;
+    font-size: 14px;
+    color: #f44;
+  }
+  .new-connect .van-cell--required::before {
+    color: #fff!important;
+  }
+</style>
 <style lang="scss" scoped>
+
  .new-connect{
    padding: 24px 32px;
  }
@@ -353,7 +428,8 @@
   }
   .setcheckbox{
     padding: 20px 30px;
-    font-size: 28px;
+    font-size: 24px;
+    box-sizing: border-box;
   }
  .login-header {
    height: 88px;
@@ -370,10 +446,12 @@
    .right-wrap {
      .search {
        width:92px;
+       font-size: 24px;
        height:36px;
        background:rgba(57,158,246,1);
        opacity:1;
        color: #fff;
+       line-height: 32px;
        border-radius:18px;
      }
    }
@@ -402,5 +480,15 @@
  .setvan i {
    top: 6px;
  }
+ .elseicon{
+   font-size: 42px;
+   color: #399EF6;
+   position: relative;
+   top: 8px;
+ }
+  .elsespan{
+    font-size: 28px;
+    color: #399EF6;
+  }
 
 </style>

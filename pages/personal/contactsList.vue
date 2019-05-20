@@ -23,6 +23,7 @@
     <van-checkbox-group v-if="type!='list'" v-model="checkuser" class="checkboxall" :max="parseInt(adult)">
       <van-checkbox
          v-for="(item, index) in list"
+         class="elsecheck"
         :key="index"
         :disabled="item.phone&&item.passport?false:true"
         :name="item">
@@ -39,9 +40,14 @@
                <i style="color: red">{{$t('personalPage.addIncompleteInfo')}}</i>
             </template>
         </span>
-        <nuxt-link :to="{path:'/personal/addContacts',query:{'id':item.customer_contract_id,'adult':$route.query.adult}}">
-          <b class="bicon"><van-icon name="edit" color="#399EF6;"/></b>
-        </nuxt-link>
+
+          <b class="bicon">
+            <nuxt-link :to="{path:'/personal/addContacts',query:{'id':item.customer_contract_id,'adult':$route.query.adult}}">
+            <p><van-icon name="edit" class="elseicon" color="#399EF6;"/>&nbsp;</p>
+            </nuxt-link>
+          </b>
+
+
       </van-checkbox>
     </van-checkbox-group>
     <ul v-else class="objitembox">
@@ -63,7 +69,6 @@
           <b class="bicon"><van-icon name="edit" color="#399EF6;"/></b>
         </nuxt-link>
       </li>
-
     </ul>
     <div class="btnbox">
       <nuxt-link class="changeuser-btn" tag="button" :to="{path:'/personal/addContacts'}">
@@ -155,39 +160,62 @@
     },
   }
 </script>
+<style>
+  .elsecheck .van-checkbox__icon, .van-checkbox__label{
+    vertical-align: top!important;
+  }
+  .elsecheck .van-checkbox__icon .van-icon{
+    border: 1px solid #399EF6!important;
+  }
+  .changeuser-btn .van-icon-plus:before{
+    content: "\F000"
+  }
+  .bicon .van-icon-edit:before{
+    font-size: 42px!important;
+  }
 
+</style>
 <style lang="scss" scoped>
   .checkboxall{
     padding: 34px;
   }
+
   .objitembox{
     padding:  50px
   ;
   }
+
   .checkboxall>div{
     margin-bottom: 20px;
+  }
+  .elsecheck{
+    vertical-align: top!important;
+  }
+  .elsecheck>div:nth-child(1){
+    padding-top: 5px;
   }
   .objitem{
     display: inline-block;
     font-size: 28px;
     color: #9F9F9F;
-    width: 550px;
+    width: 500px;
   }
   .objitem i {
     display: inline-block;
-    font-size: 28px;
+    font-size: 24px;
     font-style: normal;
-    width: 550px;
-    line-height: 40px;
+    width: 500px;
+    padding-bottom: 15px;
    }
   .objitem i:first-child{
+    font-size: 28px;
     color: #191919;
     font-weight: bold;
-    line-height: 70px;
+    margin-bottom: 15px;
   }
   .objitem>i:first-child>a {
     display: inline-block;
-    font-size: 28px;
+    font-size: 24px;
     color: #9F9F9F;
     font-weight: normal;
     font-style: normal;
@@ -195,14 +223,12 @@
   }
   .bicon {
     display: inline-block;
-    font-size: 42px;
-    line-height: 70px;
+    font-size: 32px!important;
     color: #399EF6;
     font-weight: normal;
     font-style: normal;
     float: right;
-    width: 50px;
-
+    width: 120px;
   }
   .btnbox {
     text-align: center;
@@ -218,6 +244,7 @@
     margin: 28px 0;
     border-radius: 8px;
   }
+
   .contancts-title{
     font-size: 28px;
     color: #EF9A1A;
@@ -235,12 +262,15 @@
     transition: all 0.5s;
     .left-wrap {
       /*color: #404040;*/
+      line-height: 36px;
       /*font-size: 32px;*/
     }
     .right-wrap {
       .search {
         width:92px;
         height:36px;
+        font-size: 24px;
+        line-height: 36px;
         background:#D2D2D2;
         opacity:1;
         color: #fff;
@@ -250,5 +280,8 @@
   }
   .active{
     background-color: #399EF6!important;
+  }
+  .elseicon{
+    font-size: 36px;
   }
 </style>

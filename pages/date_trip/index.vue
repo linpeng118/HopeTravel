@@ -43,7 +43,7 @@
               <span>{{$t('adult')}}</span>
               <span>
                 <van-stepper integer
-                  v-model="item.adult"
+                  v-model="item.adult" class="notzero"
                   :min="1"
                   :disable-input="true"
                   :max="product.max_num_guest-item.child" />
@@ -57,9 +57,18 @@
                   :min="0"
                   :disable-input="true"
                   v-model="item.child"
-                  :max="product.max_num_guest-item.adult" />
+                  :max="product.max_num_guest-item.adult"
+                  v-if="item.child>0" class="notzero"
+                />
+                 <van-stepper integer
+                              :min="0"
+                              :disable-input="true"
+                              v-model="item.child"
+                              class="else"
+                              :max="product.max_num_guest-item.adult" v-else/>
               </span>
             </div>
+
             <van-checkbox class="checkitem-btn"
               v-if="product.is_single_pu&&item.adult==1&&item.child==0"
               v-model="item.pair"><span style="color:#399EF6;">{{$t('dateTripPage.acceptSingleRoom')}}</span></van-checkbox>
@@ -67,7 +76,7 @@
         </template>
         <div class="addroom-btn"
           @click="roomadd()">
-          <van-icon name="plus" />
+          <van-icon name="add-o" />
           {{$t('dateTripPage.addRoom')}}
         </div>
       </ul>
@@ -81,18 +90,15 @@
             <span>
               <van-stepper v-model="total_adult"
                 integer
-                :min="1"
-                :disable-input="true" />
+                :min="1" class="notzero" :disable-input="true" />
             </span>
           </div>
           <div v-if="product.is_kids"
             class="checkitem_con">
             <span>{{$t('child')}} <i v-if="product.max_child_age!=-1">&nbsp;0-{{product.max_child_age}}{{$t('yearsOld')}}</i></span>
             <span>
-              <van-stepper integer
-                :min="0"
-                v-model="total_kids"
-                :disable-input="true" />
+               <van-stepper v-if="total_kids>0" integer :min="0" v-model="total_kids" :disable-input="true" class="notzero" />
+               <van-stepper v-else integer :min="0" v-model="total_kids" :disable-input="true" class="else"/>
             </span>
           </div>
         </li>
@@ -449,13 +455,15 @@
   }
   .active-head-con {
     border-bottom: 4px solid #399ef6 !important;
+    color: #399ef6!important;
   }
   .trip-tip {
-    font-size: 20px;
+    font-size: 24px;
     height: 50px;
     line-height: 50px;
     width: 100%;
     display: inline-block;
+    color: #131313;
     padding: 0 25px;
   }
   .trip-tip span:nth-child(1) {
@@ -470,7 +478,7 @@
     display: inline-block;
     width: 40%;
     text-align: right;
-    color: #fb6865;
+    color: #ff0000;
   }
   .section0 {
     background-color: #f3f3f3;
@@ -495,18 +503,17 @@
     margin-top: 20px;
   }
   .addroom-btn {
-    width: 240px;
-    height: 60px;
-    background: rgba(255, 255, 255, 1);
-    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.16);
-    opacity: 1;
-    border-radius: 8px;
+    width:464px;
+    height:76px;
+    background:rgba(57,158,246,1);
+    opacity:1;
+    border-radius:12px;
     text-align: center;
-    color: #191919;
-    line-height: 60px;
-    font-size: 24px;
-    margin-left: 255px;
+    line-height: 76px;
+    font-size: 32px;
+    margin-left: 113px;
     margin-top: 30px;
+    color: #fff;
   }
   .checkitem_title {
     font-size: 30px;
@@ -516,7 +523,7 @@
     border-bottom: 3px solid #e4e4e4;
   }
   .checkitem_title span {
-    color: #399ef6;
+    color: #FB605D;
     float: right;
     font-size: 24px;
   }
@@ -528,13 +535,14 @@
     width: 40%;
     float: left;
     text-align: left;
-    color: #191919;
+    color: #3e3e3e;
     font-size: 28px;
     line-height: 80px;
   }
   .checkitem_con span:nth-child(1) i {
     color: #b2b2b2;
     font-size: 22px;
+    font-style: normal;
   }
   .checkitem_con span:nth-child(2) {
     width: 60%;

@@ -26,8 +26,7 @@
         </van-cell-group>
       </van-tab>
       <!-- 手机验证码登录 -->
-      <van-tab class="mobile-login"
-        :title="$t('partcailComp.phoneCodeLogin')">
+      <van-tab class="mobile-login" :title="$t('partcailComp.phoneCodeLogin')">
         <van-cell-group>
           <area-code-input class="phone"
             :proAreaCode.sync="phoneForm.areaCode"

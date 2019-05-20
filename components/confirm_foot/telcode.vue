@@ -6,7 +6,7 @@
         <div class="city-wrap">
           <van-nav-bar class="login-header tours-no-bb"
                        ref="loginHeader"
-                       :title="$t('confirmFootComp.titleCityList')"
+                       :title="$t('chooseCode')"
                        :z-index="999"
                        @click-left="onClickLeft">
             <van-icon class="left-wrap" name="arrow-left" slot="left" />
@@ -16,8 +16,8 @@
               <template v-if="typeof value === 'object'">
                 <div class="title" v-if="key !== 'title' && key!== 'type'">{{key}}</div>
                 <ul class="city-list" >
-                  <li v-for="item in value" :key="item.id" @click="selectItem(item)" :class="selectActive(item)">
-                    <span>{{item.name}}</span>
+                  <li v-for="item in value" :key="item.id" @click="selectCode(item)" :class="selectActive(item)">
+                    <span><a style="color: #131313">{{item.name}}</a><a style="color: #aaa">&nbsp;&nbsp;+{{item.telcode}}</a></span>
                     <i class="van-icon van-icon-success"></i>
                   </li>
                 </ul>
@@ -78,7 +78,7 @@ export default {
       this.$emit('back')
     },
     // 点击每一项
-    selectItem(item) {
+    selectCode(item) {
       console.log(this.dataObj)
       let index = this.activeList.findIndex(list => (item.id === list.id))
       if(index >= 0) {
@@ -92,6 +92,7 @@ export default {
       }
       this.sendEvent();
     },
+
     // 视觉上判断是否选中
     selectActive(item) {
       let index = this.activeList.findIndex(list => (item.id === list.id))
@@ -103,9 +104,8 @@ export default {
     },
     // 派发事件
     sendEvent(){
-      this.$emit('selectItem', this.activeList, this.dataObj.type)
+      this.$emit('selectCode', this.activeList, this.dataObj.type)
     },
-
     onShortcutTouchStart(e) {
       let anchorIndex = this.getData(e.target, 'index')
       this.touch.y1 = e.touches[0].pageY;
@@ -155,6 +155,7 @@ export default {
         background:#F1F1F1;
         font-size:22px;
         line-height: 32px;
+        text-align: left;
         color: #C7C7C7;
       }
       .city-list{
@@ -170,6 +171,10 @@ export default {
           -webkit-justify-content: space-between;
           align-items: center;
           -webkit-align-items: center;
+          a:nth-child(1){
+            width: 200px;
+            display: inline-block;
+          }
           i{
             display: none;
           }

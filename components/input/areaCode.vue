@@ -20,25 +20,35 @@
         :placeholder="$t('phoneNumber')">
       </van-field>
     </van-col>
-    <van-col v-show="isShowList"
-      class="area-list"
-      span="18">
-      <div class="area-item"
-        v-for="(area,index) in araeList"
-        :key="index"
-        @click="selectArea(area)">
-        <div class="addr">{{area.addr}}</div>
-        <div class="code">{{area.code}}</div>
-      </div>
-    </van-col>
+
+    <van-popup v-model="isShowList" position="right" style="width:100%;height: 100%;">
+      <tel-code :pageparent="'/personal/addContacts'"
+                :dataObj="moreLists"
+                @selectCode="selectCode"
+                ref="moreList2"
+                @back="toggleAreaList">
+      </tel-code>
+    </van-popup>
+    <!--<van-col v-show="isShowList"-->
+      <!--class="area-list"-->
+      <!--span="18">-->
+      <!--<div class="area-item"-->
+        <!--v-for="(area,index) in araeList"-->
+        <!--:key="index"-->
+        <!--@click="selectArea(area)">-->
+        <!--<div class="addr">{{area.addr}}</div>-->
+        <!--<div class="code">{{area.code}}</div>-->
+      <!--</div>-->
+    <!--</van-col>-->
   </van-row>
 </template>
 
 <script>
+  import TelCode from '@/components/confirm_foot/telcode'
   import {getCountryTelcodes} from '@/api'
-
+  import {guojialist} from '@/api/contacts'
   export default {
-    components: {},
+    components: {TelCode},
     props: {
       proAreaCode: {
         type: [Number, String],
@@ -58,7 +68,8 @@
         isShowList: false, // 是否显示列表
         areaCode: this.proAreaCode,
         mobile: '',
-        araeList: []
+        araeList: [],
+        moreLists:{},
       }
     },
     watch: {
@@ -67,26 +78,57 @@
       }
     },
     mounted() {
-      this.init()
+      this.guojia()
     },
     methods: {
-      async init() {
-        const {code, data, msg} = await getCountryTelcodes()
+      async guojia(){
+        let {data, code,msg,hot_country} = await guojialist()
         if (code === 0) {
-          this.araeList = data.map(item => ({
-            code: item.tel_code,
-            addr: item.countryName,
-          }))
-        } else {
-          this.$toast(msg)
+          this._nomalLizePinyin(data,hot_country)
         }
+        else {
+
+        }
+
       },
+      //格式化拼音列表
+      _nomalLizePinyin(data,hot) {
+        let len = data.length;
+        let len2 = hot.length;
+        let obj = {
+          '热门城市':[]
+        };
+        for(let i= 0; i<len2; i++) {
+          obj['热门城市'].push({...hot[i]})
+        }
+        for(let i= 0; i<len; i++) {
+          if(!obj[data[i].key]) {
+            obj[data[i].key] = []
+          }
+          obj[data[i].key].push({...data[i]})
+        }
+
+
+        this.moreLists=obj
+      },
+      // async init() {
+      //   const {code, data, msg} = await getCountryTelcodes()
+      //   if (code === 0) {
+      //     this.araeList = data.map(item => ({
+      //       code: item.tel_code,
+      //       addr: item.countryName,
+      //     }))
+      //   } else {
+      //     this.$toast(msg)
+      //   }
+      // },
       toggleAreaList() {
         this.isShowList = !this.isShowList
       },
-      selectArea(area) {
-        this.areaCode = area.code
-        this.$emit('update:proAreaCode', area.code)
+      selectCode(area) {
+        console.log()
+        this.areaCode = area[0].telcode
+        this.$emit('update:proAreaCode', area[0].telcode)
         this.toggleAreaList()
       }
     },

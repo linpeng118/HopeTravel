@@ -15,8 +15,9 @@
         <i style="color: #bbb">0.00</i>
         <i style="color: #bbb">{{$t('confirmFootComp.chooseRelateInfo')}}</i>
       </span>
-      <span :class="showbtn?'showbtn':''" class="confirm-next-btn" v-if="thisrouter=='date_trip'" @click="showbtn?islogin():''">{{$t('confirmFootComp.nextStep')}}</span>
-      <span v-else-if="showbtn2==false" class="confirm-next-btn">{{$t('confirmFootComp.nextStep')}}</span>
+      <span :class="showbtn?'showbtn':''" class="confirm-next-btn" v-if="thisrouter=='date_trip'"
+            @click="showbtn?islogin():''">{{shownext==true?$t('confirmFootComp.nextStep'):$t('NLoginShow')}}</span>
+      <span v-else-if="showbtn2==false" class="confirm-next-btn">{{shownext==true?$t('confirmFootComp.nextStep'):$t('NLoginShow')}}</span>
       <span v-else class="confirm-next-btn showbtn" @click="addOrderx()" >{{$t('confirmFootComp.nextStep')}}</span>
       <span class="contact-service" @click="contactCustom()">
         <i></i>
@@ -82,6 +83,7 @@
         },
         loading:false,
         apiPath:require('@/apiConf.env'),
+        shownext:true,
         //添加订单数据
 
       }
@@ -123,6 +125,7 @@
       let objw=getSessionStore('countprice') ? JSON.parse(getSessionStore('countprice')) : {};
       this.$store.commit("countprice",objw);
       this.checkrouter();//判断当前位置
+      this.setshow();
       console.log(this.apiPath)
     },
     methods: {
@@ -203,10 +206,21 @@
         onCustomerService()
       },
       //是否需要登录弹窗
+      async setshow() {
+        let {code} = await getProfile()
+        if(code != 0) {
+          this.shownext=false
+        }
+        else{
+          this.shownext=true
+        }
+
+      },
       async islogin() {
         let {code} = await getProfile()
         if(code != 0) {
           this.vxToggleLoginDlg(true)
+          this.shownext=true
         }
         else{
           this.$router.push({
@@ -224,13 +238,14 @@
 <style scoped>
   .confirm-foot {
     width: 750px;
-    height: 120px;
+    height: 150px;
     background-color: #fff;
     position: fixed;
-    z-index: 99;
+    z-index: 2099;
     box-sizing: border-box;
-    padding: 20px 32px;
+    padding: 40px 32px;
     left: 0;
+    box-shadow:0px -4px 12px rgba(0,0,0,0.16);
     bottom: 0;
   }
 
@@ -250,10 +265,10 @@
 
   .confirm-price {
     height: 80px;
+    width: 240px;
     display: inline-block;
     line-height: 20px;
     float: left;
-    width: 240px;
     color: #FB605D;
   }
 
@@ -265,6 +280,7 @@
     font-weight: bold;
     width: 100%;
     height: 30px;
+    margin-top: 5px;
   }
 
   .confirm-price > i:nth-child(2) {
@@ -274,6 +290,7 @@
     text-align: left;
     width: 100%;
     height: 20px;
+    margin-top: 5px;
   }
 
   .contact-service {
