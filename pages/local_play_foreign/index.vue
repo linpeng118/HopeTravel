@@ -96,6 +96,8 @@
   import {HEADER_TYPE} from '@/assets/js/consts/headerType'
   import SnapUpItem from '@/components/items/snapUpItem'
   import {setCookieByKey, getLocalStore} from '@/assets/js/utils'
+  import {TOKEN, CURRENCY} from '@/assets/js/config'
+
   export default {
     // layout: 'default',
     transition: 'page',
@@ -116,6 +118,7 @@
     },
     data() {
       return {
+        CURRENCY,
         isApp: this.$route.query.platform,
         appVersion: this.$route.query.app_version,
         appLanguage: this.$route.query.language,
@@ -189,9 +192,9 @@
             let currency = await this.appBridge.obtainUserCurrency()
             // 安卓只能返回JSON字符串
             if (this.appBridge.browserVersion && this.appBridge.browserVersion.isAndroid()) {
-              setCookieByKey('currency', currency)
+              setCookieByKey(CURRENCY, currency)
             } else {
-              setCookieByKey('currency', currency.userCurrency)
+              setCookieByKey(CURRENCY, currency.userCurrency)
             }
           } catch (error) {
             console.log(error);
@@ -412,7 +415,7 @@
       },
       // 收藏
       async callCollect(val) {
-        let token = getCookieByKey('token');
+        let token = getCookieByKey(TOKEN);
         console.log(token);
         if (!token) {
           if (this.appVersion) {

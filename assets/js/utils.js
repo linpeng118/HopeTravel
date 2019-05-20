@@ -157,7 +157,8 @@ function isEmail(val) {
  * @param {String} stringCookie 整体的cookie字符串
  */
 function getCookie(cookieName, stringCookie) {
-  let cookie = new RegExp('' + cookieName + '[^;]+').exec(stringCookie)
+  let str = '__tourscool_'
+  let cookie = new RegExp(str + cookieName + '[^;]+').exec(stringCookie)
 
   if (!(cookie&&cookie.length)) {
     return null

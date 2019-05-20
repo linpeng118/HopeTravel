@@ -6,8 +6,12 @@ import {
 }
 from '@/assets/js/utils'
 import {
+  TOKEN,
   LANGUAGE,
-  CURRENCY
+  CURRENCY,
+  PLATFORM,
+  PHONE_TYPE,
+  APP_VERSION
 } from '@/assets/js/config'
 // 使用UI库的弹窗
 import {
@@ -33,12 +37,12 @@ httprequest.interceptors.request.use(
     console.log('Making request to ' + config.url)
     if (process.client) {
       // TODO:这里不能动态获取到store中的数据,使用axios问题
-      let token = getCookieByKey('token') || '';
-      let currency = getCookieByKey('currency') || store().state.currency; // 货币类型获取
+      let token = getCookieByKey(TOKEN) || '';
+      let currency = getCookieByKey(CURRENCY) || store().state.currency; // 货币类型获取
       let language = getCookieByKey(LANGUAGE) || store().state.language; // 语言
-      let platform = getCookieByKey('platform') || store().state.platform; // 平台
-      let phoneType = getCookieByKey('phoneType') || store().state.phoneType; // 机型
-      let appVersion = getCookieByKey('appVersion') || store().state.appVersion; // APP版本
+      let platform = getCookieByKey(PLATFORM) || store().state.platform; // 平台
+      let phoneType = getCookieByKey(PHONE_TYPE) || store().state.phoneType; // 机型
+      let appVersion = getCookieByKey(APP_VERSION) || store().state.appVersion; // APP版本
       // console.log('language', language)
       if (token || currency || language || platform) {
         config.headers['Authorization'] = token
@@ -60,7 +64,6 @@ httprequest.interceptors.request.use(
         }
       }
     }
-    // 'language': store().getters.language  // zh-TW=繁体；zh-CN=中文简体
     return config
   },
   error => {
@@ -79,7 +82,7 @@ httprequest.interceptors.response.use(
       } else if (res.data.code === 401) {
         const token = res.data.data.token
         res.config.headers['Authorization'] = token
-        setCookieByKey('token', token)
+        setCookieByKey(TOKEN, token)
         return axios(res.config)
       } else {
         return Promise.resolve(res.data)
@@ -124,7 +127,7 @@ const errorHandle = (status, other) => {
       // 清除token并跳转登录页
     case 403:
       tip('登录过期，请重新登录');
-      // localStorage.removeItem('token');
+      // localStorage.removeItem(TOKEN);
       // store.commit('loginSuccess', null);
       // setTimeout(() => {
       //   toLogin();

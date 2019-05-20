@@ -9,4 +9,9 @@ export const PLATFORM = 'platform'
 export const LANGUAGE = 'language'
 // 货币符号
 export const CURRENCY = 'currency'
-
+// 登录态
+export const TOKEN = 'token'
+// 机型
+export const PHONE_TYPE = 'phoneType'
+// APP版本
+export const APP_VERSION = 'appVersion'

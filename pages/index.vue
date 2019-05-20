@@ -120,8 +120,8 @@ import {getHomeData, getHomeHotList} from '@/api/home'
 import countDown from '@/components/count-down'
 import DriftAside from '@/components/drift_aside'
 import {throttle as _throttle} from 'lodash'
-import {setCookieByKey,getCookieByKey} from '@/assets/js/utils'
 import {mapGetters,mapMutations} from 'vuex'
+// import {setCookieByKey,getCookieByKey} from '@/assets/js/utils'
 
 export default {
   name: 'home',
@@ -153,8 +153,8 @@ export default {
     console.log(store.getters.currency)
     let {code,data} = await $axios.$get('/api/index/mobile',{
       headers: {
-        'language': store.getters.language,
-        'currency': store.getters.currency
+        'Language': store.getters.language,
+        'Currency': store.getters.currency
       }
     })
     if(code === 0 ) {

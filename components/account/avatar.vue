@@ -1,30 +1,28 @@
 <template>
   <div class="card vue-avatar-cropper-demo text-center">
     <div class="header">
-      <van-nav-bar
-        class="bar-shadow"
+      <van-nav-bar class="bar-shadow"
         :title="$t('accountComp.avatarTitle')"
         @click-left="onClickLeft"
         @click-right="saveProfile"
-        left-arrow
-      >
-        <span class="header-btn" slot="right">{{$t('save')}}</span>
+        left-arrow>
+        <span class="header-btn"
+          slot="right">{{$t('save')}}</span>
       </van-nav-bar>
     </div>
     <div class="imgShow">
       <vue-cropper ref="cropper"
-                   :img="avatar"
-                   :info="true"
-                   :full="option.full"
-                   :can-move="option.canMove"
-                   :can-move-box="option.canMoveBox"
-                   :fixed-box="option.fixedBox"
-                   :original="option.original"
-                   :auto-crop="option.autoCrop"
-                   :auto-crop-width="option.autoCropWidth"
-                   :auto-crop-height="option.autoCropHeight"
-                   :center-box="option.centerBox"
-      ></vue-cropper>
+        :img="avatar"
+        :info="true"
+        :full="option.full"
+        :can-move="option.canMove"
+        :can-move-box="option.canMoveBox"
+        :fixed-box="option.fixedBox"
+        :original="option.original"
+        :auto-crop="option.autoCrop"
+        :auto-crop-width="option.autoCropWidth"
+        :auto-crop-height="option.autoCropHeight"
+        :center-box="option.centerBox"></vue-cropper>
     </div>
     <div></div>
   </div>
@@ -33,7 +31,11 @@
 <script>
   import {saveProfile} from '@/api/member'
   import {getCookieByKey} from '@/assets/js/utils'
+  import {
+    TOKEN,
+  } from '@/assets/js/config'
   import axios from 'axios'
+
   export default {
     props: {
       avatar: {
@@ -74,11 +76,11 @@
           fmData.append('uploadFile', image, this.nickname + Math.random() + 'avatar.jpg')
           // fmData.append('jwt', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiI2IiwiZ2lkIjoiMSIsImV4cCI6MTU0OTMzMDUwM30.lXnR3iGDgZ8ziaxw0sBX9_wF4xdD6d1ULLMe4Xaf6ko')
           axios({
-            url:`https://assets.tourscool.com/upload.php?t=${+new Date()}`,
+            url: `https://assets.tourscool.com/upload.php?t=${+new Date()}`,
             method: 'post',
             data: fmData,
             headers: {
-              'Authorization': getCookieByKey('token') || ''
+              'Authorization': getCookieByKey(TOKEN) || ''
             }
           }).then(({data}) => {
             if (data.code === 0) {
@@ -99,18 +101,18 @@
 </script>
 
 <style lang="scss" scoped>
-  .imgShow{
+  .imgShow {
     position: fixed;
-    top:0;
+    top: 0;
     left: 0;
     bottom: 0;
     right: 0;
-    background-color: rgba(0,0,0,0.5);
-    img{
+    background-color: rgba(0, 0, 0, 0.5);
+    img {
       width: 10%;
       height: 10%;
     }
-    .vue-cropper{
+    .vue-cropper {
       background-image: none;
     }
   }

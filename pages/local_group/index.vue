@@ -109,6 +109,7 @@
   import HotCityTag from '@/components/tags/index.vue'
   import Loading from '@/components/loading'
   import {setCookieByKey} from '@/assets/js/utils'
+  import {CURRENCY} from '@/assets/js/config'
 
   export default {
     layout: 'default',
@@ -120,6 +121,7 @@
     },
     data() {
       return {
+        CURRENCY,
         isApp: this.$route.query.platform,
         appVersion: this.$route.query.app_version,
         appLanguage: this.$route.query.language,
@@ -186,9 +188,9 @@
           let currency = await this.appBridge.obtainUserCurrency()
           // 安卓只能返回JSON字符串
           if (this.appBridge.browserVersion && this.appBridge.browserVersion.isAndroid()) {
-            setCookieByKey('currency', currency)
+            setCookieByKey(CURRENCY, currency)
           } else {
-            setCookieByKey('currency', currency.userCurrency)
+            setCookieByKey(CURRENCY, currency.userCurrency)
           }
         }
       }

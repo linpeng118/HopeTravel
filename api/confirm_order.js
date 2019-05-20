@@ -13,8 +13,8 @@ export const countprice = (data) => {
       coupon_cus_id:data.coupon_cus_id||'',
     }
   },{
-    headers: { 'platform': 'mobile ',
-      'site' : 'mobile'}
+    headers: { 'platform': 'm',
+      'site' : 'm'}
   })
 }
 export const addorder = (data,referrerId,channel) => {
@@ -26,9 +26,8 @@ export const addorder = (data,referrerId,channel) => {
     headers: {
       'Referrer-Id': referrerId || 0,
       'Channel': channel || 'm',
-      'platform': 'mobile ',
-      'site' : 'mobile'
-
+      'platform': 'm ',
+      'site': 'm'
     }
   })
 }
@@ -39,7 +38,9 @@ export const orderCouponList = (data) => {
       departure: data.departure,
       price:data.price,
     },
-    headers: {  'platform': 'mobile ',
-      'site' : 'mobile'}
+    headers: {
+      'platform': 'm ',
+      'site': 'm'
+    }
   },)
 }

@@ -104,6 +104,9 @@ import AccountAvatar from '@/components/account/avatar'
 import { getProfile } from "@/api/profile";
 import {mapMutations,mapGetters} from 'vuex'
 import {clearCookieByKey} from '@/assets/js/utils'
+import {
+  TOKEN,
+} from '@/assets/js/config'
 
 export default {
   name: "component_name",
@@ -164,7 +167,7 @@ export default {
       this.$dialog.confirm({
         message: '是否退出登录'
       }).then(() => {
-        clearCookieByKey('token')
+        clearCookieByKey(TOKEN)
         this.vxSetProfile({})
         this.$router.push({
           path: '/'

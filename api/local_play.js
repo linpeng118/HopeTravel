@@ -31,10 +31,5 @@ export const getPlay = () => {
 }
 
 export const getProductList = (ids) => {
-  return axios.get(`/api/product/ids?product=${ids}`,{
-    headers: {
-      'platform': 'mobile ',
-      'site' : 'mobile'
-    }
-  })
+  return axios.get(`/api/product/ids?product=${ids}`)
 }

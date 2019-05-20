@@ -499,7 +499,7 @@
   import {couponList, couponDetail, getcouponobj} from '@/api/profile'
   import shareList from '@/components/share/list'
   import {getCode, getBase64, getViewStat} from '@/api/sale_union'
-  import {SESSIONSTORE, PLATFORM} from '@/assets/js/config'
+  import {SESSIONSTORE, PLATFORM, CURRENCY} from '@/assets/js/config'
   import onCustomerService from '@/assets/js/customerService.js'
 
   export default {
@@ -529,12 +529,12 @@
         productId = Number(query.productId)
       }
       try {
-        let currency = getCookie('currency', req && req.headers && req.headers.cookie)
+        let currency = getCookie(CURRENCY, req && req.headers && req.headers.cookie)
         let {code, msg, data} = await $axios.$get(`/api/product/${productId}`, {
           headers: {
-            'Platform': 'app',
-            'Phone-Type': 'iOS',
-            'App-Version': '1.0.0',
+            'Platform': store.state.platform,
+            'Phone-Type': store.state.phoneType,
+            'App-Version': store.state.phoneType,
             'Language': store.getters.language,
             'Currency': currency ? currency : 'CNY'
           }
@@ -678,8 +678,8 @@
         return newData.slice(0, 5)
       }
     },
-    watch:{
-      $route(to,from) {
+    watch: {
+      $route(to, from) {
         console.log(to, from)
       }
     },

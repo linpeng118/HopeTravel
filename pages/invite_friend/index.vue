@@ -169,7 +169,7 @@
         vxSetPhoneType: "setPhoneType",
         // 设置版本
         vxSetAppVersion: "setAppVersion",
-         // 设置平台
+        // 设置平台
         vxSetPlatform: "setPlatform"
       }),
       // 获取优惠卷列表
