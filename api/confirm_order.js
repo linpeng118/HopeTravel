@@ -20,11 +20,11 @@ export const addorder = (data, referrerId, channel) => {
     method: 'post',
     url: `/api/order`,
     data,
-    // headers: {
-    //   'Referrer-Id': referrerId || 0,
-    //   'Channel': channel || 'm',
-    //   'platform': 'm ',
-    // }
+    headers: {
+      'Referrer-Id': referrerId || 0,
+      'Channel': channel || 'mobile',
+      'platform': 'mobile ',
+    }
   })
 }
 //获取我的可用优惠卷
