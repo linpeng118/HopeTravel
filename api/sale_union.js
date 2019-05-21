@@ -27,7 +27,7 @@ export const register = (data) => {
     },
     headers: {
       'Referrer-Id': data.referrerId,
-      'Channel':'m'
+      'Channel':'mobile'
     }
   })
 }

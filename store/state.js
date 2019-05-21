@@ -14,6 +14,6 @@ export default {
   currency: 'CNY', // 货币类型
   language: 'zh-CN',
   phoneType: '',
-  platform: 'm',
+  platform: 'mobile',
   appVersion: '0.0.0'
 }
