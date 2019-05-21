@@ -126,13 +126,13 @@ module.exports = {
   },
   // 配置代理
   proxy: {
-    '/api': {
-      target: `${apiConfig.base}/api/tour/v1`, // api
-      pathRewrite: {
-        '^/api': '/',
-      },
-      changeOrigin: true,
-    },
+    // '/api': {
+    //   target: `${apiConfig.base}/api/tour/v1`, // api
+    //   pathRewrite: {
+    //     '^/api': '/',
+    //   },
+    //   changeOrigin: true,
+    // },
     '/htwPay': {
       target: `${apiConfig.payment}`, // 支付接口
       pathRewrite: {
