@@ -322,9 +322,8 @@
         this_.xname=this_.$store.state.product.reservePro.name;
         this_.getCouponList();
       },100)
-      this.countprice = this.$store.state.confirm.countprice;;
-      console.log(this.countprice.savephone)
-      if(this.countprice.savephone==''){
+      this.countprice = this.$store.state.confirm.countprice;
+      if(this.countprice.savephone==''||this.countprice.savephone==undefined){
         this.init();
       }
       this.contact={"name":this.countprice.savename,"phone":this.countprice.savephone,"email":this.countprice.saveemail}
@@ -341,13 +340,13 @@
         let res = await getProfile();
         let {code, data} = res;
         if(code === 0) {
+          console.log("22222333")
           this.profile = data;
           this.$store.commit("countprice", {
             savename:data.nickname||data.chinese_name,
             saveemail:data.email,
             savephone:data.phone,
           });
-
         } else {
           this.profile = {}
         }
