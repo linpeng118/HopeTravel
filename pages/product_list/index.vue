@@ -17,10 +17,26 @@
             <van-tab :title="item.title" :key="item.type">
               <van-pull-refresh v-model="prodLoading" @refresh="onRefresh">
                 <van-list v-model="prodLoading" :finished="prodFinished" :finished-text="$t('noMore')" @load="onLoad">
-                  <template v-if="active !== 0">
+                  <template>
                     <div class="filter-box">
-                      <div class="sort-left" @click="sortChange">
+                      <div class="sort-left" :style="showcolor=='sort'?'':'color:#3c3c3c'" @click="sortChange">
                         {{sortResult.name}}
+                        <van-icon name="arrow-down" />
+                      </div>
+
+                      <div class="sort-left" :style="showcolor=='type'?'':'color:#3c3c3c'" v-if="currentType==2" @click="typeChange">
+                        {{$t('typex')}}
+                        <van-icon name="arrow-down" />
+                      </div>
+
+                      <div class="sort-left" :style="showcolor=='router'?'':'color:#3c3c3c'" v-if="currentType==7" @click="routerChange">
+                        {{$t('routerSel')}}
+                        <van-icon name="arrow-down" />
+                      </div>
+
+
+                      <div class="sort-left" v-if="filterLists&&filterLists.duration&&filterLists.duration.items&&filterLists.duration.items.length" :style="showcolor=='day'?'':'color:#3c3c3c'" @click="dayChange">
+                        {{$t('productListPage.duration')}}
                         <van-icon name="arrow-down" />
                       </div>
                       <div class="right" @click="filterSelect">
@@ -50,20 +66,23 @@
       <div class="filter-content">
         <div class="filter-list">
           <div class="filter-items" v-for="(item, key) in filterLists" :key="key">
-            <div class="cell-list" @click="showMoreFilter(key, item)">
-              <div class="left">{{showTitle(key)}}</div>
-              <div class="right">
-                <span class="text">{{selectNameShow(key)}}</span>
-                <i class="van-icon van-icon-arrow" :ref="'filter' + key"></i>
+            <template v-if="key!='duration'&&key!='lines'">
+              <div class="cell-list" @click="showMoreFilter(key, item)">
+                <div class="left">{{showTitle(key)}}</div>
+                <div class="right">
+                  <span class="text">{{selectNameShow(key)}}</span>
+                  <i class="van-icon van-icon-arrow" :ref="'filter' + key"></i>
+                </div>
               </div>
-            </div>
-            <div class="filter-tags" :ref="'tags' + key">
-              <div class="item"
-                   v-for="(city,index) in item.items"
-                   :key="city.id + city.name"
-                   :class="filterActive(city.id, key)"
-                   @click="filterClick(city, key, index)" :ref="key + currentType">{{city.name}}</div>
-            </div>
+              <div class="filter-tags" :ref="'tags' + key">
+                <div class="item"
+                     v-for="(city,index) in item.items"
+                     :key="city.id + city.name"
+                     :class="filterActive(city.id, key)"
+                     @click="filterClick(city, key, index)" :ref="key + currentType">{{city.name}}</div>
+              </div>
+            </template>
+
           </div>
         </div>
       </div>
@@ -76,6 +95,18 @@
     <!--排序条件搜索-->
     <div class="sort-box" v-if="sortShow" @click.capture="sortChange">
       <sort-item :sortShow="sortShow" :sortResult="sortResult" @selectSort="selectSortItem"></sort-item>
+    </div>
+    <!--日期条件搜索-->
+    <div class="sort-box" v-if="dayShow">
+      <day-item :dayShow="dayShow" :checkitem="filterResult.duration" :dayResult="filterLists.duration" @selectSort="selectDayItem"></day-item>
+    </div>
+    <!--类别条件搜索-->
+    <div class="sort-box" v-if="typeShow">
+      <play-item :dayShow="typeShow" :checkitem="checktype" @selectSort="selectTypeItem"></play-item>
+    </div>
+    <!--航线搜索-->
+    <div class="sort-box" v-if="routerShow">
+      <router-item :dayShow="routerShow" :checkitem="Number(checkrouter)" :dayResult="filterLists.lines" @selectSort="selectRouterItem"></router-item>
     </div>
     <!--更多列表的选择-->
     <van-popup v-model="showList" position="right" class="filter-select more-tag">
@@ -90,6 +121,9 @@
 <script>
   import LayHeader from '@/components/header/search'
   import sortItem from '@/components/search/sortItem'
+  import dayItem from '@/components/search/dayItem'
+  import playItem from '@/components/search/playItem'
+  import routerItem from '@/components/search/routerItem'
   import ProductList from '@/components/list/productList'
   import CityList from '@/components/list/cityList'
   import {getProductList, getFilterList} from '@/api/products'
@@ -100,9 +134,12 @@
     components: {
       LayHeader,
       ProductList,
+      playItem,
       sortItem,
       CityList,
-      DriftAside
+      routerItem,
+      DriftAside,
+      dayItem
     },
     head() {
       let srcCustomerService
@@ -135,6 +172,7 @@
         sortShow: false,
         filterLists: {},
         startCity: [],
+        checktype:2,
         active: this.$route.query.itemType || 0, // 当前搜索的type值
         filterResult: {
           product_type: this.$route.query.product_type || null,
@@ -147,6 +185,7 @@
         moreListsTitle: '',
         sureSearchList: {
           start_city: [],
+          lines:[],
           stop_city: [],
           price: [],
           span_city: [],
@@ -160,6 +199,11 @@
         submitserData:null,//跳转存储数据
         serachtype: this.$route.query.sem+'' || '0', // 当前搜索的type值
         menu:null,
+        dayShow:false,
+        showcolor:'sort',
+        typeShow:false,
+        routerShow:false,
+        checkrouter:0,
       }
     },
     computed: {
@@ -167,7 +211,8 @@
         // 当前的type类型
         // 如果有修改要特别注意类型
         // let _arr = [3,1,2,4,5,7,7]
-        let _arr = [0,3,1,2,4,5,7]
+        // let _arr = [0,3,1,2,4,5,7]//
+        let _arr = [0,1,2,7]
         return _arr[this.active]
       },
       multipleTag() {
@@ -197,11 +242,11 @@
       ]
       this.tagsList = [
         {id:10,type: 0,title:this.$t('tours.torusRecommend')},
-        {id:0,type: 3,title: this.$t('tours.exquisiteGroup')},
+        // {id:0,type: 3,title: this.$t('tours.exquisiteGroup')},
         {id:1,type: 1,title: this.$t('tours.localGroup')},
         {id:2,type: 2,title: this.$t('tours.localPlay')},
-        {id:3,type: 4,title: this.$t('tours.tickets')},
-        {id:4,type: 5,title: this.$t('tours.aDayTrip')},
+        // {id:3,type: 4,title: this.$t('tours.tickets')},
+        // {id:4,type: 5,title: this.$t('tours.aDayTrip')},
         {id:6,type: 7,title: this.$t('tours.cruise')}
       ];
       // console.log(this.$route.query)
@@ -209,11 +254,8 @@
     },
     mounted() {
       // 初始化
-      if(this.currentType !== 0) {
-        this.getFilterList();
-      }
+      this.getFilterList();
       this.serachtype=this.$route.query.sem+'' || '0';
-
     },
     methods: {
       // 返回上一级
@@ -279,10 +321,41 @@
       // 筛选条件
       filterSelect () {
         this.showFilter = !this.showFilter
+        this.showcolor = 'filter'
       },
       // 显示隐藏排序列表
       sortChange() {
         this.sortShow = !this.sortShow
+        this.showcolor = 'sort'
+        this.dayShow = false
+        this.typeShow = false
+        this.routerShow = false
+      },
+
+      // 显示隐藏排序列表
+      typeChange() {
+        this.typeShow = !this.typeShow
+        this.showcolor = 'type'
+        this.dayShow = false
+        this.routerShow = false
+        this.sortShow = false
+      },
+      // 显示隐藏航线列表
+      routerChange() {
+        this.routerShow = !this.routerShow
+        this.showcolor = 'router'
+        this.dayShow = false
+        this.typeShow = false
+        this.sortShow = false
+      },
+
+      // 显示隐藏行程天数
+      dayChange() {
+        this.dayShow = !this.dayShow
+        this.showcolor = 'day'
+        this.sortShow = false
+        this.routerShow = false
+        this.typeShow = false
       },
       // 条件查询选择
       async selectSortItem (item) {
@@ -301,6 +374,32 @@
           console.log('没有执行onLoad')
         }
       },
+
+      // day条件查询选择
+      async selectDayItem (item) {
+        this.filterResult.duration=item.id;
+        this.dayShow=false;
+        this.prodPagination.page=0;
+        this.onLoad();
+      },
+      // 航线查询选择
+      async selectRouterItem (item) {
+        this.checkrouter=item.line_id;
+        this.filterResult.lines=item.line_id;
+        console.log(this.filterResult)
+        this.routerShow=false;
+        this.prodPagination.page=0;
+        this.onLoad();
+      },
+      // type查询选择
+      async selectTypeItem (item) {
+        this.currentType=item;
+        this.checktype=item;
+        this.typeShow=false;
+        this.changeTypeClick();
+      },
+
+
       // 初始化筛选列表
       async getFilterList() {
         let submitData = {};
@@ -334,6 +433,7 @@
         }
         this.firstload=false;
         this.submitserData=submitData;
+        console.log('111')
         console.log(submitData)
         const res = await getProductList(submitData)
         this.productList.push(...res.data)
@@ -383,6 +483,10 @@
       },
       // 切换tab加载数据
       async changeTypeClick() {
+        this.dayShow = false
+        this.typeShow = false
+        this.sortShow = false
+        this.routerShow = false
         this.resetFilter()
         this.productList = []
         this.prodPagination = {}
@@ -398,9 +502,7 @@
           this.onLoad()
         }
         // 筛选列表更新
-        if(this.currentType !== 0) {
-          this.getFilterList()
-        }
+        this.getFilterList()
       },
       async againSearch () {
         this.prodPagination = {}
@@ -456,6 +558,7 @@
           span_city: this.$t('productListPage.spanCity'),
           stop_city: this.$t('productListPage.stopCity'),
           duration: this.$t('productListPage.duration'),
+          lines:this.$t('routerSel'),
           price: this.$t('productListPage.budgetPrice'),
           tag: this.$t('productListPage.tag'),
           product_type: this.$t('productListPage.productType')
@@ -531,6 +634,7 @@
           span_city: [],
           tag: [],
           duration: [],
+          lines:[],
           product_type: [],
           category: []
         }

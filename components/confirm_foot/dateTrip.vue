@@ -13,18 +13,26 @@
       </ul>
       <ul class="date-con">
         <template v-for="(item,ind) in dayprice">
-          <li :key="ind" v-if="item.price!=''&&item.status" @click="checkday=item.day" :class="checkday==item.day?'activebg':''" >
+          <li :key="ind" v-if="item.price!=''&&item.status&&!item.is_soldout" @click="checkday=item.day" :class="checkday==item.day?'activebg':''" >
             <span style="color: #ff0000">{{item.day||''}}</span>
             <template v-if="item.is_special">
               <span style="color:#ff0000" v-html="item.price?fiterPri(item.price):''"></span>
             </template>
+
             <template v-else>
               <span v-html="item.price?fiterPri(item.price):''"></span>
             </template>
           </li>
           <li :key="ind" v-else disabled>
-            <span style="color: #C9C9C9">{{item.day||''}}</span>
-            <span style="color: #C9C9C9" v-html="item.price?fiterPri(item.price):''"></span>
+            <template v-if="item.is_soldout">
+              <span style="color: #C9C9C9">{{item.day}}</span>
+              <span style="color: #C9C9C9">售罄</span>
+            </template>
+            <template v-else>
+              <span style="color: #C9C9C9">{{item.day||''}}</span>
+              <span style="color: #C9C9C9" v-html="item.price?fiterPri(item.price):''"></span>
+            </template>
+
           </li>
         </template>
 
