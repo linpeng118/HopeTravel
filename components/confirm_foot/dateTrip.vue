@@ -26,7 +26,7 @@
           <li :key="ind" v-else disabled>
             <template v-if="item.is_soldout">
               <span style="color: #C9C9C9">{{item.day}}</span>
-              <span style="color: #C9C9C9">售罄</span>
+              <span style="color: #C9C9C9">{{$t('saleOver')}}</span>
             </template>
             <template v-else>
               <span style="color: #C9C9C9">{{item.day||''}}</span>

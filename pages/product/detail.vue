@@ -135,7 +135,10 @@
             <p class="time">
               {{item.month}}/{{item.day}}&nbsp;{{getWeek(item.year, item.month, item.day)}}
             </p>
-            <span class="price">
+            <span class="price" style="color:#ccc" v-if="item.is_soldout">
+                {{$t('saleOver')}}
+            </span>
+            <span class="price" v-else>
               {{item.price}}
             </span>
           </div>
@@ -548,6 +551,8 @@
           product = data.product // 产品信息
           top_price = data.top_price // 团期价格
           transfer = data.transfer
+          console.log('data.top_price')
+          console.log(data.top_price)
         } else {
           console.log('error:', msg)
         }
@@ -1057,19 +1062,26 @@
       },
       // 期团选中日期跳转
       async onGroupPriceDate(data) {
-        // 暂存需要定制的商品信息
-        await this.vxSaveReservePro({
-          ...this.product
-        })
-        // 跳转至订单页面
-        this.$router.push({
-          path: '/date_trip',
-          query: {
-            year: data.year,
-            month: data.month,
-            day: data.day,
-          }
-        })
+        if (this.product.is_soldout) {
+          this.showSoldOut = true
+          return
+        }
+        else{
+          // 暂存需要定制的商品信息
+          await this.vxSaveReservePro({
+            ...this.product
+          })
+          // 跳转至订单页面
+          this.$router.push({
+            path: '/date_trip',
+            query: {
+              year: data.year,
+              month: data.month,
+              day: data.day,
+            }
+          })
+        }
+
       },
       // 更多期团
       onGroupPriceMore() {

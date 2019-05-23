@@ -3,7 +3,8 @@
     <div class="product-item" @click="selectDetail(data.product_id)" target="_blank">
       <div class="img-show">
         <img :src="data.image" alt="">
-        <div class="tags" v-if="showTag">{{productTypeValue(data.product_type)}}</div>
+        <div class="tags2" v-if="data.is_soldout">{{$t('saleOver')}}</div>
+        <div class="tags" v-if="showTag&&!data.is_soldout">{{productTypeValue(data.product_type)}}</div>
         <div class="special-icon">
           <span v-for="(item,index) in data.special_icons" :class="item.type === 'special' ? 'color': ''" :key="index">{{item.title}}</span>
           <!--<span>3折</span>-->
@@ -155,6 +156,19 @@ export default {
           bottom: 0;
           font-size:22px;
           font-weight:400;
+          background-color: rgba(0,0,0,0.57);
+          color: #fff;
+
+        }
+        .tags2{
+          width: 100%;
+          height: 100%;
+          padding: 40% 12px;
+          position: absolute;
+          bottom: 0;
+          font-size:22px;
+          font-weight:400;
+          text-align: center;
           background-color: rgba(0,0,0,0.57);
           color: #fff;
         }
