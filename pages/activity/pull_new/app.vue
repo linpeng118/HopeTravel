@@ -180,7 +180,7 @@
         })
         if (code === 0) {
           this.id = data.id,
-            this.rules = data.rules
+          this.rules = data.rules
         }
       },
       /**
