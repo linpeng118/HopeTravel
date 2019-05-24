@@ -180,7 +180,7 @@
         })
         if (code === 0) {
           this.id = data.id,
-            this.rules = data.rules
+          this.rules = data.rules
         }
       },
       /**
@@ -416,6 +416,7 @@
         width: 278px;
         height: 360px;
         background: #fff;
+        overflow: hidden;
         .banner {
           position: relative;
           height: 210px;
