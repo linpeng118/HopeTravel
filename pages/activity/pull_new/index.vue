@@ -1,11 +1,11 @@
 <template>
   <div class="pull-new-page">
     <!-- title -->
-    <van-nav-bar class="nav-title tours-no-bb"
+    <!-- <van-nav-bar class="nav-title tours-no-bb"
       ref="loginHeader"
       :title="'新人立减'"
       fixed>
-    </van-nav-bar>
+    </van-nav-bar> -->
     <!-- 内容 -->
     <div class="price-content-wrap">
       <!-- 默认 -->
@@ -166,7 +166,7 @@
     height: 100%;
     min-height: 100vh;
     .price-content-wrap {
-      margin-top: 46px;
+      // margin-top: 46px;
       padding-bottom: 50px;
       text-align: center;
       background: #ff3b01 url("~assets/imgs/invite/bg_new.png") no-repeat center
