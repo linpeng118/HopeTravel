@@ -416,6 +416,7 @@
         width: 278px;
         height: 360px;
         background: #fff;
+        overflow: hidden;
         .banner {
           position: relative;
           height: 210px;
