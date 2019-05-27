@@ -139,7 +139,7 @@
     async beforeMount() {
       this.jsBridge = require('@/assets/js/jsBridge.js').default
       await this.jsBridge.webRegisterHandler('obtainUserToken', (token, callback) => {
-        console.log(111, token);
+        // console.log(111, token);
         if (token) {
           this.vxSetToken(token)
         }
@@ -196,6 +196,10 @@
       },
       // 点击领取
       async onReceive() {
+        if(!this.vxToken) {
+          this.jsBridge.webCallHandler('jumpToLoginView')
+          return
+        }
         this.submiting = true
         console.log('onReceive', `${this.areaCode}-${this.phone}`)
         // if(!this.vxToken) {
