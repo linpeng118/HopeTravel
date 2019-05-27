@@ -29,13 +29,14 @@
                         <van-icon name="arrow-down" />
                       </div>
 
-                      <div class="sort-left" :style="showcolor=='router'?'':'color:#3c3c3c'" v-if="currentType==7" @click="routerChange">
+                      <div class="sort-left" :style="showcolor=='router'?'':'color:#3c3c3c'"
+                           v-if="currentType==7&&filterLists.lines&&filterLists.lines.items&&filterLists.lines.items.length>0" @click="routerChange">
                         {{$t('routerSel')}}
                         <van-icon name="arrow-down" />
                       </div>
 
 
-                      <div class="sort-left" v-if="filterLists&&filterLists.duration&&filterLists.duration.items&&filterLists.duration.items.length" :style="showcolor=='day'?'':'color:#3c3c3c'" @click="dayChange">
+                      <div class="sort-left" v-if="filterLists&&filterLists.duration&&filterLists.duration.items&&filterLists.duration.items.length>0" :style="showcolor=='day'?'':'color:#3c3c3c'" @click="dayChange">
                         {{$t('productListPage.duration')}}
                         <van-icon name="arrow-down" />
                       </div>
@@ -433,8 +434,6 @@
         }
         this.firstload=false;
         this.submitserData=submitData;
-        console.log('111')
-        console.log(submitData)
         const res = await getProductList(submitData)
         this.productList.push(...res.data)
         this.prodPagination = res.pagination
@@ -483,10 +482,11 @@
       },
       // 切换tab加载数据
       async changeTypeClick() {
-        this.dayShow = false
+        console.log("22222222")
         this.typeShow = false
         this.sortShow = false
         this.routerShow = false
+        this.dayShow = false
         this.resetFilter()
         this.productList = []
         this.prodPagination = {}
@@ -494,11 +494,15 @@
           product_type: this.$route.query.product_type || null,
           category: this.$route.query.category || null,
           span_city: this.$route.query.span_city || null,
-          start_city: this.$route.query.start_city || null
+          start_city: this.$route.query.start_city || null,
+          duration: this.$route.query.duration || null,
+          lines: this.$route.query.lines || null
         }
         if(this.prodFinished) { // 如果这个值为true，则不会触发onLoad, 所以要手动初始化一下
           this.prodFinished = false
+          console.log("222222221")
         } else { // 如果为false则会触发onLoad
+          console.log("222222223")
           this.onLoad()
         }
         // 筛选列表更新
