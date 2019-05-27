@@ -298,7 +298,6 @@
           touCityId: cityId
         }
         if (this.isApp) {
-          // query.platform = 'app'
           const params = {
             path: `local_play_foreign?touCityId=${cityId}&platform=${this.isApp}`
           }
@@ -318,8 +317,6 @@
       selectMore() {
         let query = {}
         if (this.isApp) {
-          query.platform = 'app'
-          // jumpWebHTML
           try {
             let params = {
               path: `local_play_foreign/more_city?platform=${this.isApp}`
