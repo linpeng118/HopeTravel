@@ -220,13 +220,16 @@
           }))
           this.jsBridge.webCallHandler('userObtainNewcomerGiftSuccessful')
         } else if (code === RECEIVE_TYPE.end) {
-          // 活动结束
+          // 活动结束(这里直接)
+          this.jsBridge.webCallHandler('userObtainNewcomerGiftSuccessful')
           this.receiveStatus = RECEIVE_TYPE.end
         } else if (code === RECEIVE_TYPE.old) {
           // 老用户
+          this.jsBridge.webCallHandler('userObtainNewcomerGiftSuccessful')
           this.receiveStatus = RECEIVE_TYPE.old
         } else if (code === RECEIVE_TYPE.again) {
           // 已领取
+          this.jsBridge.webCallHandler('userObtainNewcomerGiftSuccessful')
           this.receiveStatus = RECEIVE_TYPE.again
         } else if (code === 401) {
           console.log(msg)
