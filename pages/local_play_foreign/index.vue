@@ -215,6 +215,7 @@
         }
       } else {
         let productIds = getLocalStore('browsList')
+        
         if (productIds && productIds.length) {
           this.getViewedList(productIds)
         }
@@ -469,8 +470,8 @@
       // 更多城市
       moreCity() {
         if (this.isApp) {
-          query.platform = 'app'
           try {
+            const cityId = this.cityInfo.tour_city_id
             const params = {
               path: `local_play_foreign/more_city?touCityId=${cityId}&platform=${this.isApp}`
             }
