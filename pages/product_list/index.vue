@@ -527,22 +527,21 @@
       },
       // 选中筛选
       filterClick(item, key) {
-        let index = this.sureSearchList[key].findIndex(list => (item.id === list.id))
+        let objid = key=='brand'?item.brand_id:item.id
+        let index = this.sureSearchList[key].findIndex(list => (objid === list.id))
         if(index >= 0) {
           this.sureSearchList[key].splice(index, 1)
         } else {
           if(key === 'span_city' || key === 'tag' || key === 'duration' || key === 'product_type'|| key === 'category') {
-            console.log('多选项')
             this.sureSearchList[key].push(item) // 多选项
-          } else if (key === 'start_city' || key === 'stop_city' || key === 'price'){
-            console.log('单选项')
+          } else if (key === 'start_city' || key === 'stop_city' || key === 'price'|| key === 'brand'){
             this.sureSearchList[key] = [item] // 单选项
           }
         }
         console.log(this.sureSearchList)
-        let id = item.id
+        let id = key=='brand'?item.brand_id:item.id
         if(!this.filterResult[key]) {
-          this.filterResult[key] = item.id + ''
+          this.filterResult[key] = objid + ''
         } else {
           if (key === 'start_city' || key === 'stop_city' || key === 'price') {
             this.filterResult[key] = id
@@ -625,13 +624,18 @@
       },
       // 视觉判断tag是否选中
       filterActive(id,key) {
-        let index = this.sureSearchList[key].findIndex(list => (id === list.id))
+        let index = this.sureSearchList[key].findIndex(list => (id === list.id||list.brand_id))
         return index >=0 ? 'active' : ''
       },
       // 展示显示的name
       selectNameShow(key) {
         let names = this.sureSearchList[key].map(item => {
-          return item.name
+          if(key!='brand'){
+            return item.name
+          }
+          else{
+            return item.brand_name
+          }
         })
         return names.length > 3 ? names.splice(0,3).join(',') + '...' : names.join(',')
       },
