@@ -123,6 +123,8 @@
         if (code === 0) {
           this.id = data.id
           this.rules = data.rules
+        } else {
+          this.$toast(msg)
         }
       },
       async onReceive() {

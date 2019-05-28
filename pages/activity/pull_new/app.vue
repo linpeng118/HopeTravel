@@ -69,6 +69,7 @@
     <div class="hot-city-list">
       <template v-for="(product, index) in products">
         <div class="city-item"
+          :class="index===activeCity?'active':''"
           :key="product.title"
           @click="onCity(index)">{{product.title}}</div>
       </template>
@@ -107,6 +108,9 @@
     components: {
       CouponComp
     },
+    head: {
+      title: '新人立减'
+    },
     data() {
       return {
         RECEIVE_TYPE,
@@ -138,15 +142,19 @@
     },
     async beforeMount() {
       this.jsBridge = require('@/assets/js/jsBridge.js').default
-      await this.jsBridge.webRegisterHandler('obtainUserToken', (token, callback) => {
-        // console.log(111, token);
-        if (token) {
-          this.vxSetToken(token)
-        }
-      })
     },
     mounted() {
       this.init()
+      this.jsBridge.webRegisterHandler('obtainUserToken', (token, callback) => {
+        if (token) {
+          this.vxSetToken(token)
+          // alert(token);
+          // 领取
+          this.receiveCoupons()
+        } else {
+          this.jsBridge.webCallHandler('jumpToLoginView')
+        }
+      })
     },
     methods: {
       ...mapMutations({
@@ -179,8 +187,10 @@
           type: 'reduction'
         })
         if (code === 0) {
-          this.id = data.id,
+          this.id = data.id
           this.rules = data.rules
+        } else {
+          this.$toast(msg)
         }
       },
       /**
@@ -195,20 +205,28 @@
         }
       },
       // 点击领取
-      async onReceive() {
-        if(!this.vxToken) {
-          this.jsBridge.webCallHandler('jumpToLoginView')
-          return
-        }
+      onReceive() {
+        this.jsBridge.webCallHandler(
+          'getUserToken',
+          null,
+          (token) => {
+            // alert(token);
+            if (token) {
+              this.vxSetToken(token)
+              this.submiting = true
+              // 领取
+              this.receiveCoupons()
+            } else {
+              this.jsBridge.webCallHandler('jumpToLoginView')
+            }
+          }
+        )
+      },
+      // 领取优惠卷
+      async receiveCoupons() {
         this.submiting = true
-        console.log('onReceive', `${this.areaCode}-${this.phone}`)
-        // if(!this.vxToken) {
-        //   this.jsBridge.webCallHandler('jumpToLoginView')
-        //   return
-        // }
         const {code, msg, data} = await getCouponsReceive({
           id: this.id,
-          phone: `${this.areaCode}-${this.phone}`
         })
         this.msg = msg
         if (code === 0) {
@@ -400,17 +418,23 @@
       text-align: center;
       .city-item {
         margin: 0 16px;
-        padding: 0px 20px;
+        padding: 0px 30px;
         display: inline-block;
         font-size: 18px;
-        line-height: 36px;
+        height: 46px;
+        line-height: 46px;
         color: #fff;
-        background: linear-gradient(
-          90deg,
-          rgba(253, 179, 0, 1) 0%,
-          rgba(253, 165, 0, 1) 100%
-        );
+        border: 2px solid #fff;
+        background: transparent;
         border-radius: 22px;
+        &.active {
+          border: 0;
+          background: linear-gradient(
+            90deg,
+            rgb(253, 135, 0) 0%,
+            rgb(253, 194, 0) 100%
+          );
+        }
       }
     }
     .product-list {
