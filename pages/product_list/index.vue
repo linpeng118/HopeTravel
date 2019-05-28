@@ -30,7 +30,7 @@
                       </div>
 
                       <div class="sort-left" :style="showcolor=='router'?'':'color:#3c3c3c'"
-                           v-if="currentType==7&&filterLists.lines&&filterLists.lines.items&&filterLists.lines.items.length>0" @click="routerChange">
+                           v-if="filterLists.lines&&filterLists.lines.items&&filterLists.lines.items.length>0" @click="routerChange">
                         {{$t('routerSel')}}
                         <van-icon name="arrow-down" />
                       </div>
@@ -490,6 +490,7 @@
         this.sortShow = false
         this.routerShow = false
         this.dayShow = false
+        this.showcolor='sort'
         this.resetFilter()
         this.productList = []
         this.prodPagination = {}
