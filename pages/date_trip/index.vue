@@ -45,7 +45,6 @@
                 <van-stepper integer
                   v-model="item.adult" class="notzero"
                   :min="1"
-                  :disable-input="true"
                   :max="product.max_num_guest-item.child" />
               </span>
             </div>
@@ -55,14 +54,12 @@
               <span>
                 <van-stepper integer
                   :min="0"
-                  :disable-input="true"
                   v-model="item.child"
                   :max="product.max_num_guest-item.adult"
                   v-if="item.child>0" class="notzero"
                 />
                  <van-stepper integer
                               :min="0"
-                              :disable-input="true"
                               v-model="item.child"
                               class="else"
                               :max="product.max_num_guest-item.adult" v-else/>
@@ -90,15 +87,15 @@
             <span>
               <van-stepper v-model="total_adult"
                 integer
-                :min="1" class="notzero" :disable-input="true" />
+                :min="1" class="notzero" />
             </span>
           </div>
           <div v-if="product.is_kids"
             class="checkitem_con">
             <span>{{$t('child')}} <i v-if="product.max_child_age!=-1">&nbsp;0-{{product.max_child_age}}{{$t('yearsOld')}}</i></span>
             <span>
-               <van-stepper v-if="total_kids>0" integer :min="0" v-model="total_kids" :disable-input="true" class="notzero" />
-               <van-stepper v-else integer :min="0" v-model="total_kids" :disable-input="true" class="else"/>
+               <van-stepper v-if="total_kids>0" integer :min="0" v-model="total_kids" class="notzero" />
+               <van-stepper v-else integer :min="0" v-model="total_kids" class="else"/>
             </span>
           </div>
         </li>
