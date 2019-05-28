@@ -80,7 +80,7 @@
                      v-for="(city,index) in item.items"
                      :key="city.id + city.name"
                      :class="filterActive(city.id, key)"
-                     @click="filterClick(city, key, index)" :ref="key + currentType">{{city.name}}</div>
+                     @click="filterClick(city, key, index)" :ref="key + currentType">{{city.name||city.brand_name}}</div>
               </div>
             </template>
 
@@ -147,9 +147,6 @@
       if (process.env.customerService === "53kf") {
         srcCustomerService = 'https://tb.53kf.com/code/code/10181581/2'
       }
-      // if (process.env.customerService === "baidu") {
-      //   srcCustomerService = 'https://hm.baidu.com/hm.js?9bfbbc9f24159633a14d3b4f37db769b'
-      // }
       return {
         script: [
           {
@@ -208,6 +205,10 @@
         typeShow:false,
         routerShow:false,
         checkrouter:0,
+        lines:{
+      items: [{line_id: "15", line_name: "东亚航线"}],
+      sort: 5,
+      total: 1,}
       }
     },
     computed: {
@@ -414,7 +415,7 @@
           }
         let {code, data} = await getFilterList(submitData)
         if (code === 0) {
-          this.filterLists = data
+          this.filterLists = data;
         }
       },
       // 滑动会请求数据
@@ -569,7 +570,8 @@
           lines:this.$t('routerSel'),
           price: this.$t('productListPage.budgetPrice'),
           tag: this.$t('productListPage.tag'),
-          product_type: this.$t('productListPage.productType')
+          product_type: this.$t('productListPage.productType'),
+          brand:this.$t('brandx'),
         }
         return obj[name]
       },
@@ -643,14 +645,18 @@
           tag: [],
           duration: [],
           product_type: [],
-          category: []
+          category: [],
+          lines:[],
+          brand:[],
         }
         this.filterResult = {}
         this.filterResult = {
           product_type: this.$route.query.product_type || null,
           category: this.$route.query.category || null,
           span_city: this.$route.query.span_city || null,
-          start_city: this.$route.query.start_city || null
+          start_city: this.$route.query.start_city || null,
+          lines: this.$route.query.lines || null,
+          brand:this.$route.query.lines || null
         }
         console.log(this.filterResult)
       },
