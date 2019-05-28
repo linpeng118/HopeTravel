@@ -206,6 +206,9 @@
       },
       // 点击领取
       onReceive() {
+        if (!this.id) {
+          this.$toast('活动结束')
+        }
         this.jsBridge.webCallHandler(
           'getUserToken',
           null,

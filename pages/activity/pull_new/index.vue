@@ -128,6 +128,9 @@
         }
       },
       async onReceive() {
+        if (!this.id) {
+          this.$toast('活动结束')
+        }
         this.submiting = true
         console.log('onReceive', `${this.areaCode}-${this.phone}`)
         const {code, msg, data} = await getCouponsExternal({
