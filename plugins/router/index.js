@@ -12,7 +12,6 @@ export default ({
     if(reg.test(to.fullPath)) {
       next({path})
     }
-    // redirect(path)
     try {
       // M站客服系统：首页/列表/定制/签证/活动
       if (to.name === 'index' || to.name === 'product_list' || to.name === 'visa' || to.name === 'custom') {

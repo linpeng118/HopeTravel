@@ -10,7 +10,6 @@
       </van-nav-bar>
     </div>
     <div class="advantage_wrap" v-html="$t('helpPage.changeHtml')">
-      {{}}
     </div>
   </div>
 </template>

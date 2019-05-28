@@ -93,9 +93,10 @@
   "pleaseChoose": "請選擇",
   "cancel": "取消",
   "chooseCode": "選擇區號",
-  "titleHeader":"標題",
-  "more":"更多",
+  "titleHeader": "標題",
+  "more": "更多",
   "plhdNameEmail": "用戶名 / 郵箱",
+  "plhdPhoneNumber": "請輸入手機號",
   "tours": {
     "torusRecommend": "稀飯推薦",
     "exquisiteGroup": "精品小團",
@@ -426,8 +427,8 @@
     "reservation": "預定協議"
   },
   "contractPage": {
-    "travelContract":"旅行合同",
-    "travelSelf":"旅行合同及安全提示"
+    "travelContract": "旅行合同",
+    "travelSelf": "旅行合同及安全提示"
   },
   "searchPage": {
     "searchHistory": "曆史搜索",
@@ -531,7 +532,7 @@
     "englishName": "英文名",
     "plhdPhoneNumber": "請輸入手機號碼",
     "checkPhoneNumber": "請檢查手機號",
-    "chineseNoEnglish":"英文名中包含了中文"
+    "chineseNoEnglish": "英文名中包含了中文"
   },
   "localHotCityComp": {
     "hotCity": "熱門城市"
@@ -551,19 +552,19 @@
     "travelCost": "行程費用",
     "discount": "優惠",
     "riceGrains": "米粒",
-    "priceTotal":"合計",
-    "unionSave":"聯盟折扣"
+    "priceTotal": "合計",
+    "unionSave": "聯盟折扣"
   },
   "countDownComp": {
     "tipText": "距離開始",
     "tipTextEnd": "距離結束",
     "endText": "已結束"
   },
-  "listComp":{
-    "eliminate":"清除",
-    "selection":"選中",
-    "originalPrice":"原價",
-    "orderAmount":"訂單金額"
+  "listComp": {
+    "eliminate": "清除",
+    "selection": "選中",
+    "originalPrice": "原價",
+    "orderAmount": "訂單金額"
   },
   "headerSearch": {
     "search": "搜索"

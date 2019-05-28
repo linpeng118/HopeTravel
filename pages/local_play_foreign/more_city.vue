@@ -1,17 +1,25 @@
 <template>
   <section class="container">
-    <lay-header v-if="!isApp" :title="$t('localPlayPage.moreCity')" :isSearch="false" :classBg="true" @leftClick="leftClick"></lay-header>
-    <div class="listview" v-if="cityList.length" :style="{marginTop: isApp ? '1.76rem' : '1.173333rem'}">
+    <lay-header v-if="!isApp"
+      :title="$t('localPlayPage.moreCity')"
+      :isSearch="false"
+      :classBg="true"
+      @leftClick="leftClick"></lay-header>
+    <div class="listview"
+      v-if="cityList.length"
+      :style="{marginTop: isApp ? '1.76rem' : '1.173333rem'}">
       <!--:style="{paddingTop: isApp ? 0 : '1.173333rem'}"-->
-      <van-collapse v-model="activeName" accordion>
-        <van-collapse-item v-for="cityInfo in cityList" :key="cityInfo.countryId" :title="cityInfo.countryName" :name="cityInfo.countryId">
+      <van-collapse v-model="activeName"
+        accordion>
+        <van-collapse-item v-for="cityInfo in cityList"
+          :key="cityInfo.countryId"
+          :title="cityInfo.countryName"
+          :name="cityInfo.countryId">
           <ul>
-            <li
-              class="list-group-item"
+            <li class="list-group-item"
               v-for="item in cityInfo.cityInfo"
               :key="item.tour_city_id"
-              @click="selectItem(item.tour_city_id)"
-              >{{item.city_name}}</li>
+              @click="selectItem(item.tour_city_id)">{{item.city_name}}</li>
           </ul>
         </van-collapse-item>
       </van-collapse>
@@ -35,9 +43,13 @@
     },
     data() {
       return {
+        isApp: this.$route.query.platform,
+        appVersion: this.$route.query.app_version,
+        appLanguage: this.$route.query.language,
+        appCurrency: this.$route.query.currency,
+        appPhoneType: this.$route.query.phone_type,
         activeName: 1,
         cityList: [],
-        isApp: this.$route.query.platform
       }
     },
     async asyncData({$axios}) {
@@ -51,17 +63,25 @@
     created() {
       this.init()
     },
-    mounted() {
+    beforeMount() {
       if (this.isApp) {
-        this.appBridge = require('@/assets/js/appBridge.js').default
-        // this.appBridge.hideNavigationBar()
+        if (this.appVersion) {
+          this.jsBridge = require("@/assets/js/jsBridge").default;
+        } else {
+          this.appBridge = require("@/assets/js/appBridge").default;
+        }
       }
     },
+    mounted() {},
     methods: {
       // 返回上一级页面
       leftClick() {
         if (this.isApp) {
-          this.appBridge.backPreviousView()
+          if (this.appVersion) {
+            this.jsBridge.webCallHandler('backPreviousView')
+          } else {
+            this.appBridge.backPreviousView()
+          }
         } else {
           this.$router.go(-1)
         }
@@ -77,11 +97,11 @@
       _nomalLizeCityList(obj) {
         let list = []
         for (let key in obj) {
-          let {city_info,county_info} = obj[key]
+          let {city_info, county_info} = obj[key]
           list.push({
-            cityInfo:city_info,
-            countryName:county_info.country_name,
-            countryId:county_info.country_id
+            cityInfo: city_info,
+            countryName: county_info.country_name,
+            countryId: county_info.country_id
           })
         }
         return list
@@ -92,10 +112,14 @@
           touCityId: cityId
         }
         if (this.isApp) {
-          query.platform = 'app'
-          this.appBridge.jumpWebHTML({
-            path: `local_play_foreign?touCityId=${cityId}&platform=app`
-          })
+          let params = {
+            path: `local_play_foreign?touCityId=${cityId}`
+          }
+          if (this.appVersion) {
+            this.jsBridge.webCallHandler('jumpWebHTML', params)
+          } else {
+            this.appBridge.jumpWebHTML(params);
+          }
         } else {
           this.$router.push({
             path: `/local_play_foreign`,
@@ -108,24 +132,24 @@
 </script>
 
 <style type="text/scss" lang="scss">
-  .listview{
+  .listview {
     margin-top: 132px;
-    .van-cell{
-      border-top: 1px solid #DEDEDE;
+    .van-cell {
+      border-top: 1px solid #dedede;
     }
-    .van-collapse-item__content{
+    .van-collapse-item__content {
       padding: 0;
     }
 
-    .van-cell__title{
+    .van-cell__title {
       font-weight: bold;
     }
-    .list-group-item{
-      padding:26px 0;
+    .list-group-item {
+      padding: 26px 0;
       margin: 0 32px;
-      font-size:24px;
+      font-size: 24px;
       color: #191919;
-      border-top: 1px solid #DEDEDE;
+      border-top: 1px solid #dedede;
     }
   }
 </style>

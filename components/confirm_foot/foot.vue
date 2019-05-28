@@ -54,13 +54,13 @@
   import {addorder} from '@/api/confirm_order'
   import Loading from '@/components/loading'
   import {getProfile} from '@/api/profile'
-  import {SESSIONSTORE,PLATFORM} from '@/assets/js/config'
+  import {TOKEN, SESSIONSTORE,PLATFORM} from '@/assets/js/config'
   import {getSessionStore} from '@/assets/js/utils'
   import onCustomerService from '@/assets/js/customerService.js'
-
   import {
     getCookieByKey
   } from '@/assets/js/utils'
+
   export default {
     layout: 'default',
     components: {
@@ -189,7 +189,7 @@
           this.$refs.total_feeusd.value=data.price*100;
           this.$refs.success_url.value='//'+window.location.host+"/personal/order_des?order_id="+data.order_id;
           this.$refs.failure_url.value='//'+window.location.host+"/personal/order?status=null";
-          var token=getCookieByKey('token') ? getCookieByKey('token') : '';
+          var token=getCookieByKey(TOKEN) ? getCookieByKey(TOKEN) : '';
           token=token.replace('Bearer ','');
           this.$refs.jwt.value=token;
           this.subData();

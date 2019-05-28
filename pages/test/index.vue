@@ -27,22 +27,31 @@
 <script>
   export default {
     components: {},
+    validate({params, query}) {
+      // url: xxx.net?page=test 防止外人访问
+      if (query.page === 'test') {
+        return true
+      } else {
+        return false
+      }
+    },
     data() {
       return {
         testList: [
           {path: '/test/vant', name: '测试vant UI', color: '#EEC900'},
           {path: '/test/appBridge', name: '测试调用移动端接口', color: '#EEC900'},
+          {path: '/test/jsBridge', name: '测试jsBridge', color: '#D93025'},
           {path: '/test/bug', name: '测试bug', color: '#EEC900'},
           {path: '/test/ga', name: '测试统计', color: '#EEC900'},
         ],
         testPages: [
-          {path: '/local_group?platform=app', name: '测试当地跟团页面', color: '#40E0D0'},
-          {path: '/local_play_zh?platform=app', name: '测试当地玩乐页面（国内）', color: '#40E0D0'},
+          {path: '/activity/pull_new/app?platform=app&language=zh-CN&currency=CNY&app_version=1.4.0&phone_type=ios', name: '拉新活动', color: '#40E0D0'},
+          {path: '/invite_friend?platform=app&language=zh-CN&currency=CNY&app_version=1.4.0&phone_type=ios', name: '分享活动', color: '#40E0D0'},
+          {path: '/local_group?platform=app&language=zh-CN&currency=CNY&app_version=1.4.0&phone_type=ios', name: '测试当地跟团页面', color: '#40E0D0'},
+          {path: '/local_play_zh?platform=app&language=zh-CN&currency=CNY&app_version=1.4.0&phone_type=ios', name: '测试当地玩乐页面（国内）', color: '#40E0D0'},
           {path: '/local_play_foreign/more_city', name: '更多城市', color: '#40E0D0'},
           {path: '/custom?platform=app', name: '私人定制页面', color: '#40E0D0'},
           {path: '/login', name: '登录页面', color: '#40E0D0'},
-          {path: '/order', name: '订单页面', color: '#40E0D0'},
-          {path: '/product', name: '产品页面', color: '#40E0D0'},
         ]
       }
     },

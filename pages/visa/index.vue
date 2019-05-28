@@ -224,9 +224,9 @@
       if (process.env.customerService === "53kf") {
         srcCustomerService = 'https://tb.53kf.com/code/code/10181581/4'
       }
-      if (process.env.customerService === "baidu") {
-        srcCustomerService = 'https://hm.baidu.com/hm.js?72a266736d8b5b47605e2d2ad18f0756'
-      }
+      // if (process.env.customerService === "baidu") {
+      //   srcCustomerService = 'https://hm.baidu.com/hm.js?72a266736d8b5b47605e2d2ad18f0756'
+      // }
       return {
         script: [
           {

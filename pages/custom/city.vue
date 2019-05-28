@@ -343,6 +343,10 @@
     data() {
       return {
         isApp: this.$route.query.platform,
+        appVersion: this.$route.query.app_version,
+        appLanguage: this.$route.query.language,
+        appCurrency: this.$route.query.currency,
+        appPhoneType: this.$route.query.phone_type,
         isTransparent: true, // 导航头是否透明
         showcall:false,
         swiperOption: {
@@ -457,6 +461,21 @@
       this.getitem();
       this.getqu();
     },
+    beforeMount() {
+      // 判断是否APP
+      if (this.isApp) {
+        if (this.appVersion) {
+          this.jsBridge = require("@/assets/js/jsBridge").default;
+          this.vxSetPlatform(this.isApp)
+          this.vxSetLanguage(this.appLanguage)
+          this.vxSetCurrency(this.appCurrency)
+          this.vxSetPhoneType(this.appPhoneType)
+          this.vxSetAppVersion(this.appVersion)
+        } else {
+          this.appBridge = require("@/assets/js/appBridge").default;
+        }
+      }
+    },
     mounted() {
       // 监听滚动
       this.$refs.refCustomPage.addEventListener(
@@ -473,20 +492,19 @@
         clearInterval(this.setInv)
       }
       this.setInv= setInterval(function(){ this_.setover();}, 1000);
-      // 判断机型
-      if (this.isApp) {
-        this.appBridge = require('@/assets/js/appBridge').default
-      } else {
-        console.log('web操作')
-      }
     },
     beforeDestroy() {
       this.$refs.refCustomPage.removeEventListener('scroll', this.scrollFn)
     },
     methods: {
       ...mapMutations({
+        vxSetPlatform: 'setPlatform', // 设置品台
         vxToggleDialog: 'toggleDialog', // 是否显示弹窗
         vxSetDlgType: 'setDlgType', // 设置弹窗类型
+        vxSetLanguage: "setLanguage", // 设置语言
+        vxSetCurrency: "setCurrency", // 设置货币
+        vxSetPhoneType: "setPhoneType", // 设置机型
+        vxSetAppVersion: "setAppVersion" // 设置版本
       }),
       //   得到详细信息
       async getitem(x) {
@@ -681,7 +699,11 @@
         this.hidelist=true;
         const s1 = this.$refs.refCustomPage.scrollTop;
         if (this.isApp) {
-          this.appBridge.webViewScrollViewDidScroll({'top': s1.toString()})
+          if (this.appVersion) {
+            this.jsBridge.webCallHandler('webViewScrollViewDidScroll', {top: s1.toString()})
+          } else {
+            this.appBridge.webViewScrollViewDidScroll({top: s1.toString()});
+          }
         }
         setTimeout(() => {
           const s2 = this.$refs.refCustomPage.scrollTop;

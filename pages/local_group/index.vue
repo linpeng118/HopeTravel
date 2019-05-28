@@ -109,6 +109,7 @@
   import HotCityTag from '@/components/tags/index.vue'
   import Loading from '@/components/loading'
   import {setCookieByKey} from '@/assets/js/utils'
+  import {CURRENCY} from '@/assets/js/config'
 
   export default {
     layout: 'default',
@@ -120,7 +121,12 @@
     },
     data() {
       return {
+        CURRENCY,
         isApp: this.$route.query.platform,
+        appVersion: this.$route.query.app_version,
+        appLanguage: this.$route.query.language,
+        appCurrency: this.$route.query.currency,
+        appPhoneType: this.$route.query.phone_type,
         LIST_TYPE,
         loading: true,
         // swiper配置
@@ -166,34 +172,46 @@
         this.headerHeight = this.isApp ? 0 : this.$refs.refSearchHeader.$el.offsetHeight
       }
     },
+    async beforeMount() {
+      // 判断是否APP
+      if (this.isApp) {
+        if (this.appVersion) {
+          this.jsBridge = require("@/assets/js/jsBridge").default;
+          this.vxSetPlatform(this.isApp)
+          this.vxSetLanguage(this.appLanguage)
+          this.vxSetCurrency(this.appCurrency)
+          this.vxSetPhoneType(this.appPhoneType)
+          this.vxSetAppVersion(this.appVersion)
+        } else {
+          this.appBridge = require("@/assets/js/appBridge").default;
+          // 货币
+          let currency = await this.appBridge.obtainUserCurrency()
+          // 安卓只能返回JSON字符串
+          if (this.appBridge.browserVersion && this.appBridge.browserVersion.isAndroid()) {
+            setCookieByKey(CURRENCY, currency)
+          } else {
+            setCookieByKey(CURRENCY, currency.userCurrency)
+          }
+        }
+      }
+    },
     async mounted() {
       // 初始化
       this.init()
       // 监听滚动
       this.$refs.refLocalGroupPage.addEventListener('scroll', this.scrollFn)
-      // 判断机型
-      if (this.isApp) {
-        // 引入appBridge
-        this.appBridge = require('@/assets/js/appBridge').default
-        // this.appBridge.hideNavigationBar()
-        let currency = await this.appBridge.obtainUserCurrency()
-        // setCookieByKey('currency', currency.userCurrency)
-        // 安卓只能返回JSON字符串
-        if (this.appBridge.browserVersion&&this.appBridge.browserVersion.isAndroid()) {
-          setCookieByKey('currency', currency)
-        } else {
-          setCookieByKey('currency', currency.userCurrency)
-        }
-      } else {
-        // console.log('web操作')
-      }
     },
     beforeDestroy() {
       this.$refs.refLocalGroupPage.removeEventListener('scroll', this.scrollFn)
     },
     methods: {
       ...mapMutations({
-        vxChangeHeaderStatus: 'header/changeStatus' // 修改头部状态
+        vxChangeHeaderStatus: 'header/changeStatus', // 修改头部状态
+        vxSetPlatform: 'setPlatform', // 设置品台
+        vxSetLanguage: "setLanguage", // 设置语言
+        vxSetCurrency: "setCurrency", // 设置货币
+        vxSetPhoneType: "setPhoneType", // 设置机型
+        vxSetAppVersion: "setAppVersion" // 设置版本
       }),
       // rightClick
       rightClick() {
@@ -240,7 +258,11 @@
       // 返回上一级页面
       leftClick() {
         if (this.isApp) {
-          this.appBridge.backPreviousView()
+          if (this.appVersion) {
+            this.jsBridge.webCallHandler('backPreviousView')
+          } else {
+            this.appBridge.backPreviousView()
+          }
         } else {
           this.$router.go(-1)
         }
@@ -248,9 +270,14 @@
       // 点击当季热门item
       onHot(productId) {
         if (this.isApp) {
-          this.appBridge.jumpProductDetailView({
+          let params = {
             product_id: productId.toString()
-          })
+          }
+          if (this.appVersion) {
+            this.jsBridge.webCallHandler('jumpProductDetailView', params)
+          } else {
+            this.appBridge.jumpProductDetailView(params)
+          }
         } else {
           let routeData = this.$router.resolve({
             name: 'product-detail',
@@ -272,7 +299,11 @@
             'start_city': String(hotCity.start_city),
             'placeholder': String(hotCity.title),
           }
-          this.appBridge.jumpProductListView(params)
+          if (this.appVersion) {
+            this.jsBridge.webCallHandler('jumpProductListView', params)
+          } else {
+            this.appBridge.jumpProductListView(params)
+          }
         } else {
           let query = {
             keyword: encodeURIComponent(hotCity.title),
@@ -291,7 +322,11 @@
       },
       onMoreCity() {
         if (this.isApp) {
-          this.appBridge.jumpDestinationView()
+          if (this.appVersion) {
+            this.jsBridge.webCallHandler('jumpDestinationView')
+          } else {
+            this.appBridge.jumpDestinationView()
+          }
         } else {
           // console.log('web操作更多城市')
           this.$router.push({
@@ -346,7 +381,11 @@
         // console.log('获取滚动对象整体高度', this.$refs.refLocalGroup.offsetHeight)
         const s1 = this.$refs.refLocalGroupPage.scrollTop
         if (this.isApp) {
-          this.appBridge.webViewScrollViewDidScroll({'top': s1.toString()})
+          if (this.appVersion) {
+            this.jsBridge.webCallHandler('webViewScrollViewDidScroll', {top: s1.toString()})
+          } else {
+            this.appBridge.webViewScrollViewDidScroll({top: s1.toString()});
+          }
         }
         setTimeout(() => {
           const s2 = this.$refs.refLocalGroupPage.scrollTop
