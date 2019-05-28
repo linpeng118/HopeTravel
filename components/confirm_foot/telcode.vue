@@ -24,19 +24,18 @@
               </template>
             </div>
           </div>
-          <div class="tags-letter" @touchstart.stop.prevent="onShortcutTouchStart">
-          <ul>
-          <li v-for="(value, key) in dataObj" :key="key" :data-index="key">
-          <template v-if="typeof value === 'object'&&key!='热门城市'">
-          {{key}}
-          </template>
-          </li>
-          </ul>
-          </div>
         </div>
       </div>
     </div>
-
+    <div class="tags-letter" @touchstart.stop.prevent="onShortcutTouchStart">
+      <ul>
+        <li v-for="(value, key) in dataObj" :key="key" :data-index="key">
+          <template v-if="typeof value === 'object'&&key!='热门城市'">
+            {{key}}
+          </template>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -136,6 +135,19 @@ export default {
 
 <style type="text/scss" lang="scss" scoped>
   .tag-wrap{
+    .tags-letter{
+      width: 50px;
+      position: fixed;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      text-align: center;
+      li{
+        color: #399EF6;
+        font-size:18px;
+        line-height:40px;
+      }
+    }
   }
   .filter-content{
     position: absolute;
@@ -189,19 +201,7 @@ export default {
           }
         }
       }
-      .tags-letter{
-        width: 50px;
-        position: fixed;
-        right: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        text-align: center;
-        li{
-          color: #399EF6;
-          font-size:18px;
-          line-height:40px;
-        }
-      }
+
     }
     .main{
       margin-top: 50px;
