@@ -202,6 +202,7 @@ export default {
   },
   async mounted() {
     // document.getElementsByTagName('body')[0].className = 'show-kf'
+    console.log(this.$router)
     this.getHomeInitData()
     this.getTime()
     // 监听滚动

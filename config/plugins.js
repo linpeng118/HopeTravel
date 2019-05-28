@@ -106,6 +106,10 @@ let devPlugins = [
     ssr: true
   },
   // '~/plugins/i18n'
+  // {
+  //   src: '~/plugins/vconsole',
+  //   ssr: false
+  // },
 ]
 
 if (process.env.ENV_TYPE === 'prodDev') {
