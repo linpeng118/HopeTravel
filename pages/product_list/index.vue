@@ -79,7 +79,7 @@
                 <div class="item"
                      v-for="(city,index) in item.items"
                      :key="city.id + city.name"
-                     :class="filterActive(city.id||city.brand_id, key)"
+                     :class="key!='brand'?filterActive(city.id, key):filterActive(city.brand_id, key)"
                      @click="filterClick(city, key, index)" :ref="key + currentType">{{city.name||city.brand_name}}</div>
               </div>
             </template>
