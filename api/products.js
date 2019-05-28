@@ -21,7 +21,8 @@ export const getProductList = (data) => {
       category: data.category || '',
       order_by: data.order_by || '',
       order: data.order || '',
-      lines: data.lines || null,
+      cruise_id: data.lines || null,
+      cruise_brand_id: data.brand || null,
     },headers: {
       'platform': 'mobile ',
       'site' : 'mobile'
