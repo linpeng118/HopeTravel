@@ -94,7 +94,7 @@
     </van-popup>
 
     <!--排序条件搜索-->
-    <div class="sort-box" v-if="sortShow" @click.capture="sortChange">
+    <div class="sort-box" v-if="sortShow">
       <sort-item :sortShow="sortShow" :sortResult="sortResult" @selectSort="selectSortItem"></sort-item>
     </div>
     <!--日期条件搜索-->
@@ -364,13 +364,14 @@
       },
       // 条件查询选择
       async selectSortItem (item) {
-        this.sortResult = item
+        console.log("11122222222")
+        this.sortResult = item;
+        console.log(this.sortResult)
         let len = this.productList.length
         let total = this.prodPagination.total_record
         // 把下面控制列表的数据重置
         this.productList = []
         this.prodPagination = {}
-        // this.prodLoading= false
         this.prodFinished= false
         if (len !== total) {
           console.log('进行onLoad')
@@ -378,6 +379,7 @@
         } else {
           console.log('没有执行onLoad')
         }
+        this.sortChange()
       },
 
       // day条件查询选择

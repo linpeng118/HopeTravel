@@ -2,7 +2,8 @@
   <div class="sort-box" v-if="sortShow">
     <van-radio-group v-model="sortResult.id">
       <van-cell-group>
-        <van-cell v-for="item in sortTypes" :key="item.id" :title="item.name" :class="sortResult.id === item.id ? 'active' : ''" clickable @click="selectSortItem(item)">
+        <van-cell v-for="item in sortTypes" :key="item.id" :title="item.name" :class="sortResult.id === item.id ? 'active' : ''" clickable
+                  @click="selectSortItem(item)">
           <van-icon slot="right-icon" name="success" class="custom-icon" v-if="sortResult.id === item.id" />
         </van-cell>
       </van-cell-group>
@@ -24,6 +25,7 @@ export default {
     }
   },
   created() {
+    console.log(this.sortResult)
     this.sortTypes = [
       {id:1, order: '', order_by: '', name: this.$t('productListPage.sortDefault')},
       {id:2, order: 'asc', order_by: 'price', name: this.$t('productListPage.sortPriceLowToHigh')},
@@ -33,6 +35,7 @@ export default {
   },
   methods: {
     selectSortItem(item) {
+      console.log(item)
       this.$emit('selectSort', item)
     }
   }
