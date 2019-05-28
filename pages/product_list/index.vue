@@ -498,9 +498,10 @@
           category: this.$route.query.category || null,
           span_city: this.$route.query.span_city || null,
           start_city: this.$route.query.start_city || null,
-          duration: this.$route.query.duration || null,
-          lines: this.$route.query.lines || null
+          duration: this.$route.query.duration || null
         }
+        // 筛选列表更新
+        this.getFilterList()
         if(this.prodFinished) { // 如果这个值为true，则不会触发onLoad, 所以要手动初始化一下
           this.prodFinished = false
           console.log("222222221")
@@ -508,8 +509,7 @@
           console.log("222222223")
           this.onLoad()
         }
-        // 筛选列表更新
-        this.getFilterList()
+
       },
       async againSearch () {
         this.prodPagination = {}
@@ -641,7 +641,6 @@
           span_city: [],
           tag: [],
           duration: [],
-          lines:[],
           product_type: [],
           category: []
         }
