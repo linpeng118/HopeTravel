@@ -60,7 +60,12 @@ export default {
       width: 100%;
       padding-top: 150px;
       img{
-        width: 614px;
+        width: 624px;
+        position: absolute;
+        height: 814px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
       }
     }
     .btn-words{
