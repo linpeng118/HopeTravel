@@ -238,7 +238,7 @@
 <style scoped>
   .confirm-foot {
     width: 750px;
-    height: 150px;
+    height: 165px;
     background-color: #fff;
     position: fixed;
     z-index: 2099;
@@ -269,6 +269,7 @@
     display: inline-block;
     line-height: 20px;
     float: left;
+    padding-top: 10px;
     color: #FB605D;
   }
 

@@ -43,7 +43,7 @@
 
           <b class="bicon">
             <nuxt-link :to="{path:'/personal/addContacts',query:{'id':item.customer_contract_id,'adult':$route.query.adult}}">
-            <p><van-icon name="edit" class="elseicon" color="#399EF6;"/>&nbsp;</p>
+            <p><img src="../../assets/imgs/edit@2x.png" alt="" class="elicon"></p>
             </nuxt-link>
           </b>
 
@@ -198,7 +198,8 @@
     display: inline-block;
     font-size: 28px;
     color: #9F9F9F;
-    width: 500px;
+    padding-top: 10px;
+    width: 550px;
   }
   .objitem i {
     display: inline-block;
@@ -228,7 +229,7 @@
     font-weight: normal;
     font-style: normal;
     float: right;
-    width: 120px;
+    width: 50px;
   }
   .btnbox {
     text-align: center;
@@ -283,5 +284,11 @@
   }
   .elseicon{
     font-size: 36px;
+  }
+  .elicon{
+    width: 40px;
+    padding-top: 5px;
+    margin-left: 30px;
+    height: auto;
   }
 </style>
