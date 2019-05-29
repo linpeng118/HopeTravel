@@ -165,7 +165,7 @@
     vertical-align: top!important;
   }
   .elsecheck .van-checkbox__icon .van-icon{
-    border: 1px solid #399EF6!important;
+    border: 2px solid #399EF6!important;
   }
   .changeuser-btn .van-icon-plus:before{
     content: "\F000"
@@ -259,7 +259,7 @@
     color: #191919;
     background-color: #fff;
     box-shadow:0px 4px 12px rgba(0,0,0,0.14);
-    border-bottom:1px solid rgb(238, 238, 238);
+    border-bottom:2px solid rgb(238, 238, 238);
     transition: all 0.5s;
     .left-wrap {
       /*color: #404040;*/
