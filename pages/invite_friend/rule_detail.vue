@@ -19,6 +19,9 @@
 import {getPullNewRules} from '@/api/activity'
 export default {
   name: 'rule_detail',
+  head: {
+    title: '活动规则'
+  },
   data(){
     return{
       ruleInfo: {},
