@@ -89,6 +89,9 @@
     components: {
       areaCodeDefault
     },
+    head: {
+      title: '新人立减'
+    },
     data() {
       return {
         RECEIVE_TYPE,
