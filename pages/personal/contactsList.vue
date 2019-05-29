@@ -198,7 +198,6 @@
     display: inline-block;
     font-size: 28px;
     color: #9F9F9F;
-    padding-top: 10px;
     width: 550px;
   }
   .objitem i {
