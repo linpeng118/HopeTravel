@@ -34,10 +34,10 @@
         </div>
       </template>
       <van-button class="button-activity mt-26"
-        @click="jumpToAppCoupon"
+        @click="jumpToUse"
         type="default">去使用</van-button>
     </div>
-    <!-- 重新输入 -->
+    <!-- 老用户 -->
     <div class="price-content old"
       v-if="receiveStatus===RECEIVE_TYPE.old">
       <div class="price-box">
@@ -48,7 +48,7 @@
       <p class="tip-text old-tip">{{msg}}</p>
       <van-button class="button-activity mt-26"
         type="default"
-        @click="jumpToAppCoupon">去看看</van-button>
+        @click="jumpToShare">去看看</van-button>
     </div>
     <!-- 已领取 -->
     <div class="price-content again"
@@ -61,10 +61,11 @@
       <p class="tip-text again-tip">{{msg}}</p>
       <!-- 打开稀饭APP查看 -->
       <van-button class="button-activity mt-24"
-        @click="jumpToAppCoupon"
-        type="default">打开稀饭APP查看</van-button>
+        @click="jumpToUse"
+        type="default">去使用</van-button>
     </div>
-    <h1 class="exclusive-title">新人专享</h1>
+    <h1 class="exclusive-title"
+      ref="newShare">新人专享</h1>
     <!-- 热门城市 -->
     <div class="hot-city-list">
       <template v-for="(product, index) in products">
@@ -265,15 +266,25 @@
       onCity(city) {
         this.activeCity = city
       },
-      // 重新领取
-      onAgain() {
-        this.phone = ''
-        this.$set(this, 'receiveStatus', RECEIVE_TYPE.default)
+      // 去看看
+      jumpToUse() {
+        // window.location.href="#exclusive-title"
+        const refDom = this.$refs['newShare']
+        if (window.scrollTo) {
+          window.scrollTo({
+            top: refDom.offsetTop,
+            behavior: "smooth"
+          })
+        } else {
+          // TODO:兼容不支持window.scrollTo()
+          console.log('no scrollTo')
+        }
       },
-      // 跳转至优惠卷列表
-      jumpToAppCoupon() {
-        console.log('jumpToAppCoupon');
-        this.jsBridge.webCallHandler('jumpCouponsListView')
+      // 跳转分享的活动
+      jumpToShare() {
+        this.jsBridge.webCallHandler('jumpWebHTML', {
+          path: 'invite_friend',
+        })
       },
       // 跳转到详情
       jumpToDetail(id) {
