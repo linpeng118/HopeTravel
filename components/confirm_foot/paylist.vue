@@ -147,7 +147,7 @@
     padding: 0 32px;
     box-sizing: border-box;
     height: 94px;
-    margin-bottom: 100px;
+    margin-bottom: 120px;
     border-top: 2px solid #E4E4E4;
 
   }

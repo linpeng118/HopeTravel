@@ -56,7 +56,7 @@
   }
 </script>
 <style>
-  .van-overlay{
+  .login-dialog-comp+.van-overlay{
     z-index: 2100!important;
   }
 </style>
