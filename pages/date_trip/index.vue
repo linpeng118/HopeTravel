@@ -491,7 +491,7 @@
   }
   .checkitem {
     width: 686px;
-    padding: 20px;
+    padding: 0 20px 20px 20px;
     box-sizing: border-box;
     background: rgba(255, 255, 255, 1);
     box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1);
@@ -514,8 +514,8 @@
   }
   .checkitem_title {
     font-size: 30px;
-    height: 70px;
-    line-height: 70px;
+    height:90px;
+    line-height: 90px;
     color: #191919;
     border-bottom: 3px solid #e4e4e4;
   }
