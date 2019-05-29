@@ -209,7 +209,7 @@
       async setshow() {
         let {code} = await getProfile()
         if(code != 0) {
-          this.shownext=false
+          this.shownext=true
         }
         else{
           this.shownext=true
