@@ -93,6 +93,9 @@
     components: {
       Coupons
     },
+    head: {
+      title: '稀饭大礼相送'
+    },
     filters: {
       getName(name) {
         if (name.indexOf('@') >= 0) {
@@ -140,7 +143,6 @@
         console.log(this.appLanguage, this.appCurrency, this.appPhoneType, this.appVersion);
         // 获取到APP的token后请求列表
         await this.jsBridge.webRegisterHandler('obtainUserToken', (token, callback) => {
-          console.log(111, token);
           if (token) {
             // 设置token
             this.vxChangeTokens(token)
