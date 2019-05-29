@@ -32,7 +32,7 @@
         show: this.proIsShow,
         phoneList: [
           {title: this.$t('customerPhoneZH'), number: '400-118-1388', desc: '(8:00am - 11:00pm) EN\\CN', phone: '400-118-1388'},
-          {title: this.$t('customerPhoneEN'), number: '(001)888-933-0336', desc: '(0:00am - 0:00pm) EN\\CN', phone: '001-888-933-0336'},
+          {title: this.$t('customerPhoneEN'), number: '(001)888-933-0336', desc: '(7 * 24 Hours) EN\\CN   ', phone: '001-888-933-0336  '},
         ]
       }
     },
@@ -85,6 +85,7 @@
         .title {
           font-size: 28px;
           color: #5a5a5a;
+          width: 360px;
         }
         .fs-12{
           font-size: 20px!important;

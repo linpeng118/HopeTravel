@@ -150,27 +150,29 @@
   }
   .date-con{
     width: 750px;
-    padding: 20px 25px;
+    padding: 20px 25px 20px 25px;
     font-size: 28px;
   }
   .date-con li{
     width: 100px;
     float: left;
-    height: 120px;
+    height: 118px;
     text-align: center;
+    padding-top: 15px;
+    margin-bottom: 25px;
   }
 
   .date-con>li>span:nth-child(1){
     width: 100px;
     display: inline-block;
-    height: 60px;
-    line-height: 60px;
+    height: 45px;
+    line-height: 45px;
   }
   .date-con>li>span:nth-child(2){
       width: 100px;
       display: inline-block;
-      height: 40px;
-      line-height: 40px;
+      height: 36px;
+      line-height: 36px;
       font-size: 24px;
     }
   .activebg{

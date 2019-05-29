@@ -22,8 +22,8 @@
             <span>{{payData.child}} {{$t('person')}}</span>
           </p>
         </li>
-        <li class="paysection" v-if="payData.dfc.price!=0">
-          <p class="payitem">
+        <li class="paysection" v-if="payData.dfc.price">
+          <p class="payitem" >
             <span>{{payData.dfc.name}}</span>
             <span>
               {{payData.dfc.price}}</span>
@@ -147,7 +147,7 @@
     padding: 0 32px;
     box-sizing: border-box;
     height: 94px;
-    margin-bottom: 100px;
+    margin-bottom: 120px;
     border-top: 2px solid #E4E4E4;
 
   }

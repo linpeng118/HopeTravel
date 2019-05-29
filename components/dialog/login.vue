@@ -55,9 +55,14 @@
     },
   }
 </script>
-
+<style>
+  .login-dialog-comp+.van-overlay{
+    z-index: 2100!important;
+  }
+</style>
 <style lang="scss" scoped>
   .login-dialog-comp {
+    z-index: 2101!important;
     border-radius: 12px;
     .btn-close {
       position: absolute;

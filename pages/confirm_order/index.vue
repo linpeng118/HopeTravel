@@ -323,15 +323,18 @@
         this_.getCouponList();
       },100)
       this.countprice = this.$store.state.confirm.countprice;
-      if(this.countprice.savephone==''||this.countprice.savephone==undefined){
+      console.log('this.countprice.savephone'+this.countprice.savephone)
+      if(this.countprice.savephone==''||this.countprice.savephone==undefined||this.countprice.savephone=='undefined'){
+        console.log('enter')
         this.init();
       }
-      this.contact={"name":this.countprice.savename,"phone":this.countprice.savephone,"email":this.countprice.saveemail}
+      else{
+        this.contact={"name":this.countprice.savename,"phone":this.countprice.savephone,"email":this.countprice.saveemail}
+      }
+
       this.pricelist=this.get_vuex_pricelist;
       this.getqu();
       this.settitletip();
-
-
     },
 
     methods: {
@@ -347,6 +350,10 @@
             saveemail:data.email,
             savephone:data.phone,
           });
+          this.countprice.savename=data.nickname||data.chinese_name;
+          this.countprice.savephone=data.phone;
+          this.countprice.saveemail=data.email;
+          this.contact={"name":data.nickname||data.chinese_name,"phone":data.phone,"email":data.email}
         } else {
           this.profile = {}
         }

@@ -386,6 +386,7 @@
       async selectDayItem (item) {
         this.filterResult.duration=item.id;
         this.dayShow=false;
+        this.productList = [];
         this.prodPagination.page=0;
         this.onLoad();
       },
@@ -395,6 +396,7 @@
         this.filterResult.lines=item.line_id;
         console.log(this.filterResult)
         this.routerShow=false;
+        this.productList = [];
         this.prodPagination.page=0;
         this.onLoad();
       },
@@ -403,6 +405,7 @@
         this.currentType=item;
         this.checktype=item;
         this.typeShow=false;
+        this.productList = [];
         this.changeTypeClick();
       },
 
