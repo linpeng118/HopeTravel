@@ -130,7 +130,7 @@
           </div>
           <van-field :label="$t('email')" v-model="contact.email" :placeholder="$t('confirmPage.mustTipskp')"/>
 
-          <van-popup v-model="showsel" position="right" style="width:100%;height: 100%;background-color: none">
+          <van-popup v-model="showsel" position="right" style="width:100%;height: 100%;background-color:rgba(0,0,0,0)!important;">
             <tel-code :pageparent="'/personal/addContacts'"
                       :dataObj="columns"
                       @selectCode="onChangequ"
@@ -751,6 +751,7 @@
     font-size: 24px;
     border-radius: 8px;
     margin-bottom: 28px;
+    margin-top: 20px;
   }
 
   .item-title {
@@ -791,8 +792,8 @@
   }
   .item-tip {
     box-sizing: border-box;
-    margin: 20px 10px 0 10px;
-    padding-left: 20px;
+    margin: 20px 8px 0 8px;
+    padding-left: 15px;
     background: rgba(241, 241, 241, 1);
     opacity: 1;
     line-height: 48px;
