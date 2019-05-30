@@ -73,8 +73,8 @@ export default {
           margin: 40px 0;
           text-align: center;
           img{
-            width: 311px;
-            height: 261px;
+            width: 199px;
+            height: 167px;
           }
         }
       }
