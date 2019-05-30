@@ -1,6 +1,6 @@
 <template>
   <div class="pull-new-over-page">
-    <pull-new-comp class="pull-new-comp" />
+    <pull-new-comp />
   </div>
 </template>
 

@@ -14,7 +14,7 @@
       round
       v-clipboard:copy="publicName"
       v-clipboard:success="onCopy"
-      v-clipboard:error="onError">{{$t('personalPage.wxPublicCopy')}}</van-button>
+      v-clipboard:error="onError">复制公众号名称</van-button>
   </div>
 </template>
 
@@ -77,7 +77,7 @@
       height: 90px;
       font-size: 36px;
       font-family: PingFang SC;
-      font-weight: 600;
+      font-weight: 400;
       color: rgba(255, 255, 255, 1);
       background: linear-gradient(
         90deg,
