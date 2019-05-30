@@ -3,14 +3,18 @@
     <div class="weituo out-layer-con"
          v-html="$t('html.uploadUser')"
     >
-
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'upload_user'
+  name: 'upload_user',
+  head() {
+    return {
+      title: '用户上传协议'
+    }
+  },
 }
 </script>
 

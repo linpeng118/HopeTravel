@@ -480,6 +480,7 @@
             font-family: PingFang SC;
             font-weight: 600;
             color: #fff;
+            text-align: center;
           }
         }
         .more {

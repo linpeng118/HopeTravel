@@ -60,7 +60,7 @@ export default {
       // 区号与电话
       areaCode: '86',
       phone:'',
-      btnString:'收下心愿',
+      btnString:'收下心意',
       resultStr: '',
       submitRes: true,
       // 领取状态
@@ -131,7 +131,7 @@ export default {
         if(code === 1) {
           this.submitRes = true
           this.resultStr = ''
-          this.btnString = '收下心愿'
+          this.btnString = '收下心意'
           this.receiveStatus = RECEIVE_TYPE.default
           this.getOk = false
           this.phone = ''
@@ -143,7 +143,7 @@ export default {
       } else if(this.receiveStatus === RECEIVE_TYPE.old) {
         this.submitRes = true
         this.resultStr = ''
-        this.btnString = '收下心愿'
+        this.btnString = '收下心意'
         this.receiveStatus = RECEIVE_TYPE.default
         this.getOk = false
         this.phone = ''
