@@ -59,7 +59,7 @@ module.exports = {
       href: '/favicon.ico',
     },],
     script: scriptConfig,
-    _dangerouslyDisableSanitizers_: ['script'],
+    // _dangerouslyDisableSanitizers_: ['script'],
   },
 
   /*
