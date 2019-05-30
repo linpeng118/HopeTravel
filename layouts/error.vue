@@ -10,9 +10,9 @@
       <div @click="$router.go(-1)" class="link">
         返回上一步
       </div>
-      <div>
+      <!-- <div>
         {{error}}
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
