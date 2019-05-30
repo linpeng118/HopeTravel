@@ -190,6 +190,10 @@
         if (code === 0) {
           this.id = data.id
           this.rules = data.rules
+        } else if (code === 1000) {
+          this.$router.push({
+            path: '/activity/pull_new/over'
+          })
         } else {
           this.$toast(msg)
         }
@@ -208,7 +212,9 @@
       // 点击领取
       onReceive() {
         if (!this.id) {
-          this.$toast('活动结束')
+          this.$router.push({
+            path: '/activity/pull_new/over'
+          })
         }
         this.jsBridge.webCallHandler(
           'getUserToken',
