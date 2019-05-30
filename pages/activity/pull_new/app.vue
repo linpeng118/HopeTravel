@@ -497,6 +497,7 @@
           }
           .price {
             text-align: right;
+            line-height: 48px;
             .p-old,
             .text {
               height: 28px;

@@ -368,7 +368,7 @@
   }
 </style>
 <style>
-  .invite-list .van-list__loading .van-loading{
+  .invite-list .van-list__loading .van-loading {
     display: none !important;
   }
 </style>

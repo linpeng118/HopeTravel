@@ -7,7 +7,8 @@
           <span class="use-cond">{{item.minus_label.substring(1)}}</span>
         </div>
         <div class="price" v-else>
-          <span class="use-cond">{{item.minus_label}}</span>
+          <span class="use-cond zk">{{item.minus_label.slice(0,-1)}}</span>
+          <span class="price-symbol">{{item.minus_label.slice(-1)}}</span>
         </div>
         <p>{{item.full_label}}</p>
       </div>
@@ -89,7 +90,7 @@ export default {
           border-color:transparent transparent transparent #FF47F1;
           position:absolute;
           top: 50px;
-          right: -24px;
+          right: -22px;
         }
         &.type-one{
           background: linear-gradient(-60deg,#4C76FF,#825EF9 90%);
@@ -112,6 +113,9 @@ export default {
         }
         .use-cond{
           font-size: 70px;
+          &.zk{
+            font-size: 60px;
+          }
         }
       }
       .right-info{
