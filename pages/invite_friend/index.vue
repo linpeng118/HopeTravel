@@ -51,7 +51,7 @@
           v-model="loading"
           :finished="finished"
           finished-text="没有更多了"
-          loading-text="暂无数据"
+          :immediate-check="false"
           @load="getHistoryList">
           <ul class="user-list">
             <li v-for="(history,index) in historyLists"
@@ -201,8 +201,15 @@
           }
           inviteHistory(submitData).then(res => {
             if(res.code == 0) {
-              this.historyLists.push(...res.data)
-              this.prodPagination = res.pagination
+              let _obj = {}
+              if(this.appPhoneType == 'android') {
+                _obj.data = res.data.list
+                _obj.pagination = res.data.pagination
+              } else {
+                _obj = res
+              }
+              this.historyLists.push(..._obj.data)
+              this.prodPagination = _obj.pagination
               // 加载状态结束
               this.loading = false
               // 数据全部加载完成
@@ -365,10 +372,5 @@
         border-radius: 44px;
       }
     }
-  }
-</style>
-<style>
-  .invite-list .van-list__loading .van-loading {
-    display: none !important;
   }
 </style>
