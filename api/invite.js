@@ -9,7 +9,8 @@ export const inviteCoupons = () => {
 export const inviteHistory = (data) => {
   return axios.get(`/api/activity/invite/${data.id}/histories`,{
     params: {
-      page: data.page || 1
+      page: data.page || 1,
+      page_size: 100
     }
   })
 }
