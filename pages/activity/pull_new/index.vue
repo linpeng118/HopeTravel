@@ -154,7 +154,7 @@
           this.receiveStatus = RECEIVE_TYPE.old
         } else if (code === RECEIVE_TYPE.again) {
           // 已领取
-          this.receiveStatus = RECEIVE_TYPE.old
+          this.receiveStatus = RECEIVE_TYPE.again
         } else {
           this.$toast(msg)
         }

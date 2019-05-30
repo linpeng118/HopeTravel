@@ -51,6 +51,7 @@
           v-model="loading"
           :finished="finished"
           finished-text="没有更多了"
+          loading-text="暂无数据"
           @load="getHistoryList">
           <ul class="user-list">
             <li v-for="(history,index) in historyLists"
@@ -72,7 +73,6 @@
             </li>
           </ul>
         </van-list>
-
         <div v-if="isShowDrift">
           <van-button round
             block
@@ -197,16 +197,18 @@
         try {
           let submitData = {
             page: (this.prodPagination.page || 0) + 1,
-            id: this.activityId
+            id: this.activityId || 23
           }
           inviteHistory(submitData).then(res => {
-            this.historyLists.push(...res.data)
-            this.prodPagination = res.pagination
-            // 加载状态结束
-            this.loading = false
-            // 数据全部加载完成
-            if (!this.prodPagination.more) {
-              this.finished = true
+            if(res.code == 0) {
+              this.historyLists.push(...res.data)
+              this.prodPagination = res.pagination
+              // 加载状态结束
+              this.loading = false
+              // 数据全部加载完成
+              if (!this.prodPagination.more) {
+                this.finished = true
+              }
             }
           })
         } catch (error) {
@@ -363,5 +365,10 @@
         border-radius: 44px;
       }
     }
+  }
+</style>
+<style>
+  .invite-list .van-list__loading .van-loading{
+    display: none !important;
   }
 </style>

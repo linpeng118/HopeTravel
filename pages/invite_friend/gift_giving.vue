@@ -70,7 +70,7 @@ export default {
   },
   asyncData({query}){
     let _obj = {}
-    let _arr = query.search.split('/')
+    let _arr = query.search.replace('&','/').split('/')
     for(let i=0,len= _arr.length;i<len;i++){
       _obj[_arr[i].split('=')[0]] = _arr[i].split('=')[1]
     }
@@ -87,7 +87,7 @@ export default {
     return /^[0-9]*$/.test(_obj.referrer) && /^[0-9]*$/.test(_obj.rule) && /^[0-9]*$/.test(_obj.activity)
   },
   async mounted(){
-
+    console.log(this.queryPath)
     this.init()
     //
     let u = navigator.userAgent
@@ -107,9 +107,6 @@ export default {
       }
     },
     async getWish(){
-      this.$router.push({
-        path: '/invite_friend/activity_over'
-      })
       if(this.submitRes) {
         if(!/^[0-9]*$/.test(this.phone) || !this.phone) {
           this.$toast.fail('手机号码不正确')
@@ -126,13 +123,7 @@ export default {
         this.submitRes = false
         this.btnString = '打开稀饭APP'
         this.receiveStatus = code
-        if(code === RECEIVE_TYPE.old) {
-          this.btnString = '重新输入'
-        }
-        if(code === 0) {
-          this.getOk = true
-        }
-        if(code === 1) {
+        if(code == 1) {
           this.submitRes = true
           this.resultStr = ''
           this.btnString = '收下心意'
@@ -140,19 +131,29 @@ export default {
           this.getOk = false
           this.phone = ''
           this.$toast.fail('出错啦')
-        }
-        if(code === RECEIVE_TYPE.end) {
+        } else if(code === RECEIVE_TYPE.end) {
           this.$router.push({
-            path: '/activity/pull_new/over'
+            path: '/invite_friend/activity_over'
           })
+        } else if(this.receiveStatus == RECEIVE_TYPE.old) {
+          this.submitRes = false
+          this.btnString = '打开稀饭APP'
+          this.receiveStatus = 0
+          this.getOk = false
+          this.phone = ''
+        } else if(this.receiveStatus == RECEIVE_TYPE.again) {
+          this.submitRes = false
+          this.btnString = '打开稀饭APP'
+          this.receiveStatus = 0
+          this.getOk = false
+          this.phone = ''
+        } else if(this.receiveStatus == 0) {
+          this.submitRes = false
+          this.btnString = '打开稀饭APP'
+          this.receiveStatus = 0
+          this.getOk = false
+          this.phone = ''
         }
-      } else if(this.receiveStatus === RECEIVE_TYPE.old) {
-        this.submitRes = true
-        this.resultStr = ''
-        this.btnString = '收下心意'
-        this.receiveStatus = RECEIVE_TYPE.default
-        this.getOk = false
-        this.phone = ''
       }
     }
   }
