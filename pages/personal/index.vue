@@ -75,9 +75,6 @@
             <img class="icon-size" src="../../assets/imgs/personal/index/setting.png">
           </template>
         </van-cell>
-        <van-cell is-link to="/invite_friend" title="dddasdas">
-
-        </van-cell>
       </div>
     </div>
 
