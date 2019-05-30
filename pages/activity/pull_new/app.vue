@@ -429,10 +429,11 @@
     // 热门城市
     .hot-city-list {
       margin: 22px 0;
+      padding: 0px 40px;
       text-align: center;
       .city-item {
-        margin: 0 16px;
-        padding: 0px 30px;
+        margin: 0 10px;
+        padding: 0px 26px;
         display: inline-block;
         font-size: 18px;
         height: 46px;
@@ -453,11 +454,11 @@
     }
     .product-list {
       overflow: hidden;
-      padding: 40px 0;
-      font-size: 0;
+      padding: 0 68px 40px;
+      text-align: left;
       .product {
         display: inline-block;
-        margin: 20px 20px 0;
+        margin-top: 40px;
         width: 278px;
         height: 360px;
         background: #fff;
@@ -516,6 +517,9 @@
               color: rgba(255, 0, 0, 1);
             }
           }
+        }
+        &:nth-child(2n) {
+          margin-left: 58px;
         }
       }
     }
