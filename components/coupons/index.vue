@@ -2,9 +2,12 @@
   <div class="coupons-wrap">
     <div class="coupon-upper">
       <div :class="typeClassName">
-        <div class="price">
+        <div class="price" v-if="item.type !== 'percent'">
           <span class="price-symbol">{{item.minus_label.substring(0,1)}}</span>
           <span class="use-cond">{{item.minus_label.substring(1)}}</span>
+        </div>
+        <div class="price" v-else>
+          <span class="use-cond">{{item.minus_label}}</span>
         </div>
         <p>{{item.full_label}}</p>
       </div>
