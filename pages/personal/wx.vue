@@ -32,7 +32,7 @@
       },
       // 复制失败
       onError(e) {
-        this.$toast(this.$t('shareComp.复制失败'));
+        this.$toast(this.$t('shareComp.copyFail'));
       },
     },
   }
