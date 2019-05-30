@@ -87,6 +87,7 @@ export default {
     return /^[0-9]*$/.test(_obj.referrer) && /^[0-9]*$/.test(_obj.rule) && /^[0-9]*$/.test(_obj.activity)
   },
   async mounted(){
+
     this.init()
     //
     let u = navigator.userAgent
@@ -106,6 +107,9 @@ export default {
       }
     },
     async getWish(){
+      this.$router.push({
+        path: '/invite_friend/activity_over'
+      })
       if(this.submitRes) {
         if(!/^[0-9]*$/.test(this.phone) || !this.phone) {
           this.$toast.fail('手机号码不正确')
@@ -138,7 +142,9 @@ export default {
           this.$toast.fail('出错啦')
         }
         if(code === RECEIVE_TYPE.end) {
-          this.$toast.fail('活动结束啦')
+          this.$router.push({
+            path: '/activity/pull_new/over'
+          })
         }
       } else if(this.receiveStatus === RECEIVE_TYPE.old) {
         this.submitRes = true

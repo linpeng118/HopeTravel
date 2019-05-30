@@ -190,10 +190,6 @@
         if (code === 0) {
           this.id = data.id
           this.rules = data.rules
-        } else if (code === 1000) {
-          this.$router.push({
-            path: '/activity/pull_new/over'
-          })
         } else {
           this.$toast(msg)
         }
