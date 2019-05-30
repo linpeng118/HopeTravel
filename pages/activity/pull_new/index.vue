@@ -165,7 +165,12 @@
         this.$set(this, 'receiveStatus', RECEIVE_TYPE.default)
       },
       onOpenApp() {
-        console.log('onOpenApp');
+        let u = navigator.userAgent
+        if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
+          window.location.href = 'https://a.app.qq.com/o/simple.jsp?pkgname=com.zmcs.tourscool'
+        } else if (u.indexOf('iPhone') > -1) {
+          window.location.href = 'https://itunes.apple.com/cn/app/稀饭旅行/id1449120712?mt=8'
+        }
       },
     },
   }
@@ -256,7 +261,7 @@
         }
       }
       .old {
-        padding: 0 30px 36px;
+        padding: 0 40px 36px;
         .old-tip {
           margin-top: 80px;
         }
@@ -268,6 +273,7 @@
         padding: 0 40px 36px;
       }
       .again {
+        padding: 0 40px 36px;
         .price-box {
           margin-top: 72px;
         }
