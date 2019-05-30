@@ -72,7 +72,7 @@ export default {
       height: 147px;
       background-color: #EDEDED;
       .amount{
-        width: 170px;
+        width: 200px;
         height: 147px;
         color: #fff;
         font-size: 24px;
@@ -113,9 +113,6 @@ export default {
         }
         .use-cond{
           font-size: 70px;
-          &.zk{
-            font-size: 60px;
-          }
         }
       }
       .right-info{
