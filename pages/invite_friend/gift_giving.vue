@@ -108,10 +108,10 @@ export default {
     },
     async getWish(){
       if(this.submitRes) {
-        if(!/^[0-9]*$/.test(this.phone) || !this.phone) {
-          this.$toast.fail('手机号码不正确')
-          return false
-        }
+        // if(!/^[0-9]*$/.test(this.phone) || !this.phone) {
+        //   this.$toast.fail('手机号码不正确')
+        //   return false
+        // }
         let params = {
           phone: `${this.areaCode}-${this.phone}`,
           customer: this.queryPath.referrer,
