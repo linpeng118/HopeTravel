@@ -2,7 +2,7 @@
   <div class="product-list">
     <div class="product-item" @click="selectDetail(data.product_id)" target="_blank">
       <div class="img-show">
-        <!--<img :src="data.image" alt="">-->
+        <img :src="data.image" alt="">
         <div class="tags2"v-if="data.is_soldout">
           {{$t('saleOver')}}
           <p v-if="showTag" >{{productTypeValue(data.product_type)}}</p>
