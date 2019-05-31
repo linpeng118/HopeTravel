@@ -123,14 +123,12 @@ export default {
         this.submitRes = false
         this.btnString = '打开稀饭APP'
         this.receiveStatus = code
-        if(code == 1) {
+        if(code == RECEIVE_TYPE.self) {
           this.submitRes = true
-          this.resultStr = ''
           this.btnString = '收下心意'
           this.receiveStatus = RECEIVE_TYPE.default
           this.getOk = false
-          this.phone = ''
-          this.$toast.fail('出错啦')
+          this.$toast.fail(msg)
         } else if(code === RECEIVE_TYPE.end) {
           this.$router.push({
             path: '/invite_friend/activity_over'
@@ -153,6 +151,12 @@ export default {
           this.receiveStatus = 0
           this.getOk = false
           this.phone = ''
+        } else if(code==1){
+          this.submitRes = true
+          this.btnString = '收下心意'
+          this.receiveStatus = RECEIVE_TYPE.default
+          this.getOk = false
+          this.$toast.fail(msg)
         }
       }
     }
