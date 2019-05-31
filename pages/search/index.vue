@@ -274,13 +274,16 @@
       // 搜索关键字跳转列表
       selectProductList(type) {
         // console.log(type)
+        console.log(type)
         let typeItem
-        if (type == 1) {
-          typeItem = 2
-        } else if(type == 2) {
-          typeItem = 3
+        if(type == 3) {
+          typeItem = 4
         } else if (type == 7) {
-          typeItem = 6
+          typeItem = 3
+        } else if(type == 5){
+          typeItem = 2
+        }else if(type == 4){
+          typeItem = 2
         } else {
           typeItem = type
         }

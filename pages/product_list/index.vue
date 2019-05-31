@@ -217,7 +217,7 @@
         // 如果有修改要特别注意类型
         // let _arr = [3,1,2,4,5,7,7]
         // let _arr = [0,3,1,2,4,5,7]//
-        let _arr = [0,1,2,7]
+        let _arr = [0,1,2,7,3]
         return _arr[this.active]
       },
       multipleTag() {
@@ -247,12 +247,12 @@
       ]
       this.tagsList = [
         {id:10,type: 0,title:this.$t('tours.torusRecommend')},
-        // {id:0,type: 3,title: this.$t('tours.exquisiteGroup')},
         {id:1,type: 1,title: this.$t('tours.localGroup')},
         {id:2,type: 2,title: this.$t('tours.localPlay')},
         // {id:3,type: 4,title: this.$t('tours.tickets')},
         // {id:4,type: 5,title: this.$t('tours.aDayTrip')},
-        {id:6,type: 7,title: this.$t('tours.cruise')}
+        {id:6,type: 7,title: this.$t('tours.cruise')},
+        {id:0,type: 3,title: this.$t('tours.exquisiteGroup')},
       ];
       // console.log(this.$route.query)
       // this.menuset();

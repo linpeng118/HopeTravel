@@ -46,7 +46,7 @@
         <img src="../assets/imgs/home/icon_local.png" alt="">
         <p class="title">{{$t('tours.localGroup')}}</p>
       </nuxt-link>
-      <nuxt-link tag="div" class="entry-tourism" :to="{ name: 'product_list', query: { itemType: 1 }}">
+      <nuxt-link tag="div" class="entry-tourism" :to="{ name: 'product_list', query: { itemType: 4 }}">
         <img src="../assets/imgs/home/icon_group.png" alt="">
         <p class="title">{{$t('tours.exquisiteGroup')}}</p>
       </nuxt-link>
