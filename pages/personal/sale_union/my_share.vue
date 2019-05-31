@@ -73,7 +73,7 @@ export default {
         'weixin': '微信好友',
         'qq': 'QQ好友',
         'sinaweibo':'新浪微博',
-        'm': '文章链接'
+        'm': '文章链接',
       }
       lists.forEach(item => {
         item.image = require(`../../../assets/imgs/union/${item.platform}@2x.png`)

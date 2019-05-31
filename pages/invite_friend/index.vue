@@ -76,7 +76,7 @@
         <div v-if="isShowDrift">
           <van-button round
             block
-            class="invite-btn">立即分享</van-button>
+            class="invite-btn" @click="share('on')">立即分享</van-button>
         </div>
       </div>
     </div>
