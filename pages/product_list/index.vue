@@ -16,7 +16,7 @@
           <template v-for="item in tagsList">
             <van-tab :title="item.title" :key="item.type">
               <van-pull-refresh v-model="prodLoading" @refresh="onRefresh">
-                <van-list v-model="prodLoading" :finished="prodFinished" :finished-text="$t('noMore')" @load="onLoad">
+                <van-list v-model="prodLoading" :finished="prodFinished" :finished-text="$t('noMore')" @load="onLoad" :immediate-check="false">
                   <template>
                     <div class="filter-box">
                       <div class="sort-left" :style="showcolor=='sort'?'':'color:#3c3c3c'" @click="sortChange">
@@ -210,19 +210,10 @@
           sort: 5,
           total: 1,
         },
-        resultType: ''
+        // currentType: [0,1,2,7,3]
       }
     },
     computed: {
-      // currentType:{
-      //   get() {
-      //     let _arr = [0,1,2,7,3]
-      //     return _arr[this.active]
-      //   },
-      //   set(newValue) {
-      //     // this.active = newValue
-      //   }
-      // },
       currentType() {
         // 当前的type类型
         // 如果有修改要特别注意类型
@@ -248,13 +239,6 @@
         this.getFilterList();
         // this.menuset();
       },
-      currentType : {
-        handler(value) {
-          console.log('变化了1111111111111', value)
-          this.resultType = value
-        },
-        immediate: true
-      }
     },
     created() {
       this.sortTypes = [
@@ -277,6 +261,7 @@
     },
     mounted() {
       // 初始化
+      this.onLoad();
       this.getFilterList();
       this.serachtype=this.$route.query.sem+'' || '0';
     },
@@ -420,7 +405,7 @@
       },
       // type查询选择
       async selectTypeItem (item) {
-        this.resultType = item;
+        this.currentType = item;
         this.checktype=item;
         this.typeShow=false;
         this.productList = [];
@@ -428,7 +413,6 @@
       },
       // 初始化筛选列表
       async getFilterList() {
-        console.log(44444444444, this.resultType)
         let submitData = {};
           submitData = {
             type: this.currentType == 0 ? null: this.currentType,
@@ -442,6 +426,7 @@
       },
       // 滑动会请求数据
       async onLoad() {
+        console.log("滑动会请求数据")
         // 获取数据
         let submitData = {};
         if(localStorage.getItem('plist')&&this.firstload==true){
@@ -450,7 +435,7 @@
         }
         else{
           submitData = {
-            type: this.resultType == 0 ? null: this.resultType,
+            type: this.currentType == 0 ? null: this.currentType,
             page: (this.prodPagination.page || 0) + 1,
             order_by: this.sortResult.order_by || null,
             order: this.sortResult.order || null,
@@ -484,7 +469,7 @@
         }
         else{
           submitData = {
-            type: this.resultType == 0 ? null: this.resultType,
+            type: this.currentType == 0 ? null: this.currentType,
             page: (!this.prodPagination.page||this.prodPagination.page==1)?1:this.prodPagination.page-1,
             order_by: this.sortResult.order_by || null,
             order: this.sortResult.order || null,
@@ -508,7 +493,7 @@
       },
       // 切换tab加载数据
       async changeTypeClick() {
-        console.log("22222222")
+        console.log("切换tab加载数据")
         this.typeShow = false
         this.sortShow = false
         this.routerShow = false
@@ -517,7 +502,6 @@
         this.resetFilter()
         this.productList = []
         this.prodPagination = {}
-
         this.filterResult = {
           product_type: this.$route.query.product_type || null,
           category: this.$route.query.category || null,
@@ -525,16 +509,15 @@
           start_city: this.$route.query.start_city || null,
           duration: this.$route.query.duration || null
         }
-        // 筛选列表更新
-        this.getFilterList()
         if(this.prodFinished) { // 如果这个值为true，则不会触发onLoad, 所以要手动初始化一下
           this.prodFinished = false
           console.log("222222221")
         } else { // 如果为false则会触发onLoad
           console.log("222222223")
-          this.onLoad()
+          await this.onLoad()
         }
-
+        // 筛选列表更新
+        this.getFilterList()
       },
       async againSearch () {
         this.prodPagination = {}
