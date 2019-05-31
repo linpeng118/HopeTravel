@@ -1,9 +1,9 @@
 <template>
   <div class="sort-box" v-if="dayShow">
     <div class="setitem">
-      <span @click="selectDayItem(2)" :class="checkitem==2?'active':''"> {{$t('allType')}}</span>
-      <span @click="selectDayItem(4)" :class="checkitem==4?'active':''">{{$t('tours.tickets')}}</span>
-      <span @click="selectDayItem(5)" :class="checkitem==5?'active':''">{{$t('tours.aDayTrip')}}</span>
+      <span @click="selectDayItem(2, 'local')" :class="checkitem==2?'active':''"> {{$t('allType')}}</span>
+      <span @click="selectDayItem(4, 'local')" :class="checkitem==4?'active':''">{{$t('tours.tickets')}}</span>
+      <span @click="selectDayItem(5, 'local')" :class="checkitem==5?'active':''">{{$t('tours.aDayTrip')}}</span>
     </div>
 
   </div>

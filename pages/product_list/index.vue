@@ -248,8 +248,9 @@
         this.getFilterList();
         // this.menuset();
       },
-      currentType:{
+      currentType : {
         handler(value) {
+          console.log('变化了1111111111111', value)
           this.resultType = value
         },
         immediate: true
@@ -430,7 +431,7 @@
         console.log(44444444444, this.resultType)
         let submitData = {};
           submitData = {
-            type: this.resultType == 0 ? null: this.resultType,
+            type: this.currentType == 0 ? null: this.currentType,
             keyword: this.searchKeyWords,
             ...this.filterResult
           }
@@ -516,6 +517,7 @@
         this.resetFilter()
         this.productList = []
         this.prodPagination = {}
+
         this.filterResult = {
           product_type: this.$route.query.product_type || null,
           category: this.$route.query.category || null,
