@@ -206,17 +206,28 @@
         routerShow:false,
         checkrouter:0,
         lines:{
-      items: [{line_id: "15", line_name: "东亚航线"}],
-      sort: 5,
-      total: 1,}
+          items: [{line_id: "15", line_name: "东亚航线"}],
+          sort: 5,
+          total: 1,
+        },
+        resultType: ''
       }
     },
     computed: {
+      // currentType:{
+      //   get() {
+      //     let _arr = [0,1,2,7,3]
+      //     return _arr[this.active]
+      //   },
+      //   set(newValue) {
+      //     // this.active = newValue
+      //   }
+      // },
       currentType() {
         // 当前的type类型
         // 如果有修改要特别注意类型
         // let _arr = [3,1,2,4,5,7,7]
-        // let _arr = [0,3,1,2,4,5,7]//
+        // let _arr = [0,3,1,2,4,5,7] //
         let _arr = [0,1,2,7,3]
         return _arr[this.active]
       },
@@ -236,6 +247,12 @@
         // 筛选条件更新
         this.getFilterList();
         // this.menuset();
+      },
+      currentType:{
+        handler(value) {
+          this.resultType = value
+        },
+        immediate: true
       }
     },
     created() {
@@ -402,19 +419,18 @@
       },
       // type查询选择
       async selectTypeItem (item) {
-        this.currentType=item;
+        this.resultType = item;
         this.checktype=item;
         this.typeShow=false;
         this.productList = [];
         this.changeTypeClick();
       },
-
-
       // 初始化筛选列表
       async getFilterList() {
+        console.log(44444444444, this.resultType)
         let submitData = {};
           submitData = {
-            type: this.currentType == 0 ? null: this.currentType,
+            type: this.resultType == 0 ? null: this.resultType,
             keyword: this.searchKeyWords,
             ...this.filterResult
           }
@@ -433,7 +449,7 @@
         }
         else{
           submitData = {
-            type: this.currentType == 0 ? null: this.currentType,
+            type: this.resultType == 0 ? null: this.resultType,
             page: (this.prodPagination.page || 0) + 1,
             order_by: this.sortResult.order_by || null,
             order: this.sortResult.order || null,
@@ -467,7 +483,7 @@
         }
         else{
           submitData = {
-            type: this.currentType == 0 ? null: this.currentType,
+            type: this.resultType == 0 ? null: this.resultType,
             page: (!this.prodPagination.page||this.prodPagination.page==1)?1:this.prodPagination.page-1,
             order_by: this.sortResult.order_by || null,
             order: this.sortResult.order || null,

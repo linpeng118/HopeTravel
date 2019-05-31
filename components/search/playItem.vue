@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     selectDayItem(item) {
-      console.log(this.checkitem)
+      console.log(item)
       this.$emit('selectSort', item)
     }
   }
