@@ -135,6 +135,7 @@
           this.$router.push({
             path: '/activity/pull_new/over'
           })
+          return
         }
         this.submiting = true
         console.log('onReceive', `${this.areaCode}-${this.phone}`)

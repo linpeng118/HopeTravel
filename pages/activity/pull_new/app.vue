@@ -211,6 +211,7 @@
           this.$router.push({
             path: '/activity/pull_new/over'
           })
+          return
         }
         this.jsBridge.webCallHandler(
           'getUserToken',
