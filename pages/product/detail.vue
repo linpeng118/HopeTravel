@@ -64,7 +64,7 @@
           </span>
           <span class="default-price"
             v-if="product.special_price">
-            {{product.special_price}}
+            {{product.default_price}}
           </span>
         </div>
       </div>
