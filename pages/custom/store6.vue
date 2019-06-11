@@ -204,15 +204,14 @@
             <img style="widht:.52rem;height:.52rem;" src="../../assets/imgs/custom/btn1.png" alt="">
             在线咨询
         </a>
-        <a @click="showform=true" class="btn_custom fl">
-            <img style="widht:.48rem;height:.48rem;" src="../../assets/imgs/custom/btn2.png" alt="">
-            立即定制
-        </a>
+      <nuxt-link tag="a" class="btn_custom fl" to="/custom" >
+        <img style="widht:.48rem;height:.48rem;" src="../../assets/imgs/custom/btn2.png" alt="">
+        立即定制
+      </nuxt-link>
     </div>
     <van-popup v-model="showcall" style="background-color: rgba(0,0,0,0)" position="center" :overlay="true">
       <div class="connectbox">
         <p class="titlex ">联系我们</p>
-
         <a class="con-btn  " @click="toList2()">在线咨询</a>
       </div>
     </van-popup>
@@ -269,7 +268,7 @@
   import {custom} from "@/api/custom";
   import {getquhao} from '@/api/contacts'
   import onCustomerService from '@/assets/js/customerService.js'
-  
+
   export default {
     name: "component_name",
     data() {

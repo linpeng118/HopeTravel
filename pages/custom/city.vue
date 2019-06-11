@@ -283,8 +283,8 @@
             <div class="form-input phone">
               <div class="left-icon"></div>
               <input type="text" placeholder="请输入验证码" v-model="code1" class="setinput">
-              <div class="code-icon" @click="getCode"
-                   :class="concode?'basecolor baseboder':''">{{showText1}}</div>
+              <div class="code-icon" @click="getCode1"
+                   :class="concode1?'basecolor baseboder':''">{{showText1}}</div>
             </div>
             <!-- 定制按钮 -->
             <van-button class=" tours-button-no-bg btn-custom basebg"
