@@ -38,6 +38,13 @@
               <div class="elsequ" @click="showsel=true">{{checkqu}}<van-icon name="arrow" /></div>
               <input type="text" placeholder="请填写您的电话号码" v-model="phone" class="setinput">
             </div>
+            <!-- 验证码 -->
+            <div class="form-input phone">
+              <div class="left-icon"></div>
+              <input type="text" placeholder="请输入验证码" v-model="code" class="setinput">
+              <div class="code-icon" @click="getCode"
+                   :class="concode?'basecolor baseboder':''">{{showText}}</div>
+            </div>
             <!-- 定制按钮 -->
             <van-button
               class="tours-button-no-bg btn-custom basebg"
@@ -150,6 +157,9 @@ import {getquhao} from '@/api/contacts'
 import onCustomerService from '@/assets/js/customerService.js'
 import {guojialist} from '@/api/contacts'
 import TelCode from '@/components/confirm_foot/telcode'
+import {getSmsCode, login} from '@/api/member'
+import {LOGIN_TYPE, VERIFY_CODE, SMS_SCENE} from '@/assets/js/consts'
+const TIME = 60 // 倒计时时间
 export default {
   name: "custom",
   components: {
@@ -249,7 +259,6 @@ export default {
         { name: "尤先生", time: "27分钟前", phone: "150****7614" },
         { name: "许小姐", time: "2小时前", phone: "132****7895" }
       ],
-      timer: null,
       setInv: null,
       objId: "16",
       objpro: {
@@ -263,8 +272,39 @@ export default {
       showsel:false,//选择区号
       columns:[],
       checkqu:'86',
+
+      //
+      concode:false,
+      code:'',
+      timer: null,
+      countDownTime: TIME, // 倒计时时间
+      codeType: VERIFY_CODE.START, // 获取验证码/倒计时/重新获取
     };
   },
+  computed: {
+    showText() {
+      if (this.codeType === VERIFY_CODE.START) {
+        clearInterval(this.timer)
+        return this.$t('getVerifyCode')
+      } else if (this.codeType === VERIFY_CODE.GETTING) {
+        return `${this.countDownTime} s`+ this.$t('partcailComp.resetVerifyCode')
+      } else {
+        clearInterval(this.timer)
+        return this.$t('partcailComp.resetVerifyCode')
+      }
+    }
+  },
+  watch:{
+    'phone':function(val,old){
+      if(old!=''){
+        this.concode=true
+      }
+      else{
+        this.concode=false
+      }
+    }
+  },
+
   activated() {
     this.getlist();
     this.getitem();
@@ -301,6 +341,61 @@ export default {
       vxToggleDialog: "toggleDialog", // 是否显示弹窗
       vxSetDlgType: "setDlgType" // 设置弹窗类型
     }),
+    //时间计数
+    countDown() {
+      this.timer = setInterval(() => {
+        // console.log(this.countDownTime)
+        if (this.countDownTime <= 0) {
+          if(this.phone=='') {
+            this.concode = false
+          }
+          else{
+            this.concode = true
+          }
+          this.codeType = VERIFY_CODE.AGAIN
+          this.countDownTime = TIME
+          clearInterval(this.timer)
+        } else {
+          this.countDownTime--
+        }
+      }, 1000)
+    },
+    // 获取验证码
+    async getCode() {
+      if (!this.phone||this.phone=='') {
+        this.$toast(this.$t('partcailComp.enterPhone'))
+        return
+      }
+      // 倒计时状态修改
+      this.concode = false
+      // 倒计时状态修改
+      this.codeType = VERIFY_CODE.GETTING // 获取验证码
+      try {
+        const {code, msg} = await getSmsCode({
+          phone: `${this.checkqu}-${this.phone}`,
+          scene: SMS_SCENE.LOGIN
+        })
+        if (code !== 0) {
+          this.$toast(msg)
+          this.resetTimer()
+        }
+        await this.countDown()
+      } catch (error) {
+        this.codeType = VERIFY_CODE.START
+      }
+    },
+    // 重置定时器
+    resetTimer() {
+      this.codeType = VERIFY_CODE.START
+      if(this.phone==''||!this.phone) {
+        this.concode = false
+      }
+      else{
+        this.concode = true
+      }
+      clearInterval(this.timer)
+      this.countDownTime = 60
+    },
     //   得到详细信息
     async getitem() {
       this.loading = true;
@@ -378,10 +473,16 @@ export default {
         this.submiting = false;
         return;
       }
+      if (!this.code) {
+        this.$toast("请输入验证码");
+        this.submiting = false;
+        return;
+      }
       this.doCustom({
         destination: this.address,
         phone: this.checkqu+'-'+this.phone,
-        wechat: ""
+        wechat: "",
+        code:this.code,
       });
     },
     // 电话咨询
@@ -805,7 +906,7 @@ export default {
         padding: 20px 50px;
         width: 686px;
         box-sizing: border-box;
-        height: 496px;
+        height: 626px;
         background: rgba(255, 255, 255, 1);
         border-radius: 12px;
         .setover {
@@ -1442,5 +1543,20 @@ export default {
       position: relative;
       top: 5px;
     }
+  }
+  .code-icon{
+    padding: 0 10px;
+    height:52px;
+    background:rgba(255,255,255,0);
+    border:2px solid rgba(210,210,210,1);
+    opacity:1;
+    border-radius:8px;
+    line-height: 47px;
+    text-align: center;
+    font-size:26px;
+    color:rgba(210,210,210,1);
+    position: absolute;
+    right:50px;
+    margin-top: 25px;
   }
 </style>
