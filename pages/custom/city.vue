@@ -463,7 +463,7 @@
         showsel:false,//选择区号
         columns:[],
         checkqu:'86',
-
+        timerx:'',
         concode:false,
         concode1:false,
         code:'',
@@ -913,16 +913,16 @@
       },
       // 返回顶部
       backTop() {
-        console.log("backTop");
-        clearInterval(this.timer);
-        this.timer = setInterval(this.backFn, 20);
+
+        clearInterval(this.timerx);
+        this.timerx = setInterval(this.backFn, 20);
       },
       //拨打电话
       // 返回顶部
       backelse(x) {
         console.log('1')
-        clearInterval(this.timer);
-        this.timer = setInterval(this.backFnx(x), 20);
+        clearInterval(this.timerx);
+        this.timerx = setInterval(this.backFnx(x), 20);
       },
       backFnx(x) {
         let scrollTop = null;
@@ -939,7 +939,7 @@
         let ispeed = Math.floor(-scrollTop / 5);
         this.$refs.refCustomPage.scrollTop = scrollTop + ispeed;
         if (scrollTop + ispeed >= 0) {
-          clearInterval(this.timer);
+          clearInterval(this.timerx);
         }
 
       },
@@ -948,7 +948,7 @@
         let ispeed = Math.floor(-scrollTop / 5);
         this.$refs.refCustomPage.scrollTop = scrollTop + ispeed;
         if (scrollTop === 0) {
-          clearInterval(this.timer);
+          clearInterval(this.timerx);
         }
       },
       setstyle(){
