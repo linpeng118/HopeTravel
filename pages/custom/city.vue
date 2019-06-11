@@ -339,7 +339,7 @@
   import onCustomerService from '@/assets/js/customerService.js'
   import {guojialist} from '@/api/contacts'
   import TelCode from '@/components/confirm_foot/telcode'
-  import {getSmsCode, login} from '@/api/member'
+  import {getCusCode, login} from '@/api/member'
   import {LOGIN_TYPE, VERIFY_CODE, SMS_SCENE} from '@/assets/js/consts'
   const TIME = 60 // 倒计时时间
   export default {
@@ -622,7 +622,7 @@
         // 倒计时状态修改
         this.codeType = VERIFY_CODE.GETTING // 获取验证码
         try {
-          const {code, msg} = await getSmsCode({
+          const {code, msg} = await getCusCode({
             phone: `${this.checkqu}-${this.phone}`,
             scene: SMS_SCENE.LOGIN
           })
@@ -648,7 +648,7 @@
         // 倒计时状态修改
         this.codeType1 = VERIFY_CODE.GETTING // 获取验证码
         try {
-          const {code, msg} = await getSmsCode({
+          const {code, msg} = await getCusCode({
             phone: `${this.checkqu}-${this.phone1}`,
             scene: SMS_SCENE.LOGIN
           })

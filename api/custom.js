@@ -4,7 +4,9 @@ export const custom = (data) => {
   return axios.post('/api/custom', {
     destination: data.destination,
     phone: data.phone,
+    code:data.code,
     wechat: data.wechat,
+    scene: 'validate'
   })
 }
 export const getcustom = (id) => {

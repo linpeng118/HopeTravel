@@ -52,6 +52,17 @@ export const getSmsCode = (data) => {
   })
 }
 
+
+// 获取手机验证码
+export const getCusCode = (data) => {
+  return axios.post('/api/sms/send', {
+    phone: data.phone,
+    scene: 'validate'
+  })
+}
+
+
+
 // 验证手机号码
 export const validatePhone = (data) => {
   return axios.post('/api/phone/validate', {
