@@ -57,6 +57,12 @@
             <img class="icon-size" src="../../assets/imgs/personal/index/currency.png">
           </template>
         </van-cell>
+        <!--兑换优惠码-->
+        <van-cell :title="$t('personalPage.exchangeDiscount')" is-link :to="isLogin ? '/personal/exchange_discount': '/login?redirect=personal'">
+          <template slot="icon">
+            <img class="icon-size" src="../../assets/imgs/personal/index/currency.png">
+          </template>
+        </van-cell>
       </div>
       <!-- 次级菜单 -->
       <div class="sub-menu">

@@ -27,6 +27,7 @@
                 alt="image">
             </div>
           </van-swipe-item>
+
           <!-- banner页数 -->
           <div class="custom-indicator"
             slot="indicator">
@@ -36,6 +37,11 @@
         <!-- 产品编号 -->
         <div class="serial-num">
           {{$t('productDetailPage.productId')}}：{{product.code}}
+        </div>
+        <!--视频-->
+        <div class="video-box" @click="playVideo">
+          <img src="../../assets/imgs/icon_video@2x.png" alt="">
+          视频
         </div>
       </div>
       <!-- 产品 -->
@@ -484,6 +490,24 @@
           :ids="ids"></share-list>
       </van-popup>
     </div>
+    <!--视频弹出框-->
+    <van-popup v-model="isVideoShow" position="right">
+      <van-nav-bar
+        title=""
+        left-arrow
+        @click-left="isVideoShow = false"
+      />
+      <div class="video">
+        <div class="video-main video-div" v-if="product && product.videos">
+          <video v-if="product.videos[0] && product.videos[0].video" :src="product.videos[0].video" controls="controls" autoplay preload="auto">
+            暂时不支持播放该视频
+          </video>
+          <!--<div class="video-loading">-->
+            <!--<i></i>-->
+          <!--</div>-->
+        </div>
+      </div>
+    </van-popup>
   </div>
 </template>
 
@@ -551,8 +575,8 @@
           product = data.product // 产品信息
           top_price = data.top_price // 团期价格
           transfer = data.transfer
-          console.log('data.top_price')
-          console.log(data.top_price)
+          // console.log('data.top_price')
+          // console.log(data.top_price)
         } else {
           console.log('error:', msg)
         }
@@ -612,6 +636,7 @@
         referrerId: '',
         productId: '',
         ids: {},
+        isVideoShow: false // 是否显示视频
       }
     },
     computed: {
@@ -1156,6 +1181,11 @@
           }
           console.log(this.shareDataInfo)
         }
+      },
+      // 视频播放
+      playVideo(){
+        this.isVideoShow = true
+        console.log('dianjial')
       }
     },
   }
@@ -1163,4 +1193,98 @@
 
 <style lang="scss" scoped>
   @import "~/assets/style/product/detail.scss";
+  .product-detail-page{
+    .van-popup{
+      width: 100vw;
+      height: 100vh;
+      font-size: 24px;
+      margin-top: -2px;
+    }
+    .video{
+      position: fixed;
+      top: 88px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #000;
+    }
+    .video-main {
+      margin-top: 200px;
+      font-size: 0;
+      font-family: none;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .video-div {
+      overflow: hidden;
+      position: relative !important;
+      background: #000;
+      max-height: 18rem;
+    }
+    video {
+      width: 100%;
+      height: 100%;
+      background: #000;
+    }
+    .video-loading{
+      text-align: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      i {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 24px;
+        height: 24px;
+        border: 2px solid #fff;
+        border-radius: 24px;
+        animation: videoloading 1s infinite linear;
+        clip: rect(0 auto 12px 0);
+      }
+    }
+    .play-btn {
+      display: block;
+      position: absolute;
+      margin: -.95rem 0 0 -.95rem;
+      top: 50%;
+      left: 50%;
+      &:after {
+        display: block;
+        content: "";
+        width: 50px;
+        height: 50px;
+        background: url("../../assets/imgs/icon_video@2x.png") no-repeat;
+        background-size: cover;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        -webkit-animation: playvideo 1.2s infinite;
+        animation: playvideo 1.2s infinite;
+        margin-top: -30%;
+      }
+    }
+  }
+  @keyframes videoloading {
+    0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg)
+    }
+
+    100% {
+      -webkit-transform: rotate(1turn);
+      transform: rotate(1turn)
+    }
+  }
+  @keyframes playvideo {
+    0%,100% {
+      -webkit-transform: scale(1);
+      transform: scale(1)
+    }
+
+    50% {
+      -webkit-transform: scale(1.4);
+      transform: scale(1.4)
+    }
+  }
 </style>
