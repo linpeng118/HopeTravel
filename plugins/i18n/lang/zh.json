@@ -234,7 +234,7 @@
     "chooseAreaCode": "请选择区号",
     "sendVerifyCode": "发送验证码",
     "switchMoney": "切换货币",
-    "exchangeDiscount": "兑换优惠码",
+    "exchangeDiscount": "优惠码",
     "feedback": "意见反馈",
     "feedbackPlaceHold": "请留下你的意见和建议，我们一定认真阅读。",
     "seting": "设置",
@@ -289,7 +289,10 @@
     "myOrder": "我的订单",
     "orderNumber": "订单号",
     "travelDate": "出行日期",
-    "totalPrice": "共计"
+    "totalPrice": "共计",
+    "plhdExchange": "请输入优惠码",
+    "exchangeDiscount": "兑换优惠码",
+    "immediatelyBind": "立即绑定"
   },
   "productDetailPage": {
     "title": "详情页面",

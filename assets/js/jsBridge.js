@@ -59,5 +59,5 @@ export default {
         callback(data, responseCallback)
       })
     })
-  }
+  },
 }

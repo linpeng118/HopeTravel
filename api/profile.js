@@ -68,3 +68,10 @@ export const submitContent = (content) => {
   })
 }
 
+//优惠码转优惠券（绑定）
+
+export const bindCouponCode = (code) => {
+  return axios.post(`/api/user/coupon/bind`,{
+    code
+  })
+}

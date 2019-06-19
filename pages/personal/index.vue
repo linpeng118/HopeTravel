@@ -60,7 +60,7 @@
         <!--兑换优惠码-->
         <van-cell :title="$t('personalPage.exchangeDiscount')" is-link :to="isLogin ? '/personal/exchange_discount': '/login?redirect=personal'">
           <template slot="icon">
-            <img class="icon-size" src="../../assets/imgs/personal/index/currency.png">
+            <img class="icon-size" src="../../assets/imgs/personal/index/coupon.png">
           </template>
         </van-cell>
       </div>

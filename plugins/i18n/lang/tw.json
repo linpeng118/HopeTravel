@@ -233,7 +233,7 @@
     "chooseAreaCode": "請選擇區號",
     "sendVerifyCode": "發送驗證碼",
     "switchMoney": "切換貨幣",
-    "exchangeDiscount": "兌換優惠碼",
+    "exchangeDiscount": "優惠碼",
     "feedback": "意見反饋",
     "feedbackPlaceHold": "請留下你的意見和建議，我們一定認真閱讀。",
     "seting": "設置",
@@ -288,7 +288,10 @@
     "myOrder": "我的訂單",
     "orderNumber": "訂單號",
     "travelDate": "出行日期",
-    "totalPrice": "共計"
+    "totalPrice": "共計",
+    "plhdExchange":"請輸入優惠碼",
+    "exchangeDiscount":"兌換優惠碼",
+    "immediatelyBind":"立即綁定"
   },
   "productDetailPage": {
     "title": "詳情頁面",
