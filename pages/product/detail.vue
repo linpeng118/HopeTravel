@@ -39,7 +39,7 @@
           {{$t('productDetailPage.productId')}}：{{product.code}}
         </div>
         <!--视频-->
-        <div class="video-box" @click="playVideo" v-if="product.videos && product.videos.length">
+        <div class="video-box" @click="playVideo" v-if="product.videos && product.videos[0].video">
           视频
         </div>
       </div>
@@ -494,15 +494,15 @@
       <van-nav-bar
         title=""
         left-arrow
-        @click-left="isVideoShow = false"
+        @click-left="pausePlay"
       />
-      <div class="video">
-        <div class="video-main video-div" v-if="product && product.videos">
-          <video v-if="product.videos[0] && product.videos[0].video" :src="product.videos[0].video" controls="controls" autoplay preload="auto">
+      <div class="video" v-if="product.videos && product.videos[0].video">
+        <div class="video-main video-div">
+          <video ref="productVideo" :src="product.videos[0].video" controls="controls" autoplay preload="auto">
             暂时不支持播放该视频
           </video>
-          <!--<div class="video-loading">-->
-            <!--<i></i>-->
+          <!--<div class="video-loading">-- v-if="product.videos[0] && product.videos[0].video">
+          <!--<i></i>--:src="product.videos[0].video">
           <!--</div>-->
         </div>
       </div>
@@ -705,6 +705,18 @@
           }
         })
         return newData.slice(0, 5)
+      }
+    },
+    watch:{
+      isVideoShow(newValue, oldValue){
+        console.log(1231233333333333)
+        if(newValue) {
+          console.log('播放')
+          this.$refs.productVideo.play()
+        } else {
+          console.log('暂停')
+          this.$refs.productVideo.pause()
+        }
       }
     },
     watch: {
@@ -1184,7 +1196,14 @@
       // 视频播放
       playVideo(){
         this.isVideoShow = true
-        console.log('dianjial')
+        this.$nextTick(() => {
+          this.$refs.productVideo.play()
+        }, 50)
+      },
+      // 暂停视频
+      pausePlay(){
+        this.$refs.productVideo.pause()
+        this.isVideoShow = false
       }
     },
   }
