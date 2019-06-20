@@ -39,8 +39,7 @@
           {{$t('productDetailPage.productId')}}：{{product.code}}
         </div>
         <!--视频-->
-        <div class="video-box" @click="playVideo">
-          <img src="../../assets/imgs/icon_video@2x.png" alt="">
+        <div class="video-box" @click="playVideo" v-if="product.videos && product.videos.length">
           视频
         </div>
       </div>
