@@ -290,9 +290,10 @@
     "orderNumber": "订单号",
     "travelDate": "出行日期",
     "totalPrice": "共计",
-    "plhdExchange": "请输入优惠码",
+    "plhdExchange": "请输入8位数优惠码",
     "exchangeDiscount": "兑换优惠码",
-    "immediatelyBind": "立即绑定"
+    "immediatelyBind": "立即绑定",
+    "discountCodeErro": "验证码有误"
   },
   "productDetailPage": {
     "title": "详情页面",

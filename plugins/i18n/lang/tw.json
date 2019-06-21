@@ -289,9 +289,10 @@
     "orderNumber": "訂單號",
     "travelDate": "出行日期",
     "totalPrice": "共計",
-    "plhdExchange":"請輸入優惠碼",
+    "plhdExchange":"請輸入8位數優惠碼",
     "exchangeDiscount":"兌換優惠碼",
-    "immediatelyBind":"立即綁定"
+    "immediatelyBind":"立即綁定",
+    "discountCodeErro": "驗證碼有誤"
   },
   "productDetailPage": {
     "title": "詳情頁面",

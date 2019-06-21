@@ -4,9 +4,10 @@
     <div class="discount-main-box">
       <div class="input-box">
         <van-field v-model="discountCode" :placeholder="$t('personalPage.plhdExchange')" />
+        <!-- :disabled="disabledCode"-->
       </div>
       <div class="button-box">
-        <van-button type="primary" block @click="bindCoupon">{{$t('personalPage.immediatelyBind')}}</van-button>
+        <van-button type="primary" block @click="bindCoupon" :disabled="discountCode.length !== 8">{{$t('personalPage.immediatelyBind')}}</van-button>
       </div>
       <div class="explain" v-if="language === 'zh-CN'">
         <p><strong>兑换规则</strong></p>
@@ -48,9 +49,19 @@ export default {
     }
   },
   computed: {
+    // disabledCode(){
+    //   return this.discountCode.length <= 8 ? false : true
+    // },
     ...mapGetters([
       'language'
     ])
+  },
+  watch:{
+    discountCode(newValue,oldValue){
+      if(newValue.length >= 9) {
+        this.discountCode = oldValue
+      }
+    }
   },
   async beforeMount() {
     if (this.isApp) {
@@ -87,13 +98,9 @@ export default {
       vxSetPlatform: "setPlatform"
     }),
     async bindCoupon(){
-      let reg = /^XF\d{6}$/i
+      let reg = /^\w{8}$/i
       if(!reg.test(this.discountCode)){
-        this.$notify({
-          message: '验证码有误请重新输入',
-          duration: 1000,
-          background: '#ff4444'
-        })
+        this.$toast.fail(this.$t('personalPage.discountCodeErro'))
       } else {
         let {code, msg} = await bindCouponCode(this.discountCode)
         if(code === 0) {
