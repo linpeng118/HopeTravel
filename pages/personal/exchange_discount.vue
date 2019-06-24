@@ -38,6 +38,9 @@ import {mapMutations,mapGetters} from 'vuex'
 export default {
   name: 'exchange_discount',
   components: {HeaderBar},
+  head: {
+    title: '兑换优惠码'
+  },
   data(){
     return{
       isApp: this.$route.query.platform,
@@ -103,7 +106,7 @@ export default {
         this.$toast.fail(this.$t('personalPage.discountCodeErro'))
       } else {
         let {code, msg} = await bindCouponCode(this.discountCode)
-        if(code === 0) {
+        if(code === 0 || code === 401) {
           this.$dialog.alert({
             message: msg
           }).then(() => {
