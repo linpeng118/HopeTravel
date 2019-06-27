@@ -73,7 +73,7 @@
   export default {
     name: 'login-comp',
     head: {
-      title: '登陆'
+      title: '登录'
     },
     components: {
       AreaCodeInput,

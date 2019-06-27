@@ -120,7 +120,7 @@ export default {
             }
           })
         } else {
-          this.$toast.fail(msg)
+          this.$toast(msg)
         }
       }
     }
