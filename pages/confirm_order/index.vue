@@ -552,6 +552,7 @@
            date=this.countprice.departure_date;
          }
          let point=this.pricelist.points?this.pricelist.points.point:0;
+         this.contact.phone=this.checkqu+this.contact.phone;
          var addorder={
           product_id:this.product.product_id,
           depart_date:date,
