@@ -343,7 +343,6 @@
         let res = await getProfile();
         let {code, data} = res;
         if(code === 0) {
-          console.log("22222333")
           this.profile = data;
           this.$store.commit("countprice", {
             savename:data.nickname||data.chinese_name,
@@ -552,6 +551,7 @@
            date=this.countprice.departure_date;
          }
          let point=this.pricelist.points?this.pricelist.points.point:0;
+         this.contact.phone=this.checkqu+this.contact.phone;
          var addorder={
           product_id:this.product.product_id,
           depart_date:date,
@@ -583,7 +583,6 @@
         this.showcheckCou=false;
       },
       setsave(){
-        console.log("1")
         this.$store.commit("countprice", {
           savename:this.contact.name,
           saveemail:this.contact.email,
