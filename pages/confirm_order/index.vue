@@ -553,7 +553,7 @@
          }
          let point=this.pricelist.points?this.pricelist.points.point:0;
          let objcontact={
-           phone:this.checkqu+this.contact.phone,
+           phone:this.checkqu+'-'+this.contact.phone,
            name:this.contact.name,
            email:this.contact.email,
          }
