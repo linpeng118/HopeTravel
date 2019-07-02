@@ -552,7 +552,11 @@
            date=this.countprice.departure_date;
          }
          let point=this.pricelist.points?this.pricelist.points.point:0;
-         this.contact.phone=this.checkqu+this.contact.phone;
+         let objcontact={
+           phone:this.checkqu+this.contact.phone,
+           name:this.contact.name,
+           email:this.contact.email,
+         }
          var addorder={
           product_id:this.product.product_id,
           depart_date:date,
@@ -565,7 +569,7 @@
           tongyi:this.tongyi,//用户协议
           comment:this.comment,
           users:objarr,
-          contact:this.contact,
+          contact:objcontact,
           integral:this.countprice.is_point?point:'',//积分
           coupon_cus_id: this.countprice.coupon_cus_id
         }
