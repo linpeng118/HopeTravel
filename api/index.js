@@ -9,3 +9,7 @@ export const getCountryTelcodes = () => {
 export const getLanguage = () => {
   return axios.get('/api/language')
 }
+// 获取客服电话列表
+export const getPhone = () => {
+  return axios.get('/api/phones?platform=mobile')
+}

@@ -10,8 +10,8 @@
       </div>
       <div class="right">
         <p class="title">{{item.title}}</p>
-        <p class="title fs-12">{{item.desc}}</p>
-        <p class="number">{{item.number}}</p>
+        <p class="title fs-12">{{item.remark}}</p>
+        <p class="number" v-if="item.tel_code&&item.phone">{{item.tel_code}}-{{item.phone}}</p>
       </div>
     </div>
     <div class="elseitem">说明：拨打您所在区域无需拨添加区号</div>
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+  import {getPhone} from '@/api/index'
   export default {
     name: 'normal',
     props: {
@@ -40,12 +41,20 @@
     computed: {
     },
     mounted() {
-      // console.log(111, this.show)
+      this.getphonelist()
     },
     methods: {
       onPhone(item) {
         window.location.href = `tel:${item.phone}`
-      }
+      },
+      async getphonelist() {
+        let {data,code} = await getPhone()
+        if (code === 0) {
+          this.phoneList=data.items||[];
+        } else {
+          this.$toast(data.msg)
+        }
+      },
     },
   }
 </script>
