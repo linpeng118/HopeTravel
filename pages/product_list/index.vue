@@ -313,13 +313,19 @@
           localStorage.removeItem('plist')
         }
         localStorage.setItem('plist',JSON.stringify(this.submitserData));
-        let routeData = this.$router.resolve({
+        // let routeData = this.$router.resolve({
+        //   name: 'product-detail',
+        //   query: {
+        //     productId
+        //   }
+        // });
+        // window.open(routeData.href, '_blank')
+        this.$router.push({
           name: 'product-detail',
           query: {
             productId
           }
         });
-        window.open(routeData.href, '_blank')
       },
       onSearch() {},
       searchStart() {},
