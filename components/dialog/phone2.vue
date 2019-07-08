@@ -48,7 +48,7 @@
     },
     methods: {
       onPhone(item) {
-        window.location.href = `tel:${item.phone}`
+        window.location.href = `tel:${item.tel_code} ${item.phone}`
       },
       async getphonelist() {
     let {data,code} = await getPhone()
