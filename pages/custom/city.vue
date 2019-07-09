@@ -87,8 +87,7 @@
           <div class="desc-img" ><img class="img" src="../../assets/imgs/newcustom/904@2x.png" alt="" ></div>
           <div class="desc-pbox">
             <p>
-              <span class="basecolor">8，000+</span>用户选择稀饭旅行
-            </p>
+              <span class="basecolor">8,000+</span>用户选择稀饭旅行</p>
             <p>专业团队为您提供优质服务</p>
           </div>
         </div>
@@ -105,10 +104,10 @@
       </div>
 
       <!-- 客人评价 -->
-      <div class="season-recommend" ref="pingjia">
+      <div class="season-recommend" ref="pingjia" v-if="showpingjia">
         <div class="season-title">客人评价</div>
         <div class="season-wrap swiper-container"
-             v-swiper:mySwiper="swiperOption">
+             v-swiper:mySwiper="swiperOption" >
           <div class="swiper-wrapper setsw">
             <div class="swiper-slide"
                  v-for="(item,ind) in objpro.custom_view"
@@ -129,7 +128,7 @@
         <div class="btn-more baseboder basecolor" @click="toList">立即定制</div>
       </div>
       <!-- 经典路线 -->
-      <div class="season-recommend" style=" height: auto!important;" ref="luxian">
+      <div class="season-recommend" style=" height: auto!important;" ref="luxian"  v-if="showpingjia2" >
         <div class="season-title">经典路线</div>
         <div class="season-item2" v-for="item in objpro.custom_spot" :key="item.id" @click="onSeasonRecommend(item)">
           <div class="imgbox">
@@ -151,7 +150,7 @@
       <div class="season-recommend" ref="guwen">
         <div class="season-title">您的专属顾问</div>
         <div class="season-wrap swiper-container"
-             v-swiper:mySwiper2="swiperOption2">
+              v-swiper:mySwiper2="swiperOption2">
           <div class="swiper-wrapper">
             <div class="swiper-slide">
               <div class="swiper-else">
@@ -359,6 +358,8 @@
         appPhoneType: this.$route.query.phone_type,
         isTransparent: true, // 导航头是否透明
         showcall:false,
+        showpingjia2:false,
+        showpingjia:false,
         swiperOption: {
           centeredSlides: true, // 居中
           initialSlide:2,
@@ -700,6 +701,8 @@
           if(code === 0) {
             this.loading=false;
             this.objpro = data;
+            this.showpingjia=true;
+            this.showpingjia2=true;
             this.address=this.objpro.custom.ch_name
             this.address1=this.objpro.custom.ch_name
             this.setstyle();
@@ -1597,8 +1600,8 @@
               overflow: hidden;
               box-shadow:0px 0px 12px rgba(0,0,0,0.16);
               img {
-                height: 356px;
                 width: 640px;
+                height: 356px;
               }
               .season-body {
                 padding: 22px 69px;
