@@ -825,6 +825,8 @@
         this.phone1='';
         this.wechat1='';
         this.address='';
+        this.code='';
+        this.code1='';
         this.phone='';
         this.wechat='';
       },

@@ -525,6 +525,8 @@ export default {
       this.wechat1 = "";
       this.address = "";
       this.phone = "";
+      this.code='';
+      this.code1='';
       this.wechat = "";
     },
     // 季推荐
