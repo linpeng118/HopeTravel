@@ -128,7 +128,7 @@
         <div class="btn-more baseboder basecolor" @click="toList">立即定制</div>
       </div>
       <!-- 经典路线 -->
-      <div class="season-recommend" style=" height: auto!important;" ref="luxian"  v-if="showpingjia2" >
+      <div class="season-recommend" style=" height: auto!important;" ref="luxian" v-if="showpingjia2" >
         <div class="season-title">经典路线</div>
         <div class="season-item2" v-for="item in objpro.custom_spot" :key="item.id" @click="onSeasonRecommend(item)">
           <div class="imgbox">

@@ -199,6 +199,8 @@ export default {
       phone: "",
       wechat: "",
       address1: "",
+      showpingjia:false,
+      showpingjia2:false,
       phone1: "",
       wechat1: "",
       tipMsg: "请输入想去的地址或景点",
@@ -405,6 +407,8 @@ export default {
         this.loading = false;
         this.objpro = data;
         this.setstyle();
+        this.showpingjia=true;
+        this.showpingjia2=true;
       } else {
         this.loading = false;
         this.objpro = { custom: {}, custom_spot: [], custom_view: [] };
