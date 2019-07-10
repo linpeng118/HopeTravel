@@ -3,11 +3,7 @@ import axios from '@/plugins/axios/axios'
 
 // 获取个人信息
 export const getProfile = (data) => {
-  return axios.get(`/api/profile`)
-}
-// 获取订单
-export const getOrderInfo = (status) => {
-  return axios.get(`/htwPay/api/v1/user/order?type=tour&status=${status}`)
+    return axios.get(`/api/profile`)
 }
 
 /**
@@ -15,14 +11,14 @@ export const getOrderInfo = (status) => {
  * @param {Object} data
  */
 export const couponList = (data) => {
-  return axios.get(`/api/product/${data.product_id}/coupons?type=summary`)
+    return axios.get(`/api/product/${data.product_id}/coupons?type=summary`)
 }
 /**
  * 展开产品可用优惠卷
  * @param {Object} data
  */
 export const couponDetail = (data) => {
-  return axios.get(`/api/product/${data.product_id}/coupons?type=detail`)
+    return axios.get(`/api/product/${data.product_id}/coupons?type=detail`)
 }
 
 /**
@@ -30,48 +26,48 @@ export const couponDetail = (data) => {
  * @param {Object} data
  */
 export const getcouponobj = (data) => {
-  return axios.post(`/api/product/${data.product_id}/receive/${data.id}`, {
-    position: 'detail'
-  }
-)}
+    return axios.post(`/api/product/${data.product_id}/receive/${data.id}`, {
+        position: 'detail'
+    })
+}
 
 
 // 获取米粒信息
 export const getPoints = (data) => {
-  return axios.get(`/api/points`,{
-    params: data
-  })
+    return axios.get(`/api/points`, {
+        params: data
+    })
 }
 
 // 修改个人信息
 export const modifyProfile = (data) => {
-  return axios({
-    url: '/api/profile',
-    method:'put',
-    data
-  })
+    return axios({
+        url: '/api/profile',
+        method: 'put',
+        data
+    })
 }
 
 // 我的收藏
 export const getFavorites = (data) => {
-  return axios.get(`/api/favorites`,{
-    params: data
-  })
+    return axios.get(`/api/favorites`, {
+        params: data
+    })
 }
 
 // 意见反馈
 export const submitContent = (content) => {
-  return axios.post(`/api/feedback`,{
-    data: {
-      content
-    }
-  })
+    return axios.post(`/api/feedback`, {
+        data: {
+            content
+        }
+    })
 }
 
 //优惠码转优惠券（绑定）
 
 export const bindCouponCode = (code) => {
-  return axios.post(`/api/user/coupon/bind`,{
-    code
-  })
+    return axios.post(`/api/user/coupon/bind`, {
+        code
+    })
 }
