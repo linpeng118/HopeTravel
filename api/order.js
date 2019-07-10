@@ -1,9 +1,10 @@
 import axios from '@/plugins/axios/axios'
 
-export const getorderlist = (status) => {
-  return axios.get(`/htwPay/api/v1/user/order?type=tour&status=${status}`)
+// 获取订单列表
+export const getOrderList = (status) => {
+    return axios.get(`/api/orders?type=tour&status=${status}`)
 }
 
 export const orderdetails = (id) => {
-  return axios.get(`/htwPay/api/v1/order/${id}/tour`)
+    return axios.get(`/api/order/${id}`)
 }
