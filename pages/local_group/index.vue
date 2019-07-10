@@ -335,32 +335,39 @@
         }
       },
       /**
+       * 点击目的地
        * @param index 标签索引
        * @param title 标题
        */
       clickTab(index, title) {
         this.selected = index
+        this.category = this.localgroupData[2].data[index].category
+        this.startCity = this.localgroupData[2].data[index].start_city
+        this.spanCity = this.localgroupData[2].data[index].span_city
         const submitData = {
-          category: this.localgroupData[2].data[index].category,
-          start_city: this.localgroupData[2].data[index].start_city,
-          span_city: this.localgroupData[2].data[index].span_city,
+          category: this.category,
+          start_city: this.start_city,
+          span_city: this.span_city,
         }
         // console.log(submitData)
         this.getProductListData(submitData)
       },
-      // 精选下的城市
-      onCity(city) {
-        this.activeCity = city.title
-        this.getProductListData({
-          category: city.category,
-          start_city: city.start_city,
-          span_city: city.span_city,
-        })
-      },
-      // 点击全部
+      // 点击全部城市
       onCityAll() {
         this.activeCity = this.$t('all')
         this.getProductListData()
+      },
+      // 精选下的城市
+      onCity(city) {
+        this.activeCity = city.title
+        this.category = city.category
+        this.startCity = city.start_city
+        this.spanCity = city.span_city
+        this.getProductListData({
+          category: this.category,
+          start_city: this.startCity,
+          span_city: this.spanCity,
+        })
       },
       /**
        * 监听页面的滚动
@@ -406,7 +413,10 @@
         if (this.prodPagination.more) {
           const submitData = {
             type: LIST_TYPE.LOCAL_GROUP,
-            page: this.prodPagination.page + 1
+            page: this.prodPagination.page + 1,
+            category: this.category,
+            start_city: this.startCity,
+            span_city: this.spanCity,
           }
           // console.log(submitData)
           const res = await getProductList(submitData)
