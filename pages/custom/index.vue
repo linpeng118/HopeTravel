@@ -66,7 +66,7 @@
         </div>
       </div>
       <!-- 客人评价 -->
-      <div class="season-recommend" ref="pingjia">
+      <div class="season-recommend" ref="pingjia" v-if="showpingjia">
         <div class="season-title">客人评价</div>
         <div class="season-wrap swiper-container" v-swiper:mySwiper="swiperOption">
           <div class="swiper-wrapper setsw">
@@ -85,7 +85,7 @@
         </div>
       </div>
       <!-- 经典路线 -->
-      <div class="season-recommend" style=" height: auto!important;" ref="luxian">
+      <div class="season-recommend" style=" height: auto!important;" ref="luxian" v-if="showpingjia2">
         <div class="season-title">经典路线</div>
         <div
           class="season-item2"
@@ -199,6 +199,8 @@ export default {
       phone: "",
       wechat: "",
       address1: "",
+      showpingjia:false,
+      showpingjia2:false,
       phone1: "",
       wechat1: "",
       tipMsg: "请输入想去的地址或景点",
@@ -405,6 +407,8 @@ export default {
         this.loading = false;
         this.objpro = data;
         this.setstyle();
+        this.showpingjia=true;
+        this.showpingjia2=true;
       } else {
         this.loading = false;
         this.objpro = { custom: {}, custom_spot: [], custom_view: [] };
@@ -525,6 +529,8 @@ export default {
       this.wechat1 = "";
       this.address = "";
       this.phone = "";
+      this.code='';
+      this.code1='';
       this.wechat = "";
     },
     // 季推荐

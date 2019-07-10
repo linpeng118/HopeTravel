@@ -1,19 +1,22 @@
 <template>
   <div class="phone-dialog-comp">
-    <div class="phone-item"
-      v-for="item in phoneList"
-      :key="item.phone"
-      @click="onPhone(item)">
-      <div class="left">
-        <van-icon name="phone-circle-o"
-          class="phone-icon" />
-      </div>
-      <div class="right">
-        <p class="title">{{item.title}}</p>
-        <p class="title fs-12">{{item.remark}}</p>
-        <p class="number" v-if="item.tel_code&&item.phone">{{item.tel_code}}-{{item.phone}}</p>
+    <div class="phonebox">
+      <div class="phone-item"
+           v-for="item in phoneList"
+           :key="item.phone"
+           @click="onPhone(item)">
+        <div class="left">
+          <van-icon name="phone-circle-o"
+                    class="phone-icon" />
+        </div>
+        <div class="right">
+          <p class="title">{{item.title}}</p>
+          <p class="title fs-12">{{item.remark}}</p>
+          <p class="number" v-if="item.tel_code&&item.phone">{{item.tel_code}}-{{item.phone}}</p>
+        </div>
       </div>
     </div>
+
     <div class="elseitem">说明：拨打您所在区域无需拨添加区号</div>
   </div>
 </template>
@@ -45,7 +48,7 @@
     },
     methods: {
       onPhone(item) {
-        window.location.href = `tel:${item.phone}`
+        window.location.href = `tel:${item.tel_code} ${item.phone} `
       },
       async getphonelist() {
         let {data,code} = await getPhone()
@@ -63,6 +66,11 @@
   .elseitem{
     font-size: 24px;
     padding: 30px 0;
+  }
+  .phonebox{
+    width: 100%;
+    max-height: 860px;
+    overflow-y: scroll;
   }
   .phone-dialog-comp {
     margin: 0 auto;
