@@ -37,7 +37,7 @@
                                     <button :class="getPayClassName(order.status)" v-if="order.status.code!=2">{{order.status.name}}</button>
                                     <button class="un-go" v-if="order.status.code==2 && order.product_comment_status==0" @click.stop="linkToCreate(order)">去评价</button>
                                     <button class="un-go" v-if="order.status.code==2 && order.product_comment_status==900003" @click.stop="linkToCreate(order)">去追评</button>
-                                    <button class="other-state" v-if="order.status.code==2 && order.product_comment_status==900004">已出行</button>
+                                    <button class="other-state" v-if="order.status.code==2 && order.product_comment_status==900004">已评价</button>
                                 </div>
                             </div>
                         </div>
