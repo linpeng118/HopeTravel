@@ -12,7 +12,7 @@
         <div class="right">
           <p class="title">{{item.title}}</p>
           <p class="title fs-12">{{item.remark}}</p>
-          <p class="number" v-if="item.phone">{{item.tel_code+'-'||''}}{{item.phone}}</p>
+          <p class="number" v-if="item.phone">{{item.tel_code?item.tel_code+'-':''}}{{item.phone}}</p>
         </div>
       </div>
     </div>
