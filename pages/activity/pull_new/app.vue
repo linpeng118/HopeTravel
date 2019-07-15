@@ -474,7 +474,7 @@
             position: absolute;
             left: 0;
             top: 0;
-            width: 146px;
+            padding: 0 5px;
             height: 46px;
             line-height: 46px;
             background: #000;
@@ -484,6 +484,7 @@
             font-weight: 600;
             color: #fff;
             text-align: center;
+            overflow: hidden;
           }
         }
         .more {
