@@ -303,13 +303,19 @@
           }
         } else {
           // m跳转
-          let routeData = this.$router.resolve({
+          // let routeData = this.$router.resolve({
+          //   path: '/product/detail',
+          //   query: {
+          //     productId
+          //   }
+          // });
+          // window.open(routeData.href, '_blank')
+          this.$router.push({
             path: '/product/detail',
             query: {
               productId
             }
-          });
-          window.open(routeData.href, '_blank')
+          })
         }
       },
       // 跳转search,搜索
