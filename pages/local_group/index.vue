@@ -279,13 +279,19 @@
             this.appBridge.jumpProductDetailView(params)
           }
         } else {
-          let routeData = this.$router.resolve({
+          // let routeData = this.$router.resolve({
+          //   name: 'product-detail',
+          //   query: {
+          //     productId
+          //   }
+          // });
+          // window.open(routeData.href, '_blank')
+          this.$router.push({
             name: 'product-detail',
             query: {
               productId
             }
-          });
-          window.open(routeData.href, '_blank')
+          })
         }
       },
       onHotCity(hotCity) {

@@ -267,19 +267,19 @@ export default {
     },
     // 跳转商品详情
     selectItem(item) {
-      // this.$router.push({
-      //   name: 'product-detail',
-      //   query: {
-      //     productId: item
-      //   }
-      // })
-      let routeData = this.$router.resolve({
+      this.$router.push({
         name: 'product-detail',
         query: {
           productId: item
         }
-      });
-      window.open(routeData.href, '_blank')
+      })
+      // let routeData = this.$router.push({
+      //   name: 'product-detail',
+      //   query: {
+      //     productId: item
+      //   }
+      // });
+      // window.open(routeData.href, '_blank')
     },
     // 目的地跳转列表
     selectDetail(query) {
