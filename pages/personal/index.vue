@@ -30,16 +30,12 @@
       </div>
       <div class="operation"
         v-else>
-        <van-button class="btn"
-          round
-          plain>
-          <nuxt-link tag="div"
-            to="/login">{{$t('login')}}/{{$t('regist')}}</nuxt-link>
-        </van-button>
-        <van-button class="btn"
-          round>
-          手机号查询
-        </van-button>
+        <nuxt-link tag="div"
+          class="btn-link"
+          to="/login">{{$t('login')}}/{{$t('regist')}}</nuxt-link>
+        <nuxt-link tag="div"
+          class="btn-link"
+          to="/order/search">手机号查单</nuxt-link>
       </div>
     </div>
     <div class="body">
@@ -369,8 +365,11 @@
     }
     .operation {
       padding-top: 88px;
-      .btn {
+      .btn-link {
+        display: inline-block;
         height: 52px;
+        width:180px;
+        text-align: center;
         line-height: 52px;
         border: 2px solid rgba(255, 255, 255, 1);
         opacity: 1;
