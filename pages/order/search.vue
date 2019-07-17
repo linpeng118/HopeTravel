@@ -1,99 +1,170 @@
 <template>
   <div class="search-page">
-    <van-nav-bar class="search-header tours-no-bb"
+    <!-- header -->
+    <van-nav-bar v-show="!showOrderList"
+      class="search-header tours-no-bb"
       title="手机号查单"
       @click-left="onClickLeft">
       <van-icon name="arrow-left"
         slot="left" />
     </van-nav-bar>
-    <!-- 查询 -->
-    <div class="search-content-wrap">
-      <!-- <area-code :proAreaCode="areaCode"
-        :proPhone.sync="phone" /> -->
+    <van-nav-bar v-show="showOrderList"
+      class="search-header tours-no-bb"
+      title="查询结果"
+      @click-left="toPersonal">
+      <van-icon name="cross"
+        slot="left" />
+    </van-nav-bar>
+    <!-- 查询面板 -->
+    <div class="search-panel-wrap"
+      v-show="!showOrderList">
+      <area-code-only :proAreaCode.sync="areaCode" />
+      <div class="content">
+        <van-cell-group>
+          <van-field v-model="phone"
+            placeholder="请输入手机号" />
+          <van-row class="input-code"
+            type="flex"
+            justify="space-between">
+            <van-col span="16">
+              <van-field v-model="code"
+                placeholder="请输入手机验证码" />
+            </van-col>
+            <van-col span="7">
+              <van-button class="btn-code"
+                :disabled="codeType===VERIFY_CODE.GETTING"
+                @click="getCode"
+                type="info">{{showText}}</van-button>
+            </van-col>
+          </van-row>
+        </van-cell-group>
+        <van-button class="btn-search"
+          round
+          @click="searchOrder">查询订单</van-button>
+      </div>
     </div>
-    <!-- 区号面板 -->
-    <van-popup v-model="isShowList"
-      position="right"
-      style="width:100%;height: 100%;">
-      <tel-code :pageparent="'/personal/addContacts'"
-        :dataObj="moreLists"
-        @selectCode="selectCode"
-        ref="moreList2"
-        @back="toggleAreaList">
-      </tel-code>
-    </van-popup>
+    <!-- 查询内容 -->
+    <div class="search-content">
+      <template v-if="orderList.length">
+        <div class="prodect"
+          v-for="order in orderList"
+          :key="order.order_id"
+          @click="selectProduct(order)">
+          <product-order-item :orderInfo="order" />
+        </div>
+      </template>
+    </div>
   </div>
 </template>
 
 <script>
-  import TelCode from '@/components/confirm_foot/telcode'
-  import {guojialist} from '@/api/contacts'
+  import {VERIFY_CODE, SMS_SCENE} from '@/assets/js/consts'
+  import AreaCodeOnly from '@/components/input/areaCodeOnly'
+  import productOrderItem from '@/components/items/productOrder'
+  import {getSmsCode} from '@/api/member'
+  import {getOrderByPhone} from '@/api/order'
+  // 倒计时时间
+  const TIME = 60
 
   export default {
     components: {
-      TelCode
-    },
-    props: {
-      proAreaCode: {
-        type: [Number, String],
-        default: '86'
-      },
+      AreaCodeOnly,
+      productOrderItem
     },
     data() {
       return {
-        // 是否显示列表
-        isShowList: false,
+        VERIFY_CODE,
+        // 是否显示区号面板
+        showOrderList: false,
         // 区号与电话
         areaCode: '86',
         phone: '',
-        // 数据
-        moreLists: {},
+        // 验证码
+        code: '',
+        // 定时器
+        timer: null,
+        // 倒计时时间
+        countDownTime: TIME,
+        // 获取验证码/倒计时/重新获取
+        codeType: VERIFY_CODE.START,
+        // 订单
+        orderList: []
       }
     },
-    computed: {},
-    mounted() {
-      this.init()
+    computed: {
+      showText() {
+        if (this.codeType === VERIFY_CODE.START) {
+          clearInterval(this.timer)
+          return this.$t('getVerifyCode')
+        } else if (this.codeType === VERIFY_CODE.GETTING) {
+          return `${this.countDownTime} s`
+        } else {
+          clearInterval(this.timer)
+          return this.$t('partcailComp.resetVerifyCode')
+        }
+      }
     },
     methods: {
-      async init() {
-        // 获取国家列表
-        let {data, code, msg, hot_country} = await guojialist()
-        if (code === 0) {
-          this._nomalLizePinyin(data, hot_country)
-        } else {
-          console.log('error:', msg)
-        }
-      },
-      //格式化拼音列表
-      _nomalLizePinyin(data, hot) {
-        let len = data.length;
-        let len2 = hot.length;
-        let obj = {
-          '热门城市': []
-        };
-        for (let i = 0; i < len2; i++) {
-          obj['热门城市'].push({...hot[i]})
-        }
-        for (let i = 0; i < len; i++) {
-          if (!obj[data[i].key]) {
-            obj[data[i].key] = []
-          }
-          obj[data[i].key].push({...data[i]})
-        }
-        this.moreLists = obj
-      },
-      toggleAreaList() {
-        this.isShowList = !this.isShowList
-      },
-      selectCode(area) {
-        console.log()
-        this.areaCode = area[0].telcode
-        this.$emit('update:proAreaCode', area[0].telcode)
-        this.toggleAreaList()
-      },
       onClickLeft() {
         this.$router.go(-1)
       },
+      toPersonal() {
+        this.$router.push({
+          name: 'personal'
+        })
+      },
+      // 查询订单
+      async searchOrder() {
+        console.log('查询订单');
+        const {code, msg, data} = await getOrderByPhone({
+          phone: `${this.areaCode}-${this.phone}`,
+          code: this.code
+        })
+        if (code === 0) {
+          // 展示订单列表
+          this.showOrderList = true
+          this.orderList = data || []
+        } else {
+          this.$toast(msg)
+        }
+      },
+      // 获取验证码
+      async getCode() {
+        // 如果手机号码不存在
+        if (!this.phone) {
+          this.$toast(this.$t('partcailComp.enterPhone'))
+          return
+        }
+        // 倒计时状态修改
+        this.codeType = VERIFY_CODE.GETTING // 获取验证码
+        try {
+          const {code, msg} = await getSmsCode({
+            phone: `${this.areaCode}-${this.phone}`,
+            scene: SMS_SCENE.VALIDATE
+          })
+          if (code !== 0) {
+            this.$toast(msg)
+            this.resetTimer()
+          }
+          await this.countDown()
+        } catch (error) {
+          // console.log(error)
+          this.codeType = VERIFY_CODE.START
+        }
+      },
+    },
+    countDown() {
+      this.timer = setInterval(() => {
+        console.log(this.countDownTime)
+        if (this.countDownTime <= 0) {
+          this.codeType = VERIFY_CODE.AGAIN
+          this.countDownTime = TIME
+          // console.log('countDownTime', this.countDownTime)
+          clearInterval(this.timer)
+        } else {
+          this.countDownTime--
+        }
+      }, 1000)
     },
   }
 </script>
@@ -108,12 +179,67 @@
       transition: all 0.5s;
       background-color: #fff;
     }
-    .search-content-wrap {
+    .search-panel-wrap {
       margin: 28px auto;
       width: 686px;
       height: 490px;
       background: rgba(255, 255, 255, 1);
       opacity: 1;
+
+      .content {
+        padding: 34px 24px;
+        width: 100%;
+        font-size: 0;
+        text-align: center;
+        .input-code {
+          margin-top: 22px;
+        }
+        .btn-code {
+          width: 100%;
+          height: 68px;
+          line-height: 42px;
+          background: rgba(57, 158, 246, 1);
+          border-radius: 12px;
+          font-size: 24px;
+          font-family: PingFang SC;
+          font-weight: 300;
+          color: rgba(255, 255, 255, 1);
+        }
+        .btn-search {
+          margin-top: 66px;
+          width: 464px;
+          height: 72px;
+          line-height: 42px;
+          background: rgba(57, 158, 246, 1);
+          border-radius: 36px;
+          font-size: 24px;
+          font-family: PingFang SC;
+          font-weight: 400;
+          color: rgba(255, 255, 255, 1);
+        }
+      }
+    }
+    .search-content{
+      padding: 28px 32px;
+    }
+  }
+</style>
+<style lang="scss">
+  .search-page {
+    .van-cell {
+      width: 100%;
+      height: 68px;
+      line-height: 68px;
+      background: rgba(241, 241, 241, 1);
+      opacity: 1;
+      border-radius: 12px;
+      border: 0;
+      padding: 0 18px;
+    }
+    .van-cell-group {
+      .van-hairline--top-bottom::after {
+        border: 0px;
+      }
     }
   }
 </style>
