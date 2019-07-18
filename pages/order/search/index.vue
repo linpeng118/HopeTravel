@@ -1,23 +1,14 @@
 <template>
   <div class="search-page">
     <!-- header -->
-    <van-nav-bar v-show="!showOrderList"
-      class="search-header tours-no-bb"
+    <van-nav-bar class="search-header tours-no-bb"
       title="手机号查单"
       @click-left="onClickLeft">
       <van-icon name="arrow-left"
         slot="left" />
     </van-nav-bar>
-    <van-nav-bar v-show="showOrderList"
-      class="search-header tours-no-bb"
-      title="查询结果"
-      @click-left="toPersonal">
-      <van-icon name="cross"
-        slot="left" />
-    </van-nav-bar>
     <!-- 查询面板 -->
-    <div class="search-panel-wrap"
-      v-show="!showOrderList">
+    <div class="search-panel-wrap">
       <area-code-only :proAreaCode.sync="areaCode" />
       <div class="content">
         <van-cell-group>
@@ -43,24 +34,12 @@
           @click="searchOrder">查询订单</van-button>
       </div>
     </div>
-    <!-- 查询内容 -->
-    <div class="search-content">
-      <template v-if="orderList.length">
-        <div class="prodect"
-          v-for="order in orderList"
-          :key="order.order_id"
-          @click="selectProduct(order)">
-          <product-order-item :orderInfo="order" />
-        </div>
-      </template>
-    </div>
   </div>
 </template>
 
 <script>
   import {VERIFY_CODE, SMS_SCENE} from '@/assets/js/consts'
   import AreaCodeOnly from '@/components/input/areaCodeOnly'
-  import productOrderItem from '@/components/items/productOrder'
   import {getSmsCode} from '@/api/member'
   import {getOrderByPhone} from '@/api/order'
   // 倒计时时间
@@ -69,13 +48,10 @@
   export default {
     components: {
       AreaCodeOnly,
-      productOrderItem
     },
     data() {
       return {
         VERIFY_CODE,
-        // 是否显示区号面板
-        showOrderList: false,
         // 区号与电话
         areaCode: '86',
         phone: '',
@@ -87,8 +63,6 @@
         countDownTime: TIME,
         // 获取验证码/倒计时/重新获取
         codeType: VERIFY_CODE.START,
-        // 订单
-        orderList: []
       }
     },
     computed: {
@@ -122,8 +96,10 @@
         })
         if (code === 0) {
           // 展示订单列表
-          this.showOrderList = true
           this.orderList = data || []
+          this.$router.push({
+            name: 'order-search-list'
+          })
         } else {
           this.$toast(msg)
         }
@@ -218,9 +194,6 @@
           color: rgba(255, 255, 255, 1);
         }
       }
-    }
-    .search-content{
-      padding: 28px 32px;
     }
   }
 </style>
