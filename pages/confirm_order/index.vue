@@ -91,7 +91,7 @@
         </div>
       </section>
       <!--游客信息-->
-      <section>
+      <section v-if="!noLogin">
         <div class="confirm-item" @click="setsave()">
           <p class="item-title">游客信息
             <span>务必确认填写信息与出游证件一致</span></p>
@@ -106,6 +106,23 @@
           <div class="btnbox">
             <nuxt-link class="changeuser-btn" tag="button" :to="{path:'/personal/contactsList',query:{'adult':countprice.adult+countprice.child,'checker':paramcontanct}}" >选择出行人</nuxt-link>
           </div>
+        </div>
+      </section>
+      <section v-else>
+        <div class="confirm-item" @click="setsave()">
+          <p class="item-title">游客信息<span>务必确认填写信息与出游证件一致</span></p>
+
+          <van-collapse v-model="activeNames">
+            <van-collapse-item v-for="x of countprice.adult" :key="x+'2'" :name="x">
+              <div slot="title" class="contitle">游客{{x}} <i class="i1">成人</i></div>
+              <addcon @traveuser="truser" :ind="x"></addcon>
+            </van-collapse-item>
+            <van-collapse-item v-for="x of countprice.child" :key="x+'3'" :name="x+countprice.adult">
+              <div slot="title" class="contitle">游客{{x+countprice.adult}} <i class="i2">儿童</i></div>
+              <addcon @traveuser="truser" :ind="x+countprice.adult"></addcon>
+            </van-collapse-item>
+          </van-collapse>
+
         </div>
       </section>
       <!--联系人信息-->
@@ -241,22 +258,23 @@
   import {getSessionStore} from '@/assets/js/utils'
   import {guojialist} from '@/api/contacts'
   import TelCode from '@/components/confirm_foot/telcode'
+  import addcon from '@/components/confirm_foot/addcon'
   export default {
     components: {
-      ConfirmFoot,TelCode
+      ConfirmFoot,TelCode,addcon
     },
     data() {
       return {
         countprice:{},//vuex里面的价格计算参数
         pricelist:{},//vuex里面的价格返回参数
         showchecktime:false,//是否显示选择出发时间组件
-
         showchecktrver:false,//是否显示行程组件
         seltrvel:{},//某一组行程数据的值
         checktrvel:'',//弹层临时选择的trvel
         checkedtrvel:[],//所选择的所有行程数据的值
         showtrvel:[],//行程选项页面显示值
         activeind:0,
+        activeNames:[1],
         // 静态参数
         columns: [],
         showsel:false,
@@ -274,6 +292,9 @@
         showtype:'',
         xname:'',
         profile:'',//用户信息
+        noLogin:false,
+        usertraver:[],//未登录的用户
+
       }
     },
     computed: {
@@ -320,10 +341,11 @@
       this.product = this.$store.state.product.reservePro;
       setTimeout(function () {
         this_.xname=this_.$store.state.product.reservePro.name;
-        this_.getCouponList();
+        if(!this.noLogin){
+          this_.getCouponList();
+        }
       },100)
       this.countprice = this.$store.state.confirm.countprice;
-      console.log('this.countprice.savephone'+this.countprice.savephone)
       if(this.countprice.savephone==''||this.countprice.savephone==undefined||this.countprice.savephone=='undefined'){
         console.log('enter')
         this.init();
@@ -336,14 +358,12 @@
       this.getqu();
       this.settitletip();
     },
-
     methods: {
       async init() {
         // 1. 是否有token。有就请求个人信息；无则return
         let res = await getProfile();
         let {code, data} = res;
         if(code === 0) {
-          console.log("22222333")
           this.profile = data;
           this.$store.commit("countprice", {
             savename:data.nickname||data.chinese_name,
@@ -355,6 +375,7 @@
           this.countprice.saveemail=data.email;
           this.contact={"name":data.nickname||data.chinese_name,"phone":data.phone,"email":data.email}
         } else {
+          this.noLogin=true;
           this.profile = {}
         }
       },
@@ -568,10 +589,11 @@
           room_total:this.countprice.room_total,
           tongyi:this.tongyi,//用户协议
           comment:this.comment,
-          users:objarr,
+          users:this.noLogin?this.usertraver:objarr,
           contact:objcontact,
           integral:this.countprice.is_point?point:'',//积分
-          coupon_cus_id: this.countprice.coupon_cus_id
+          coupon_cus_id: this.countprice.coupon_cus_id,
+
         }
          return addorder
       },
@@ -588,13 +610,16 @@
         this.showcheckCou=false;
       },
       setsave(){
-        console.log("1")
         this.$store.commit("countprice", {
           savename:this.contact.name,
           saveemail:this.contact.email,
           savephone:this.contact.phone,
         });
       },
+      truser:function (x) {
+        this.usertraver[x.ind]=x.val;
+        console.log(this.usertraver)
+      }
     }
   }
 
@@ -922,6 +947,33 @@
     font-weight: normal;
     font-style: normal;
   }
+.contitle{
+  font-size: 24px;
+  font-weight: bold;
+  color: #3e3e3e;
+  padding-left: 30px;
 
+}
+  .contitle .i1{
+    padding: 0 3px;
+    display: inline-block;
+    font-size:20px;
+    color: #fff;
+    font-style: normal;
+    background:rgba(67,183,231,1);
+    opacity:1;
+    border-radius:8px;
+  }
+  .contitle .i2{
+    padding: 0 3px;
+    display: inline-block;
+    font-size:20px;
+    color: #fff;
+    font-style: normal;
+    background: rgb(15, 207, 22);
+    opacity:1;
+    border-radius:8px;
+
+  }
 
 </style>

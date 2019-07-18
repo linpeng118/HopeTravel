@@ -1,18 +1,5 @@
 <template>
   <section>
-    <van-nav-bar class="login-header tours-no-bb"
-                 ref="loginHeader"
-                 :title="title"
-                 :z-index="999"
-                 @click-left="onClickLeft"
-                 @click-right="onClickRight">
-      <van-icon class="left-wrap" name="arrow-left" slot="left" />
-      <van-icon class="right-wrap" slot="right">
-        <div class="search">
-          <div class="text">{{$t('save')}}</div>
-        </div>
-      </van-icon>
-    </van-nav-bar>
     <div class="new-connect">
       <p class="connet-title">{{$t('selectTravlerPage.customerName')}}</p>
       <van-field
@@ -21,14 +8,14 @@
         :placeholder="$t('selectTravlerPage.plhdUserName')"
       />
       <van-field
-        v-model="userform.firstname"
+        v-model="userform.first_name"
         required
         :label="$t('selectTravlerPage.englishLastName')"
         :placeholder="$t('selectTravlerPage.plhdEnFirstName')"
       />
       <van-field
         required
-        v-model="userform.lastname"
+        v-model="userform.last_name"
         :label="$t('accountComp.englishName')"
         :placeholder="$t('selectTravlerPage.plhdEnlastName')"
       />
@@ -56,23 +43,6 @@
 
 
       </div>
-      <p class="connet-title">{{$t('contact')}}</p>
-      <div class="van-cell van-field">
-        <div class="van-cell__title">
-          <span>{{$t('telephone')}}</span>
-        </div>
-        <div class="van-cell__value">
-          <div class="van-field__body">
-            <i class="setvan" @click="showselqu=true">+{{userform.phone_country}}<van-icon name="arrow" /></i>
-            <input type="text" v-model="userform.phonex" :placeholder="$t('selectTravlerPage.plndAreaSelect')" class="van-field__control">
-          </div>
-        </div>
-      </div>
-      <van-field
-        v-model="userform.email"
-        :label="$t('email')"
-        type="email"
-      />
       <p class="connet-title">{{$t('else')}}</p>
       <div class="van-cell van-field" @click="showdate=true"><!---->
         <div class="van-cell__title"><span>{{$t('selectTravlerPage.dateOfBirth')}}</span><!----></div>
@@ -83,24 +53,12 @@
         <van-col span="5" style="text-align: right">{{$t('sex')}}</van-col>
         <van-col span="3" style="text-align: right">&nbsp;</van-col>
         <van-col span="16">
-          <van-radio-group v-model="userform.gender">
+          <van-radio-group v-model="userform.gender" style="position: relative;">
             <van-radio style="width: 30%;float: left" name="f">{{$t('woman')}}</van-radio>
             <van-radio style="width: 30%" name="m">{{$t('man')}}</van-radio>
           </van-radio-group>
         </van-col>
       </van-row>
-      <van-cell-group>
-
-      </van-cell-group>
-      <div class="van-cell-group van-hairline--top-bottom">
-        <div class="van-cell van-cell--center van-cell--borderless van-switch-cell van-field"><!---->
-          <div class="van-cell__title"><span>{{$t('selectTravlerPage.isSelf')}}</span><!----></div>
-          <div class="van-cell__value">
-            <van-switch-cell v-model="userform.isuser"/>
-          </div><!----></div></div>
-      <van-cell-group v-if="queryid!=0">
-        <p @click="delconfirm()" style="float: right"><van-icon name="delete" class="elseicon" color="#399EF6;"/>&nbsp;<span class="elsespan">{{$t('delete')}}</span></p>
-      </van-cell-group>
     </div>
     <van-popup v-model="shownationality" position="right" style="width:100%;height: 100%;">
       <city-list :pageparent="'/personal/addContacts'"
@@ -110,15 +68,6 @@
                  @back="moreListBack"
                  @countryName="countryName" >
       </city-list>
-    </van-popup>
-    <van-popup v-model="showselqu" position="right" style="width:100%;height: 100%;">
-      <tel-code :pageparent="'/personal/addContacts'"
-                 :dataObj="moreLists"
-                 @selectCode="selectCode"
-                 ref="moreList2"
-                 @back="moreListBack2"
-                 @countryCode="countryCode" >
-      </tel-code>
     </van-popup>
     <van-popup v-model="showdate" position="bottom" :overlay="true" style="width: 100%">
       <van-datetime-picker
@@ -146,22 +95,17 @@
     components: {
       CityList,TelCode
     },
+    props: ['ind'],
     data() {
       return {
         userform:{
          "name_cn":"",
-         "firstname":"",
-         "lastname":"",
+         "first_name":"",
+         "last_name":"",
          "gender":"",
-         "phonex":"",
          "dob":"",
-         "email":"",
          "passport":"",
          "nationality":this.$t('china'),
-         "six":0,
-         "phone_country":'86',
-         "identity":null,
-         "isuser":false
        },
         shownationality: false,
         datedob:new Date('1990-01-01'),
@@ -177,6 +121,15 @@
       }
     },
     computed: {},
+    watch:{
+      'userform': {
+        handler(newval){
+          this.$emit('traveuser', {ind:this.ind-1, val:newval})
+        },
+        deep: true
+      }
+
+    },
     created(){
     },
     mounted(){
@@ -185,11 +138,9 @@
         this.getcontant();
       }
       this.guojia();
-      this.getqu();
     },
 
     beforeRouteEnter(to, from, next) {
-      console.log(from)
       next(vm=>{
         vm.pushpath=from.path;
         next();
@@ -203,21 +154,6 @@
       countryCode(data){
         this.userform.phone_country=data;
         this.showselqu=false
-      },
-      // 得到区号
-      async getqu() {
-        let {data, code, msg} = await getquhao();
-        if(code === 0) {
-          this.columns = data.map(v => {
-            this.$set(v, 'text',  '+'+v.tel_code+'('+v.countryName+')')
-            return v
-          })
-        }
-        else {
-          this.$dialog.alert({
-            message: msg
-          });
-        }
       },
       setval(val){
        this.userform.dob=this.sedate("yyyy-MM-dd",val);
@@ -308,28 +244,6 @@
         else {
         }
       },
-      delconfirm(){
-        var this_=this;
-        this.$dialog.confirm({
-          title: this.$t('selectTravlerPage.deleteContact'),
-          message: this.$t('selectTravlerPage.sureDeleteContact')
-        }).then(() => {
-          this_.deluser();
-        }).catch(() => {
-
-        });
-      },
-      async deluser(){
-        let {data,code,msg} = await delcontanct(this.queryid)
-        if (code === 0) {
-          this.$toast(this.$t('operateSuc'))
-          this.$router.go(-1)
-        }
-        else {
-          this.$toast(msg)
-        }
-
-      },
       async guojia(){
         let {data, code,msg,hot_country} = await guojialist()
         if (code === 0) {
@@ -398,6 +312,9 @@
   }
   .new-connect .van-cell--required::before {
     color: #fff!important;
+  }
+  .new-connect .van-radio__input{
+    height: auto;
   }
 </style>
 <style lang="scss" scoped>

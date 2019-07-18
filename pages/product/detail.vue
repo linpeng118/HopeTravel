@@ -30,6 +30,7 @@
             </div>
             <!-- 产品 -->
             <div class="product">
+                <p class="setelse"><span>{{product.comment_score}}分</span> &nbsp;&nbsp;<span>出行人数：{{product.sales}}</span> </p>
                 <!-- name -->
                 <p class="name">
                     <span class="prod-tag" v-if="product.self_support">{{$t('selfSupport')}}</span>
@@ -48,6 +49,9 @@
                     <span class="default-price" v-if="product.special_price">
                         {{product.default_price}}
                     </span>
+                  <p class="showapp" v-if="product.is_newer_discount">
+                    <img src="../../assets/imgs/phone2.png" alt="" />App下单立减{{product.newer_min_discount}}起,更有新人优惠等你拿
+                  </p>
                 </div>
             </div>
             <!-- 特色 -->
@@ -1253,8 +1257,30 @@ path
 </script>
 
 <style lang="scss" scoped>
-    @import "~/assets/style/product/detail.scss";
 
+    @import "~/assets/style/product/detail.scss";
+    .setelse{
+      font-size: 24px;
+      color: #989898;
+      padding-bottom: 10px;
+    }
+    .showapp{
+      width:750px;
+      height:60px;
+      background:rgba(254,248,236,1);
+      opacity:1;
+      color: #FBA35A;
+      font-size: 24px;
+      margin-top: 20px;
+      line-height: 60px;
+      text-align: center;
+      img{
+        position: relative;
+        top: 10px;
+        width: 40px;
+        height: 40px;
+      }
+    }
     .product-detail-page {
         .van-popup {
             width: 100vw;

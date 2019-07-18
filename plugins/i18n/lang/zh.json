@@ -83,6 +83,7 @@
     "selfSupport": "自营",
     "contactService": "联系客服",
     "coupons": "优惠券",
+    "usecoupons": "使用优惠券",
     "costDetail": "费用明细",
     "enterEmailCode": "请输入邮箱验证码",
     "verify": "验证",
@@ -393,7 +394,8 @@
         "unuser": "未使用",
         "useList": "使用记录",
         "overDate": "已过期",
-        "instructions": "使用说明"
+        "instructions": "使用说明",
+        "nowuse": "立即使用"
     },
     "distributionPage": {
         "title": "加入稀饭联盟",

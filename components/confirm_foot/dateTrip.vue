@@ -71,7 +71,6 @@
       this.$store.commit("pricelist",{});
       this.$store.commit("countprice",{});
       this.mGetDate(this.dateprice.years,this.dateprice.month);
-
     },
     methods: {
       mGetDate(year, month){
