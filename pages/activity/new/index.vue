@@ -85,12 +85,12 @@
     },
     mounted() {
       this.init()
-      this.jsBridge.webRegisterHandler('obtainUserToken', (token, callback) => {
+      let that=this;
+      this.jsBridge.webRegisterHandler('obtainUserToken', function(token, callback){
         if (token) {
-          this.vxSetToken(token)
-          this.getshow()
+          that.vxSetToken(token)
+          that.getshow()
         }
-        callback('obtainUserToken success!')
       })
     },
     methods: {
@@ -146,27 +146,27 @@
       },
       // 点击领取
       onReceive() {
+        let that=this;
         this.jsBridge.webCallHandler(
           'getUserToken',
           null,
-          (token) => {
+          function(token){
             if (token) {
-              this.vxSetToken(token)
-              this.submiting = true
-              // 领取
-              this.receiveCoupons()
+              that.vxSetToken(token)
+              that.receiveCoupons()
             }
           }
         )
       },
       // 领取优惠卷
       async receiveCoupons() {
+
+        this.submiting = true
         let that=this;
         const {code, msg, data} = await getCouponsReceive({
-          id: this.activity_id,
+          id: that.activity_id,
         })
-        this.msg = msg
-        this.$toast(msg)
+        that.$toast(msg)
         if (code === 0) {
           that.receiveStatus = 0;
           that.jsBridge.webCallHandler('userObtainNewcomerGiftSuccessful')
@@ -187,24 +187,23 @@
           console.log(msg)
         }
         else {
-          this.$toast(msg)
+          that.$toast(msg)
         }
-        this.submiting=false
+        that.submiting=false
       },
       // 点击定制优惠劵
       jumpToUse() {
+        let that=this;
         this.jsBridge.webCallHandler(
           'getUserToken',
           null,
-          (token) => {
+          function(token){
             if (token) {
-              console.log(token)
-              this.vxSetToken(token)
-              this.jsBridge.webCallHandler('jumpCustomizationCouponsListView')
+              that.vxSetToken(token)
+              that.jsBridge.webCallHandler('jumpCustomizationCouponsListView')
             } else {
-              this.jsBridge.webCallHandler('jumpToLoginView')
+              that.jsBridge.webCallHandler('jumpToLoginView')
             }
-
           }
         )
       },

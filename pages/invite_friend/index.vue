@@ -149,7 +149,7 @@
             // 获取优惠卷列表
             this.getInviteCoupons()
           }
-          callback('obtainUserToken success!')
+          callback('obtainUserToken success!', )
         })
       }
     },

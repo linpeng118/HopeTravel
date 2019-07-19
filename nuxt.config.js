@@ -5,8 +5,8 @@ const pluginConfig = require('./config/plugins')
 const scriptConfig = require('./config/scripts')
 
 const axiosUrl = `http://${apiConfig.host?apiConfig.host:'127.0.0.1'}:${apiConfig.port}`
-// const axiosUrl = `http://192.168.1.188:${apiConfig.port}`
 
+// const axiosUrl = `http://192.168.1.226:${apiConfig.port}`
 console.log('apiConfig:', apiConfig)
 console.log('axiosUrl:', axiosUrl)
 const LRU = require('lru-cache')
@@ -161,6 +161,7 @@ module.exports = {
         // 本地所起的服务配置
         host: apiConfig.host || '127.0.0.1',
         port: apiConfig.port,
+        // host: apiConfig.host,
     },
     /*
      ** Build configuration
