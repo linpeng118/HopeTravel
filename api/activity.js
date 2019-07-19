@@ -29,3 +29,13 @@ export const getProducts = (data) => {
 		}
 	})
 }
+
+// 获取新人专享优惠劵列表
+export const getNewCoupon = (data) => {
+  return axios.get(`/api/activity/reduction/coupons`)
+}
+
+// 获取新人专享优惠劵列表
+export const getPro = (data) => {
+  return axios.get(`/api/newer`)
+}

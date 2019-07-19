@@ -30,6 +30,19 @@ export const getProductList = (data) => {
   })
 }
 
+//优惠券可使用的产品列表
+export const getProductCoup = (data) => {
+  return axios.get('/api/coupon/products', {
+    params: {
+      page: data.page || null,
+      page_size: data.page_size || 10,
+      coupon_id:data.coupon_id || null,
+    }
+  })
+}
+
+
+
 // 产品筛选条件
 export const getFilterList = (data) => {
   return axios.get('/api/filter', {

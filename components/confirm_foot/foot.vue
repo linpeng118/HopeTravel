@@ -115,11 +115,9 @@
           }
         },
         deep: true    //深度监听
-
       }
     },
     mounted() {
-      // this.$store.dispatch("initprice");
       let obj=getSessionStore('pricelist') ? JSON.parse(getSessionStore('pricelist')) : {};
       this.$store.commit("pricelist",obj);
       let objw=getSessionStore('countprice') ? JSON.parse(getSessionStore('countprice')) : {};
@@ -207,26 +205,23 @@
       },
       //是否需要登录弹窗
       async setshow() {
-        let {code} = await getProfile()
-        if(code != 0) {
-          this.shownext=true
-        }
-        else{
-          this.shownext=true
-        }
-
+        this.shownext=true
       },
       async islogin() {
-        let {code} = await getProfile()
-        if(code != 0) {
-          this.vxToggleLoginDlg(true)
-          this.shownext=true
-        }
-        else{
-          this.$router.push({
-            path:"/confirm_order"
-          })
-        }
+        this.$router.push({
+          path:"/confirm_order"
+        })
+
+        // let {code} = await getProfile()
+        // if(code != 0) {
+        //   this.vxToggleLoginDlg(true)
+        //   this.shownext=true
+        // }
+        // else{
+        //   this.$router.push({
+        //     path:"/confirm_order"
+        //   })
+        // }
 
       },
 
