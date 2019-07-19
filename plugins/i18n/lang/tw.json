@@ -56,6 +56,7 @@
     "edit": "編輯",
     "RMB": "人民幣",
     "dollar": "美元",
+  "usecoupons": "使用優惠券",
     "noData": "暫無數據",
     "loading": "加載中",
     "verifyCode": "驗證碼",
@@ -392,7 +393,8 @@
         "unuser": "未使用",
         "useList": "使用記錄",
         "overDate": "已過期",
-        "instructions": "使用說明"
+        "instructions": "使用說明",
+      "nowuse": "立即使用"
     },
     "distributionPage": {
         "title": "加入稀飯聯盟",

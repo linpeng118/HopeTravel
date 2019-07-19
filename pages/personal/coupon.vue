@@ -26,7 +26,7 @@
                   </p>
                 </div>
                 <div class="cupright">
-                  <span v-if="status==='unuse'"></span>
+                  <span class="btn1" v-if="status==='unuse'" @click="touse(item.coupon_id)">{{$t('couponsPage.nowuse')}}</span>
                   <span class="btn2" v-else-if="status==='used'">{{$t('personalPage.alreadyUsed')}}</span>
                   <span class="btn2" v-else>{{$t('couponsPage.overDate')}}</span>
                 </div>
@@ -156,6 +156,14 @@
         this.status=_arr[index];
         this.getCouData()
       },
+      touse(id){
+        this.$router.push({
+          path: '/product_list/product-coup',
+          query:{
+            id:id
+          }
+        })
+      }
     },
 
   };

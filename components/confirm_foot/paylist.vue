@@ -34,14 +34,15 @@
             <span>{{$t('confirmFootComp.travelCost')}}:</span>
             <span>{{payData.attributes_selected.total_price}}</span>
           </p>
-          <template v-for="(item,ind) in payData.attributes_selected.items">
-            <p class="payitem2" :key="ind">
+          <template v-if="payData.attributes_selected.items&&payData.attributes_selected.items.length">
+            <p class="payitem2" v-for="(item,ind2) in payData.attributes_selected.items" :key="ind2">
               <span>{{item.name}}</span>
               <span>
                  <i :style="item.prefix=='+'?'color:#D51D28':'color:#aaa;text-decoration:line-through'">{{item.prefix}} </i>
                 {{item.price}}</span>
             </p>
           </template>
+
         </li>
 
         <li class="paysection" v-if="payData.discount">

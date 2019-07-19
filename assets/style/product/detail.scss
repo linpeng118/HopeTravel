@@ -70,13 +70,17 @@
         }
 
         .product {
-            padding: 20px 24px;
+            padding: 20px 0;
             background: #fff;
+            .setelse{
+              padding: 0 24px;
+            }
 
             .name {
                 color: #3e3e3e;
                 letter-spacing: 2px;
                 font-size: 32px;
+                padding: 0 24px;
 
                 .prod-tag {
                     padding: 2px 12px;
@@ -94,11 +98,13 @@
             .price-wrap {
                 margin-top: 2px;
                 .price {
+                  padding: 0 24px;
                     .unit {
                         font-size: 24px;
                     }
                 }
                 .default-price {
+                    padding: 0 24px;
                     font-size: 24px;
                     font-weight: 300;
                     color: #989898;
@@ -106,6 +112,7 @@
                 }
                 .share-btn{
                     float: right;
+                  margin-right: 24px;
                     width:220px;
                     height:52px;
                     background:linear-gradient(180deg,rgba(253,141,103,1) 0%,rgba(245,41,30,1) 100%);
