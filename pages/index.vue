@@ -38,7 +38,16 @@
     </div>
     <!--标签-->
     <div class="entry-block">
-      <nuxt-link tag="div" class="entry-tourism" to="/local_play_zh">
+      <nuxt-link class="entry-tourism"
+        tag="div"
+        v-for="navItem in navList"
+        :to="navItem.link_url"
+        :key="navItem.title">
+        <img :src="navItem.image_url"
+          alt="">
+        <p class="title">{{navItem.title}}</p>
+      </nuxt-link>
+      <!-- <nuxt-link tag="div" class="entry-tourism" to="/local_play_zh">
         <img src="../assets/imgs/home/icon_play.png" alt="">
         <p class="title">{{$t('tours.localPlay')}}</p>
       </nuxt-link>
@@ -57,7 +66,7 @@
       <nuxt-link tag="div" class="entry-tourism" to="/visa">
         <img src="../assets/imgs/home/icon_visa.png" alt="">
         <p class="title">{{$t('homePage.visaNav')}}</p>
-      </nuxt-link>
+      </nuxt-link> -->
     </div>
     <!--热门目的地-->
     <div class="hot-target">
