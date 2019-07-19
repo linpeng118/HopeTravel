@@ -14,7 +14,7 @@
                   :disabled="submiting"
                   @click="onReceive"
                   type="default">立刻领取</van-button>
-      <p class="jump" @click="jumpToUse">定制专享券</p>
+      <p class="jump" @click="jumpToUse" v-if="isShow">定制专享券</p>
     </section>
     <!-- 推荐产品 -->
     <van-tabs v-model="activeCity" v-if="products&&products.length">
@@ -38,12 +38,12 @@
         </van-tab>
       </section>
     </van-tabs>
-    <p v-else>暂无专享产品</p>
+    <!--<p v-else>暂无专享产品</p>-->
   </div>
 </template>
 <script>
   import {mapState, mapMutations} from 'vuex'
-  import {getNewCoupon, getPro} from '@/api/activity'
+  import {getNewCoupon, getPro, getshow} from '@/api/activity'
   import {RECEIVE_TYPE} from '@/assets/js/consts/activity'
   export default {
     head: {
@@ -70,7 +70,9 @@
         // 是否正在提交
         submiting: false,
         // 领取状态
-        receiveStatus: RECEIVE_TYPE.default
+        receiveStatus: RECEIVE_TYPE.default,
+        //是否显示
+        isShow:false
       }
     },
     computed: {
@@ -86,7 +88,7 @@
       this.jsBridge.webRegisterHandler('obtainUserToken', (token, callback) => {
         if (token) {
           this.vxSetToken(token)
-          this.receiveCoupons()
+          this.getshow()
         } else {
           this.jsBridge.webCallHandler('jumpToLoginView')
         }
@@ -115,6 +117,8 @@
         await this.vxSetAppVersion(this.appVersion)
         await this.getConList()
         await this.getProductList()
+
+
       },
       async getConList() {
         let that=this;
@@ -122,6 +126,18 @@
         if (code === 0) {
           that.couponlist = data.coupons
           that.activity_id= data.activity_id
+        }
+      },
+      async getshow() {
+        let that=this;
+        const {code,msg,data} = await getshow();
+        alert(code)
+        alert(msg)
+        alert(data.answe)
+        if (code === 0) {
+          if(!data.answe){
+            that.isShow=true
+          }
         }
       },
       /**
@@ -239,17 +255,7 @@
       },
       // 点击定制优惠劵
       jumpToUse() {
-        // window.location.href="#exclusive-title"
-        const refDom = this.$refs['newShare']
-        if (window.scrollTo) {
-          window.scrollTo({
-            top: refDom.offsetTop,
-            behavior: "smooth"
-          })
-        } else {
-          // TODO:兼容不支持window.scrollTo()
-          console.log('no scrollTo')
-        }
+        this.jsBridge.webCallHandler('jumpCustomizationCouponsListView')
       },
       // 跳转到产品详情
       jumpToDetail(id) {
@@ -323,7 +329,7 @@
               text-align: center;
               color: #fff;
               font-size: 24px;
-              margin-top: 12px;
+              margin-top: 22px;
               line-height: 30px;
               display: inline-block;
               float: left;
@@ -391,7 +397,7 @@
         margin-left: 132px;
         margin-top: 513px;
         width: 520px;
-        height: auto;
+        height: 164px;
         float: left;
         .item-cop{
           float: left;

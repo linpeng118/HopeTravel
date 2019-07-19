@@ -39,3 +39,7 @@ export const getNewCoupon = (data) => {
 export const getPro = (data) => {
   return axios.get(`/api/newer`)
 }
+// 是否可以领取优惠劵
+export const getshow = (data) => {
+  return axios.get(`/api/user/coupon/answer`)
+}
