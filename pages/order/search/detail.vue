@@ -11,12 +11,12 @@
     </van-nav-bar>
     <div class="details-head">
       <div class="head-left">
-        <p>{{details.status.name}}</p>
-        <p>{{$t('orderDetailPage.orderId')}}：{{details.order_id}}</p>
-        <p>{{$t('orderDetailPage.orderTime')}}：{{details.created.substr(0,10)}}</p>
+        <p>{{orderInfo.status.name}}</p>
+        <p>{{$t('orderDetailPage.orderId')}}：{{orderInfo.order_id}}</p>
+        <p>{{$t('orderDetailPage.orderTime')}}：{{orderInfo.created.substr(0,10)}}</p>
       </div>
       <div class="head-right">
-        <p>{{details.price}}</p>
+        <p>{{orderInfo.price}}</p>
       </div>
     </div>
     <section class="section0">
@@ -24,7 +24,7 @@
         <div class="confirm-item">
           <p class="item-con">
             <span style="width: 80%"
-              v-html="details.product_name.length>45?details.product_name.substr(0,40)+'...':details.product_name"></span>
+              v-html="orderInfo.product_name.length>45?orderInfo.product_name.substr(0,40)+'...':orderInfo.product_name"></span>
             <span style="width: 10%"></span>
             <van-icon color="#404040"
               name="arrow"
@@ -32,26 +32,26 @@
           </p>
           <p class="item-conx">
             <span>
-              <i>{{details.product_departure_date}}</i>
-              <i>{{details.product_departure_city}}</i>
+              <i>{{orderInfo.product_departure_date}}</i>
+              <i>{{orderInfo.product_departure_city}}</i>
             </span>
             <span>
-              <i>{{details.ault_count}}{{$t('adult')}}</i>
+              <i>{{orderInfo.ault_count}}{{$t('adult')}}</i>
               <i class="hr"></i>
-              <i>{{details.created.substr(0,10)}}{{$t('reserve')}}</i>
+              <i>{{orderInfo.created.substr(0,10)}}{{$t('reserve')}}</i>
             </span>
             <span>
-              <i>{{details.product_end_date}}</i>
-              <i>{{details.product_departure_end_city}}</i>
+              <i>{{orderInfo.product_end_date}}</i>
+              <i>{{orderInfo.product_departure_end_city}}</i>
             </span>
           </p>
         </div>
       </section>
       <section>
         <div class="confirm-item"
-          v-if="details.attribute">
+          v-if="orderInfo.attribute">
           <p class="item-title">{{$t('orderDetailPage.tripInfo')}}</p>
-          <template v-for="(item,index) in details.attribute">
+          <template v-for="(item,index) in orderInfo.attribute">
             <div :key="index">
               <p class="item-tip">{{item.product_option}}</p>
               <p class="item-con">
@@ -59,14 +59,13 @@
               </p>
             </div>
           </template>
-
         </div>
       </section>
       <section>
         <div class="confirm-item"
-          v-if="details.guest_name">
+          v-if="orderInfo.guest_name">
           <p class="item-title">{{$t('orderDetailPage.travlerInfo')}}</p>
-          <template v-for="(item,index) in details.guest_name">
+          <template v-for="(item,index) in orderInfo.guest_name">
             <div :key="index"
               class="item-contanct">
               <div>{{index+1}}.{{item.name}}</div>
@@ -85,54 +84,55 @@
           <div class="item-contanct2">
             <div>{{$t('orderDetailPage.contact')}}</div>
             <div>
-              <p>{{details.contact_name}}</p>
-              <p>{{details.contact_phone}}</p>
-              <p>{{details.contact_email}}</p>
+              <p>{{orderInfo.contact_name}}</p>
+              <p>{{orderInfo.contact_phone}}</p>
+              <p>{{orderInfo.contact_email}}</p>
             </div>
           </div>
         </div>
       </section>
-      <section v-show="details.status&&details.status.code==0"
+      <section v-show="orderInfo.status&&orderInfo.status.code==0"
         style="text-align: center;width: 100%">
-        <div style="display: none">
-          <form action="http://www.htw.tourscool.net/payment/mobile/checkout"
-            method="post">
-            <input type="text"
-              name="order_id"
-              value=""
-              ref="order_id">
-            <input type="text"
-              name="order_title"
-              value=""
-              ref="order_title">
-            <input type="text"
-              name="total_fee[CNY]"
-              value=""
-              ref="total_feecny">
-            <input type="text"
-              name="total_fee[USD]"
-              value=""
-              ref="total_feeusd">
-            <input type="text"
-              name="client_type"
-              value="tourscool">
-            <input type="text"
-              name="jwt"
-              value="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiI2IiwiZ2lkIjoiMSIsImV4cCI6MTU0OTI2MDIxMX0.q4c3ooX8GD_b0GmDceWO-GdburBpBGTpKbhBVRvaKpY"
-              readonly="">
-            <input type="text"
-              name="success_url"
-              ref="success_url">
-            <input type="text"
-              name="failure_url"
-              ref="failure_url">
-            <input type="submit"
-              ref="submitform">
-          </form>
-        </div>
         <button class="pay-btn"
-          @click="subData()">{{$t('orderDetailPage.goPay')}}</button>
+          @click="btnPay">{{$t('orderDetailPage.goPay')}}</button>
       </section>
+      <!-- 表单提交 -->
+      <form style="display: none"
+        :action="`${apiPath.payment}/payment/mobile/checkout`"
+        method="post">
+        <input type="text"
+          name="order_id"
+          value=""
+          ref="orderId">
+        <input type="text"
+          name="order_title"
+          value=""
+          ref="orderTitle">
+        <input type="text"
+          name="total_fee[CNY]"
+          value=""
+          ref="totalFeeCNY">
+        <input type="text"
+          name="total_fee[USD]"
+          value=""
+          ref="totalFeeUSD">
+        <input type="text"
+          name="client_type"
+          value="tourscool">
+        <input type="text"
+          name="jwt"
+          value=""
+          ref="jwt"
+          readonly="">
+        <input type="text"
+          name="success_url"
+          ref="successUrl">
+        <input type="text"
+          name="failure_url"
+          ref="failureUrl">
+        <input type="submit"
+          ref="submitform">
+      </form>
     </section>
   </section>
 
@@ -140,13 +140,18 @@
 
 <script>
   import {
-    orderdetails
+    getTouristsOrderDetail,
+    getTokenByOrderId
   } from '@/api/order'
+  import {getSessionStore} from '@/assets/js/utils'
+
   export default {
-    name: "order_details",
     data() {
       return {
-        details: {
+        orderId: this.$route.query.order_id,
+        apiPath: require('@/apiConf.env'),
+        authCode: '',
+        orderInfo: {
           "order_id": 0,
           "created": "",
           "status": {},
@@ -167,34 +172,58 @@
           "guest_name": [],
           "detailed": []
         },
-        order_id: this.$route.query.order_id,
       }
     },
-    computed: {},
-    watch: {},
     mounted() {
+      this.authCode = JSON.parse(getSessionStore('searchOrderInfo')).auth_code
       this.getOrderData()
     },
     methods: {
       async getOrderData() {
-        let {
-          code,
-          data
-        } = await orderdetails(this.order_id)
+        let {code, data, msg} = await getTouristsOrderDetail({
+          order_id: this.orderId,
+          auth_code: this.authCode,
+        })
         if (code === 0) {
-          this.details = data
+          this.orderInfo = data
         }
       },
       onClickLeft() {
         this.$router.go(-1)
       },
-      subData() {
-        this.$refs.order_id.value = this.details.order_id;
-        this.$refs.order_title.value = this.details.product_name;
-        this.$refs.total_feeusd.value = this.details.price.substr(1) * 100 || 0;
-        this.$refs.total_feecny.value = this.details.cny_price * 100 || 0;
-        this.$refs.success_url.value = window.location.host + "/personal/order_des?order_id=" + data.order_id;
-        this.$refs.failure_url.value = window.location.host + "/personal/order?status=null";
+      // 去支付（先兑换token）
+      async btnPay() {
+        const {code, msg, data} = await getTokenByOrderId({
+          auth_code: this.authCode,
+          order_id: this.orderId,
+        })
+        if (code === 0) {
+          // 构造数据
+          let subData = {
+            token: data.token,
+            ...this.orderInfo
+          }
+          this.subData(subData)
+        } else {
+          console.Error(msg)
+        }
+      },
+      // 支付跳转
+      subData(val) {
+        console.log(val);
+        // 跳转链接
+        let successUrl = `//${window.location.host}/order/search/detail?order_id=${val.order_id}`;
+        let failureUrl = `//${window.location.host}/order/search/detail?order_id=${val.order_id}`;
+        // token处理
+        // token = token.replace('Bearer ', '');
+        // 表单
+        this.$refs.orderId.value = val.order_id;
+        this.$refs.orderTitle.value = val.product_name;
+        this.$refs.totalFeeCNY.value = Number(val.cny_price) * 100 || 0;
+        this.$refs.totalFeeUSD.value = Number(val.usd_price) * 100 || 0;
+        this.$refs.jwt.value = val.token;
+        this.$refs.successUrl.value = successUrl
+        this.$refs.failureUrl.value = failureUrl
         this.$refs.submitform.click();
       },
     }

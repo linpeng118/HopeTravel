@@ -18,3 +18,23 @@ export const getOrderByPhone = (data) => {
     }
   })
 }
+
+// 根据订单id获取token
+export const getTokenByOrderId = (data) => {
+  return axios.get(`/api/token_by_order_id`, {
+    params: {
+      auth_code: data.auth_code,
+      order_id: data.order_id,
+    }
+  })
+}
+
+// 游客查询订单详情
+export const getTouristsOrderDetail = (data) => {
+  return axios.get(`/api/order_info/query_by_phone`, {
+    params: {
+      auth_code: data.auth_code,
+      order_id: data.order_id,
+    }
+  })
+}

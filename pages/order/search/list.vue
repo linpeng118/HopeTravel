@@ -6,36 +6,66 @@
       <van-icon name="cross"
         slot="left" />
     </van-nav-bar>
-    <template v-if="orderList.length">
-      <div class="prodect-list"
-        v-for="order in orderList"
-        :key="order.order_id"
-        @click="selectProduct(order)">
-        <product-order-item :orderInfo="order" />
-      </div>
-    </template>
+    <div class="product-list">
+      <template v-if="orderList&&orderList.length">
+        <div class="prodect-item"
+          v-for="order in orderList"
+          :key="order.order_id"
+          @click="toOrderDetail(order)">
+          <!-- 订单 -->
+          <product-order-item :orderInfo="order"
+            :authCode="authCode" />
+        </div>
+      </template>
+    </div>
   </div>
 </template>
 
 <script>
   import productOrderItem from '@/components/items/productOrder'
+  import {getSessionStore} from '@/assets/js/utils'
+
   export default {
     components: {
       productOrderItem
     },
     data() {
       return {
-        orderList: []
+        orderList: [],
+        token: '',
       }
     },
-    computed: {},
-    mounted() {},
-    methods: {},
+    mounted() {
+      this.orderList = JSON.parse(getSessionStore('searchOrderInfo')).items
+      this.authCode = JSON.parse(getSessionStore('searchOrderInfo')).auth_code
+    },
+    methods: {
+      toOrderDetail(val) {
+        this.$router.push({
+          name: 'order-search-detail',
+          query: {
+            order_id: val.order_id
+          }
+        })
+      },
+      toPersonal() {
+        this.$router.push({
+          name: 'personal'
+        })
+      },
+    },
   }
 </script>
 
 <style lang="scss" scoped>
   .order-search-list {
-    padding: 28px 32px;
+    background: #f5f4f9;
+    min-height: 100vh;
+    .product-list {
+      padding: 28px 32px;
+    }
+    .prodect-item {
+      margin-bottom: 24px;
+    }
   }
 </style>

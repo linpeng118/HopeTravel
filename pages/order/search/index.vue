@@ -42,6 +42,7 @@
   import AreaCodeOnly from '@/components/input/areaCodeOnly'
   import {getSmsCode} from '@/api/member'
   import {getOrderByPhone} from '@/api/order'
+  import {setSessionStore} from '@/assets/js/utils'
   // 倒计时时间
   const TIME = 60
 
@@ -82,21 +83,18 @@
       onClickLeft() {
         this.$router.go(-1)
       },
-      toPersonal() {
-        this.$router.push({
-          name: 'personal'
-        })
-      },
       // 查询订单
       async searchOrder() {
         console.log('查询订单');
+        if(!this.phone) {return}
+        if(!this.code) {return}
         const {code, msg, data} = await getOrderByPhone({
           phone: `${this.areaCode}-${this.phone}`,
           code: this.code
         })
         if (code === 0) {
           // 展示订单列表
-          this.orderList = data || []
+          setSessionStore('searchOrderInfo', JSON.stringify(data))
           this.$router.push({
             name: 'order-search-list'
           })
