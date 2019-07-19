@@ -43,7 +43,7 @@
 </template>
 <script>
   import {mapState, mapMutations} from 'vuex'
-  import {getNewCoupon, getPro, getshow} from '@/api/activity'
+  import {getNewCoupon, getPro, getshow,getCouponsReceive} from '@/api/activity'
   import {RECEIVE_TYPE} from '@/assets/js/consts/activity'
   export default {
     head: {
@@ -72,7 +72,7 @@
         // 领取状态
         receiveStatus: RECEIVE_TYPE.default,
         //是否显示
-        isShow:false
+        isShow:true
       }
     },
     computed: {
@@ -89,9 +89,8 @@
         if (token) {
           this.vxSetToken(token)
           this.getshow()
-        } else {
-          this.jsBridge.webCallHandler('jumpToLoginView')
         }
+        callback('obtainUserToken success!')
       })
     },
     methods: {
@@ -117,8 +116,6 @@
         await this.vxSetAppVersion(this.appVersion)
         await this.getConList()
         await this.getProductList()
-
-
       },
       async getConList() {
         let that=this;
@@ -131,12 +128,9 @@
       async getshow() {
         let that=this;
         const {code,msg,data} = await getshow();
-        alert(code)
-        alert(msg)
-        alert(data.answe)
         if (code === 0) {
-          if(!data.answe){
-            that.isShow=true
+          if(data.answe){
+            that.isShow=false
           }
         }
       },
@@ -144,61 +138,10 @@
        * 获取推荐产品列表,page_size默认20条
        */
       async getProductList() {
+        this.products = [];
         const {code, msg, data} = await getPro()
         if (code === 0) {
-          // this.products = data
-          this.products = [{
-            "moduleName":"当地跟团",
-            "data":[
-              {
-                "product_id":"2609",
-                "name":"(1日)【天天发团】日本富士山超值一日游·富士山五合目+河口湖宝刀面·天妇罗定食+忍野八海泉水+奥特莱斯购物",
-                "image":"https://img.tourscool.net/images/product/5cd3bebe6c018.jpg",
-                "sale_price":"￥36,501.94",
-                "default_price":"￥36,801.94"
-              },
-              {
-                "product_id":"4897",
-                "name":"BONDI BEACH - 1.5 Hours Guided Motorcycle Tour",
-                "image":"https://img.tourscool.net/images/product/5d22fd5a67c3b.jpg",
-                "sale_price":"￥0.00",
-                "default_price":"￥0.00"
-              },
-              {
-                "product_id":"4891",
-                "name":"BONDI BEACH - 1.5 Hours Guided Motorcycle Tour",
-                "image":"https://img.tourscool.net/images/product/1d7eab34ced146c27822f651da9ae21d.jpg",
-                "sale_price":"￥97,716.07",
-                "default_price":"￥98,016.08"
-              },
-              {
-                "product_id":"3112",
-                "name":"3 Day Tour To Jokulsarlon | The Golden Circle, the South Coast, Glacier Hike & Boat Tour",
-                "image":"https://img.tourscool.net/images/product/03188f786bca6cff9a89167cc3823f01.jpeg",
-                "sale_price":"￥25,503.77",
-                "default_price":"￥25,803.78"
-              }
-            ]
-          },
-            {
-              "moduleName":"当地玩乐",
-              "data":[
-                {
-                  "product_id":"3112",
-                  "name":"3 Day Tour To Jokulsarlon | The Golden Circle, the South Coast, Glacier Hike & Boat Tour",
-                  "image":"https://img.tourscool.net/images/product/03188f786bca6cff9a89167cc3823f01.jpeg",
-                  "sale_price":"￥25,503.77",
-                  "default_price":"￥25,803.78"
-                },
-                {
-                  "product_id":"3105",
-                  "name":"(3天)【澳洲散拼】塔斯马尼亚经典游•萨拉曼卡广场+里奇蒙小镇+亚瑟港+塔斯曼拱门+皇家植物园+罗素瀑布",
-                  "image":"https://img.tourscool.net/images/product/5d1085ea295e5.jpg",
-                  "sale_price":"￥1,485.74",
-                  "default_price":"￥1,523.83"
-                }
-              ]
-            }]
+          this.products = data
         }
       },
       // 点击领取
@@ -207,55 +150,63 @@
           'getUserToken',
           null,
           (token) => {
-            // alert(token);
             if (token) {
               this.vxSetToken(token)
               this.submiting = true
               // 领取
               this.receiveCoupons()
-            } else {
-              this.jsBridge.webCallHandler('jumpToLoginView')
             }
           }
         )
       },
       // 领取优惠卷
       async receiveCoupons() {
-        this.submiting = true
+        let that=this;
         const {code, msg, data} = await getCouponsReceive({
           id: this.activity_id,
         })
         this.msg = msg
+        this.$toast(msg)
         if (code === 0) {
-          // 领取成功
-          this.receiveStatus = 0
-          this.couponlist = data.map(item => ({
-            ...item,
-            isShow: false
-          }))
-          this.jsBridge.webCallHandler('userObtainNewcomerGiftSuccessful')
-        } else if (code === RECEIVE_TYPE.end) {
+          that.receiveStatus = 0;
+          that.jsBridge.webCallHandler('userObtainNewcomerGiftSuccessful')
+        }
+        else if (code === RECEIVE_TYPE.end) {
           // 活动结束(这里直接)
-          this.jsBridge.webCallHandler('userObtainNewcomerGiftSuccessful')
           this.receiveStatus = RECEIVE_TYPE.end
-        } else if (code === RECEIVE_TYPE.old) {
+        }
+        else if (code === RECEIVE_TYPE.old) {
           // 老用户
-          this.jsBridge.webCallHandler('userObtainNewcomerGiftSuccessful')
           this.receiveStatus = RECEIVE_TYPE.old
-        } else if (code === RECEIVE_TYPE.again) {
+        }
+        else if (code === RECEIVE_TYPE.again) {
           // 已领取
-          this.jsBridge.webCallHandler('userObtainNewcomerGiftSuccessful')
           this.receiveStatus = RECEIVE_TYPE.again
-        } else if (code === 401) {
+        }
+        else if (code === 401) {
           console.log(msg)
-        } else {
+        }
+        else {
           this.$toast(msg)
         }
-        this.submiting = false
+        this.submiting=false
       },
       // 点击定制优惠劵
       jumpToUse() {
-        this.jsBridge.webCallHandler('jumpCustomizationCouponsListView')
+        this.jsBridge.webCallHandler(
+          'getUserToken',
+          null,
+          (token) => {
+            if (token) {
+              console.log(token)
+              this.vxSetToken(token)
+              this.jsBridge.webCallHandler('jumpCustomizationCouponsListView')
+            } else {
+              this.jsBridge.webCallHandler('jumpToLoginView')
+            }
+
+          }
+        )
       },
       // 跳转到产品详情
       jumpToDetail(id) {
@@ -329,7 +280,7 @@
               text-align: center;
               color: #fff;
               font-size: 24px;
-              margin-top: 22px;
+              margin-top: 17px;
               line-height: 30px;
               display: inline-block;
               float: left;
