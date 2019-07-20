@@ -17,11 +17,11 @@
           <van-row class="input-code"
             type="flex"
             justify="space-between">
-            <van-col span="16">
+            <van-col span="15">
               <van-field v-model="code"
                 placeholder="请输入手机验证码" />
             </van-col>
-            <van-col span="7">
+            <van-col span="8">
               <van-button class="btn-code"
                 :disabled="codeType===VERIFY_CODE.GETTING"
                 @click="getCode"
@@ -77,7 +77,7 @@
           clearInterval(this.timer)
           return this.$t('partcailComp.resetVerifyCode')
         }
-      }
+      },
     },
     methods: {
       onClickLeft() {
@@ -85,18 +85,22 @@
       },
       // 查询订单
       async searchOrder() {
-        console.log('查询订单');
-        if(!this.phone) {return}
-        if(!this.code) {return}
+        console.log('查询订单')
+        if (!this.phone) {
+          return
+        }
+        if (!this.code) {
+          return
+        }
         const {code, msg, data} = await getOrderByPhone({
           phone: `${this.areaCode}-${this.phone}`,
-          code: this.code
+          code: this.code,
         })
         if (code === 0) {
           // 展示订单列表
           setSessionStore('searchOrderInfo', JSON.stringify(data))
           this.$router.push({
-            name: 'order-search-list'
+            name: 'order-search-list',
           })
         } else {
           this.$toast(msg)
@@ -114,7 +118,7 @@
         try {
           const {code, msg} = await getSmsCode({
             phone: `${this.areaCode}-${this.phone}`,
-            scene: SMS_SCENE.VALIDATE
+            scene: SMS_SCENE.VALIDATE,
           })
           if (code !== 0) {
             this.$toast(msg)
@@ -207,10 +211,9 @@
       border: 0;
       padding: 0 18px;
     }
-    .van-cell-group {
-      .van-hairline--top-bottom::after {
-        border: 0px;
-      }
+    .van-hairline--top-bottom::after {
+      border: 0px;
+      border-width: 0px;
     }
   }
 </style>
