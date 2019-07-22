@@ -43,7 +43,7 @@
         </div>
         <div class="tags-wrap">
           <span class="solid" v-if="data.self_support">{{$t('selfSupport')}}</span>
-          <span class="share-p">{{$t('productDetailPage.shareMakes')}}{{data.agent_fee}}</span>
+          <span class="share-p" v-if="isShowFx">{{$t('productDetailPage.shareMakes')}}{{data.agent_fee}}</span>
           <span class="gray-w">{{data.comment_score}}分</span>
           <span class="gray-w">{{data.sales}}人出行</span>
         </div>
