@@ -211,11 +211,11 @@
         </div>
       </section>
       <!--优惠信息-->
-      <section>
+      <section v-if="isLogin">
         <div class="confirm-item">
           <p class="item-title">{{$t('confirmPage.saveInfo')}}</p>
           <div class="item-con"
-            v-if="pricelist.points&&pricelist.points.point">
+            v-if="pricelist&&pricelist.points&&pricelist.points.point">
             <span>
               <i class="seti">{{$t('confirmFootComp.riceGrains')}}</i>
               <i class="seti2"
