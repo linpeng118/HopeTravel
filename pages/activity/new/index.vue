@@ -178,22 +178,19 @@
         const {code, msg, data} = await getCouponsReceive({
           id: that.activity_id,
         })
+        that.$toast(msg)
         if (code === 0) {
           that.receiveStatus = 0;
-          that.$toast('领取成功')
           that.jsBridge.webCallHandler('userObtainNewcomerGiftSuccessful')
         } else if (code === RECEIVE_TYPE.end) {
           // 活动结束(这里直接)
           this.receiveStatus = RECEIVE_TYPE.end
-          that.$toast(msg)
         } else if (code === RECEIVE_TYPE.old) {
           // 老用户
           this.receiveStatus = RECEIVE_TYPE.old
-          that.$toast(msg)
         } else if (code === RECEIVE_TYPE.again) {
           // 已领取
           this.receiveStatus = RECEIVE_TYPE.again
-          that.$toast(msg)
         } else if (code === 401) {
           console.log(msg)
         } else {
