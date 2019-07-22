@@ -3,7 +3,7 @@
     <div class="product-item" @click="selectDetail(data.product_id)" target="_blank">
       <div class="img-show">
         <img :src="data.image" alt="">
-        <div class="tags2"v-if="data.is_soldout">
+        <div class="tags2" v-if="data.is_soldout">
           {{$t('saleOver')}}
           <p v-if="showTag" >{{productTypeValue(data.product_type)}}</p>
         </div>
@@ -12,13 +12,15 @@
           <span v-for="(item,index) in data.special_icons" :class="item.type === 'special' ? 'color': ''" :key="index">{{item.title}}</span>
           <!--<span>3折</span>-->
         </div>
+        <div class="show-video" v-if="data.is_video" :style="{bottom: showTag&&!data.is_soldout ? '0.533333rem' : '0'}">
+          <img src="../../assets/imgs/product/icon_video@2x.png" alt="">
+        </div>
       </div>
       <div class="product-desc">
         <div class="title">
           {{data.name}}
         </div>
         <div class="tags-wrap">
-          <span class="solid" v-if="data.self_support">{{$t('selfSupport')}}</span>
           <span v-for="item in data.icons_show" :key="item" class="hollow color">{{item}}</span>
           <span v-for="(item,index) in data.icons_tour" :key="index" class="hollow">
             <!--<template v-if="index < 2">{{item.title}}</template>-->
@@ -27,7 +29,7 @@
         </div>
         <div class="product-price">
           <template v-if="!data.special_price">
-            <span class="sale-price"><strong>{{data.default_price | showInt}}</strong>/{{$t('since')}}</span>
+            <span class="sale-price" :class="data.self_support ? 'self-c':''"><strong>{{data.default_price | showInt}}</strong>/{{$t('since')}}</span>
           </template>
           <template v-else>
             <span class="sale-price"><strong>{{data.special_price | showInt}}</strong>/{{$t('since')}}</span><span class="default-price" style="text-decoration: line-through">{{$t('listComp.originalPrice')}}：{{data.default_price | showInt}}</span>
@@ -41,6 +43,12 @@
           <span class="share-p" v-if="isShowFx">{{$t('productDetailPage.shareMakes')}}{{data.agent_fee}}</span>
           <p><span style="color: #989898" v-if="data.comment_score">{{data.comment_score}}分</span>&nbsp;
             <span style="color: #989898">{{data.sales}}人出行</span></p>
+        </div>
+        <div class="tags-wrap">
+          <span class="solid" v-if="data.self_support">{{$t('selfSupport')}}</span>
+          <span class="share-p">{{$t('productDetailPage.shareMakes')}}{{data.agent_fee}}</span>
+          <span class="gray-w">{{data.comment_score}}分</span>
+          <span class="gray-w">{{data.sales}}人出行</span>
         </div>
       </div>
     </div>
@@ -150,15 +158,14 @@ export default {
         }
         .tags{
           width: 100%;
-          line-height:36px;
+          line-height:48px;
           padding: 0 12px;
           position: absolute;
           bottom: 0;
           font-size:22px;
           font-weight:400;
-          background-color: rgba(0,0,0,0.57);
+          background-color: rgba(0,0,0,0.45);
           color: #fff;
-
         }
         .tags2{
           width: 100%;
@@ -169,7 +176,7 @@ export default {
           font-size:22px;
           font-weight:400;
           text-align: center;
-          background-color: rgba(0,0,0,0.57);
+          background-color: rgba(0,0,0,0.45);
           color: #fff;
           p{
             text-align: left;
@@ -197,6 +204,12 @@ export default {
             }
           }
         }
+        .show-video{
+          position: absolute;
+          width: 88px;
+          height: 88px;
+          bottom: 40px;
+        }
       }
       .product-desc{
         flex: 1;
@@ -218,7 +231,7 @@ export default {
           span{
             margin-right: 10px;
             display: inline-block;
-            line-height: 32px !important;
+            line-height: 32px;
           }
           .solid{
             padding: 0 4px;
@@ -229,16 +242,27 @@ export default {
             border-radius:6px;
           }
           .hollow{
-            color: #3A3A3A;
-            font-size: 22px;
+            color: #989898;
+            font-size: 20px;
             border-radius:16px;
-            border: 2px solid #989898;
             padding: 0 12px;
             margin-bottom: 5px;
+            background-color: #eee;
+            line-height: 32px !important;
+            display: inline-block;
             &.color{
               color: #FB605D;
               border-color: #FB605D;
             }
+          }
+          .share-p{
+            color: #FB605D;
+            font-size: 22px;
+          }
+          .gray-w{
+            color: #989898;
+            font-size: 22px;
+            margin-left: 10px;
           }
         }
         .product-price{
@@ -248,10 +272,13 @@ export default {
             line-height: 40px;
           }
           .sale-price{
-            color: #EF9A1A;
+            color: #FB605D;
             margin-right: 10px;
             strong{
               font-size:40px;
+            }
+            &.self-c{
+              color: #EF9A1A;
             }
           }
           .default-price{
@@ -274,6 +301,7 @@ export default {
     position: relative;
     overflow: hidden;
     padding: 2px 0 0 0 ;
+    vertical-align: bottom;
   }
   .ileft{
     display: inline-block;
