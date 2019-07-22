@@ -2,7 +2,9 @@
   <div class="new-page">
     <section class="new-banner">
       <div class="itembox">
-        <div class="item-cop" v-for="(item,ind) in couponlist" :key="ind">
+        <div class="item-cop"
+          v-for="(item,ind) in couponlist"
+          :key="ind">
           <template v-if="ind<4">
             <p class="p1">{{item.minus_label}}</p>
             <p class="p2">{{item.scope_label}}</p>
@@ -11,19 +13,29 @@
         </div>
       </div>
       <van-button class="button-activity"
-                  :disabled="submiting"
-                  @click="onReceive"
-                  type="default">立刻领取</van-button>
-      <p class="jump" @click="jumpToUse" v-if="isShow">定制专享券</p>
+        :disabled="submiting"
+        @click="onReceive"
+        type="default">立刻领取</van-button>
+      <p class="jump"
+        @click="jumpToUse"
+        v-if="isShow">定制专享券</p>
     </section>
     <!-- 推荐产品 -->
-    <van-tabs v-model="activeCity" v-if="products&&products.length">
-      <section v-for="(item,ind) in products" :key="ind">
-        <van-tab :title="item.moduleName" :name="ind">
-          <section class="product-list" >
-            <div class="product" v-for="(pro,inp) in item.data" :key="inp" @click="jumpToDetail(pro.product_id)">
-              <div class="banner" style="background-color: #ddd">
-                <img :src="pro.image" alt="">
+    <van-tabs v-model="activeCity"
+      v-if="products&&products.length">
+      <section v-for="(item,ind) in products"
+        :key="ind">
+        <van-tab :title="item.moduleName"
+          :name="ind">
+          <section class="product-list">
+            <div class="product"
+              v-for="(pro,inp) in item.data"
+              :key="inp"
+              @click="jumpToDetail(pro.product_id)">
+              <div class="banner"
+                style="background-color: #ddd">
+                <img :src="pro.image"
+                  alt="">
               </div>
               <div class="more">
                 <p class="name no-wrap-line3">{{pro.name}}</p>
@@ -43,7 +55,7 @@
 </template>
 <script>
   import {mapState, mapMutations} from 'vuex'
-  import {getNewCoupon, getPro, getshow,getCouponsReceive} from '@/api/activity'
+  import {getNewCoupon, getPro, getshow, getCouponsReceive} from '@/api/activity'
   import {RECEIVE_TYPE} from '@/assets/js/consts/activity'
   export default {
     head: {
@@ -53,11 +65,11 @@
       return {
         RECEIVE_TYPE,
         // 是否是app
-        isApp: this.$route.query.platform||0,
-        appVersion: this.$route.query.app_version||'0.0.0',
-        appLanguage: this.$route.query.language||'',
-        appCurrency: this.$route.query.currency||'USD',
-        appPhoneType: this.$route.query.phone_type||'ios',
+        isApp: this.$route.query.platform || 0,
+        appVersion: this.$route.query.app_version || '0.0.0',
+        appLanguage: this.$route.query.language || '',
+        appCurrency: this.$route.query.currency || 'USD',
+        appPhoneType: this.$route.query.phone_type || 'ios',
         // 活动id
         activity_id: '',
         // 活动规则
@@ -72,7 +84,7 @@
         // 领取状态
         receiveStatus: RECEIVE_TYPE.default,
         //是否显示
-        isShow:true
+        isShow: true
       }
     },
     computed: {
@@ -85,8 +97,8 @@
     },
     mounted() {
       this.init()
-      let that=this;
-      this.jsBridge.webRegisterHandler('obtainUserToken', function(token, callback){
+      let that = this;
+      this.jsBridge.webRegisterHandler('obtainUserToken', function (token, callback) {
         if (token) {
           that.vxSetToken(token)
           that.getshow()
@@ -118,19 +130,19 @@
         await this.getProductList()
       },
       async getConList() {
-        let that=this;
+        let that = this;
         const {code, msg, data} = await getNewCoupon();
         if (code === 0) {
           that.couponlist = data.coupons
-          that.activity_id= data.activity_id
+          that.activity_id = data.activity_id
         }
       },
       async getshow() {
-        let that=this;
-        const {code,msg,data} = await getshow();
+        let that = this;
+        const {code, msg, data} = await getshow();
         if (code === 0) {
-          if(data.answe){
-            that.isShow=false
+          if (data.answe) {
+            that.isShow = false
           }
         }
       },
@@ -146,11 +158,11 @@
       },
       // 点击领取
       onReceive() {
-        let that=this;
+        let that = this;
         this.jsBridge.webCallHandler(
           'getUserToken',
           null,
-          function(token){
+          function (token) {
             if (token) {
               that.vxSetToken(token)
               that.receiveCoupons()
@@ -162,42 +174,40 @@
       async receiveCoupons() {
 
         this.submiting = true
-        let that=this;
+        let that = this;
         const {code, msg, data} = await getCouponsReceive({
           id: that.activity_id,
         })
-        that.$toast(msg)
         if (code === 0) {
           that.receiveStatus = 0;
+          that.$toast('领取成功')
           that.jsBridge.webCallHandler('userObtainNewcomerGiftSuccessful')
-        }
-        else if (code === RECEIVE_TYPE.end) {
+        } else if (code === RECEIVE_TYPE.end) {
           // 活动结束(这里直接)
           this.receiveStatus = RECEIVE_TYPE.end
-        }
-        else if (code === RECEIVE_TYPE.old) {
+          that.$toast(msg)
+        } else if (code === RECEIVE_TYPE.old) {
           // 老用户
           this.receiveStatus = RECEIVE_TYPE.old
-        }
-        else if (code === RECEIVE_TYPE.again) {
+          that.$toast(msg)
+        } else if (code === RECEIVE_TYPE.again) {
           // 已领取
           this.receiveStatus = RECEIVE_TYPE.again
-        }
-        else if (code === 401) {
+          that.$toast(msg)
+        } else if (code === 401) {
           console.log(msg)
-        }
-        else {
+        } else {
           that.$toast(msg)
         }
-        that.submiting=false
+        that.submiting = false
       },
       // 点击定制优惠劵
       jumpToUse() {
-        let that=this;
+        let that = this;
         this.jsBridge.webCallHandler(
           'getUserToken',
           null,
-          function(token){
+          function (token) {
             if (token) {
               that.vxSetToken(token)
               that.jsBridge.webCallHandler('jumpCustomizationCouponsListView')
@@ -217,11 +227,11 @@
   }
 </script>
 <style>
-  .new-page .van-tabs__line{
-    background-color: #399EF6!important;
+  .new-page .van-tabs__line {
+    background-color: #399ef6 !important;
   }
-  .new-page .van-tab--active{
-    color: #399EF6!important;
+  .new-page .van-tab--active {
+    color: #399ef6 !important;
   }
 </style>
 <style lang="scss" scoped>
@@ -230,7 +240,7 @@
     min-height: 100vh;
     text-align: center;
     background: #ff3b01 url("~assets/imgs/invite/bg_new.png") no-repeat center
-    top/100%;
+      top/100%;
     overflow: hidden;
     .product-list {
       background-color: #fff;
@@ -240,19 +250,19 @@
       .product {
         display: inline-block;
         margin-top: 40px;
-        width:338px;
+        width: 338px;
         height: 430px;
         overflow: hidden;
         .banner {
           position: relative;
-          width:338px;
-          height:238px;
+          width: 338px;
+          height: 238px;
           border-radius: 20px;
           overflow: hidden;
           margin-bottom: 10px;
-          img{
-            width:338px;
-            height:238px;
+          img {
+            width: 338px;
+            height: 238px;
           }
         }
         .more {
@@ -270,12 +280,12 @@
           .price {
             text-align: right;
             line-height: 48px;
-            .newprice{
-              padding:0 5px;
-              height:32px;
-              background:rgba(255,0,0,1);
-              opacity:1;
-              border-radius:20px;
+            .newprice {
+              padding: 0 5px;
+              height: 32px;
+              background: rgba(255, 0, 0, 1);
+              opacity: 1;
+              border-radius: 20px;
               text-align: center;
               color: #fff;
               font-size: 24px;
@@ -291,7 +301,7 @@
               font-family: PingFang SC;
               font-weight: 400;
               line-height: 28px;
-              color: #FF0000;
+              color: #ff0000;
               opacity: 1;
               letter-spacing: -1px;
             }
@@ -307,84 +317,82 @@
               color: rgba(255, 0, 0, 1);
             }
           }
-          .else{
+          .else {
             font-size: 20px;
             line-height: 30px;
-            color: #C7C7C7 ;
+            color: #c7c7c7;
           }
         }
         &:nth-child(2n) {
-          margin-left:22px;
+          margin-left: 22px;
         }
       }
     }
     .new-banner {
-      background: url("~assets/imgs/activity/newbg.png") no-repeat center
-      top/100%;
+      background: url("~assets/imgs/activity/newbg.png") no-repeat center top/100%;
       width: 750px;
       height: 922px;
-      .button-activity{
-        width:266px;
-        height:56px;
-        background:rgba(250,223,165,1);
-        opacity:1;
-        border-radius:200px;
-        font-size:28px;
+      .button-activity {
+        width: 266px;
+        height: 56px;
+        background: rgba(250, 223, 165, 1);
+        opacity: 1;
+        border-radius: 200px;
+        font-size: 28px;
         position: relative;
-        color:#FF5266;
+        color: #ff5266;
         box-sizing: border-box;
         line-height: 56px;
         margin-top: 28px;
       }
-      .jump{
+      .jump {
         text-align: center;
         margin-top: 75px;
         font-size: 24px;
-        color: #fff!important;
-        text-decoration:underline
+        color: #fff !important;
+        text-decoration: underline;
       }
-      .itembox{
+      .itembox {
         margin-left: 132px;
         margin-top: 513px;
         width: 520px;
         height: 164px;
         float: left;
-        .item-cop{
+        .item-cop {
           float: left;
-          margin-right:20px ;
-          color: #FDF2D9;
-          margin-bottom:15px;
-          width:235px ;
-          .p1{
+          margin-right: 20px;
+          color: #fdf2d9;
+          margin-bottom: 15px;
+          width: 235px;
+          .p1 {
             display: inline-block;
             float: left;
-            width:92px;
+            width: 92px;
             text-align: center;
-            height:72px ;
+            height: 72px;
             font-size: 24px;
             line-height: 72px;
           }
-          .p2{
+          .p2 {
             display: inline-block;
             font-size: 20px;
-            width:132px;
+            width: 132px;
             text-align: left;
-            height:36px ;
+            height: 36px;
             float: left;
             line-height: 36px;
           }
-          .p3{
+          .p3 {
             font-size: 20px;
             display: inline-block;
             float: left;
-            width:132px;
+            width: 132px;
             text-align: left;
-            height:36px ;
+            height: 36px;
             line-height: 36px;
           }
         }
       }
-
     }
   }
 </style>
