@@ -74,13 +74,12 @@
             v-if="product.special_price">
             {{product.default_price}}
           </span>
-          <a href="https://api.tourscool.com/api/tour/v1/download"
-            target="_blank"
-            class="showapp"
-            v-if="product.is_newer_discount">
+          <div class="showapp"
+            v-if="product.is_newer_discount"
+            @click="downloadApp">
             <img src="../../assets/imgs/phone2.png"
               alt="" />App下单立减{{product.newer_min_discount}}起,更有新人优惠等你拿
-          </a>
+          </div>
         </div>
       </div>
       <!-- 特色 -->
@@ -1408,7 +1407,15 @@
       pausePlay() {
         this.$refs.productVideo.pause()
         this.isVideoShow = false
-      }
+      },
+      downloadApp() {
+        try {
+          _hmt.push(['_trackEvent', 'download', 'app', 'from mobile'])
+        } catch (error) {
+          console.log(error)
+        }
+        window.open('https://api.tourscool.com/api/tour/v1/download', '_blank')
+      },
     },
   }
 
@@ -1422,7 +1429,6 @@
     padding-bottom: 10px;
   }
   .showapp {
-    display: inline-block;
     width: 750px;
     height: 60px;
     background: rgba(254, 248, 236, 1);

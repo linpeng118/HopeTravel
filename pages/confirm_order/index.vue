@@ -308,7 +308,7 @@
       </section>
       <!--foot-->
       <section>
-        <confirm-foot :addorder="getaddoder()"></confirm-foot>
+        <confirm-foot :orderInfo="getaddoder()"></confirm-foot>
       </section>
     </section>
   </section>
@@ -649,7 +649,7 @@
           email: this.contact.email,
         }
         var addorder = {
-          product_id: this.product.product_id,
+          product_id: this.$store.state.product.reservePro.product_id,
           depart_date: date,
           rooms: this.countprice.room_attributes,
           value_added_services: this.countprice.attributes,
