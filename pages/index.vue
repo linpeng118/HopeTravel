@@ -302,6 +302,7 @@ export default {
         this.bannerList = this.indexData[0].data
         this.hotList = this.indexData[1].data.slice(0, 8)
         this.timeSalesList = this.indexData[2].data
+        this.navList = this.indexData[3].data
         // let {banner,hot, special} = data
         // this.bannerList = banner
         // this.hotList = hot.data[0].destination.slice(0,8)
