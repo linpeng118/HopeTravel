@@ -248,7 +248,7 @@
           margin-top: 12px;
           span {
             color: #989898;
-            font-size: 12px;
+            font-size: 16px;
           }
         }
         .btn-status {
