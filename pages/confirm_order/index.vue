@@ -694,10 +694,16 @@
   }
 
 </script>
-
+<style>
+  body{
+    overflow: scroll!important;
+    position: relative!important;
+  }
+</style>
 <style lang="scss" scoped>
   body{
     overflow: scroll!important;
+    position: relative!important;
   }
   .checkcoubtn {
     width: 440px;
@@ -821,7 +827,6 @@
     border-radius: 8px;
     padding-bottom: 30px;
   }
-
   .section0 {
     background-color: #f3f3f3;
     width: 750px;
@@ -830,7 +835,6 @@
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
   }
-
   .confirm-title p:nth-child(1) {
     padding-top: 10px;
     width: 100%;
@@ -840,7 +844,6 @@
     color: rgba(19, 19, 19, 1);
     opacity: 1;
   }
-
   .confirm-title p:nth-child(2) {
     width: 100%;
     font-size: 24px;
@@ -848,7 +851,6 @@
     color: rgba(168, 168, 168, 1);
     opacity: 1;
   }
-
   .confirm-item {
     width: 100%;
     background: rgba(255, 255, 255, 1);
@@ -859,7 +861,6 @@
     margin-bottom: 28px;
     margin-top: 20px;
   }
-
   .item-title {
     width: 100%;
     padding: 0 24px;
@@ -870,7 +871,6 @@
     font-size: 32px;
     border-bottom: 2px solid #dedede;
   }
-
   .item-con {
     width: 100%;
     box-sizing: border-box;
