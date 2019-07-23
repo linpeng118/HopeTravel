@@ -434,6 +434,9 @@
   }
 </script>
 <style scoped>
+  body{
+    overflow: scroll!important;
+  }
   .trip-head {
     width: 100%;
     height: 108px;
@@ -478,6 +481,8 @@
     color: #ff0000;
   }
   .section0 {
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
     background-color: #f3f3f3;
   }
   .section1 {

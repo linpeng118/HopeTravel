@@ -696,6 +696,9 @@
 </script>
 
 <style lang="scss" scoped>
+  body{
+    overflow: scroll!important;
+  }
   .checkcoubtn {
     width: 440px;
     height: 72px;
@@ -824,6 +827,8 @@
     width: 750px;
     box-sizing: border-box;
     padding: 20px 32px 200px 32px;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
   }
 
   .confirm-title p:nth-child(1) {
