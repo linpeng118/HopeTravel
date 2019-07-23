@@ -335,6 +335,7 @@
         background: rgba(250, 223, 165, 1);
         opacity: 1;
         border-radius: 200px;
+        border-color:rgba(250, 223, 165, 1)!important;
         font-size: 28px;
         position: relative;
         color: #ff5266;
