@@ -17,6 +17,12 @@
             :authCode="authCode" />
         </div>
       </template>
+      <div class="no-more"
+        v-else>
+        <img src="~/assets/imgs/net_error_no_data_img@2x.png"
+          alt="">
+        <h2>已经搜肠刮肚了了，还是没有找到</h2>
+      </div>
     </div>
   </div>
 </template>
@@ -66,6 +72,24 @@
     }
     .prodect-item {
       margin-bottom: 24px;
+    }
+    .no-more {
+      text-align: center;
+      padding-top: 200px;
+      color: #9b9b9b;
+      img {
+        width: 200px;
+        margin-bottom: 10px;
+      }
+      h2 {
+        font-size: 32px;
+        line-height: 60px;
+      }
+      h3 {
+        font-size: 24px;
+        line-height: 40px;
+        margin-bottom: 10px;
+      }
     }
   }
 </style>
