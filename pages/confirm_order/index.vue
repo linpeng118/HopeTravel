@@ -357,20 +357,9 @@
         showtype: '',
         xname: '',
         profile: '',//用户信息
-        isLogin:this.$route.query.isLogin || false, // 默认false-->游客
+        isLogin:this.$route.query.isLogin||false, // 默认false-->游客
         usertraver: [],//未登录的用户
 
-      }
-    },
-    beforeRouterEnter(to, form, next) {
-      if (form.path.indexOf('personal') != -1) {
-        next(vm => {
-          vm.setsaveuser = true;
-          vm.init()
-        })
-      }
-      else {
-        next();
       }
     },
     computed: {

@@ -135,7 +135,9 @@
         } else {
           if (this.redirect) {
             this.$router.push({
-              path: this.redirect
+              path: this.redirect,query:{
+                isLogin:true
+              }
             })
           } else {
             this.$router.go(-1)
