@@ -134,7 +134,7 @@
                 :key="ind"
                 class="user-item"
                 tag="li"
-                :to="{path:'/personal/addContacts',query:{'id':item.id,'checker':paramcontanct}}">
+                :to="{path:'/personal/addContacts',query:{'id':item.id,'checker':paramcontanct,'isLogin':isLogin}}">
                 <span>出行人{{ind+1}}<i>{{item.name}}</i></span>
                 <span><i>
                     <van-icon name="edit" /></i></span>
