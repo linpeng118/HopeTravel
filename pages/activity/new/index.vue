@@ -141,7 +141,7 @@
         let that = this;
         const {code, msg, data} = await getshow();
         if (code === 0) {
-          if (data.answe) {
+          if (data.answer) {
             that.isShow = false
           }
         }
@@ -172,7 +172,6 @@
       },
       // 领取优惠卷
       async receiveCoupons() {
-
         this.submiting = true
         let that = this;
         const {code, msg, data} = await getCouponsReceive({
