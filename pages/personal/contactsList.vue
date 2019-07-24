@@ -149,7 +149,7 @@
             })
           }
           if(objarrx.length>0){
-            this.$router.replace({ path: '/confirm_order', query: { checker: objarrx }})
+            this.$router.replace({ path: '/confirm_order', query: { checker: objarrx,isLogin:this.$route.query.isLogin }})
           }
           else{
             this.$router.replace({ path: '/confirm_order'})
