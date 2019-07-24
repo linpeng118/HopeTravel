@@ -362,6 +362,17 @@
 
       }
     },
+    beforeRouterEnter(to, form, next) {
+      if (form.path.indexOf('personal') != -1) {
+        next(vm => {
+          vm.setsaveuser = true;
+          vm.init()
+        })
+      }
+      else {
+        next();
+      }
+    },
     computed: {
       //获取计算价格参数
       get_vuex_countprice() {
@@ -387,17 +398,6 @@
         this.$store.commit("countprice", {is_point: val});
       },
     },
-    beforeRouterEnter(to, form, next) {
-      if (form.path.indexOf('personal') != -1) {
-        next(vm => {
-          vm.setsaveuser = true;
-          vm.init2()
-        })
-      }
-      else {
-        next();
-      }
-    },
     mounted() {
       let obj = getSessionStore('pricelist') ? JSON.parse(getSessionStore('pricelist')) : {};
       let this_ = this;
@@ -413,7 +413,6 @@
       }, 100)
       this.countprice = this.$store.state.confirm.countprice;
       if (this.countprice.savephone == '' || this.countprice.savephone == undefined || this.countprice.savephone == 'undefined') {
-        console.log('enter')
         this.init();
       }
       else {
@@ -454,7 +453,6 @@
           // this.pricedate = []
         }
       },
-
       //获得可用优惠卷列表
       async getCouponList(type) {
         let this_ = this;
@@ -575,7 +573,6 @@
           item.itemsx = null;
           obj.push(item);
         }
-        console.log(this_.showtrvel)
         this_.showtrvel = obj;
         for (let i = 0; i < this_.showtrvel.length; i++) {
           let itemx = this_.showtrvel[i];
@@ -590,7 +587,6 @@
             }
           }
         }
-
       },
       onClickLeft() {
         this.$router.go(-1)
