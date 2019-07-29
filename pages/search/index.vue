@@ -228,7 +228,7 @@
           name: 'product_list',
           query: {
             itemType: 0,
-            keyWords: this.searchWords
+            w: this.searchWords
           }
         })
       },
@@ -249,7 +249,7 @@
           name: 'product_list',
           query: {
             itemType: 0,
-            keyWords: key
+            w: key
           }
         })
       },
@@ -291,7 +291,7 @@
           name: 'product_list',
           query: {
             itemType: typeItem || type,
-            keyWords: this.searchWords
+            w: this.searchWords
           }
         })
       },
@@ -339,7 +339,7 @@
           name: 'product_list',
           query: {
             itemType: 0,
-            keyWords: keyword
+            w: keyword
           }
         })
       },

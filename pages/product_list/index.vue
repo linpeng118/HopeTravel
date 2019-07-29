@@ -161,7 +161,7 @@
     data() {
       return {
         isSearch: false,
-        searchKeyWords: this.$route.query.keyWords || null,
+        searchKeyWords: this.$route.query.w || null,
         criteria: {}, // 筛选条件数据
         prodPagination: {}, // 分页数据
         prodLoading: false, // 是否处于加载状态，加载过程中不触发load事件

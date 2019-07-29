@@ -12,7 +12,7 @@
     <van-icon class="right-wrap"
               slot="right">
       <div class="big-search">
-        <div :class="isSearch || isProductList ?'has-keyword': ''">
+        <div :class="isSearch || isProductList ? 'has-keyword': ''">
           <div class="search-box" v-if="serachtype=='1'" @click="pushserach()">
             <van-icon name="search" @click="pushserach()" />
             <input class="box" @click="pushserach()" :placeholder="searchKeyWords" v-model="query1" ref="query1" :class="isProductList ? 'list' : ''" />
@@ -61,8 +61,8 @@
     },
     data() {
       return {
-        query: this.$route.query.keyWords || '',
-        query1: this.$route.query.keyWords || '',
+        query: this.$route.query.w || '',
+        query1: this.$route.query.w || '',
       }
     },
     created() {

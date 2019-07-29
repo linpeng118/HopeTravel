@@ -1,9 +1,9 @@
 <template>
-  <div class="sort-box" v-if="dayShow">
-    <div class="setitem">
-      <span @click="selectDayItem(2, 'local')" :class="checkitem==2?'active':''"> {{$t('allType')}}</span>
-      <span @click="selectDayItem(4, 'local')" :class="checkitem==4?'active':''">{{$t('tours.tickets')}}</span>
-      <span @click="selectDayItem(5, 'local')" :class="checkitem==5?'active':''">{{$t('tours.aDayTrip')}}</span>
+  <div class="sort-box" v-if="dayShow" @click="closeLayer">
+    <div class="setitem" @click.stop>
+      <span @click="selectDayItem('yw', 'local')" :class="checkitem==2?'active':''"> {{$t('allType')}}</span>
+      <span @click="selectDayItem('ym', 'local')" :class="checkitem==4?'active':''">{{$t('tours.tickets')}}</span>
+      <span @click="selectDayItem('yr', 'local')" :class="checkitem==5?'active':''">{{$t('tours.aDayTrip')}}</span>
     </div>
 
   </div>
@@ -27,8 +27,10 @@ export default {
   },
   methods: {
     selectDayItem(item) {
-      console.log(item)
       this.$emit('selectSort', item)
+    },
+    closeLayer(){
+      this.$emit('close')
     }
   }
 }

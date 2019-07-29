@@ -1,13 +1,15 @@
 <template>
-  <div class="sort-box" v-if="sortShow">
-    <van-radio-group v-model="sortResult.id">
-      <van-cell-group>
-        <van-cell v-for="item in sortTypes" :key="item.id" :title="item.name" :class="sortResult.id === item.id ? 'active' : ''" clickable
-                  @click="selectSortItem(item)">
-          <van-icon slot="right-icon" name="success" class="custom-icon" v-if="sortResult.id === item.id" />
-        </van-cell>
-      </van-cell-group>
-    </van-radio-group>
+  <div class="sort-box" @click="closeLayer">
+    <div @click.stop>
+      <van-radio-group v-model="sortResult.id">
+        <van-cell-group>
+          <van-cell v-for="item in sortTypes" :key="item.id" :title="item.name" :class="sortResult.id === item.id ? 'active' : ''" clickable
+                    @click="selectSortItem(item)">
+            <van-icon slot="right-icon" name="success" class="custom-icon" v-if="sortResult.id === item.id" />
+          </van-cell>
+        </van-cell-group>
+      </van-radio-group>
+    </div>
   </div>
 </template>
 
@@ -15,10 +17,6 @@
 export default {
   name: 'sortItem',
   props: {
-    sortShow: {
-      type: Boolean,
-      default: false
-    },
     sortResult: {
       type: Object,
       default: null
@@ -37,6 +35,9 @@ export default {
     selectSortItem(item) {
       console.log(item)
       this.$emit('selectSort', item)
+    },
+    closeLayer(){
+      this.$emit('close')
     }
   }
 }

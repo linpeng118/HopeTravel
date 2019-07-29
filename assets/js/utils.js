@@ -1,3 +1,4 @@
+import {LIST_PARAMS} from './config'
 /**
  * 存储localStorage
  */
@@ -176,6 +177,73 @@ function isCard(val) {
   return /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(val);
 }
 
+/**
+ * 根据导航序列化字段
+ * @returns {obj}
+ */
+function getParams(str) {
+  // tj 途径景点；cf 出发城市; js 结束城市; sj 行程天数；jg 价格预算；page 为当前的页数
+  // yg 当地跟团 type 1；yw 当地玩乐 type 2；yj稀饭自营 type 3 ；yl 游轮 type 7；ym 门票演出 4; yr 一日游 5
+  // /21312/yg-cf29-tj143_131-js32
+  let _searchArr = str.split('-')
+  let res = {}
+  let type = {
+    ya:0,
+    yg:1,
+    yw:2,
+    yj:3,
+    yl:7,
+    ym:4,
+    yr:5,
+  }
+  for(let i = 0, len = _searchArr.length; i < len ; i++){
+    if(_searchArr[i].length === 2 && _searchArr[i].indexOf('y') ===0 ) {
+      res.type = type[_searchArr[i]]
+    } else {
+      res[LIST_PARAMS[_searchArr[i].substring(0,2)]] = _searchArr[i].substring(2)
+    }
+  }
+  if(res.span_city){
+    res.span_city = res.span_city.replace('_', ',')
+  }
+  return res
+}
+
+function changeParams(params) {
+  let _obj = {
+     'start_city':'cf',
+     'stop_city':'js',
+     'span_city':'tj',
+     'duration':'sj',
+     'price':'jg',
+     'product_type':'pt'
+  }
+  let _arr = ['','yg','yw','yj','ym','yr','','yl']
+  let resStr = `/${params.category}/`
+  Object.keys(params).forEach(key => {
+    if(!params[key]){
+      delete params[key]
+    }
+    if(key === 'span_city') {
+      params.span_city = params.span_city.split(',').sort((a,b) => {
+        return parseInt(a) - parseInt(b)
+      }).join('_')
+    }
+  })
+  if(params.span_city) {
+    params.span_city = params.span_city.split(',').sort((a,b) => {
+      return parseInt(a) - parseInt(b)
+    }).join('_')
+  }
+
+  Object.keys(params).forEach(key => {
+    if(key !== 'category' && key !== 'type') {
+      resStr += `${_obj[key]}${params[key]}-`
+    }
+  })
+  return resStr.slice(0,-1)
+}
+
 export {
   setLocalStore,
   getLocalStore,
@@ -192,5 +260,7 @@ export {
   isEmail,
   isCard,
   setSessionStore,
-  getSessionStore
+  getSessionStore,
+  getParams,
+  changeParams
 }

@@ -23,9 +23,6 @@ export const getProductList = (data) => {
       order: data.order || '',
       cruise_id: data.lines || null,
       cruise_brand_id: data.brand || null,
-    },headers: {
-      'platform': 'mobile ',
-      'site' : 'mobile'
     }
   })
 }

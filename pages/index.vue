@@ -282,7 +282,7 @@
         if (link.indexOf('?') < 0) {
           window.location.href = link
         } else {
-          let query = link.split('?')[1].replace('keyword', 'keyWords')
+          let query = link.split('?')[1].replace('keyword', 'w')
           this.$router.push({
             path: `/product_list?${query}`,
           })
