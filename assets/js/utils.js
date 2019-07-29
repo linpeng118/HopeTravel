@@ -182,7 +182,7 @@ function isCard(val) {
  * @returns {obj}
  */
 function getParams(str) {
-  // tj 途径景点；cf 出发城市; js 结束城市; sj 行程天数；jg 价格预算；page 为当前的页数
+  // tj 途径景点；cf 出发城市; js 结束城市; sj 行程天数；jg 价格预算；page 为当前的页数；zl 游轮
   // yg 当地跟团 type 1；yw 当地玩乐 type 2；yj稀饭自营 type 3 ；yl 游轮 type 7；ym 门票演出 4; yr 一日游 5
   // /21312/yg-cf29-tj143_131-js32
   let _searchArr = str.split('-')
@@ -211,37 +211,33 @@ function getParams(str) {
 
 function changeParams(params) {
   let _obj = {
-     'start_city':'cf',
-     'stop_city':'js',
-     'span_city':'tj',
-     'duration':'sj',
-     'price':'jg',
-     'product_type':'pt'
+    'start_city':'cf',
+    'stop_city':'js',
+    'span_city':'tj',
+    'duration':'sj',
+    'price':'jg',
+    'product_type':'pt',
+    'brand': 'zl'
   }
-  let _arr = ['','yg','yw','yj','ym','yr','','yl']
-  let resStr = `/${params.category}/`
+  let _arr = ['ya','yg','yw','yj','ym','yr','','yl']
+  let resArr = []
   Object.keys(params).forEach(key => {
-    if(!params[key]){
-      delete params[key]
-    }
-    if(key === 'span_city') {
+    if(key === 'span_city'&& params.span_city) {
       params.span_city = params.span_city.split(',').sort((a,b) => {
         return parseInt(a) - parseInt(b)
       }).join('_')
     }
-  })
-  if(params.span_city) {
-    params.span_city = params.span_city.split(',').sort((a,b) => {
-      return parseInt(a) - parseInt(b)
-    }).join('_')
-  }
-
-  Object.keys(params).forEach(key => {
-    if(key !== 'category' && key !== 'type') {
-      resStr += `${_obj[key]}${params[key]}-`
+    if(params[key]) {
+      if(key !== 'category' && key !== 'type') {
+        resArr.push(`${_obj[key]}${params[key]}`)
+      }
     }
   })
-  return resStr.slice(0,-1)
+  resArr.sort()
+  if(params.type || params.type === 0) {
+    resArr.unshift(`${_arr[params.type]}`)
+  }
+  return `/${params.category}/${resArr.join('-')}`
 }
 
 export {

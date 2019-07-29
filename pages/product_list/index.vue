@@ -111,8 +111,7 @@
     </div>
     <!--更多列表的选择-->
     <van-popup v-model="showList" position="right" class="filter-select more-tag">
-      <div class="filter-main-box" @click="showList = false">
-      </div>
+      <div class="filter-main-box" @click="showList = false"></div>
       <city-list :multiple="multipleTag" :showBar="true" :dataObj="moreLists" @selectItemCancel="selectItemCancel" @selectItem="selectItem" ref="moreList" @back="moreListBack"></city-list>
     </van-popup>
     <drift-aside class="drift"></drift-aside>

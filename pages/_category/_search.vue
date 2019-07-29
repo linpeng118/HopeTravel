@@ -14,39 +14,39 @@
         <van-tabs v-model="active" @click="changeTypeClick">
           <template v-for="item in tagsList">
             <van-tab :title="item.title" :key="item.type">
-              <van-pull-refresh v-model="prodLoading" @refresh="onRefresh">
-                <van-list v-model="prodLoading" :finished="prodFinished" :finished-text="$t('noMore')" @load="onLoad" :immediate-check="false">
-                  <template>
-                    <div class="filter-box">
-                      <div class="sort-left all-px" :style="showcolor=='sort'?'':'color:#3c3c3c'" @click="sortChange">
-                        {{sortResult.name}}
-                        <van-icon name="arrow-down" />
-                      </div>
-                      <div class="sort-left" :style="showcolor=='type'?'':'color:#3c3c3c'" @click="typeChange" v-if="active === 2">
-                        {{$t('typex')}}
-                        <van-icon name="arrow-down" />
-                      </div>
-                      <div class="sort-left" :style="showcolor=='router'?'':'color:#3c3c3c'" v-if="active === 4" @click="routerChange">
-                        {{$t('routerSel')}}
-                        <van-icon name="arrow-down" />
-                      </div>
-                      <div class="sort-left" :style="showcolor=='day'?'':'color:#3c3c3c'" @click="dayChange" v-if="active !== 2">
-                        {{$t('productListPage.duration')}}
-                        <van-icon name="arrow-down" />
-                      </div>
-                      <div class="right" @click="filterSelect" v-if="isShowFilterBtn">
-                        {{$t('screen')}}
-                        <van-icon name="filter-o" />
-                      </div>
+              <!--<van-pull-refresh v-model="prodLoading" @refresh="onRefresh">-->
+              <!--</van-pull-refresh>-->
+              <van-list v-model="prodLoading" :finished="prodFinished" :finished-text="$t('noMore')" @load="onLoad" :immediate-check="false">
+                <template>
+                  <div class="filter-box">
+                    <div class="sort-left all-px" :style="showcolor=='sort'?'':'color:#3c3c3c'" @click="sortChange">
+                      {{sortResult.name}}
+                      <van-icon name="arrow-down" />
                     </div>
-                  </template>
-                  <template v-if="productList.length">
-                    <van-cell v-for="item in productList" :key="item.product_id + Math.random()">
-                      <product-list :data="item" @selectItem="selectProductDetail" :showTag="active === 0"></product-list>
-                    </van-cell>
-                  </template>
-                </van-list>
-              </van-pull-refresh>
+                    <div class="sort-left" :style="showcolor=='type'?'':'color:#3c3c3c'" @click="typeChange" v-if="active === 2">
+                      {{$t('typex')}}
+                      <van-icon name="arrow-down" />
+                    </div>
+                    <div class="sort-left" :style="showcolor=='router'?'':'color:#3c3c3c'" v-if="active === 4" @click="routerChange">
+                      {{$t('routerSel')}}
+                      <van-icon name="arrow-down" />
+                    </div>
+                    <div class="sort-left" :style="showcolor=='day'?'':'color:#3c3c3c'" @click="dayChange" v-if="active !== 2">
+                      {{$t('productListPage.duration')}}
+                      <van-icon name="arrow-down" />
+                    </div>
+                    <div class="right" @click="filterSelect">
+                      {{$t('screen')}}
+                      <van-icon name="filter-o" />
+                    </div>
+                  </div>
+                </template>
+                <template v-if="productList.length">
+                  <van-cell v-for="item in productList" :key="item.product_id + Math.random()">
+                    <product-list :data="item" @selectItem="selectProductDetail" :showTag="active === 0"></product-list>
+                  </van-cell>
+                </template>
+              </van-list>
             </van-tab>
           </template>
         </van-tabs>
@@ -62,20 +62,21 @@
             <template v-if="key!='duration' && key!='lines'">
               <div class="cell-list" v-if="item.total">
                 <div class="left">{{showTitle(key)}}</div>
-                <div class="right" v-if="item.total > 6" @click="showMoreFilter(key, item)">
-                  <span class="text">{{selectNameShow(key)}}</span>
-                  <i class="van-icon van-icon-arrow" :ref="'filter' + key"></i>
+                <div class="right" @click="showMoreFilter(key, item)">
+                  <span class="text">{{selectNameShow(key)}} </span>
+                  <i class="van-icon van-icon-arrow" :ref="'filter' + key" v-if="item.total > 6"> </i>
                 </div>
               </div>
               <div class="filter-tags" :ref="'tags' + key">
                 <div class="item"
                      v-for="(city,index) in item.items"
-                     :key="city.id + city.name"
-                     :class="key!='brand'?filterActive(city.id, key):filterActive(city.brand_id, key)"
-                     @click="filterClick(city, key, index)" :ref="key + currentType">{{city.name||city.brand_name}}</div>
+                     :key="city.name"
+                     :class="filterActive(city.id, key)"
+                     @click="filterClick(city, key, index)" :ref="key + currentType">{{city.name}}</div>
               </div>
             </template>
           </div>
+          <div v-if="!isShowFilterBtn" class="no-data">没有搜索到数据</div>
         </div>
       </div>
       <div class="bottom-btn">
@@ -91,22 +92,36 @@
     <div class="sort-box" v-if="typeShow">
       <play-item :dayShow="typeShow" :checkitem="checktype" @selectSort="selectTypeItem" @close="typeShow = false"></play-item>
     </div>
+    <!--行程天数搜索-->
+    <div class="sort-box" v-if="dayShow && (filterLists.duration && filterLists.duration.total)">
+      <day-item :dayShow="dayShow" :checkitem="filterResult.duration" :dayResult="filterLists.duration" @selectSort="selectDayItem" @close="dayShow = false"></day-item>
+    </div>
+    <!--航线搜索-->
+    <div class="sort-box" v-if="routerShow && (filterLists.lines && filterLists.lines.total)">
+      <router-item :dayShow="routerShow" :checkitem="Number(checkrouter)" :dayResult="filterLists.lines" @selectSort="selectRouterItem" @close="routerShow= false"></router-item>
+    </div>
+    <!--更多列表的选择-->
+    <van-popup v-model="showList" position="right" class="filter-select more-tag">
+      <div class="filter-main-box" @click="showList = false"></div>
+      <city-list :multiple="multipleTag" :showBar="true" :dataObj="moreLists" @selectItemCancel="selectItemCancel" @selectItem="selectItem" ref="moreList" @back="moreListBack"></city-list>
+    </van-popup>
+    <drift-aside class="drift"></drift-aside>
   </section>
 </template>
 
 <script>
-  import LayHeader from '@/components/header/search'
-  import sortItem from '@/components/search/sortItem'
-  import dayItem from '@/components/search/dayItem'
-  import playItem from '@/components/search/playItem'
-  import routerItem from '@/components/search/routerItem'
-  import ProductList from '@/components/list/productList'
-  import CityList from '@/components/list/cityList'
-  import {getProductList, getFilterList} from '@/api/products'
-  import {getmenuSearch} from '@/api/search'
-  import DriftAside from '@/components/drift_aside'
-  import {getParams,changeParams} from '@/assets/js/utils'
-  import {LIST_PARAMS} from '@/assets/js/config'
+import LayHeader from '@/components/header/search'
+import sortItem from '@/components/search/sortItem'
+import dayItem from '@/components/search/dayItem'
+import playItem from '@/components/search/playItem'
+import routerItem from '@/components/search/routerItem'
+import ProductList from '@/components/list/productList'
+import CityList from '@/components/list/cityList'
+import {getProductList, getFilterList} from '@/api/products'
+import {getmenuSearch} from '@/api/search'
+import DriftAside from '@/components/drift_aside'
+import {getParams,changeParams} from '@/assets/js/utils'
+import {LIST_PARAMS} from '@/assets/js/config'
 export default {
    async asyncData({params, query, $axios, store}){
       // 路由进来则会请求数据
@@ -178,7 +193,9 @@ export default {
         product_type: null,
         category: null,
         span_city: null,
-        start_city: null
+        start_city: null,
+        duration: null,
+        brand: null,
       }, // 筛选的结果
       activeNames: ['1'],
       moreLists: {}, // 更多的列表
@@ -192,7 +209,8 @@ export default {
         // tag: [], 不要行程特色
         duration: [],
         product_type: [],
-        category: []
+        category: [],
+        brand: [],
       },
       isFilterShow: false,
       firstload:true,
@@ -208,19 +226,24 @@ export default {
         sort: 5,
         total: 1,
       },
-      isShowFilterBtn: true, // 是否显示筛选按钮
     }
   },
   computed: {
     multipleTag() {
       return this.moreLists.type !== 'start_city' && this.moreLists.type !== 'stop_city'
+    },
+    // 是否显示筛选按钮
+    isShowFilterBtn(){
+      return Object.values(this.filterLists).some(item => {
+        return item.total > 0
+      })
     }
   },
   watch:{
     $route:{
       handler(){
         this.getFilterList()
-        // this.searchGetProduct(this.searchParams)
+        this.searchGetProduct(this.searchParams)
       },
       immediate:true
     }
@@ -256,19 +279,31 @@ export default {
     queryChange(value) {
       this.searchKeyWords = value
     },
-    onLoad(){},
+    onLoad(){
+      let submitParams = {
+        page: (this.prodPagination.page || 0) + 1,
+        order_by: this.sortResult.order_by || null,
+        order: this.sortResult.order || null,
+        keyword: this.searchKeyWords || null,
+        brand: this.filterResult.brand || null,
+        ...this.searchParams
+      }
+
+      this.searchGetProduct(submitParams)
+    },
     changeTypeClick(name, title){
       //ya 所有； yg 当地跟团 type 1；yw 当地玩乐 type 2；yj稀饭自营 type 3 ；yl 游轮 type 7
       let {category,search} = this.$route.params
       let _type = ['ya', 'yg','yw','yj','yl']
-      let _newSearch = ''
+      let _newSearch
       if(search.length === 2) {
         _newSearch = _type[name]
       } else {
-        _newSearch = _type[name] + '-' +search.substring(2)
+        _newSearch = _type[name] + search.substring(2)
       }
-
-
+      if(_newSearch.indexOf('zl') >= 0) {
+        _newSearch = _newSearch.substring(0, _newSearch.match(/(-zl\d{1,})/).index)
+      }
       this.$router.push({
         name:'category-search',
         params:{
@@ -279,30 +314,33 @@ export default {
     },
     // 改变类别搜索条件
     selectTypeItem(item){
-      //  ym 门票演出 4; yr 一日游 5
       let {category,search} = this.$route.params
-      let _arr = search.split('-')
-      _arr[0] = item
+      search = item + search.substring(2)
       this.$router.push({
-        name:'list-category-search',
+        name:'category-search',
         params:{
           category,
-          search: _arr.join('-')
+          search
         }
       })
     },
     // 初始化筛选列表
     async getFilterList() {
-      let {code, data} = await getFilterList(this.searchParams)
-      if (code === 0) {
-        delete data.tag
-        this.filterLists = data;
-      }
-      for(let key in data) {
-        if(!data[key].total){
-          this.isShowFilterBtn = false
-          break
+      let subParams
+      if(this.searchParams.type){
+        subParams = this.searchParams
+      } else {
+        subParams = {
+          ...this.searchParams,
+          type : null
         }
+      }
+      let {code, data = {}} = await getFilterList(subParams)
+      if (code === 0) {
+        if(data.tag) {
+          delete data.tag
+        }
+        this.filterLists = data;
       }
     },
     // 条件查询选择
@@ -337,6 +375,7 @@ export default {
     },
     // 重置筛选条件
     resetFilter(){
+      this.showFilter = false
       this.sureSearchList = {
         start_city: [],
         stop_city: [],
@@ -373,17 +412,8 @@ export default {
       // this.prodPagination = {}
       // this.productList = []
       // 关闭蒙层
-      // this.showFilter = false
-      // tj 途径景点；cf 出发城市; js 结束城市; sj 行程天数；jg 价格预算；page 为当前的页数
-      // cf29-tj143_131-js32
-      // yg 当地跟团 type 1；yw 当地玩乐 type 2；yj稀饭自营 type 3 ；yl 游轮 type 7；ym 门票演出 4; yr 一日游 5
-      let newParams = Object.assign({}, this.filterResult, this.searchParams)
-
-      // let _arr = ['','yg','yw','yj','ym','yr','','yl']
-      // let resStr = `/${params.category}/`
-
-      console.log(111, changeParams(newParams))
-      this.$router.push(`${changeParams(newParams)}`)
+      this.showFilter = false
+      this.changeRouter()
     },
     // 显示title
     showTitle(name) {
@@ -403,30 +433,65 @@ export default {
     // 展示显示的name
     selectNameShow(key) {
       let names = this.sureSearchList[key].map(item => {
-        if(key!='brand'){
-          return item.name
-        }
-        else{
-          return item.brand_name
-        }
+        return item.name
       })
       return names.length > 3 ? names.splice(0,3).join(',') + '...' : names.join(',')
     },
     currentType(){},
+    // 航线查询选择
+    selectRouterItem(item){
+      // 进行数据请求
+      let params = {
+        lines: item.id,
+        ...this.searchParams
+      }
+      this.routerShow = !this.routerShow
+      this.checkrouter = item.id
+      this.searchGetProduct(params, 'lines')
+    },
+    // 天数选择操作
+    selectDayItem(item){
+      this.filterResult.duration = item.id
+      this.changeRouter()
+    },
     // 视觉判断tag是否选中
     filterActive(id,key) {
-      let index = this.sureSearchList[key].findIndex(list => (id === list.id||list.brand_id))
+      let index = this.sureSearchList[key].findIndex(list => (id === list.id))
       return index >=0 ? 'active' : ''
     },
-    onRefresh(){},
+    // 取消
+    selectItemCancel(type) {
+      this.sureSearchList[type] = []
+      this.filterResult[type] = ''
+    },
+    // 关闭更多选择层
+    selectItem(lists,type) {
+      this.sureSearchList[type] = lists
+      let spanCity = []
+      for(let i= 0,len = lists.length;i < len; i++) {
+        spanCity.push(lists[i].id)
+      }
+      this.searchParams.span_city = spanCity.sort().join(',')
+      this.showList = false
+    },
+    // 更多列表返回
+    moreListBack() {
+      this.showList = false
+    },
     sortChange(){
       this.sortShow = !this.sortShow
     },
     typeChange(){
       this.typeShow = !this.typeShow
     },
-    routerChange(){},
-    dayChange(){},
+    routerChange(){
+      console.log(222)
+      this.routerShow = !this.routerShow
+      console.log(this.routerShow)
+    },
+    dayChange(){
+      this.dayShow = !this.dayShow
+    },
     // 筛选条件
     filterSelect () {
       this.showFilter = !this.showFilter
@@ -435,23 +500,22 @@ export default {
     selectProductDetail(){},
     // 选中筛选
     filterClick(item, key) {
-      let objid = key == 'brand' ? item.brand_id : item.id
-      let index = this.sureSearchList[key].findIndex(list => (objid === list.id))
+      // console.log(item, key)
+      let index = this.sureSearchList[key].findIndex(list => (item.id === list.id))
       if(index >= 0) {
         this.sureSearchList[key].splice(index, 1)
       } else {
         if(key === 'span_city' || key === 'duration' || key === 'product_type'|| key === 'category') {
           this.sureSearchList[key].push(item) // 多选项
-        } else if (key === 'start_city' || key === 'stop_city' || key === 'price'|| key === 'brand'){
+        } else if (key === 'start_city' || key === 'stop_city' || key === 'price'|| key === 'brand') {
           this.sureSearchList[key] = [item] // 单选项
         }
       }
-      // console.log(this.sureSearchList)
-      let id = key=='brand'?item.brand_id:item.id
+      let id = item.id
       if(!this.filterResult[key]) {
-        this.filterResult[key] = objid + ''
+        this.filterResult[key] = item.id + ''
       } else {
-        if (key === 'start_city' || key === 'stop_city' || key === 'price') {
+        if (key === 'start_city' || key === 'stop_city' || key === 'price'|| key === 'brand') {
           this.filterResult[key] = id
         } else {
           if(this.filterResult[key].indexOf(id) < 0) {
@@ -463,9 +527,21 @@ export default {
             this.filterResult[key] = _arr.join(',')
           }
         }
-
       }
-      // console.log(this.filterResult)
+      console.log(this.filterResult)
+    },
+    // 数据变化引起导航变化
+    changeRouter(){
+      // 选处理数据
+      let _copyObj = {}
+      for(let key in this.filterResult) {
+        if(this.filterResult[key]) {
+          _copyObj[key] = this.filterResult[key]
+        }
+      }
+      let newParams = Object.assign({}, this.searchParams, _copyObj)
+      // console.log(newParams, changeParams(newParams))
+      this.$router.push(`${changeParams(newParams)}`)
     },
     // 格式化拼音列表
     _nomalLizePinyin(data) {
@@ -501,9 +577,6 @@ export default {
         color: #EF9A1A;
         i{
           vertical-align: text-top;
-        }
-        &.all-px{
-          width: 220px;
         }
       }
       .right{
@@ -565,6 +638,12 @@ export default {
           color: #fff;
         }
       }
+    }
+    .no-data{
+      text-align: center;
+      padding-top: 200px;
+      font-size:28px;
+      color: #5E5E5E;
     }
     .cell-list{
       padding: 0 32px;

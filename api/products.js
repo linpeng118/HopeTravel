@@ -8,8 +8,8 @@ export const getProductList = (data) => {
   return axios.get('/api/products', {
     params: {
       type: data.type,
-      keyword: data.keyword || '',
-      page: data.page || null,
+      keyword: data.keyword || null,
+      page: data.page || 1,
       page_size: data.page_size || 9,
       start_city: data.start_city || null,
       stop_city: data.stop_city || null,
@@ -18,9 +18,9 @@ export const getProductList = (data) => {
       duration: data.duration || null,
       price: data.price || null,
       product_type: data.product_type || null,
-      category: data.category || '',
-      order_by: data.order_by || '',
-      order: data.order || '',
+      category: data.category || null,
+      order_by: data.order_by || null,
+      order: data.order || null,
       cruise_id: data.lines || null,
       cruise_brand_id: data.brand || null,
     }
