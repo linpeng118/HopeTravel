@@ -79,8 +79,8 @@
                 <div class="item"
                      v-for="(city,index) in item.items"
                      :key="city.id + city.name"
-                     :class="key!='brand'?filterActive(city.id, key):filterActive(city.brand_id, key)"
-                     @click="filterClick(city, key, index)" :ref="key + currentType">{{city.name||city.brand_name}}</div>
+                     :class="filterActive(city.id, key)"
+                     @click="filterClick(city, key, index)" :ref="key + currentType">{{city.name}}</div>
               </div>
             </template>
 
@@ -193,7 +193,8 @@
           tag: [],
           duration: [],
           product_type: [],
-          category: []
+          category: [],
+          brand: []
         },
         isFilterShow: false,
         firstload:true,
@@ -539,7 +540,7 @@
       },
       // 选中筛选
       filterClick(item, key) {
-        let objid = key=='brand'?item.brand_id:item.id
+        let objid = item.id
         let index = this.sureSearchList[key].findIndex(list => (objid === list.id))
         if(index >= 0) {
           this.sureSearchList[key].splice(index, 1)
@@ -551,7 +552,7 @@
           }
         }
         console.log(this.sureSearchList)
-        let id = key=='brand'?item.brand_id:item.id
+        let id = item.id
         if(!this.filterResult[key]) {
           this.filterResult[key] = objid + ''
         } else {
@@ -636,18 +637,14 @@
       },
       // 视觉判断tag是否选中
       filterActive(id,key) {
-        let index = this.sureSearchList[key].findIndex(list => (id === list.id||list.brand_id))
+        let index = this.sureSearchList[key].findIndex(list => (id === list.id))
         return index >=0 ? 'active' : ''
       },
       // 展示显示的name
       selectNameShow(key) {
+        console.log(key)
         let names = this.sureSearchList[key].map(item => {
-          if(key!='brand'){
-            return item.name
-          }
-          else{
-            return item.brand_name
-          }
+          return item.name
         })
         return names.length > 3 ? names.splice(0,3).join(',') + '...' : names.join(',')
       },
