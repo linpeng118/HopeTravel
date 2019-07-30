@@ -28,3 +28,13 @@ export const LIST_PARAMS = {
   pt: 'product_type',
   zl: 'brand'
 }
+
+export const TRUE_PARAMS = {
+  'start_city':'cf',
+  'stop_city':'js',
+  'span_city':'tj',
+  'duration':'sj',
+  'price':'jg',
+  'product_type':'pt',
+  'brand': 'zl'
+}

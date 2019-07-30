@@ -7,6 +7,7 @@
       @leftClick="leftClick"
       :isProductList="true"
       :serachtype="searchType"
+      @searchKey="goToKeywordPage"
     ></lay-header>
     <!--主要内容-->
     <div class="list-wrap">
@@ -106,6 +107,7 @@
       <city-list :multiple="multipleTag" :showBar="true" :dataObj="moreLists" @selectItemCancel="selectItemCancel" @selectItem="selectItem" ref="moreList" @back="moreListBack"></city-list>
     </van-popup>
     <drift-aside class="drift"></drift-aside>
+    <loading v-if="loadingData"></loading>
   </section>
 </template>
 
@@ -122,6 +124,7 @@ import {getmenuSearch} from '@/api/search'
 import DriftAside from '@/components/drift_aside'
 import {getParams,changeParams} from '@/assets/js/utils'
 import {LIST_PARAMS} from '@/assets/js/config'
+import Loading from '@/components/loading'
 export default {
    async asyncData({params, query, $axios, store}){
       // 路由进来则会请求数据
@@ -131,7 +134,7 @@ export default {
     let {category,search = ''} = params
     let {page = 1, sem = '0', w = null} = query
 
-    let getSearch
+    let getSearch = {}
      if(search){
        getSearch = getParams(search)
      }
@@ -173,7 +176,8 @@ export default {
     CityList,
     routerItem,
     DriftAside,
-    dayItem
+    dayItem,
+    Loading
   },
   data() {
     return {
@@ -226,6 +230,7 @@ export default {
         sort: 5,
         total: 1,
       },
+      loadingData: true // 列表更新的加载
     }
   },
   computed: {
@@ -242,8 +247,12 @@ export default {
   watch:{
     $route:{
       handler(){
+        let _params = {
+          keyword: this.searchKeyWords || null,
+          ...this.searchParams
+        }
         this.getFilterList()
-        this.searchGetProduct(this.searchParams)
+        this.searchGetProduct(_params)
       },
       immediate:true
     }
@@ -271,13 +280,21 @@ export default {
         this.$router.push({
           path: '/'
         })
-      } else{
+      } else if(this.$route.query.sr && this.searchKeyWords){
+        // 处理返回搜索页面的情况
+        this.$router.push(`/search/keyword?w=${this.searchKeyWords}&sr=1`)
+      } else {
         this.$router.go(-1)
       }
+
+    },
+    // 出搜索页面
+    goToKeywordPage(){
+      let route = this.searchKeyWords ? `/search/keyword?w=${this.searchKeyWords}`: '/search/keyword'
+      this.$router.push(route)
     },
     // 改变关键字
     queryChange(value) {
-      this.searchKeyWords = value
     },
     onLoad(){
       let submitParams = {
@@ -326,12 +343,16 @@ export default {
     },
     // 初始化筛选列表
     async getFilterList() {
-      let subParams
+      let subParams = {}
       if(this.searchParams.type){
-        subParams = this.searchParams
+        subParams = {
+          keyword: this.searchKeyWords || null,
+          ...this.searchParams
+        }
       } else {
         subParams = {
           ...this.searchParams,
+          keyword: this.searchKeyWords || null,
           type : null
         }
       }
@@ -351,16 +372,22 @@ export default {
       let params = {
         order_by: this.sortResult.order_by || null,
         order: this.sortResult.order || null,
+        keyword: this.searchKeyWords || null,
         ...this.searchParams
       }
       this.searchGetProduct(params, 'sort')
     },
     // 数据请求
     async searchGetProduct(params, sort){
+      if(sort){
+        this.loadingData = true
+      }
       const {data,code,pagination} = await getProductList(params)
       if(code === 0){
+        this.loadingData = false
         if(sort){
           this.productList = data
+          this.loadingData = false
         } else {
           this.productList.push(...data)
         }
@@ -443,6 +470,7 @@ export default {
       // 进行数据请求
       let params = {
         lines: item.id,
+        keyword: this.searchKeyWords || null,
         ...this.searchParams
       }
       this.routerShow = !this.routerShow

@@ -129,6 +129,8 @@
   import {getProductList, getFilterList} from '@/api/products'
   import {getmenuSearch} from '@/api/search'
   import DriftAside from '@/components/drift_aside'
+  import {changeParams} from '@/assets/js/utils'
+
   export default {
     name: 'product_list',
     components: {
@@ -154,8 +156,29 @@
         ]
       }
     },
-    asyncData({route}){
+    asyncData({route, query,redirect}){
       // console.log(2222222222, route)
+      // category=89,89&product_type=&span_city=&start_city=32,29&itemType=0
+      let  {category,span_city,start_city,w,sem} = query
+      let _obj = {
+        category,span_city,start_city
+      }
+      if(query.itemType){
+        _obj.type = query.itemType
+      }
+      let url = changeParams(_obj)
+      if(w){
+        url+=`?w=${w}`
+      }
+      if(sem){
+        if(url.indexOf('?') >= 0){
+          url+=`&sem=${sem}`
+        } else {
+          url+=`?w=${w}`
+        }
+      }
+      // console.log(changeParams(_obj))
+      redirect(changeParams(_obj))
     },
     data() {
       return {

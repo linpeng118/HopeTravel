@@ -1,4 +1,4 @@
-import {LIST_PARAMS} from './config'
+import {LIST_PARAMS, TRUE_PARAMS} from './config'
 /**
  * 存储localStorage
  */
@@ -197,7 +197,7 @@ function getParams(str) {
     yr:5,
   }
   for(let i = 0, len = _searchArr.length; i < len ; i++){
-    if(_searchArr[i].length === 2 && _searchArr[i].indexOf('y') ===0 ) {
+    if(_searchArr[i].length === 2 && _searchArr[i].indexOf('y') === 0 ) {
       res.type = type[_searchArr[i]]
     } else {
       res[LIST_PARAMS[_searchArr[i].substring(0,2)]] = _searchArr[i].substring(2)
@@ -210,15 +210,15 @@ function getParams(str) {
 }
 
 function changeParams(params) {
-  let _obj = {
-    'start_city':'cf',
-    'stop_city':'js',
-    'span_city':'tj',
-    'duration':'sj',
-    'price':'jg',
-    'product_type':'pt',
-    'brand': 'zl'
-  }
+  // let _obj = {
+  //   'start_city':'cf',
+  //   'stop_city':'js',
+  //   'span_city':'tj',
+  //   'duration':'sj',
+  //   'price':'jg',
+  //   'product_type':'pt',
+  //   'brand': 'zl'
+  // }
   let _arr = ['ya','yg','yw','yj','ym','yr','','yl']
   let resArr = []
   Object.keys(params).forEach(key => {
@@ -229,7 +229,7 @@ function changeParams(params) {
     }
     if(params[key]) {
       if(key !== 'category' && key !== 'type') {
-        resArr.push(`${_obj[key]}${params[key]}`)
+        resArr.push(`${TRUE_PARAMS[key]}${params[key]}`)
       }
     }
   })
