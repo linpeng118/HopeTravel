@@ -9,17 +9,16 @@
     <van-icon class="left-wrap"
               name="arrow-left"
               slot="left" />
-    <van-icon class="right-wrap"
-              slot="right">
+    <van-icon class="right-wrap" slot="right">
       <div class="big-search">
-        <div :class="isSearch || isProductList ?'has-keyword': ''">
+        <div :class="isSearch || isProductList ? 'has-keyword': ''">
           <div class="search-box" v-if="serachtype=='1'" @click="pushserach()">
             <van-icon name="search" @click="pushserach()" />
             <input class="box" @click="pushserach()" :placeholder="searchKeyWords" v-model="query1" ref="query1" :class="isProductList ? 'list' : ''" />
           </div>
           <div class="search-box" v-else>
             <van-icon name="search" />
-            <input class="box" :placeholder="searchKeyWords" v-model="query" ref="query" :class="isProductList ? 'list' : ''" />
+            <input class="box" :placeholder="searchKeyWords" v-model="query" ref="query" :class="isProductList ? 'list' : ''" @focus="emitOperate" />
             <van-icon name="clear" v-show="query" @click="clear" />
           </div>
           <div class="search-btn" @click="getSearchList" v-if="isSearch">{{$t('headerSearch.search')}}</div>
@@ -61,8 +60,8 @@
     },
     data() {
       return {
-        query: this.$route.query.keyWords || '',
-        query1: this.$route.query.keyWords || '',
+        query: this.$route.query.w || '',
+        query1: this.$route.query.w || '',
       }
     },
     created() {
@@ -86,9 +85,9 @@
             path: '/search'
           })
       },
-      goPersonal(){
-
-
+      // 派发数据给列表页面
+      emitOperate(){
+        this.$emit('searchKey')
       }
     }
   }
@@ -141,19 +140,18 @@
     }
     .box{
       width: 550px;
-      height: 68px;
-      padding: 10px 0 10px 10px;
-      line-height: 48px;
       border: none;
       outline: 0;
       color: #666;
       background: #DBDBDB;
-      &::-webkit-input-placeholder{
-        color: #fff !important;
-      }
+      padding: 10px 0;
+      line-height: 40px;
       &.list{
         width: 470px !important;
       }
+    }
+    input{
+
     }
     i.van-icon-clear{
       color: #666;
@@ -168,8 +166,10 @@
     .search-box{
       flex: 1;
       -webkit-flex: 1;
+      align-items: center;
       .box{
         width: 460px;
+        padding: 10px 0;
       }
     }
     .search-btn{
