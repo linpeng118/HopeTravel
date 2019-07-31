@@ -525,7 +525,14 @@ export default {
       this.showFilter = !this.showFilter
       // this.showcolor = 'filter'
     },
-    selectProductDetail(){},
+    selectProductDetail(productId){
+      this.$router.push({
+        name: 'product-detail',
+        query: {
+          productId
+        }
+      });
+    },
     // 选中筛选
     filterClick(item, key) {
       // console.log(item, key)
