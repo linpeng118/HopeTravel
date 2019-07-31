@@ -1,7 +1,7 @@
 <template>
-  <div class="sort-box" v-if="dayShow">
-    <div class="setitem">
-      <span v-for="(item,ind) in dayResult.items" @click="selectDayItem(item)" :key="ind" :class="checkitem==item.line_id?'active':''">{{item.line_name}}</span>
+  <div class="sort-box" v-if="dayShow" @click="closeLayer">
+    <div class="setitem" @click.stop>
+      <span v-for="(item,ind) in dayResult.items" @click="selectDayItem(item)" :key="ind" :class="checkitem==item.id?'active':''">{{item.name}}</span>
     </div>
 
   </div>
@@ -29,8 +29,10 @@
     },
     methods: {
       selectDayItem(item) {
-        console.log(this.checkitem)
         this.$emit('selectSort', item)
+      },
+      closeLayer() {
+        this.$emit('close')
       }
     }
   }
@@ -53,8 +55,8 @@
     background-color: #fff;
     padding: 30px 0 30px 30px;
     span{
-      width:155px;
       height:60px;
+      padding: 0 10px;
       margin:0 22px 12px 0;
       line-height: 60px;
       border-radius:12px;

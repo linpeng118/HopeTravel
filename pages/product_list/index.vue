@@ -111,8 +111,7 @@
     </div>
     <!--更多列表的选择-->
     <van-popup v-model="showList" position="right" class="filter-select more-tag">
-      <div class="filter-main-box" @click="showList = false">
-      </div>
+      <div class="filter-main-box" @click="showList = false"></div>
       <city-list :multiple="multipleTag" :showBar="true" :dataObj="moreLists" @selectItemCancel="selectItemCancel" @selectItem="selectItem" ref="moreList" @back="moreListBack"></city-list>
     </van-popup>
     <drift-aside class="drift"></drift-aside>
@@ -130,6 +129,8 @@
   import {getProductList, getFilterList} from '@/api/products'
   import {getmenuSearch} from '@/api/search'
   import DriftAside from '@/components/drift_aside'
+  import {changeParams} from '@/assets/js/utils'
+
   export default {
     name: 'product_list',
     components: {
@@ -155,13 +156,36 @@
         ]
       }
     },
-    asyncData({route}){
+    asyncData({route, query,redirect}){
       // console.log(2222222222, route)
+      // category=89,89&product_type=&span_city=&start_city=32,29&itemType=0
+      let  {category,span_city,start_city,w,sem} = query
+      let _obj = {
+        category,span_city,start_city
+      }
+      if(query.itemType){
+        _obj.type = query.itemType
+      } else {
+        _obj.type = 0
+      }
+      let url = changeParams(_obj)
+      if(w){
+        url+=`?w=${w}`
+      }
+      if(sem){
+        if(url.indexOf('?') >= 0){
+          url+=`&sem=${sem}`
+        } else {
+          url+=`?w=${w}`
+        }
+      }
+      // console.log(changeParams(_obj))
+      redirect(changeParams(_obj))
     },
     data() {
       return {
         isSearch: false,
-        searchKeyWords: this.$route.query.keyWords || null,
+        searchKeyWords: this.$route.query.w || null,
         criteria: {}, // 筛选条件数据
         prodPagination: {}, // 分页数据
         prodLoading: false, // 是否处于加载状态，加载过程中不触发load事件

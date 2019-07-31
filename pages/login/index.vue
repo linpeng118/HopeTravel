@@ -59,7 +59,9 @@
             // 如果游重定向地址
             if (this.redirect) {
               this.$router.replace({
-                path: this.redirect
+                path: this.redirect,query:{
+                  isLogin:false
+                }
               })
             } else {
               this.$router.go(-1)

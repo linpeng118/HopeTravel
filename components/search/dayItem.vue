@@ -1,6 +1,6 @@
 <template>
-  <div class="sort-box" v-if="dayShow">
-    <div class="setitem">
+  <div class="sort-box" v-if="dayShow" @click="closeLayer">
+    <div class="setitem" @click.stop>
       <span v-for="(item,ind) in dayResult.items" @click="selectDayItem(item)" :key="ind" :class="checkitem==item.id?'active':''">{{item.name}}</span>
     </div>
 
@@ -25,13 +25,15 @@ export default {
     }
   },
   created() {
-   console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXX")
+   console.log('xxxxxxxxxxxxxx',this.dayResult)
   },
   methods: {
     selectDayItem(item) {
-      console.log(this.checkitem)
       this.$emit('selectSort', item)
-    }
+    },
+    closeLayer() {
+      this.$emit('close')
+    },
   }
 }
 </script>
