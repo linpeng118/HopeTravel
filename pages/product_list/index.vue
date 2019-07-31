@@ -165,6 +165,8 @@
       }
       if(query.itemType){
         _obj.type = query.itemType
+      } else {
+        _obj.type = 0
       }
       let url = changeParams(_obj)
       if(w){
