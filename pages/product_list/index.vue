@@ -79,8 +79,8 @@
                 <div class="item"
                      v-for="(city,index) in item.items"
                      :key="city.id + city.name"
-                     :class="key!='brand'?filterActive(city.id, key):filterActive(city.brand_id, key)"
-                     @click="filterClick(city, key, index)" :ref="key + currentType">{{city.name||city.brand_name}}</div>
+                     :class="filterActive(city.id, key)"
+                     @click="filterClick(city, key, index)" :ref="key + currentType">{{city.name}}</div>
               </div>
             </template>
 
@@ -111,8 +111,7 @@
     </div>
     <!--更多列表的选择-->
     <van-popup v-model="showList" position="right" class="filter-select more-tag">
-      <div class="filter-main-box" @click="showList = false">
-      </div>
+      <div class="filter-main-box" @click="showList = false"></div>
       <city-list :multiple="multipleTag" :showBar="true" :dataObj="moreLists" @selectItemCancel="selectItemCancel" @selectItem="selectItem" ref="moreList" @back="moreListBack"></city-list>
     </van-popup>
     <drift-aside class="drift"></drift-aside>
@@ -130,6 +129,8 @@
   import {getProductList, getFilterList} from '@/api/products'
   import {getmenuSearch} from '@/api/search'
   import DriftAside from '@/components/drift_aside'
+  import {changeParams} from '@/assets/js/utils'
+
   export default {
     name: 'product_list',
     components: {
@@ -155,13 +156,36 @@
         ]
       }
     },
-    asyncData({route}){
+    asyncData({route, query,redirect}){
       // console.log(2222222222, route)
+      // category=89,89&product_type=&span_city=&start_city=32,29&itemType=0
+      let  {category,span_city,start_city,w,sem} = query
+      let _obj = {
+        category,span_city,start_city
+      }
+      if(query.itemType){
+        _obj.type = query.itemType
+      } else {
+        _obj.type = 0
+      }
+      let url = changeParams(_obj)
+      if(w){
+        url+=`?w=${w}`
+      }
+      if(sem){
+        if(url.indexOf('?') >= 0){
+          url+=`&sem=${sem}`
+        } else {
+          url+=`?w=${w}`
+        }
+      }
+      // console.log(changeParams(_obj))
+      redirect(changeParams(_obj))
     },
     data() {
       return {
         isSearch: false,
-        searchKeyWords: this.$route.query.keyWords || null,
+        searchKeyWords: this.$route.query.w || null,
         criteria: {}, // 筛选条件数据
         prodPagination: {}, // 分页数据
         prodLoading: false, // 是否处于加载状态，加载过程中不触发load事件
@@ -193,7 +217,8 @@
           tag: [],
           duration: [],
           product_type: [],
-          category: []
+          category: [],
+          brand: []
         },
         isFilterShow: false,
         firstload:true,
@@ -539,7 +564,7 @@
       },
       // 选中筛选
       filterClick(item, key) {
-        let objid = key=='brand'?item.brand_id:item.id
+        let objid = item.id
         let index = this.sureSearchList[key].findIndex(list => (objid === list.id))
         if(index >= 0) {
           this.sureSearchList[key].splice(index, 1)
@@ -551,7 +576,7 @@
           }
         }
         console.log(this.sureSearchList)
-        let id = key=='brand'?item.brand_id:item.id
+        let id = item.id
         if(!this.filterResult[key]) {
           this.filterResult[key] = objid + ''
         } else {
@@ -636,18 +661,14 @@
       },
       // 视觉判断tag是否选中
       filterActive(id,key) {
-        let index = this.sureSearchList[key].findIndex(list => (id === list.id||list.brand_id))
+        let index = this.sureSearchList[key].findIndex(list => (id === list.id))
         return index >=0 ? 'active' : ''
       },
       // 展示显示的name
       selectNameShow(key) {
+        console.log(key)
         let names = this.sureSearchList[key].map(item => {
-          if(key!='brand'){
-            return item.name
-          }
-          else{
-            return item.brand_name
-          }
+          return item.name
         })
         return names.length > 3 ? names.splice(0,3).join(',') + '...' : names.join(',')
       },

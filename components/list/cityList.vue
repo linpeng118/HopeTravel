@@ -22,20 +22,11 @@
             </template>
           </div>
         </div>
-        <!--<div class="tags-letter" @touchstart.stop.prevent="onShortcutTouchStart">-->
-        <!--<ul>-->
-        <!--<li v-for="(value, key) in dataObj" :key="key" :data-index="key">-->
-        <!--<template v-if="typeof value === 'object'">-->
-        <!--{{key}}-->
-        <!--</template>-->
-        <!--</li>-->
-        <!--</ul>-->
-        <!--</div>-->
       </div>
     </div>
     <div class="bottom-btn">
-      <div class="left" @click="reset">{{$t('listComp.eliminate')}}清除</div>
-      <div class="right" @click="sendEvent">{{$t('listComp.selection')}}选中</div>
+      <div class="left" @click="reset">{{$t('listComp.eliminate')}}</div>
+      <div class="right" @click="sendEvent">{{$t('listComp.selection')}}</div>
     </div>
   </div>
 
@@ -48,87 +39,49 @@ export default {
     dataObj: { // 数据来源
       type: Object,
       default: null
-      // 数据格式为{'D': [{id:0,name:'大阪',key:'D'}]}
-    },
-    multiple: {  // 是否多选
-      type: Boolean,
-      default: false
     },
     title: {
       type: String,
       default: ''
     },
-    showBar: { // 是否显示顶部bar
+    showBar: {
       type: Boolean,
       default: false
+    },
+    filterSelect:{
+      type: String,
+      default: ''
     }
   },
   data(){
     return{
-      activeList:[]
     }
-  },
-  created() {
-    // console.log(this.dataObj.type)
-    this.touch = {}
   },
   methods: {
     // 返回
     onClickLeft () {
-      this.activeList = [] // 清空数据
       this.$emit('back')
     },
     // 点击每一项
     selectItem(item) {
-      let index = this.activeList.findIndex(list => (item.id === list.id))
-      if(index >= 0) {
-        this.activeList.splice(index, 1)
-      } else {
-        if(this.multiple) {
-          this.activeList.push(item)
-        } else {
-          this.activeList = [item]
-        }
-      }
+      this.$emit('selectItem', item.id.toString(), this.dataObj.type)
+
     },
     // 视觉上判断是否选中
     selectActive(item) {
-      let index = this.activeList.findIndex(list => (item.id === list.id))
-      return index >=0 ? 'active' : ''
+      if(this.filterSelect) {
+        let index = this.filterSelect.split(',').findIndex(id => (item.id == id))
+        return index >=0 ? 'active' : ''
+      }
     },
     // 重置数据
     reset() {
-      this.activeList = [] // 清空数据
-      this.$emit('selectItemCancel',this.dataObj.type)
+      this.$emit('selectItemCancel', this.dataObj.type)
     },
     // 派发事件
     sendEvent(){
-      this.$emit('selectItem', this.activeList, this.dataObj.type)
+      this.$emit('select')
     },
-    onShortcutTouchStart(e) {
-      let anchorIndex = this.getData(e.target, 'index')
-      this.touch.y1 = e.touches[0].pageY
-      this.touch.anchorIndex = anchorIndex
-      // console.log(this.touch)
-      this._scrollTo(anchorIndex)
-    },
-    getData(el, name, val) {
-      // console.log('getData')
-      const prefix = 'data-'
-      name = prefix + name
-      if (val) {
-        return el.setAttribute(name, val)
-      } else {
-        // console.log('coming')
-        return el.getAttribute(name)
-      }
-    },
-    _scrollTo(key) {
-      // this.$refs['listGroup' + key].scrollTop = 200
-      // console.log(this.$refs['listGroup' + key][0].getBoundingClientRect())
-      // console.log(this.$refs.cityWrap.scrollTop)
-      this.$refs.cityWrap.scrollTop = 200
-    }
   }
 }
 </script>

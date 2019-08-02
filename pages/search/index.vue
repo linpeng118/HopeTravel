@@ -224,11 +224,23 @@
       searchList() {
         this.saveLocal()
         this.getHistoryList()
+        // this.$router.push({
+        //   name: 'product_list',
+        //   query: {
+        //     itemType: 0,
+        //     w: this.searchWords
+        //   }
+        // })
+
         this.$router.push({
-          name: 'product_list',
-          query: {
-            itemType: 0,
-            keyWords: this.searchWords
+          name:'category-search',
+          params:{
+            category: 'all',
+            search: 'ya'
+          },
+          query:{
+            w: this.searchWords,
+            sr: 1
           }
         })
       },
@@ -245,11 +257,22 @@
       },
       // 历史记录到详情
       selectKeywords(key){
+        // this.$router.push({
+        //   name: 'product_list',
+        //   query: {
+        //     itemType: 0,
+        //     w: key
+        //   }
+        // })
         this.$router.push({
-          name: 'product_list',
-          query: {
-            itemType: 0,
-            keyWords: key
+          name:'category-search',
+          params:{
+            category: 'all',
+            search: 'ya'
+          },
+          query:{
+            w: key,
+            sr: 1
           }
         })
       },
@@ -274,26 +297,42 @@
       // 搜索关键字跳转列表
       selectProductList(type) {
         // console.log(type)
-        console.log(type)
-        let typeItem
-        if(type == 3) {
-          typeItem = 4
-        } else if (type == 7) {
-          typeItem = 3
-        } else if(type == 5){
-          typeItem = 2
-        }else if(type == 4){
-          typeItem = 2
-        } else {
-          typeItem = type
+        // console.log(type)
+        // let typeItem
+        // if(type == 3) {
+        //   typeItem = 4
+        // } else if (type == 7) {
+        //   typeItem = 3
+        // } else if(type == 5){
+        //   typeItem = 2
+        // }else if(type == 4){
+        //   typeItem = 2
+        // } else {
+        //   typeItem = type
+        // }
+        // this.$router.push({
+        //   name: 'product_list',
+        //   query: {
+        //     itemType: typeItem || type,
+        //     w: this.searchWords
+        //   }
+        // })
+
+        this.saveLocal()
+        let _arr = ['ya','yg','yw','yj','ym','yr','','yl']
+        let query = {
+          w: this.searchWords,
+          sr: 1
         }
         this.$router.push({
-          name: 'product_list',
-          query: {
-            itemType: typeItem || type,
-            keyWords: this.searchWords
-          }
+          name:'category-search',
+          params:{
+            category: 'all',
+            search: _arr[type]
+          },
+          query
         })
+
       },
       // 搜索执行
       async search() {
@@ -326,20 +365,41 @@
         })
       },
       selectDetailLine(category) {
+        // this.$router.push({
+        //   name: 'product_list',
+        //   query: {
+        //     itemType: 0,
+        //     category
+        //   }
+        // })
         this.$router.push({
-          name: 'product_list',
-          query: {
-            itemType: 0,
-            category
+          name:'category-search',
+          params:{
+            category: category,
+            search: 'ya'
+          },
+          query:{
+            sr: 1
           }
         })
       },
       selectDetailKeyword(keyword) {
+        // this.$router.push({
+        //   name: 'product_list',
+        //   query: {
+        //     itemType: 0,
+        //     w: keyword
+        //   }
+        // })
         this.$router.push({
-          name: 'product_list',
-          query: {
-            itemType: 0,
-            keyWords: keyword
+          name:'category-search',
+          params:{
+            category: 'all',
+            search: 'ya'
+          },
+          query:{
+            w: keyword,
+            sr: 1
           }
         })
       },

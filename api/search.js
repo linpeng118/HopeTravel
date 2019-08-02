@@ -15,3 +15,9 @@ export const getmenuSearch = (keyword) => {
   let keywordx=(keyword!=null)?keyword:''
   return axios.get('/api/categoryCount?keyword='+(keywordx))
 }
+
+// 热门关键字数据
+
+export const getHotSearchList = () => {
+  return axios.get('/api/search')
+}

@@ -35,9 +35,6 @@
       return {
         show: this.proIsShow,
         phoneList: [
-          {title: this.$t('customerPhoneZH'), number: '400-118-1388', desc: '(8:00am - 11:00pm) EN\\CN', phone: '400-118-1388'},
-          {title: this.$t('customerPhoneEN'), number: '(001)832-886-1525', desc: '(7 * 24 Hours) EN\\CN   ', phone: '001-832-886-1525  '},
-          {title: this.$t('customerPhoneJP'), number: '(0081)3-5545-5311', desc: '(8:30am - 5:30pm) JPN\\CN', phone: '0081-3-5545-5311'},
         ]
       }
     },
@@ -48,7 +45,7 @@
     },
     methods: {
       onPhone(item) {
-        window.location.href = `tel:${item.tel_code} ${item.phone} `
+        window.location.href = `tel:${item.tel_code}${item.phone} `
       },
       async getphonelist() {
         let {data,code} = await getPhone()

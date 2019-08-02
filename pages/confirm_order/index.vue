@@ -134,7 +134,7 @@
                 :key="ind"
                 class="user-item"
                 tag="li"
-                :to="{path:'/personal/addContacts',query:{'id':item.id,'checker':paramcontanct}}">
+                :to="{path:'/personal/addContacts',query:{'id':item.id,'checker':paramcontanct,'isLogin':isLogin}}">
                 <span>出行人{{ind+1}}<i>{{item.name}}</i></span>
                 <span><i>
                     <van-icon name="edit" /></i></span>
@@ -144,7 +144,7 @@
           <div class="btnbox">
             <nuxt-link class="changeuser-btn"
               tag="button"
-              :to="{path:'/personal/contactsList',query:{'adult':countprice.adult+countprice.child,'checker':paramcontanct}}">选择出行人</nuxt-link>
+              :to="{path:'/personal/contactsList',query:{'adult':countprice.adult+countprice.child,'checker':paramcontanct,'isLogin':isLogin}}">选择出行人</nuxt-link>
           </div>
         </div>
       </section>
@@ -357,7 +357,7 @@
         showtype: '',
         xname: '',
         profile: '',//用户信息
-        isLogin: false, // 默认false-->游客
+        isLogin:this.$route.query.isLogin||false, // 默认false-->游客
         usertraver: [],//未登录的用户
 
       }
@@ -387,16 +387,6 @@
         this.$store.commit("countprice", {is_point: val});
       },
     },
-    beforeRouterEnter(to, form, next) {
-      if (form.path.indexOf('personal') != -1) {
-        next(vm => {
-          vm.setsaveuser = true;
-        })
-      }
-      else {
-        next();
-      }
-    },
     mounted() {
       let obj = getSessionStore('pricelist') ? JSON.parse(getSessionStore('pricelist')) : {};
       let this_ = this;
@@ -412,17 +402,16 @@
       }, 100)
       this.countprice = this.$store.state.confirm.countprice;
       if (this.countprice.savephone == '' || this.countprice.savephone == undefined || this.countprice.savephone == 'undefined') {
-        console.log('enter')
         this.init();
       }
       else {
         this.contact = {"name": this.countprice.savename, "phone": this.countprice.savephone, "email": this.countprice.saveemail}
       }
-
       this.pricelist = this.get_vuex_pricelist;
       this.getqu();
       this.settitletip();
     },
+
     methods: {
       async init() {
         // 1. 是否有token。有就请求个人信息；无则return
@@ -453,7 +442,6 @@
           // this.pricedate = []
         }
       },
-
       //获得可用优惠卷列表
       async getCouponList(type) {
         let this_ = this;
@@ -574,7 +562,6 @@
           item.itemsx = null;
           obj.push(item);
         }
-        console.log(this_.showtrvel)
         this_.showtrvel = obj;
         for (let i = 0; i < this_.showtrvel.length; i++) {
           let itemx = this_.showtrvel[i];
@@ -589,7 +576,6 @@
             }
           }
         }
-
       },
       onClickLeft() {
         this.$router.go(-1)

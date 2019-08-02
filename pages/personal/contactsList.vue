@@ -42,7 +42,7 @@
         </span>
 
           <b class="bicon">
-            <nuxt-link :to="{path:'/personal/addContacts',query:{'id':item.customer_contract_id,'adult':$route.query.adult}}">
+            <nuxt-link :to="{path:'/personal/addContacts',query:{'id':item.customer_contract_id,'adult':$route.query.adult,'isLogin':$route.query.isLogin}}">
             <p><img src="../../assets/imgs/edit@2x.png" alt="" class="elicon"></p>
             </nuxt-link>
           </b>
@@ -65,13 +65,13 @@
                <i style="color: red">{{$t('personalPage.addIncompleteInfo')}}</i>
             </template>
         </span>
-        <nuxt-link :to="{path:'/personal/addContacts',query:{'id':item.customer_contract_id}}">
+        <nuxt-link :to="{path:'/personal/addContacts',query:{'id':item.customer_contract_id,'isLogin':$route.query.isLogin}}">
           <b class="bicon"><van-icon name="edit" color="#399EF6;"/></b>
         </nuxt-link>
       </li>
     </ul>
     <div class="btnbox">
-      <nuxt-link class="changeuser-btn" tag="button" :to="{path:'/personal/addContacts'}">
+      <nuxt-link class="changeuser-btn" tag="button" :to="{path:'/personal/addContacts',query:{'isLogin':$route.query.isLogin}}">
         <van-icon name="plus" color="#fff;"/>&nbsp;{{$t('selectTravlerPage.addTravler')}}
       </nuxt-link>
     </div>
@@ -149,7 +149,7 @@
             })
           }
           if(objarrx.length>0){
-            this.$router.replace({ path: '/confirm_order', query: { checker: objarrx }})
+            this.$router.replace({ path: '/confirm_order', query: { checker: objarrx,isLogin:this.$route.query.isLogin }})
           }
           else{
             this.$router.replace({ path: '/confirm_order'})

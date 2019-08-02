@@ -244,7 +244,8 @@
             path:this.pushpath,
             query:{
               checker:this.$route.query.checker||[],
-              adult:this.$route.query.adult||null
+              adult:this.$route.query.adult||null,
+              isLogin:this.$route.query.isLogin||null
             }
           })
         }
@@ -261,7 +262,8 @@
               path:this.pushpath,
               query:{
                 checker:this.$route.query.checker||[],
-                adult:this.adult||null
+                adult:this.adult||null,
+                isLogin:this.$route.query.isLogin||null
               }
             })
           }
@@ -280,7 +282,8 @@
               path:this.pushpath,
               query:{
                 checker:this.$route.query.checker||[],
-                adult:this.$route.query.adult||null
+                adult:this.$route.query.adult||null,
+                isLogin:this.$route.query.isLogin||null
               }
             })
           }
