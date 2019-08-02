@@ -95,7 +95,7 @@
     </div>
     <!--行程天数搜索-->
     <div class="sort-box" v-if="dayShow && (filterLists.duration && filterLists.duration.total)">
-      <day-item :dayShow="dayShow" :checkitem="filterResult.duration" :dayResult="filterLists.duration" @selectSort="selectDayItem" @close="dayShow = false"></day-item>
+      <day-item :dayShow="dayShow" :checkitem="filterResult.duration" :dayResult="filterLists.duration" @selectSort="selectDayItem" @close="dayShow = false" @deleteDay="deleteDaySelect"></day-item>
     </div>
     <!--航线搜索-->
     <div class="sort-box" v-if="routerShow && (filterLists.lines && filterLists.lines.total)">
@@ -104,7 +104,7 @@
     <!--更多列表的选择-->
     <van-popup v-model="showList" position="right" class="filter-select more-tag">
       <div class="filter-main-box" @click="showList = false"></div>
-      <city-list :multiple="multipleTag" :showBar="true" :dataObj="moreLists" @selectItemCancel="selectItemCancel" @selectItem="selectItem" ref="moreList" @back="moreListBack"></city-list>
+      <city-list :showBar="true" :dataObj="moreLists" @selectItemCancel="selectItemCancel" @select="showList = false" ref="moreList" @back="showList = false" :filterSelect="filterResult[moreLists.type]" @selectItem="selectCityList"></city-list>
     </van-popup>
     <drift-aside class="drift"></drift-aside>
     <loading v-if="loadingData"></loading>
@@ -122,7 +122,7 @@ import CityList from '@/components/list/cityList'
 import {getProductList, getFilterList} from '@/api/products'
 import {getmenuSearch} from '@/api/search'
 import DriftAside from '@/components/drift_aside'
-import {getParams,changeParams} from '@/assets/js/utils'
+import {getParams, changeParams, removeOrAddStr} from '@/assets/js/utils'
 import {LIST_PARAMS} from '@/assets/js/config'
 import Loading from '@/components/loading'
 export default {
@@ -158,6 +158,7 @@ export default {
         active = getSearch.type
       }
     }
+
     return {
       searchKeyWords: w, // 关键字
       searchType:sem,
@@ -165,7 +166,10 @@ export default {
       searchParams: getSearch,
       active,
       checktype,
-      categoryId: category
+      categoryId: category,
+      filterResult: {
+        ...getSearch
+      }
     }
   },
   components: {
@@ -193,14 +197,6 @@ export default {
       sortShow: false,
       filterLists: {},
       startCity: [],
-      filterResult: {
-        product_type: null,
-        category: null,
-        span_city: null,
-        start_city: null,
-        duration: null,
-        brand: null,
-      }, // 筛选的结果
       activeNames: ['1'],
       moreLists: {}, // 更多的列表
       moreListsTitle: '',
@@ -234,9 +230,6 @@ export default {
     }
   },
   computed: {
-    multipleTag() {
-      return this.moreLists.type !== 'start_city' && this.moreLists.type !== 'stop_city'
-    },
     // 是否显示筛选按钮
     isShowFilterBtn(){
       return Object.values(this.filterLists).some(item => {
@@ -252,6 +245,7 @@ export default {
           ...this.searchParams
         }
         this.getFilterList()
+        console.log(_params)
         this.searchGetProduct(_params)
       },
       immediate:true
@@ -308,24 +302,15 @@ export default {
 
       this.searchGetProduct(submitParams)
     },
-    changeTypeClick(name, title){
+    changeTypeClick(name){
       //ya 所有； yg 当地跟团 type 1；yw 当地玩乐 type 2；yj稀饭自营 type 3 ；yl 游轮 type 7
       let {category,search} = this.$route.params
       let _type = ['ya', 'yg','yw','yj','yl']
-      let _newSearch
-      if(search.length === 2) {
-        _newSearch = _type[name]
-      } else {
-        _newSearch = _type[name] + search.substring(2)
-      }
-      if(_newSearch.indexOf('zl') >= 0) {
-        _newSearch = _newSearch.substring(0, _newSearch.match(/(-zl\d{1,})/).index)
-      }
       this.$router.push({
         name:'category-search',
         params:{
           category,
-          search: _newSearch
+          search: _type[name]
         }
       })
     },
@@ -403,18 +388,14 @@ export default {
     // 重置筛选条件
     resetFilter(){
       this.showFilter = false
-      this.sureSearchList = {
-        start_city: [],
-        stop_city: [],
-        price: [],
-        span_city: [],
-        // tag: [], 不要行程特色
-        duration: [],
-        product_type: [],
-        category: [],
-        lines:[],
-        brand:[],
-      }
+      this.filterResult = this.searchParams
+    },
+    // 重置行程天数选项
+    deleteDaySelect(){
+      this.searchParams.duration = ''
+      this.filterResult.duration = ''
+      // removeOrAddStr()
+      this.$router.push(changeParams(this.searchParams))
     },
     // 显示更多的标签
     showMoreFilter(key, item) {
@@ -459,48 +440,82 @@ export default {
     },
     // 展示显示的name
     selectNameShow(key) {
-      let names = this.sureSearchList[key].map(item => {
-        return item.name
-      })
-      return names.length > 3 ? names.splice(0,3).join(',') + '...' : names.join(',')
+      let name = ''
+      if(key === 'span_city') {
+        // 多选
+        let selectArr = []
+        if(this.filterResult[key]) {
+          this.filterLists[key].items.forEach(item => {
+            let _arr =  this.filterResult[key].split(',')
+            if(_arr.indexOf(item.id + '') >= 0){
+              selectArr.unshift(item.name)
+            }
+          })
+          name = selectArr.length > 3 ? selectArr.splice(0,3).toString() + '...' : selectArr.toString()
+        }
+      } else {
+        // 单选
+        this.filterLists[key].items.forEach(item => {
+          if(this.filterResult[key] == item.id){
+            name = item.name
+          }
+        })
+      }
+      return name
     },
     currentType(){},
     // 航线查询选择
     selectRouterItem(item){
       // 进行数据请求
       let params = {
-        lines: item.id,
         keyword: this.searchKeyWords || null,
         ...this.searchParams
       }
+      if(this.checkrouter == item.id) {
+        this.checkrouter = ''
+      } else {
+        params.lines =item.id
+        this.checkrouter = item.id
+      }
       this.routerShow = !this.routerShow
-      this.checkrouter = item.id
       this.searchGetProduct(params, 'lines')
     },
     // 天数选择操作
     selectDayItem(item){
-      this.filterResult.duration = item.id
+      this.filterResult.duration = item
       this.changeRouter()
     },
     // 视觉判断tag是否选中
     filterActive(id,key) {
-      let index = this.sureSearchList[key].findIndex(list => (id === list.id))
-      return index >=0 ? 'active' : ''
+      id = id +''
+      if(key === 'span_city' && this.filterResult[key]){
+        let keys = this.filterResult[key].split(',')
+        return keys.indexOf(id) >= 0 ? 'active': ''
+      } else {
+        return this.filterResult[key] == id ? 'active' : ''
+      }
     },
     // 取消
     selectItemCancel(type) {
-      this.sureSearchList[type] = []
-      this.filterResult[type] = ''
+      // this.sureSearchList[type] = []
+      // this.filterResult[type] = ''
+      this.filterResult[type] = this.searchParams[type]
     },
     // 关闭更多选择层
-    selectItem(lists,type) {
-      this.sureSearchList[type] = lists
-      let spanCity = []
-      for(let i= 0,len = lists.length;i < len; i++) {
-        spanCity.push(lists[i].id)
-      }
-      this.searchParams.span_city = spanCity.sort().join(',')
+    selectMorePopup(lists,type) {
+      this.filterResult[type] = lists
+      console.log(this.filterResult)
       this.showList = false
+    },
+    selectCityList(id,type){
+      console.log(id)
+      if(type === 'span_city' && this.filterResult[type]) {
+        if(this.filterResult[type]) {
+          this.filterResult[type] = removeOrAddStr(this.filterResult[type], id)
+        }
+      } else {
+        this.filterResult[type] = id
+      }
     },
     // 更多列表返回
     moreListBack() {
@@ -513,9 +528,7 @@ export default {
       this.typeShow = !this.typeShow
     },
     routerChange(){
-      console.log(222)
       this.routerShow = !this.routerShow
-      console.log(this.routerShow)
     },
     dayChange(){
       this.dayShow = !this.dayShow
@@ -536,47 +549,32 @@ export default {
     // 选中筛选
     filterClick(item, key) {
       // console.log(item, key)
-      let index = this.sureSearchList[key].findIndex(list => (item.id === list.id))
-      if(index >= 0) {
-        this.sureSearchList[key].splice(index, 1)
-      } else {
-        if(key === 'span_city' || key === 'duration' || key === 'product_type'|| key === 'category') {
-          this.sureSearchList[key].push(item) // 多选项
-        } else if (key === 'start_city' || key === 'stop_city' || key === 'price'|| key === 'brand') {
-          this.sureSearchList[key] = [item] // 单选项
-        }
-      }
-      let id = item.id
-      if(!this.filterResult[key]) {
-        this.filterResult[key] = item.id + ''
-      } else {
-        if (key === 'start_city' || key === 'stop_city' || key === 'price'|| key === 'brand') {
-          this.filterResult[key] = id
+      let id = item.id + ''
+      if(key === 'span_city' || key === 'duration' || key === 'product_type') {
+        // 多选项
+        if(this.filterResult[key]) {
+          this.$set(this.filterResult, key, removeOrAddStr(this.filterResult[key],id))
         } else {
-          if(this.filterResult[key].indexOf(id) < 0) {
-            this.filterResult[key] += ',' + id
-          } else {
-            let _arr = this.filterResult[key].split(',')
-            let key_index = _arr.indexOf(id)
-            _arr.splice(key_index,1)
-            this.filterResult[key] = _arr.join(',')
-          }
+          this.$set(this.filterResult, key, id)
         }
+      } else if (key === 'start_city' || key === 'stop_city' || key === 'price'|| key === 'brand') {
+        // 单选项
+        id = this.filterResult[key] == id ? '' : id
+        this.$set(this.filterResult, key, id)
       }
       console.log(this.filterResult)
     },
     // 数据变化引起导航变化
     changeRouter(){
       // 选处理数据
-      let _copyObj = {}
-      for(let key in this.filterResult) {
-        if(this.filterResult[key]) {
-          _copyObj[key] = this.filterResult[key]
-        }
-      }
-      let newParams = Object.assign({}, this.searchParams, _copyObj)
-      // console.log(newParams, changeParams(newParams))
-      this.$router.push(`${changeParams(newParams)}`)
+      // let _copyObj = {}
+      // for(let key in this.filterResult) {
+      //   if(this.filterResult[key]) {
+      //     _copyObj[key] = this.filterResult[key]
+      //   }
+      // }
+      // let newParams = Object.assign({}, this.searchParams, _copyObj)
+      this.$router.push(`${changeParams(this.filterResult)}`)
     },
     // 格式化拼音列表
     _nomalLizePinyin(data) {

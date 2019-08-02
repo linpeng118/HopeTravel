@@ -1,9 +1,18 @@
 <template>
   <div class="sort-box" v-if="dayShow" @click="closeLayer">
     <div class="setitem" @click.stop>
-      <span v-for="(item,ind) in dayResult.items" @click="selectDayItem(item)" :key="ind" :class="checkitem==item.id?'active':''">{{item.name}}</span>
+      <span v-for="(item,ind) in dayResult.items" @click="selectDayItem(item)" :key="ind" :class="checkedClass(item)">{{item.name}}</span>
     </div>
-
+    <div @click.stop>
+      <van-row class="day-btn">
+        <van-col span="12">
+          <van-button type="default" block @click="cancelDay">{{$t('reset')}}</van-button>
+        </van-col>
+        <van-col span="12">
+          <van-button type="info" block @click="selectDay">{{$t('chosen')}}</van-button>
+        </van-col>
+      </van-row>
+    </div>
   </div>
 </template>
 
@@ -20,20 +29,44 @@ export default {
       default: null
     },
     checkitem: {
-      type: Number,
-      default: null
+      type: String,
+      default: ''
+    }
+  },
+  data(){
+    return {
+      selectItems: []
+    }
+  },
+  watch:{
+    selectItems(newValue){
+
     }
   },
   created() {
-   console.log('xxxxxxxxxxxxxx',this.dayResult)
+    if(this.checkitem){
+      this.selectItems = this.checkitem.split(',')
+    }
   },
   methods: {
     selectDayItem(item) {
-      this.$emit('selectSort', item)
+      this.selectItems.push(item.id + '')
+      console.log(this.selectItems)
     },
     closeLayer() {
       this.$emit('close')
     },
+    cancelDay(){
+      this.selectItems = []
+      this.$emit('deleteDay')
+    },
+    selectDay(){
+      this.$emit('selectSort', this.selectItems.toString())
+    },
+    checkedClass(item){
+      let id = item.id + ''
+      return this.selectItems.indexOf(id) >=0 ? 'active':''
+    }
   }
 }
 </script>
@@ -69,6 +102,11 @@ export default {
     .active{
       background-color: #EF9A1A;
       color: #fff;
+    }
+  }
+  .day-btn{
+    button{
+      border-radius: 0;
     }
   }
 </style>
