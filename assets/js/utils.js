@@ -204,26 +204,25 @@ function getParams(str) {
     }
   }
   if(res.span_city){
-    res.span_city = res.span_city.replace('_', ',')
+    res.span_city = res.span_city.replace(/_/g, ',')
+  }
+  if(res.duration){
+    res.duration = res.duration.replace(/_/g, ',')
   }
   return res
 }
 
 function changeParams(params) {
-  // let _obj = {
-  //   'start_city':'cf',
-  //   'stop_city':'js',
-  //   'span_city':'tj',
-  //   'duration':'sj',
-  //   'price':'jg',
-  //   'product_type':'pt',
-  //   'brand': 'zl'
-  // }
   let _arr = ['ya','yg','yw','yj','ym','yr','','yl']
   let resArr = []
   Object.keys(params).forEach(key => {
     if(key === 'span_city'&& params.span_city) {
       params.span_city = params.span_city.split(',').sort((a,b) => {
+        return parseInt(a) - parseInt(b)
+      }).join('_')
+    }
+    if(key === 'duration'&& params.duration) {
+      params.duration = params.duration.split(',').sort((a,b) => {
         return parseInt(a) - parseInt(b)
       }).join('_')
     }
@@ -238,6 +237,21 @@ function changeParams(params) {
     resArr.unshift(`${_arr[params.type]}`)
   }
   return `/${params.category}/${resArr.join('-')}`
+}
+
+/**
+ * 排除重复和添加字段处理
+ * @returns str
+ */
+function removeOrAddStr (str,name) {
+  //str = '1,2,3' name = '5'
+  let reg = new RegExp('(^|,)' + name)
+  if(!reg.test(str)) {
+    return str + ',' + name
+  } else {
+    let result = str.replace(reg,'')
+    return result.substring(0,1) === ',' ? result.substring(1): result
+  }
 }
 
 export {
@@ -258,5 +272,6 @@ export {
   setSessionStore,
   getSessionStore,
   getParams,
-  changeParams
+  changeParams,
+  removeOrAddStr
 }

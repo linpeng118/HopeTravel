@@ -884,6 +884,7 @@
       console.log('product', this.product)
       this.init()
       this.$refs.refProductDetailPage.addEventListener("scroll", this.scrollFn);
+      document.getElementsByTagName('title')[0].innerText = this.product.name
     },
     beforeDestroy() {
       this.$refs.refProductDetailPage.removeEventListener('scroll', this.scrollFn)
