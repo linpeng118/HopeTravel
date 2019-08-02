@@ -1,6 +1,7 @@
 <template>
-  <div class="sort-box" v-if="dayShow" @click="closeLayer">
-    <div class="setitem" @click.stop>
+
+  <div class="sort-box" v-if="dayShow">
+    <div class="setitem">
       <span v-for="(item,ind) in dayResult.items" @click="selectDayItem(item)" :key="ind" :class="checkitem==item.id?'active':''">{{item.name}}</span>
     </div>
 
@@ -58,6 +59,7 @@
       height:60px;
       padding: 0 10px;
       margin:0 22px 12px 0;
+      padding: 0 10px;
       line-height: 60px;
       border-radius:12px;
       font-size:24px;
