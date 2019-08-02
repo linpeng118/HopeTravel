@@ -601,8 +601,13 @@
 
   export default {
     layout: 'default',
-    head: {
-      title: '详情页面'
+    head() {
+      return {
+        title: `${this.product.name || '产品详情'}`,
+        meta: [
+          {name: 'description', content: this.product.name || '', 'hid': 'description'},
+        ]
+      }
     },
     components: {
       ProductDetailHeader,
