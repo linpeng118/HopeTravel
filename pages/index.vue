@@ -66,6 +66,20 @@
       <!-- 操作 -->
       <div class="swiper-pagination"></div>
     </div>
+    <!--新增行程攻略列表-->
+    <div class="newnav">
+
+      <nuxt-link tag="div"
+                 to="/product_list/product-save">
+        <p class="p1">{{$t('savetime')}}</p>
+        <p class="p2">{{$t('savecon')}}</p>
+      </nuxt-link>
+      <nuxt-link tag="div"
+                 to="/attack/list">
+        <p class="p1">{{$t('attack')}}</p>
+        <p class="p2">{{$t('attackcon')}}</p>
+      </nuxt-link>
+    </div>
     <!--热门目的地-->
     <div class="hot-target">
       <div class="title">
@@ -505,6 +519,70 @@
         }
       }
     }
+
+    .newnav{
+      background-color: #fff;
+      height: 120px;
+      width: 100%;
+
+      div:nth-child(1){
+        width: 342px;
+        height: 120px;
+        float: left;
+        text-align: left;
+        background-image: url('../assets/imgs/listbg1.png');
+        background-repeat: no-repeat;
+        background-size: 342px 120px;
+        box-sizing: border-box;
+        margin-left: 32px;
+        padding-left: 24px;
+        .p1{
+          color: #393939;
+          font-weight: bold;
+          font-size: 28px;
+          text-align: left;
+          line-height: 40px;
+          margin-top: 15px;
+        }
+        .p2{
+          color: #B1B1B1;
+
+          text-align: left;
+          line-height: 60px;
+          font-size: 24px;
+        }
+
+
+      }
+      div:nth-child(2){
+        width: 342px;
+        box-sizing: border-box;
+        padding-left: 24px;
+        height: 120px;
+        margin-right: 32px;
+        float: right;
+        text-align: right;
+        background-image: url('../assets/imgs/listbg2.png');
+        background-repeat: no-repeat;
+        background-size: 342px 120px;
+        padding-right: 24px;
+        .p1{
+          margin-top: 15px;
+          color: #393939;
+          font-weight: bold;
+          font-size: 28px;
+          line-height: 40px;
+          text-align: right;
+        }
+        .p2{
+          color: #B1B1B1;
+          font-size: 24px;
+          text-align: right;
+          line-height: 60px;
+        }
+      }
+    }
+
     .hot-target {
       padding: 12px 24px 12px 38px;
       background-color: #fff;

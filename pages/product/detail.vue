@@ -625,7 +625,10 @@
     layout: 'default',
     head() {
       return {
-        title: '产品详情'
+        title: `${this.product.name || '产品详情'}`,
+        meta: [
+          {name: 'description', content: this.product.name || '', 'hid': 'description'},
+        ]
       }
     },
     components: {
