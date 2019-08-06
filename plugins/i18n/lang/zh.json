@@ -99,6 +99,12 @@
     "more":"更多",
     "plhdNameEmail": "用户名 / 邮箱",
     "plhdPhoneNumber": "请输入手机号",
+    "savetime": "限时特价",
+    "savecon": "超值优惠买到赚到",
+  "attack": "行程攻略",
+  "attackcon": "达人教你玩世界",
+  "attackcomm": "攻略评论",
+  "allcomm": "全部评论",
     "comment":{
         "rate":"评分",
 		"detail":"评论详情"
