@@ -1,42 +1,45 @@
 <template>
-  <div>
-    <van-nav-bar class="login-header tours-no-bb"
-                 ref="loginHeader"
-                 :title="$t('savetime')"
-                 :z-index="999" @click-left="leftClick" >
-      <van-icon class="left-wrap"
-                name="arrow-left"
-                slot="left" />
-    </van-nav-bar>
-    <div class="product-list product-listx">
-      <van-pull-refresh v-model="isLoading" @refresh="onRefresh" v-if="datax.length>0">
-        <van-list v-model="isLoading" :finished="prodFinished" :finished-text="$t('noMore')" @load="onLoad" :immediate-check="false">
-          <template v-if="datax&&datax.length">
-            <van-cell v-for="(datak,ind) in datax" :key="ind">
-              <div class="count-down"
-                   v-html="datak.time"></div>
-              <saveitem :datay="datak"></saveitem>
-            </van-cell>
+  <div v-if="datay">
+    <div class="product-item" @click="selectDetail(datay.product_id)" target="_blank">
+      <div class="img-show">
+        <img :src="datay.image" alt="">
+      </div>
+      <div class="product-desc">
+        <div class="title">
+          {{datay.name}}
+        </div>
+        <div class="tags-wrap">
+          <span class="solid" v-if="datay.self_support">{{$t('selfSupport')}}</span>
+          <span v-for="item in datay.icons_show" :key="item" class="hollow color">{{item}}</span>
+          <span v-for="(item,index) in datay.icons_tour" :key="index" class="hollow">
+            <!--<template v-if="index < 2">{{item.title}}</template>-->
+            {{item.title}}
+          </span>
+        </div>
+        <div class="product-price">
+          <template v-if="!datay.special_price">
+            <span class="sale-price"><strong>{{datay.default_price | showInt}}</strong>/{{$t('since')}}</span>
           </template>
-          <!--<div v-else>暂无数据</div>-->
-        </van-list>
-
-
-      </van-pull-refresh>
-
+          <template v-else>
+            <span class="sale-price"><strong>{{datay.special_price | showInt}}</strong>/{{$t('since')}}</span><span class="default-price" style="text-decoration: line-through">{{$t('listComp.originalPrice')}}：{{datay.default_price | showInt}}</span>
+          </template>
+          <span v-if="datay.coupons&&datay.coupons.length" class="setspecial">
+               <i class="ileft"></i>
+               <i class="icon">{{datay.coupons[0]}}</i>
+               <i class="iright"></i>
+          </span>
+          <span v-if="datay.coupons&&datay.coupons.length>1" style="color:#fb605d">......</span>
+          <p><span style="color: #989898" v-if="datay.comment_score">{{datay.comment_score}}分</span>&nbsp;
+            <span style="color: #989898">{{datay.sales}}人出行</span></p>
+        </div>
+      </div>
     </div>
   </div>
 
 </template>
-
 <script>
-  import {getProductCoup} from '@/api/products'
-  import saveitem from '@/components/items/saveitem'
+
   export default {
-    name: 'productList',
-    components: {
-      saveitem
-    },
     filters: {
       showInt(val) {
         if(val){
@@ -45,61 +48,23 @@
 
       },
     },
-    async asyncData({$axios, store}) {
-      let indexData
-      console.log(store.getters.currency)
-      let {code, data} = await $axios.$get('/api/index/mobile', {
-        headers: {
-          'Language': store.getters.language,
-          'Currency': store.getters.currency
-        }
-      })
-      if (code === 0) {
-        indexData = data
-      }
-      return {
-        indexData
-      }
-    },
-    data(){
-      return {
-        isShowFx: false,
-        isLoading: false,
-        datax:[],
-        coupons:'',
-        pagination:{
-          page:1,
-        },
-        objid:this.$route.query.id||null,
-        prodFinished:false,
-        showTag:false,
-      }
-    },
-    computed: {
-      iconTour() {
-        return this.data.icons_tour
+    props: {
+      datay: {
+        type: Object,
+        default:null
       },
     },
-    mounted(){
-      this.getTime()
-      this.datax = this.indexData[2].data
+    data() {
+      return {
+
+      }
+
+    },
+    computed: {},
+    mounted() {
+
     },
     methods: {
-      productTypeValue(val) {
-        const type = [
-          {type: 3,title: this.$t('tours.exquisiteGroup')},
-          {type: 1,title: this.$t('tours.localGroup')},
-          {type: 2,title: this.$t('tours.localPlay')},
-          {type: 4,title: this.$t('tours.tickets')},
-          {type: 5,title: this.$t('tours.aDayTrip')},
-          {type: 6,title: this.$t('tours.connectionService')},
-          {type: 7,title: this.$t('tours.cruise')},
-        ]
-        let target = type.find(item => {
-          return item.type === val
-        })
-        return target.title
-      },
       selectDetail(productId) {
         this.$router.push({
           name: 'product-detail',
@@ -108,63 +73,11 @@
           }
         });
       },
-      // 倒计时时间转化
-      timeToData(maxtime) {
-        let second = Math.floor(maxtime % 60);       //计算秒
-        let minite = Math.floor((maxtime / 60) % 60); //计算分
-        let hour = Math.floor((maxtime / 3600) % 24); //计算小时
-        let day = Math.floor((maxtime / 3600) / 24);//计算天
-        return `<span>${this.numChangeT(day)}</span>天<span>${this.numChangeT(hour)}</span>时<span>${this.numChangeT(minite)}</span>分<span>${this.numChangeT(second)}</span>秒`
-        // return day+':'+this.numChangeT(hour)+':'+this.numChangeT(minite)+':'+this.numChangeT(second)
-      },
-      numChangeT(n) {
-        return n < 10 ? '0' + n : '' + n
-      },
-      getTime() {
-        setInterval(() => {
-          this.datax.forEach(value => {
-            var time = this.timeToData(value.special_end_date);
-            if (typeof value.jishi == 'undefined') {
-              this.$set(value, 'time', time);
-            } else {
-              value.time = time
-            }
-            if (value.special_end_date) {
-              --value.special_end_date
-            } else {
-              value.special_end_date = 0
-            }
-          })
-        }, 1000)
-      },
-      // 滑动会请求数据
-      async onLoad() {
-      },
-      // 返回上一级
-      leftClick() {
-        this.$router.go(-1)
-      },
-      // 上拉刷新
-      async onRefresh(){
-      },
-    }
+    },
   }
 </script>
-<style>
-  .product-listx .count-down span {
-    width: 40px;
-    display: inline-block;
-    background-color: rgba(255, 0, 0, 0.6);
-    border-radius: 6px;
-    line-height: 40px;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 6px;
-  }
-</style>
 <style type="text/scss" lang="scss" scoped>
-  .product-list{
-    .product-item{
+  .product-item{
       display: flex;
       display: -webkit-flex;
       padding: 10px 0;
@@ -294,18 +207,6 @@
         }
       }
     }
-  }
-  .setcop{
-    width:750px;
-    height:88px;
-    background:rgba(254,248,236,1);
-    opacity:1;
-    line-height: 88px;
-    text-align: center;
-    font-size: 24px;
-    color: #FBA35A;
-  }
-
   .setspecial{
     display: inline-block;
     margin-right: 10px;
