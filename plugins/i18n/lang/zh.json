@@ -364,7 +364,12 @@
         "takeOffSuc": "取关成功",
         "takeOffFail": "取关失败",
         "focusOnSuc": "关注成功",
-        "focusOnFail": "关注失败"
+        "focusOnFail": "关注失败",
+        "xifanlvxing": "稀饭旅行",
+        "jiebanlvyou": "结伴同游",
+        "pingtuan": "拼团人数不够？",
+        "playTogether": "想找人一起玩？",
+        "helpTogether": "稀饭结伴社群帮你结伴！"
     },
     "selectTravlerPage": {
         "selectTitle": "选择出行人",
