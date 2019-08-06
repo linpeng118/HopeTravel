@@ -1,6 +1,7 @@
 <template>
   <div class="visa">
     <van-nav-bar left-arrow
+      v-if="!isApp"
       @click-left="onClickLeft"
       :title="$t('visaPage.pageHead')" />
     <div class="top-banner">
