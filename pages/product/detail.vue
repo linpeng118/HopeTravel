@@ -386,6 +386,28 @@
           </van-collapse-item>
         </van-collapse>
       </div>
+      <!--引导二维码-->
+      <div class="code-two">
+        <div class="img-box">
+          <img src="../../assets/imgs/product/img_qr_code@2x.png" alt="" class="code">
+          <div>
+            {{$t('productDetailPage.xifanlvxing')}}
+          </div>
+        </div>
+        <div class="word-explain">
+          <h2>{{$t('productDetailPage.jiebanlvyou')}}</h2>
+          <p>{{$t('productDetailPage.pingtuan')}}</p>
+          <p>{{$t('productDetailPage.playTogether')}}</p>
+          <p>{{$t('productDetailPage.helpTogether')}}</p>
+        </div>
+        <div class="btn-box"
+             v-clipboard:copy="'xifantours'"
+             v-clipboard:success="onCopy"
+             v-clipboard:error="onError"
+        >
+          复制公众号
+        </div>
+      </div>
       <!-- 底部按钮 -->
       <div class="footer-fixed">
         <div class="footer-tabbar">
@@ -1254,6 +1276,13 @@
             this.$toast(this.$t('focusOnFail'))
           }
         }
+      },
+      onCopy(e) {
+        this.$toast(this.$t('shareComp.copySuccess'))
+      },
+      // 复制失败
+      onError(e) {
+        this.$toast(this.$t('shareComp.copyFail'))
       },
       // 电话咨询
       telCounsel() {
