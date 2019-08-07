@@ -6,14 +6,18 @@
         class="bar-shadow"
         :title="$t('personalPage.myCollection')"
         @click-left="onClickLeft"
-        @click-right="saveFollow"
         left-arrow
       >
-        <span class="header-btn" slot="right" @click="isModify =!isModify" v-if="!isModify">{{$t('edit')}}</span>
-        <span class="header-btn" slot="right" @click="isModify =!isModify" v-else>{{$t('cancel')}}</span>
       </van-nav-bar>
     </div>
-    <div class="product-wrap">
+
+    <div class="workbox">
+      <span class="span1" @click="type=1" :style="type==1?'border-bottom:2px solid #399ef6':''">商品</span>
+      <span class="span1" @click="type=2" :style="type==2?'border-bottom:2px solid #399ef6':''">{{$t('attack')}}</span>
+      <span class="span2" @click="isModify =!isModify" v-if="!isModify">{{$t('edit')}}</span>
+      <span class="span2" @click="isModify =!isModify" v-else>{{$t('cancel')}}</span>
+    </div>
+    <div class="product-wrap" v-if="type==1">
       <van-checkbox-group v-model="result" v-if="productList.length">
         <van-cell-group>
           <van-cell
@@ -36,29 +40,71 @@
           </van-cell>
         </van-cell-group>
       </van-checkbox-group>
-
       <div class="no-product" v-if="!productList.length && !firstLoad">{{$t('personalPage.goToCollect')}}</div>
       <div class="no-product" v-if="firstLoad">{{$t('dataLoading')}}</div>
       <div v-if="isModify" class="btn-delete"><van-button block @click="deleteProductFavorites">{{$t('delete')}}</van-button></div>
+    </div>
+    <div class="product-wrap" v-if="type==2">
+      <van-checkbox-group v-model="result2" v-if="productList2.length">
+        <van-cell-group>
+          <van-cell
+            v-for="(data,index) in productList2"
+            clickable
+            :key="data.article_id"
+            :name="data.article_id"
+            @click="changeProduct2(index)"
+          >
+            <van-checkbox :name="data.article_id" ref="checkboxe2" v-if="isModify" class="checked2" />
+            <div class="product-item" target="_blank">
+              <div class="box-img">
+                <img :src="data.cover" alt="">
+              </div>
+              <div class="con">
+                <div class="p1">{{data.name}}</div>
+                <p class="p2">
+                  <img :src="data.create_user.face" alt="">
+                  <span style="color:#575757;">{{data.create_user.name||'佚名'}}</span>
+                  <span>阅读{{data.read_count}}</span>
+                  <span>评论{{data.comment_count}}</span>
+                </p>
+                <p class="p3">
+                  <span>{{data.create_at}}</span>
+                  <span v-if="data.relate_position!=''">
+                      <img src="../../assets/imgs/addres.png" alt="">
+                      <a v-html="data.relate_position.length>7?data.relate_position.substr(0,5)+'...':data.relate_position"></a>
+                    </span>
+                </p>
+              </div>
+            </div>
+          </van-cell>
+        </van-cell-group>
+      </van-checkbox-group>
+      <div class="no-product" v-if="!productList.length && !firstLoad">{{$t('personalPage.goToCollect')}}</div>
+      <div class="no-product" v-if="firstLoad">{{$t('dataLoading')}}</div>
+      <div v-if="isModify" class="btn-delete"><van-button block @click="deleteProductFavorites2">{{$t('delete')}}</van-button></div>
     </div>
   </div>
 </template>
 
 <script>
 import {getFavorites} from '@/api/profile'
-import {delFavorite} from '@/api/products'
+import {delFavorite,delFavorite2,getFavoriteList2} from '@/api/products'
 export default {
   name: 'follow',
   data() {
     return {
       result: [],
+      result2: [],
       isModify: false,
       productList:[],
-      firstLoad: true
+      productList2:[],
+      firstLoad: true,
+      type:1,
     }
   },
   mounted() {
     this.init()
+    this.init2()
   },
   methods: {
     async init() {
@@ -67,9 +113,16 @@ export default {
         this.productList = data || []
         this.firstLoad = false
       } else {
-        // this.$toast(msg)
         this.firstLoad = false
         this.productList = []
+      }
+    },
+    async init2() {
+      let {code, data, msg} = await getFavoriteList2({page:1})
+      if(code === 0) {
+        this.productList2 = data || []
+      } else {
+        this.productList2 = []
       }
     },
     onClickLeft() {
@@ -80,6 +133,11 @@ export default {
     changeProduct(index) {
       if(this.isModify) {
         this.$refs.checkboxes[index].toggle()
+      }
+    },
+    changeProduct2(index) {
+      if(this.isModify) {
+        this.$refs.checkboxe2[index].toggle()
       }
     },
     async deleteProductFavorites(){
@@ -93,6 +151,22 @@ export default {
         this.$toast(this.$t('operateFail'))
       }
     },
+
+
+
+    async deleteProductFavorites2(){
+      let {code} = await delFavorite2({
+        product_id: this.result2.join(','),
+      })
+      if(code === 0) {
+        this.$toast(this.$t('operateSuc'))
+        this.init2()
+      } else {
+        this.$toast(this.$t('operateFail'))
+      }
+    },
+
+
     // 详情跳转
     selectItem(productId) {
       if(!this.isModify) {
@@ -199,7 +273,113 @@ export default {
       .checked{
         padding-right: 20px;
       }
+      .checked2{
+        padding-right: 50px;
+      }
     }
+  }
+  .workbox{
+    width: 100%;
+    height: 88px;
+    line-height: 88px;
+    padding-top: 14px;
+    display: inline-block;
+    span{
+      display: inline-block;
+      height: 60px;
+      line-height:60px;
+      font-size: 28px;
+    }
+    .span1{
+      color: #191919;
+      float: left;
+      margin-left: 32px;
+    }
+    .span2{
+      color: #399EF6;
+      float: right;
+      margin-right: 32px;
+      margin-left: 32px;
+    }
+  }
+   .product-item{
+    width:750px;
+    height:300px ;
+    padding-top: 10px;
+    box-sizing: border-box;
+    .box-img{
+      width: 240px;
+      display: inline-block;
+      height: 240px;
+      border-radius:12px;
+      overflow: hidden;
+      position: absolute;
+      background-color: #4bb1f5;
+      img{
+        width: 240px;
+        height: 240px;
+      }
+    }
+    .con{
+      background-color: #ffd97f;
+      padding:20px 28px 20px 180px ;
+      margin-top: 36px;
+      width: 620px;
+      height: 240px;
+      box-sizing: border-box;
+      background:rgba(255,255,255,1);
+      box-shadow:0px 0px 28px rgba(52,52,52,0.2);
+      border-radius: 12px;
+      margin-left: 60px;
+      .p1{
+        width: 418px;
+        font-size: 28px!important;
+        color: #2d2d2d;
+        line-height: 44px;
+        padding-left: 20px;
+        height: 110px;
+        padding-bottom: 20px;
+      }
+      .p2{
+        width: 418px;
+        height: 48px;
+        font-size: 24px;
+        color: #d4d4d4;
+        line-height: 48px;
+        img{
+          width: 48px;
+          height: 48px;
+          background-color: #cfcfcf;
+          margin-left: 20px;
+          display: inline-block;
+          position: relative;top: 16px;
+        }
+        span{
+          margin-left: 10px;
+        }
+      }
+      .p3{
+        width: 418px;
+        height: 48px;
+        font-size: 24px;
+        text-align: right;
+        color: #d4d4d4;
+        margin-top: 8px;
+        span{
+          margin-left: 20px;
+          line-height: 36px;
+          display: inline-block;
+          img{
+            width: 16px;
+            height: 21px;
+            display: inline-block;
+          }
+        }
+
+
+      }
+    }
+
   }
 
 </style>

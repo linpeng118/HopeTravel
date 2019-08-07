@@ -152,7 +152,7 @@ export const delFavorite = (data) => {
 export const delFavorite2 = (data) => {
   return axios.delete(`/api/favorite`, {
     params: {
-      product_id: data,
+      product_id: data.product_id,
       type:'article'
 
     }
@@ -167,6 +167,19 @@ export const getFavoriteList = (data) => {
   return axios.get(`/api/favorite`, {
     params: {
       page_size: data.page_size
+    }
+  })
+}
+
+/**
+ * 获取收藏列表
+ * @param {Object} data {page_size}
+ */
+export const getFavoriteList2 = (data) => {
+  return axios.get(`/api/article/favorites`, {
+    params: {
+      page_size: 100,
+      page:data.page
     }
   })
 }
