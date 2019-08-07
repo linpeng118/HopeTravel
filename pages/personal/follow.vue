@@ -355,7 +355,7 @@ export default {
           position: relative;top: 16px;
         }
         span{
-          margin-left: 12px;
+          margin-left: 10px;
         }
       }
       .p3{
