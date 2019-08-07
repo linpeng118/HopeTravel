@@ -202,13 +202,15 @@
       },
       // 存储浏览记录
       saveLocal() {
-        let historyList = getLocalStore(SEARCH_HISTORY) || []
-        historyList.unshift(this.searchKeyWords)
-        let set = [...new Set(historyList)]
-        if (set.length >= 8) {
-          set = set.slice(0, 8)
+        if(this.searchKeyWords) {
+          let historyList = getLocalStore(SEARCH_HISTORY) || []
+          historyList.unshift(this.searchKeyWords)
+          let set = [...new Set(historyList)]
+          if (set.length >= 8) {
+            set = set.slice(0, 8)
+          }
+          setLocalStore(SEARCH_HISTORY, set)
         }
-        setLocalStore(SEARCH_HISTORY, set)
       },
     }
   }
