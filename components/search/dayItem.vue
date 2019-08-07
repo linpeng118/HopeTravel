@@ -3,7 +3,7 @@
     <div class="setitem" @click.stop>
       <span v-for="(item,ind) in dayResult.items" @click="selectDayItem(item)" :key="ind" :class="checkedClass(item)">{{item.name}}</span>
     </div>
-    <div @click.stop>
+    <div style="background-color: #F1F1F1" @click.stop>
       <van-row class="day-btn">
         <van-col span="12">
           <van-button type="default" block @click="cancelDay">{{$t('reset')}}</van-button>
