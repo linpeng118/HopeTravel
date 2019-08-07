@@ -63,7 +63,7 @@
   import LoadingTr from '@/components/loading/whiteBg'
   import SearchResult from '@/components/items/searchResult'
   import {getDestination, getAssociateSearch} from '@/api/search'
-  import {setLocalStore, getLocalStore} from '@/assets/js/utils'
+  import {setLocalStore, getLocalStore, changeParams} from '@/assets/js/utils'
   // 历史记录
   const SEARCH_HISTORY = '__tourscool_search_history__'
 
@@ -358,20 +358,11 @@
         }
       },
       selectDetail(query){
-        query.itemType = 0
-        this.$router.push({
-          name: 'product_list',
-          query: query
-        })
+        console.log(66666, query)
+        let _query = changeParams(query)
+        this.$router.push(`${_query}?se=1`)
       },
       selectDetailLine(category) {
-        // this.$router.push({
-        //   name: 'product_list',
-        //   query: {
-        //     itemType: 0,
-        //     category
-        //   }
-        // })
         this.$router.push({
           name:'category-search',
           params:{
@@ -379,18 +370,11 @@
             search: 'ya'
           },
           query:{
-            sr: 1
+            se: 1
           }
         })
       },
       selectDetailKeyword(keyword) {
-        // this.$router.push({
-        //   name: 'product_list',
-        //   query: {
-        //     itemType: 0,
-        //     w: keyword
-        //   }
-        // })
         this.$router.push({
           name:'category-search',
           params:{
@@ -399,7 +383,7 @@
           },
           query:{
             w: keyword,
-            sr: 1
+            se: 1
           }
         })
       },
