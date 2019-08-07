@@ -8,6 +8,7 @@
                 name="arrow-left"
                 slot="left" />
     </van-nav-bar>
+<<<<<<< HEAD
     <div class="product-list">
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh" v-if="datax.length>0">
         <van-list v-model="isLoading" :finished="prodFinished" :finished-text="$t('noMore')" @load="onLoad" :immediate-check="false">
@@ -57,15 +58,28 @@
                   </div>
                 </div>
               </div>
+=======
+    <div class="product-list product-listx">
+      <van-pull-refresh v-model="isLoading" @refresh="onRefresh" v-if="datax.length>0">
+        <van-list v-model="isLoading" :finished="prodFinished" :finished-text="$t('noMore')" @load="onLoad" :immediate-check="false">
+          <template v-if="datax&&datax.length">
+            <van-cell v-for="(datak,ind) in datax" :key="ind">
+              <div class="count-down"
+                   v-html="datak.time"></div>
+              <saveitem :datay="datak"></saveitem>
+>>>>>>> qa
             </van-cell>
           </template>
           <!--<div v-else>暂无数据</div>-->
         </van-list>
 
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> qa
       </van-pull-refresh>
 
     </div>
@@ -75,8 +89,17 @@
 
 <script>
   import {getProductCoup} from '@/api/products'
+<<<<<<< HEAD
   export default {
     name: 'productList',
+=======
+  import saveitem from '@/components/items/saveitem'
+  export default {
+    name: 'productList',
+    components: {
+      saveitem
+    },
+>>>>>>> qa
     filters: {
       showInt(val) {
         if(val){
@@ -121,7 +144,11 @@
       },
     },
     mounted(){
+<<<<<<< HEAD
       this.getpro()
+=======
+      this.getTime()
+>>>>>>> qa
       this.datax = this.indexData[2].data
     },
     methods: {
@@ -148,6 +175,7 @@
           }
         });
       },
+<<<<<<< HEAD
       async getpro(id) {
         this.datax=[];
         let {code, data, coupons ,pagination} = await getProductCoup({
@@ -181,10 +209,44 @@
           }
 
         }
+=======
+      // 倒计时时间转化
+      timeToData(maxtime) {
+        let second = Math.floor(maxtime % 60);       //计算秒
+        let minite = Math.floor((maxtime / 60) % 60); //计算分
+        let hour = Math.floor((maxtime / 3600) % 24); //计算小时
+        let day = Math.floor((maxtime / 3600) / 24);//计算天
+        return `<span>${this.numChangeT(day)}</span>天<span>${this.numChangeT(hour)}</span>时<span>${this.numChangeT(minite)}</span>分<span>${this.numChangeT(second)}</span>秒`
+        // return day+':'+this.numChangeT(hour)+':'+this.numChangeT(minite)+':'+this.numChangeT(second)
+      },
+      numChangeT(n) {
+        return n < 10 ? '0' + n : '' + n
+      },
+      getTime() {
+        setInterval(() => {
+          this.datax.forEach(value => {
+            var time = this.timeToData(value.special_end_date);
+            if (typeof value.jishi == 'undefined') {
+              this.$set(value, 'time', time);
+            } else {
+              value.time = time
+            }
+            if (value.special_end_date) {
+              --value.special_end_date
+            } else {
+              value.special_end_date = 0
+            }
+          })
+        }, 1000)
+      },
+      // 滑动会请求数据
+      async onLoad() {
+>>>>>>> qa
       },
       // 返回上一级
       leftClick() {
         this.$router.go(-1)
+<<<<<<< HEAD
 
       },
       // 上拉刷新
@@ -215,6 +277,27 @@
   }
 </script>
 
+=======
+      },
+      // 上拉刷新
+      async onRefresh(){
+      },
+    }
+  }
+</script>
+<style>
+  .product-listx .count-down span {
+    width: 40px;
+    display: inline-block;
+    background-color: rgba(255, 0, 0, 0.6);
+    border-radius: 6px;
+    line-height: 40px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 6px;
+  }
+</style>
+>>>>>>> qa
 <style type="text/scss" lang="scss" scoped>
   .product-list{
     .product-item{
@@ -358,6 +441,10 @@
     font-size: 24px;
     color: #FBA35A;
   }
+<<<<<<< HEAD
+=======
+
+>>>>>>> qa
   .setspecial{
     display: inline-block;
     margin-right: 10px;
