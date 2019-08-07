@@ -622,6 +622,8 @@
   } from '@/assets/js/config'
   import onCustomerService from '@/assets/js/customerService.js'
 
+  let goToBackPage = '/' // 记录下来当前的页面
+
   export default {
     layout: 'default',
     head: {
@@ -731,13 +733,13 @@
         productId: '',
         ids: {},
         isVideoShow: false, // 是否显示视频
-        goToBackPage: '/'  // 记录下来当前的页面
       }
     },
     beforeRouteEnter (to, from, next) {
       next(vm => {
         console.log(4444444, to, from)
-        this.goToBackPage = from.fullPath
+        goToBackPage = from.fullPath
+        console.log(goToBackPage)
       })
     },
     computed: {
@@ -1329,7 +1331,7 @@
         this.showMore = !this.showMore
       },
       onHeaderLeft() {
-        this.$router.push(this.goToBackPage)
+        this.$router.push(goToBackPage)
       },
       // 返回首页
       onHomePage() {
