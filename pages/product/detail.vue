@@ -1234,10 +1234,10 @@
             product_id: this.product.product_id
           })
           if (code === 0) {
-            this.$toast(this.$t('takeOffSuc'))
+            this.$toast(this.$t('productDetailPage.takeOffSuc'))
             this.getProductDetailData()
           } else {
-            this.$toast(this.$t('takeOffFail'))
+            this.$toast(this.$t('productDetailPage.takeOffFail'))
           }
         } else {
           const {
@@ -1248,10 +1248,10 @@
             product_id: this.product.product_id
           })
           if (code === 0) {
-            this.$toast(this.$t('focusOnSuc'))
+            this.$toast(this.$t('productDetailPage.focusOnSuc'))
             this.getProductDetailData()
           } else {
-            this.$toast(this.$t('focusOnFail'))
+            this.$toast(this.$t('productDetailPage.focusOnFail'))
           }
         }
       },
