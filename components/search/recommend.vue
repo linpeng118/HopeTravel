@@ -69,6 +69,7 @@ export default {
       console.log(play)
       let {category,product_type,span_city,start_city} = play
       let item = {category,product_type,span_city,start_city}
+      // console.log(item)
       this.$emit('selectDetail', item)
     }
   }

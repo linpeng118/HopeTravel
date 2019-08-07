@@ -358,7 +358,7 @@
         }
       },
       selectDetail(query){
-        console.log(66666, query)
+        // console.log(66666, query)
         let _query = changeParams(query)
         this.$router.push(`${_query}?se=1`)
       },

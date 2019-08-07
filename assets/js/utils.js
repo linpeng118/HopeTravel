@@ -237,7 +237,8 @@ function changeParams(params) {
     resArr.unshift(`${_arr[params.type]}`)
   }
   params.category = params.category || 'all'
-  return `/${params.category}/${resArr.join('-')}`
+  let _url = params.type ? `/${params.category}/${resArr.join('-')}` : `/${params.category}/ya-${resArr.join('-')}`
+  return _url
 }
 
 /**
