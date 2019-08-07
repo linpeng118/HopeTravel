@@ -125,6 +125,9 @@ import DriftAside from '@/components/drift_aside'
 import {getParams, changeParams, removeOrAddStr} from '@/assets/js/utils'
 import {LIST_PARAMS} from '@/assets/js/config'
 import Loading from '@/components/loading'
+
+let goToBackPage = '/'
+
 export default {
    async asyncData({params, query, $axios, store}){
       // 路由进来则会请求数据
@@ -229,6 +232,11 @@ export default {
       loadingData: true // 列表更新的加载
     }
   },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      goToBackPage = from.fullPath
+    })
+  },
   computed: {
     // 是否显示筛选按钮
     isShowFilterBtn(){
@@ -278,7 +286,7 @@ export default {
         // 处理返回搜索页面的情况
         this.$router.push(`/search/keyword?w=${this.searchKeyWords}&sr=1`)
       } else {
-        this.$router.go(-1)
+        this.$router.push(goToBackPage)
       }
 
     },
