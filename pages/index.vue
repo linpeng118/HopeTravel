@@ -67,7 +67,7 @@
       <div class="swiper-pagination"></div>
     </div>
     <!--新增行程攻略列表-->
-    <div class="newnav">
+    <div class="newnav" v-show="false">
 
       <nuxt-link tag="div"
                  to="/product_list/product-save">
@@ -501,7 +501,7 @@
     }
 
     .entry-block {
-      padding: 52px 0px;
+      padding: 52px 0px 25px;
       background-color: #fff;
       text-align: center;
       .swiper-pagination {

@@ -127,7 +127,6 @@
       },
       // 搜索配的是id
       selectProductList(item){
-        this.saveLocal()
         let {category,span_city,start_city} = item
         let str = 'ya'
         if(span_city){
@@ -141,6 +140,9 @@
           params:{
             category: category || 'all',
             search:str
+          },
+          query:{
+            sr: 1
           }
         })
       },

@@ -278,17 +278,18 @@ export default {
   methods:{
     // 返回上一级
     leftClick() {
-      if(this.searchType=='1'){
+      if(this.$route.query.se){
         this.$router.push({
-          path: '/'
+          path: '/search'
         })
       } else if(this.$route.query.sr && this.searchKeyWords){
         // 处理返回搜索页面的情况
         this.$router.push(`/search/keyword?w=${this.searchKeyWords}&sr=1`)
       } else {
-        this.$router.go(-1)
+        this.$router.push({
+          path: '/'
+        })
       }
-
     },
     // 出搜索页面
     goToKeywordPage(){
