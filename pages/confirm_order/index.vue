@@ -357,7 +357,7 @@
         showtype: '',
         xname: '',
         profile: '',//用户信息
-        isLogin:this.$route.query.isLogin||false, // 默认false-->游客
+        isLogin: this.$route.query.isLogin || false, // 默认false-->游客
         usertraver: [],//未登录的用户
 
       }
@@ -388,6 +388,8 @@
       },
     },
     mounted() {
+      // console.log(44444, )
+      this.getLoginOrNot()
       let obj = getSessionStore('pricelist') ? JSON.parse(getSessionStore('pricelist')) : {};
       let this_ = this;
       this.$store.commit("pricelist", obj);
@@ -432,6 +434,12 @@
         } else {
           this.profile = {}
         }
+      },
+      // islogin 重新获取数据
+      async getLoginOrNot(){
+       await setTimeout(() => {
+         this.isLogin = this.$store.state.profile.profile.customer_id ? true: false
+       },50)
       },
       //获得价格日历数据
       async getpricedate(id) {

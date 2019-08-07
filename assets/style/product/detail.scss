@@ -865,7 +865,7 @@
         height:60px;
         position: fixed;
         right: 60px;
-        bottom: 300px;
+        bottom: 400px;
         background:linear-gradient(180deg,rgba(253,141,103,1) 0%,rgba(245,41,30,1) 100%);
         border-radius:80px;
         text-align: center;
@@ -883,6 +883,46 @@
         top: 0;
         left: 0;
     }
+  .code-two{
+    font-size: 20px;
+    margin: 20px 0;
+    background-color: #fff;
+    padding:28px 32px;
+    display: flex;
+    color: #959595;
+    align-items: center;
+    .img-box{
+      width: 110px;
+      text-align: center;
+      img.code{
+        width: 110px;
+        height: 110px;
+      }
+      img.icon{
+        height: 20px;
+        width: 24px;
+      }
+    }
+    .word-explain{
+      flex: 1;
+      padding: 0 48px;
+      h2{
+        line-height:44px;
+        margin-bottom: 5px;
+        font-size:28px;
+        color: #3E3E3E;
+      }
+    }
+    .btn-box{
+      width:160px;
+      height:64px;
+      background:#399EF6;
+      border-radius:12px;
+      color: #fff;
+      line-height: 64px;
+      text-align: center;
+    }
+  }
 }
 .setspecial{
     font-size: 20px;
