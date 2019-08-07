@@ -43,9 +43,7 @@
       onClickLeft() {
         // 返回上一页（打开新页面问题处理）
         // this.$router.go(-1);
-        var backUrl = document.referrer;
-        console.log(backUrl);
-        window.location.href = backUrl
+        this.$emit('callOnLeft')
       },
       onClickRight() {
         this.$emit('callOnRight')
