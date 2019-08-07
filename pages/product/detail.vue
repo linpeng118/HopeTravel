@@ -8,6 +8,7 @@
       :title="product.name"
       fixed
       @callOnRight="onHeaderRight"
+      @callOnLeft="onHeaderLeft"
       ref="refProdctDetailHeader" />
     <div class="product-detail"
       ref="refProductDetail"
@@ -715,17 +716,6 @@
         showServiceCop: false, //显示优惠卷
         couponList: [], //可用优惠卷列表
         couponDetails: [], //可用优惠卷列表-详情版
-        // // 产品
-        // product: {},
-        // // 费用说明对象
-        // expense: {},
-        // // 注意事项
-        // notice: [],
-        // // 行程详情
-        // itinerary: {},
-        // attributes: [],
-        // attributes_override: [],
-        // transfer: [],
         isTabFixed: false,
         showDay: 'D1',
         // 显示电话弹窗
@@ -740,8 +730,15 @@
         referrerId: '',
         productId: '',
         ids: {},
-        isVideoShow: false // 是否显示视频
+        isVideoShow: false, // 是否显示视频
+        goToBackPage: '/'  // 记录下来当前的页面
       }
+    },
+    beforeRouteEnter (to, from, next) {
+      next(vm => {
+        console.log(4444444, to, from)
+        this.goToBackPage = from.fullPath
+      })
     },
     computed: {
       ...mapGetters([
@@ -887,7 +884,6 @@
     },
     watch: {
       isVideoShow(newValue, oldValue) {
-        console.log(1231233333333333)
         if (newValue) {
           console.log('播放')
           this.$refs.productVideo.play()
@@ -938,7 +934,7 @@
       // 获取profile-登录态
       async initProfileData() {
         setTimeout(() => {
-          console.log(4444, this.profile.is_agent, String(this.$route.query.productId).indexOf('-') <= 0)
+          // console.log(4444, this.profile.is_agent, String(this.$route.query.productId).indexOf('-') <= 0)
           if (this.profile.is_agent && String(this.$route.query.productId).indexOf('-') <= 0) {
             this.$router.push({
               name: 'product-detail',
@@ -1331,6 +1327,9 @@
       // 显示右上角更多操作
       onHeaderRight() {
         this.showMore = !this.showMore
+      },
+      onHeaderLeft() {
+        this.$router.push(this.goToBackPage)
       },
       // 返回首页
       onHomePage() {
