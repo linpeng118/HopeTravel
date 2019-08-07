@@ -172,6 +172,19 @@ export const getFavoriteList = (data) => {
 }
 
 /**
+ * 获取收藏列表
+ * @param {Object} data {page_size}
+ */
+export const getFavoriteList2 = (data) => {
+  return axios.get(`/api/article/favorites`, {
+    params: {
+      page_size: 100,
+      page:data.page
+    }
+  })
+}
+
+/**
  * 恢复预订通知（ 邮箱/手机号）
  * @param {Object} data {product_id}
  */
