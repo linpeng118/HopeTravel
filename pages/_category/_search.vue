@@ -314,13 +314,25 @@ export default {
       //ya 所有； yg 当地跟团 type 1；yw 当地玩乐 type 2；yj稀饭自营 type 3 ；yl 游轮 type 7
       let {category,search} = this.$route.params
       let _type = ['ya', 'yg','yw','yj','yl']
-      this.$router.push({
-        name:'category-search',
-        params:{
-          category,
-          search: _type[name]
-        }
-      })
+      let _search =  _type[name]
+      if(this.searchKeyWords){
+        this.$router.push({
+          name:'category-search',
+          params:{
+            category,
+            search: _search
+          },
+          query:this.$route.query
+        })
+      } else {
+        this.$router.push({
+          name: 'category-search',
+          params: {
+            category,
+            search: _search
+          }
+        })
+      }
     },
     // 改变类别搜索条件
     selectTypeItem(item){
