@@ -152,7 +152,7 @@ export const delFavorite = (data) => {
 export const delFavorite2 = (data) => {
   return axios.delete(`/api/favorite`, {
     params: {
-      product_id: data,
+      product_id: data.product_id,
       type:'article'
 
     }

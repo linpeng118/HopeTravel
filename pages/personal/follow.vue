@@ -45,16 +45,16 @@
       <div v-if="isModify" class="btn-delete"><van-button block @click="deleteProductFavorites">{{$t('delete')}}</van-button></div>
     </div>
     <div class="product-wrap" v-if="type==2">
-      <van-checkbox-group v-model="result" v-if="productList.length">
+      <van-checkbox-group v-model="result2" v-if="productList2.length">
         <van-cell-group>
           <van-cell
             v-for="(data,index) in productList2"
             clickable
-            :key="data.product_id"
-            :name="data.product_id"
-            @click="changeProduct(index)"
+            :key="data.article_id"
+            :name="data.article_id"
+            @click="changeProduct2(index)"
           >
-            <van-checkbox :name="data.product_id" ref="checkboxes" v-if="isModify" class="checked" />
+            <van-checkbox :name="data.article_id" ref="checkboxe2" v-if="isModify" class="checked2" />
             <div class="product-item" target="_blank">
               <div class="box-img">
                 <img :src="data.cover" alt="">
@@ -81,19 +81,20 @@
       </van-checkbox-group>
       <div class="no-product" v-if="!productList.length && !firstLoad">{{$t('personalPage.goToCollect')}}</div>
       <div class="no-product" v-if="firstLoad">{{$t('dataLoading')}}</div>
-      <div v-if="isModify" class="btn-delete"><van-button block @click="deleteProductFavorites">{{$t('delete')}}</van-button></div>
+      <div v-if="isModify" class="btn-delete"><van-button block @click="deleteProductFavorites2">{{$t('delete')}}</van-button></div>
     </div>
   </div>
 </template>
 
 <script>
 import {getFavorites} from '@/api/profile'
-import {delFavorite,getFavoriteList2} from '@/api/products'
+import {delFavorite,delFavorite2,getFavoriteList2} from '@/api/products'
 export default {
   name: 'follow',
   data() {
     return {
       result: [],
+      result2: [],
       isModify: false,
       productList:[],
       productList2:[],
@@ -134,6 +135,11 @@ export default {
         this.$refs.checkboxes[index].toggle()
       }
     },
+    changeProduct2(index) {
+      if(this.isModify) {
+        this.$refs.checkboxe2[index].toggle()
+      }
+    },
     async deleteProductFavorites(){
       let {code} = await delFavorite({
         product_id: this.result.join(',')
@@ -145,6 +151,22 @@ export default {
         this.$toast(this.$t('operateFail'))
       }
     },
+
+
+
+    async deleteProductFavorites2(){
+      let {code} = await delFavorite2({
+        product_id: this.result2.join(','),
+      })
+      if(code === 0) {
+        this.$toast(this.$t('operateSuc'))
+        this.init2()
+      } else {
+        this.$toast(this.$t('operateFail'))
+      }
+    },
+
+
     // 详情跳转
     selectItem(productId) {
       if(!this.isModify) {
@@ -250,6 +272,9 @@ export default {
       -webkit-align-items: center;
       .checked{
         padding-right: 20px;
+      }
+      .checked2{
+        padding-right: 50px;
       }
     }
   }

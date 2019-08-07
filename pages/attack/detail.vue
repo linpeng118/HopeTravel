@@ -1,11 +1,11 @@
 <template>
-  <div>
-  <div class="banner">
+  <div ref="homeatt">
+    <div class="banner">
     <a v-if="!isApp" class="return" @click="goBack" href="javascript:;"></a>
     <a v-if="!isApp" class="right" @click="goBack" href="javascript:;"></a>
     <img v-if="objdata&&objdata.cover" :src="objdata.cover" alt="">
   </div>
-    <div class="con" v-if="objcon&&objcon.length">
+    <div class="con" ref="homeatt2" v-if="objcon&&objcon.length">
       <div class="attack-head" v-if="objdata">
         <div class="imgbox"><img :src="objdata.create_user.face" alt=""></div>
         <div class="conbox">
@@ -19,7 +19,6 @@
           </p>
         </div>
       </div>
-
       <div class="elsefix" v-if="objdata&&showtip">
         <div class="attack-head" >
           <div class="imgbox"><img :src="objdata.create_user.face" alt=""></div>
@@ -30,7 +29,7 @@
             <p>
               <span style="text-align: left">{{objdata.create_user.brief||'未设置个性签名'}}</span>
             </p>
-            <p class="elsecon"v-if="objcon">{{activeTitle+1}}、{{objcon[activeTitle].chapter_title}}</p>
+            <p class="elsecon"v-if="objcon">{{objcon[activeTitle].chapter_title}}</p>
             <van-icon v-if="shownav==false" name="wap-nav" class="elseicon " @click="shownav=true" />
             <van-icon v-if="shownav==true" name="arrow-up" class="elseicon " @click="shownav=false" />
           </div>
@@ -38,7 +37,7 @@
       </div>
       <div class="elsefixbox" v-if="shownav&&showtip" @click="shownav=false">
         <div >
-          <p v-for="(itemx,indx) in objcon" :key="indx">{{itemx.chapter_title}}</p>
+          <p v-for="(itemx,indx) in objcon" @click.stop="totitle(indx)" :key="indx">{{itemx.chapter_title}}</p>
         </div>
       </div>
       <div class="attack-item" v-for="(item,ind) in objcon" :key="ind" ref="title">
@@ -91,15 +90,16 @@
           </template>
         </van-list>
       </van-pull-refresh>
+      <div v-else>
+        <div class="itemcom">
+        </div>
+      </div>
       <p class="submitp">
         <input type="text" v-model="searchtext">
         <label @click="subcomm()">{{$t('submit')}}</label>
       </p>
     </div>
     </van-popup>
-
-
-
 
 </div>
 </template>
@@ -193,6 +193,7 @@
         }
         else{
           this.showtip=false
+          this.shownav=false
         }
         if(a&&a.length&&a.length>0){
           for(let i = 0; i < a.length; i++) {
@@ -207,7 +208,34 @@
           }
         }
       },
-        topro(productId) {
+      totitle(ind) {
+        let a=this.$refs.title;
+        let top = a[ind].offsetTop;
+        this.shownav=false
+        if(document.documentElement.scrollTop > top){
+          let timer = setInterval(() => {
+            document.documentElement.scrollTop = document.documentElement.scrollTop-10
+            if (document.documentElement.scrollTop <= top) {
+              clearInterval(timer)
+            }
+          }, 1)
+        }
+        else if(document.documentElement.scrollTop < top){
+          let timer = setInterval(() => {
+            let speed = Math.floor(-(document.documentElement.scrollTop - top) / 3)
+            document.documentElement.scrollTop = document.documentElement.scrollTop +10
+            if (document.documentElement.scrollTop >= top) {
+              clearInterval(timer)
+            }
+          }, 1)
+        }
+        else{
+          return false
+        }
+
+
+      },
+      topro(productId) {
         this.$router.push({
           name: 'product-detail',
           query: {
@@ -588,7 +616,7 @@
     .itemcom{
       width: 600px;
       float: right;
-      min-height:146px ;
+      min-height:346px ;
       p:nth-child(1){
         color: #2d2d2d;
         font-size: 28px;

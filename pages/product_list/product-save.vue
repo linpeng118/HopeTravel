@@ -18,7 +18,6 @@
               <saveitem :datay="datak"></saveitem>
             </van-cell>
           </template>
-          <!--<div v-else>暂无数据</div>-->
         </van-list>
 
 
@@ -114,7 +113,7 @@
         let minite = Math.floor((maxtime / 60) % 60); //计算分
         let hour = Math.floor((maxtime / 3600) % 24); //计算小时
         let day = Math.floor((maxtime / 3600) / 24);//计算天
-        return `<span>${this.numChangeT(day)}</span>天<span>${this.numChangeT(hour)}</span>时<span>${this.numChangeT(minite)}</span>分<span>${this.numChangeT(second)}</span>秒`
+        return `<span>${this.numChangeT(day)}</span> <span>${this.numChangeT(hour)}</span> <span>${this.numChangeT(minite)}</span> <span>${this.numChangeT(second)}</span>`
         // return day+':'+this.numChangeT(hour)+':'+this.numChangeT(minite)+':'+this.numChangeT(second)
       },
       numChangeT(n) {
@@ -158,11 +157,17 @@
     border-radius: 6px;
     line-height: 40px;
     font-weight: bold;
+    color: #fff;
     text-align: center;
     margin-top: 6px;
   }
 </style>
 <style type="text/scss" lang="scss" scoped>
+  .count-down{
+    position: absolute;
+    margin-top: 15px;
+    z-index: 5;
+  }
   .product-list{
     .product-item{
       display: flex;
