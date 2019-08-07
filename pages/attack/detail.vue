@@ -14,37 +14,47 @@
             <span style="text-align: right"><img src="../../assets/imgs/addres.png" alt=""> {{objdata.relate_position}}</span>
           </p>
           <p>
-            <span style="text-align: left">{{objdata.create_user.brief}}</span>
+            <span style="text-align: left">{{objdata.create_user.brief||'未设置个性签名'}}</span>
             <span style="text-align: right">阅读{{objdata.read_count}}&nbsp;&nbsp;&nbsp;{{objdata.create_at?objdata.create_at.substr(0,10):''}}</span>
           </p>
         </div>
       </div>
-      <div class="attack-item" v-for="(item,ind) in objcon" :key="ind">
+
+      <div class="elsefix" v-if="objdata&&showtip">
+        <div class="attack-head" >
+          <div class="imgbox"><img :src="objdata.create_user.face" alt=""></div>
+          <div class="conbox">
+            <p>
+              <span style="text-align: left">{{objdata.create_user.name||'佚名'}}</span>
+            </p>
+            <p>
+              <span style="text-align: left">{{objdata.create_user.brief||'未设置个性签名'}}</span>
+            </p>
+            <p class="elsecon"v-if="objcon">{{activeTitle+1}}、{{objcon[activeTitle].chapter_title}}</p>
+            <van-icon v-if="shownav==false" name="wap-nav" class="elseicon " @click="shownav=true" />
+            <van-icon v-if="shownav==true" name="arrow-up" class="elseicon " @click="shownav=false" />
+          </div>
+        </div>
+      </div>
+      <div class="elsefixbox" v-if="shownav&&showtip" @click="shownav=false">
+        <div >
+          <p v-for="(itemx,indx) in objcon" :key="indx">{{itemx.chapter_title}}</p>
+        </div>
+      </div>
+      <div class="attack-item" v-for="(item,ind) in objcon" :key="ind" ref="title">
         <p class="titlex">{{item.chapter_title}}</p>
         <div class="conx" v-html="item.content">
         </div>
         <template v-if="item.relate_product&&item.relate_product.length">
           <div class="prox" v-for="(pro,inde) in item.relate_product" :key="inde" @click="topro(pro.product_id)">
-           <div class="imgbox">
-             <img :src="pro.image" alt="">
-           </div>
+           <div class="imgbox"><img :src="pro.image" alt=""></div>
             <div class="conbox">
-              <p v-html="pro.name.length>29?pro.name.substr(0,26)+'...':pro.name">
-              </p>
-              <p>
-                <span>{{pro.default_price}}</span>&nbsp;<span>起</span>
-              </p>
+              <p v-html="pro.name.length>29?pro.name.substr(0,26)+'...':pro.name"></p>
+              <p><span>{{pro.default_price}}</span>&nbsp;<span>起</span></p>
             </div>
           </div>
         </template>
 
-      </div>
-      <div class="bottom-user">
-        <p class="p1">
-          <img :src="objdata.create_user.face" alt="">
-        </p>
-        <p class="p2">{{objdata.create_user.name||'佚名'}}</p>
-        <p class="p3">{{objdata.create_user.brief}}</p>
       </div>
 
     </div>
@@ -60,7 +70,7 @@
       v-model="showcomm"
       round
       position="bottom"
-      class="popup"
+      class="popup2"
     >
     <div class="comment">
       <van-nav-bar :title="$t('attackcomm')" @click-right="showcomm=false" >
@@ -89,6 +99,8 @@
     </van-popup>
 
 
+
+
 </div>
 </template>
 <script>
@@ -107,11 +119,16 @@
         prodFinished:false,
         searchtext:"",
         isfav:0,
+        activeTitle:0,
+        showtip:false,
+        shownav:false,
+
       };
     },
     mounted() {
       this.getpro()
       this.getisfav()
+      window.addEventListener('scroll', this.menu)
     },
     methods: {
       goBack() {
@@ -160,15 +177,37 @@
           this.isfav=1;
         }
       },
-
       async delfav() {
         let {code,data} = await delFavorite2(this.objid)
         if (code === 0) {
           this.isfav=0;
         }
       },
-
-      topro(productId) {
+      menu() {
+        let a=this.$refs.title;
+        let that=this;
+        let st=document.documentElement.scrollTop || document.body.scrollTop;
+        let st1=document.documentElement.clientHeight;
+        if(st>(st1+5)){
+          this.showtip=true
+        }
+        else{
+          this.showtip=false
+        }
+        if(a&&a.length&&a.length>0){
+          for(let i = 0; i < a.length; i++) {
+            let a1 = a[i];
+            if(st>20){
+              let top = a1.offsetTop;
+              if (st >= top && st <=a1.offsetHeight + top) {
+                that.activeTitle=i
+                break;
+              }
+            }
+          }
+        }
+      },
+        topro(productId) {
         this.$router.push({
           name: 'product-detail',
           query: {
@@ -229,7 +268,6 @@
           });
         }
       }
-
     }
   };
 </script>
@@ -276,6 +314,7 @@
   }
   .attack-head{
     height: 80px;
+    background-color: #fff;
     .imgbox{
       width: 80px;
       height: 80px;
@@ -322,12 +361,67 @@
         color: #a2a2a2;
 
       }
+      p:nth-child(3){
+        font-size: 24px;
+        line-height:40px;
+        color:#d4d4d4;
+        position: absolute;
+        width: 280px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        margin-left: 260px;
+        margin-top: -55px;
+        text-align: right;
+      }
+      .elseicon{
+        font-size: 32px;
+        line-height:40px;
+        color:#d4d4d4;
+        float: right;
+        position: relative;
+        margin-top: -55px
 
+      }
     }
+  }
+  .elsefix{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 16px 32px;
+    background-color: #fff;
+    left: 0;
+    border-bottom: 1px solid rgba(236,236,236,1);
+  }
+  .elsefixbox{
+    left: 0;
+    position: fixed;
+    width: 100%;
+    height: calc(100% - 110px);
+    top: 110px;
+    background-color: rgba(0,0,0,.2);
+    z-index: 1000;
+    div{
+      border-radius: 0 0 32px 32px;
+      border-top: 1px solid #ddd;
+      width: 750px;
+      height:320px;
+      background-color: #fff;
+      overflow: scroll;
+      p{
+        height: 70px;
+        line-height: 70px;
+        padding: 0 32px;
+        text-align: right;
+        font-size: 32px;
+        color:#575757 ;
+      }
+    }
+
   }
   .attack-item{
     width:100%;
-
     .titlex{
       font-size: 40px;
       line-height: 60px;
