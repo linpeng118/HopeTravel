@@ -401,7 +401,7 @@
           <p>{{$t('productDetailPage.helpTogether')}}</p>
         </div>
         <div class="btn-box"
-             v-clipboard:copy="'xifantours'"
+             v-clipboard:copy="'zmcslxs'"
              v-clipboard:success="onCopy"
              v-clipboard:error="onError"
         >
