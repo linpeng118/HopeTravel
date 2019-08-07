@@ -286,7 +286,7 @@ export default {
         // 处理返回搜索页面的情况
         this.$router.push(`/search/keyword?w=${this.searchKeyWords}&sr=1`)
       } else {
-        this.$router.push(goToBackPage)
+        this.$router.go(-1)
       }
 
     },
