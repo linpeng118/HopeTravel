@@ -67,8 +67,7 @@
       <div class="swiper-pagination"></div>
     </div>
     <!--新增行程攻略列表-->
-    <div class="newnav" v-show="false">
-
+    <div class="newnav" >
       <nuxt-link tag="div"
                  to="/product_list/product-save">
         <p class="p1">{{$t('savetime')}}</p>
