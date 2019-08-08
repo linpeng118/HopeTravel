@@ -24,7 +24,10 @@
           <div class="imgbox"><img :src="objdata.create_user.face" alt=""></div>
           <div class="conbox">
             <p>
-              <span style="text-align: left">{{objdata.create_user.name||'佚名'}}</span>
+              <span style="text-align: left" v-if="objdata.create_user.name"
+              v-html="objdata.create_user.name.length>5?objdata.create_user.name.substr(0,4)+'....':objdata.create_user.name"
+              ></span>
+              <span style="text-align: left" v-else>佚名</span>
             </p>
             <p>
               <span style="text-align: left">{{objdata.create_user.brief||'未设置个性签名'}}</span>
@@ -63,7 +66,6 @@
       <span v-if="objdata" @click="firstload()"><img src="../../assets/imgs/ic_comment@2x.png" alt=""><i>{{objdata.comment_count}}</i></span>
       <span v-if="!isfav&&objdata" @click="addfav()"><img src="../../assets/imgs/ic_like@2x.png" alt=""><i>{{objdata.collection_count}}</i></span>
       <span v-else-if="objdata" @click="delfav()"><img src="../../assets/imgs/ic_like2@2x.png" alt=""><i>{{objdata.collection_count}}</i></span>
-      <span v-if="objdata"><img src="../../assets/imgs/ic_share@2x.png" alt=""><i>{{objdata.share_count}}</i></span>
     </div>
     <van-popup
       v-model="showcomm"
@@ -530,7 +532,8 @@
       color: #4bb1f5;
       padding: 10px;
       position: relative;
-      top:-18px;
+      display: inline-block;
+      float: left;
     }
     input{
       width:360px;
@@ -538,8 +541,8 @@
       background:rgba(241,241,241,1);
       opacity:1;
       border-radius:330px;
-      position: relative;
-      top:-18px;
+      display: inline-block;
+      float: left;
       font-size: 24px;
       padding: 0 8px;
       border: none;

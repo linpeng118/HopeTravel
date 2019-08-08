@@ -150,6 +150,10 @@
   }
 </script>
 <style>
+  body{
+    overflow: scroll!important;
+    position: relative!important;
+  }
   .product-listx .count-down span {
     width: 40px;
     display: inline-block;
@@ -175,7 +179,7 @@
       padding: 10px 0;
       .img-show{
         position:relative;
-        width:182px;
+        width:190px;
         height:220px;
         border-radius:12px;
         background-color: #d8d8d8;

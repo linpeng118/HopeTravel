@@ -30,15 +30,19 @@
                   <img :src="data.cover" alt="">
                 </div>
                 <div class="con">
-                  <div class="p1">{{data.name}}</div>
+                  <div class="p1" v-html="data.name.length>30?data.name.substr(0,26)+'...':data.name"></div>
                   <p class="p2">
                     <img :src="data.create_user.face" alt="">
-                    <span style="color:#575757;">{{data.create_user.name||'佚名'}}</span>
+                    <span style="color:#575757;" v-if="data.create_user.name"
+                          v-html="data.create_user.name.length>5?data.create_user.name.substr(0,4)+'....':data.create_user.name"
+                    ></span>
+                    <span style="color:#575757;" v-else>佚名</span>
+
                     <span>阅读{{data.read_count}}</span>
                     <span>评论{{data.comment_count}}</span>
                   </p>
                   <p class="p3">
-                    <span>{{data.create_at}}</span>
+                    <span>{{data.create_at.substr(0,10)}}</span>
                     <span v-if="data.relate_position!=''">
                       <img src="../../assets/imgs/addres.png" alt="">
                       <a v-html="data.relate_position.length>7?data.relate_position.substr(0,5)+'...':data.relate_position"></a>
@@ -277,14 +281,14 @@
         border-radius:12px;
         overflow: hidden;
         position: absolute;
-        background-color: #4bb1f5;
+        background-color: #dedede;
+        box-shadow:0px 0px 12px rgba(52,52,52,0.2);
         img{
           width: 240px;
           height: 240px;
         }
       }
       .con{
-        background-color: #ffd97f;
         padding:20px 28px 20px 180px ;
         margin-top: 36px;
         width: 620px;
