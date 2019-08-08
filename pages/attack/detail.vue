@@ -285,9 +285,8 @@
       },
       //提交评论
       async subcomm(){
-        // 获取数据
         let that=this;
-        let {code} = await getattaccomm({
+        let {code} = await upcomm({
           comment:that.searchtext,
           id:that.objid
         })
@@ -553,7 +552,7 @@
         width:57px;
         height: 57px;
       }
-      margin-left: 8px;
+      margin-left: 20px;
       i{
          font-size: 18px;
          color:#399ef6;
@@ -619,7 +618,6 @@
     .itemcom{
       width: 600px;
       float: right;
-      min-height:346px ;
       p:nth-child(1){
         color: #2d2d2d;
         font-size: 28px;

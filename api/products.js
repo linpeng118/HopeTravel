@@ -82,10 +82,18 @@ export const upcomm = (data) => {
   return axios.post('/api/comment', {
     comment:{
       template_id:3,
-      article_id:data.id,
+      product_id:data.id,
       product_type:1,
-      comment:data.comment
-    }
+      parent_id:0,
+      content:data.comment
+    },
+    image:[],
+    score:[
+      {
+        "dimension_id":6,
+        "score":2
+      },
+    ]
 
   })
 }
