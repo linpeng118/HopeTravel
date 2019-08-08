@@ -28,12 +28,6 @@
           <span class="item-title">{{$t('productDetailPage.destination')}}</span>
         </div>
         <div class="show-more-item"
-             @click="onPersonal">
-          <img src="~/assets/imgs/product/icon_person@2x.png"
-               alt="">
-          <span class="item-title">{{$t('productDetailPage.personal')}}</span>
-        </div>
-        <div class="show-more-item"
              @click="onFollow">
           <img src="~/assets/imgs/product/icon_star@2x.png"
                alt="">
