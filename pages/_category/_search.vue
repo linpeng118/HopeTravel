@@ -184,6 +184,19 @@ export default {
     dayItem,
     Loading
   },
+  head() {
+    let srcCustomerService
+    if (process.env.customerService === "53kf") {
+      srcCustomerService = 'https://tb.53kf.com/code/code/10181581/2'
+    }
+    return {
+      script: [
+        {
+          src: srcCustomerService
+        },
+      ]
+    }
+  },
   data() {
     return {
       // searchKeyWords: this.$route.query. || null,
