@@ -14,7 +14,7 @@
     <!-- 右上角更多操作 -->
     <transition name="fade">
       <div class="show-more"
-           v-show="showMore&&!shownav">
+           v-show="showMore&&!shownav&&!showtip">
         <div class="show-more-item"
              @click="onHomePage">
           <img src="~/assets/imgs/product/icon_home@2x.png"
