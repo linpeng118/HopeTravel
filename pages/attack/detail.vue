@@ -255,6 +255,7 @@
         let st1=document.documentElement.clientHeight;
         if(st>5){
           this.showelsenav=false
+          this.showMore=false
         }
         else{
           this.showelsenav=true
