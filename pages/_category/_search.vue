@@ -312,24 +312,14 @@ export default {
       let {category,search} = this.$route.params
       let _type = ['ya', 'yg','yw','yj','yl']
       let _search =  _type[name]
-      if(this.searchKeyWords){
-        this.$router.push({
-          name:'category-search',
-          params:{
-            category,
-            search: _search
-          },
-          query:this.$route.query
-        })
-      } else {
-        this.$router.push({
-          name: 'category-search',
-          params: {
-            category,
-            search: _search
-          }
-        })
-      }
+      this.$router.push({
+        name:'category-search',
+        params:{
+          category,
+          search: _search
+        },
+        query:this.$route.query
+      })
     },
     // 改变类别搜索条件
     selectTypeItem(item){
@@ -340,7 +330,8 @@ export default {
         params:{
           category,
           search
-        }
+        },
+        query: this.$route.query
       })
     },
     // 初始化筛选列表
