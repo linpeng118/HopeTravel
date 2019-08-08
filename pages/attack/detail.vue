@@ -90,10 +90,11 @@
               <img :src="item.face" alt="">
             </van-cell>
           </template>
+
         </van-list>
       </van-pull-refresh>
       <div v-else>
-        <div class="itemcom">
+        <div class="itemcom2">
         </div>
       </div>
       <p class="submitp">
@@ -615,6 +616,7 @@
       overflow-y: scroll;
       padding-bottom: 80px;
     }
+
     .itemcom{
       width: 600px;
       float: right;
@@ -628,6 +630,11 @@
         }
       }
     }
+    .itemcom2{
+      width: 600px;
+      height: 300px;
+    }
+
     img{
       width: 60px;
       height: 60px;
