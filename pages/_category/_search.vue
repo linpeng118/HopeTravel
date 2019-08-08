@@ -126,8 +126,6 @@ import {getParams, changeParams, removeOrAddStr} from '@/assets/js/utils'
 import {LIST_PARAMS} from '@/assets/js/config'
 import Loading from '@/components/loading'
 
-let goToBackPage = '/'
-
 export default {
    async asyncData({params, query, $axios, store}){
       // 路由进来则会请求数据
@@ -232,11 +230,6 @@ export default {
       loadingData: true // 列表更新的加载
     }
   },
-  beforeRouteEnter (to, from, next) {
-    next(vm => {
-      goToBackPage = from.fullPath
-    })
-  },
   computed: {
     // 是否显示筛选按钮
     isShowFilterBtn(){
@@ -278,7 +271,7 @@ export default {
   methods:{
     // 返回上一级
     leftClick() {
-      if(this.$route.query.se){
+      if(this.$route.query.se || this.$route.query.sr){
         this.$router.push({
           path: '/search'
         })
@@ -298,6 +291,9 @@ export default {
     },
     // 改变关键字
     queryChange(value) {
+      if(!value){
+        this.changeRouter(true)
+      }
     },
     onLoad(){
       let submitParams = {
@@ -586,16 +582,21 @@ export default {
       console.log(this.filterResult)
     },
     // 数据变化引起导航变化
-    changeRouter(){
-      // 选处理数据
-      // let _copyObj = {}
-      // for(let key in this.filterResult) {
-      //   if(this.filterResult[key]) {
-      //     _copyObj[key] = this.filterResult[key]
-      //   }
-      // }
-      // let newParams = Object.assign({}, this.searchParams, _copyObj)
-      this.$router.push(`${changeParams(this.filterResult)}`)
+    changeRouter(keyword){
+      let _url = changeParams(this.filterResult).split('/')
+      if(keyword){
+        delete this.$route.query.w
+      }
+      this.$router.push({
+        name: 'category-search',
+        params:{
+          category: _url[1],
+          search: _url[2]
+        },
+        query:this.$route.query
+      })
+
+      // this.$router.push(`${changeParams(this.filterResult)}`)
     },
     // 格式化拼音列表
     _nomalLizePinyin(data) {
