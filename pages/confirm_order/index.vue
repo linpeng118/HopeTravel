@@ -323,6 +323,7 @@
   import {getSessionStore} from '@/assets/js/utils'
   import {guojialist} from '@/api/contacts'
   import TelCode from '@/components/confirm_foot/telcode'
+  import {mapMutations} from 'vuex'
   import addcon from '@/components/confirm_foot/addcon'
   export default {
     components: {
@@ -388,25 +389,21 @@
       },
     },
     mounted() {
-      this.getLoginOrNot()
+      init()
       let obj = getSessionStore('pricelist') ? JSON.parse(getSessionStore('pricelist')) : {};
-      let this_ = this;
       this.$store.commit("pricelist", obj);
       let objw = getSessionStore('countprice') ? JSON.parse(getSessionStore('countprice')) : {};
       this.$store.commit("countprice", objw);
       this.product = this.$store.state.product.reservePro;
       this.countprice = this.$store.state.confirm.countprice;
-      if (this.countprice.savephone == '' || this.countprice.savephone == undefined || this.countprice.savephone == 'undefined') {
-        this.init();
-      }
-      else {
-        this.contact = {"name": this.countprice.savename, "phone": this.countprice.savephone, "email": this.countprice.saveemail}
-      }
       this.pricelist = this.get_vuex_pricelist;
       this.getqu();
       this.settitletip();
-      this_.xname = this_.$store.state.product.reservePro.name;
-      this_.getCouponList();
+      if(this.isLogin){
+        this.xname = this.$store.state.product.reservePro.name;
+        this.getCouponList();
+      }
+
     },
 
     methods: {
@@ -417,25 +414,26 @@
         if (code === 0) {
           this.isLogin = true;
           this.profile = data;
-          this.$store.commit("countprice", {
-            savename: data.nickname || data.chinese_name,
-            saveemail: data.email,
-            savephone: data.phone,
-          });
-          this.countprice.savename = data.nickname || data.chinese_name;
-          this.countprice.savephone = data.phone;
-          this.countprice.saveemail = data.email;
-          this.contact = {"name": data.nickname || data.chinese_name, "phone": data.phone, "email": data.email}
+          this.vxSetProfile(data)
+          if (this.countprice.savephone == '' || this.countprice.savephone == undefined || this.countprice.savephone == 'undefined') {
+            this.$store.commit("countprice", {
+              savename: data.nickname || data.chinese_name,
+              saveemail: data.email,
+              savephone: data.phone,
+            });
+            this.countprice.savename = data.nickname || data.chinese_name;
+            this.countprice.savephone = data.phone;
+            this.countprice.saveemail = data.email;
+            this.contact = {"name": data.nickname || data.chinese_name, "phone": data.phone, "email": data.email}
+          }
+          else {
+            this.contact = {"name": this.countprice.savename, "phone": this.countprice.savephone, "email": this.countprice.saveemail}
+          }
         } else {
           this.profile = {}
         }
       },
-      async getLoginOrNot(){
-       await setTimeout(() => {
-         this.isLogin = this.$store.state.profile.profile.customer_id ? true: false
-         console.log(this.$store.state.profile.profile.customer_id )
-       },50)
-      },
+
       //获得价格日历数据
       async getpricedate(id) {
         let {data, code} = await getdateTrip(id)
@@ -678,7 +676,10 @@
       truser: function (x) {
         this.usertraver[x.ind] = x.val;
         console.log(this.usertraver)
-      }
+      },
+      ...mapMutations({
+        vxSetProfile: 'profile/setProfile'
+      })
     }
   }
 
