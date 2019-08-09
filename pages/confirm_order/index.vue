@@ -388,7 +388,6 @@
       },
     },
     mounted() {
-      // console.log(44444, )
       this.getLoginOrNot()
       let obj = getSessionStore('pricelist') ? JSON.parse(getSessionStore('pricelist')) : {};
       let this_ = this;
@@ -396,12 +395,6 @@
       let objw = getSessionStore('countprice') ? JSON.parse(getSessionStore('countprice')) : {};
       this.$store.commit("countprice", objw);
       this.product = this.$store.state.product.reservePro;
-      setTimeout(function () {
-        this_.xname = this_.$store.state.product.reservePro.name;
-        if (this.isLogin) {
-          this_.getCouponList();
-        }
-      }, 100)
       this.countprice = this.$store.state.confirm.countprice;
       if (this.countprice.savephone == '' || this.countprice.savephone == undefined || this.countprice.savephone == 'undefined') {
         this.init();
@@ -412,6 +405,8 @@
       this.pricelist = this.get_vuex_pricelist;
       this.getqu();
       this.settitletip();
+      this_.xname = this_.$store.state.product.reservePro.name;
+      this_.getCouponList();
     },
 
     methods: {
@@ -435,10 +430,10 @@
           this.profile = {}
         }
       },
-      // islogin 重新获取数据
       async getLoginOrNot(){
        await setTimeout(() => {
          this.isLogin = this.$store.state.profile.profile.customer_id ? true: false
+         console.log(this.$store.state.profile.profile.customer_id )
        },50)
       },
       //获得价格日历数据
