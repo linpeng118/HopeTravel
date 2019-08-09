@@ -1514,7 +1514,11 @@
   .popup{
     width: 100%;
     height: 1200px;
-    background-color: rgba(0,0,0,0);
+    background-color: rgba(0,0,0,0)!important;
+  }
+  .popup2{
+    width: 100%;
+    background-color: rgba(0,0,0,0)!important;
   }
   .comment{
     border-radius: 30px 30px 0 0;
