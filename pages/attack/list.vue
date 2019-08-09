@@ -173,7 +173,12 @@
     }
   }
 </script>
-
+<style>
+  body{
+    overflow: scroll!important;
+    position: relative!important;
+  }
+</style>
 <style type="text/scss" lang="scss" scoped>
   .layout-header {
     height: 88px;

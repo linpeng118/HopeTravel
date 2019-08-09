@@ -371,6 +371,8 @@
     }
   };
 </script>
+
+
 <style>
   .attack-item img{
     max-width: 686px;
@@ -380,6 +382,11 @@
     background: rgba(0, 0, 0, 0)!important;
     color: #fff!important;
   }
+  body{
+    overflow: scroll!important;
+    position: relative!important;
+  }
+
 </style>
 <style lang="scss" scoped>
   .product-detail-header {
