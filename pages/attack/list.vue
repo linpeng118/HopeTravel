@@ -289,7 +289,6 @@
         background-color: #dedede;
         box-shadow:0px 0px 12px rgba(52,52,52,0.2);
         img{
-          width: 240px;
           height: 240px;
         }
       }

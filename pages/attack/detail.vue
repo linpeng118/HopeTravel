@@ -73,6 +73,9 @@
           <p v-for="(itemx,indx) in objcon" @click.stop="totitle(indx)" :key="indx">{{itemx.chapter_title}}</p>
         </div>
       </div>
+      <div class="elsetitle">
+        {{objdata.name}}
+      </div>
       <div class="attack-item" v-for="(item,ind) in objcon" :key="ind" ref="title">
         <p class="titlex">{{item.chapter_title}}</p>
         <div class="conx" v-html="item.content">
@@ -392,6 +395,10 @@
   .product-detail-header {
     height: 88px;
     box-shadow: none!important;
+  }
+  .elsetitle{
+    color: #2d2d2d;
+    font-size: 50px;
   }
   .product-detail {
     padding-bottom: 144px;
@@ -1554,10 +1561,18 @@
         color: #2d2d2d;
         font-size: 28px;
         margin-bottom: 10px;
+
         span{
           font-size: 20px;
+          padding-left: 40px;
           color: #d9d9d9;
         }
+      }
+      p:nth-child(2){
+        font-size: 28px;
+        color: #7e7e7e;
+
+
       }
     }
     .itemcom2{
@@ -1571,7 +1586,7 @@
       display: inline-block;
       background-color: #f2f2f2;
       position: absolute;
-      margin-top: 43px;
+      border-radius: 60px;
     }
     .mylist{
       .van-cell{
