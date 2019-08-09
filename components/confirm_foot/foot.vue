@@ -166,7 +166,6 @@
       this.$store.commit("countprice", objw);
       this.checkrouter();//判断当前位置
       this.setshow();
-      console.log(this.apiPath)
     },
     methods: {
       ...mapMutations({

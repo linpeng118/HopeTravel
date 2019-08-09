@@ -323,7 +323,7 @@
   import {getSessionStore} from '@/assets/js/utils'
   import {guojialist} from '@/api/contacts'
   import TelCode from '@/components/confirm_foot/telcode'
-  import {mapMutations} from 'vuex'
+  import {mapMutations,mapState} from 'vuex'
   import addcon from '@/components/confirm_foot/addcon'
   export default {
     components: {
@@ -371,6 +371,9 @@
       get_vuex_pricelist() {
         return this.$store.state.confirm.pricelist;
       },
+      ...mapState({
+        vxReservePro: state => state.product.reservePro
+      }),
     },
     watch: {
       get_vuex_countprice(val) {
@@ -389,17 +392,21 @@
       },
     },
     mounted() {
-      let obj = getSessionStore('pricelist') ? JSON.parse(getSessionStore('pricelist')) : {};
-      this.$store.commit("pricelist", obj);
-      let objw = getSessionStore('countprice') ? JSON.parse(getSessionStore('countprice')) : {};
-      this.$store.commit("countprice", objw);
-      this.product = this.$store.state.product.reservePro;
-      this.countprice = this.$store.state.confirm.countprice;
-      this.pricelist = this.get_vuex_pricelist;
-      console.log(this.product)
-      this.init()
-      this.getqu();
-      this.settitletip();
+
+      setTimeout( ()=>{
+        let obj = getSessionStore('pricelist') ? JSON.parse(getSessionStore('pricelist')) : {};
+        this.$store.commit("pricelist", obj);
+        let objw = getSessionStore('countprice') ? JSON.parse(getSessionStore('countprice')) : {};
+        this.$store.commit("countprice", objw);
+        this.product = JSON.parse(JSON.stringify(this.vxReservePro))
+        this.countprice = this.$store.state.confirm.countprice;
+        this.pricelist = this.get_vuex_pricelist;
+        console.log(this.product)
+        this.init()
+        this.getqu();
+        this.settitletip();
+      },20)
+
     },
 
     methods: {
