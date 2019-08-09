@@ -384,6 +384,7 @@
 <style lang="scss" scoped>
   .product-detail-header {
     height: 88px;
+    box-shadow: none!important;
   }
   .product-detail {
     padding-bottom: 144px;
@@ -1269,6 +1270,8 @@
       width: 80px;
       height: 80px;
       float: left;
+      border-radius: 48px;
+      overflow: hidden;
       img{
         width: 80px;
         height: 80px;

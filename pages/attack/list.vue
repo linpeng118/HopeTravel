@@ -312,6 +312,8 @@
           height: 48px;
           font-size: 24px;
           color: #d4d4d4;
+          border-radius: 48px;
+          overflow: hidden;
           line-height: 48px;
           img{
             width: 48px;
@@ -320,6 +322,7 @@
             margin-left: 20px;
             display: inline-block;
             position: relative;top: 16px;
+
           }
           span{
             margin-left: 12px;
