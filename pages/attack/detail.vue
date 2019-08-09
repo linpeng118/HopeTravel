@@ -360,16 +360,19 @@
       //提交评论
       async subcomm(){
         let that=this;
-        let {code} = await upcomm({
-          comment:that.searchtext,
-          id:that.objid
-        })
-        if (code === 0) {
-          that.searchtext=''
-          that.$dialog.alert({
-            message: '评论成功'
-          });
+        if(that.searchtext!=''){
+          let {code} = await upcomm({
+            comment:that.searchtext,
+            id:that.objid
+          })
+          if (code === 0) {
+            that.searchtext=''
+            that.$dialog.alert({
+              message: '评论成功'
+            });
+          }
         }
+
       }
     }
   };
