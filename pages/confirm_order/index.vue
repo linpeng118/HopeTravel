@@ -389,7 +389,7 @@
       },
     },
     mounted() {
-      init()
+      this.init()
       let obj = getSessionStore('pricelist') ? JSON.parse(getSessionStore('pricelist')) : {};
       this.$store.commit("pricelist", obj);
       let objw = getSessionStore('countprice') ? JSON.parse(getSessionStore('countprice')) : {};
