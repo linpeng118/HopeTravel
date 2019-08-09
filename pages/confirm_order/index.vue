@@ -715,6 +715,7 @@
   }
   .service-note {
     padding: 0 0 50px 40px;
+    bottom: 165px;
   }
   .setcheck {
     span {
