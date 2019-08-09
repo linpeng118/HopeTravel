@@ -34,7 +34,7 @@
                   <p class="p2">
                     <img :src="data.create_user.face" alt="">
                     <span style="color:#575757;" v-if="data.create_user.name"
-                          v-html="data.create_user.name.length>5?data.create_user.name.substr(0,4)+'....':data.create_user.name"
+                          v-html="data.create_user.name.length>6?data.create_user.name.substr(0,6)+'....':data.create_user.name"
                     ></span>
                     <span style="color:#575757;" v-else>佚名</span>
 
