@@ -389,7 +389,6 @@
       },
     },
     mounted() {
-      this.init()
       let obj = getSessionStore('pricelist') ? JSON.parse(getSessionStore('pricelist')) : {};
       this.$store.commit("pricelist", obj);
       let objw = getSessionStore('countprice') ? JSON.parse(getSessionStore('countprice')) : {};
@@ -397,13 +396,10 @@
       this.product = this.$store.state.product.reservePro;
       this.countprice = this.$store.state.confirm.countprice;
       this.pricelist = this.get_vuex_pricelist;
+      console.log(this.product)
+      this.init()
       this.getqu();
       this.settitletip();
-      if(this.isLogin){
-        this.xname = this.$store.state.product.reservePro.name;
-        this.getCouponList();
-      }
-
     },
 
     methods: {
@@ -415,6 +411,8 @@
           this.isLogin = true;
           this.profile = data;
           this.vxSetProfile(data)
+          this.xname = this.product.name;
+          this.getCouponList();
           if (this.countprice.savephone == '' || this.countprice.savephone == undefined || this.countprice.savephone == 'undefined') {
             this.$store.commit("countprice", {
               savename: data.nickname || data.chinese_name,
