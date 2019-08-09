@@ -402,6 +402,8 @@
   .elsetitle{
     color: #2d2d2d;
     font-size: 50px;
+    padding-top: 30px
+  ;
   }
   .product-detail {
     padding-bottom: 144px;
