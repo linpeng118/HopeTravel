@@ -48,7 +48,7 @@
       </div>
       <!-- 产品 -->
       <div class="product">
-        <p class="setelse"><span>{{product.comment_score}}分</span> &nbsp;&nbsp;<span>出行人数：{{product.sales}}</span> </p>
+        <p class="setelse"><span>{{product.comment_score}}分</span> &nbsp;&nbsp;<span v-if="product.sales>0">出行人数：{{product.sales}}</span> </p>
         <!-- name -->
         <p class="name">
           <span class="prod-tag"
@@ -559,9 +559,7 @@
             preload="auto">
             暂时不支持播放该视频
           </video>
-          <!--<div class="video-loading">-- v-if="product.videos[0] && product.videos[0].video">
-<!--<i></i>--:src="product.videos[0].video">
-<!--</div>-->
+          <!--<div class="video-loading">-- v-if="product.videos[0] && product.videos[0].video"><i></i>--:src="product.videos[0].video"></div>-->
         </div>
       </div>
     </van-popup>

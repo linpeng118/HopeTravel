@@ -9,7 +9,7 @@
           {{datay.name}}
         </div>
         <p><span style="color: #989898" v-if="datay.comment_score">{{datay.comment_score}}分</span>&nbsp;
-          <span style="color: #989898">{{datay.sales}}人出行</span></p>
+          <span style="color: #989898" v-if="datay.sales>0">{{datay.sales}}人出行</span></p>
         <div class="product-price">
           <template v-if="!datay.special_price">
             <span class="sale-price"><strong>{{datay.default_price | showInt}}</strong>/{{$t('since')}}</span>
