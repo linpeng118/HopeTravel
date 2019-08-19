@@ -529,7 +529,7 @@
         height: 120px;
         float: left;
         text-align: left;
-        background-image: url('../assets/imgs/listbg1.png');
+        background-image: url('../assets/imgs/pic_time@2x.png');
         background-repeat: no-repeat;
         background-size: 342px 120px;
         box-sizing: border-box;
@@ -561,7 +561,7 @@
         margin-right: 32px;
         float: right;
         text-align: right;
-        background-image: url('../assets/imgs/listbg2.png');
+        background-image: url('../assets/imgs/pic_help@2x.png');
         background-repeat: no-repeat;
         background-size: 342px 120px;
         padding-right: 24px;

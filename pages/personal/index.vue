@@ -1,41 +1,44 @@
 <template>
   <div class="personal">
     <div class="header">
-      <div class="info"
-        v-if="JSON.stringify(profile) !== '{}'">
-        <div class="user-pic"
-          @click="editInfo">
-          <img class
-            :src="profile.face"
-            alt>
+      <div class="setting">
+        <nuxt-link tag="div" class="set" to="/personal/setting">
+          <img src="../../assets/imgs/personal/index/ic_setting@2x.png" alt>
+        </nuxt-link>
+      </div>
+      <div class="con">
+        <div class="box">
+          <img @click="editInfo" v-if="JSON.stringify(profile) !== '{}'" :src="profile.face" alt="">
+          <img v-else src="../../assets/imgs/personal/index/head@2x.png" alt="">
         </div>
-        <div class="user-info">
-          <div class="name">{{profile.nickname || $t('personalPage.noNickName')}}</div>
-          <div class="rice">
-            <span @click="myRice">{{$t('personalPage.riceGrain')}}：{{profile.total_points}}
-              <van-icon color="#fff"
-                name="arrow"
-                size="1em" /></span>
-            <span @click="myCon">{{$t('coupons')}}：{{profile.total_coupons||0}}
-              <van-icon color="#fff"
-                name="arrow"
-                size="1em" /></span>
-          </div>
+        <div class="text">
+          <span class="span1" @click="editInfo" v-if="JSON.stringify(profile) !== '{}'">{{profile.nickname || $t('personalPage.noNickName')}}</span>
+          <nuxt-link tag="span"
+                     v-else
+                     class="span1"
+                     to="/login">{{$t('login')}}/{{$t('regist')}}</nuxt-link>
+          <nuxt-link tag="span" v-if="JSON.stringify(profile) === '{}'"
+                     class="span2"
+                     to="/order/search">手机号查单</nuxt-link>
+
         </div>
-        <div class="user-edit"
-          @click="editInfo">
-          <img src="../../assets/imgs/personal/index/edit.png"
-            alt>
+        <div class="icon-kefu" @click="contactCustom">
+          <img src="../../assets/imgs/personal/index/kefu.png" alt="">
         </div>
       </div>
-      <div class="operation"
-        v-else>
-        <nuxt-link tag="div"
-          class="btn-link"
-          to="/login">{{$t('login')}}/{{$t('regist')}}</nuxt-link>
-        <nuxt-link tag="div"
-          class="btn-link"
-          to="/order/search">手机号查单</nuxt-link>
+      <div class="elsecon" v-if="!isLogin">
+        <div>查看{{$t('personalPage.riceGrain')}}</div>
+        <div>查看{{$t('coupons')}}</div>
+      </div>
+      <div class="elsecon" v-else>
+        <div @click="myRice">
+          <p class="p1">{{profile.total_points}}</p>
+          <p class="p2">{{$t('personalPage.riceGrain')}}</p>
+        </div>
+        <div @click="myCon">
+          <p class="p1">{{profile.total_coupons||0}}</p>
+          <p class="p2">{{$t('coupons')}}</p>
+        </div>
       </div>
     </div>
     <div class="body">
@@ -48,96 +51,66 @@
           <dl>
             <dt>
               <img v-if="item.status === 'unpaid'"
-                src="../../assets/imgs/personal/index/unpaid.png"
+                src="../../assets/imgs/personal/index/ic_daichuxing@2x.png"
                 alt>
               <img v-else-if="item.status === 'wait'"
-                src="../../assets/imgs/personal/index/will_go.png"
+                src="../../assets/imgs/personal/index/ic_weifukuan@2x.png"
                 alt>
               <img v-else-if="item.status === 'finish'"
-                src="../../assets/imgs/personal/index/gone.png"
+                src="../../assets/imgs/personal/index/ic_daipinglun@2x.png"
                 alt>
               <img v-else
-                src="../../assets/imgs/personal/index/order.png"
+                src="../../assets/imgs/personal/index/ic_daichuxing@2x.png"
                 alt>
             </dt>
             <dd>{{item.title}}</dd>
           </dl>
         </div>
       </div>
+      <p class="elsetitle">我的工具</p>
       <!-- 次级菜单 -->
-      <div class="sub-menu">
-        <van-cell :title="$t('personalPage.myCollection')"
-          is-link
-          :to="isLogin ? '/personal/follow': '/login?redirect=personal'">
-          <template slot="icon">
-            <img class="icon-size"
-              src="../../assets/imgs/personal/index/attention.png">
-          </template>
-        </van-cell>
-        <van-cell :title="$t('personalPage.commonPassenger')"
-          is-link
-          :to="isLogin ? '/personal/contactsList?type=list': '/login?redirect=personal'">
-          <template slot="icon">
-            <img class="icon-size"
-              src="../../assets/imgs/personal/index/passenger.png">
-          </template>
-        </van-cell>
-        <!--分销-->
-        <!--<van-cell title="我的分销" is-link :to="isLogin ? '/personal/sale_union': '/login?redirect=personal'">-->
-        <van-cell :title="$t('distributionPage.distribution')"
-          is-link
-          @click="goToUnion">
-          <template slot="icon">
-            <img class="icon-size"
-              src="../../assets/imgs/personal/index/sales.png">
-          </template>
-        </van-cell>
-        <van-cell :title="$t('personalPage.switchMoney')"
-          is-link
-          to="/personal/money">
-          <template slot="icon">
-            <img class="icon-size"
-              src="../../assets/imgs/personal/index/currency.png">
-          </template>
-        </van-cell>
-        <!--兑换优惠码-->
-        <van-cell :title="$t('personalPage.exchangeDiscount')"
-          is-link
-          :to="isLogin ? '/personal/exchange_discount': '/login?redirect=personal'">
-          <template slot="icon">
-            <img class="icon-size"
-              src="../../assets/imgs/personal/index/coupon.png">
-          </template>
-        </van-cell>
+      <div class="main-menu2">
+        <nuxt-link tag="div" class="menu-item" to="/personal/money">
+            <dl>
+              <dt>
+                <img src="../../assets/imgs/personal/index/ic_currency@2x.png" alt>
+              </dt>
+              <dd>{{$t('personalPage.switchMoney')}}</dd>
+            </dl>
+          </nuxt-link>
+        <nuxt-link tag="div" class="menu-item" :to="isLogin ? '/personal/exchange_discount': '/login?redirect=personal'">
+          <dl>
+            <dt>
+              <img src="../../assets/imgs/personal/index/ic_discounts@2x.png" alt>
+            </dt>
+            <dd>{{$t('personalPage.exchangeDiscount')}}</dd>
+          </dl>
+        </nuxt-link>
+        <nuxt-link tag="div" class="menu-item" :to="isLogin ? '/personal/follow': '/login?redirect=personal'">
+          <dl>
+            <dt>
+              <img src="../../assets/imgs/personal/index/ic_favorite@2x.png" alt>
+            </dt>
+            <dd>{{$t('personalPage.myCollection')}}</dd>
+          </dl>
+        </nuxt-link>
+        <nuxt-link tag="div" class="menu-item" :to="isLogin ? '/personal/contactsList?type=list': '/login?redirect=personal'">
+          <dl>
+            <dt>
+              <img src="../../assets/imgs/personal/index/ic_passenger@2x.png" alt>
+            </dt>
+            <dd>{{$t('personalPage.commonPassenger')}}</dd>
+          </dl>
+        </nuxt-link>
+        <div class="menu-item" @click="goToUnion">
+          <dl>
+            <dt>
+              <img src="../../assets/imgs/personal/index/ic_distribution@2x.png" alt>
+            </dt>
+            <dd>{{$t('distributionPage.distribution')}}</dd>
+          </dl>
+        </div>
       </div>
-      <!-- 次级菜单 -->
-      <div class="sub-menu">
-        <van-cell :title="$t('personalPage.feedback')"
-          is-link
-          to="/personal/content">
-          <template slot="icon">
-            <img class="icon-size"
-              src="../../assets/imgs/personal/index/feedback.png">
-          </template>
-        </van-cell>
-        <van-cell :title="$t('contactService')"
-          @click="contactCustom">
-          <template slot="icon">
-            <img class="icon-size"
-              src="../../assets/imgs/personal/index/service.png">
-          </template>
-        </van-cell>
-        <van-cell :title="$t('personalPage.seting')"
-          is-link
-          to="/personal/setting">
-          <template slot="icon">
-            <img class="icon-size"
-              src="../../assets/imgs/personal/index/setting.png">
-          </template>
-        </van-cell>
-      </div>
-    </div>
-
     <div>
       <van-tabbar v-model="active"
         active-color="#399EF6">
@@ -151,8 +124,8 @@
           to="/personal">{{$t('personalPage.userCenter')}}</van-tabbar-item>
       </van-tabbar>
     </div>
-
   </div>
+    </div>
 </template>
 
 <script>
@@ -291,92 +264,99 @@
   }
   .header {
     width: 750px;
-    height: 318px;
-    background: rgba(57, 158, 246, 1);
+    height: 374px;
     opacity: 1;
     position: relative;
     padding: 0 32px;
     box-sizing: border-box;
-    .info {
-      color: #fff;
-      .user-pic {
-        position: absolute;
-        top: 48px;
-        left: 32px;
-        width: 142px;
-        height: 142px;
-        img {
-          width: 142px;
-          height: 142px;
-          border-radius: 50%;
-          overflow: hidden;
-        }
-      }
-      .user-info {
-        position: absolute;
-        top: 74px;
-        left: 198px;
-        .name {
-          /*width: 84px;*/
+    .setting{
+      width: 100%;
+      height: 88px;
+      padding-top: 22px;
+      .set{
+        float: right;
+        width: 40px;
+        height: 40px;
+        img{
+          width: 40px;
           height: 40px;
-          font-size: 28px;
-          font-weight: 400;
-          line-height: 40px;
-          color: rgba(255, 255, 255, 1);
-          opacity: 1;
-        }
-        .rice {
-          margin-top: 8px;
-          span {
-            height: 32px;
-            font-size: 22px;
-            padding: 3px 20px;
-            font-weight: 300;
-            line-height: 32px;
-            color: rgba(255, 255, 255, 1);
-            opacity: 1;
-            border-radius: 20px;
-            border: 2px solid rgba(255, 255, 255, 1);
-            i {
-              top: 5px;
-            }
-          }
-          button {
-            height: 32px;
-            background: rgba(255, 255, 255, 1);
-            opacity: 1;
-            border-radius: 16px;
-            font-size: 22px;
-            font-weight: bold;
-            line-height: 32px;
-            color: rgba(57, 158, 246, 1);
-          }
-        }
-      }
-      .user-edit {
-        position: absolute;
-        top: 76px;
-        right: 32px;
-        img {
-          width: 32px;
-          height: 32px;
         }
       }
     }
-    .operation {
-      padding-top: 88px;
-      .btn-link {
-        display: inline-block;
-        height: 52px;
-        width:180px;
+    .con{
+      margin-top: 20px;
+      width: 100%;
+      height: 160px;
+      .box{
+        width: 160px;
+        height: 160px;
+        border-radius: 80px;
+        overflow: hidden;
+        float: left;
+        img{
+          width: 160px;
+          height: 160px;
+        }
+      }
+      .text{
+        float: left;
+        padding: 10px 0;
+        .span1{
+          color: #2D2D2D;
+          font-size: 32px;
+          display: inline-block;
+          line-height: 140px;
+          margin-left: 30px;
+        }
+        .span2{
+          width:158px;
+          height:48px;
+          border:2px solid rgba(0,171,249,1);
+          opacity:1;
+          border-radius:44px;
+          display: inline-block;
+          text-align: center;
+          margin-top: 46px;
+          color:rgba(0,171,249,1);
+          font-size: 20px;
+          line-height: 44px;
+        }
+
+      }
+      .icon-kefu{
+        float: right;
+        margin-right: -32px;
+        margin-top: 38px;
+        img{
+          width: 132px;
+          height: 72px;
+        }
+      }
+
+
+    }
+    .elsecon{
+      width: 100%;
+      height: 60px;
+      div{
+        width: 50%;
+        float: left;
+        height: 60px;
         text-align: center;
-        line-height: 52px;
-        border: 2px solid rgba(255, 255, 255, 1);
-        opacity: 1;
-        border-radius: 40px;
-        font-size: 28px;
-        background: transparent;
-        color: #fff;
+        font-size:24px;
+        color: #00abf9;
+        line-height:60px;
+        .p1{
+          color: #00ABF9;
+          font-size:32px;
+          font-weight:bold;
+          line-height:50px;
+        }
+        .p2{
+          color: #A2A2A2;
+          font-size:24px;
+          line-height:40px;
+        }
       }
     }
   }
@@ -386,11 +366,11 @@
     .main-menu {
       width: 686px;
       height: 162px;
-      background: #fff;
-      opacity: 1;
-      border-radius: 8px;
+      background:rgba(255,255,255,1);
+      box-shadow:0px 2px 12px rgba(57,57,57,0.16);
+      opacity:1;
+      border-radius:20px;
       position: relative;
-      top: -88px;
       display: flex;
       display: -webkit-flex;
       align-items: center;
@@ -399,28 +379,54 @@
         text-align: center;
         flex: 1;
         font: 24px/24px "";
-        color: #5e5e5e;
+        color: #A2A2A2;
         img {
-          width: 40px;
-          height: 36px;
+          width: 60px;
+          height: 60px;
         }
         dt {
-          margin-bottom: 20px;
+          margin-bottom: 10px;
         }
       }
     }
-    .sub-menu {
+    .main-menu2 {
       width: 686px;
+      height: 284px;
+      background:rgba(255,255,255,1);
+      box-shadow:0px 2px 12px rgba(57,57,57,0.16);
+      opacity:1;
+      border-radius:20px;
       position: relative;
-      top: -65px;
-      background: #fff;
-      border-radius: 8px;
-      margin-bottom: 24px;
+      display: flex;
+      display: -webkit-flex;
+      align-items: center;
+      -webkit-align-items: center;
+      flex-direction: row;
+      flex-wrap: wrap;
+      .menu-item {
+        text-align: center;
+        font: 24px/24px "";
+        color: #A2A2A2;
+        width: 170px;
+        img {
+          width: 60px;
+          height: 48px;
+        }
+        dt {
+          margin-bottom: 10px;
+        }
+      }
     }
-    .icon-size {
-      width: 48px;
-      height: 48px;
+    .elsetitle{
+      font-size:32px;
+      font-weight:bold;
+      line-height:54px;
+      padding: 20px;
+      width: 100%;
+      color: #2d2d2d;
     }
+
+
   }
   .footer {
     padding: 25px 32px;

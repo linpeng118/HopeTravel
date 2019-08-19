@@ -36,7 +36,7 @@
         settingList: [
           {type: SETTING.CHANGE_PSW, icon: require('~/assets/imgs/personal/setting_1@2x.png'), title: this.$t('personalPage.changePassword'), isRightIcon: true, value: '', path: '/personal/changePsw'},
           {type: SETTING.ABOUT, icon: require('~/assets/imgs/personal/setting_2@2x.png'), title:  this.$t('personalPage.aboutScool'), isRightIcon: true, value: '', path: '/personal/about'},
-          // {type: SETTING.VERSION, icon: require('~/assets/imgs/personal/setting_3@2x.png'), title: '当前系统版本', isRightIcon: false, value: 'V1.0', path: '/personal/version'},
+          {type: SETTING.VERSION, icon: require('~/assets/imgs/personal/setting_3@2x.png'), title:  this.$t('personalPage.feedback'), isRightIcon: false, value: '', path: '/personal/content'},
           // {type: SETTING.GRADE, icon: require('~/assets/imgs/personal/setting_4@2x.png'), title: '给我们评分', isRightIcon: true, value: '', path: '/personal/grade'},
           // {type: SETTING.CLEAR_CACHE, icon: require('~/assets/imgs/personal/setting_5@2x.png'), title: '清除缓存', isRightIcon: true, value: '', path: '/personal/clearCache'},
         ]
