@@ -216,7 +216,10 @@
         let referer_id = getSessionStore(SESSIONSTORE) || ''
         let platform = getSessionStore(PLATFORM) || ''
         console.log(this.orderInfo, referer_id, platform)
-        let {data, code, msg} = await addorder(this.orderInfo, referer_id, platform)
+        let {data, code, msg} = await addorder({
+          ...this.orderInfo,
+          trace_code: getSessionStore('traceCode')
+        }, referer_id, platform)
         if (code === 0) {
           // 表单提交
           this.subData(data);

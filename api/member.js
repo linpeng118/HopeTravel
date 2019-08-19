@@ -7,7 +7,8 @@ export const register = (data) => {
     account: data.account,
     password: data.password,
     password_confirm: data.password_confirm,
-    code: data.code
+    code: data.code,
+    trace_code: data.traceCode
   })
 }
 
