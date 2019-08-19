@@ -298,9 +298,13 @@
               <i class="agreea">
                 {{$t('confirmPage.acceptRead')}}
               </i>
-              <nuxt-link :to="{path:'/protocol/user'}">
+              <nuxt-link :to="{path:'/protocol/more'}" v-if="product.product_entity_type==1">
                 <a class="agreea"
                   style="color: #216BFF">{{$t('confirmPage.agreeXifanServer')}}</a>
+              </nuxt-link>
+              <nuxt-link :to="{path:'/protocol/alone'}" v-if="product.product_entity_type==0">
+                <a class="agreea"
+                   style="color: #216BFF">{{$t('confirmPage.agreeXifanServer')}}</a>
               </nuxt-link>
             </van-checkbox>
           </div>

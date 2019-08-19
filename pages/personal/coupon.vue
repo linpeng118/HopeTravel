@@ -17,7 +17,7 @@
                   <p class="p2">{{item.full_label}}</p>
                 </div>
                 <div class="cupcon">
-                  <p class="p1">{{item.title}}</p>
+                  <p class="p1">{{item.scope_label}}</p>
                   <p class="p2">{{item.date_label}}</p>
                   <p class="p2">{{item.period_label}}</p>
                   <p class="p2" @click="item.show=(item.show=='0')?'1':'0'">{{$t('couponsPage.instructions')}}

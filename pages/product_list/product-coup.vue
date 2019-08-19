@@ -58,7 +58,7 @@
                     <span v-if="data.coupons&&data.coupons.length>1" style="color:#fb605d">......</span>
                     <span class="share-p" v-if="isShowFx">{{$t('productDetailPage.shareMakes')}}{{data.agent_fee}}</span>
                     <p><span style="color: #989898" v-if="data.comment_score">{{data.comment_score}}分</span>&nbsp;
-                      <span style="color: #989898">{{data.sales}}人出行</span></p>
+                      <span style="color: #989898" v-if="data.sales>0">{{data.sales}}人出行</span></p>
                   </div>
                 </div>
               </div>
