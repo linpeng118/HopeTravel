@@ -300,11 +300,11 @@
               </i>
               <nuxt-link :to="{path:'/protocol/more'}" v-if="product.product_entity_type==1">
                 <a class="agreea"
-                  style="color: #216BFF">{{$t('confirmPage.agreeXifanServerM')}}</a>
+                  style="color: #216BFF">{{$t('agreeXifanServerM')}}</a>
               </nuxt-link>
               <nuxt-link :to="{path:'/protocol/alone'}" v-if="product.product_entity_type==0">
                 <a class="agreea"
-                   style="color: #216BFF">{{$t('confirmPage.agreeXifanServerA')}}</a>
+                   style="color: #216BFF">{{$t('agreeXifanServerA')}}</a>
               </nuxt-link>
             </van-checkbox>
           </div>
