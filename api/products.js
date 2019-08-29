@@ -11,7 +11,7 @@ export const getProductList = (data) => {
       keyword: data.keyword || null,
       page: data.page || 1,
       page_size: data.page_size || 9,
-      start_city: data.start_city || null,
+      departure_city: data.start_city || null,
       stop_city: data.stop_city || null,
       span_city: data.span_city || null,
       tag: data.tag || null,

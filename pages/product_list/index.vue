@@ -305,7 +305,12 @@
       },
       //得到哪些菜单下有数据
       async menuset(){
-        let {code, data} = await getmenuSearch(this.searchKeyWords)
+        let mydata=this.searchKeyWords
+        if(mydata.start_city){
+          mydata.departure_city=mydata.start_city
+          delete mydata["start_city"]
+        }
+        let {code, data} = await getmenuSearch(mydata)
         if (code === 0) {
           this.menu = data;
           let objlist=[{id:10,type: 0,title: this.$t('tours.torusRecommend')}];
@@ -445,14 +450,23 @@
       // 初始化筛选列表
       async getFilterList() {
         let submitData = {};
+        let mydata=this.filterResult;
+        if(mydata.start_city){
+          mydata.departure_city=mydata.start_city
+          delete mydata["start_city"]
+        }
           submitData = {
             type: this.currentType == 0 ? null: this.currentType,
             keyword: this.searchKeyWords,
-            ...this.filterResult
+            ...mydata
           }
         let {code, data} = await getFilterList(submitData)
         if (code === 0) {
           this.filterLists = data;
+          if( this.filterLists.start_city){
+            this.filterLists.departure_city=this.filterLists.start_city
+            delete this.filterLists["start_city"]
+          }
         }
       },
       // 滑动会请求数据
