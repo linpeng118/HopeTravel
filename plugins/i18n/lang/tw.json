@@ -121,6 +121,9 @@
         "cruise": "郵輪",
         "connectionService": "接駁服務"
     },
+  "tours": {
+    "name": "景區詳情"
+  },
     "homePage": {
         "title": "首頁",
         "downloadText": "下載稀飯APP，領新人福利",

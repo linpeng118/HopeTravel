@@ -111,6 +111,9 @@
         "rate":"评分",
 		"detail":"评论详情"
     },
+  "tours": {
+    "name": "景区详情"
+  },
     "tours": {
         "torusRecommend": "稀饭推荐",
         "exquisiteGroup": "精品小团",
