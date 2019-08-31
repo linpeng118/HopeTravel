@@ -288,19 +288,29 @@
         let a=this.$refs.title;
         let top = a[ind].offsetTop;
         this.shownav=false
-        if(document.documentElement.scrollTop > top){
+        if((document.documentElement.scrollTop || document.body.scrollTop) > top){
           let timer = setInterval(() => {
-            document.documentElement.scrollTop = document.documentElement.scrollTop-10
-            if (document.documentElement.scrollTop <= top) {
+            if(document.documentElement.scrollTop){
+              document.documentElement.scrollTop = document.documentElement.scrollTop-100
+            }
+            else if(document.body.scrollTop){
+              document.body.scrollTop = document.body.scrollTop-100
+            }
+
+            if ((document.documentElement.scrollTop || document.body.scrollTop) <= top) {
               clearInterval(timer)
             }
           }, 1)
         }
-        else if(document.documentElement.scrollTop < top){
+        else if((document.documentElement.scrollTop || document.body.scrollTop) < top){
           let timer = setInterval(() => {
-            let speed = Math.floor(-(document.documentElement.scrollTop - top) / 3)
-            document.documentElement.scrollTop = document.documentElement.scrollTop +10
-            if (document.documentElement.scrollTop >= top) {
+            if(document.documentElement.scrollTop){
+              document.documentElement.scrollTop = document.documentElement.scrollTop+100
+            }
+            else if(document.body.scrollTop){
+              document.body.scrollTop = document.body.scrollTop+100
+            }
+            if ((document.documentElement.scrollTop || document.body.scrollTop) >= top) {
               clearInterval(timer)
             }
           }, 1)
