@@ -163,9 +163,6 @@
       if (process.env.customerService === "53kf") {
         srcCustomerService = 'https://tb.53kf.com/code/code/10181581/2'
       }
-      // if (process.env.customerService === "baidu") {
-      //   srcCustomerService = 'https://hm.baidu.com/hm.js?9bfbbc9f24159633a14d3b4f37db769b'
-      // }
       return {
         script: [
           {
@@ -581,7 +578,6 @@
         }
       }
     }
-
     .hot-target {
       padding: 12px 24px 12px 38px;
       background-color: #fff;
