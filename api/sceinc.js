@@ -8,7 +8,6 @@ export const getSceincList = (data) => {
       keyword: data.keyword||null,
       page_size: data.page_size || null,
       page: data.page || null,
-
     }
   })
 }

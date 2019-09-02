@@ -13,6 +13,7 @@
         <van-list
           v-model="isLoading"
           :finished="finished"
+          finished-text="没有更多了"
           @load="onLoad"
         >
             <div
@@ -84,7 +85,7 @@ export default {
     // 上拉刷新
       async onRefresh(){
         this.sceincList= [],
-      this.pagination= {}
+        this.pagination= {}
         this.getSceincList({
         page: 1,
         page_size: 20
@@ -150,8 +151,13 @@ export default {
           justify-content: space-between;
           align-items: center;
           &-name {
+            width: 300px;
+            // height: 50px;
             font-size: 36px;
             font-weight: bold;
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
           }
           &-weather {
             display: flex;
