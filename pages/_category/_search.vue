@@ -142,13 +142,7 @@ export default {
     getSearch.category = category
     let active = 0
     let checktype = 2
-    // let {code, data} =await $axios.$get('/api/products', {
-    //   params: getSearch,
-    //   headers: {
-    //     'Language': store.getters.language,
-    //     'Currency': store.getters.currency
-    //   }
-    // })
+
     if(getSearch.type) {
       if(getSearch.type === 7) {
         active = 4
@@ -284,18 +278,32 @@ export default {
   methods:{
     // 返回上一级
     leftClick() {
-      if(this.$route.query.se || this.$route.query.sr){
-        this.$router.push({
-          path: '/search'
-        })
-      } else if(this.$route.query.sr && this.searchKeyWords){
-        // 处理返回搜索页面的情况
-        this.$router.push(`/search/keyword?w=${this.searchKeyWords}&sr=1`)
-      } else {
+      // if(this.$route.query.se || this.$route.query.sr){
+      //   this.$router.push({
+      //     path: '/search'
+      //   })
+      // } else if(this.$route.query.sr && this.searchKeyWords){
+      //   // 处理返回搜索页面的情况
+      //   this.$router.push(`/search/keyword?w=${this.searchKeyWords}&sr=1`)
+      // } else {
+      //   this.$router.push({
+      //     path: '/'
+      //   })
+      // }
+    // else if(this.$route.query.sr) {
+    //     this.$router.push(`/search/keyword?w=${this.searchKeyWords}&sr=1`)
+    //   }
+
+      if(this.searchType > 0) {
         this.$router.push({
           path: '/'
         })
+      } else {
+        this.$router.go(-1)
       }
+
+
+
     },
     // 出搜索页面
     goToKeywordPage(){
@@ -325,7 +333,7 @@ export default {
       let {category,search} = this.$route.params
       let _type = ['ya', 'yg','yw','yj','yl']
       let _search =  _type[name]
-      this.$router.push({
+      this.$router.replace({
         name:'category-search',
         params:{
           category,
@@ -338,7 +346,7 @@ export default {
     selectTypeItem(item){
       let {category,search} = this.$route.params
       search = item + search.substring(2)
-      this.$router.push({
+      this.$router.replace({
         name:'category-search',
         params:{
           category,
@@ -416,7 +424,8 @@ export default {
       this.searchParams.duration = ''
       this.filterResult.duration = ''
       // removeOrAddStr()
-      this.$router.push(changeParams(this.searchParams))
+      // this.$router.push(changeParams(this.searchParams))
+      this.changeRouter()
     },
     // 显示更多的标签
     showMoreFilter(key, item) {
@@ -560,7 +569,7 @@ export default {
       // this.showcolor = 'filter'
     },
     selectProductDetail(productId){
-      this.$router.push({
+      this.$router.replace({
         name: 'product-detail',
         query: {
           productId
@@ -591,7 +600,7 @@ export default {
       if(keyword){
         delete this.$route.query.w
       }
-      this.$router.push({
+      this.$router.replace({
         name: 'category-search',
         params:{
           category: _url[1],

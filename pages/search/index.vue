@@ -239,8 +239,7 @@
             search: 'ya'
           },
           query:{
-            w: this.searchWords,
-            sr: 1
+            w: this.searchWords
           }
         })
       },
@@ -321,8 +320,7 @@
         this.saveLocal()
         let _arr = ['ya','yg','yw','yj','ym','yr','','yl']
         let query = {
-          w: this.searchWords,
-          sr: 1
+          w: this.searchWords
         }
         this.$router.push({
           name:'category-search',
@@ -360,7 +358,7 @@
       selectDetail(query){
         // console.log(66666, query)
         let _query = changeParams(query)
-        this.$router.push(`${_query}?se=1`)
+        this.$router.push(`${_query}`)
       },
       selectDetailLine(category) {
         this.$router.push({
@@ -369,9 +367,6 @@
             category: category,
             search: 'ya'
           },
-          query:{
-            se: 1
-          }
         })
       },
       selectDetailKeyword(keyword) {
@@ -382,8 +377,7 @@
             search: 'ya'
           },
           query:{
-            w: keyword,
-            se: 1
+            w: keyword
           }
         })
       },

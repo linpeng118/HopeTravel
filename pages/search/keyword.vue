@@ -101,14 +101,16 @@
         this.searchKeyWords = keyword
       },
       leftClick(){
-        if(this.$route.query.sr){
-          this.$router.push('/search/keyword')
-          this.init()
-          this.getHistoryList()
-          this.searchResult = false
-        } else {
-          this.$router.go(-1)
-        }
+        this.$router.go(-1)
+        // if(this.$route.query.sr){
+        //   this.$router.go(-1)
+        //   // this.$router.push('/search/keyword')
+        //   // this.init()
+        //   // this.getHistoryList()
+        //   // this.searchResult = false
+        // } else {
+        //   this.$router.go(-1)
+        // }
       },
       async init(){
         let {code,data = [] } = await getHotSearchList()
@@ -140,9 +142,6 @@
           params:{
             category: category || 'all',
             search:str
-          },
-          query:{
-            sr: 1
           }
         })
       },
@@ -156,8 +155,7 @@
             search: 'ya'
           },
           query:{
-            w: item,
-            sr: 1
+            w: item
           }
         })
       },
@@ -179,8 +177,7 @@
         this.saveLocal()
         let _arr = ['ya','yg','yw','yj','ym','yr','','yl']
         let query = {
-          w: this.searchKeyWords,
-          sr: 1
+          w: this.searchKeyWords
         }
         this.$router.push({
           name:'category-search',
