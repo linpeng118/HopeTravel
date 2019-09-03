@@ -21,20 +21,22 @@ export const APP_VERSION = 'appVersion'
 // cf_js_tj_sj_jg_pt
 export const LIST_PARAMS = {
   cf: 'start_city',
-  js: 'stop_city',
-  tj: 'span_city',
-  sj: 'duration',
+  dc: 'departure_city',
   jg: 'price',
+  js: 'stop_city',
+  sj: 'duration',
+  tj: 'span_city',
   pt: 'product_type',
   zl: 'brand'
 }
 
 export const TRUE_PARAMS = {
   'start_city':'cf',
-  'stop_city':'js',
-  'span_city':'tj',
-  'duration':'sj',
+  'departure_city': 'dc',
   'price':'jg',
+  'stop_city':'js',
+  'duration':'sj',
+  'span_city':'tj',
   'product_type':'pt',
-  'brand': 'zl'
+  'brand': 'zl',
 }

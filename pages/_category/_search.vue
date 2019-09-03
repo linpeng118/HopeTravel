@@ -60,7 +60,7 @@
       <div class="filter-content">
         <div class="filter-list">
           <div class="filter-items" v-for="(item, key) in filterLists" :key="key">
-            <template v-if="key!='duration' && key!='lines'">
+            <template v-if="key!='duration' && key!='lines' && key != 'start_city'">
               <div class="cell-list" v-if="item.total">
                 <div class="left">{{showTitle(key)}}</div>
                 <div class="right" @click="showMoreFilter(key, item)">
@@ -208,18 +208,6 @@ export default {
       activeNames: ['1'],
       moreLists: {}, // 更多的列表
       moreListsTitle: '',
-      sureSearchList: {
-        start_city: [],
-        lines:[],
-        stop_city: [],
-        price: [],
-        span_city: [],
-        // tag: [], 不要行程特色
-        duration: [],
-        product_type: [],
-        category: [],
-        brand: [],
-      },
       isFilterShow: false,
       firstload:true,
       submitserData:null,//跳转存储数据
@@ -260,7 +248,7 @@ export default {
     }
   },
   created() {
-    console.log('進來了')
+    console.log('進來了',this.filterResult)
     this.sortTypes = [
       {id:1, order: '', order_by: '', name: this.$t('productListPage.sortDefault')},
       {id:2, order: 'asc', order_by: 'price', name: this.$t('productListPage.sortPriceLowToHigh')},
@@ -278,22 +266,6 @@ export default {
   methods:{
     // 返回上一级
     leftClick() {
-      // if(this.$route.query.se || this.$route.query.sr){
-      //   this.$router.push({
-      //     path: '/search'
-      //   })
-      // } else if(this.$route.query.sr && this.searchKeyWords){
-      //   // 处理返回搜索页面的情况
-      //   this.$router.push(`/search/keyword?w=${this.searchKeyWords}&sr=1`)
-      // } else {
-      //   this.$router.push({
-      //     path: '/'
-      //   })
-      // }
-    // else if(this.$route.query.sr) {
-    //     this.$router.push(`/search/keyword?w=${this.searchKeyWords}&sr=1`)
-    //   }
-
       if(this.searchType > 0) {
         this.$router.push({
           path: '/'
@@ -301,9 +273,6 @@ export default {
       } else {
         this.$router.go(-1)
       }
-
-
-
     },
     // 出搜索页面
     goToKeywordPage(){
@@ -456,7 +425,7 @@ export default {
     // 显示title
     showTitle(name) {
       let obj = {
-        start_city:this.$t('productListPage.startCity'),
+        departure_city:this.$t('productListPage.startCity'),
         span_city: this.$t('productListPage.spanCity'),
         stop_city: this.$t('productListPage.stopCity'),
         duration: this.$t('productListPage.duration'),
@@ -527,8 +496,6 @@ export default {
     },
     // 取消
     selectItemCancel(type) {
-      // this.sureSearchList[type] = []
-      // this.filterResult[type] = ''
       this.filterResult[type] = this.searchParams[type]
     },
     // 关闭更多选择层
@@ -578,7 +545,7 @@ export default {
     },
     // 选中筛选
     filterClick(item, key) {
-      // console.log(item, key)
+      console.log(item, key)
       let id = item.id + ''
       if(key === 'span_city' || key === 'duration' || key === 'product_type') {
         // 多选项
@@ -587,12 +554,12 @@ export default {
         } else {
           this.$set(this.filterResult, key, id)
         }
-      } else if (key === 'start_city' || key === 'stop_city' || key === 'price'|| key === 'brand') {
+      } else if (key === 'departure_city' || key === 'stop_city' || key === 'price'|| key === 'brand') {
         // 单选项
         id = this.filterResult[key] == id ? '' : id
         this.$set(this.filterResult, key, id)
       }
-      console.log(this.filterResult)
+      // console.log(this.filterResult)
     },
     // 数据变化引起导航变化
     changeRouter(keyword){
