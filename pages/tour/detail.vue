@@ -1,192 +1,156 @@
 <template>
  <div class="tour-page">
-   <div class="tour-head"></div>
+   <div class="tour-head">
+     <img v-if="product.name.images&&product.name.images.length>0" :src="product.name.images[0]" alt="">
+     <div>
+       <p v-if="product">{{product.name}}</p>
+       <p v-if="product">{{product.brief}}</p>
+     </div>
+
+   </div>
    <div class="box-con">
-     <div class="tour-jianjie">
-       <p class="p0">
-         <span><img src="../../assets/imgs/tour/video.png" alt="">5</span>
-         <span><img src="../../assets/imgs/tour/img.png" alt="">1233</span>
+     <div class="tour-jianjie" v-if="product">
+       <p class="p0" @click="onimgbox()">
+         <span><img src="../../assets/imgs/tour/video.png" alt="">{{product.video_total}}</span>
+         <span><img src="../../assets/imgs/tour/img.png" alt="">{{product.image_total}}</span>
        </p>
-       <div>
-         <p class="p1">青城山青青城山青城山青城山青城山青城山青城山青城山青城山青城山青城山青城山青城山青城山青城山青城山青城山城山青城山青城山青城山青城山青城山青城山</p>
+       <div v-if="product">
+         <p class="p1">{{product.name}}</p>
          <p class="p2">
            <span class="span1">
-            <img src="../../assets/imgs/tour/star.png" alt="">5.0
+            <img src="../../assets/imgs/tour/star.png" alt="">{{product.score||5.0}}分
            </span>
-           <span class="span2"> （2415条评价）</span>
+           <span class="span2" v-if="product.comment_total">（{{product.comment_total}}条评价）</span>
          </p>
          <p class="p3">
            <span class="span1"><img src="../../assets/imgs/tour/add.png" alt=""></span>
-           <span class="span2">四川省都江堰市青城镇都江堰西南15KM
-            <i class="span3"><img src="../../assets/imgs/tour/right2.png" alt=""></i>
+           <span class="span2"> <img src="../../assets/imgs/tour/right2.png" alt="">{{product.address}}
+
            </span>
          </p>
          <p class="p3">
            <span class="span1"><img src="../../assets/imgs/tour/time.png" alt=""></span>
-           <span class="span2">营业时间：夏季9:00-21:00；冬季9:0营业时间：夏季9:00-21:00；冬季9:0</span>
+           <span class="span2">营业时间：{{product.opening_hours}}</span>
          </p>
          <p class="p3">
            <span class="span1"><img src="../../assets/imgs/tour/play.png" alt=""></span>
-           <span class="span21">建议游玩时间：6小时
-           <i class="span4">￥40元/起 <a href="" style="color: red">&nbsp;&nbsp;购票</a></i>
+           <span class="span21">建议游玩时间：{{product.play_days>0?product.play_days+'天':''}} {{product.play_hours>0?product.play_hours+'小时':''}}
+           <i class="span4">{{product.price}}/起 <a href="#piaopiao" style="color: red">&nbsp;&nbsp;购票</a></i>
            </span>
          </p>
        </div>
      </div>
      <!--攻略-->
-     <div class="tourtitle">
+     <div class="tourtitle" v-if="attack&&attack.list&&attack.list.length>0">
        <span class="span1">玩法攻略</span>
-       <span class="span2">（40篇）</span>
-       <span class="span3">查看更多<img src="../../assets/imgs/tour/right.png" alt=""></span>
+       <span class="span2">（{{attack.total}}篇）</span>
+       <span class="span3" @click="toattlist()">查看更多<img src="../../assets/imgs/tour/right.png" alt=""></span>
      </div>
-     <div class="tour-gonglve">
+     <div class="tour-gonglve" v-if="attack&&attack.list&&attack.list.length>0">
        <div class="gonglvebox">
-         <div class="gonglve-item">
-           <div class="imgbox"><img src="../../assets/imgs/tour/play.png" alt=""></div>
-           <p class="p1">111111111111</p>
-           <p class="p2">22222222</p>
-         </div>
-         <div class="gonglve-item">
-           <div class="imgbox"><img src="../../assets/imgs/tour/play.png" alt=""></div>
-           <p class="p1">111111111111</p>
-           <p class="p2">22222222</p>
-         </div>
-         <div class="gonglve-item">
-           <div class="imgbox"><img src="../../assets/imgs/tour/play.png" alt=""></div>
-           <p class="p1">111111111111</p>
-           <p class="p2">22222222</p>
+         <div class="gonglve-item" v-for="(item,ind) in attack.list" :key="ind" v-if="ind<3" @click="toatt(item.article_id)" >
+           <div class="imgbox"><img :src="item.cover" alt=""></div>
+           <p class="p1">{{item.name}}</p>
+           <p class="p2">{{item.days!=''?item.days+'天行程':''}}{{item.tour_num!=''?item.tour_num+'个景区':''}}</p>
          </div>
        </div>
      </div>
      <!--门票-->
-     <div class="tourtitle">
+     <div class="tourtitle" v-if="tickets&&tickets.list&&tickets.list.length>0" id="piaopiao" >
        <span class="span1">景点门票</span>
-       <span class="span2">（12项）</span>
-       <span class="span3">查看更多<img src="../../assets/imgs/tour/right.png" alt=""></span>
+       <span class="span2">（{{tickets.total}}项）</span>
+       <span class="span3" @click="toprolist()">查看更多<img src="../../assets/imgs/tour/right.png" alt=""></span>
      </div>
-     <div class="tour-menpiao">
-       <div class="menpiao-item">
-         <p class="p1"><i class="ziyin">自营</i>
-           <span class="span1">成人票</span>
+     <div class="tour-menpiao" v-if="tickets&&tickets.list&&tickets.list.length>0">
+       <div class="menpiao-item" v-for="(item,ind) in tickets.list" :key="ind">
+         <p class="p1"><i class="ziyin" v-if="item.self_support">{{$t('selfSupport')}}</i>
+           <span class="span1">{{item.name}}</span>
            <span class="span2">（需要身份证）</span>
-           <span class="span3">￥80</span>
+           <span class="span3">{{item.default_price}}</span>
           </p>
          <p class="p2">
-           <span class="tejia">特价</span>
-           <span class="tejia">折扣</span>
-           <span class="youhui">￥500-50</span>
-           <span class="buybtn">购票</span>
-         </p>
-       </div>
-       <div class="menpiao-item" style="border: none">
-         <p class="p1"><i class="ziyin">自营</i>
-           <span class="span1">成人票</span>
-           <span class="span2">（需要身份证）</span>
-           <span class="span3">￥80</span>
-         </p>
-         <p class="p2">
-           <span class="tejia">特价</span>
-           <span class="tejia">折扣</span>
-           <span class="youhui">￥500-50</span>
-           <span class="buybtn">购票</span>
+           <span class="tejia" v-for="(item2,ind2) in item.special_icons" :key="ind2" v-if="ind2<2">{{item2.title}}</span>
+           <span class="youhui" v-for="(item2,ind2) in item.coupons" :key="ind2" v-if="ind2<2">{{item2}}</span>
+           <span v-if="!item.special_icons&&!item.coupons" style="color: #ccc">暂无优惠</span>
+           <span class="buybtn" @click="toproobj(item.product_id)">购票</span>
          </p>
        </div>
      </div>
      <!--行程-->
-     <div class="tourtitle">
+     <div class="tourtitle" v-if="products&&products.list.length">
        <span class="span1">相关行程</span>
-       <span class="span3">查看更多<img src="../../assets/imgs/tour/right.png" alt=""></span>
+       <span class="span3" @click="toprolist()">查看更多<img src="../../assets/imgs/tour/right.png" alt=""></span>
      </div>
-     <div class="tour-xingcheng">
-       <div class="product-item" target="_blank">
+     <div class="tour-xingcheng" v-if="products&&products.list.length">
+       <div class="product-item" target="_blank" v-for="(item,ind) in products.list" :key="ind" @click="toproobj(item.product_id)">
          <div class="box-img">
-           <img src="../../assets/imgs/tour/star.png" alt="">
+           <img :src="item.image" alt="">
+           <span class="spcie-box">
+             <i class="spice-icon" v-for="(item3,ind3) in item.special_icons" :key="ind3">{{item3}}</i>
+           </span>
+           <span class="spcie-else">
+             <i class="vi" v-if="item.is_video"><img src="../../assets/imgs/tour/video2.png" alt=""></i>
+           </span>
          </div>
          <div class="con">
-           <!--<div class="p1" v-html="data.name.length>30?data.name.substr(0,26)+'...':data.name"></div>-->
-           <div class="p1" >namenamenamenamenamenamenamenamenamenamename</div>
+           <div class="p1" ><i class="ziyin" v-if="item.self_support">{{$t('selfSupport')}}</i>{{item.name}}</div>
            <div class="p0">
-             <span>￥500-50</span>
+             <span v-for="(item2,ind2) in item.coupons" :key="ind2" v-if="ind2<2">{{item2}}</span>
            </div>
            <p class="p2">
              <span class="span1">
-               ¥ 12474
+                {{item.special_price ? item.special_price: item.default_price}}
                 <i>起&nbsp;</i>
-                <i style="text-decoration:line-through">￥15000</i>
+                <i v-if="item.special_price" style="text-decoration:line-through">{{item.default_price}}</i>
              </span>
-             <span class="span2"><img src="../../assets/imgs/tour/star.png" alt="">5.0分</span>
+             <span class="span2"><img src="../../assets/imgs/tour/star.png" alt="">{{item.comment_score}}分</span>
            </p>
          </div>
          <p class="p3">
            <span class="span1">热销行程</span>
            <span class="span1">低价保证</span>
-           <span class="span2">1424人出行</span>
+           <span class="span2" v-if="item.sales>0">{{item.sales}}人出行</span>
          </p>
        </div>
-       <div class="product-item" target="_blank">
-         <div class="box-img">
-           <img src="../../assets/imgs/tour/star.png" alt="">
-         </div>
-         <div class="con">
-           <!--<div class="p1" v-html="data.name.length>30?data.name.substr(0,26)+'...':data.name"></div>-->
-           <div class="p1" >namenamenamenamenamenamenamenamenamenamename</div>
-           <div class="p0">
-             <span>￥500-50</span>
-           </div>
-           <p class="p2">
-             <span class="span1">
-               ¥ 12474
-                <i>起&nbsp;</i>
-                <i style="text-decoration:line-through">￥15000</i>
-             </span>
-             <span class="span2"><img src="../../assets/imgs/tour/star.png" alt="">5.0分</span>
-           </p>
-         </div>
-         <p class="p3">
-           <span class="span1">热销行程</span>
-           <span class="span1">低价保证</span>
-           <span class="span2">1424人出行</span>
-         </p>
-       </div>
+
      </div>
      <!--评论-->
-     <div class="tourtitle">
+     <div class="tourtitle" v-if="comments&&comments.length">
        <span class="span1">评论</span>
        <span class="span3">查看更多<img src="../../assets/imgs/tour/right.png" alt=""></span>
      </div>
-     <div class="tour-pinglun">
-        <img class="img2" src="../../assets/imgs/tour/star.png" alt="">
+     <div class="tour-pinglun" v-if="comments&&comments.length">
+       <div v-for="(item,ind) in comments" :key="ind">
+         <img class="img2" :src="item.face" alt="">
          <div class="itemcom">
-           <p>item.user_name</p>
-           <p><span>2019-13-852019-13-852019-13-85</span></p>
-           <p>这个地方看起来特别漂亮，这个地方看起来特别漂亮，这个地方看起来特别漂亮，这个地方看起来特别漂亮这个地方看起来特别漂亮</p>
-           <p class="imgb">
-             <img src="../../assets/imgs/tour/play.png" alt="">
-             <img src="../../assets/imgs/tour/play.png" alt="">
-             <img src="../../assets/imgs/tour/play.png" alt="">
+           <p>{{item.user_name}}</p>
+           <p><span>{{item.created}}</span></p>
+           <p>{{item.content}}</p>
+           <p class="imgb" v-if="item.image&&item.image.length>0">
+             <img v-for="(item2,ind2) in item.image" :key="ind2" :src="item2" alt="">
            </p>
-           <p class="icon">
+           <p class="icon" v-if="item.image&&item.image.length>0">
              <img src="../../assets/imgs/tour/imgcion.png" alt="">
-             <span class="span1"> 共9张</span>
+             <span class="span1"> 共{{item.image.length}}张</span>
            </p>
          </div>
+       </div>
 
      </div>
      <!--附近景点-->
-     <div class="tourtitle">
+     <div class="tourtitle" v-if="nearby&&nearby.length">
        <span class="span1">附近景点</span>
-       <span class="span3">查看更多<img src="../../assets/imgs/tour/right.png" alt=""></span>
      </div>
-     <div class="tour-local">
-       <div class="touritem">
-         <div class="imgb2"><img src="../../assets/imgs/tour/imgcion.png" alt=""></div>
+     <div class="tour-local" v-if="nearby&&nearby.length">
+       <div class="touritem" v-for="(item,ind) in nearby" :key="ind" v-if="ind<5" @click="totour(item.tour_city_id)" >
+         <div class="imgb2"><img :src="item.image" alt=""></div>
          <div class="con">
            <p class="p1">
-             青城山
-             <span class="span1"><img src="../../assets/imgs/tour/add.png" alt="">30km</span>
+            {{item.name}}
+             <span class="span1"><img src="../../assets/imgs/tour/add.png" alt="">{{item.distance}}</span>
            </p>
-           <p class="p2">问水都江堰，拜道青城山</p>
-           <p class="p3">门票：￥60</p>
+           <p class="p2">{{item.brief||'暂无简介'}}</p>
+           <p class="p3">门票：{{item.ticket_price||'暂无报价'}}</p>
          </div>
        </div>
      </div>
@@ -197,7 +161,7 @@
 </template>
 
 <script>
-  import vueWaterfallEasy from 'vue-waterfall-easy'
+
   let goToBackPage = '/tour/list' // 记录下来当前的页面
   export default {
     layout: 'default',
@@ -209,12 +173,13 @@
         ]
       }
     },
-    components: {
-      vueWaterfallEasy
-    },
     async asyncData({$axios, query, store, req}) {
       let tourId,
-        product
+        product, attack,
+        tickets,
+        products,
+        comments,
+        nearby
       if (String(query.tourId).indexOf('-') >= 0) {
         tourId = Number(query.tourId.toString().split('-')[0])
       } else {
@@ -225,17 +190,24 @@
           code,
           msg,
           data
-        } = await $axios.$get(`/api/product/${tourId}`, {
+        } = await $axios.$get(`/api/tour/home`, {
           headers: {
             'Platform': store.state.platform,
             'Phone-Type': store.state.phoneType,
             'App-Version': store.state.phoneType,
             'Language': store.getters.language,
+          },
+          params:{
+            tour_city_id:tourId
           }
         })
         if (code === 0) {
-
-          product = data.product // 产品信息
+          product = data.tour_detail; // 产品信息
+          attack = data.attack_article;
+          tickets = data.tickets;
+          products = data.products;
+          comments = data.comments;
+          nearby = data.nearby_tour
         } else {
           console.log('error:', msg)
         }
@@ -243,8 +215,13 @@
         console.log('detail-error', error)
       }
       return {
-
         product,
+        attack,
+        tickets,
+        products,
+        comments,
+        nearby,
+        tourId
       }
     },
     data() {
@@ -273,24 +250,8 @@
         if (!(this.product && this.product.product_id)) {
           this.jumpTo('/')
         }
-        // 是否有登录态
-        await this.initProfileData()
 
-      },
-      // 获取profile-登录态
-      async initProfileData() {
-        setTimeout(() => {
-          // console.log(4444, this.profile.is_agent, String(this.$route.query.productId).indexOf('-') <= 0)
-          if (this.profile.is_agent && String(this.$route.query.productId).indexOf('-') <= 0) {
-            this.$router.push({
-              name: 'product-detail',
-              query: {
-                productId: String(this.$route.query.productId) + '-' + this.profile.customer_id
-              }
-            })
-          }
-        }, 50)
-        // console.log(this.$route)
+
       },
       // 跳转至注册页
       toRegist() {
@@ -342,6 +303,9 @@
       onHeaderLeft() {
         this.$router.push(goToBackPage)
       },
+      onimgbox() {
+        this.$router.push('/tour/imgshow?tourId='+this.tourId)
+      },
       // 返回首页
       onHomePage() {
         this.jumpTo('/')
@@ -350,6 +314,41 @@
         this.$router.push({
           path
         })
+      },
+      toatt(attackId) {
+        this.$router.push({
+          path: '/attack/detail',
+          query: {
+            'attackId':attackId
+          }
+        });
+      },
+      totour(id) {
+        this.$router.push({
+          path: '/totour/detail',
+          query: {
+            'tourId':id
+          }
+        });
+      },
+      toattlist() {
+        this.$router.push({
+          path: '/attack/list',
+        });
+      },
+      toprolist() {
+        this.$router.push({
+          path: '/product/list',
+        });
+      },
+      toproobj(id) {
+        console.log(id)
+        this.$router.push({
+          path: '/product/detail',
+          query: {
+            'productId':id
+          }
+        });
       },
     },
   }
@@ -367,12 +366,40 @@
     width: 750px;
     height: 640px;
     background-color: #aaa;
+    img{
+      width: 750px;
+      height: 640px;
+    }
+    div{
+      position: absolute;
+      width: 100%;
+      margin-top: 160px;
+      top: 0;
+      p:nth-child(1){
+        text-align: center;
+        font-size:52px;
+        font-weight:bold;
+        line-height:74px;
+        color:rgba(255,255,255,1);
+      }
+      p:nth-child(2){
+        font-size:24px;
+        font-weight:400;
+        text-align: center;
+        line-height:40px;
+        color:rgba(158,158,158,1);
+        opacity:1;
+      }
+    }
+
   }
   .box-con{
     padding: 32px;
     .tour-jianjie{
       width: 100%;
       margin-top: -220px;
+      z-index: 111;
+      position: relative;
       .p0{
         height: 68px;
         padding: 10px 0;
@@ -419,6 +446,7 @@
         }
         .p3{
           padding-bottom: 1px ;
+          display: inline-block;
           .span1{
            float: left;
             img{width: 28px;height: 28px}
@@ -430,11 +458,12 @@
             margin-left: 5px;
             font-size:28px;
             border-bottom: 1px solid #cecece;
-            width: 590px;
+            width: 550px;
             overflow: hidden;
             text-overflow:ellipsis;
             white-space: nowrap;
             padding-bottom: 10px;
+            img{width: 28px;height: 28px;float: right;position: relative;top: 0.37rem;}
           }
           .span21{
             display: inline-block;
@@ -445,7 +474,7 @@
             width: 590px;
           }
           .span3{
-            img{width: 28px;height: 28px;float: right;position: relative;top: 20px}
+
           }
           .span4{
             font-size:24px;
@@ -502,20 +531,29 @@
           overflow:auto;
           .gonglve-item{
             width:334px;
-            border-radius: 12px;
+            border-radius: 8px;
             height:280px;
             margin-right: 16px;
+            overflow: hidden;
             background-color: #fff;
             float: left;
             .imgbox{
               width:334px;
               height: 188px;
+              img{
+                width:334px;
+                height: 188px;
+              }
             }
             .p1{
               color: #1D1D1D;
               font-size:28px;
               padding-left: 16px;
+              padding-top: 5px;
               line-height: 40px;
+              overflow:hidden; //超出的文本隐藏
+              text-overflow:ellipsis; //溢出用省略号显示
+              white-space:nowrap; //溢出不换行
             }
             .p2{
               color: #9E9E9E;
@@ -550,6 +588,8 @@
           font-size: 20px;
           color: #fff;
           text-align: center;
+          margin-right: 10px;
+          padding: 0 8px;
         }
         .tejia{
           width:58px;
@@ -560,7 +600,9 @@
           border-radius:8px;
           font-size: 20px;
           line-height: 32px;
+          margin-right: 10px;
           color: #fff;
+          padding: 0 8px;
           text-align: center;
         }
         .youhui{
@@ -571,7 +613,9 @@
           line-height: 32px;
           color:#FF3434;
           display: inline-block;
+          padding: 0 8px;
           text-align: center;
+          margin-right: 10px;
           border: 1px solid #FF3434;
         }
         .buybtn{
@@ -591,13 +635,16 @@
           float: right;
         }
         .p1{
-
+          display: inline-block;
           .span1{
             font-size:28px;
             font-weight:bold;
-            line-height:40px;
+            width: 250px;
             display: inline-block;
             color:rgba(29,29,29,1);
+            overflow:hidden; //超出的文本隐藏
+            text-overflow:ellipsis; //溢出用省略号显示
+            white-space:nowrap; //溢出不换行
           }
           .span2{
             font-size:28px;
@@ -617,7 +664,9 @@
           }
         }
         .p2{
+          font-size:24px;
           line-height: 40px;
+          height: 40px;
         }
       }
 
@@ -652,18 +701,74 @@
           box-shadow:0px 0px 28px rgba(52,52,52,0.2);
           border-radius: 12px;
           margin-left: 60px;
+          .ziyin{
+            width:58px;
+            display: inline-block;
+            height:32px;
+            background:rgba(255,190,13,1);
+            opacity:1;
+            border-radius:8px;
+            line-height: 32px;
+            font-size: 20px;
+            color: #fff;
+            text-align: center;
+          }
+          .tejia{
+            width:58px;
+            display: inline-block;
+            height:32px;
+            background:#FF3434;
+            opacity:1;
+            border-radius:8px;
+            font-size: 20px;
+            line-height: 32px;
+            color: #fff;
+            text-align: center;
+          }
+          .youhui{
+            height:32px;
+            opacity:1;
+            border-radius:8px;
+            font-size: 20px;
+            line-height: 32px;
+            color:#FF3434;
+            display: inline-block;
+            text-align: center;
+            border: 1px solid #FF3434;
+          }
+          .buybtn{
+            width:72px;
+            height:34px;
+            display: inline-block;
+            color: #fff;
+            text-align: center;
+            line-height: 34px;
+            background:rgba(255,52,52,1);
+            border:2px solid rgba(255,52,52,1);
+            opacity:1;
+            font-size: 24px;
+            position: relative;
+            top: 10px;
+            border-radius:24px;
+            float: right;
+          }
           .p1{
             width: 418px;
             font-size: 28px!important;
             color: #2d2d2d;
             line-height: 36px;
             padding-left: 20px;
-            height: 80px;
-            white-space:normal; word-break:break-all;
+
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display:-webkit-box; //作为弹性伸缩盒子模型显示。
+            -webkit-box-orient:vertical; //设置伸缩盒子的子元素排列方式--从上到下垂直排列
+            -webkit-line-clamp:2; //显示的行
+
           }
           .p0{
             padding-left: 20px;
-            margin-top: -20px;
+            margin-top: -10px;
             span{
               height:36px;
               line-height: 36px;
@@ -806,10 +911,13 @@
         height:168px ;
         border-radius: 12px;
         background-color: #fff;
+        margin-bottom: 20px;
         .imgb2{
           width: 170px;
           height: 128px;
           float: left;
+          background-color: #eee;
+          margin-right: 15px;
         img{
             width: 170px;
             height: 128px
@@ -839,8 +947,11 @@
             font-size:24px;
             font-weight:400;
             line-height:50px;
-            color:rgba(29,29,29,1);
+            color:#aaa;
             opacity:1;
+            overflow:hidden; //超出的文本隐藏
+            text-overflow:ellipsis; //溢出用省略号显示
+            white-space:nowrap; //溢出不换行
           }
           .p3{
             font-size:24px;
@@ -852,5 +963,44 @@
 
       }
     }
+  }
+  .spice-icon{
+    display: inline-block;
+    font-size: 20px;
+    color: #fff;
+    background-color: red;
+    padding:8px 20px;
+    border-radius: 10px;
+  }
+  .spcie-box{
+    position:absolute;
+    margin-left: -10px;
+    margin-top: 10px;
+    height: 120px;
+    width: 200px;
+  }
+  .spcie-else{
+    position:absolute;
+    width: 240px;
+    margin-top: 170px;
+
+  }
+  .spcie-else .vi{
+    float: right;
+    display: inline-block;
+  }
+  .spcie-else .tuan{
+    display: inline-block;
+    font-size: 20px;
+    color: #fff;
+    background-color: rgba(0,0,0,.3);
+    padding:8px 20px;
+    border-radius: 10px;
+  }
+  .spcie-else .vi>img{
+    width: 40px!important;
+    height: 40px!important;
+    position: relative;
+    top:16px;
   }
   </style>
