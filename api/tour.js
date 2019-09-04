@@ -4,12 +4,10 @@ import axios from '@/plugins/axios/axios'
 export const getimgs = (data) => {
   return axios.get(`/api/tour/album`,{
     params:{
-      // tour_city_id:data.id||1851,
-      // type:data.type||'all',
-      // page:data.page||1,
-      tour_city_id:1851,
-      type:'all',
-      page:1,
+      tour_city_id:data.id||'',
+      type:data.type||'all',
+      page:data.page||1,
+
     }
   })
 }
