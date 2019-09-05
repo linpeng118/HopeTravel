@@ -33,12 +33,11 @@
                   <div class="scenic-list-product-item-title-name">{{ scenic.name }}</div>
                   <div class="scenic-list-product-item-title-weather">
                     <img src="../../assets/imgs/scenic-w2x.png" alt="天气">
-                    <span>阴</span>
-                    <span>25-27C</span>
+                    <span>{{ scenic.weather }}</span>
                   </div>
                 </div>
-                <div class="scenic-list-product-item-info">问水都江堰，拜道青城山</div>
-                <div class="scenic-list-product-item-price">门票：￥60</div>
+                <div class="scenic-list-product-item-info">{{ scenic.brief }}</div>
+                <div class="scenic-list-product-item-price">门票：￥{{ scenic.ticket_price }}</div>
               </div>
               </nuxt-link>
             </div>
@@ -60,13 +59,6 @@ export default {
       sceincList: [],
       pagination: {}
     }
-  },
-  created () {
-    // this.getSceincList({
-    //   page: 1,
-    //   page_size: 10
-    // })
-    // console.log(this.sceincList)
   },
   methods: {
     // 返回上一级
