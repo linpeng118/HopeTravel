@@ -1,6 +1,6 @@
 <template>
  <div class="tour-page">
-   <div class="tour-head">
+   <div class="tour-head" v-if="product">
      <img v-if="product.images&&product.images.length>0" :src="product.images[0]" alt="">
      <div>
        <p v-if="product">{{product.name}}</p>
