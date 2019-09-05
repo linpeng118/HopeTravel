@@ -353,7 +353,12 @@
   }
 
 </script>
-
+<style>
+  body{
+    overflow: scroll!important;
+    position: relative!important;
+  }
+</style>
 
 <style lang="scss" scoped>
   .tour-page{

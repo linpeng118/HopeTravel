@@ -23,7 +23,7 @@
             >
               <nuxt-link
                 :to="`/tour/detail?tourId=${scenic.tour_city_id}`"
-                tag="div" 
+                tag="div"
                 class="scenic-list-product">
               <div class="scenic-list-product-img">
                 <img :src="scenic.image" :alt="scenic.name">
@@ -44,7 +44,7 @@
         </van-list>
       </van-pull-refresh>
     </div>
-    
+
   </div>
 </template>
 
@@ -97,7 +97,7 @@ export default {
           }
         } else {
           console.log(res.msg)
-          
+
           this.pagination = {}
           this.isLoading = false
           this.finished = false
@@ -106,7 +106,12 @@ export default {
   }
 }
 </script>
-
+<style>
+  body{
+    overflow: scroll!important;
+    position: relative!important;
+  }
+</style>
 <style scoped lang="scss">
 .scenic {
   min-height: 100vh;

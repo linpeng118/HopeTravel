@@ -97,6 +97,12 @@
 
   }
 </script>
+<style>
+  body{
+    overflow: scroll!important;
+    position: relative!important;
+  }
+</style>
 <style scoped>
   .title{
     font-size: 32px;
