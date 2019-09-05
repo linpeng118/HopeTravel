@@ -20,7 +20,7 @@
            <span class="span1">
             <img src="../../assets/imgs/tour/star.png" alt="">{{product.score||5.0}}分
            </span>
-           <span class="span2" v-if="product.comment_total">（{{product.comment_total}}条评价）</span>
+           <span class="span2" v-if="product.comment_total">（{{product.comment_total}}{{$t('tour.comm')}}）</span>
          </p>
          <p class="p3">
            <span class="span1"><img src="../../assets/imgs/tour/add.png" alt=""></span>
@@ -30,12 +30,12 @@
          </p>
          <p class="p3">
            <span class="span1"><img src="../../assets/imgs/tour/time.png" alt=""></span>
-           <span class="span2">营业时间：{{product.opening_hours}}</span>
+           <span class="span2">{{$t('tour.yingye')}}：{{product.opening_hours}}</span>
          </p>
          <p class="p3">
            <span class="span1"><img src="../../assets/imgs/tour/play.png" alt=""></span>
-           <span class="span21">建议游玩时间：{{product.play_days>0?product.play_days+'天':''}} {{product.play_hours>0?product.play_hours+'小时':''}}
-           <i class="span4">{{product.price}}/起 <a href="#piaopiao" style="color: red">&nbsp;&nbsp;购票</a></i>
+           <span class="span21">{{$t('tour.playtime')}}：{{product.play_days>0?product.play_days+'天':''}} {{product.play_hours>0?product.play_hours+'小时':''}}
+           <i class="span4">{{product.price}}/起 <a href="#piaopiao" style="color: red">&nbsp;&nbsp;{{$t('tour.byatt')}}</a></i>
            </span>
          </p>
        </div>
@@ -57,9 +57,9 @@
      </div>
      <!--门票-->
      <div class="tourtitle" v-if="tickets&&tickets.list&&tickets.list.length>0" id="piaopiao" >
-       <span class="span1">景点门票</span>
+       <span class="span1">{{$t('tour.tour-atr')}}</span>
        <span class="span2">（{{tickets.total}}项）</span>
-       <span class="span3" @click="toprolist()">查看更多<img src="../../assets/imgs/tour/right.png" alt=""></span>
+       <span class="span3" @click="toprolist()">{{$t('tour.lookmore')}}<img src="../../assets/imgs/tour/right.png" alt=""></span>
      </div>
      <div class="tour-menpiao" v-if="tickets&&tickets.list&&tickets.list.length>0">
        <div class="menpiao-item" v-for="(item,ind) in tickets.list" :key="ind">
@@ -71,22 +71,22 @@
          <p class="p2">
            <span class="tejia" v-for="(item2,ind2) in item.special_icons" :key="ind2" v-if="ind2<2">{{item2.title}}</span>
            <span class="youhui" v-for="(item2,ind2) in item.coupons" :key="ind2" v-if="ind2<2">{{item2}}</span>
-           <span v-if="!item.special_icons&&!item.coupons" style="color: #ccc">暂无优惠</span>
-           <span class="buybtn" @click="toproobj(item.product_id)">购票</span>
+           <span v-if="!item.special_icons&&!item.coupons" style="color: #ccc">{{$t('tour.nosale')}}</span>
+           <span class="buybtn" @click="toproobj(item.product_id)">{{$t('tour.byatt')}}</span>
          </p>
        </div>
      </div>
      <!--行程-->
      <div class="tourtitle" v-if="products&&products.list.length">
-       <span class="span1">相关行程</span>
-       <span class="span3" @click="toprolist()">查看更多<img src="../../assets/imgs/tour/right.png" alt=""></span>
+       <span class="span1">{{$t('tour.xiangguan')}}</span>
+       <span class="span3" @click="toprolist()">{{$t('tour.lookmore')}}<img src="../../assets/imgs/tour/right.png" alt=""></span>
      </div>
      <div class="tour-xingcheng" v-if="products&&products.list.length">
        <div class="product-item" target="_blank" v-for="(item,ind) in products.list" :key="ind" @click="toproobj(item.product_id)">
          <div class="box-img">
            <img :src="item.image" alt="">
            <span class="spcie-box">
-             <i class="spice-icon" v-for="(item3,ind3) in item.special_icons" :key="ind3">{{item3}}</i>
+             <i class="spice-icon" v-for="(item3,ind3) in item.special_icons" :key="ind3">{{item3.title}}</i>
            </span>
            <span class="spcie-else">
              <i class="vi" v-if="item.is_video"><img src="../../assets/imgs/tour/video2.png" alt=""></i>
@@ -107,8 +107,7 @@
            </p>
          </div>
          <p class="p3">
-           <span class="span1">热销行程</span>
-           <span class="span1">低价保证</span>
+           <span class="span1">{{$t('tour.hot-text')}}</span>
            <span class="span2" v-if="item.sales>0">{{item.sales}}人出行</span>
          </p>
        </div>
@@ -117,7 +116,7 @@
      <!--评论-->
      <div class="tourtitle" v-if="comments&&comments.length">
        <span class="span1">评论</span>
-       <span class="span3">查看更多<img src="../../assets/imgs/tour/right.png" alt=""></span>
+       <span class="span3">{{$t('tour.lookmore')}}<img src="../../assets/imgs/tour/right.png" alt=""></span>
      </div>
      <div class="tour-pinglun" v-if="comments&&comments.length">
        <div v-for="(item,ind) in comments" :key="ind">
@@ -139,7 +138,7 @@
      </div>
      <!--附近景点-->
      <div class="tourtitle" v-if="nearby&&nearby.length">
-       <span class="span1">附近景点</span>
+       <span class="span1">{{$t('tour.local')}}</span>
      </div>
      <div class="tour-local" v-if="nearby&&nearby.length">
        <div class="touritem" v-for="(item,ind) in nearby" :key="ind" v-if="ind<5" @click="totour(item.tour_city_id)" >
@@ -149,8 +148,8 @@
             {{item.name}}
              <span class="span1"><img src="../../assets/imgs/tour/add.png" alt="">{{item.distance}}</span>
            </p>
-           <p class="p2">{{item.brief||'暂无简介'}}</p>
-           <p class="p3">门票：{{item.ticket_price||'暂无报价'}}</p>
+           <p class="p2">{{item.brief||$t('tour.no-con1')}}</p>
+           <p class="p3">门票：{{item.ticket_price||$t('tour.no-con2')}}</p>
          </div>
        </div>
      </div>
@@ -317,7 +316,7 @@
       },
       toatt(attackId) {
         this.$router.push({
-          path: '/attack/detail',
+          path: '/article/detail',
           query: {
             'attackId':attackId
           }
@@ -333,7 +332,7 @@
       },
       toattlist() {
         this.$router.push({
-          path: '/attack/list',
+          path: '/article/list',
         });
       },
       toprolist() {

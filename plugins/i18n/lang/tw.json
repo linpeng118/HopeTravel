@@ -121,8 +121,25 @@
         "cruise": "郵輪",
         "connectionService": "接駁服務"
     },
-  "tours": {
-    "name": "景區詳情"
+  "tour": {
+    "name": "景區詳情",
+    "byatt": "購票",
+    "play": "玩法攻略",
+    "lookmore": "查看更多",
+    "tour-atr": "景點門票",
+    "xiangguan": "相關行程",
+    "hot-text": "熱銷行程 保證低價",
+    "local": "附近景點",
+    "no-con1": "暫無簡介",
+    "no-con2": "暫無報價",
+    "work": "出行",
+    "tours": "景區",
+    "needcar": "需要身份證",
+    "comm": "條評價",
+    "yingye": "營業時間",
+    "playtime": "建議遊玩時間",
+    "nosale": "暫無優惠"
+
   },
     "homePage": {
         "title": "首頁",

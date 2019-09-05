@@ -74,7 +74,7 @@
         <p class="p2">{{$t('savecon')}}</p>
       </nuxt-link>
       <nuxt-link tag="div"
-                 to="/attack/list">
+                 to="/article/list">
         <p class="p1">{{$t('attack')}}</p>
         <p class="p2">{{$t('attackcon')}}</p>
       </nuxt-link>
