@@ -79,12 +79,6 @@ export default {
       value: ''
     }
   },
-  created () {
-  },
-  mounted() {
-    var list = JSON.parse(sessionStorage.getItem('sceincList'))
-    console.log('长度：',list.length)
-  },
   methods: {
     // 返回上一级
     leftClick() {
