@@ -23,32 +23,35 @@
       </van-icon>
       
     </van-nav-bar>
-    <div class="scenic-list">
-      <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-        <van-list
-          v-model="isLoading"
-          :finished="finished"
-          finished-text="没有更多了"
-          @load="onLoad"
-        >
-            <div
-              class="scenic-list-product"
-              v-for="scenic in sceincList"
-              :key="scenic.tour_city_id"
-            >
-              <nuxt-link
-                :to="`/tour/detail?tourId=${scenic.tour_city_id}`"
-                tag="div"
-                class="scenic-list-product">
-              <div class="scenic-list-product-img">
-                <img :src="scenic.image" :alt="scenic.name">
-              </div>
-              <div class="scenic-list-product-item">
-                <div class="scenic-list-product-item-title">
-                  <div class="scenic-list-product-item-title-name">{{ scenic.name }}</div>
-                  <div class="scenic-list-product-item-title-weather">
-                    <img src="../../assets/imgs/scenic-w2x.png" alt="天气">
-                    <span>{{ scenic.weather }}</span>
+    
+    
+      <div class="scenic-list">
+        <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+          <van-list
+            v-model="isLoading"
+            :finished="finished"
+            finished-text="没有更多了"
+            @load="onLoad"
+          >
+              <div
+                class="scenic-list-product"
+                v-for="scenic in sceincList"
+                :key="scenic.tour_city_id"
+              >
+                <nuxt-link
+                  :to="`/tour/detail?tourId=${scenic.tour_city_id}`"
+                  tag="div" 
+                  class="scenic-list-product">
+                <div class="scenic-list-product-img">
+                  <img :src="scenic.image" alt="img">
+                </div>
+                <div class="scenic-list-product-item">
+                  <div class="scenic-list-product-item-title">
+                    <div class="scenic-list-product-item-title-name">{{ scenic.name }}</div>
+                    <div class="scenic-list-product-item-title-weather">
+                      <img src="../../assets/imgs/scenic-w2x.png" alt="天气">
+                      <span>{{ scenic.weather }}</span>
+                    </div>
                   </div>
                   <div class="scenic-list-product-item-info">{{scenic.brief}}</div>
                   <div class="scenic-list-product-item-price">门票:{{ scenic.ticket_price }}</div>
