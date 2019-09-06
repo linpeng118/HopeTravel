@@ -1,49 +1,66 @@
 <template>
   <div class="scenic">
+    
     <van-nav-bar class="login-header tours-no-bb"
                  ref="loginHeader"
-                 title="景区列表"
                  :z-index="999" @click-left="leftClick" >
       <van-icon class="left-wrap"
                 name="arrow-left"
-                slot="left" />
+                slot="left"><span style="position: relative; top: -3px; font-size: 14px">返回</span>
+      </van-icon>
+      <van-icon name="arrow-right" slot="right">
+        <input
+          type="text"
+          class="search"
+          v-model="value"
+          placeholder="搜索景区"
+          >
+          <img src="../../assets/imgs/search.png"
+            alt="search"
+            class="search-img"
+            @click="search"
+          >
+      </van-icon>
+      
     </van-nav-bar>
-    <div class="scenic-list">
-      <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-        <van-list
-          v-model="isLoading"
-          :finished="finished"
-          finished-text="没有更多了"
-          @load="onLoad"
-        >
-            <div
-              class="scenic-list-product"
-              v-for="scenic in sceincList"
-              :key="scenic.tour_city_id"
-            >
-              <nuxt-link
-                :to="`/tour/detail?tourId=${scenic.tour_city_id}`"
-                tag="div" 
-                class="scenic-list-product">
-              <div class="scenic-list-product-img">
-                <img :src="scenic.image" :alt="scenic.name">
-              </div>
-              <div class="scenic-list-product-item">
-                <div class="scenic-list-product-item-title">
-                  <div class="scenic-list-product-item-title-name">{{ scenic.name }}</div>
-                  <div class="scenic-list-product-item-title-weather">
-                    <img src="../../assets/imgs/scenic-w2x.png" alt="天气">
-                    <span>{{ scenic.weather }}</span>
-                  </div>
+    
+    
+      <div class="scenic-list">
+        <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+          <van-list
+            v-model="isLoading"
+            :finished="finished"
+            finished-text="没有更多了"
+            @load="onLoad"
+          >
+              <div
+                class="scenic-list-product"
+                v-for="scenic in sceincList"
+                :key="scenic.tour_city_id"
+              >
+                <nuxt-link
+                  :to="`/tour/detail?tourId=${scenic.tour_city_id}`"
+                  tag="div" 
+                  class="scenic-list-product">
+                <div class="scenic-list-product-img">
+                  <img :src="scenic.image" alt="img">
                 </div>
-                <div class="scenic-list-product-item-info">{{ scenic.brief }}</div>
-                <div class="scenic-list-product-item-price">门票：￥{{ scenic.ticket_price }}</div>
+                <div class="scenic-list-product-item">
+                  <div class="scenic-list-product-item-title">
+                    <div class="scenic-list-product-item-title-name">{{ scenic.name }}</div>
+                    <div class="scenic-list-product-item-title-weather">
+                      <img src="../../assets/imgs/scenic-w2x.png" alt="天气">
+                      <span>{{ scenic.weather }}</span>
+                    </div>
+                  </div>
+                  <div class="scenic-list-product-item-info">{{scenic.brief}}</div>
+                  <div class="scenic-list-product-item-price">门票:{{ scenic.ticket_price }}</div>
+                </div>
+                </nuxt-link>
               </div>
-              </nuxt-link>
-            </div>
-        </van-list>
-      </van-pull-refresh>
-    </div>
+          </van-list>
+        </van-pull-refresh>
+      </div>
     
   </div>
 </template>
@@ -57,8 +74,16 @@ export default {
       isLoading: false,
       finished: false,
       sceincList: [],
-      pagination: {}
+      pagination: {},
+      flag: false,
+      value: ''
     }
+  },
+  created () {
+  },
+  mounted() {
+    var list = JSON.parse(sessionStorage.getItem('sceincList'))
+    console.log('长度：',list.length)
   },
   methods: {
     // 返回上一级
@@ -68,27 +93,28 @@ export default {
     // 滑动会请求数据
      onLoad() {
       console.log('onload')
-        const submitData = {
-          page: this.pagination.page + 1,
-          page_size: this.pagination.page_size,
+      const submitData = {
+        page: this.pagination.page + 1,
+        page_size: this.pagination.page_size,
         }
         this.getSceincList(submitData)
-    },
-    // 上拉刷新
+      },
+    // 下拉刷新
       async onRefresh(){
         this.sceincList= [],
         this.pagination= {}
         this.getSceincList({
         page: 1,
         page_size: 20
-    })
+        })
       },
      async getSceincList(subData) {
        this.isLoading = true
-        let {code, data} = await getSceincList(subData)
+         let {code, data} = await getSceincList(subData)
         if (code === 0) {
           this.sceincList.push(...data.items)
           this.pagination = data.pagination
+          sessionStorage.setItem('sceincList',JSON.stringify(this.sceincList))
           // 加载状态结束
           this.isLoading = false
           // 数据全部加载完成
@@ -96,13 +122,15 @@ export default {
             this.finished = true
           }
         } else {
-          console.log(res.msg)
-          
           this.pagination = {}
           this.isLoading = false
           this.finished = false
         }
       },
+      // 搜索
+      search () {
+        console.log(1111111111)
+      }
   }
 }
 </script>
@@ -111,6 +139,26 @@ export default {
 .scenic {
   min-height: 100vh;
   background: #f3f3f3;
+  .search {
+    width: 550px;
+    height: 55px;
+    background: #DDDDDD;
+    opacity: 0.6;
+    border: none;
+    border-radius: 40px;
+    padding-left: 30px;
+    font-size: 12px;
+  }
+  input::placeholder {
+    color: #000 !important;
+  }
+  .search-img {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    right: 20px;
+    top: 6px;
+  }
   &-list {
     padding: 40px 0 0 0;
     &-product {
