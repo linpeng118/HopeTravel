@@ -16,18 +16,18 @@
        </p>
        <div v-if="product">
          <p class="p1">{{product.name}}</p>
-         <div class="p2">
+         <p class="p2">
            <a class="span1">
             <img src="../../assets/imgs/tour/star.png" alt="">{{product.score||5.0}}分
            </a>
            <a class="span2" v-if="product.comment_total">（{{product.comment_total}}{{$t('tour.comm')}}）</a>
-         </div>
-         <div class="p3">
+         </p>
+         <p class="p3">
            <span class="span1"><img src="../../assets/imgs/tour/add.png" alt=""></span>
            <span class="span2"> <img src="../../assets/imgs/tour/right2.png" alt="">
              <vue-marquee :content="product.address" class="two" :showtwo="false"></vue-marquee>
            </span>
-         </div>
+         </p>
          <p class="p3">
            <span class="span1"><img src="../../assets/imgs/tour/time.png" alt=""></span>
            <span class="span2">
