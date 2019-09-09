@@ -2,7 +2,7 @@
 <template>
   <div>
     <div class="vue-waterfall-easy-container">
-      <div class="loading ball-beat" v-show="isPreloading_c" :class="isFirstLoad?'first':''">
+      <div class="loading ball-beat" v-show="isPreloading_c&&!over22" :class="isFirstLoad?'first':''">
         <slot name="loading" :isFirstLoad="isFirstLoad"></slot>
         <template v-if="!hasLoadingSlot">
           <div class="dot" v-for="(n,ind) in loadingDotCount" :key="ind" :style="loadingDotStyle"></div>
@@ -118,6 +118,10 @@ export default {
       default: 'default-card-animation'
     },
     enablePullDownEvent: {
+      type: Boolean,
+      default: false
+    },
+    over22: {
       type: Boolean,
       default: false
     }
@@ -382,6 +386,9 @@ export default {
         animation: show-card 0.4s;
         transition: left 0.6s, top 0.6s;
         transition-delay: 0.1s;
+      }
+      .img-box:last-child{
+        margin-bottom: 200px;
       }
       a {
         display: block;
