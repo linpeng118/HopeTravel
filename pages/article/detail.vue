@@ -174,7 +174,7 @@
     },
     methods: {
       goBack() {
-        let obj= this.$router.go(-1).name||this.$router.from.name
+        let obj= (this.$router.go(-1))?this.$router.go(-1).name:(this.$router.from.name||'')
         if(obj=='login'||obj=='article-detail'){
           this.$router.push({
             path: 'article/list'
