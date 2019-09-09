@@ -1,5 +1,15 @@
 <template>
  <div class="tour-page">
+   <section>
+     <van-nav-bar class="login-header tours-no-bb elsecom"
+                  ref="loginHeader"
+                  :title="product?product.name:'景区详情'"
+                  @click-left="onClickLeft">
+       <van-icon class="left-wrap"
+                 name="arrow-left"
+                 slot="left" />
+     </van-nav-bar>
+   </section>
    <div class="tour-head" v-if="product">
      <img v-if="product.images&&product.images.length>0" :src="product.images[0]" alt="">
      <div>
@@ -330,9 +340,14 @@
           }
         });
       },
+      onClickLeft() {
+        this.$router.push({
+          path: '/tour/list'
+        });
+      },
       totour(id) {
         this.$router.push({
-          path: '/totour/detail',
+          path: '/tour/detail',
           query: {
             'tourId':id
           }
@@ -362,6 +377,13 @@
 
 </script>
 <style>
+  .elsecom{
+    background-color: rgba(0,0,0,0)!important;
+    color: #fff!important;
+  }
+ .elsecom .van-nav-bar .van-icon{
+   color: #fff!important;
+ }
   body{
     overflow: scroll!important;
     position: relative!important;
@@ -384,6 +406,7 @@
   .tour-head{
     width: 750px;
     height: 640px;
+    margin-top: -92px;
     background-color: #aaa;
     img{
       width: 750px;
