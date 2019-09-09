@@ -174,22 +174,19 @@ export default {
   .search {
     width: 550px;
     height: 55px;
+    font-size: 30px;
+    display: inline-block;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
     background: #DDDDDD;
-    opacity: 0.6;
-    border: none;
+    font-family: PingFang-SC-Regular;
     border-radius: 40px;
-    padding-left: 30px;
-    font-size: 32px;
-    // 清除默认样式
-    appearance: none;
-    -webkit-appearance: none;
+    text-indent: .4rem;
+    padding: .16rem 0;
+    border: none
   }
-  /* 
-    Set up and down centering failed,no reason found yet
-    I think it is a reason for compatibility, but I don't know how to solve it.
-  */
   ::-webkit-input-placeholder {
-    color: #000 !important;
+    color: #333 !important;
   }
   .search-img {
     position: absolute;
