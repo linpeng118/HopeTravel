@@ -67,6 +67,7 @@
 
 <script>
 import {getSceincList} from '@/api/sceinc'
+import { getSessionStore } from '@/assets/js/utils'
 export default {
   data () {
     return {
@@ -79,6 +80,24 @@ export default {
       value: ''
     }
   },
+  mounted () {
+    var list = JSON.parse(getSessionStore('sceincList'))
+    if (list === null) {
+      this.getSceincList({
+        page: 1,
+        page_size: 20
+      })
+    }else {
+      if (list.length > 0) {
+        this.sceincList = list
+      } else {
+        this.getSceincList({
+        page: 1,
+        page_size: 20
+      })
+      }
+    }
+  },
   methods: {
     // 返回上一级
     leftClick() {
@@ -86,10 +105,13 @@ export default {
     },
     // 滑动会请求数据
      onLoad() {
-      console.log('onload')
+       var page = Number(getSessionStore('page'))
+      console.log(page)
+      var page = page || this.pagination.page
+      var page_size = this.pagination.page_size
       const submitData = {
-        page: this.pagination.page + 1,
-        page_size: this.pagination.page_size,
+        page: page + 1,
+        page_size: page_size,
         }
         this.getSceincList(submitData)
       },
@@ -109,6 +131,7 @@ export default {
           this.sceincList.push(...data.items)
           this.pagination = data.pagination
           sessionStorage.setItem('sceincList',JSON.stringify(this.sceincList))
+          sessionStorage.setItem('page',Number(data.pagination.page))
           // 加载状态结束
           this.isLoading = false
           // 数据全部加载完成
@@ -122,9 +145,22 @@ export default {
         }
       },
       // 搜索
-      search () {
-        console.log(1111111111)
-      }
+      async search () {
+        let { code, data } = await getSceincList({
+          page: null,
+          page_size: null,
+          keyword: this.value
+          })
+          if (code === 0) {
+            if (data.items.length){
+              this.sceincList = data.items
+            }else {
+              this.$toast('未找到相关景点,请换一个关键词试试！');
+            }
+          } else {
+            this.$toast('未找到相关景点,请换一个关键词试试！');
+          }
+        }
   }
 }
 </script>
