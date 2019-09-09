@@ -312,7 +312,7 @@
 
       },
       topro(productId) {
-        this.$router.push({
+        this.$router.replace({
           name: 'product-detail',
           query: {
             productId
@@ -1543,7 +1543,7 @@
         position: relative;
       }
       input{
-        width:640px;
+        width:600px;
         height:56px;
         background:rgba(241,241,241,1);
         opacity:1;

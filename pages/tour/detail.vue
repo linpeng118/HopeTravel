@@ -16,25 +16,29 @@
        </p>
        <div v-if="product">
          <p class="p1">{{product.name}}</p>
-         <p class="p2">
-           <span class="span1">
+         <div class="p2">
+           <a class="span1">
             <img src="../../assets/imgs/tour/star.png" alt="">{{product.score||5.0}}分
-           </span>
-           <span class="span2" v-if="product.comment_total">（{{product.comment_total}}{{$t('tour.comm')}}）</span>
-         </p>
-         <p class="p3">
+           </a>
+           <a class="span2" v-if="product.comment_total">（{{product.comment_total}}{{$t('tour.comm')}}）</a>
+         </div>
+         <div class="p3">
            <span class="span1"><img src="../../assets/imgs/tour/add.png" alt=""></span>
-           <span class="span2"> <img src="../../assets/imgs/tour/right2.png" alt="">{{product.address}}
-
+           <span class="span2"> <img src="../../assets/imgs/tour/right2.png" alt="">
+             <vue-marquee :content="product.address" class="two" :showtwo="false"></vue-marquee>
            </span>
-         </p>
+         </div>
          <p class="p3">
            <span class="span1"><img src="../../assets/imgs/tour/time.png" alt=""></span>
-           <span class="span2">{{$t('tour.yingye')}}：{{product.opening_hours}}</span>
+           <span class="span2">
+              <vue-marquee :content="$t('tour.yingye')+':'+product.opening_hours" class="two" :showtwo="false"></vue-marquee>
+           </span>
          </p>
          <p class="p3">
            <span class="span1"><img src="../../assets/imgs/tour/play.png" alt=""></span>
-           <span class="span21">{{$t('tour.playtime')}}：{{product.play_days>0?product.play_days+'天':''}} {{product.play_hours>0?product.play_hours+'小时':''}}
+           <span class="span21">{{$t('tour.playtime')}}：
+
+             {{product.play_days>0?product.play_days+'天':''}} {{product.play_hours>0?product.play_hours+'小时':''}}
            <i class="span4">{{product.price}}/起 <a href="#piaopiao" style="color: red">&nbsp;&nbsp;{{$t('tour.byatt')}}</a></i>
            </span>
          </p>
@@ -44,7 +48,7 @@
      <div class="tourtitle" v-if="attack&&attack.list&&attack.list.length>0">
        <span class="span1">玩法攻略</span>
        <span class="span2">（{{attack.total}}篇）</span>
-       <span class="span3" @click="toattlist()">查看更多<img src="../../assets/imgs/tour/right.png" alt=""></span>
+       <span class="span3" v-if="attack&&attack.list&&attack.list.length>2" @click="toattlist()">{{$t('tour.lookmore')}}<img src="../../assets/imgs/tour/right.png" alt=""></span>
      </div>
      <div class="tour-gonglve" v-if="attack&&attack.list&&attack.list.length>0">
        <div class="gonglvebox">
@@ -59,7 +63,7 @@
      <div class="tourtitle" v-if="tickets&&tickets.list&&tickets.list.length>0" id="piaopiao" >
        <span class="span1">{{$t('tour.tour-atr')}}</span>
        <span class="span2">（{{tickets.total}}项）</span>
-       <span class="span3" @click="toprolist()">{{$t('tour.lookmore')}}<img src="../../assets/imgs/tour/right.png" alt=""></span>
+       <span class="span3" v-if="tickets&&tickets.list&&tickets.list.length>2" @click="toprolist()">{{$t('tour.lookmore')}}<img src="../../assets/imgs/tour/right.png" alt=""></span>
      </div>
      <div class="tour-menpiao" v-if="tickets&&tickets.list&&tickets.list.length>0">
        <div class="menpiao-item" v-for="(item,ind) in tickets.list" :key="ind">
@@ -79,7 +83,7 @@
      <!--行程-->
      <div class="tourtitle" v-if="products&&products.list.length">
        <span class="span1">{{$t('tour.xiangguan')}}</span>
-       <span class="span3" @click="toprolist()">{{$t('tour.lookmore')}}<img src="../../assets/imgs/tour/right.png" alt=""></span>
+       <span class="span3" v-if="products&&products.list.length>2" @click="toprolist()">{{$t('tour.lookmore')}}<img src="../../assets/imgs/tour/right.png" alt=""></span>
      </div>
      <div class="tour-xingcheng" v-if="products&&products.list.length">
        <div class="product-item" target="_blank" v-for="(item,ind) in products.list" :key="ind" @click="toproobj(item.product_id)">
@@ -116,7 +120,7 @@
      <!--评论-->
      <div class="tourtitle" v-if="comments&&comments.length">
        <span class="span1">评论</span>
-       <span class="span3">{{$t('tour.lookmore')}}<img src="../../assets/imgs/tour/right.png" alt=""></span>
+       <span class="span3" v-if="comments&&comments.length>2" >{{$t('tour.lookmore')}}<img src="../../assets/imgs/tour/right.png" alt=""></span>
      </div>
      <div class="tour-pinglun" v-if="comments&&comments.length">
        <div v-for="(item,ind) in comments" :key="ind">
@@ -160,7 +164,8 @@
 </template>
 
 <script>
-
+  import VueMarquee from 'vue-marquee-ho';
+  import Css from 'vue-marquee-ho/dist/vue-marquee.min.css'
   let goToBackPage = '/tour/list' // 记录下来当前的页面
   export default {
     layout: 'default',
@@ -171,6 +176,9 @@
           {name: 'description', content:this.product?this.product.name:'', 'hid': 'description'},
         ]
       }
+    },
+    components:{
+      "vue-marquee": VueMarquee
     },
     async asyncData({$axios, query, store, req}) {
       let tourId,
@@ -300,7 +308,7 @@
         this.$toast(this.$t('shareComp.copyFail'))
       },
       onHeaderLeft() {
-        this.$router.push(goToBackPage)
+        this.$router.push('/tour/list')
       },
       onimgbox() {
         this.$router.push('/tour/imgshow?tourId='+this.tourId)
@@ -357,6 +365,13 @@
   body{
     overflow: scroll!important;
     position: relative!important;
+  }
+  .middle span{
+    position: relative!important;
+    top: -14px!important;
+    color: #9E9E9E;
+    font-size: 28px;
+    border-bottom: 10px;
   }
 </style>
 
@@ -446,6 +461,7 @@
             line-height: 34px;
             font-size: 24px;
             color: #5e5e5e;
+
           }
         }
         .p3{
@@ -634,12 +650,13 @@
           opacity:1;
           font-size: 24px;
           position: relative;
-          top: 10px;
+          top: 5px;
           border-radius:24px;
           float: right;
         }
         .p1{
           display: inline-block;
+          width: 100%;
           .span1{
             font-size:28px;
             font-weight:bold;
@@ -671,6 +688,7 @@
           font-size:24px;
           line-height: 40px;
           height: 40px;
+          width: 100%;
         }
       }
 
@@ -992,6 +1010,7 @@
   .spcie-else .vi{
     float: right;
     display: inline-block;
+    margin-right: 15px;
   }
   .spcie-else .tuan{
     display: inline-block;
@@ -1005,6 +1024,6 @@
     width: 40px!important;
     height: 40px!important;
     position: relative;
-    top:16px;
   }
+
   </style>

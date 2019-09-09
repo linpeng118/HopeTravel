@@ -21,7 +21,7 @@
         <span style="color:#4DC02A" v-if="type=='video'" > <img src="../../assets/imgs/tour/active-video.png" alt="">{{objData.video_total}}</span>
         <span v-else @click="type='video'"><img src="../../assets/imgs/tour/videoicon.png" alt="">{{objData.video_total}}</span>
       </div>
-      <waterfall-easy v-if="imgsArr&&imgsArr.length&&imgsArr.length>0" :loadi="loadi" :imgsArr="imgsArr" @scrollReachBottom="((obj)=>getData(obj))"></waterfall-easy>
+      <waterfall-easy :over22="over" v-if="imgsArr&&imgsArr.length&&imgsArr.length>0" :loadi="loadi" :imgsArr="imgsArr" @scrollReachBottom="((obj)=>getData(obj))"></waterfall-easy>
     </div>
   </div>
 
@@ -60,7 +60,6 @@
     },
     methods: {
       async getData(type) {
-        console.log(type||'2222222222')
         if(this.over){
           return false
         }
@@ -97,7 +96,7 @@
 
   }
 </script>
-<style>
+<style>yarn
   body{
     overflow: scroll!important;
     position: relative!important;
