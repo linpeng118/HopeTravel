@@ -174,7 +174,16 @@
     },
     methods: {
       goBack() {
-        window.history.go(-1);
+        let obj= this.$router.go(-1).name||this.$router.from.name
+        if(obj=='login'||obj=='article-detail'){
+          this.$router.push({
+            path: 'article/list'
+          });
+        }
+        else{
+          this.$router.go(-1)
+        }
+
       },
       //第一次获取评论
       async firstload(){
