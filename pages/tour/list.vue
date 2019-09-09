@@ -1,29 +1,29 @@
 <template>
   <div class="scenic">
-    
-    <van-nav-bar class="login-header tours-no-bb"
-                 ref="loginHeader"
-                 :z-index="999" @click-left="leftClick" >
-      <van-icon class="left-wrap"
-                name="arrow-left"
-                slot="left"><span style="position: relative; top: -3px; font-size: 14px">返回</span>
-      </van-icon>
-      <van-icon name="arrow-right" slot="right">
-        <input
-          type="text"
-          class="search"
-          v-model="value"
-          placeholder="搜索景区"
-          >
-          <img src="../../assets/imgs/search.png"
-            alt="search"
-            class="search-img"
-            @click="search"
-          >
-      </van-icon>
-      
-    </van-nav-bar>
-    
+    <div class="header">
+      <van-nav-bar class="login-header tours-no-bb"
+                  ref="loginHeader"
+                  :z-index="999" @click-left="leftClick" >
+        <van-icon class="left-wrap"
+                  name="arrow-left"
+                  slot="left"><span style="position: relative; top: -3px; font-size: 14px">返回</span>
+        </van-icon>
+        <van-icon name="arrow-right" slot="right">
+          <input
+            type="text"
+            class="search"
+            v-model="value"
+            placeholder="搜索景区"
+            >
+            <img src="../../assets/imgs/search.png"
+              alt="search"
+              class="search-img"
+              @click="search"
+            >
+        </van-icon>
+        
+      </van-nav-bar>
+    </div>
     
       <div class="scenic-list">
         <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
@@ -34,7 +34,6 @@
             @load="onLoad"
           >
               <div
-                class="scenic-list-product"
                 v-for="scenic in sceincList"
                 :key="scenic.tour_city_id"
               >
@@ -173,7 +172,10 @@ export default {
 <style scoped lang="scss">
 .scenic {
   min-height: 100vh;
-  background: #f3f3f3;
+  .login-header {
+    width: 100%;
+    position: fixed;
+  }
   .search {
     width: 550px;
     height: 55px;
@@ -182,9 +184,16 @@ export default {
     border: none;
     border-radius: 40px;
     padding-left: 30px;
-    font-size: 12px;
+    font-size: 32px;
+    // 清除默认样式
+    appearance: none;
+    -webkit-appearance: none;
   }
-  input::placeholder {
+  /* 
+    Set up and down centering failed,no reason found yet
+    I think it is a reason for compatibility, but I don't know how to solve it.
+  */
+  ::-webkit-input-placeholder {
     color: #000 !important;
   }
   .search-img {
@@ -195,19 +204,19 @@ export default {
     top: 6px;
   }
   &-list {
-    padding: 40px 0 0 0;
+    padding: 100px 0 0 0;
     &-product {
-      width: 686px;
+      width: 100%;
       height: 168px;
-      margin: 0 auto;
-      margin-bottom: 16px;
+      margin-left: 40px;
+      border-bottom: 1px solid #d2d2d2;
       background: #fff;
       border-radius: 8px;
       display: flex;
+      align-items: center;
       &-img {
         width: 170px;
         height: 128px;
-        margin: 20px 0 20px 20px;
         img {
           width: 100%;
           height: 100%;
@@ -238,7 +247,7 @@ export default {
             display: flex;
             align-items: center;
             color: #9e9e9e;
-            padding-right: 20px;
+            padding-right: 50px;
           }
         }
         &-price {
