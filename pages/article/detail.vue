@@ -378,12 +378,14 @@
       async subcomm(){
         let that=this;
         if(that.searchtext!=''){
+
           let {code} = await upcomm({
             comment:that.searchtext,
             id:that.objid
           })
           if (code === 0) {
             that.getpro()
+            that.firstload()
             that.searchtext=''
             that.$dialog.alert({
               message: '评论成功'
