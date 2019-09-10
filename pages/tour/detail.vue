@@ -76,7 +76,7 @@
        <span class="span3" v-if="tickets&&tickets.list&&tickets.list.length>2" @click="toprolist()">{{$t('tour.lookmore')}}<img src="../../assets/imgs/tour/right.png" alt=""></span>
      </div>
      <div class="tour-menpiao" v-if="tickets&&tickets.list&&tickets.list.length>0">
-       <div class="menpiao-item" v-for="(item,ind) in tickets.list" :key="ind">
+       <div class="menpiao-item" v-for="(item,ind) in tickets.list" :key="ind" :style="ind==tickets.list.length-1?'border:none':''">
          <p class="p1"><i class="ziyin" v-if="item.self_support">{{$t('selfSupport')}}</i>
            <span class="span1">{{item.name}}</span>
            <span class="span2">（需要身份证）</span>
@@ -610,7 +610,6 @@
     }
     .tour-menpiao{
       width: 100%;
-      height: 238px;
       background-color: #fff;
       border-radius: 12px;
       padding:0 16px 16px 16px;
@@ -692,19 +691,14 @@
           }
           .span2{
             font-size:28px;
-            line-height:40px;
             display: inline-block;
             color:#9E9E9E;
           }
           .span3{
             font-size:32px;
             font-weight:bold;
-            line-height:44px;
             color:rgba(255,52,52,1);
             opacity:1;
-            float: right;
-            position: relative;
-            top: 10px;
           }
         }
         .p2{

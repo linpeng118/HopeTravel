@@ -1333,7 +1333,13 @@
         this.showMore = !this.showMore
       },
       onHeaderLeft() {
-        this.$router.push(goToBackPage)
+        if(goToBackPage.indexOf('article')!=-1){
+          this.$router.go(-1)
+        }
+        else{
+          this.$router.push(goToBackPage)
+        }
+
       },
       // 返回首页
       onHomePage() {

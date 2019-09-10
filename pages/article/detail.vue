@@ -174,15 +174,15 @@
     },
     methods: {
       goBack() {
-        let obj= (this.$router.go(-1))?this.$router.go(-1).name:(this.$router.from.name||'')
-        if(obj=='login'||obj=='article-detail'){
-          this.$router.push({
-            path: 'article/list'
-          });
-        }
-        else{
+        // let obj= (this.$router.go(-1))?this.$router.go(-1).name:(this.$router.from.name||'')
+        // if(obj=='login'||obj=='article-detail'){
+        //   this.$router.push({
+        //     path: 'article/list'
+        //   });
+        // }
+        // else{
           this.$router.go(-1)
-        }
+        // }
 
       },
       //第一次获取评论
@@ -251,6 +251,10 @@
         let {code} = await addFavorite2(this.objid)
         if (code === 0) {
           this.isfav=1;
+          this.getpro()
+          this.$dialog.alert({
+            message: '收藏成功'
+          });
         }
       },
 
@@ -258,6 +262,10 @@
         let {code,data} = await delFavorite2(this.objid)
         if (code === 0) {
           this.isfav=0;
+          this.getpro()
+          this.$dialog.alert({
+            message: '取消收藏成功'
+          });
         }
       },
       menu() {
@@ -375,6 +383,7 @@
             id:that.objid
           })
           if (code === 0) {
+            that.getpro()
             that.searchtext=''
             that.$dialog.alert({
               message: '评论成功'
@@ -1552,7 +1561,7 @@
         position: relative;
       }
       input{
-        width:640px;
+        width:600px;
         height:56px;
         background:rgba(241,241,241,1);
         opacity:1;
