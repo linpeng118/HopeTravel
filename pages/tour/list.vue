@@ -67,6 +67,14 @@
 <script>
 import {getSceincList} from '@/api/sceinc'
 import { getSessionStore } from '@/assets/js/utils'
+// 节流函数
+const delay = (function() {
+  let timer = 0;
+  return function(callback, ms) {
+    clearTimeout(timer);
+    timer = setTimeout(callback, ms);
+  };
+})();
 export default {
   data () {
     return {
@@ -78,6 +86,15 @@ export default {
       flag: false,
       value: ''
     }
+  },
+  watch: {
+    //用来监听页面变量的改变
+    //监听搜索，300ms执行一次fetchData方法（去搜索）
+    value() {
+      delay(() => {
+        this.search();
+      }, 300);
+    },
   },
   mounted () {
     var list = JSON.parse(getSessionStore('sceincList'))
@@ -160,7 +177,7 @@ export default {
             this.$toast('未找到相关景点,请换一个关键词试试！');
           }
         }
-  }
+    },
 }
 </script>
 
