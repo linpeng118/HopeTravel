@@ -140,7 +140,7 @@
 </div>
 </template>
 <script>
-  let goToBackPage = '/' // 记录下来当前的页面
+  let goToBackPage = '' // 记录下来当前的页面
   import {getattackobj,getattackobj2,getattaccomm,upcomm,getisfa,addFavorite2,delFavorite2} from '@/api/products'
   import ProductDetailHeader from '@/components/header/productDetail'
   export default {
@@ -171,7 +171,7 @@
     beforeRouteEnter (to, from, next) {
       next(vm => {
         console.log(4444444, to, from)
-        if(from.name=='login'){
+        if(from.name=='login'||from.name=='article-detail'){
           if( localStorage.getItem('goToBackPage')){
             goToBackPage =localStorage.getItem('goToBackPage')
           }
@@ -196,7 +196,7 @@
       goBack() {
         if(this.$router.go(-1).name=='login'){
           this.$router.push({
-            path: goToBackPage
+            path: goToBackPage||'/'
           });
         }
         else{
