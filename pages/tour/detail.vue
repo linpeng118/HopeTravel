@@ -381,7 +381,7 @@
     background-color: rgba(0,0,0,0)!important;
     color: #fff!important;
   }
- .elsecom .van-nav-bar .van-icon{
+ .elsecom>.van-nav-bar__left>.van-icon-arrow-left{
    color: #fff!important;
  }
   body{
