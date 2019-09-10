@@ -164,7 +164,8 @@
         showtip:false,
         showMore:false,
         shownav:false,
-        showelsenav:true
+        showelsenav:true,
+        formlogin:false,
 
       };
     },
@@ -174,8 +175,11 @@
         if(from.name=='login'||from.name=='article-detail'){
           if( localStorage.getItem('goToBackPage')){
             goToBackPage =localStorage.getItem('goToBackPage')
+            vm.formlogin=true
+
           }
           else{
+            vm.formlogin=false
             goToBackPage='/article/list'
           }
         }
@@ -194,7 +198,7 @@
 
     methods: {
       goBack() {
-        if(this.$router.go(-1).name=='login'){
+        if(this.formlogin){
           this.$router.push({
             path: goToBackPage||'/'
           });
