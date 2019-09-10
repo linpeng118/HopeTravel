@@ -390,7 +390,14 @@
   }
   .middle span{
     position: relative!important;
-    top: -14px!important;
+    top: -13px!important;
+    color: #9E9E9E;
+    font-size: 28px;
+    border-bottom: 10px;
+  }
+  .marquee-content .text1{
+    position: relative!important;
+    top: -13px!important;
     color: #9E9E9E;
     font-size: 28px;
     border-bottom: 10px;

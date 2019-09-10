@@ -140,6 +140,7 @@
 </div>
 </template>
 <script>
+  let goToBackPage = '/' // 记录下来当前的页面
   import {getattackobj,getattackobj2,getattaccomm,upcomm,getisfa,addFavorite2,delFavorite2} from '@/api/products'
   import ProductDetailHeader from '@/components/header/productDetail'
   export default {
@@ -167,13 +168,43 @@
 
       };
     },
+    beforeRouteEnter (to, from, next) {
+      next(vm => {
+        console.log(4444444, to, from)
+        if(from.name=='login'){
+          if( localStorage.getItem('goToBackPage')){
+            goToBackPage =localStorage.getItem('goToBackPage')
+          }
+          else{
+            goToBackPage='/article/list'
+          }
+        }
+        else{
+          goToBackPage = from.fullPath
+          localStorage.setItem('goToBackPage',goToBackPage)
+        }
+        console.log(goToBackPage)
+      })
+    },
     mounted() {
       this.getpro()
       this.getisfav()
       window.addEventListener('scroll', this.menu)
     },
+
     methods: {
       goBack() {
+        if(this.$router.go(-1).name=='login'){
+          this.$router.push({
+            path: goToBackPage
+          });
+        }
+        else{
+          this.$router.go(-1)
+        }
+
+
+
         // let obj= (this.$router.go(-1))?this.$router.go(-1).name:(this.$router.from.name||'')
         // if(obj=='login'||obj=='article-detail'){
         //   this.$router.push({
@@ -181,7 +212,7 @@
         //   });
         // }
         // else{
-          this.$router.go(-1)
+        //   this.$router.go(-1)
         // }
 
       },
@@ -257,7 +288,6 @@
           });
         }
       },
-
       async delfav() {
         let {code,data} = await delFavorite2(this.objid)
         if (code === 0) {
