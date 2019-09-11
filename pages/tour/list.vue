@@ -258,7 +258,11 @@ export default {
             color: #9e9e9e;
             padding-right: 50px;
           }
+          
         }
+        &-info {
+            width: 90%;
+          }
         &-price {
             color: #9e9e9e
           }
