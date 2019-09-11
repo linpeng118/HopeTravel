@@ -132,11 +132,10 @@
       </div>
       <p class="submitp">
         <input type="text" v-model="searchtext">
-        <label @click="subcomm()">{{$t('submit')}}</label>
+        <label @click="subcomm('type')">{{$t('submit')}}</label>
       </p>
     </div>
     </van-popup>
-
 </div>
 </template>
 <script>
@@ -176,7 +175,6 @@
           if( localStorage.getItem('goToBackPage')){
             goToBackPage =localStorage.getItem('goToBackPage')
             vm.formlogin=true
-
           }
           else{
             vm.formlogin=false
@@ -221,7 +219,7 @@
 
       },
       //第一次获取评论
-      async firstload(){
+      async firstload(type){
         // 获取数据
         let that=this;
         that.datacomm=[]
@@ -233,7 +231,10 @@
           that.datacomm=data
           that.pagination=pagination;
           that.isLoading = false
-          that.showcomm=true
+          if(!type){
+            that.showcomm=true
+          }
+
           // 数据全部加载完成
           if (that.pagination.total_page==that.pagination.page) {
             that.prodFinished = true
@@ -409,7 +410,7 @@
         }
       },
       //提交评论
-      async subcomm(){
+      async subcomm(type){
         let that=this;
         if(that.searchtext!=''){
 
@@ -418,12 +419,16 @@
             id:that.objid
           })
           if (code === 0) {
+
             that.getpro()
-            that.firstload()
             that.searchtext=''
             that.$dialog.alert({
               message: '评论成功'
             });
+            if(type){
+              that.firstload('type')
+            }
+
           }
         }
 

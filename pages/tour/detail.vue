@@ -79,7 +79,7 @@
        <div class="menpiao-item" v-for="(item,ind) in tickets.list" :key="ind" :style="ind==tickets.list.length-1?'border:none':''">
          <p class="p1"><i class="ziyin" v-if="item.self_support">{{$t('selfSupport')}}</i>
            <span class="span1">{{item.name}}</span>
-           <span class="span2">（需要身份证）</span>
+           <span class="span2"></span>
            <span class="span3">{{item.default_price}}</span>
           </p>
          <p class="p2">
@@ -102,6 +102,9 @@
            <span class="spcie-box">
              <i class="spice-icon" v-for="(item3,ind3) in item.special_icons" :key="ind3">{{item3.title}}</i>
            </span>
+           <!--<span v-if="!item.is_soldout">-->
+             <!--{{productTypeValue(item.product_type)}}-->
+           <!--</span>-->
            <span class="spcie-else">
              <i class="vi" v-if="item.is_video"><img src="../../assets/imgs/tour/video2.png" alt=""></i>
            </span>
@@ -259,6 +262,7 @@
 
     },
     async mounted() {
+      console.log(this.products)
 
     },
     methods: {
@@ -363,6 +367,21 @@
           path: '/product/list',
         });
       },
+      productTypeValue(val) {
+        const type = [
+          {type: 3,title: this.$t('tours.exquisiteGroup')},
+          {type: 1,title: this.$t('tours.localGroup')},
+          {type: 2,title: this.$t('tours.localPlay')},
+          {type: 4,title: this.$t('tours.tickets')},
+          {type: 5,title: this.$t('tours.aDayTrip')},
+          {type: 6,title: this.$t('tours.connectionService')},
+          {type: 7,title: this.$t('tours.cruise')},
+        ]
+        let target = type.find(item => {
+          return item.type === val
+        })
+        return target.title
+      },
       toproobj(id) {
         console.log(id)
         this.$router.push({
@@ -377,6 +396,10 @@
 
 </script>
 <style>
+  .middle {
+    -webkit-animation: a 16s linear infinite!important;
+    animation: a 16s linear infinite!important;
+  }
   .elsecom{
     background-color: rgba(0,0,0,0)!important;
     color: #fff!important;
@@ -390,14 +413,14 @@
   }
   .middle span{
     position: relative!important;
-    top: -13px!important;
+    top: -12px!important;
     color: #9E9E9E;
     font-size: 28px;
     border-bottom: 10px;
   }
   .marquee-content .text1{
     position: relative!important;
-    top: -13px!important;
+    top: -12px!important;
     color: #9E9E9E;
     font-size: 28px;
     border-bottom: 10px;
