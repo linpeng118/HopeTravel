@@ -734,6 +734,7 @@
         productId: '',
         ids: {},
         isVideoShow: false, // 是否显示视频
+        goToBackPage:''
       }
     },
     beforeRouteEnter (to, from, next) {
@@ -1330,11 +1331,13 @@
         this.showMore = !this.showMore
       },
       onHeaderLeft() {
-        if(goToBackPage.indexOf('article')!=-1||goToBackPage.indexOf('tour')!=-1){
+        console.log("goToBackPage")
+        console.log(this.goToBackPage)
+        if(this.goToBackPage.indexOf('article')!=-1){
           this.$router.go(-1)
         }
         else{
-          this.$router.push(goToBackPage)
+          this.$router.push(this.goToBackPage)
         }
       },
       // 返回首页
