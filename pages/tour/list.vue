@@ -48,8 +48,8 @@
                   <div class="scenic-list-product-item-title">
                     <div class="scenic-list-product-item-title-name">{{ scenic.name }}</div>
                     <div class="scenic-list-product-item-title-weather">
-                      <img src="../../assets/imgs/scenic-w2x.png" alt="天气">
-                      <span>{{ scenic.weather }}</span>
+                      <!-- <img src="../../assets/imgs/scenic-w2x.png" alt="天气">
+                      <span>{{ scenic.weather }}</span> -->
                     </div>
                   </div>
                   <div class="scenic-list-product-item-info">{{scenic.brief}}</div>
