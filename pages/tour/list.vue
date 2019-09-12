@@ -53,7 +53,7 @@
                     </div>
                   </div>
                   <div class="scenic-list-product-item-info">{{scenic.brief}}</div>
-                  <div class="scenic-list-product-item-price">门票:{{ scenic.ticket_price }}</div>
+                  <div class="scenic-list-product-item-price">门票:{{ scenic.ticket_price || '无' }}</div>
                 </div>
                 </nuxt-link>
               </div>
@@ -229,6 +229,7 @@ export default {
       display: flex;
       align-items: center;
       &-img {
+        flex: 0 0 170px;
         width: 170px;
         height: 128px;
         img {
@@ -266,7 +267,10 @@ export default {
           
         }
         &-info {
-            width: 90%;
+          width: 90%;
+          overflow: hidden;
+          text-overflow:ellipsis;
+          white-space: nowrap;
           }
         &-price {
             color: #9e9e9e
