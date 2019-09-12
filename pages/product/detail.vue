@@ -497,7 +497,7 @@
     <!-- 加载态 -->
     <loading v-if="loading"></loading>
     <!-- 右上角更多操作 -->
-    <transition name="fade">
+     <transition name="fade">
       <div class="show-more"
         v-show="showMore">
         <div class="show-more-item"
@@ -1214,7 +1214,6 @@
       },
       // 点击预览图片
       onImgSlide(data) {
-        console.log(data)
         const index = data.arr.findIndex(item => item === data.item)
         ImagePreview({
           images: data.arr,
@@ -1331,11 +1330,11 @@
         this.showMore = !this.showMore
       },
       onHeaderLeft() {
-        console.log(this.goToBackPage)
-        if(this.goToBackPage == '/'){
-          this.$router.push('/')
-        } else {
+        if(goToBackPage.indexOf('article')!=-1){
           this.$router.go(-1)
+        }
+        else{
+          this.$router.push(goToBackPage)
         }
       },
       // 返回首页

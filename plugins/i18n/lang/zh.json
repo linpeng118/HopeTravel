@@ -111,6 +111,25 @@
         "rate":"评分",
 		"detail":"评论详情"
     },
+  "tour": {
+    "name": "景区详情",
+    "byatt": "购票",
+    "play": "玩法攻略",
+    "lookmore": "查看更多",
+    "tour-atr": "景点门票",
+    "xiangguan": "相关行程",
+    "hot-text": "热销行程 保证低价",
+    "local": "附近景点",
+    "no-con1": "暂无简介",
+    "no-con2": "暂无报价",
+    "work": "出行",
+    "tours": "景区",
+    "needcar": "需要身份证",
+    "comm": "条评价",
+    "yingye": "营业时间",
+    "playtime": "建议游玩时间",
+    "nosale": "暂无优惠"
+  },
     "tours": {
         "torusRecommend": "稀饭推荐",
         "exquisiteGroup": "精品小团",

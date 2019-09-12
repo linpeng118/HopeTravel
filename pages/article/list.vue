@@ -104,7 +104,6 @@
     },
     mounted(){
       this.getpro()
-
     },
     methods: {
       selectDetail(attackId) {
@@ -147,9 +146,7 @@
       },
       // 返回上一级
       leftClick() {
-
-         this.$router.go(-1)
-
+        this.$router.go(-1)
 
       },
       // 上拉刷新

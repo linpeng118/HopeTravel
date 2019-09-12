@@ -132,14 +132,14 @@
       </div>
       <p class="submitp">
         <input type="text" v-model="searchtext">
-        <label @click="subcomm()">{{$t('submit')}}</label>
+        <label @click="subcomm('type')">{{$t('submit')}}</label>
       </p>
     </div>
     </van-popup>
-
 </div>
 </template>
 <script>
+  let goToBackPage = '' // 记录下来当前的页面
   import {getattackobj,getattackobj2,getattaccomm,upcomm,getisfa,addFavorite2,delFavorite2} from '@/api/products'
   import ProductDetailHeader from '@/components/header/productDetail'
   export default {
@@ -163,21 +163,63 @@
         showtip:false,
         showMore:false,
         shownav:false,
-        showelsenav:true
+        showelsenav:true,
+        formlogin:false,
 
       };
+    },
+    beforeRouteEnter (to, from, next) {
+      next(vm => {
+        console.log(4444444, to, from)
+        if(from.name=='login'||from.name=='article-detail'){
+          if( localStorage.getItem('goToBackPage')){
+            goToBackPage =localStorage.getItem('goToBackPage')
+            vm.formlogin=true
+          }
+          else{
+            vm.formlogin=false
+            goToBackPage='/article/list'
+          }
+        }
+        else{
+          goToBackPage = from.fullPath
+          localStorage.setItem('goToBackPage',goToBackPage)
+        }
+        console.log(goToBackPage)
+      })
     },
     mounted() {
       this.getpro()
       this.getisfav()
       window.addEventListener('scroll', this.menu)
     },
+
     methods: {
       goBack() {
-        window.history.go(-1);
+        if(this.formlogin){
+          this.$router.push({
+            path: goToBackPage||'/'
+          });
+        }
+        else{
+          this.$router.go(-1)
+        }
+
+
+
+        // let obj= (this.$router.go(-1))?this.$router.go(-1).name:(this.$router.from.name||'')
+        // if(obj=='login'||obj=='article-detail'){
+        //   this.$router.push({
+        //     path: 'article/list'
+        //   });
+        // }
+        // else{
+        //   this.$router.go(-1)
+        // }
+
       },
       //第一次获取评论
-      async firstload(){
+      async firstload(type){
         // 获取数据
         let that=this;
         that.datacomm=[]
@@ -189,7 +231,10 @@
           that.datacomm=data
           that.pagination=pagination;
           that.isLoading = false
-          that.showcomm=true
+          if(!type){
+            that.showcomm=true
+          }
+
           // 数据全部加载完成
           if (that.pagination.total_page==that.pagination.page) {
             that.prodFinished = true
@@ -242,13 +287,20 @@
         let {code} = await addFavorite2(this.objid)
         if (code === 0) {
           this.isfav=1;
+          this.getpro()
+          this.$dialog.alert({
+            message: '收藏成功'
+          });
         }
       },
-
       async delfav() {
         let {code,data} = await delFavorite2(this.objid)
         if (code === 0) {
           this.isfav=0;
+          this.getpro()
+          this.$dialog.alert({
+            message: '取消收藏成功'
+          });
         }
       },
       menu() {
@@ -288,29 +340,19 @@
         let a=this.$refs.title;
         let top = a[ind].offsetTop;
         this.shownav=false
-        if((document.documentElement.scrollTop || document.body.scrollTop) > top){
+        if(document.documentElement.scrollTop > top){
           let timer = setInterval(() => {
-            if(document.documentElement.scrollTop){
-              document.documentElement.scrollTop = document.documentElement.scrollTop-100
-            }
-            else if(document.body.scrollTop){
-              document.body.scrollTop = document.body.scrollTop-100
-            }
-
-            if ((document.documentElement.scrollTop || document.body.scrollTop) <= top) {
+            document.documentElement.scrollTop = document.documentElement.scrollTop-10
+            if (document.documentElement.scrollTop <= top) {
               clearInterval(timer)
             }
           }, 1)
         }
-        else if((document.documentElement.scrollTop || document.body.scrollTop) < top){
+        else if(document.documentElement.scrollTop < top){
           let timer = setInterval(() => {
-            if(document.documentElement.scrollTop){
-              document.documentElement.scrollTop = document.documentElement.scrollTop+100
-            }
-            else if(document.body.scrollTop){
-              document.body.scrollTop = document.body.scrollTop+100
-            }
-            if ((document.documentElement.scrollTop || document.body.scrollTop) >= top) {
+            let speed = Math.floor(-(document.documentElement.scrollTop - top) / 3)
+            document.documentElement.scrollTop = document.documentElement.scrollTop +10
+            if (document.documentElement.scrollTop >= top) {
               clearInterval(timer)
             }
           }, 1)
@@ -322,7 +364,7 @@
 
       },
       topro(productId) {
-        this.$router.replace({
+        this.$router.push({
           name: 'product-detail',
           query: {
             productId
@@ -368,18 +410,25 @@
         }
       },
       //提交评论
-      async subcomm(){
+      async subcomm(type){
         let that=this;
         if(that.searchtext!=''){
+
           let {code} = await upcomm({
             comment:that.searchtext,
             id:that.objid
           })
           if (code === 0) {
+
+            that.getpro()
             that.searchtext=''
             that.$dialog.alert({
               message: '评论成功'
             });
+            if(type){
+              that.firstload('type')
+            }
+
           }
         }
 

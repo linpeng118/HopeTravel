@@ -123,6 +123,21 @@ export const getProductDetail = (data) => {
   return axios.get(`/api/product/${data.product_id}`)
 }
 
+
+/**
+ * 获取景点详情
+ * @param {Object} data
+ */
+export const getTourDetail = (data) => {
+  return axios.get(`/tour/detail`,{
+    params:{
+      tour_city_id:data.id,
+      sub_tour:0
+    }
+  })
+}
+
+
 /**
  * 添加收藏
  * @param {Object} data {product_id}
