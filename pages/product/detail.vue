@@ -1330,7 +1330,7 @@
         this.showMore = !this.showMore
       },
       onHeaderLeft() {
-        if(goToBackPage.indexOf('article')!=-1){
+        if(goToBackPage.indexOf('article')!=-1||goToBackPage.indexOf('tour')!=-1){
           this.$router.go(-1)
         }
         else{
