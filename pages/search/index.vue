@@ -295,28 +295,6 @@
       },
       // 搜索关键字跳转列表
       selectProductList(type) {
-        // console.log(type)
-        // console.log(type)
-        // let typeItem
-        // if(type == 3) {
-        //   typeItem = 4
-        // } else if (type == 7) {
-        //   typeItem = 3
-        // } else if(type == 5){
-        //   typeItem = 2
-        // }else if(type == 4){
-        //   typeItem = 2
-        // } else {
-        //   typeItem = type
-        // }
-        // this.$router.push({
-        //   name: 'product_list',
-        //   query: {
-        //     itemType: typeItem || type,
-        //     w: this.searchWords
-        //   }
-        // })
-
         this.saveLocal()
         let _arr = ['ya','yg','yw','yj','ym','yr','','yl']
         let query = {
@@ -358,7 +336,8 @@
       selectDetail(query){
         // console.log(66666, query)
         let _query = changeParams(query)
-        this.$router.push(`${_query}`)
+        console.log(_query)
+        this.$router.push(_query)
       },
       selectDetailLine(category) {
         this.$router.push({

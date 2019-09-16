@@ -620,8 +620,6 @@
   } from '@/assets/js/config'
   import onCustomerService from '@/assets/js/customerService.js'
 
-  let goToBackPage = '/' // 记录下来当前的页面
-
   export default {
     layout: 'default',
     head() {
@@ -741,8 +739,7 @@
     beforeRouteEnter (to, from, next) {
       next(vm => {
         console.log(4444444, to, from)
-        goToBackPage = from.fullPath
-        console.log(goToBackPage)
+        vm.goToBackPage = from.fullPath
       })
     },
     computed: {
@@ -1333,13 +1330,11 @@
         this.showMore = !this.showMore
       },
       onHeaderLeft() {
-        if(goToBackPage.indexOf('article')!=-1){
+        if(this.goToBackPage == '/'){
+          this.$router.push('/')
+        } else {
           this.$router.go(-1)
         }
-        else{
-          this.$router.push(goToBackPage)
-        }
-
       },
       // 返回首页
       onHomePage() {
