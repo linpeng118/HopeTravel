@@ -85,7 +85,7 @@
               <span>{{$t('since')}}</span>
             </div>
             <div class="btn">
-              <button @click="tel">{{$t('phoneConsult')}}</button>
+              <a href="tel://400-118-1388">{{$t('phoneConsult')}}</a>
             </div>
           </div>
         </div>
@@ -417,7 +417,8 @@
               }
             }
             .btn {
-              button {
+              a {
+                display:inline-block;
                 width: 228px;
                 height: 60px;
                 background: #ffa438;
