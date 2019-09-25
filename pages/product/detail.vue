@@ -1331,13 +1331,11 @@
         this.showMore = !this.showMore
       },
       onHeaderLeft() {
-        console.log("goToBackPage")
         console.log(this.goToBackPage)
-        if(this.goToBackPage.indexOf('article')!=-1){
+        if(this.goToBackPage == '/'){
+          this.$router.push('/')
+        } else {
           this.$router.go(-1)
-        }
-        else{
-          this.$router.push(this.goToBackPage)
         }
       },
       // 返回首页
