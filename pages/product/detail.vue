@@ -1,11 +1,4 @@
-<!--
- * @Descripttion: 
- * @version: 
- * @Author: sueRimn
- * @Date: 2019-09-30 09:30:50
- * @LastEditors: sueRimn
- * @LastEditTime: 2019-10-08 14:10:51
- -->
+
 <template>
   <div class="product-detail-page"
     ref="refProductDetailPage">
