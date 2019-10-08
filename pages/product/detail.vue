@@ -1,3 +1,11 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: sueRimn
+ * @Date: 2019-09-30 09:30:50
+ * @LastEditors: sueRimn
+ * @LastEditTime: 2019-10-08 14:10:51
+ -->
 <template>
   <div class="product-detail-page"
     ref="refProductDetailPage">
@@ -409,6 +417,11 @@
           复制公众号
         </div>
       </div>
+      <!--悬浮-->
+      <drift-aside ref="driftAside"
+        :isHome="true"
+        @backTop="backTop"
+      ></drift-aside>
       <!-- 底部按钮 -->
       <div class="footer-fixed">
         <div class="footer-tabbar">
@@ -619,7 +632,7 @@
     CURRENCY
   } from '@/assets/js/config'
   import onCustomerService from '@/assets/js/customerService.js'
-
+  import DriftAside from '@/components/drift_aside'
   export default {
     layout: 'default',
     head() {
@@ -634,7 +647,8 @@
       ProductDetailHeader,
       ProdDetailImgItem,
       Loading,
-      shareList
+      shareList,
+      DriftAside
     },
     async asyncData({
       $axios,
@@ -905,7 +919,7 @@
       console.log('product', this.product)
       this.init()
       this.$refs.refProductDetailPage.addEventListener("scroll", this.scrollFn);
-      document.getElementsByTagName('title')[0].innerText = this.product.name
+      document.getElementsByTagName('title')[0].innerText = this.product.name;
     },
     beforeDestroy() {
       this.$refs.refProductDetailPage.removeEventListener('scroll', this.scrollFn)
@@ -1121,7 +1135,7 @@
         clearInterval(this.timer)
         this.timer = setInterval(this.backFn, 20)
       },
-      // 滚动到相应位置
+      // 滚动到相应位置     
       backFn() {
         // 滚动到的元素(减去2个fixed的高度)
         let scrollTo = this.$refs[this.activeTabRef].offsetTop -
@@ -1155,13 +1169,22 @@
       onAdCustom() {
         this.jumpTo('/custom')
       },
-      // 滚动函数
+      // 滚动函数     
+      /**
+       * @name: Casey.wu
+       * @msg: 增加homeHeight用于获取元素相对于视窗的位置的高度，用于计算侧边栏是否显示
+       * @param {type} 
+       * @return: 
+       * @LastEditTime: Do not Edit
+       * @Date: 2019-10-08 14:08:48
+       */      
       scrollFn() {
         const s1 = this.$refs.refProductDetailPage.scrollTop;
         const s1H = this.$refs.refProductDetailPage.offsetHeight;
         const allH = this.$refs.refProductDetail.offsetHeight;
         let tabListH = this.$refs.refTabList.offsetTop - this.$refs.refTabList.offsetHeight;
         let tabHeightH = this.$refs.refTabHeight.offsetTop - this.$refs.refTabList.offsetHeight;
+        let homeHeight = this.$refs.refProductDetailPage.getBoundingClientRect().height
         // console.log(s1, tabListH, tabHeightH)
         if (s1 > 100) {
           this.isShareBtn = true
@@ -1173,6 +1196,17 @@
         }
         if (s1 <= tabHeightH) {
           this.isTabFixed = false
+        }
+        /**
+         * @name: Casey.wu
+         * @msg: 控制侧边栏是否显示
+         * @LastEditTime: Do not Edit
+         * @Date: 2019-10-08 14:09:08
+         */
+        if (s1 > homeHeight) {
+          this.$refs.driftAside.homeScrollShow()
+        } else {
+          this.$refs.driftAside.homeScrollHide()
         }
         // 判断方向
         // setTimeout(() => {
@@ -1451,6 +1485,23 @@
           console.log(error)
         }
         window.open('https://api.tourscool.com/api/tour/v1/download', '_blank')
+      },
+      /**
+       * @name: Casey.wu
+       * @msg: 返回顶部
+       * @param {type} 
+       * @return: 
+       * @LastEditTime: Do not Edit
+       * @Date: 2019-10-08 14:10:05
+       */
+      backTop() {
+        let timer = setInterval(() => {
+          let speed = Math.floor(-this.$refs.refProductDetailPage.scrollTop / 3)
+          this.$refs.refProductDetailPage.scrollTop = this.$refs.refProductDetailPage.scrollTop + speed
+          if (this.$refs.refProductDetailPage.scrollTop === 0) {
+            clearInterval(timer)
+          }
+        }, 17)
       },
     },
   }

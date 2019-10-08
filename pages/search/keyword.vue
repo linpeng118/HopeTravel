@@ -129,11 +129,12 @@
       },
       // 搜索配的是id
       selectProductList(item){
+        console.log(34378,item)
         let {category,span_city,start_city} = item
         let str = 'ya'
         if(span_city){
           str += '-' + TRUE_PARAMS.span_city + span_city
-        }
+        } 
         if(start_city) {
           str += '-' + TRUE_PARAMS.start_city + start_city
         }
@@ -158,6 +159,7 @@
             w: item
           }
         })
+        
       },
       async search(){
         if(this.searchKeyWords) {
