@@ -21,3 +21,12 @@ export const getmenuSearch = (keyword) => {
 export const getHotSearchList = () => {
   return axios.get('/api/search')
 }
+/**
+ * @name: Casey.wu
+ * @msg: 搜索关键词统计
+ * @param keyword
+ */
+export const postKeywordsCensus = (keyword) => {
+  console.log(11111111,keyword)
+  return axios.post('/api/keyword', {'keyword': keyword})
+}
