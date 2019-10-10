@@ -188,6 +188,7 @@ export default {
 </style>
 <style scoped lang="scss">
 .scenic {
+  width: 100%;
   min-height: 100vh;
   .login-header {
     width: 100%;
@@ -238,7 +239,7 @@ export default {
         }
       }
       &-item {
-        flex: 1;
+        width: 72%;
         padding: 14px 0 20px 18px;
         font-size: 24px;
         display: flex;
