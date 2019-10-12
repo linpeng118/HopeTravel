@@ -10,33 +10,6 @@
       <img src="../../assets/imgs/home/icon_back_top.png" alt="">
     </div>
     <!--显示电话号码-->
-    <van-popup v-model="isTel">
-      <div class="tel-list">
-        <dl class="center-tel">
-          <dd>
-            <van-icon name="phone-o" class="big-icon" />
-            <div class="tel-box">
-              <p>{{$t('customerPhoneZH')}}7*24</p>
-              <p class="tel"><a href="tel:4001181388">400-118-1388</a></p>
-            </div>
-          </dd>
-          <dd>
-            <van-icon name="phone-o" class="big-icon" />
-            <div class="tel-box">
-              <p>{{$t('customerPhoneEN')}}</p>
-              <p class="tel"><a href="tel:0018889330336">(001)888-933-0336</a></p>
-            </div>
-          </dd>
-          <dd>
-            <van-icon name="phone-o" class="big-icon"/>
-            <div class="tel-box">
-              <p>{{$t('customerPhoneJP')}}</p>
-              <p class="tel"><a href="tel:0081355455311">(0081)3-5545-5311</a></p>
-            </div>
-          </dd>
-        </dl>
-      </div>
-    </van-popup>
   </div>
 </template>
 
