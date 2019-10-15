@@ -143,7 +143,7 @@
       DriftAside,
       dayItem
     },
-    head() {
+    /* head() {
       let srcCustomerService
       if (process.env.customerService === "53kf") {
         srcCustomerService = 'https://tb.53kf.com/code/code/10181581/2'
@@ -155,7 +155,7 @@
           },
         ]
       }
-    },
+    }, */
     asyncData({route, query,redirect}){
       // console.log(2222222222, route)
       // category=89,89&product_type=&span_city=&start_city=32,29&itemType=0

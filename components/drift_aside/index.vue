@@ -15,7 +15,8 @@
 
 <script>
 import {DLG_TYPE} from '@/assets/js/consts/dialog'
-import onCustomerService from '@/assets/js/customerService.js'
+/* import onCustomerService from '@/assets/js/customerService.js' */
+import { replaceServerUrl } from '@/assets/js/utils'
 import {mapMutations, mapState, mapGetters} from 'vuex';
 export default {
   name: 'drift_aside',
@@ -71,7 +72,7 @@ export default {
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
         let height = document.body.clientHeight
         this.scrollTop = scrollTop
-        console.log(scrollTop, height)
+        /* console.log(scrollTop, height) */
         if (this.scrollTop > height) {
           this.isShowDrift = true
         } else {
@@ -91,7 +92,11 @@ export default {
       this.isShowDrift = false
     },
     contactCustom() {
-      onCustomerService()
+      /* onCustomerService() */
+      let url = replaceServerUrl();
+      console.log(url);
+      
+      window.open(url);
     },
   }
 }
