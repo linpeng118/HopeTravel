@@ -3,7 +3,8 @@
   #mini_chat,
   #mobile_minchat_div,
   #mobile_ivt_div,
-  #mobile_icon_div {
+  #mobile_icon_div,
+  #mobile_chat_card {
     display: none !important;
   }
   // 百度隐藏
@@ -14,7 +15,10 @@
 .show-customer-service {
   // 53客服显示
   #mini_chat,
-  #mobile_icon_div {
+  #mobile_minchat_div,
+  #mobile_ivt_div,
+  #mobile_icon_div,
+  #mobile_chat_card {
     display: block;
   }
   // 百度显示
