@@ -120,7 +120,7 @@ import routerItem from '@/components/search/routerItem'
 import ProductList from '@/components/list/productList'
 import CityList from '@/components/list/cityList'
 import {getProductList, getFilterList} from '@/api/products'
-import {getmenuSearch} from '@/api/search'
+import {getmenuSearch, postKeywordsCensus} from '@/api/search'
 import DriftAside from '@/components/drift_aside'
 import {getParams, changeParams, removeOrAddStr} from '@/assets/js/utils'
 import {LIST_PARAMS} from '@/assets/js/config'
@@ -243,6 +243,7 @@ export default {
         this.getFilterList()
         console.log(_params)
         this.searchGetProduct(_params)
+        this.keywordStatistics()
       },
       immediate:true
     }
@@ -264,6 +265,7 @@ export default {
     ];
   },
   methods:{
+    
     // 返回上一级
     leftClick() {
       if(this.searchType > 0) {
@@ -593,6 +595,14 @@ export default {
       }
       return obj
     },
+    /**
+     * @name: Casey.wu
+     * @msg: 用户搜索关键词统计
+     * @param {type} 
+     */    
+    keywordStatistics() {
+        let {code, msg} = postKeywordsCensus(this.searchKeyWords || null)
+      }
   }
 }
 </script>

@@ -68,7 +68,6 @@
       this.$watch('query', _throttle((newValue) => {
         this.$emit('query', newValue)
       }, 500))
-      console.log(this.searchKeyWords)
     },
     methods: {
       onClickLeft() {
@@ -80,7 +79,6 @@
       },
       getSearchList() {
         this.$emit('searchList', this.query)
-        console.log(121211,this.query)
       },
       pushserach(){
           this.$router.push({

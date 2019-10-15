@@ -1,4 +1,3 @@
-
 <template>
   <div class="product-detail-page"
     ref="refProductDetailPage">
@@ -22,7 +21,7 @@
           @change="onBannerChange">
           <van-swipe-item v-for="image in product.images"
             :key="image">
-            <!-- <div class="banner-img"
+            <!-- <div class="banner-img" 
 :style="{'background': `url(${image}) no-repeat 0 0/100% 100%`}"></div> -->
             <div class="banner-img">
               <img :src="image"

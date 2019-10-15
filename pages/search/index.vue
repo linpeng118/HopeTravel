@@ -222,6 +222,7 @@
       },
       // 搜索按钮
       searchList() {
+        console.log('2221121wwww',this.searchWords)
         this.saveLocal()
         this.getHistoryList()
         // this.$router.push({
@@ -242,6 +243,7 @@
             w: this.searchWords
           }
         })
+        
       },
       // 存储浏览记录
       saveLocal() {
