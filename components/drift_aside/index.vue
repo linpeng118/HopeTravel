@@ -10,39 +10,13 @@
       <img src="../../assets/imgs/home/icon_back_top.png" alt="">
     </div>
     <!--显示电话号码-->
-    <van-popup v-model="isTel">
-      <div class="tel-list">
-        <dl class="center-tel">
-          <dd>
-            <van-icon name="phone-o" class="big-icon" />
-            <div class="tel-box">
-              <p>{{$t('customerPhoneZH')}}7*24</p>
-              <p class="tel"><a href="tel:4001181388">400-118-1388</a></p>
-            </div>
-          </dd>
-          <dd>
-            <van-icon name="phone-o" class="big-icon" />
-            <div class="tel-box">
-              <p>{{$t('customerPhoneEN')}}</p>
-              <p class="tel"><a href="tel:0018889330336">(001)888-933-0336</a></p>
-            </div>
-          </dd>
-          <dd>
-            <van-icon name="phone-o" class="big-icon"/>
-            <div class="tel-box">
-              <p>{{$t('customerPhoneJP')}}</p>
-              <p class="tel"><a href="tel:0081355455311">(0081)3-5545-5311</a></p>
-            </div>
-          </dd>
-        </dl>
-      </div>
-    </van-popup>
   </div>
 </template>
 
 <script>
 import {DLG_TYPE} from '@/assets/js/consts/dialog'
-import onCustomerService from '@/assets/js/customerService.js'
+/* import onCustomerService from '@/assets/js/customerService.js' */
+import { replaceServerUrl } from '@/assets/js/utils'
 import {mapMutations, mapState, mapGetters} from 'vuex';
 export default {
   name: 'drift_aside',
@@ -98,7 +72,7 @@ export default {
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
         let height = document.body.clientHeight
         this.scrollTop = scrollTop
-        console.log(scrollTop, height)
+        /* console.log(scrollTop, height) */
         if (this.scrollTop > height) {
           this.isShowDrift = true
         } else {
@@ -118,7 +92,11 @@ export default {
       this.isShowDrift = false
     },
     contactCustom() {
-      onCustomerService()
+      /* onCustomerService() */
+      let url = replaceServerUrl();
+      console.log(url);
+      
+      window.open(url);
     },
   }
 }

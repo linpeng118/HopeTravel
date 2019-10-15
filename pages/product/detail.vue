@@ -625,6 +625,7 @@
   } from '@/assets/js/config'
   import onCustomerService from '@/assets/js/customerService.js'
   import DriftAside from '@/components/drift_aside'
+  import { replaceServerUrl } from '@/assets/js/utils'
   export default {
     layout: 'default',
     head() {
@@ -1310,7 +1311,8 @@
       },
       // 在线咨询
       onlineCounsel() {
-        onCustomerService()
+        let url = replaceServerUrl();
+        window.open(url);
       },
       // 立即定制
       async btnReserve() {

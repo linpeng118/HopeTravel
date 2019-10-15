@@ -158,7 +158,7 @@
       countDown,
       DriftAside
     },
-    head() {
+    /* head() {
       let srcCustomerService
       if (process.env.customerService === "53kf") {
         srcCustomerService = 'https://tb.53kf.com/code/code/10181581/2'
@@ -170,7 +170,7 @@
           },
         ]
       }
-    },
+    }, */
     async asyncData({$axios, store}) {
       let indexData
       console.log(store.getters.currency)

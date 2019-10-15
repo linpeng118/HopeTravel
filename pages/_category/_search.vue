@@ -178,7 +178,7 @@ export default {
     dayItem,
     Loading
   },
-  head() {
+  /* head() {
     let srcCustomerService
     if (process.env.customerService === "53kf") {
       srcCustomerService = 'https://tb.53kf.com/code/code/10181581/2'
@@ -190,7 +190,7 @@ export default {
         },
       ]
     }
-  },
+  }, */
   data() {
     return {
       // searchKeyWords: this.$route.query. || null,
