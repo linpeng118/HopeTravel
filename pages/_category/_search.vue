@@ -549,14 +549,14 @@ export default {
     filterClick(item, key) {
       console.log(item, key)
       let id = item.id + ''
-      if(key === 'span_city' || key === 'duration' || key === 'product_type') {
+      if(key === 'span_city' || key === 'duration') {
         // 多选项
         if(this.filterResult[key]) {
           this.$set(this.filterResult, key, removeOrAddStr(this.filterResult[key],id))
         } else {
           this.$set(this.filterResult, key, id)
         }
-      } else if (key === 'departure_city' || key === 'stop_city' || key === 'price'|| key === 'brand') {
+      } else if (key === 'departure_city' || key === 'stop_city' || key === 'price'|| key === 'brand' || key === 'product_type') {
         // 单选项
         id = this.filterResult[key] == id ? '' : id
         this.$set(this.filterResult, key, id)

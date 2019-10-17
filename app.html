@@ -7,18 +7,27 @@
 <script>
     (function() {
 
-        var _53code = document.createElement("script");
-        let src = "https://tb.53kf.com/code/code/10181581/2";
-        let date = window.__tourscool_customer_service_time
+        var timer;
 
-        if (date !== '') {
-            if (date < 10 || date > 22) {
-                src = "https://tb.53kf.com/code/code/3d536eec7f1463b6367bc401b498f8c67/3";
-            }
+
+        if (!window.__tourscool_customer_service_time) {
+            var _53code = document.createElement("script");
+            timer = setTimeout(() => {
+                let src = "https://tb.53kf.com/code/code/10181581/2";
+                let date = window.__tourscool_customer_service_time
+
+                if (date !== '' || date !== 'undefined') {
+                    if (date < 1 || date >= 14) {
+                        src = "https://tb.53kf.com/code/code/3d536eec7f1463b6367bc401b498f8c67/3";
+                    }
+                }
+                _53code.src = src;
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(_53code, s);
+            }, 5000)
+        } else {
+            clearInterval(timer);
         }
-        _53code.src = src;
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(_53code, s);
 
     })();
 </script>

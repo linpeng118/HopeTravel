@@ -262,7 +262,7 @@ function replaceServerUrl() {
     var americaUtcDate = window[CUSTOMER_SERVICE];
     console.log(americaUtcDate);
 
-    if (americaUtcDate <= 2 || americaUtcDate > 14) {
+    if (americaUtcDate < 1 || americaUtcDate >= 14) {
         src = "https://tb.53kf.com/code/client/3d536eec7f1463b6367bc401b498f8c67/3"
     }
     return src;
