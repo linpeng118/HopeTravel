@@ -18,7 +18,7 @@ export default function(page) {
             window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=13206734&userId=26301226'
         }
         if (process.env.customerService === "53kf") {
-            window.location.href = 'https://tb.53kf.com/code/client/10181581/4'
+            // window.location.href = 'https://tb.53kf.com/code/client/10181581/4'
         }
     } else if (page === 'custom') {
         // 定制页面
