@@ -3,6 +3,24 @@
 
 <head>
     {{ HEAD }}
+  <script>
+    (function() {
+      var timer = setInterval(function () {
+        if(window.__tourscool_customer_service_time >=0 ){
+          var _53code = document.createElement("script")
+          let src = "https://tb.53kf.com/code/code/10181581/2"
+          let date = window.__tourscool_customer_service_time
+          if (date < 1 || date >= 14) {
+            src = "https://tb.53kf.com/code/code/3d536eec7f1463b6367bc401b498f8c67/3"
+          }
+          _53code.src = src
+          var s = document.getElementsByTagName("script")[0]
+          s.parentNode.insertBefore(_53code, s)
+          clearInterval(timer)
+        }
+      }, 1000)
+    })();
+  </script>
 </head>
 
 <body {{ BODY_ATTRS }}>
