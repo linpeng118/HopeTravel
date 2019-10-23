@@ -41,10 +41,9 @@
       <van-swipe indicator-color="white">
         <van-swipe-item v-for="banner in bannerList"
           :key="banner.image_url">
-          <div class="img"
-            @click="bannerLink(banner.link_url)">
+          <a class="img" :href="banner.link_url">
             <img :src="banner.image_url" />
-          </div>
+          </a>
         </van-swipe-item>
       </van-swipe>
     </div>
@@ -417,6 +416,11 @@
     position: relative;
     .banner {
       height: 420px;
+      a{
+        display: inline-block;
+        width: 100%;
+        height: 420px;
+      }
       img {
         height: 420px;
         width: 100%;

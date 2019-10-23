@@ -181,7 +181,7 @@
       }
 
       // console.log(changeParams(_obj))
-      redirect(changeParams(_obj))
+      redirect(url)
     },
     data() {
       return {
