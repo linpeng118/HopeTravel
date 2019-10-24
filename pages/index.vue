@@ -48,8 +48,11 @@
       </van-swipe>
     </div>
     <!--标签-->
-  <van-swipe class="entry-block">
-        <van-swipe-item v-for="navItem in navList"
+ <div v-swiper:mySwiper="navSwiperOption"
+      class="entry-block">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide"
+          v-for="navItem in navList"
           :key="navItem.title">
           <nuxt-link class="entry-tourism"
             :to="navItem.link_url">
@@ -57,8 +60,11 @@
               alt="">
             <p class="title">{{navItem.title}}</p>
           </nuxt-link>
-        </van-swipe-item>
-      </van-swipe>  
+        </div>
+      </div>
+      <!-- 操作 -->
+      <div class="swiper-pagination"></div>
+    </div>
     <!--新增行程攻略列表-->
     <div class="newnav" >
       <nuxt-link tag="div"
@@ -90,7 +96,7 @@
     <div class="sale-time-box"
       v-if="timeSalesList.length">
       <h1 class="title">{{$t('homePage.timedSpecials')}}</h1>
-      <div v-swiper:mySwiper="viewedSwiperOption">
+      <div v-swiper:mySwiper1="viewedSwiperOption">
         <div class="swiper-wrapper">
           <div class="swiper-slide"
             v-for="(sales,index) in timeSalesList"
