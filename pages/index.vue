@@ -48,11 +48,8 @@
       </van-swipe>
     </div>
     <!--标签-->
-    <div v-swiper:mySwiper="navSwiperOption"
-      class="entry-block">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide"
-          v-for="navItem in navList"
+  <van-swipe class="entry-block">
+        <van-swipe-item v-for="navItem in navList"
           :key="navItem.title">
           <nuxt-link class="entry-tourism"
             :to="navItem.link_url">
@@ -60,11 +57,8 @@
               alt="">
             <p class="title">{{navItem.title}}</p>
           </nuxt-link>
-        </div>
-      </div>
-      <!-- 操作 -->
-      <div class="swiper-pagination"></div>
-    </div>
+        </van-swipe-item>
+      </van-swipe>  
     <!--新增行程攻略列表-->
     <div class="newnav" >
       <nuxt-link tag="div"
@@ -414,6 +408,7 @@
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     position: relative;
+    touch-action: none;
     .banner {
       height: 420px;
       a{

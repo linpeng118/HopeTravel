@@ -93,10 +93,8 @@ export default {
     },
     contactCustom() {
       /* onCustomerService() */
-      let url = replaceServerUrl();
-      console.log(url);
-      
-      window.open(url);
+      let url = replaceServerUrl();     
+      window.open(url,"_self");
     },
   }
 }
