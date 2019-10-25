@@ -388,7 +388,9 @@ export default {
     // 重置筛选条件
     resetFilter(){
       this.showFilter = false
-      this.filterResult = this.searchParams
+      /* this.filterResult = this.searchParams */
+      this.changeRouterReset()
+      
     },
     // 重置行程天数选项
     deleteDaySelect(){
@@ -565,7 +567,8 @@ export default {
     },
     // 数据变化引起导航变化
     changeRouter(keyword){
-      let _url = changeParams(this.filterResult).split('/')
+      let _url = changeParams(this.filterResult).split('/');
+      
       if(keyword){
         delete this.$route.query.w
       }
@@ -579,6 +582,22 @@ export default {
       })
 
       // this.$router.push(`${changeParams(this.filterResult)}`)
+    },
+    //数据变化引起导航变化(在重置时)
+    changeRouterReset(keyword){
+      let  urlResetAll = changeParams(this.filterResult).split('/');
+      let urlReset = urlResetAll[2].split('-')[0];
+      if(keyword){
+        delete this.$route.query.w
+      }
+      this.$router.replace({
+        name: 'category-search',
+        params:{
+          category: urlResetAll[1],
+          search: urlReset
+        },
+        query:this.$route.query
+      })
     },
     // 格式化拼音列表
     _nomalLizePinyin(data) {
