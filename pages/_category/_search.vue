@@ -772,4 +772,8 @@ export default {
       top: 0 !important;
     }
   }
+  .product-list-page .van-tabs__wrap--scrollable .van-tab{
+    flex:1 !important;
+  }
+  
 </style>
