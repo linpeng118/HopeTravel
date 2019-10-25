@@ -411,7 +411,7 @@
       </div>
       <!--悬浮-->
       <drift-aside ref="driftAside"
-        :isHome="true"
+      
         @backTop="backTop"
       ></drift-aside>
       <!-- 底部按钮 -->
