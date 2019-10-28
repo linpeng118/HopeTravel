@@ -187,7 +187,7 @@
       <div class=" mt-24 comment__wrapper"
         v-if="reviews">
         <h1>
-          <b v-if="reviews.product.comment_score !== '0.0'">{{$t('comment.rate')}} {{reviews.product.comment_score}}</b>
+          <b v-if="reviews.comment.score !== '0.0'">{{$t('comment.rate')}} {{reviews.product.comment_score}}</b>
           <b v-else>暂无评论</b>
           <span @click="jumpTo(`/comment/detail/${product.product_id}`)">{{$t('seeAll')}}（{{reviews.product.comment_count}}）
             <van-icon name="arrow" /></span>
