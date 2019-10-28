@@ -48,7 +48,12 @@
       </div>
       <!-- 产品 -->
       <div class="product">
-        <p class="setelse"><span>{{product.comment_score}}分</span> &nbsp;&nbsp;<span v-if="product.sales>0">出行人数：{{product.sales}}</span> </p>
+        <p class="setelse">
+          <span>
+            <span v-if="product.comment_score !== '0.0'">{{product.comment_score}}分</span>
+            <span v-else>暂无评论</span>
+            </span> &nbsp;&nbsp;
+        <span v-if="product.sales>0">出行人数：{{product.sales}}</span> </p>
         <!-- name -->
         <p class="name">
           <span class="prod-tag"
@@ -182,7 +187,8 @@
       <div class=" mt-24 comment__wrapper"
         v-if="reviews">
         <h1>
-          <b>{{$t('comment.rate')}} {{reviews.product.comment_score}}</b>
+          <b v-if="reviews.product.comment_score !== '0.0'">{{$t('comment.rate')}} {{reviews.product.comment_score}}</b>
+          <b v-else>暂无评论</b>
           <span @click="jumpTo(`/comment/detail/${product.product_id}`)">{{$t('seeAll')}}（{{reviews.product.comment_count}}）
             <van-icon name="arrow" /></span>
         </h1>
