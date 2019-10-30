@@ -132,8 +132,8 @@
   import {mapMutations} from 'vuex'
   import {getProfile} from "@/api/profile"
   import {joinStatus} from "@/api/sale_union"
-  import onCustomerService from '@/assets/js/customerService.js'
-
+  /* import onCustomerService from '@/assets/js/customerService.js' */
+  import {replaceServerUrl} from '@/assets/js/utils'
   export default {
     name: "component_name",
     data() {
@@ -245,7 +245,9 @@
         }
       },
       contactCustom() {
-        onCustomerService()
+        /* onCustomerService() */
+        let url = replaceServerUrl();
+        window.open(url,'_self');
       },
       ...mapMutations({
         vxSetProfile: 'profile/setProfile'
