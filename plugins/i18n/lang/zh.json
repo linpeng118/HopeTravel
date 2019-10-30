@@ -82,8 +82,8 @@
     "since": "起",
     "selfSupport": "自营",
     "contactService": "联系客服",
-  "agreeXifanServerM": "《旅行合同等内容》",
-  "agreeXifanServerA": "《预定协议等内容》",
+    "agreeXifanServerM": "《旅行合同等内容》",
+    "agreeXifanServerA": "《预定协议等内容》",
     "coupons": "优惠券",
     "usecoupons": "使用优惠券",
     "costDetail": "费用明细",
@@ -97,39 +97,39 @@
     "pleaseChoose": "请选择",
     "cancel": "取消",
     "chooseCode": "选择区号",
-    "titleHeader":"标题",
-    "more":"更多",
+    "titleHeader": "标题",
+    "more": "更多",
     "plhdNameEmail": "用户名 / 邮箱",
     "plhdPhoneNumber": "请输入手机号",
     "savetime": "限时特价",
     "savecon": "超值优惠买到赚到",
-  "attack": "行程攻略",
-  "attackcon": "达人教你玩世界",
-  "attackcomm": "攻略评论",
-  "allcomm": "全部评论",
-    "comment":{
-        "rate":"评分",
-		"detail":"评论详情"
+    "attack": "行程攻略",
+    "attackcon": "达人教你玩世界",
+    "attackcomm": "攻略评论",
+    "allcomm": "全部评论",
+    "comment": {
+        "rate": "评分",
+        "detail": "评论详情"
     },
-  "tour": {
-    "name": "景区详情",
-    "byatt": "购票",
-    "play": "玩法攻略",
-    "lookmore": "查看更多",
-    "tour-atr": "景点门票",
-    "xiangguan": "相关行程",
-    "hot-text": "热销行程 保证低价",
-    "local": "附近景点",
-    "no-con1": "暂无简介",
-    "no-con2": "暂无报价",
-    "work": "出行",
-    "tours": "景区",
-    "needcar": "需要身份证",
-    "comm": "条评价",
-    "yingye": "营业时间",
-    "playtime": "建议游玩时间",
-    "nosale": "暂无优惠"
-  },
+    "tour": {
+        "name": "景区详情",
+        "byatt": "购票",
+        "play": "玩法攻略",
+        "lookmore": "查看更多",
+        "tour-atr": "景点门票",
+        "xiangguan": "相关行程",
+        "hot-text": "热销行程 保证低价",
+        "local": "附近景点",
+        "no-con1": "暂无简介",
+        "no-con2": "暂无报价",
+        "work": "出行",
+        "tours": "景区",
+        "needcar": "需要身份证",
+        "comm": "条评价",
+        "yingye": "营业时间",
+        "playtime": "建议游玩时间",
+        "nosale": "暂无优惠"
+    },
     "tours": {
         "torusRecommend": "稀饭推荐",
         "exquisiteGroup": "精品小团",
@@ -186,8 +186,7 @@
         "classicRoute": "经典路线",
         "referencePrice": "参考价格",
         "peopleStarts": "人/起",
-        "featureList": [
-            {
+        "featureList": [{
                 "title1": "全球出发",
                 "title2": "一人成团"
             },
@@ -453,7 +452,7 @@
         "aboutPartnerTitle": "稀饭联盟说明"
     },
     "productListPage": {
-        "sortDefault": "默认排序",
+        "sortDefault": "推荐排序",
         "sortPriceLowToHigh": "价格从低到高",
         "sortPriceHighToLow": "价格从高到底",
         "sortPopular": "最受欢迎",
@@ -473,8 +472,8 @@
         "reservation": "预定协议"
     },
     "contractPage": {
-        "travelContract":"旅行合同",
-        "travelSelf":"旅行合同及安全提示"
+        "travelContract": "旅行合同",
+        "travelSelf": "旅行合同及安全提示"
     },
     "searchPage": {
         "searchHistory": "历史搜索",
@@ -578,7 +577,7 @@
         "englishName": "英文名",
         "plhdPhoneNumber": "请输入手机号码",
         "checkPhoneNumber": "请检查手机号",
-        "chineseNoEnglish":"英文名中包含了中文"
+        "chineseNoEnglish": "英文名中包含了中文"
     },
     "localHotCityComp": {
         "hotCity": "热门城市"
@@ -598,19 +597,19 @@
         "travelCost": "行程费用",
         "discount": "优惠",
         "riceGrains": "米粒",
-        "priceTotal":"合计",
-        "unionSave":"联盟折扣"
+        "priceTotal": "合计",
+        "unionSave": "联盟折扣"
     },
     "countDownComp": {
         "tipText": "距离开始",
         "tipTextEnd": "距离结束",
         "endText": "已结束"
     },
-    "listComp":{
-        "eliminate":"清除",
-        "selection":"选中",
-        "originalPrice":"原价",
-        "orderAmount":"订单金额"
+    "listComp": {
+        "eliminate": "清除",
+        "selection": "选中",
+        "originalPrice": "原价",
+        "orderAmount": "订单金额"
     },
     "headerSearch": {
         "search": "搜索"

@@ -851,6 +851,9 @@
           height:4px;
           background-color: #EF9A1A;
         }
+        .van-tab{
+          flex: 1
+        }
         .van-tab--active{
           color: #EF9A1A;
         }

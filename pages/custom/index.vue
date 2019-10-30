@@ -149,7 +149,7 @@ import { custom } from "@/api/custom";
 import { getcitylist } from "@/api/custom";
 import { getcustom } from "@/api/custom";
 import { gettop } from "@/api/custom";
-import { isMobile } from "@/assets/js/utils";
+import { isMobile,replaceServerUrl } from "@/assets/js/utils";
 import Loading from "@/components/loading";
 import { mapMutations, mapState } from "vuex";
 import { DLG_TYPE } from "@/assets/js/consts/dialog";
@@ -543,7 +543,9 @@ export default {
     },
     // 查看全部list
     toList2() {
-      onCustomerService('custom')
+      /* onCustomerService('custom') */
+    let url = replaceServerUrl();
+    window.open(url,'_self');
     },
     // 故事
     onSlide(val) {
