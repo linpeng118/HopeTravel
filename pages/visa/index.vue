@@ -172,8 +172,8 @@
 <script>
   import {mapMutations, mapState} from "vuex";
   import {DLG_TYPE} from "@/assets/js/consts/dialog";
-  import onCustomerService from '@/assets/js/customerService.js'
-
+  /* import onCustomerService from '@/assets/js/customerService.js' */
+  import { replaceServerUrl } from "@/assets/js/utils";
   export default {
     name: "",
     data() {
@@ -257,7 +257,9 @@
         window.location.href = "tel://400-118-1388";
       },
       zixun() {
-        onCustomerService('visa')
+        /* onCustomerService('visa') */
+        let url = replaceServerUrl();
+        window.open(url,'_self');
       },
       // 电话咨询
       showcall2() {

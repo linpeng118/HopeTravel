@@ -93,8 +93,8 @@
   import Loading from '@/components/loading'
   import {getProfile} from '@/api/profile'
   import {TOKEN, SESSIONSTORE, PLATFORM} from '@/assets/js/config'
-  import {getSessionStore} from '@/assets/js/utils'
-  import onCustomerService from '@/assets/js/customerService.js'
+  import {getSessionStore,replaceServerUrl} from '@/assets/js/utils'
+  /* import onCustomerService from '@/assets/js/customerService.js' */
   import {
     getCookieByKey
   } from '@/assets/js/utils'
@@ -252,7 +252,9 @@
         this.loading = false;
       },
       contactCustom() {
-        onCustomerService()
+        /* onCustomerService() */
+        let url = replaceServerUrl();
+        window.open(url,'_self');
       },
       //是否需要登录弹窗
       async setshow() {

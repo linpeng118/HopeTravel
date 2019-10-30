@@ -1,41 +1,41 @@
 html {
-  box-sizing: border-box;
-  height: 100%;
+    box-sizing: border-box;
+    height: 100%;
 }
 
 // * { touch-action: none; } // 会导致页面无法滚动
-
 * {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-  outline: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+    -webkit-overflow-scrolling: touch;
 }
 
 *:before,
 *:after {
-  box-sizing: inherit;
+    box-sizing: inherit;
 }
 
 *:not(input, textarea, img) {
-  //-webkit-touch-callout: none;
-  //-webkit-user-select: none;
+    //-webkit-touch-callout: none;
+    //-webkit-user-select: none;
 }
 
 body {
-  height: 100%;
-  margin: 0;
+    height: 100%;
+    margin: 0;
 }
 
 html,
 body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: Tahoma,"Lucida Grande",Verdana,"Microsoft Yahei",STXihei,hei;
-  font-weight: 400;
-  -webkit-font-smoothing: antialiased;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Tahoma, "Lucida Grande", Verdana, "Microsoft Yahei", STXihei, hei;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
 }
 
 h1,
@@ -47,53 +47,50 @@ h6,
 p,
 dl,
 dd {
-  margin: 0;
+    margin: 0;
 }
 
 ul {
-  margin: 0;
-  padding-left: 0;
+    margin: 0;
+    padding-left: 0;
 }
 
 li {
-  list-style: none;
+    list-style: none;
 }
 
 a {
-  text-decoration: none;
-  cursor: pointer;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 button {
-  border: none;
-  outline: none;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
 input,
 textarea {
-  outline: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  appearance: none;
-  -webkit-tap-highlight-color: transparent;
-
-  // 以下3组必须分开写才能生效，不能合并
-  &::-webkit-input-placeholder {
-    color: #b6b7b7 !important;
-  }
-
-  &::-moz-placeholder {
-    color: #b6b7b7 !important;
-  }
-
-  &:-ms-input-placeholder {
-    color: #b6b7b7 !important;
-  }
+    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    -webkit-tap-highlight-color: transparent;
+    // 以下3组必须分开写才能生效，不能合并
+    &::-webkit-input-placeholder {
+        color: #b6b7b7 !important;
+    }
+    &::-moz-placeholder {
+        color: #b6b7b7 !important;
+    }
+    &:-ms-input-placeholder {
+        color: #b6b7b7 !important;
+    }
 }
 
 label {
-  -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: transparent;
 }
