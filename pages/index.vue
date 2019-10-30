@@ -48,7 +48,7 @@
       </van-swipe>
     </div>
     <!--标签-->
-    <div v-swiper:mySwiper="navSwiperOption"
+ <div v-swiper:mySwiper="navSwiperOption"
       class="entry-block">
       <div class="swiper-wrapper">
         <div class="swiper-slide"
@@ -96,7 +96,7 @@
     <div class="sale-time-box"
       v-if="timeSalesList.length">
       <h1 class="title">{{$t('homePage.timedSpecials')}}</h1>
-      <div v-swiper:mySwiper="viewedSwiperOption">
+      <div v-swiper:mySwiper1="viewedSwiperOption">
         <div class="swiper-wrapper">
           <div class="swiper-slide"
             v-for="(sales,index) in timeSalesList"

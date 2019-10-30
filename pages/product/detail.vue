@@ -1318,7 +1318,7 @@
       // 在线咨询
       onlineCounsel() {
         let url = replaceServerUrl();
-        window.open(url);
+        window.open(url,"_self");
       },
       // 立即定制
       async btnReserve() {
