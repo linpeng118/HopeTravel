@@ -22,8 +22,8 @@
     "regist": "注冊",
     "room": "房間",
     "delete": "刪除",
-  "agreeXifanServerM": "《旅行合同等內容》",
-  "agreeXifanServerA": "《預定協議等內容》",
+    "agreeXifanServerM": "《旅行合同等內容》",
+    "agreeXifanServerA": "《預定協議等內容》",
     "adult": "成人",
     "person": "人",
     "child": "兒童",
@@ -58,13 +58,13 @@
     "edit": "編輯",
     "RMB": "人民幣",
     "dollar": "美元",
-  "savetime": "限時特價",
-  "savecon": "超值優惠買到賺到",
-  "attack": "行程攻略",
-  "attackcon": "達人教妳玩世界",
-  "attackcomm": "攻略評論",
-  "allcomm": "全部評論",
-  "usecoupons": "使用優惠券",
+    "savetime": "限時特價",
+    "savecon": "超值優惠買到賺到",
+    "attack": "行程攻略",
+    "attackcon": "達人教妳玩世界",
+    "attackcomm": "攻略評論",
+    "allcomm": "全部評論",
+    "usecoupons": "使用優惠券",
     "noData": "暫無數據",
     "loading": "加載中",
     "verifyCode": "驗證碼",
@@ -107,9 +107,9 @@
     "more": "更多",
     "plhdNameEmail": "用戶名 / 郵箱",
     "plhdPhoneNumber": "請輸入手機號",
-    "comment":{
-        "rate":"評分",
-		"detail":"評論詳情"
+    "comment": {
+        "rate": "評分",
+        "detail": "評論詳情"
     },
     "tours": {
         "torusRecommend": "稀飯推薦",
@@ -121,26 +121,26 @@
         "cruise": "郵輪",
         "connectionService": "接駁服務"
     },
-  "tour": {
-    "name": "景區詳情",
-    "byatt": "購票",
-    "play": "玩法攻略",
-    "lookmore": "查看更多",
-    "tour-atr": "景點門票",
-    "xiangguan": "相關行程",
-    "hot-text": "熱銷行程 保證低價",
-    "local": "附近景點",
-    "no-con1": "暫無簡介",
-    "no-con2": "暫無報價",
-    "work": "出行",
-    "tours": "景區",
-    "needcar": "需要身份證",
-    "comm": "條評價",
-    "yingye": "營業時間",
-    "playtime": "建議遊玩時間",
-    "nosale": "暫無優惠"
+    "tour": {
+        "name": "景區詳情",
+        "byatt": "購票",
+        "play": "玩法攻略",
+        "lookmore": "查看更多",
+        "tour-atr": "景點門票",
+        "xiangguan": "相關行程",
+        "hot-text": "熱銷行程 保證低價",
+        "local": "附近景點",
+        "no-con1": "暫無簡介",
+        "no-con2": "暫無報價",
+        "work": "出行",
+        "tours": "景區",
+        "needcar": "需要身份證",
+        "comm": "條評價",
+        "yingye": "營業時間",
+        "playtime": "建議遊玩時間",
+        "nosale": "暫無優惠"
 
-  },
+    },
     "homePage": {
         "title": "首頁",
         "downloadText": "下載稀飯APP，領新人福利",
@@ -186,8 +186,7 @@
         "classicRoute": "經典路線",
         "referencePrice": "參考價格",
         "peopleStarts": "人/起",
-        "featureList": [
-            {
+        "featureList": [{
                 "title1": "全球出發",
                 "title2": "一人成團"
             },
@@ -322,9 +321,9 @@
         "orderNumber": "訂單號",
         "travelDate": "出行日期",
         "totalPrice": "共計",
-        "plhdExchange":"請輸入8位數優惠碼",
-        "exchangeDiscount":"兌換優惠碼",
-        "immediatelyBind":"立即綁定",
+        "plhdExchange": "請輸入8位數優惠碼",
+        "exchangeDiscount": "兌換優惠碼",
+        "immediatelyBind": "立即綁定",
         "discountCodeErro": "驗證碼有誤"
     },
     "productDetailPage": {
@@ -427,7 +426,7 @@
         "useList": "使用記錄",
         "overDate": "已過期",
         "instructions": "使用說明",
-      "nowuse": "立即使用"
+        "nowuse": "立即使用"
     },
     "distributionPage": {
         "title": "加入稀飯聯盟",
@@ -452,7 +451,7 @@
         "aboutPartnerTitle": "稀飯聯盟說明"
     },
     "productListPage": {
-        "sortDefault": "默認排序",
+        "sortDefault": "推薦排序",
         "sortPriceLowToHigh": "價格從低到高",
         "sortPriceHighToLow": "價格從高到底",
         "sortPopular": "最受歡迎",

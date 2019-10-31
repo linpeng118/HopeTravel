@@ -107,9 +107,12 @@ export default {
     position: fixed;
     right: 10px;
     bottom: 80px;
+    font-size: 36px;
+    z-index: 2;
     img{
       height: 88px;
       width: 88px;
+     /*  margin: 5px 0; */
     }
     .van-popup{
       border-radius: 16px;
