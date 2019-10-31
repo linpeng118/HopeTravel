@@ -1,15 +1,15 @@
 <template>
   <div class="about-us-page">
     <div class="header"
-      v-if="!isApp">
+         v-if="!isApp">
       <van-nav-bar class="bar-shadow"
-        :title="$t('personalPage.aboutUs')"
-        @click-left="onClickLeft"
-        left-arrow>
+                   :title="$t('personalPage.aboutUs')"
+                   @click-left="onClickLeft"
+                   left-arrow>
       </van-nav-bar>
     </div>
-    <div class="weituo out-layer-con"
-      v-html="$t('html.aboutUs')"></div>
+    <div class="weituo out-layer-con" v-html="$t('html.aboutUs')">
+    </div>
   </div>
 </template>
 
