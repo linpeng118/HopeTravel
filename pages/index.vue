@@ -409,12 +409,11 @@
 
 <style type="text/scss" lang="scss" scoped>
   .home-wrap {
-    // height: 100vh;
+    height: 100vh;
+    position: relative;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     background: #f1f1f1;
-    // overflow-y: auto;
-    // -webkit-overflow-scrolling: touch;
-    // position: relative;
-    // touch-action: none;
     .banner {
       height: 420px;
       a{
