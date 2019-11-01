@@ -2,7 +2,7 @@
   <div class="page">
     <div class="result-box">
       <img src="~/assets/imgs/net_error_no_data_img@2x.png" alt="">
-      <h2>已经搜肠刮肚了了，还是没有找到</h2>
+      <h2>已经搜肠刮肚了，还是没有找到</h2>
       <h3>别紧张，您可以进行一下操作</h3>
       <nuxt-link to="/">
         返回首页

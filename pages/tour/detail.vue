@@ -228,6 +228,8 @@
           products = data.products;
           comments = data.comments;
           nearby = data.nearby_tour
+          console.log(11111111111111111111111111,attack);
+          
         } else {
           console.log('error:', msg)
         }
