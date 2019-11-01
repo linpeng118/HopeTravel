@@ -462,7 +462,7 @@
         }
         let {data, code} = await orderCouponList(objdata)
         if (code === 0) {
-          this.couponDetails = data || [];
+          this.couponDetails = data || [];        
         }
         else {
           this.couponDetails = [];
