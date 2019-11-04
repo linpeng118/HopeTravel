@@ -108,7 +108,7 @@
           </div>
         </div>
         <div class="item-wrap"
-          @click="onServerNode">
+          @click="onServerNode" v-if="serviceNote.length">
           <div class="item-list">
             <div class="item"
               v-for="(item,index) in serviceNote"

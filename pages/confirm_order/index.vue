@@ -22,7 +22,7 @@
       <!--接送服务-->
       <section>
         <div class="confirm-item">
-          <p class="item-title">{{$t('confirmPage.transferTitle')}}</p>
+          <p class="item-title">{{$t('confirmPage.transferTitle')}}<span style="color: #fb605d">(* 必填)</span></p>
           <template v-for="(item,ind) in pricelist.transfer">
             <p v-if="countprice.product_departure==item.product_departure_id"
               :key="ind"
@@ -59,8 +59,7 @@
           </div>
           <van-radio-group v-model="countprice.product_departure"
             class="radiobox">
-            <van-radio name=""
-              class="radioitem">{{$t('confirmPage.nocheckPlane')}}</van-radio>
+            <!--<van-radio name="" class="radioitem">{{$t('confirmPage.nocheckPlane')}}</van-radio>-->
             <template v-for="(item,ind) in pricelist.transfer">
               <van-radio class="radioitem"
                 :key="ind"
@@ -75,7 +74,7 @@
       <section>
         <div class="confirm-item"
           v-if="pricelist.attributes&&pricelist.attributes.length>0">
-          <p class="item-title">{{$t('confirmPage.tripSel')}}</p>
+          <p class="item-title">{{$t('confirmPage.tripSel')}}<span style="color: #fb605d">(* 必填)</span></p>
           <template v-for="(attrx,ind) in showtrvel">
             <div :key="ind">
               <p class="item-tip">{{attrx.title}}</p>
@@ -103,14 +102,12 @@
             <div class="item-title">
               <p>
                 <span>{{seltrvel.title}}</span>
-                <span @click="checktrverend()"
-                  style="float:right;color:#399EF6">{{$t('sured')}}</span>
+                <span @click="checktrverend()" style="float:right;color:#399EF6">{{$t('sured')}}</span>
               </p>
             </div>
             <van-radio-group v-model="checktrvel"
               class="radiobox">
-              <van-radio name=""
-                class="radioitem">{{$t('confirmPage.noSeltrip')}}</van-radio>
+              <!--<van-radio name="" class="radioitem">{{$t('confirmPage.noSeltrip')}}</van-radio>-->
               <template v-for="(item,index) in seltrvel.items">
                 <van-radio class="radioitem"
                   :key="index"
