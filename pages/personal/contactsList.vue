@@ -20,6 +20,11 @@
     <div v-if="$route.query.adult">
       <p v-if="adult" class="contancts-title">{{$t('pleaseChoose')}}{{adult}}{{$t('personalPage.travelPeople')}}</p>
     </div>
+    <div class="btnbox">
+      <nuxt-link class="changeuser-btn" tag="button" :to="{path:'/personal/addContacts',query:{'isLogin':$route.query.isLogin}}">
+        <van-icon name="plus" color="#1989fa;"/>&nbsp;{{$t('selectTravlerPage.addTravler')}}
+      </nuxt-link>
+    </div>
     <van-checkbox-group v-if="type!='list'" v-model="checkuser" class="checkboxall" :max="parseInt(adult)">
       <van-checkbox
          v-for="(item, index) in list"
@@ -40,7 +45,6 @@
                <i style="color: red">{{$t('personalPage.addIncompleteInfo')}}</i>
             </template>
         </span>
-
           <b class="bicon">
             <nuxt-link :to="{path:'/personal/addContacts',query:{'id':item.customer_contract_id,'adult':$route.query.adult,'isLogin':$route.query.isLogin}}">
             <p><img src="../../assets/imgs/edit@2x.png" alt="" class="elicon"></p>
@@ -70,11 +74,7 @@
         </nuxt-link>
       </li>
     </ul>
-    <div class="btnbox">
-      <nuxt-link class="changeuser-btn" tag="button" :to="{path:'/personal/addContacts',query:{'isLogin':$route.query.isLogin}}">
-        <van-icon name="plus" color="#fff;"/>&nbsp;{{$t('selectTravlerPage.addTravler')}}
-      </nuxt-link>
-    </div>
+    
   </section>
 </template>
 
