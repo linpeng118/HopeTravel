@@ -21,7 +21,7 @@
     
     <div class="btnbox">
       <nuxt-link class="changeuser-btn" tag="button" :to="{path:'/personal/addContacts',query:{'isLogin':$route.query.isLogin}}">
-        <van-icon name="plus" color="#1989fa;"/>&nbsp;{{$t('selectTravlerPage.addTravler')}}
+        <van-icon name="plus" color="#1989fa;"/>&nbsp;<span class="add-word">{{$t('selectTravlerPage.addTravler')}}</span>
       </nuxt-link>
     </div>
     <div v-if="$route.query.adult">
@@ -169,6 +169,13 @@
   .elsecheck .van-checkbox__icon .van-icon{
     border: 2px solid #399EF6!important;
   }
+  .elsecheck .van-checkbox__icon .van-icon::before{
+    vertical-align: text-bottom;
+  }
+  .van-icon::before{
+    vertical-align: text-top;
+    margin-top: 1px;
+  }
   .changeuser-btn .van-icon-plus:before{
     content: "\F000"
   }
@@ -234,7 +241,7 @@
     width: 50px;
   }
   .btnbox {
-    margin-top: 88px;
+    margin-top: 100px;
     text-align: center;
   }
   .changeuser-btn {
@@ -242,7 +249,6 @@
     height: 60px;
     background: #f8f8f8;
     opacity: 1;
-    line-height: 72px;
     font-size: 24px;
     color: rgba(57, 158, 246, 1);
     margin: 28px 0;
