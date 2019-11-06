@@ -4,6 +4,7 @@
                  ref="loginHeader"
                  :title="title"
                  :z-index="999"
+                 fixed="true"
                  @click-left="onClickLeft"
                  @click-right="onClickRight">
       <van-icon class="left-wrap" name="arrow-left" slot="left" />
@@ -17,6 +18,12 @@
 
       </van-icon>
     </van-nav-bar>
+    
+    <div class="btnbox">
+      <nuxt-link class="changeuser-btn" tag="button" :to="{path:'/personal/addContacts',query:{'isLogin':$route.query.isLogin}}">
+        <van-icon name="plus" color="#1989fa;"/>&nbsp;<span class="add-word">{{$t('selectTravlerPage.addTravler')}}</span>
+      </nuxt-link>
+    </div>
     <div v-if="$route.query.adult">
       <p v-if="adult" class="contancts-title">{{$t('pleaseChoose')}}{{adult}}{{$t('personalPage.travelPeople')}}</p>
     </div>
@@ -40,7 +47,6 @@
                <i style="color: red">{{$t('personalPage.addIncompleteInfo')}}</i>
             </template>
         </span>
-
           <b class="bicon">
             <nuxt-link :to="{path:'/personal/addContacts',query:{'id':item.customer_contract_id,'adult':$route.query.adult,'isLogin':$route.query.isLogin}}">
             <p><img src="../../assets/imgs/edit@2x.png" alt="" class="elicon"></p>
@@ -70,11 +76,7 @@
         </nuxt-link>
       </li>
     </ul>
-    <div class="btnbox">
-      <nuxt-link class="changeuser-btn" tag="button" :to="{path:'/personal/addContacts',query:{'isLogin':$route.query.isLogin}}">
-        <van-icon name="plus" color="#fff;"/>&nbsp;{{$t('selectTravlerPage.addTravler')}}
-      </nuxt-link>
-    </div>
+    
   </section>
 </template>
 
@@ -167,6 +169,13 @@
   .elsecheck .van-checkbox__icon .van-icon{
     border: 2px solid #399EF6!important;
   }
+  .elsecheck .van-checkbox__icon .van-icon::before{
+    vertical-align: text-bottom;
+  }
+  .van-icon::before{
+    vertical-align: text-top;
+    margin-top: 1px;
+  }
   .changeuser-btn .van-icon-plus:before{
     content: "\F000"
   }
@@ -232,16 +241,16 @@
     width: 50px;
   }
   .btnbox {
+    margin-top: 100px;
     text-align: center;
   }
   .changeuser-btn {
-    width: 464px;
-    height: 72px;
-    background: rgba(57, 158, 246, 1);
+    width: 375px;
+    height: 60px;
+    background: #f8f8f8;
     opacity: 1;
-    line-height: 72px;
     font-size: 24px;
-    color: #fff;
+    color: rgba(57, 158, 246, 1);
     margin: 28px 0;
     border-radius: 8px;
   }

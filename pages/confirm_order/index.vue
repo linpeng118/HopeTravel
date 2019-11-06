@@ -15,14 +15,14 @@
       <!--页头信息-->
       <section>
         <div class="confirm-title">
-          <p>{{xname}}</p>
+          <p>{{product.name}}</p>
           <p>{{showtype}}</p>
         </div>
       </section>
       <!--接送服务-->
-      <section>
+      <section v-if="pricelist.transfer && pricelist.transfer.length">
         <div class="confirm-item">
-          <p class="item-title">{{$t('confirmPage.transferTitle')}}</p>
+          <p class="item-title">{{$t('confirmPage.transferTitle')}}<span style="color: #fb605d">(* 必填)</span></p>
           <template v-for="(item,ind) in pricelist.transfer">
             <p v-if="countprice.product_departure==item.product_departure_id"
               :key="ind"
@@ -59,8 +59,7 @@
           </div>
           <van-radio-group v-model="countprice.product_departure"
             class="radiobox">
-            <van-radio name=""
-              class="radioitem">{{$t('confirmPage.nocheckPlane')}}</van-radio>
+            <!--<van-radio name="" class="radioitem">{{$t('confirmPage.nocheckPlane')}}</van-radio>-->
             <template v-for="(item,ind) in pricelist.transfer">
               <van-radio class="radioitem"
                 :key="ind"
@@ -73,9 +72,8 @@
       </section>
       <!--行程选择-->
       <section>
-        <div class="confirm-item"
-          v-if="pricelist.attributes&&pricelist.attributes.length>0">
-          <p class="item-title">{{$t('confirmPage.tripSel')}}</p>
+        <div class="confirm-item" v-if="pricelist.attributes&&pricelist.attributes.length">
+          <p class="item-title">{{$t('confirmPage.tripSel')}}<span style="color: #fb605d">(* 必填)</span></p>
           <template v-for="(attrx,ind) in showtrvel">
             <div :key="ind">
               <p class="item-tip">{{attrx.title}}</p>
@@ -103,14 +101,10 @@
             <div class="item-title">
               <p>
                 <span>{{seltrvel.title}}</span>
-                <span @click="checktrverend()"
-                  style="float:right;color:#399EF6">{{$t('sured')}}</span>
+                <span @click="checktrverend()" style="float:right;color:#399EF6">{{$t('sured')}}</span>
               </p>
             </div>
-            <van-radio-group v-model="checktrvel"
-              class="radiobox">
-              <van-radio name=""
-                class="radioitem">{{$t('confirmPage.noSeltrip')}}</van-radio>
+            <van-radio-group v-model="checktrvel" class="radiobox" >
               <template v-for="(item,index) in seltrvel.items">
                 <van-radio class="radioitem"
                   :key="index"
@@ -405,7 +399,6 @@
         this.product = JSON.parse(JSON.stringify(this.vxReservePro))
         this.countprice = this.$store.state.confirm.countprice;
         this.pricelist = this.get_vuex_pricelist;
-        console.log(this.product)
         this.init()
         this.getqu();
         this.settitletip();
@@ -423,6 +416,7 @@
           this.profile = data;
           this.vxSetProfile(data)
           this.xname = this.product.name;
+          console.log(66666666666, this.product.name)
           this.getCouponList();
           if (this.countprice.savephone == '' || this.countprice.savephone == undefined || this.countprice.savephone == 'undefined') {
             this.$store.commit("countprice", {
@@ -462,7 +456,7 @@
         }
         let {data, code} = await orderCouponList(objdata)
         if (code === 0) {
-          this.couponDetails = data || [];
+          this.couponDetails = data || [];        
         }
         else {
           this.couponDetails = [];
@@ -514,13 +508,12 @@
         this.showchecktime = false;
       },
       //选择行程之前
-      checktrver(item) {
+      checktrver(item, index) {
         this.seltrvel = item;
-        let this_ = this;
         this.checktrvel = '';
-        for (let i = 0; i < this_.checkedtrvel.length; i++) {
-          if (this_.checkedtrvel[i].id == this_.seltrvel.id) {
-            this.checktrvel = this_.checkedtrvel[i].option_val_id
+        for (let i = 0; i < this.checkedtrvel.length; i++) {
+          if (this.checkedtrvel[i].option_id == this.seltrvel.id) {
+            this.checktrvel = this.checkedtrvel[i].option_val_id
           }
         }
         this.showchecktrver = true;
