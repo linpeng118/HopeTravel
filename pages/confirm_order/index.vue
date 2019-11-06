@@ -20,7 +20,7 @@
         </div>
       </section>
       <!--接送服务-->
-      <section>
+      <section v-if="pricelist.transfer && pricelist.transfer.length">
         <div class="confirm-item">
           <p class="item-title">{{$t('confirmPage.transferTitle')}}<span style="color: #fb605d">(* 必填)</span></p>
           <template v-for="(item,ind) in pricelist.transfer">
@@ -72,8 +72,7 @@
       </section>
       <!--行程选择-->
       <section>
-        <div class="confirm-item"
-          v-if="pricelist.attributes&&pricelist.attributes.length>0">
+        <div class="confirm-item" v-if="pricelist.attributes&&pricelist.attributes.length">
           <p class="item-title">{{$t('confirmPage.tripSel')}}<span style="color: #fb605d">(* 必填)</span></p>
           <template v-for="(attrx,ind) in showtrvel">
             <div :key="ind">
@@ -105,9 +104,7 @@
                 <span @click="checktrverend()" style="float:right;color:#399EF6">{{$t('sured')}}</span>
               </p>
             </div>
-            <van-radio-group v-model="checktrvel"
-              class="radiobox">
-              <!--<van-radio name="" class="radioitem">{{$t('confirmPage.noSeltrip')}}</van-radio>-->
+            <van-radio-group v-model="checktrvel" class="radiobox" >
               <template v-for="(item,index) in seltrvel.items">
                 <van-radio class="radioitem"
                   :key="index"
@@ -511,13 +508,12 @@
         this.showchecktime = false;
       },
       //选择行程之前
-      checktrver(item) {
+      checktrver(item, index) {
         this.seltrvel = item;
-        let this_ = this;
         this.checktrvel = '';
-        for (let i = 0; i < this_.checkedtrvel.length; i++) {
-          if (this_.checkedtrvel[i].id == this_.seltrvel.id) {
-            this.checktrvel = this_.checkedtrvel[i].option_val_id
+        for (let i = 0; i < this.checkedtrvel.length; i++) {
+          if (this.checkedtrvel[i].option_id == this.seltrvel.id) {
+            this.checktrvel = this.checkedtrvel[i].option_val_id
           }
         }
         this.showchecktrver = true;
