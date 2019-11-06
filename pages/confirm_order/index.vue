@@ -15,7 +15,7 @@
       <!--页头信息-->
       <section>
         <div class="confirm-title">
-          <p>{{xname}}</p>
+          <p>{{product.name}}</p>
           <p>{{showtype}}</p>
         </div>
       </section>
@@ -399,7 +399,6 @@
         this.product = JSON.parse(JSON.stringify(this.vxReservePro))
         this.countprice = this.$store.state.confirm.countprice;
         this.pricelist = this.get_vuex_pricelist;
-        console.log(this.product)
         this.init()
         this.getqu();
         this.settitletip();
@@ -417,6 +416,7 @@
           this.profile = data;
           this.vxSetProfile(data)
           this.xname = this.product.name;
+          console.log(66666666666, this.product.name)
           this.getCouponList();
           if (this.countprice.savephone == '' || this.countprice.savephone == undefined || this.countprice.savephone == 'undefined') {
             this.$store.commit("countprice", {
