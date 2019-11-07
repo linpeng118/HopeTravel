@@ -108,7 +108,7 @@
           </div>
         </div>
         <div class="item-wrap"
-          @click="onServerNode">
+          @click="onServerNode" v-if="serviceNote.length">
           <div class="item-list">
             <div class="item"
               v-for="(item,index) in serviceNote"
@@ -245,7 +245,7 @@
             <div class="item">
               <img src="../../assets/imgs/product/trip_1@2x.png"
                 alt="trip">
-              <p>{{$t('productDetailPage.dayTrip')}}</p>
+              <p>{{itinerary.duration_days}}{{$t('productDetailPage.dayTrip')}}</p>
             </div>
             <div class="item">
               <img src="../../assets/imgs/product/trip_2@2x.png"
@@ -653,7 +653,8 @@
       $axios,
       query,
       store,
-      req
+      req,
+      redirect
     }) {
       let productId,
         attributes,
@@ -696,8 +697,9 @@
           transfer = data.transfer
           reviews = data.reviews.product ? data.reviews : null //评论版块
 
-          console.log('data:', data.product.product_id)
+          console.log('data:', data.product.product_id,itinerary)
         } else {
+          redirect('../error');
           console.log('error:', msg)
         }
       } catch (error) {
@@ -1128,7 +1130,7 @@
         this.showServiceCop = true;
       },
       clickTab(tab) {
-        // console.log('tab', tab)
+        console.log('tab', tab)
         this.activeTab = tab.id
         this.activeTabRef = tab.ref
         clearInterval(this.timer)
