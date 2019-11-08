@@ -32,7 +32,7 @@
          v-for="(item, index) in list"
          class="elsecheck"
         :key="index"
-        :disabled="item.phone&&item.passport?false:true"
+        :disabled="item.phone&&item.passport ? false : true"
         :name="item">
         <span class="objitem">
             <i>
