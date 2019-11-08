@@ -93,7 +93,7 @@
   import Loading from '@/components/loading'
   import {getProfile} from '@/api/profile'
   import {TOKEN, SESSIONSTORE, PLATFORM} from '@/assets/js/config'
-  import {getSessionStore,replaceServerUrl} from '@/assets/js/utils'
+  import {getSessionStore,replaceServerUrl, clearCookieByKey} from '@/assets/js/utils'
   /* import onCustomerService from '@/assets/js/customerService.js' */
   import {
     getCookieByKey
@@ -171,6 +171,7 @@
       ...mapMutations({
         // vxSaveReservePro: 'saveReservePro',
         vxToggleLoginDlg: 'login/toggleDialog', // 是否显示弹窗
+        vxSetPrifile: 'profile/setProfile'
       }),
       // 获取价格明细
       async getpricelist(objdata) {
@@ -216,6 +217,7 @@
         let referer_id = getSessionStore(SESSIONSTORE) || ''
         let platform = getSessionStore(PLATFORM) || ''
         console.log(this.orderInfo, referer_id, platform)
+        await this.isUserLogin()
         let {data, code, msg} = await addorder({
           ...this.orderInfo,
           trace_code: getSessionStore('traceCode')
@@ -264,20 +266,14 @@
         this.$router.push({
           path: "/confirm_order"
         })
-
-        // let {code} = await getProfile()
-        // if(code != 0) {
-        //   this.vxToggleLoginDlg(true)
-        //   this.shownext=true
-        // }
-        // else{
-        //   this.$router.push({
-        //     path:"/confirm_order"
-        //   })
-        // }
-
       },
-
+      async isUserLogin(){
+        let {code} = await getProfile()
+        if(code != 0) {
+          this.vxSetPrifile({})
+          clearCookieByKey(TOKEN)
+        }
+      }
     }
   }
 
