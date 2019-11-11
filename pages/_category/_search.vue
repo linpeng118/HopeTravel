@@ -243,7 +243,7 @@ export default {
         this.getFilterList()
         console.log(_params)
         this.searchGetProduct(_params)
-        this.keywordStatistics()
+        // this.keywordStatistics()
       },
       immediate:true
     }
@@ -619,9 +619,9 @@ export default {
      * @msg: 用户搜索关键词统计
      * @param {type} 
      */    
-    keywordStatistics() {
-        let {code, msg} = postKeywordsCensus(this.searchKeyWords || null)
-      }
+    // keywordStatistics() {
+    //     let {code, msg} = postKeywordsCensus(this.searchKeyWords || null)
+    //   }
   }
 }
 </script>

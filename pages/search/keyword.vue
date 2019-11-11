@@ -58,6 +58,7 @@
   import {getHotSearchList, getAssociateSearch} from '@/api/search'
   import {setLocalStore, getLocalStore} from '@/assets/js/utils'
   import {TRUE_PARAMS} from '@/assets/js/config'
+  import {postKeywordsCensus} from '@/api/search'
   // 历史记录
   const SEARCH_HISTORY = '__tourscool_search_history__'
   export default {
@@ -102,15 +103,6 @@
       },
       leftClick(){
         this.$router.go(-1)
-        // if(this.$route.query.sr){
-        //   this.$router.go(-1)
-        //   // this.$router.push('/search/keyword')
-        //   // this.init()
-        //   // this.getHistoryList()
-        //   // this.searchResult = false
-        // } else {
-        //   this.$router.go(-1)
-        // }
       },
       async init(){
         let {code,data = [] } = await getHotSearchList()
@@ -130,6 +122,7 @@
       // 搜索配的是id
       selectProductList(item){
         console.log(34378,item)
+        this.keywordStatistics(item.title)
         let {category,span_city,start_city} = item
         let str = 'ya'
         if(span_city){
@@ -148,6 +141,7 @@
       },
       // 搜索关键字
       selectKeywords(item){
+        this.keywordStatistics(item)
         this.saveLocal()
         this.$router.push({
           name:'category-search',
@@ -195,11 +189,7 @@
       },
       // 改变页面的路由  主要是为了搜索返回在搜索结果页面
       changePage(){
-        // let {fullPath,query} = this.$route
-        // if(!query.t){
-        //   let url = query.w ? `${fullPath}&t=1`: `${fullPath}?t=1`
-        //   this.$router.push(url)
-        // }
+
       },
       // 存储浏览记录
       saveLocal() {
@@ -213,6 +203,11 @@
           setLocalStore(SEARCH_HISTORY, set)
         }
       },
+      keywordStatistics(item) {
+        if(item){
+          let {code, msg} = postKeywordsCensus(item)
+        }
+      }
     }
   }
 </script>
