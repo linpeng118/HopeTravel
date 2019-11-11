@@ -51,6 +51,18 @@
     </div>
     <loading-tr v-if="searchLoading" :loading="loading"></loading-tr>
     <loading v-if="startLoading"></loading>
+    <!-- 底部导航 -->
+        <van-tabbar v-model="active"
+          active-color="#399EF6" style="z-index:9">
+          <van-tabbar-item icon="wap-home"
+            to="/">{{$t('personalPage.homepage')}}</van-tabbar-item>
+          <van-tabbar-item icon="location-o"
+            to="/search">{{$t('personalPage.myDistribution')}}</van-tabbar-item>
+          <van-tabbar-item icon="chat-o"
+            @click="contactCustom">{{$t('onlineConsult')}}</van-tabbar-item>
+          <van-tabbar-item icon="user-o"
+            to="/personal">{{$t('personalPage.userCenter')}}</van-tabbar-item>
+        </van-tabbar>
   </div>
 </template>
 
@@ -92,7 +104,8 @@
         searchLoading: false, // 搜索结果监听
         loading: this.$t('dataLoading'),
         startLoading: true, // 进入时加载是否显示
-        historyList: []
+        historyList: [],
+        active: 1, //底部导航栏tabbar显示索引值
       }
     },
     computed: {
