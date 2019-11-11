@@ -161,7 +161,7 @@
   import {throttle as _throttle} from 'lodash'
   import {setCookieByKey, getCookieByKey} from '@/assets/js/utils'
   import {mapGetters, mapMutations, } from 'vuex'
-
+  import {replaceServerUrl} from '@/assets/js/utils'
   export default {
     name: 'home',
     components: {
@@ -205,6 +205,8 @@
     },
     data() {
       return {
+        //底部导航栏跳转索引
+        active: 0,
         // closeDown: process.client ? getCookieByKey(DOWN_CLOSE) || 'no' : '',
         productList: [],
         // nav swiper配置
@@ -266,6 +268,12 @@
       this.$refs.refHomePage.removeEventListener('scroll', this.scrollFn)
     },
     methods: {
+      //在线咨询
+      contactCustom() {
+        /* onCustomerService() */
+        let url = replaceServerUrl();
+        window.open(url,'_self');
+      },
       // 判断手机是安卓还是苹果
       downUrl() {
 
