@@ -76,6 +76,7 @@
   import SearchResult from '@/components/items/searchResult'
   import {getDestination, getAssociateSearch} from '@/api/search'
   import {setLocalStore, getLocalStore, changeParams} from '@/assets/js/utils'
+  import {replaceServerUrl} from '@/assets/js/utils'
   // 历史记录
   const SEARCH_HISTORY = '__tourscool_search_history__'
 
@@ -139,6 +140,12 @@
       this.getHistoryList()
     },
     methods: {
+       //在线咨询
+      contactCustom() {
+        /* onCustomerService() */
+        let url = replaceServerUrl();
+        window.open(url,'_self');
+      },
       // 滚动显示
       scrollFn() {
         if(this.historyList.length) {
