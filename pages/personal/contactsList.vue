@@ -4,7 +4,7 @@
                  ref="loginHeader"
                  :title="title"
                  :z-index="999"
-                 fixed="true"
+                 :fixed="true"
                  @click-left="onClickLeft"
                  @click-right="onClickRight">
       <van-icon class="left-wrap" name="arrow-left" slot="left" />
@@ -20,7 +20,7 @@
     </van-nav-bar>
     
     <div class="btnbox">
-      <nuxt-link class="changeuser-btn" tag="button" :to="{path:'/personal/addContacts',query:{'isLogin':$route.query.isLogin}}">
+      <nuxt-link class="changeuser-btn" tag="button" :to="{path:'/personal/addContacts',query:{'adult':$route.query.adult,'isLogin':$route.query.isLogin}}">
         <van-icon name="plus" color="#1989fa;"/>&nbsp;<span class="add-word">{{$t('selectTravlerPage.addTravler')}}</span>
       </nuxt-link>
     </div>
@@ -37,7 +37,7 @@
         <span class="objitem">
             <i>
               {{item.lastname}}&nbsp;{{item.firstname}}
-              <a>{{(item.six==0)?$t('woman'):$t('man')}}</a>
+              <a>{{(item.gender=="f")?$t('woman'):$t('man')}}</a>
             </i>
             <template v-if="item.phone&&item.passport">
                <i>{{$t('passportNumber')}}&nbsp;&nbsp;{{item.passport}} </i>
@@ -61,7 +61,7 @@
          <span class="objitem">
             <i>
               {{item.lastname}}&nbsp;{{item.firstname}}
-              <a>{{(item.six==0)?$t('woman'):$t('man')}}</a>
+              <a>{{(item.gender=="f")?$t('woman'):$t('man')}}</a>
             </i>
             <template v-if="item.phone&&item.passport">
                <i>{{$t('passportNumber')}}&nbsp;&nbsp;{{item.passport}} </i>
@@ -112,6 +112,8 @@
         let {data, code, msg} = await getcontants()
         if(code === 0) {
           this.list = data;
+          console.log(66666666666666666,this.list);
+          
           this.setcheck();
         }
         else if(code==401){
