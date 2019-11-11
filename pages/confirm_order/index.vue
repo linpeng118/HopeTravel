@@ -172,10 +172,12 @@
         <div class="confirm-item">
           <p class="item-title">{{$t('contactInfo')}}</p>
           <van-field :label="$t('orderDetailPage.contact')"
+           required
+           clearable
             v-model="contact.name"
             :placeholder="$t('confirmPage.enterConName')" />
-          <div data-v-0ea3802e=""
-            class="van-cell van-field">
+          <div
+            class="van-cell van-cell--required van-field">
             <div class="van-cell__title">
               <span>{{$t('phoneNumberCode')}}</span>
             </div>
@@ -192,6 +194,8 @@
             </div>
           </div>
           <van-field :label="$t('email')"
+                     required
+                     clearable
             v-model="contact.email"
             :placeholder="$t('confirmPage.mustTipskp')" />
           <van-popup v-model="showsel"
