@@ -1,9 +1,10 @@
 <template>
-  <section>
+  <section class="neuHeader">
     <van-nav-bar class="login-header tours-no-bb"
       ref="loginHeader"
       :title="$t('confirmPage.title')"
       :z-index="999"
+      :fixed="true"
       :right-text="isLogin?'':'登录'"
       @click-left="onClickLeft"
       @click-right="onClickRight">
@@ -696,6 +697,9 @@
   body{
     overflow: scroll!important;
     position: relative!important;
+  }
+  .neuHeader{
+    padding-top: 88px;
   }
   .checkcoubtn {
     width: 440px;
