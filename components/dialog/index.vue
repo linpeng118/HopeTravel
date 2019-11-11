@@ -3,11 +3,11 @@
     :position="proPos"
     :overlay="true"
     class="normal-dialog-comp">
-    <div class="btn-close"
+    <!-- <div class="btn-close"
       @click="closeDlg"
       v-show="isShowClose">
       <van-icon name="cross" />
-    </div>
+    </div> -->
     <div class="dialog-content">
       <component :is="currComp" />
     </div>
@@ -91,6 +91,7 @@
         this.$emit('callSetDlgType', val)
       },
       // 关闭弹窗
+      // 此方法已被遗弃 20191114
       closeDlg() {
         this.vxToggleDialog(false)
       },
