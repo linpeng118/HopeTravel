@@ -130,6 +130,20 @@
         </van-cell>
       </van-list>
     </div>
+    <!-- 底部导航 -->
+    <div>
+      <van-tabbar v-model="active"
+        active-color="#399EF6">
+        <van-tabbar-item icon="wap-home"
+          to="/">{{$t('personalPage.homepage')}}</van-tabbar-item>
+        <van-tabbar-item icon="location-o"
+          to="/search">{{$t('personalPage.myDistribution')}}</van-tabbar-item>
+        <van-tabbar-item icon="chat-o"
+          @click="contactCustom">{{$t('onlineConsult')}}</van-tabbar-item>
+        <van-tabbar-item icon="user-o"
+          to="/personal">{{$t('personalPage.userCenter')}}</van-tabbar-item>
+      </van-tabbar>
+    </div>
     <!--悬浮-->
     <drift-aside ref="driftAside"
       :isHome="true"
@@ -147,7 +161,8 @@
   import {throttle as _throttle} from 'lodash'
   import {setCookieByKey, getCookieByKey} from '@/assets/js/utils'
   import {mapGetters, mapMutations, } from 'vuex'
-
+  import {replaceServerUrl} from '@/assets/js/utils'
+  import apiConfig from './../apiConf.env'
   export default {
     name: 'home',
     components: {
@@ -191,6 +206,8 @@
     },
     data() {
       return {
+        //底部导航栏跳转索引
+        active: 0,
         // closeDown: process.client ? getCookieByKey(DOWN_CLOSE) || 'no' : '',
         productList: [],
         // nav swiper配置
@@ -241,17 +258,26 @@
       this.$refs.refHomePage.addEventListener('scroll', this.scrollFn)
       //
       let u = navigator.userAgent
-      if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
-        this.downUrl = 'https://api.tourscool.com/api/tour/v1/download'
-      } else if (u.indexOf('iPhone') > -1) {
-        this.downUrl = 'https://itunes.apple.com/cn/app/稀饭旅行/id1449120712?mt=8'
-      }
+      let or = window.location.origin
+      this.downUrl = `${apiConfig.base}/api/tour/v1/download`
+      // this.downUrl = or + '/api/tour/v1/download'
+      // if (u.indexOf('iPhone') > -1) {
+      //   this.downUrl = 'https://itunes.apple.com/cn/app/稀饭旅行/id1449120712?mt=8'
+      // } else {
+      //   this.downUrl = 'https://api.tourscool.com/api/tour/v1/download'
+      // }
       // this.isAndroid = process.client ? !!window.cordova: ''
     },
     beforeDestroy() {
       this.$refs.refHomePage.removeEventListener('scroll', this.scrollFn)
     },
     methods: {
+      //在线咨询
+      contactCustom() {
+        /* onCustomerService() */
+        let url = replaceServerUrl();
+        window.open(url,'_self');
+      },
       // 判断手机是安卓还是苹果
       downUrl() {
 

@@ -30,27 +30,17 @@
         </dl>
       </nuxt-link>
     </div>
-    <div class="btn_container clearfix">
-      <a
-        target="_blank"
-        class="btn_online fl"
-        data-ajax="false"
-        id="qa-wangqiao-btn"
-        @click="onlineCounsel"
-      >
-        <img class="online" src="../../assets/imgs/custom/btn1.png" alt>
-        在线咨询
-      </a>
-      <a href="/custom" class="btn_custom fl">
-        <img class="online" src="../../assets/imgs/custom/btn2.png" alt>
-        立即定制
-      </a>
-    </div>
+    <footer-custom></footer-custom>
   </div>
 </template>
 <script>
+  import FooterCustom from '@/components/footer/custom'
+
 export default {
   name: "custom-list",
+  components:{
+    FooterCustom
+  },
   data() {
     return {
       isApp: this.$route.query.platform, // 有就是app
