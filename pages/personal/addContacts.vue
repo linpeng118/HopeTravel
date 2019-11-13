@@ -394,10 +394,9 @@
   }
   .new-connect .van-cell--required .van-cell__title::before {
     content: '* ';
-    position: relative!important;
-    left: 0!important;
-    font-size: 14px;
-    color: #f44;
+    font-size: 20px;
+    font-weight: bold;
+    width: 14px;
   }
   .new-connect .van-cell--required::before {
     color: #fff!important;

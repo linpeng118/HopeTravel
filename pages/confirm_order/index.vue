@@ -1,9 +1,10 @@
 <template>
-  <section>
+  <section class="neuHeader">
     <van-nav-bar class="login-header tours-no-bb"
       ref="loginHeader"
       :title="$t('confirmPage.title')"
       :z-index="999"
+      :fixed="true"
       :right-text="isLogin?'':'登录'"
       @click-left="onClickLeft"
       @click-right="onClickRight">
@@ -22,7 +23,7 @@
       <!--接送服务-->
       <section v-if="pricelist.transfer && pricelist.transfer.length">
         <div class="confirm-item">
-          <p class="item-title">{{$t('confirmPage.transferTitle')}}<span style="color: #fb605d">(* 必填)</span></p>
+          <p class="item-title"><span style="color: #f44;padding-left:0">* </span>{{$t('confirmPage.transferTitle')}}</p>
           <template v-for="(item,ind) in pricelist.transfer">
             <p v-if="countprice.product_departure==item.product_departure_id"
               :key="ind"
@@ -73,7 +74,7 @@
       <!--行程选择-->
       <section>
         <div class="confirm-item" v-if="pricelist.attributes&&pricelist.attributes.length">
-          <p class="item-title">{{$t('confirmPage.tripSel')}}<span style="color: #fb605d">(* 必填)</span></p>
+          <p class="item-title"><span style="color: #f44;padding-left:0">* </span>{{$t('confirmPage.tripSel')}}</p>
           <template v-for="(attrx,ind) in showtrvel">
             <div :key="ind">
               <p class="item-tip">{{attrx.title}}</p>
@@ -168,13 +169,15 @@
       </section>
       <!--联系人信息-->
       <section>
-        <div class="confirm-item">
+        <div class="confirm-item contact">
           <p class="item-title">{{$t('contactInfo')}}</p>
           <van-field :label="$t('orderDetailPage.contact')"
+           required
+           clearable
             v-model="contact.name"
             :placeholder="$t('confirmPage.enterConName')" />
-          <div data-v-0ea3802e=""
-            class="van-cell van-field">
+          <div
+            class="van-cell van-cell--required van-field">
             <div class="van-cell__title">
               <span>{{$t('phoneNumberCode')}}</span>
             </div>
@@ -191,6 +194,8 @@
             </div>
           </div>
           <van-field :label="$t('email')"
+                     required
+                     clearable
             v-model="contact.email"
             :placeholder="$t('confirmPage.mustTipskp')" />
           <van-popup v-model="showsel"
@@ -691,11 +696,22 @@
     overflow: scroll!important;
     position: relative!important;
   }
+  .confirm-item .van-cell--required::before{
+    content: '* ';
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .confirm-item.contact .van-cell--required .van-cell__title span{
+    margin-left: 5px;
+  }
 </style>
 <style lang="scss" scoped>
   body{
     overflow: scroll!important;
     position: relative!important;
+  }
+  .neuHeader{
+    padding-top: 88px;
   }
   .checkcoubtn {
     width: 440px;
@@ -991,10 +1007,6 @@
     background-color: #fff;
     border-bottom: 1px solid rgb(238, 238, 238);
     transition: all 0.5s;
-    .left-wrap {
-      /*color: #404040;*/
-      /*font-size: 32px;*/
-    }
     .right-wrap {
       .search {
         width: 92px;
