@@ -23,7 +23,7 @@
       <!--接送服务-->
       <section v-if="pricelist.transfer && pricelist.transfer.length">
         <div class="confirm-item">
-          <p class="item-title">{{$t('confirmPage.transferTitle')}}<span style="color: #fb605d">(* 必填)</span></p>
+          <p class="item-title"><span style="color: #fb605d;padding-left:0">* </span>{{$t('confirmPage.transferTitle')}}</p>
           <template v-for="(item,ind) in pricelist.transfer">
             <p v-if="countprice.product_departure==item.product_departure_id"
               :key="ind"
@@ -74,7 +74,7 @@
       <!--行程选择-->
       <section>
         <div class="confirm-item" v-if="pricelist.attributes&&pricelist.attributes.length">
-          <p class="item-title">{{$t('confirmPage.tripSel')}}<span style="color: #fb605d">(* 必填)</span></p>
+          <p class="item-title"><span style="color: #fb605d;padding-left:0">* </span>{{$t('confirmPage.tripSel')}}</p>
           <template v-for="(attrx,ind) in showtrvel">
             <div :key="ind">
               <p class="item-tip">{{attrx.title}}</p>
@@ -695,6 +695,15 @@
   body{
     overflow: scroll!important;
     position: relative!important;
+  }
+  .confirm-item .van-cell--required::before{
+    content: '* ';
+    position: relative!important;
+    left: 0!important;
+    font-size: 14px;
+    color: #f44;
+    margin-right: 6px;
+
   }
 </style>
 <style lang="scss" scoped>
