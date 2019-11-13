@@ -23,7 +23,7 @@
       <!--接送服务-->
       <section v-if="pricelist.transfer && pricelist.transfer.length">
         <div class="confirm-item">
-          <p class="item-title"><span style="color: #fb605d;padding-left:0">* </span>{{$t('confirmPage.transferTitle')}}</p>
+          <p class="item-title"><span style="color: #f44;padding-left:0">* </span>{{$t('confirmPage.transferTitle')}}</p>
           <template v-for="(item,ind) in pricelist.transfer">
             <p v-if="countprice.product_departure==item.product_departure_id"
               :key="ind"
@@ -74,7 +74,7 @@
       <!--行程选择-->
       <section>
         <div class="confirm-item" v-if="pricelist.attributes&&pricelist.attributes.length">
-          <p class="item-title"><span style="color: #fb605d;padding-left:0">* </span>{{$t('confirmPage.tripSel')}}</p>
+          <p class="item-title"><span style="color: #f44;padding-left:0">* </span>{{$t('confirmPage.tripSel')}}</p>
           <template v-for="(attrx,ind) in showtrvel">
             <div :key="ind">
               <p class="item-tip">{{attrx.title}}</p>
@@ -703,7 +703,6 @@
     font-size: 14px;
     color: #f44;
     margin-right: 6px;
-
   }
 </style>
 <style lang="scss" scoped>
@@ -1008,10 +1007,6 @@
     background-color: #fff;
     border-bottom: 1px solid rgb(238, 238, 238);
     transition: all 0.5s;
-    .left-wrap {
-      /*color: #404040;*/
-      /*font-size: 32px;*/
-    }
     .right-wrap {
       .search {
         width: 92px;
