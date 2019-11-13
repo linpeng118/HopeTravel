@@ -169,7 +169,7 @@
       </section>
       <!--联系人信息-->
       <section>
-        <div class="confirm-item">
+        <div class="confirm-item contact">
           <p class="item-title">{{$t('contactInfo')}}</p>
           <van-field :label="$t('orderDetailPage.contact')"
            required
@@ -698,11 +698,11 @@
   }
   .confirm-item .van-cell--required::before{
     content: '* ';
-    position: relative!important;
-    left: 0!important;
-    font-size: 14px;
-    color: #f44;
-    margin-right: 6px;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .confirm-item.contact .van-cell--required .van-cell__title span{
+    margin-left: 5px;
   }
 </style>
 <style lang="scss" scoped>
