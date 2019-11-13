@@ -6,20 +6,25 @@
   <!--53客服-->
   <script>
     (function() {
-      var timer = setInterval(function () {
-        if(window.__tourscool_customer_service_time >=0 ){
-          var _53code = document.createElement("script")
-          let src = "https://tb.53kf.com/code/code/10181581/2"
-          let date = window.__tourscool_customer_service_time
-          if (date < 1 || date >= 14) {
-            src = "https://tb.53kf.com/code/code/3d536eec7f1463b6367bc401b498f8c67/3"
+      console.log()
+      var _arr = ['/protocol/about?platform=mp', '/protocol/user?platform=mp', '/protocol/xifan?platform=mp']
+      var index = _arr.indexOf(window.location.pathname + window.location.search)
+      if(index < 0) {
+        var timer = setInterval(function () {
+          if(window.__tourscool_customer_service_time >=0 ){
+            var _53code = document.createElement("script")
+            let src = "https://tb.53kf.com/code/code/10181581/2"
+            let date = window.__tourscool_customer_service_time
+            if (date < 1 || date >= 14) {
+              src = "https://tb.53kf.com/code/code/3d536eec7f1463b6367bc401b498f8c67/3"
+            }
+            _53code.src = src
+            var s = document.getElementsByTagName("script")[0]
+            s.parentNode.insertBefore(_53code, s)
+            clearInterval(timer)
           }
-          _53code.src = src
-          var s = document.getElementsByTagName("script")[0]
-          s.parentNode.insertBefore(_53code, s)
-          clearInterval(timer)
-        }
-      }, 1000)
+        }, 1000)
+      }
     })();
   </script>
 
