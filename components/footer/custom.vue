@@ -1,23 +1,30 @@
 <template>
     <div class="btn_container clearfix">
-      <a target="_blank" @click="toList2()" class="btn_online fl" id="qa-wangqiao-btn" >
+      <div @click="toList2()" class="btn_online fl" id="qa-wangqiao-btn" >
         <img style="widht:.52rem;height:.52rem;" src="../../assets/imgs/custom/btn1.png" alt="">
         在线咨询
-      </a>
-      <nuxt-link tag="a" class="btn_custom fl" :to="{ name: 'custom', query: $route.query}">
+      </div>
+      <div class="btn_custom fl" @click="toCustom()">
         <img style="widht:.48rem;height:.48rem;" src="../../assets/imgs/custom/btn2.png" alt="">
         立即定制
-      </nuxt-link>
+      </div>
     </div>
 </template>
 <script>
 import onCustomerService from '@/assets/js/customerService.js'
 export default {
-    methods:{
-        toList2() {
-            onCustomerService('custom')
-        },
-    }
+  methods:{
+    toList2() {
+        onCustomerService('custom')
+    },
+    toCustom() {
+      let {query} = this.$route
+      this.$router.push({
+        path: '/custom',
+        query
+      })
+    },
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -31,7 +38,7 @@ export default {
     color: #fff !important;
     font: 32px/100px "";
   }
-  .btn_container a {
+  .btn_container > div {
     width: 375px;
     display: inline-block;
     height: 100px;
