@@ -6,9 +6,7 @@
                @click-left="onClickLeft"
                :style="{boxShadow: isHistory ? 'none' : ''}"
   >
-    <van-icon class="left-wrap"
-              name="arrow-left"
-              slot="left" />
+    <van-icon class="left-wrap" :name="serachtype == 1 ? 'wap-home':'arrow-left'" slot="left" />
     <van-icon class="right-wrap" slot="right">
       <div class="big-search">
         <div :class="isSearch || isProductList ? 'has-keyword': ''">

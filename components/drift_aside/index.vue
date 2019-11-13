@@ -1,12 +1,14 @@
 <template>
-  <div class="drift-wrap" v-if="isShowDrift">
-    <div>
-      <a @click="contactCustom"><img src="../../assets/imgs/home/icon_contact.png" alt=""></a>
+  <div class="drift-wrap" >
+    <div v-if="showContactCall">
+      <div>
+        <a @click="contactCustom"><img src="../../assets/imgs/home/icon_contact.png" alt=""></a>
+      </div>
+      <div @click="showcall">
+        <img src="../../assets/imgs/home/icon_phone.png" alt="">
+      </div>
     </div>
-    <div @click="showcall">
-      <img src="../../assets/imgs/home/icon_phone.png" alt="">
-    </div>
-    <div @click="backTop">
+    <div @click="backTop" v-if="isShowDrift">
       <img src="../../assets/imgs/home/icon_back_top.png" alt="">
     </div>
     <!--显示电话号码-->
@@ -24,6 +26,10 @@ export default {
     isHome: {
       type: Boolean,
       default: false
+    },
+    showContactCall:{
+      type: Boolean,
+      default: true
     },
   },
   data() {
