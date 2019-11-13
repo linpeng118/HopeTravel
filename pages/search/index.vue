@@ -51,6 +51,18 @@
     </div>
     <loading-tr v-if="searchLoading" :loading="loading"></loading-tr>
     <loading v-if="startLoading"></loading>
+    <!-- 底部导航 -->
+        <van-tabbar v-model="active"
+          active-color="#399EF6" style="z-index:9">
+          <van-tabbar-item icon="wap-home"
+            to="/">{{$t('personalPage.homepage')}}</van-tabbar-item>
+          <van-tabbar-item icon="location-o"
+            to="/search">{{$t('personalPage.myDistribution')}}</van-tabbar-item>
+          <van-tabbar-item icon="chat-o"
+            @click="contactCustom">{{$t('onlineConsult')}}</van-tabbar-item>
+          <van-tabbar-item icon="user-o"
+            to="/personal">{{$t('personalPage.userCenter')}}</van-tabbar-item>
+        </van-tabbar>
   </div>
 </template>
 
@@ -62,8 +74,9 @@
   import Loading from '@/components/loading/index'
   import LoadingTr from '@/components/loading/whiteBg'
   import SearchResult from '@/components/items/searchResult'
-  import {getDestination, getAssociateSearch} from '@/api/search'
+  import {getDestination, getAssociateSearch, postKeywordsCensus} from '@/api/search'
   import {setLocalStore, getLocalStore, changeParams} from '@/assets/js/utils'
+  import {replaceServerUrl} from '@/assets/js/utils'
   // 历史记录
   const SEARCH_HISTORY = '__tourscool_search_history__'
 
@@ -92,7 +105,8 @@
         searchLoading: false, // 搜索结果监听
         loading: this.$t('dataLoading'),
         startLoading: true, // 进入时加载是否显示
-        historyList: []
+        historyList: [],
+        active: 1, //底部导航栏tabbar显示索引值
       }
     },
     computed: {
@@ -126,6 +140,12 @@
       this.getHistoryList()
     },
     methods: {
+       //在线咨询
+      contactCustom() {
+        /* onCustomerService() */
+        let url = replaceServerUrl();
+        window.open(url,'_self');
+      },
       // 滚动显示
       scrollFn() {
         if(this.historyList.length) {
@@ -223,6 +243,7 @@
       // 搜索按钮
       searchList() {
         console.log('2221121wwww',this.searchWords)
+        this.keywordStatistics(this.searchWords)
         this.saveLocal()
         this.getHistoryList()
         // this.$router.push({
@@ -265,6 +286,7 @@
         //     w: key
         //   }
         // })
+        this.keywordStatistics(key)
         this.$router.push({
           name:'category-search',
           params:{
@@ -289,6 +311,12 @@
       //
       searchStart() {
         // this.isSearch = true
+      },
+      // search 关键词操作
+      keywordStatistics(item) {
+        if(item){
+          let {code, msg} = postKeywordsCensus(item)
+        }
       },
       // 获取搜索字段
       queryChange (value) {
