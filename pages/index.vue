@@ -162,6 +162,7 @@
   import {setCookieByKey, getCookieByKey} from '@/assets/js/utils'
   import {mapGetters, mapMutations, } from 'vuex'
   import {replaceServerUrl} from '@/assets/js/utils'
+  import apiConfig from './../apiConf.env'
   export default {
     name: 'home',
     components: {
@@ -257,11 +258,14 @@
       this.$refs.refHomePage.addEventListener('scroll', this.scrollFn)
       //
       let u = navigator.userAgent
-      if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
-        this.downUrl = 'https://api.tourscool.com/api/tour/v1/download'
-      } else if (u.indexOf('iPhone') > -1) {
-        this.downUrl = 'https://itunes.apple.com/cn/app/稀饭旅行/id1449120712?mt=8'
-      }
+      let or = window.location.origin
+      this.downUrl = `${apiConfig.base}/api/tour/v1/download`
+      // this.downUrl = or + '/api/tour/v1/download'
+      // if (u.indexOf('iPhone') > -1) {
+      //   this.downUrl = 'https://itunes.apple.com/cn/app/稀饭旅行/id1449120712?mt=8'
+      // } else {
+      //   this.downUrl = 'https://api.tourscool.com/api/tour/v1/download'
+      // }
       // this.isAndroid = process.client ? !!window.cordova: ''
     },
     beforeDestroy() {
