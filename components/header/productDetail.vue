@@ -1,7 +1,7 @@
 <template>
   <van-nav-bar class="product-detail-header-neu tours-no-bb"
     ref="productDetailHeader"
-    :fixed="fixed"
+    :fixed="true"
     :class="{'transparent': transparent}"
     :title="title"
     :z-index="999"
