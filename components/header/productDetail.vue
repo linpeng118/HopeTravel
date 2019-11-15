@@ -1,5 +1,5 @@
 <template>
-  <van-nav-bar class="product-detail-header tours-no-bb"
+  <van-nav-bar class="product-detail-header-neu tours-no-bb"
     ref="productDetailHeader"
     :fixed="fixed"
     :class="{'transparent': transparent}"
@@ -53,7 +53,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .product-detail-header {
+  .product-detail-header-neu {
     height: 88px;
     font-size: 32px;
     transition: all 0.5s;
