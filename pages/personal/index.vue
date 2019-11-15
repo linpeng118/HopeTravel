@@ -27,8 +27,8 @@
         </div>
       </div>
       <div class="elsecon" v-if="!isLogin">
-        <div>查看{{$t('personalPage.riceGrain')}}</div>
-        <div>查看{{$t('coupons')}}</div>
+        <div><nuxt-link to="/login">查看{{$t('personalPage.riceGrain')}}</nuxt-link></div>
+        <div><nuxt-link to="/login">查看{{$t('coupons')}}</nuxt-link></div>
       </div>
       <div class="elsecon" v-else>
         <div @click="myRice">
@@ -348,6 +348,11 @@
         font-size:24px;
         color: #00abf9;
         line-height:60px;
+        a{
+          color: #00abf9;
+          font-size:24px;
+          line-height:60px;
+        }
         .p1{
           color: #00ABF9;
           font-size:32px;
