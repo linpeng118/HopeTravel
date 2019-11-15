@@ -349,7 +349,7 @@
         color: #00abf9;
         line-height:60px;
         a{
-          color: #00abf9;
+          color: #00abf9 !important;
           font-size:24px;
           line-height:60px;
         }
