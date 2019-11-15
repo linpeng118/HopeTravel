@@ -115,23 +115,28 @@
         }
         // 倒计时状态修改
         this.codeType = VERIFY_CODE.GETTING // 获取验证码
+        console.log(9999,this.codeType);
+        
         try {
           const {code, msg} = await getSmsCode({
             phone: `${this.areaCode}-${this.phone}`,
             scene: SMS_SCENE.VALIDATE,
           })
+          console.log(code,msg);
+          
+          console.log(8888,this.codeType,VERIFY_CODE.GETTING);
+          
           if (code !== 0) {
             this.$toast(msg)
-            this.resetTimer()
+            /* this.resetTimer() */
           }
-          await this.countDown()
+           await this.countDown()
         } catch (error) {
-          // console.log(error)
+          console.log(error)
           this.codeType = VERIFY_CODE.START
         }
       },
-    },
-    countDown() {
+      countDown() {
       this.timer = setInterval(() => {
         console.log(this.countDownTime)
         if (this.countDownTime <= 0) {
@@ -144,6 +149,8 @@
         }
       }, 1000)
     },
+    },
+     
   }
 </script>
 

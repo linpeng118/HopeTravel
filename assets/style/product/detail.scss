@@ -484,6 +484,11 @@
                                 padding: 12px 18px 24px 33px;
                                 width: 100%;
                                 overflow: hidden;
+                                p {
+                                    img {
+                                        width: 100%;
+                                    }
+                                }
                             }
                         }
                         .attractions-wrap {

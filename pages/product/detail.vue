@@ -738,7 +738,7 @@
         showDay: 'D1',
         // 显示电话弹窗
         showPhone: false,
-        // 右上角更多现实
+        // 右上角更多显示
         showMore: false,
         // 邮箱或手机号
         account: '',
@@ -749,7 +749,7 @@
         productId: '',
         ids: {},
         isVideoShow: false, // 是否显示视频
-        goToBackPage:''
+        goToBackPage:'',
       }
     },
     beforeRouteEnter (to, from, next) {
@@ -991,26 +991,27 @@
           this.productId = Number(query) || null
         }
       },
-      // async getProductDetailData() {
-      //   this.loading = true
-      //   const {code, data, msg} = await getProductDetail({
-      //     product_id: this.productId,
-      //   })
-      //   console.log(code, data, msg)
-      //   if (code === 0) {
-      //     this.attributes = data.attributes
-      //     this.attributes_override = data.attributes_override
-      //     this.expense = data.expense
-      //     this.itinerary = data.itinerary
-      //     this.notice = data.notice
-      //     this.product = data.product
-      //     this.top_price = data.top_price
-      //     this.transfer = data.transfer
-      //   }
-      //   document.title = this.product.name
-      //   this.loading = false
-      // },
-      // 获取优惠卷列表
+      //点击收藏，重新获取收藏状态
+      async getProductDetailData() {
+        /* this.loading = true */
+        const {code, data, msg} = await getProductDetail({
+          product_id: this.productId,
+        })
+        console.log(code, data, msg)
+        if (code === 0) {
+          this.attributes = data.attributes
+          this.attributes_override = data.attributes_override
+          this.expense = data.expense
+          this.itinerary = data.itinerary
+          this.notice = data.notice
+          this.product = data.product
+          this.top_price = data.top_price
+          this.transfer = data.transfer
+        }
+        document.title = this.product.name
+        /* this.loading = false */
+      },
+      /* 获取优惠卷列表 */
       async getcouponList() {
         const {
           code,
@@ -1275,6 +1276,11 @@
       },
       // 关注与取关
       async attentionProduct() {
+         if (!this.profile.customer_id) {
+          this.$router.replace({
+            path: `/login?redirect=${this.$route.fullPath}`,
+          })} 
+        else{
         if (this.product.is_favorite) {
           const {
             code,
@@ -1304,6 +1310,7 @@
             this.$toast(this.$t('productDetailPage.focusOnFail'))
           }
         }
+        } 
       },
       onCopy(e) {
         this.$toast(this.$t('shareComp.copySuccess'))
@@ -1370,7 +1377,9 @@
         console.log(this.goToBackPage)
         if(this.goToBackPage == '/'){
           this.$router.push('/')
-        } else {
+        }
+        else {
+          
           this.$router.go(-1)
         }
       },
@@ -1389,7 +1398,7 @@
       // 收藏页面
       async onFollow() {
         if (!this.profile.customer_id) {
-          this.$router.push({
+          this.$router.replace({
             path: `/login?redirect=${this.$route.fullPath}`,
           })
         } else {
@@ -1477,7 +1486,10 @@
       },
       // 暂停视频
       pausePlay() {
-        this.$refs.productVideo.pause()
+         this.$nextTick(() => {
+          this.$refs.productVideo.pause()
+        }, 50)
+        
         this.isVideoShow = false
       },
       downloadApp() {
