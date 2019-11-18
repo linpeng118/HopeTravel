@@ -11,6 +11,10 @@
   #newBridge {
     display: none !important;
   }
+  &.pr-dl{
+    position: static !important;
+    overflow-y: auto !important;
+  }
 }
 .show-customer-service {
   // 53客服显示

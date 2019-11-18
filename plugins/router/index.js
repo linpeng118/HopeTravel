@@ -21,6 +21,9 @@ export default ({
       if (to.name === 'category-search' || to.name === 'visa' || to.name === 'custom') {
         console.log('show customer service');
         document.body.setAttribute('class', 'show-customer-service')
+      } else if(to.name == 'product-detail'){
+        // 在详情页面添加pr-dl class解决详情页面划不动的情况
+        document.body.setAttribute('class', 'pr-dl hide-customer-service')
       } else {
         console.log('hide customer service');
         document.body.setAttribute('class', 'hide-customer-service')
