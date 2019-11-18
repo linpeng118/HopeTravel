@@ -589,7 +589,7 @@
         this.$router.go(-1)
       },
       onClickRight() {
-        this.$router.push({
+        this.$router.replace({
           path: `/login?redirect=${this.$route.fullPath}`
         })
       },
