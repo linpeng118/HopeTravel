@@ -4,7 +4,7 @@
                            v-if="objdata&&showelsenav"
                            :transparent="true"
                            :title="objdata.name"
-                           fixed
+                          
                            @callOnRight="onHeaderRight"
                            @callOnLeft="goBack"
                            ref="refProdctDetailHeader" />
@@ -309,7 +309,7 @@
         let st=document.documentElement.scrollTop || document.body.scrollTop;
         let st1=document.documentElement.clientHeight;
         if(st>5){
-          this.showelsenav=false
+          /* this.showelsenav=false */
           this.showMore=false
         }
         else{

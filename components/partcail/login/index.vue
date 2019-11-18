@@ -134,7 +134,7 @@
           this.vxToggleLoginDlg(false)
         } else {
           if (this.redirect) {
-            this.$router.push({
+            this.$router.replace({
               path: this.redirect,query:{
                 isLogin:true
               }
