@@ -10,7 +10,7 @@
       :isHistory="historyList.length > 0"
       ref="layHeader"
     ></lay-header>
-    <div class="search-wrap" v-if="searchWrapShow">
+    <div class="search-wrap" v-if="searchWrapShow" style="padding-bottom:50px;">
       <div class="history-list" v-if="historyList.length" ref="historyBox">
         <h2 class="title">{{$t('searchPage.searchHistory')}}</h2>
         <div class="search-items">
