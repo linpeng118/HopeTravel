@@ -41,7 +41,7 @@
         <div class="conbox">
           <p>
             <span style="text-align: left">{{objdata.create_user.name||'佚名'}}</span>
-            <span style="text-align: right"><img src="../../assets/imgs/addres.png" alt=""> {{objdata.relate_position}}</span>
+            <span style="text-align: right;"><img src="../../assets/imgs/addres.png" alt=""> {{objdata.relate_position}}</span>
           </p>
           <p>
             <span style="text-align: left">{{objdata.create_user.brief||'未设置个性签名'}}</span>
@@ -1370,6 +1370,9 @@
         span{
           display: inline-block;
           width: 65%;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
         }
         span:nth-child(1){
           color: #2d2d2d;
