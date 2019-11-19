@@ -4,6 +4,7 @@
                :title="title"
                :z-index="999"
                @click-left="onClickLeft"
+               fixed
               >
     <van-icon class="left-wrap"
               name="arrow-left"
