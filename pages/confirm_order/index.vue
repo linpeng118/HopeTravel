@@ -11,10 +11,10 @@
         name="arrow-left"
         slot="left" />
     </van-nav-bar>
-    <div :class="isLogin?'':'not-login'">
+    <div v-if="!isLoginkeyword">
       <login-line></login-line>
     </div>
-    <section class="section0" :class="isLogin?'':'not-login'">
+    <section class="section0">
       <!-- 未登录显示 -->
       <!--页头信息-->
       <section>
@@ -366,6 +366,7 @@
         xname: '',
         profile: '',//用户信息
         isLogin: this.$route.query.isLogin || false, // 默认false-->游客
+        isLoginkeyword: true,
         usertraver: [],//未登录的用户
 
       }
@@ -421,6 +422,7 @@
         let res = await getProfile();
         let {code, data} = res;
         if (code === 0) {
+          this.isLoginkeyword = true
           this.isLogin = true;
           this.profile = data;
           this.vxSetProfile(data)
@@ -442,6 +444,7 @@
             this.contact = {"name": this.countprice.savename, "phone": this.countprice.savephone, "email": this.countprice.saveemail}
           }
         } else {
+          this.isLoginkeyword = false
           this.profile = {}
         }
       },
@@ -849,7 +852,7 @@
     -webkit-overflow-scrolling: touch;
   }
   .section0.not-login {
-    padding-top:80px;
+    padding-top:88px;
   }
   .confirm-title p:nth-child(1) {
     padding-top: 10px;

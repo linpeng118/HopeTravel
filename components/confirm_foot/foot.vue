@@ -285,7 +285,7 @@
     height: 165px;
     background-color: #fff;
     position: fixed;
-    z-index: 2099;
+    z-index: 1999;
     box-sizing: border-box;
     padding: 40px 32px;
     left: 0;
