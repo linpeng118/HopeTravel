@@ -642,6 +642,34 @@
             transition: all 0.3s;
             background: #fff;
             box-shadow: 0px -4px 12px rgba(0, 0, 0, 0.14);
+            .call-guide{
+                        font-size:28px;
+                        position: absolute;
+                        left: 30px;
+                        top: -74px;
+                        background: rgba(0,0,0,0.6);
+                        color: #fff;
+                        height: 54px;
+                        display: flex;
+                        align-items: center;
+                        padding: 0 26px;
+                        border-radius: 100px;
+                        &::after{
+                            content: '';
+                            width:0;
+                            height:0;
+                            border: 14px solid transparent;
+                            border-top-color: rgba(0,0,0,0.6);
+                            position: absolute;
+                            bottom: -28px;
+                            left: 23%;
+                        }
+                        i{
+                            font-size: 32px;
+                            margin-left: 16px;
+                            margin-top: 2px;
+                        }
+                    }
         }
         .footer-tabbar {
             height: 120px;
@@ -661,6 +689,7 @@
                 -webkit-justify-content: space-around;
                 .btn-operate {
                     text-align: center;
+                    position: relative;
                     img {
                         width: 60px;
                         height: 60px;

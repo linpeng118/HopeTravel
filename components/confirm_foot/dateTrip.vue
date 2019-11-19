@@ -35,8 +35,11 @@
 
           </li>
         </template>
-
       </ul>
+      <div class="no-data" v-if="!dayprice.length">
+        <van-loading color="#4BB1F5" />
+        <div style="margin-top:30px;">数据加载中...</div>
+      </div>
     </div>
   </section>
 </template>
@@ -183,8 +186,18 @@
     color: #fff!important;
   }
 
-
-
+  .no-data{
+    position: relative;
+    height: 640px;
+    text-align: center;
+    font-size: 26px;
+  }
+  .no-data > div{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 
 
 </style>
