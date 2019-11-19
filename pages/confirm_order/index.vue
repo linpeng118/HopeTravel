@@ -5,14 +5,17 @@
       :title="$t('confirmPage.title')"
       :z-index="999"
       :fixed="true"
-      :right-text="isLogin?'':'登录'"
       @click-left="onClickLeft"
       @click-right="onClickRight">
       <van-icon class="left-wrap"
         name="arrow-left"
         slot="left" />
     </van-nav-bar>
-    <section class="section0">
+    <div :class="isLogin?'':'not-login'">
+      <login-line></login-line>
+    </div>
+    <section class="section0" :class="isLogin?'':'not-login'">
+      <!-- 未登录显示 -->
       <!--页头信息-->
       <section>
         <div class="confirm-title">
@@ -328,9 +331,10 @@
   import TelCode from '@/components/confirm_foot/telcode'
   import {mapMutations,mapState} from 'vuex'
   import addcon from '@/components/confirm_foot/addcon'
+  import loginLine from '@/components/header/loginLine'
   export default {
     components: {
-      ConfirmFoot, TelCode, addcon
+      ConfirmFoot, TelCode, addcon, loginLine
     },
     data() {
       return {
@@ -843,6 +847,9 @@
     padding: 20px 32px 200px 32px;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
+  }
+  .section0.not-login {
+    padding-top:80px;
   }
   .confirm-title p:nth-child(1) {
     padding-top: 10px;
