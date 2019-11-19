@@ -751,7 +751,7 @@
       border-radius: 12px;
       padding:0 16px 16px 16px;
       .menpiao-item{
-        padding: 0 16px 16px 16px;
+        padding: 20px 16px 16px 16px;
         border-bottom:1px solid rgba(206,206,206,1);
         i{
           font-style: normal;
@@ -790,26 +790,16 @@
           height:32px;
           opacity:1;
           border-radius:8px;
-          
           line-height: 32px;
-          
-          
-          
           text-align: center;
           margin-right: 10px;
           border: 1px solid #FF3434;
           vertical-align: middle;
-
-
-          
-              background:rgba(255,255,255,1);
-              border:2px solid rgba(255,52,52,1);
-              font-size:20px;
-              color: #FF3434;
-              display: inline-block;
-             
-             
-              padding: 0 4px;
+          background:rgba(255,255,255,1);
+          border:2px solid rgba(255,52,52,1);
+          font-size:20px;
+          color: #FF3434;
+          padding: 0 4px;
         }
         .buybtn{
           width:72px;
@@ -828,13 +818,16 @@
           float: right;
         }
         .p1{
-          display: inline-block;
+         /*  display: inline-block; */
+         
           width: 100%;
+          overflow: hidden;
           .span1{
             font-size:28px;
             font-weight:bold;
             width: 480px;
-            display: inline-block;
+            /* display: inline-block; */
+            float: left;
             color:rgba(29,29,29,1);
             overflow:hidden; //超出的文本隐藏
             text-overflow:ellipsis; //溢出用省略号显示
@@ -842,17 +835,18 @@
           }
           .span2{
             font-size:28px;
-            display: inline-block;
+            /* display: inline-block; */
+            float: left;
             color:#9E9E9E;
           }
           .span3{
             font-size:32px;
             font-weight:bold;
-            line-height: 44px;
+            /* line-height: 44px; */
             color:rgba(255,52,52,1);
             opacity:1;
             float: right;
-            margin-top: 10px;
+            /* margin-top: 10px; */
           }
         }
         .p2{
@@ -860,7 +854,7 @@
           line-height: 40px;
           height: 40px;
           width: 100%;
-
+          margin-top: 10px;
         }
       }
 
@@ -970,7 +964,7 @@
             /* margin-top: -10px; */
             span{
               height:36px;
-              line-height: 36px;
+              /* line-height: 36px; */
               background:rgba(255,255,255,1);
               border:2px solid rgba(255,52,52,1);
               font-size:20px;
@@ -988,8 +982,10 @@
             font-size: 24px;
             color: #d4d4d4;
             line-height: 48px;
-            /* margin-top: 10px; */
+            overflow: hidden;
+            margin-top: 10px;
             .span1{
+              float: left;
               font-size:36px;
               font-weight:bold;
               line-height:44px;
@@ -1007,15 +1003,17 @@
             }
             .span2{
               float: right;
-              margin-left: 12px;
+              /* margin-left: 12px; */
               line-height: 34px;
               font-size: 24px;
               color:#FFBE0D;
+              height: 34px;
+              margin-top: 4px;
               img{
                 width: 34px;
                 height: 34px;
                 position: relative;
-                top: 8px;
+                top: 6px;
               }
             }
           }
