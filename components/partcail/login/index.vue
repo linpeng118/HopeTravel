@@ -123,6 +123,7 @@
       // 登陆回调
       async loginCallBack() {
         console.log('loginCallBack')
+        this.$router.go(0)
         try {
           fbq('track', 'Lead')
         } catch (error) {

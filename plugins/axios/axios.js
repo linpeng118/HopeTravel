@@ -81,7 +81,6 @@ httprequest.interceptors.response.use(
         date.replace(/ (\d+):/, (w) => {
             time = w.slice(1, -1)
         })
-        console.log(22222222, res.headers)
         window[CUSTOMER_SERVICE] = Number(time)
         console.log(window[CUSTOMER_SERVICE]);
         if (res.status === 200) {

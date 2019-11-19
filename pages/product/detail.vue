@@ -1097,6 +1097,7 @@ export default {
       clearInterval(this.timer)
       this.timer = setInterval(this.backFn, 20)
     },
+<<<<<<< HEAD
     // 滚动到相应位置
     backFn() {
       // 滚动到的元素(减去2个fixed的高度)
@@ -1118,6 +1119,215 @@ export default {
       //  console.log(this.activeTabRef, '需要滚动到：', scrollTo, '能滚到：', canSrollTo, '能滚的body高度：', scrollHeight, '窗口（100vh）：', clientHeight, scrollTop, ispeed)
       // 已滚动的高度===要到达的位置
       if (scrollTop === scrollTo) {
+=======
+    methods: {
+      ...mapMutations({
+        vxSaveReservePro: 'product/saveReservePro',
+        vxToggleDialog: 'toggleDialog', // 是否显示弹窗
+        vxSetDlgType: 'setDlgType', // 设置弹窗类型
+        vxToggleLoginDlg: 'login/toggleDialog', // 是否显示登录弹窗
+      }),
+      async init() {
+        if (!(this.product && this.product.product_id)) {
+          this.jumpTo('/')
+        }
+        // 是否有登录态
+        await this.initProfileData()
+        // 改用asyncData()
+        // await this.getProductDetailData()
+        // 返现逻辑
+        await this.ashbackLogic()
+        // 存储浏览记录
+        await this.saveLocal();
+        // 获取优惠卷列表
+        await this.getcouponList()
+      },
+      // 获取profile-登录态
+      async initProfileData() {
+        setTimeout(() => {
+          // console.log(4444, this.profile.is_agent, String(this.$route.query.productId).indexOf('-') <= 0)
+          if (this.profile.is_agent && String(this.$route.query.productId).indexOf('-') <= 0) {
+            this.$router.push({
+              name: 'product-detail',
+              query: {
+                productId: String(this.$route.query.productId) + '-' + this.profile.customer_id
+              }
+            })
+          }
+        }, 50)
+        // console.log(this.$route)
+      },
+      // 产品ID，session保存
+      async ashbackLogic() {
+        let query = String(this.$route.query.productId)
+        let platform = this.$route.query.platform
+        let viewStat = {}
+        console.log(query)
+        if (query.indexOf('-') >= 0) {
+          this.productId = Number(query.split('-')[0])
+          setSessionStore(SESSIONSTORE, query.split('-')[1])
+          viewStat.referrer_id = query.split('-')[1]
+          if (navigator.userAgent.indexOf('MicroMessenger') >= 0) {
+            viewStat.platform = 'weixin'
+            setSessionStore(PLATFORM, 'weixin')
+            // alert('weixin')
+          } else if (navigator.userAgent.indexOf('QBWebViewType') >= 0 || navigator.userAgent.indexOf('MQQBrowser') >= 0) {
+            viewStat.platform = 'qq'
+            setSessionStore(PLATFORM, 'qq')
+            // alert('qq')
+          } else if (platform) {
+            viewStat.platform = platform
+            setSessionStore(PLATFORM, platform)
+          }
+          await getViewStat(viewStat)
+        } else {
+          this.productId = Number(query) || null
+        }
+      },
+      //点击收藏，重新获取收藏状态
+      async getProductDetailData() {
+        /* this.loading = true */
+        const {code, data, msg} = await getProductDetail({
+          product_id: this.productId,
+        })
+        console.log(code, data, msg)
+        if (code === 0) {
+          this.attributes = data.attributes
+          this.attributes_override = data.attributes_override
+          this.expense = data.expense
+          this.itinerary = data.itinerary
+          this.notice = data.notice
+          this.product = data.product
+          this.top_price = data.top_price
+          this.transfer = data.transfer
+        }
+        document.title = this.product.name
+        /* this.loading = false */
+      },
+      /* 获取优惠卷列表 */
+      async getcouponList() {
+        const {
+          code,
+          data,
+          msg
+        } = await couponList({
+          product_id: this.productId,
+        })
+        // console.log(code, data, msg)
+        if (code === 0) {
+          this.couponList = data
+        }
+        //模拟数据2
+        // this.couponList = [
+        //   "折扣9折",
+        //   "现金100"
+        // ]
+      },
+      // 获取优惠卷列表展开
+      async getcoupondetail() {
+        this.loading = true;
+        const {
+          code,
+          data,
+          msg
+        } = await couponDetail({
+          product_id: this.productId,
+        })
+        // console.log(code, data, msg)
+        if (code === 0) {
+          this.couponDetails = data
+        }
+        this.loading = false;
+
+      },
+      // 领取某张优惠卷
+      async getcouponobj(id) {
+        this.loading = true;
+        const {
+          code,
+          data,
+          msg
+        } = await getcouponobj({
+          product_id: this.productId,
+          id: id
+        })
+        if (code === 0) {
+          // this.showServiceCop=false;
+          this.$toast(this.$t('productDetailPage.getSuccess'));
+          this.getcoupondetail();
+        } else {
+          this.$toast(msg);
+          this.getcoupondetail();
+        }
+        this.loading = false;
+      },
+      // 存储浏览记录
+      saveLocal() {
+        let browsList = getLocalStore('browsList') || []
+        browsList.unshift(this.productId)
+        let set = [...new Set(browsList)];
+        // console.log(set)
+        if (set.length >= 6) {
+          set = set.slice(0, 6).map(Number)
+        }
+        setLocalStore('browsList', set)
+      },
+      // banner切换
+      onBannerChange(index) {
+        this.current = index;
+      },
+      // 跳转至注册页
+      toRegist() {
+        this.jumpTo('/login/regist')
+      },
+      /**
+       * 年月日转周几
+       * @params year
+       * @params month
+       * @params day
+       */
+      getWeek(year, month, day) {
+        let date = `${year}/${month}/${day}`
+        let week = new Date(date).getDay()
+        switch (week) {
+          case 0:
+            return this.$t('weekend')
+            break;
+          case 1:
+            return this.$t('monday')
+            break;
+          case 2:
+            return this.$t('tuesday')
+            break;
+          case 3:
+            return this.$t('wednesday')
+            break;
+          case 4:
+            return this.$t('thursday')
+            break;
+          case 5:
+            return this.$t('friday')
+            break;
+          case 6:
+            return this.$t('saturday')
+            break;
+          default:
+            // console.log(`${week} is not found`)
+            break;
+        }
+      },
+      onServerNode() {
+        this.showServiceNode = true
+      },
+      onServerCop() {
+        this.getcoupondetail();
+        this.showServiceCop = true;
+      },
+      clickTab(tab) {
+        console.log('tab', tab)
+        this.activeTab = tab.id
+        this.activeTabRef = tab.ref
+>>>>>>> yxh20191121
         clearInterval(this.timer)
       } else if (Math.abs(scrollTo - scrollTop) < 5) {
         // 容错处理
@@ -1165,6 +1375,7 @@ export default {
        * @name: Casey.wu
        * @msg: 控制侧边栏是否显示
        * @LastEditTime: Do not Edit
+<<<<<<< HEAD
        * @Date: 2019-10-08 14:09:08
        */
       if (s1 > homeHeight) {
@@ -1260,9 +1471,143 @@ export default {
           if (code === 0) {
             this.$toast(this.$t('productDetailPage.focusOnSuc'))
             this.getProductDetailData()
+=======
+       * @Date: 2019-10-08 14:08:48
+       */      
+      scrollFn() {
+        const s1 = this.$refs.refProductDetailPage.scrollTop;
+        const s1H = this.$refs.refProductDetailPage.offsetHeight;
+        const allH = this.$refs.refProductDetail.offsetHeight;
+        let tabListH = this.$refs.refTabList.offsetTop - this.$refs.refTabList.offsetHeight;
+        let tabHeightH = this.$refs.refTabHeight.offsetTop - this.$refs.refTabList.offsetHeight;
+        let homeHeight = this.$refs.refProductDetailPage.getBoundingClientRect().height
+        // console.log(s1, tabListH, tabHeightH)
+        if (s1 > 100) {
+          this.isShareBtn = true
+        } else {
+          this.isShareBtn = false
+        }
+        if (s1 >= tabListH) {
+          this.isTabFixed = true
+        }
+        if (s1 <= tabHeightH) {
+          this.isTabFixed = false
+        }
+        /**
+         * @name: Casey.wu
+         * @msg: 控制侧边栏是否显示
+         * @LastEditTime: Do not Edit
+         * @Date: 2019-10-08 14:09:08
+         */
+        if (s1 > homeHeight) {
+          this.$refs.driftAside.homeScrollShow()
+        } else {
+          this.$refs.driftAside.homeScrollHide()
+        }
+        // 判断方向
+        // setTimeout(() => {
+        //   const s2 = this.$refs.refProductDetailPage.scrollTop;
+        //   const direct = s2 - s1;
+        //   console.log("direct", direct);
+        // }, 17);
+        // D1-Dn变化
+        const listLen = this.showDayList.length
+        const showHeight = s1 + this.$refs.refTabList.offsetHeight + this.$refs.refProdctDetailHeader.$el.offsetHeight
+        // 根据tabList的高度,修改选中的tab
+        let refFeaturesH = this.$refs.refFeatures.offsetTop
+        let refTripH = this.$refs.refTrip.offsetTop
+        let refCostH = this.$refs.refCost.offsetTop
+        let refNoticeH = this.$refs.refNotice.offsetTop
+        // console.log('refFeaturesH', showHeight, refCostH)
+        if (showHeight >= refFeaturesH) {
+          this.activeTab = 1
+        }
+        if (showHeight >= refTripH) {
+          this.activeTab = 2
+        }
+        if (showHeight >= refCostH) {
+          this.activeTab = 3
+        }
+        // 到底部
+        if (s1 + s1H === allH) {
+          this.activeTab = 4
+        }
+        // console.log(this.activeTab, showHeight, refNoticeH)
+        let idx = this.showDayList.findIndex(item => item > showHeight)
+        // console.log('index：', idx)
+        if (idx === 0) {
+          this.showDay = `D1`
+        } else if (idx > 0) {
+          this.showDay = `D${idx}`
+        } else if (idx === -1) {
+          this.showDay = `D${listLen}`
+        }
+      },
+      // 点击预览图片
+      onImgSlide(data) {
+        const index = data.arr.findIndex(item => item === data.item)
+        ImagePreview({
+          images: data.arr,
+          startPosition: index,
+        });
+      },
+      // 点击操作按钮
+      onOperate(item) {
+        console.log(item);
+        switch (item.type) {
+          case OPERATE_TYPE.ATTR:
+            this.attentionProduct()
+            break;
+          case OPERATE_TYPE.PHONE:
+            this.telCounsel()
+            break;
+          case OPERATE_TYPE.ONLINE:
+            this.onlineCounsel()
+            break;
+          default:
+            console.log(`${item.type} is not found`)
+            break;
+        }
+      },
+      // 关注与取关
+      async attentionProduct() {
+        if (!this.profile.customer_id) {
+          // this.$router.replace({
+          //   path: `/login?redirect=${this.$route.fullPath}`,
+          // })
+          this.vxToggleLoginDlg(true)
+        } else {
+          if (this.product.is_favorite) {
+            const {
+              code,
+              data,
+              msg
+            } = await delFavorite({
+              product_id: this.product.product_id
+            })
+            if (code === 0) {
+              this.$toast(this.$t('productDetailPage.takeOffSuc'))
+              this.getProductDetailData()
+            } else {
+              this.$toast(this.$t('productDetailPage.takeOffFail'))
+            }
+>>>>>>> yxh20191121
           } else {
-            this.$toast(this.$t('productDetailPage.focusOnFail'))
+            const {
+              code,
+              data,
+              msg
+            } = await addFavorite({
+              product_id: this.product.product_id
+            })
+            if (code === 0) {
+              this.$toast(this.$t('productDetailPage.focusOnSuc'))
+              this.getProductDetailData()
+            } else {
+              this.$toast(this.$t('productDetailPage.focusOnFail'))
+            }
           }
+<<<<<<< HEAD
         }
       }
     },
@@ -1303,11 +1648,108 @@ export default {
         this.showSoldOut = true
         return
       } else {
+=======
+        } 
+      },
+      onCopy(e) {
+        this.$toast(this.$t('shareComp.copySuccess'))
+      },
+      // 复制失败
+      onError(e) {
+        this.$toast(this.$t('shareComp.copyFail'))
+      },
+      // 电话咨询
+      telCounsel() {
+        this.vxToggleDialog(true)
+        this.vxSetDlgType(DLG_TYPE.PHONE)
+      },
+      // 在线咨询
+      onlineCounsel() {
+        let url = replaceServerUrl();
+        window.open(url,"_self");
+      },
+      // 立即定制
+      async btnReserve() {
+        // 已售罄
+        if (this.product.is_soldout) {
+          this.showSoldOut = true
+          return
+        }
+>>>>>>> yxh20191121
         // 暂存需要定制的商品信息
         await this.vxSaveReservePro({
           ...this.product,
         })
         // 跳转至订单页面
+<<<<<<< HEAD
+=======
+        this.jumpTo('/date_trip')
+      },
+      // 期团选中日期跳转
+      async onGroupPriceDate(data) {
+        if (this.product.is_soldout) {
+          this.showSoldOut = true
+          return
+        } else {
+          // 暂存需要定制的商品信息
+          await this.vxSaveReservePro({
+            ...this.product
+          })
+          // 跳转至订单页面
+          this.$router.push({
+            path: '/date_trip',
+            query: {
+              year: data.year,
+              month: data.month,
+              day: data.day,
+            }
+          })
+        }
+
+      },
+      // 更多期团
+      onGroupPriceMore() {
+        this.btnReserve()
+      },
+      // 显示右上角更多操作
+      onHeaderRight() {
+        this.showMore = !this.showMore
+      },
+      onHeaderLeft() {
+        console.log(this.goToBackPage)
+        if(this.goToBackPage == '/'){
+          this.$router.push('/')
+        }
+        else {
+          
+          this.$router.go(-1)
+        }
+      },
+      // 返回首页
+      onHomePage() {
+        this.jumpTo('/')
+      },
+      // 搜索页面
+      onDest() {
+        this.jumpTo('/search')
+      },
+      // 搜索页面
+      onPersonal() {
+        this.jumpTo('/personal')
+      },
+      // 收藏页面
+      async onFollow() {
+        if (!this.profile.customer_id) {
+          // this.$router.replace({
+          //   path: `/login?redirect=${this.$route.fullPath}`,
+          // })
+          this.vxToggleLoginDlg(true)
+        } else {
+          this.jumpTo('/personal/follow')
+        }
+      },
+      jumpTo(path) {
+>>>>>>> yxh20191121
         this.$router.push({
           path: '/date_trip',
           query: {
