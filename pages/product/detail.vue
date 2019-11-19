@@ -762,6 +762,7 @@
       ...mapGetters([
         'profile'
       ]),
+    
       serviceNote() {
         return this.product && this.product.icons_tour || []
       },
@@ -933,6 +934,7 @@
         vxSaveReservePro: 'product/saveReservePro',
         vxToggleDialog: 'toggleDialog', // 是否显示弹窗
         vxSetDlgType: 'setDlgType', // 设置弹窗类型
+        vxToggleLoginDlg: 'login/toggleDialog', // 是否显示登录弹窗
       }),
       async init() {
         if (!(this.product && this.product.product_id)) {
@@ -1259,6 +1261,7 @@
       },
       // 点击操作按钮
       onOperate(item) {
+        console.log(item);
         switch (item.type) {
           case OPERATE_TYPE.ATTR:
             this.attentionProduct()
@@ -1276,40 +1279,41 @@
       },
       // 关注与取关
       async attentionProduct() {
-         if (!this.profile.customer_id) {
-          this.$router.replace({
-            path: `/login?redirect=${this.$route.fullPath}`,
-          })} 
-        else{
-        if (this.product.is_favorite) {
-          const {
-            code,
-            data,
-            msg
-          } = await delFavorite({
-            product_id: this.product.product_id
-          })
-          if (code === 0) {
-            this.$toast(this.$t('productDetailPage.takeOffSuc'))
-            this.getProductDetailData()
-          } else {
-            this.$toast(this.$t('productDetailPage.takeOffFail'))
-          }
+        if (!this.profile.customer_id) {
+          // this.$router.replace({
+          //   path: `/login?redirect=${this.$route.fullPath}`,
+          // })
+          this.vxToggleLoginDlg(true)
         } else {
-          const {
-            code,
-            data,
-            msg
-          } = await addFavorite({
-            product_id: this.product.product_id
-          })
-          if (code === 0) {
-            this.$toast(this.$t('productDetailPage.focusOnSuc'))
-            this.getProductDetailData()
+          if (this.product.is_favorite) {
+            const {
+              code,
+              data,
+              msg
+            } = await delFavorite({
+              product_id: this.product.product_id
+            })
+            if (code === 0) {
+              this.$toast(this.$t('productDetailPage.takeOffSuc'))
+              this.getProductDetailData()
+            } else {
+              this.$toast(this.$t('productDetailPage.takeOffFail'))
+            }
           } else {
-            this.$toast(this.$t('productDetailPage.focusOnFail'))
+            const {
+              code,
+              data,
+              msg
+            } = await addFavorite({
+              product_id: this.product.product_id
+            })
+            if (code === 0) {
+              this.$toast(this.$t('productDetailPage.focusOnSuc'))
+              this.getProductDetailData()
+            } else {
+              this.$toast(this.$t('productDetailPage.focusOnFail'))
+            }
           }
-        }
         } 
       },
       onCopy(e) {
@@ -1398,9 +1402,10 @@
       // 收藏页面
       async onFollow() {
         if (!this.profile.customer_id) {
-          this.$router.replace({
-            path: `/login?redirect=${this.$route.fullPath}`,
-          })
+          // this.$router.replace({
+          //   path: `/login?redirect=${this.$route.fullPath}`,
+          // })
+          this.vxToggleLoginDlg(true)
         } else {
           this.jumpTo('/personal/follow')
         }

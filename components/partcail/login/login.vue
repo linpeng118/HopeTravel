@@ -3,6 +3,25 @@
     <h1 class="title">{{$t('partcailComp.loginTips')}}</h1>
     <van-tabs class="content tours-tabs-nowrap"
       @change="changeTabs">
+       <!-- 手机验证码登录 -->
+      <van-tab class="mobile-login" :title="$t('partcailComp.phoneCodeLogin')">
+        <van-cell-group>
+          <area-code-input class="phone"
+            :proAreaCode.sync="phoneForm.areaCode"
+            :proMobile.sync="phoneForm.phone" />
+          <van-field class="auth-code tours-input"
+            v-model="phoneForm.smsCode"
+            center
+            clearable
+             :placeholder="$t('verifyCode')">
+            <van-button class="btn-get-code tours-button-noborder"
+              slot="button"
+              size="small"
+              :disabled="codeType===VERIFY_CODE.GETTING"
+              @click="getCode">{{showText}}</van-button>
+          </van-field>
+        </van-cell-group>
+      </van-tab>
       <!-- 普通登录 -->
       <van-tab class="login"
         :title="$t('partcailComp.ptlogin')">
@@ -22,25 +41,6 @@
               slot="button"
               size="small"
               @click="forgetPsw">{{$t('partcailComp.forgetPass')}}</van-button>
-          </van-field>
-        </van-cell-group>
-      </van-tab>
-      <!-- 手机验证码登录 -->
-      <van-tab class="mobile-login" :title="$t('partcailComp.phoneCodeLogin')">
-        <van-cell-group>
-          <area-code-input class="phone"
-            :proAreaCode.sync="phoneForm.areaCode"
-            :proMobile.sync="phoneForm.phone" />
-          <van-field class="auth-code tours-input"
-            v-model="phoneForm.smsCode"
-            center
-            clearable
-             :placeholder="$t('verifyCode')">
-            <van-button class="btn-get-code tours-button-noborder"
-              slot="button"
-              size="small"
-              :disabled="codeType===VERIFY_CODE.GETTING"
-              @click="getCode">{{showText}}</van-button>
           </van-field>
         </van-cell-group>
       </van-tab>
@@ -87,7 +87,7 @@
     data() {
       return {
         VERIFY_CODE,
-        type: LOGIN_TYPE.PASSWORD, // 默认登录模式
+        type: LOGIN_TYPE.PHONE, // 默认登录模式
         formData: {
           username: '',
           password: '',
@@ -131,9 +131,9 @@
         // 清除定时器
         this.resetTimer()
         if (index === 1) {
-          this.type = LOGIN_TYPE.PHONE
-        } else {
           this.type = LOGIN_TYPE.PASSWORD
+        } else {
+          this.type = LOGIN_TYPE.PHONE
         }
       },
       toggleInputType(val) {

@@ -3,6 +3,9 @@
     <section>
       <header-date :title="$t('dateTripPage.title')"></header-date>
     </section>
+    <div :class="isLogin?'':'not-login'">
+      <login-line></login-line>
+    </div>
     <section class="section1">
       <!--日历head-->
       <ul class="trip-head">
@@ -114,17 +117,16 @@
   import ConfirmFoot from '@/components/confirm_foot/foot.vue'
   import headerDate from '@/components/header/dateTrap.vue'
   import {getdateTrip} from '@/api/date_trip'
+  import loginLine from '@/components/header/loginLine'
 
   export default {
     components: {
-      dateTrip, ConfirmFoot, headerDate
+      dateTrip, ConfirmFoot, headerDate, loginLine
     },
     data() {
       return {
         //价格日历数据
-        pricedate: [
-
-        ],
+        pricedate: [],
         //选中的月份
         activeMonth: 0,
         //选中的日期
