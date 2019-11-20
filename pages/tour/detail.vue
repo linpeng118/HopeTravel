@@ -123,7 +123,7 @@
                 <span>{{(item.special_price ? item.special_price: item.default_price) | toFixedFilter}}
                 <i>起&nbsp;</i>
                 </span>
-                <i v-if="!item.special_price" style="text-decoration:line-through">{{item.default_price | toFixedFilter}}</i>
+                <i v-if="item.special_price" style="text-decoration:line-through">{{item.default_price | toFixedFilter}}</i>
              </span>
              <span class="span2" v-if="item.comment_score > 0"><img src="../../assets/imgs/tour/star.png" alt="">{{item.comment_score}}分</span>
            </p>
@@ -442,14 +442,15 @@
   }
   .marquee-content{
     height: 100%;
+    line-height: 38px;
   }
   .marquee-content p{
     width: 100%;
     height: 100%;
   }
   .marquee-content .text1{
-    position: relative!important;
-    top: -12px!important;
+    /* position: relative!important; */
+    /* top: -12px!important; */
     color: #9E9E9E;
     font-size: 28px;
     border-bottom: 10px;
@@ -583,13 +584,13 @@
           .span1{
            /* float: left; */
            display: inline-block;
-           vertical-align:top;
-           margin-top: 6px;
+           vertical-align:middle;
+           margin-top: -6px;
             img{width: 28px;height: 28px;}
           }
           .span2{
             display: inline-block;
-            height: 60px;
+            /* height: 60px; */
             line-height: 60px;
             color: #cecece;
             margin-left: 5px;
@@ -599,7 +600,7 @@
             position: relative;
             border-top: 2px solid #cecece !important;
             div{
-            padding-top: 12px;
+            padding-top: 8px;
             padding-bottom: 8px;
             height: 54px;
             .marquee-content{
