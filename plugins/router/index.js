@@ -1,4 +1,3 @@
-import NProgress from 'nprogress'
 import '@/assets/style/nprogress.css'
 import apiConf from '@/apiConf.env.js'
 import {getSessionStore, setSessionStore} from '@/assets/js/utils'
@@ -28,14 +27,11 @@ export default ({
         console.log('hide customer service');
         document.body.setAttribute('class', 'hide-customer-service')
       }
-      NProgress.start()
+      
       if (to.path.indexOf('.html') >= 0) {}
     } catch (error) {
       console.log(error)
     }
     next()
-  })
-  app.router.afterEach(() => {
-    NProgress.done()
   })
 }
