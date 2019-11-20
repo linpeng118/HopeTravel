@@ -480,7 +480,8 @@
   .tour-head{
     width: 750px;
     height: 640px;
-    margin-top: -92px;
+    /* margin-top: -92px; */
+    padding-top: 92px;
     background-color: #aaa;
     img{
       width: 750px;
@@ -575,6 +576,7 @@
           font-size: 28px;
           margin-top: 26px;
           overflow: hidden;
+          line-height: 30px;                                                                                                                                                                          
            img{width: 28px;height: 28px;vertical-align: middle}
          /*  padding-bottom: 1px ;
           display: inline-block; */
@@ -599,7 +601,7 @@
             div{
             padding-top: 12px;
             padding-bottom: 8px;
-            
+            height: 54px;
             .marquee-content{
               p{
                 width: 100% !important;
@@ -966,7 +968,7 @@
             font-size: 0;
             margin-top: 8px;
             span{
-              height:36px;
+              /* height:36px; */
               /* line-height: 36px; */
               background:rgba(255,255,255,1);
               border:2px solid rgba(255,52,52,1);
