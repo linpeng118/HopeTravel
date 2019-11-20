@@ -3,6 +3,9 @@
    <section>
      <van-nav-bar class="login-header tours-no-bb elsecom"
                   ref="loginHeader"
+                  :fixed="true"
+                  :z-index="999"
+                  
                   :title="product?product.name:'景区详情'"
                   @click-left="onClickLeft">
        <van-icon class="left-wrap"
@@ -34,7 +37,7 @@
          </p>
          <p class="p3">
            <span class="span1"><img src="../../assets/imgs/tour/add.png" alt=""></span>
-           <span class="span2"> <img src="../../assets/imgs/tour/right2.png" alt="">
+           <span class="span2 noBorderTop"> <img src="../../assets/imgs/tour/right2.png" alt="">
              <vue-marquee :content="(product.address == null || product.address == '') ? '暂无' : product.address" class="two" :showtwo="false"></vue-marquee>
            </span>
          </p>
@@ -44,7 +47,7 @@
               <vue-marquee :content="$t('tour.yingye')+':'+((product.opening_hours == null || product.opening_hours == '') ? '暂无' : product.opening_hours)" class="two" :showtwo="false"></vue-marquee>
            </span>
          </p>
-         <p class="p3">
+         <p class="p3 noTop">
            <span class="span1"><img src="../../assets/imgs/tour/play.png" alt=""></span>
            <span class="span21">{{$t('tour.playtime')}}：
 
@@ -417,11 +420,11 @@
     animation: a 16s linear infinite!important;
   }
   .elsecom{
-    background-color: rgba(0,0,0,0)!important;
-    color: #fff!important;
+    background-color: rgba(255,255,255,1)!important;
+    color: rgba(29,29,29,1)!important;
   }
  .elsecom>.van-nav-bar__left>.van-icon-arrow-left{
-   color: #fff!important;
+   color: rgba(29,29,29,1) !important;
  }
   body{
     overflow: scroll!important;
@@ -477,7 +480,8 @@
   .tour-head{
     width: 750px;
     height: 640px;
-    margin-top: -92px;
+    /* margin-top: -92px; */
+    padding-top: 92px;
     background-color: #aaa;
     img{
       width: 750px;
@@ -572,6 +576,7 @@
           font-size: 28px;
           margin-top: 26px;
           overflow: hidden;
+          line-height: 30px;                                                                                                                                                                          
            img{width: 28px;height: 28px;vertical-align: middle}
          /*  padding-bottom: 1px ;
           display: inline-block; */
@@ -579,29 +584,24 @@
            /* float: left; */
            display: inline-block;
            vertical-align:top;
-           margin-top: 4px;
+           margin-top: 6px;
             img{width: 28px;height: 28px;}
           }
           .span2{
             display: inline-block;
-            height: 72px;
-            line-height: 72px;
+            height: 60px;
+            line-height: 60px;
             color: #cecece;
             margin-left: 5px;
             width: 602px;
             vertical-align: middle;
-            // margin-bottom: 24px;
-            
-            font-size:28px;
-            
-           /*  width: 550px; */
-           
+            font-size:28px; 
             position: relative;
-            border-bottom: 2px solid #cecece !important;
+            border-top: 2px solid #cecece !important;
             div{
             padding-top: 12px;
             padding-bottom: 8px;
-            
+            height: 54px;
             .marquee-content{
               p{
                 width: 100% !important;
@@ -638,6 +638,8 @@
             font-size:28px;
             width: 590px;
             position: relative;
+            border-top: 2px solid #cecece !important;
+            padding-top: 10px;
             .span4{
               position: absolute;
               right: -5px;
@@ -662,8 +664,11 @@
             font-style: normal;
           } */
         }
+        .p3 .noBorderTop{
+          border-top: 0 !important;
+        }
         .p3.noTop{
-          margin-top: 5px;
+          margin-top: 0px;
         }
       }
     }
@@ -874,14 +879,14 @@
           overflow: hidden;
           position: absolute;
           background-color: #dedede;
-          box-shadow:0px 0px 12px rgba(52,52,52,0.2);
+          /* box-shadow:0px 0px 12px rgba(52,52,52,0.2); */
           img{
             height: 240px;
           }
         }
         .con{
-          padding:5px 28px 20px 180px ;
-          margin-top: 56px;
+          padding:14px 28px 20px 180px ;
+          margin-top: 36px;
           width: 630px;
           height: 240px;
           box-sizing: border-box;
@@ -961,9 +966,9 @@
           .p0{
             padding: 0 6px;
             font-size: 0;
-            /* margin-top: -10px; */
+            margin-top: 8px;
             span{
-              height:36px;
+              /* height:36px; */
               /* line-height: 36px; */
               background:rgba(255,255,255,1);
               border:2px solid rgba(255,52,52,1);
@@ -1026,7 +1031,8 @@
           margin-top: -48px;
           margin-left: 100px;
           .span1{
-            line-height: 36px;
+            font-size: 22px;
+            line-height: 28px;
             display: inline-block;
             color: #9E9E9E;
           }

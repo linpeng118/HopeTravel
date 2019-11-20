@@ -316,7 +316,7 @@
         "allOrder": "全部訂單",
         "waitPay": "待支付",
         "waitTrip": "待出行",
-        "alreadyTrip": "已出行",
+        "waitComment": "待評價",
         "myOrder": "我的訂單",
         "orderNumber": "訂單號",
         "travelDate": "出行日期",
