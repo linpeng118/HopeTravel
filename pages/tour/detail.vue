@@ -582,7 +582,7 @@
            /* float: left; */
            display: inline-block;
            vertical-align:top;
-           margin-top: 10px;
+           margin-top: 6px;
             img{width: 28px;height: 28px;}
           }
           .span2{
