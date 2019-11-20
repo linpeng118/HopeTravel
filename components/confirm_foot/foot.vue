@@ -24,10 +24,10 @@
         v-if="thisrouter=='date_trip'"
         @click="showbtn?islogin():''">{{shownext==true?$t('confirmFootComp.nextStep'):$t('NLoginShow')}}</span>
       <span v-else-if="showbtn2==false"
-        class="confirm-next-btn">{{shownext==true?$t('confirmFootComp.nextStep'):$t('NLoginShow')}}</span>
+        class="confirm-next-btn">d{{shownext==true?$t('confirmFootComp.nextStep'):$t('NLoginShow')}}</span>
       <span v-else
         class="confirm-next-btn showbtn"
-        @click="addOrderx()">{{$t('confirmFootComp.nextStep')}}</span>
+        @click="addOrderx()">h{{$t('confirmFootComp.nextStep')}}</span>
       <span class="contact-service"
         @click="contactCustom()">
         <i></i>
@@ -213,6 +213,10 @@
         // console.log(this.thisrouter)
       },
       async addOrderx() {
+        if(this.orderInfo.contact.phone.split('-').length <=2){
+          this.$toast('手机号码不能为空')
+          return 
+        }
         this.loading = true
         let referer_id = getSessionStore(SESSIONSTORE) || ''
         let platform = getSessionStore(PLATFORM) || ''
