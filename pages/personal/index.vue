@@ -75,7 +75,7 @@
               <img v-else-if="item.status === 'wait'"
                    src="../../assets/imgs/personal/index/ic_weifukuan@2x.png"
                    alt>
-              <img v-else-if="item.status === 'finish'"
+              <img v-else-if="item.status === 'comment'"
                    src="../../assets/imgs/personal/index/ic_daipinglun@2x.png"
                    alt>
               <img v-else
@@ -176,7 +176,7 @@ export default {
       {status: '', title: this.$t('personalPage.allOrder')},
       {status: 'unpaid', title: this.$t('personalPage.waitPay')},
       {status: 'wait', title: this.$t('personalPage.waitTrip')},
-      {status: 'finish', title: this.$t('personalPage.alreadyTrip')},
+      {status: 'comment', title: this.$t('personalPage.waitComment')},
     ]
   },
   mounted() {
