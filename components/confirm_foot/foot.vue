@@ -213,6 +213,10 @@
         // console.log(this.thisrouter)
       },
       async addOrderx() {
+        if(!this.orderInfo.contact.phone.split('-')[1]){
+          this.$toast('手机号码不能为空')
+          return 
+        }
         this.loading = true
         let referer_id = getSessionStore(SESSIONSTORE) || ''
         let platform = getSessionStore(PLATFORM) || ''
@@ -285,7 +289,7 @@
     height: 165px;
     background-color: #fff;
     position: fixed;
-    z-index: 2099;
+    z-index: 1999;
     box-sizing: border-box;
     padding: 40px 32px;
     left: 0;

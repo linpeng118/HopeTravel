@@ -3,6 +3,9 @@
    <section>
      <van-nav-bar class="login-header tours-no-bb elsecom"
                   ref="loginHeader"
+                  :fixed="true"
+                  :z-index="999"
+                  
                   :title="product?product.name:'景区详情'"
                   @click-left="onClickLeft">
        <van-icon class="left-wrap"
@@ -21,46 +24,46 @@
    <div class="box-con">
      <div class="tour-jianjie" v-if="product">
        <p class="p0" @click="onimgbox()">
-         <span><img src="../../assets/imgs/tour/video.png" alt="">{{product.video_total}}</span>
-         <span><img src="../../assets/imgs/tour/img.png" alt="">{{product.image_total}}</span>
+         <span v-if="product.video_total > 0"><img src="../../assets/imgs/tour/video.png" alt="">{{product.video_total}}</span>
+         <span v-if="product.image_total > 0"><img src="../../assets/imgs/tour/img.png" alt="">{{product.image_total}}</span>
        </p>
        <div v-if="product">
          <p class="p1">{{product.name}}</p>
          <p class="p2">
            <a class="span1">
-            <img src="../../assets/imgs/tour/star.png" alt="">{{product.score||5.0}}分
+            <img src="../../assets/imgs/tour/star.png" alt="">{{(product.score == null || product.score == '') ? '5.0' : product.score}}
            </a>
-           <a class="span2" v-if="product.comment_total">（{{product.comment_total}}{{$t('tour.comm')}}）</a>
+           <a class="span2" v-if="product.comment_total">({{product.comment_total}}{{$t('tour.comm')}})</a>
          </p>
          <p class="p3">
            <span class="span1"><img src="../../assets/imgs/tour/add.png" alt=""></span>
-           <span class="span2"> <img src="../../assets/imgs/tour/right2.png" alt="">
-             <vue-marquee :content="product.address" class="two" :showtwo="false"></vue-marquee>
+           <span class="span2 noBorderTop"> <img src="../../assets/imgs/tour/right2.png" alt="">
+             <vue-marquee :content="(product.address == null || product.address == '') ? '暂无' : product.address" class="two" :showtwo="false"></vue-marquee>
            </span>
          </p>
-         <p class="p3">
+         <p class="p3 noTop">
            <span class="span1"><img src="../../assets/imgs/tour/time.png" alt=""></span>
            <span class="span2">
-              <vue-marquee :content="$t('tour.yingye')+':'+product.opening_hours" class="two" :showtwo="false"></vue-marquee>
+              <vue-marquee :content="$t('tour.yingye')+':'+((product.opening_hours == null || product.opening_hours == '') ? '暂无' : product.opening_hours)" class="two" :showtwo="false"></vue-marquee>
            </span>
          </p>
-         <p class="p3">
+         <p class="p3 noTop">
            <span class="span1"><img src="../../assets/imgs/tour/play.png" alt=""></span>
            <span class="span21">{{$t('tour.playtime')}}：
 
-             {{product.play_days>0?product.play_days+'天':''}} {{product.play_hours>0?product.play_hours+'小时':''}}
-           <i class="span4">{{product.price}}/起 <a href="#piaopiao" style="color: red">&nbsp;&nbsp;{{$t('tour.byatt')}}</a></i>
+             {{product.play_days>0?product.play_days+'天':''}} {{product.play_days>0 ? product.play_hours>0?product.play_hours+'小时':'':'暂无'}}
+           <i class="span4" v-if="product.price">{{product.price}}/起 <a href="#piaopiao" style="color: red">&nbsp;&nbsp;{{$t('tour.byatt')}}</a></i>
            </span>
          </p>
        </div>
      </div>
      <!--攻略-->
-     <div class="tourtitle" v-if="attack&&attack.list&&attack.list.length>0">
+     <div class="tourtitle" v-if="attack&&attack.list&&attack.list.length">
        <span class="span1">玩法攻略</span>
        <span class="span2">（{{attack.total}}篇）</span>
        <span class="span3" v-if="attack&&attack.list&&attack.list.length>2" @click="toattlist()">{{$t('tour.lookmore')}}<img src="../../assets/imgs/tour/right.png" alt=""></span>
      </div>
-     <div class="tour-gonglve" v-if="attack&&attack.list&&attack.list.length>0">
+     <div class="tour-gonglve" v-if="attack&&attack.list&&attack.list.length">
        <div class="gonglvebox">
          <div class="gonglve-item" v-for="(item,ind) in attack.list" :key="ind" v-if="ind<3" @click="toatt(item.article_id)" >
            <div class="imgbox"><img :src="item.cover" alt=""></div>
@@ -70,17 +73,18 @@
        </div>
      </div>
      <!--门票-->
-     <div class="tourtitle" v-if="tickets&&tickets.list&&tickets.list.length>0" id="piaopiao" >
+     <div class="tourtitle" v-if="tickets&&tickets.list&&tickets.list.length" id="piaopiao" >
        <span class="span1">{{$t('tour.tour-atr')}}</span>
        <span class="span2">（{{tickets.total}}项）</span>
        <span class="span3" v-if="tickets&&tickets.list&&tickets.list.length>2" @click="toprolist()">{{$t('tour.lookmore')}}<img src="../../assets/imgs/tour/right.png" alt=""></span>
      </div>
-     <div class="tour-menpiao" v-if="tickets&&tickets.list&&tickets.list.length>0">
+     <div class="tour-menpiao" v-if="tickets&&tickets.list&&tickets.list.length">
        <div class="menpiao-item" v-for="(item,ind) in tickets.list" :key="ind" :style="ind==tickets.list.length-1?'border:none':''">
-         <p class="p1"><i class="ziyin" v-if="item.self_support">{{$t('selfSupport')}}</i>
+         <p class="p1">
+           <span class="ziyin" v-if="item.self_support">{{$t('selfSupport')}}</span>
            <span class="span1">{{item.name}}</span>
            <span class="span2"></span>
-           <span class="span3">{{item.default_price}}</span>
+           <span class="span3">￥{{item.default_price}}</span>
           </p>
          <p class="p2">
            <span class="tejia" v-for="(item2,ind2) in item.special_icons" :key="ind2" v-if="ind2<2">{{item2.title}}</span>
@@ -106,21 +110,22 @@
              <!--{{productTypeValue(item.product_type)}}-->
            <!--</span>-->
            <span class="spcie-else">
-             <i class="vi" v-if="item.is_video"><img src="../../assets/imgs/tour/video2.png" alt=""></i>
+             <i class="vi" v-if="item.is_video"><img src="../../assets/imgs/tour/video3.png" alt=""></i>
            </span>
          </div>
          <div class="con">
-           <div class="p1" ><i class="ziyin" v-if="item.self_support">{{$t('selfSupport')}}</i>{{item.name}}</div>
+           <div class="p1" ><span class="ziyin" v-if="item.self_support">{{$t('selfSupport')}}</span>{{item.name}}</div>
            <div class="p0">
              <span v-for="(item2,ind2) in item.coupons" :key="ind2" v-if="ind2<2">{{item2}}</span>
            </div>
            <p class="p2">
              <span class="span1">
-                {{item.special_price ? item.special_price: item.default_price}}
+                <span>{{(item.special_price ? item.special_price: item.default_price) | toFixedFilter}}
                 <i>起&nbsp;</i>
-                <i v-if="item.special_price" style="text-decoration:line-through">{{item.default_price}}</i>
+                </span>
+                <i v-if="item.special_price" style="text-decoration:line-through">{{item.default_price | toFixedFilter}}</i>
              </span>
-             <span class="span2"><img src="../../assets/imgs/tour/star.png" alt="">{{item.comment_score}}分</span>
+             <span class="span2" v-if="item.comment_score > 0"><img src="../../assets/imgs/tour/star.png" alt="">{{item.comment_score}}分</span>
            </p>
          </div>
          <p class="p3">
@@ -162,11 +167,12 @@
          <div class="imgb2"><img :src="item.image" alt=""></div>
          <div class="con">
            <p class="p1">
-            {{item.name}}
+            <span class="span0">{{item.name}}</span>
              <span class="span1"><img src="../../assets/imgs/tour/add.png" alt="">{{item.distance}}</span>
            </p>
            <p class="p2">{{item.brief||$t('tour.no-con1')}}</p>
-           <p class="p3">门票：{{item.ticket_price||$t('tour.no-con2')}}</p>
+           <!-- <p class="p3">门票：{{item.ticket_price||$t('tour.no-con2')}}</p> -->
+          <p class="p3" v-if="item.ticket_price">门票：{{item.ticket_price}}</p>
          </div>
        </div>
      </div>
@@ -194,12 +200,13 @@
       "vue-marquee": VueMarquee
     },
     async asyncData({$axios, query, store, req}) {
-      let tourId,
-        product, attack,
-        tickets,
-        products,
-        comments,
-        nearby
+      let tourId
+      let product
+      let attack
+      let  tickets
+      let  products
+      let  comments
+      let  nearby
       if (String(query.tourId).indexOf('-') >= 0) {
         tourId = Number(query.tourId.toString().split('-')[0])
       } else {
@@ -222,6 +229,8 @@
           }
         })
         if (code === 0) {
+          console.log(99999,data);
+          
           product = data.tour_detail; // 产品信息
           attack = data.attack_article;
           tickets = data.tickets;
@@ -246,12 +255,19 @@
         tourId
       }
     },
+     filters:{
+      toFixedFilter:function(value){
+        let str =value.split(".");   
+        return str[0]
+      }
+    },
     data() {
       return {
         loading: false,
         isTransparent: false, // 导航头是否透明
       }
     },
+   
     beforeRouteEnter (to, from, next) {
       next(vm => {
         goToBackPage = from.fullPath
@@ -267,6 +283,7 @@
       console.log(this.products)
 
     },
+    
     methods: {
 
       async init() {
@@ -403,11 +420,11 @@
     animation: a 16s linear infinite!important;
   }
   .elsecom{
-    background-color: rgba(0,0,0,0)!important;
-    color: #fff!important;
+    background-color: rgba(255,255,255,1)!important;
+    color: rgba(29,29,29,1)!important;
   }
  .elsecom>.van-nav-bar__left>.van-icon-arrow-left{
-   color: #fff!important;
+   color: rgba(29,29,29,1) !important;
  }
   body{
     overflow: scroll!important;
@@ -420,12 +437,38 @@
     font-size: 28px;
     border-bottom: 10px;
   }
+  .marquee-box{
+    padding-left: 0 !important;
+  }
+  .marquee-content{
+    height: 100%;
+    line-height: 38px;
+  }
+  .marquee-content p{
+    width: 100%;
+    height: 100%;
+  }
   .marquee-content .text1{
+    /* position: relative!important; */
+    /* top: -12px!important; */
+    color: #9E9E9E;
+    font-size: 28px;
+    border-bottom: 10px;
+    width: 100% ;
+    overflow: hidden ;
+    text-overflow: ellipsis ;
+    white-space: nowrap ;
+  }
+  .marquee-content .text2{
     position: relative!important;
     top: -12px!important;
     color: #9E9E9E;
     font-size: 28px;
     border-bottom: 10px;
+    width: 100% ;
+    overflow: hidden ;
+    text-overflow: ellipsis ;
+    white-space: nowrap ;
   }
 </style>
 
@@ -438,7 +481,8 @@
   .tour-head{
     width: 750px;
     height: 640px;
-    margin-top: -92px;
+    /* margin-top: -92px; */
+    padding-top: 92px;
     background-color: #aaa;
     img{
       width: 750px;
@@ -460,7 +504,7 @@
         font-size:24px;
         font-weight:400;
         text-align: center;
-        line-height:40px;
+        line-height:34px;
         color:rgba(158,158,158,1);
         opacity:1;
       }
@@ -495,77 +539,144 @@
       div{
         width:100%;
         box-sizing: border-box;
-        padding: 24px;
+        /* padding: 24px; */
+        padding: 24px 24px 24px 12px;
         background-color: #fff;
         border-radius:12px;
+        
         .p1{
-          color: #1D1D1D;
+          color:rgba(29,29,29,1);
           font-size: 44px;
+          font-weight:bold;
           line-height: 60px;
+          opacity:1;
         }
         .p2{
+          font-size: 24px;
           .span1{
-            line-height: 34px;
-            font-size: 24px;
-            color:#FFBE0D;
+            
+            height:34px;
+            font-size:24px;
+            font-weight:bold;
+            line-height:34px;
+            color:rgba(255,190,13,1);
+            opacity:1;
             img{
-              width: 20px;
+              width: 20px;     
+              height:20px;      
             }
           }
           .span2{
             line-height: 34px;
             font-size: 24px;
             color: #5e5e5e;
-
+            
           }
         }
         .p3{
-          padding-bottom: 1px ;
-          display: inline-block;
+          font-size: 28px;
+          margin-top: 26px;
+          overflow: hidden;
+          line-height: 30px;                                                                                                                                                                          
+           img{width: 28px;height: 28px;vertical-align: middle}
+         /*  padding-bottom: 1px ;
+          display: inline-block; */
           .span1{
-           float: left;
-            img{width: 28px;height: 28px}
+           /* float: left; */
+           display: inline-block;
+           vertical-align:middle;
+           margin-top: -6px;
+            img{width: 28px;height: 28px;}
           }
           .span2{
             display: inline-block;
-            line-height: 71px;
+            /* height: 60px; */
+            line-height: 60px;
             color: #cecece;
             margin-left: 5px;
-            font-size:28px;
-            border-bottom: 1px solid #cecece;
-            width: 550px;
-            overflow: hidden;
+            width: 602px;
+            vertical-align: middle;
+            font-size:28px; 
+            position: relative;
+            border-top: 2px solid #cecece !important;
+            div{
+            padding-top: 8px;
+            padding-bottom: 8px;
+            height: 54px;
+            .marquee-content{
+              p{
+                width: 100% !important;
+                
+              }
+              
+
+            }
+            }
+            /* div{
+              padding-top: 8px;
+            padding-bottom: 10px;
+            p{
+              width: 100%;
+              .text1{
+               width: 100% !important;
+               overflow: hidden;
             text-overflow:ellipsis;
             white-space: nowrap;
-            padding-bottom: 10px;
-            img{width: 28px;height: 28px;float: right;position: relative;top: 0.37rem;}
+             }
+            }
+             
+            } */
+            /* padding-bottom: 24px; */
+            img{width: 28px;height: 28px;position: absolute;right: 0;top: 8px}
           }
           .span21{
             display: inline-block;
-            line-height: 72px;
+            line-height: 40px;
+            height: 40px;
             margin-left: 5px;
-            color: #cecece;
+            font-weight:400;
+            color: #9E9E9E;
             font-size:28px;
             width: 590px;
+            position: relative;
+            border-top: 2px solid #cecece !important;
+            padding-top: 10px;
+            .span4{
+              position: absolute;
+              right: -5px;
+              
+              font-size:24px;
+              font-weight:bold;
+              line-height:34px;
+              color:rgba(29,29,29,1);
+              opacity:1;
+              font-style: normal;
+            }
           }
           .span3{
 
           }
-          .span4{
+          /* .span4{
             font-size:24px;
             font-weight:bold;
             color:rgba(29,29,29,1);
             float: right;
             line-height: 72px;
             font-style: normal;
-          }
+          } */
+        }
+        .p3 .noBorderTop{
+          border-top: 0 !important;
+        }
+        .p3.noTop{
+          margin-top: 0px;
         }
       }
     }
     .tourtitle{
       width: 100%;
       padding: 16px 0;
-      margin-top: 34px;
+      margin-top: 30px !important;
       height: 82px;
       .span1{
         display: inline-block;
@@ -646,13 +757,13 @@
       border-radius: 12px;
       padding:0 16px 16px 16px;
       .menpiao-item{
-        padding: 0 16px 16px 16px;
+        padding: 20px 16px 16px 16px;
         border-bottom:1px solid rgba(206,206,206,1);
         i{
           font-style: normal;
         }
         .ziyin{
-          width:58px;
+          /* width:56px; */
           display: inline-block;
           height:32px;
           background:rgba(255,190,13,1);
@@ -662,8 +773,9 @@
           font-size: 20px;
           color: #fff;
           text-align: center;
-          margin-right: 10px;
-          padding: 0 8px;
+          /* margin-right: 10px; */
+          padding: 0 4px;
+          vertical-align: middle;
         }
         .tejia{
           width:58px;
@@ -676,21 +788,24 @@
           line-height: 32px;
           margin-right: 10px;
           color: #fff;
-          padding: 0 8px;
+          padding: 0 4px;
           text-align: center;
+          vertical-align: middle;
         }
         .youhui{
           height:32px;
           opacity:1;
           border-radius:8px;
-          font-size: 20px;
           line-height: 32px;
-          color:#FF3434;
-          display: inline-block;
-          padding: 0 8px;
           text-align: center;
           margin-right: 10px;
           border: 1px solid #FF3434;
+          vertical-align: middle;
+          background:rgba(255,255,255,1);
+          border:2px solid rgba(255,52,52,1);
+          font-size:20px;
+          color: #FF3434;
+          padding: 0 4px;
         }
         .buybtn{
           width:72px;
@@ -709,13 +824,16 @@
           float: right;
         }
         .p1{
-          display: inline-block;
+         /*  display: inline-block; */
+         
           width: 100%;
+          overflow: hidden;
           .span1{
             font-size:28px;
             font-weight:bold;
-            width: 250px;
-            display: inline-block;
+            width: 480px;
+            /* display: inline-block; */
+            float: left;
             color:rgba(29,29,29,1);
             overflow:hidden; //超出的文本隐藏
             text-overflow:ellipsis; //溢出用省略号显示
@@ -723,14 +841,18 @@
           }
           .span2{
             font-size:28px;
-            display: inline-block;
+            /* display: inline-block; */
+            float: left;
             color:#9E9E9E;
           }
           .span3{
             font-size:32px;
             font-weight:bold;
+            /* line-height: 44px; */
             color:rgba(255,52,52,1);
             opacity:1;
+            float: right;
+            /* margin-top: 10px; */
           }
         }
         .p2{
@@ -738,6 +860,7 @@
           line-height: 40px;
           height: 40px;
           width: 100%;
+          margin-top: 10px;
         }
       }
 
@@ -750,30 +873,31 @@
         padding-top: 10px;
         box-sizing: border-box;
         .box-img{
-          width: 240px;
+          width: 220px;
           display: inline-block;
-          height: 240px;
+          height: 220px;
           border-radius:12px;
           overflow: hidden;
           position: absolute;
           background-color: #dedede;
-          box-shadow:0px 0px 12px rgba(52,52,52,0.2);
+          /* box-shadow:0px 0px 12px rgba(52,52,52,0.2); */
           img{
             height: 240px;
           }
         }
         .con{
-          padding:20px 28px 20px 180px ;
-          margin-top: 56px;
-          width: 620px;
+          padding:14px 28px 20px 180px ;
+          margin-top: 36px;
+          width: 630px;
           height: 240px;
           box-sizing: border-box;
           background:rgba(255,255,255,1);
           box-shadow:0px 0px 28px rgba(52,52,52,0.2);
           border-radius: 12px;
           margin-left: 60px;
+          font-size: 0;
           .ziyin{
-            width:58px;
+            width:60px;
             display: inline-block;
             height:32px;
             background:rgba(255,190,13,1);
@@ -783,6 +907,9 @@
             font-size: 20px;
             color: #fff;
             text-align: center;
+            padding: 0 4px;
+            vertical-align: middle;
+            margin: 0 10px;
           }
           .tejia{
             width:58px;
@@ -824,11 +951,11 @@
             float: right;
           }
           .p1{
-            width: 418px;
-            font-size: 28px!important;
-            color: #2d2d2d;
-            line-height: 36px;
-            padding-left: 20px;
+            width: 428px;
+            font-size: 28px;
+            color:rgba(45,45,45,1);
+            line-height: 38px;
+            /* padding-left: 20px; */
 
             overflow: hidden;
             text-overflow: ellipsis;
@@ -838,11 +965,12 @@
 
           }
           .p0{
-            padding-left: 20px;
-            margin-top: -10px;
+            padding: 0 6px;
+            font-size: 0;
+            margin-top: 8px;
             span{
-              height:36px;
-              line-height: 36px;
+              /* height:36px; */
+              /* line-height: 36px; */
               background:rgba(255,255,255,1);
               border:2px solid rgba(255,52,52,1);
               font-size:20px;
@@ -850,7 +978,8 @@
               display: inline-block;
               border-radius: 8px;
               margin-right: 10px;
-              padding: 0 10px;;
+              padding: 0 4px;
+              
             }
           }
           .p2{
@@ -858,14 +987,19 @@
             height: 48px;
             font-size: 24px;
             color: #d4d4d4;
-            padding-left: 10px;
             line-height: 48px;
+            overflow: hidden;
+            margin-top: 10px;
             .span1{
+              float: left;
               font-size:36px;
               font-weight:bold;
               line-height:44px;
               color:rgba(255,52,52,1);
               opacity:1;
+              span{
+                width: 140px;
+              }
               i{
                 font-style: normal;
                 font-size: 20px;
@@ -875,15 +1009,17 @@
             }
             .span2{
               float: right;
-              margin-left: 12px;
+              /* margin-left: 12px; */
               line-height: 34px;
               font-size: 24px;
               color:#FFBE0D;
+              height: 34px;
+              margin-top: 4px;
               img{
                 width: 34px;
                 height: 34px;
                 position: relative;
-                top: 8px;
+                top: 6px;
               }
             }
           }
@@ -896,7 +1032,8 @@
           margin-top: -48px;
           margin-left: 100px;
           .span1{
-            line-height: 36px;
+            font-size: 22px;
+            line-height: 28px;
             display: inline-block;
             color: #9E9E9E;
           }
@@ -1001,11 +1138,22 @@
             font-weight:bold;
             line-height:50px;
             color:rgba(29,29,29,1);
+            overflow: hidden;
+              .span0{
+                width: 360px;
+                overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              float: left;
+              }
             .span1{
               font-size:24px;
               font-weight:400;
               line-height:34px;
               color:rgba(255,190,13,1);
+              float: right;
+              margin-top: 6px;
+              
               img{
                 width: 28px;
                 height: 28px;
@@ -1059,7 +1207,8 @@
   .spcie-else .vi{
     float: right;
     display: inline-block;
-    margin-right: 15px;
+    margin-right: 25px;
+    margin-bottom: 25px;
   }
   .spcie-else .tuan{
     display: inline-block;

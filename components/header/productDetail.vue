@@ -1,18 +1,18 @@
 <template>
-  <van-nav-bar class="product-detail-header tours-no-bb"
+  <van-nav-bar class="product-detail-header-neu tours-no-bb"
     ref="productDetailHeader"
-    :fixed="fixed"
+    :fixed="true"
     :class="{'transparent': transparent}"
     :title="title"
     :z-index="999"
     @click-left="onClickLeft"
     @click-right="onClickRight">
-    <van-icon class="left-wrap"
+    <van-icon class="left-wrap-neu"
       name="arrow-left"
       slot="left" />
-    <van-icon class="right-wrap"
+    <van-icon class="right-wrap-neu"
       name="ellipsis"
-      slot="right" />
+      slot="right"/>
   </van-nav-bar>
 </template>
 
@@ -53,13 +53,14 @@
 </script>
 
 <style lang="scss" scoped>
-  .product-detail-header {
+  .product-detail-header-neu {
     height: 88px;
     font-size: 32px;
     transition: all 0.5s;
-    background-color: #fff;
-    .left-wrap,
-    .right-wrap {
+    background-color: #fff !important;
+    color: #000 !important;
+    .left-wrap-neu,
+    .right-wrap-neu {
       color: #404040;
       font-size: 32px;
     }

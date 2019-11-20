@@ -557,9 +557,7 @@
         }
         if(this.prodFinished) { // 如果这个值为true，则不会触发onLoad, 所以要手动初始化一下
           this.prodFinished = false
-          console.log("222222221")
         } else { // 如果为false则会触发onLoad
-          console.log("222222223")
           await this.onLoad()
         }
         // 筛选列表更新
