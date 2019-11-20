@@ -1,4 +1,3 @@
-import NProgress from 'nprogress'
 import '@/assets/style/nprogress.css'
 import apiConf from '@/apiConf.env.js'
 import {getSessionStore, setSessionStore} from '@/assets/js/utils'
@@ -21,18 +20,18 @@ export default ({
       if (to.name === 'category-search' || to.name === 'visa' || to.name === 'custom') {
         console.log('show customer service');
         document.body.setAttribute('class', 'show-customer-service')
+      } else if(to.name == 'product-detail' || to.name === 'search' || to.name === 'personal-order' || to.name === 'personal-order_des'){
+        // 在详情页面添加pr-dl class解决详情页面划不动的情况
+        document.body.setAttribute('class', 'pr-dl hide-customer-service')
       } else {
         console.log('hide customer service');
         document.body.setAttribute('class', 'hide-customer-service')
       }
-      NProgress.start()
+      
       if (to.path.indexOf('.html') >= 0) {}
     } catch (error) {
       console.log(error)
     }
     next()
-  })
-  app.router.afterEach(() => {
-    NProgress.done()
   })
 }

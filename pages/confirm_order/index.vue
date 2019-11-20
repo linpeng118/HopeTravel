@@ -5,14 +5,17 @@
       :title="$t('confirmPage.title')"
       :z-index="999"
       :fixed="true"
-      :right-text="isLogin?'':'登录'"
       @click-left="onClickLeft"
       @click-right="onClickRight">
       <van-icon class="left-wrap"
         name="arrow-left"
         slot="left" />
     </van-nav-bar>
+    <div v-if="!isLoginkeyword">
+      <login-line></login-line>
+    </div>
     <section class="section0">
+      <!-- 未登录显示 -->
       <!--页头信息-->
       <section>
         <div class="confirm-title">
@@ -328,9 +331,10 @@
   import TelCode from '@/components/confirm_foot/telcode'
   import {mapMutations,mapState} from 'vuex'
   import addcon from '@/components/confirm_foot/addcon'
+  import loginLine from '@/components/header/loginLine'
   export default {
     components: {
-      ConfirmFoot, TelCode, addcon
+      ConfirmFoot, TelCode, addcon, loginLine
     },
     data() {
       return {
@@ -362,6 +366,7 @@
         xname: '',
         profile: '',//用户信息
         isLogin: this.$route.query.isLogin || false, // 默认false-->游客
+        isLoginkeyword: true,
         usertraver: [],//未登录的用户
 
       }
@@ -417,6 +422,7 @@
         let res = await getProfile();
         let {code, data} = res;
         if (code === 0) {
+          this.isLoginkeyword = true
           this.isLogin = true;
           this.profile = data;
           this.vxSetProfile(data)
@@ -438,6 +444,7 @@
             this.contact = {"name": this.countprice.savename, "phone": this.countprice.savephone, "email": this.countprice.saveemail}
           }
         } else {
+          this.isLoginkeyword = false
           this.profile = {}
         }
       },
@@ -589,7 +596,7 @@
         this.$router.go(-1)
       },
       onClickRight() {
-        this.$router.push({
+        this.$router.replace({
           path: `/login?redirect=${this.$route.fullPath}`
         })
       },
@@ -843,6 +850,9 @@
     padding: 20px 32px 200px 32px;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
+  }
+  .section0.not-login {
+    padding-top:88px;
   }
   .confirm-title p:nth-child(1) {
     padding-top: 10px;

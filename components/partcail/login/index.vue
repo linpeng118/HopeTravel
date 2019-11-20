@@ -132,9 +132,10 @@
         await this.getUserInfo()
         if (this.isDialog) {
           this.vxToggleLoginDlg(false)
+          this.$router.go(0)
         } else {
           if (this.redirect) {
-            this.$router.push({
+            this.$router.replace({
               path: this.redirect,query:{
                 isLogin:true
               }
