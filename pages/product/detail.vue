@@ -1587,3 +1587,8 @@ export default {
   }
 }
 </style>
+<style>
+.product-detail-page .attractions-wrap .body .desc img {
+  width: 100% !important;
+}
+</style>
