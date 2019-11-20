@@ -123,7 +123,6 @@
       // 登陆回调
       async loginCallBack() {
         console.log('loginCallBack')
-        this.$router.go(0)
         try {
           fbq('track', 'Lead')
         } catch (error) {
@@ -133,6 +132,7 @@
         await this.getUserInfo()
         if (this.isDialog) {
           this.vxToggleLoginDlg(false)
+          this.$router.go(0)
         } else {
           if (this.redirect) {
             this.$router.replace({
