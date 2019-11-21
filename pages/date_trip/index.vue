@@ -1,9 +1,10 @@
 <template>
   <section class="section0">
-    <section>
-      <header-date :title="$t('dateTripPage.title')"></header-date>
-    </section>
+    <header-date :title="$t('dateTripPage.title')"></header-date>
     <section class="section1">
+      <div class="not-login-box" v-if="!isLogin">
+        <login-line></login-line>
+      </div>
       <!--日历head-->
       <ul class="trip-head">
         <div class="swiper-container"
@@ -114,17 +115,17 @@
   import ConfirmFoot from '@/components/confirm_foot/foot.vue'
   import headerDate from '@/components/header/dateTrap.vue'
   import {getdateTrip} from '@/api/date_trip'
+  import loginLine from '@/components/header/loginLine'
+  import {getProfile} from "@/api/profile"
 
   export default {
     components: {
-      dateTrip, ConfirmFoot, headerDate
+      dateTrip, ConfirmFoot, headerDate, loginLine
     },
     data() {
       return {
         //价格日历数据
-        pricedate: [
-
-        ],
+        pricedate: [],
         //选中的月份
         activeMonth: 0,
         //选中的日期
@@ -163,7 +164,8 @@
             }
           }
         },
-        product: {}
+        product: {},
+        isLogin: true
       }
     },
     computed: {
@@ -298,6 +300,7 @@
       }
     },
     mounted() {
+      this.profileInit()
       setTimeout(() => {
         this.product = JSON.parse(JSON.stringify(this.vxReservePro))
         //进来清空一次之前的价格日历vuex，之后可能要考虑返回的情况
@@ -312,6 +315,17 @@
       }, 20)
     },
     methods: {
+      // 判断此人是否登录
+      async profileInit() {
+        // 1. 是否有token。有就请求个人信息；无则return
+        let res = await getProfile();
+        let {code, data} = res;
+        if(code === 0) {
+          this.isLogin = true
+        } else {
+          this.isLogin = false
+        }
+      },
       //获得价格日历数据
       async getpricedate(id) {
         let {data, code} = await getdateTrip(id)
@@ -493,6 +507,7 @@
     background-color: #f3f3f3;
   }
   .section1 {
+    padding-top: 88px;
     background-color: #fff;
     box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1);
   }

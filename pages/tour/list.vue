@@ -52,8 +52,8 @@
                       <span>{{ scenic.weather }}</span> -->
                     </div>
                   </div>
-                  <div class="scenic-list-product-item-info">{{scenic.brief}}</div>
-                  <div class="scenic-list-product-item-price">门票:{{ scenic.ticket_price || '无' }}</div>
+                  <div class="scenic-list-product-item-info" v-if="scenic.brief">{{scenic.brief}}</div>
+                  <div class="scenic-list-product-item-price" v-if="scenic.ticket_price">门票:{{ scenic.ticket_price }}</div>
                 </div>
                 </nuxt-link>
               </div>
