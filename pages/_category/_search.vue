@@ -540,6 +540,8 @@ export default {
       // this.showcolor = 'filter'
     },
     selectProductDetail(productId){
+      console.log(productId);
+      
       this.$router.push({
         name: 'product-detail',
         query: {
