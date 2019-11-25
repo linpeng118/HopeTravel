@@ -631,6 +631,7 @@ export default {
   .list-wrap{
     padding-top:88px;
     .filter-box{
+      margin-top: 88px;
       height: 88px;
       padding:26px 32px;
       display: flex;
