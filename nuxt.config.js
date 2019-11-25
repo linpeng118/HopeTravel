@@ -198,13 +198,12 @@ module.exports = {
             },
         },
         postcss: [
-      require('postcss-pxtorem')({
-        rootValue: 75,
-        propList: ['*'],
-        selectorBlackList:['van']
+      require('postcss-px2rem-exclude')({
+            remUnit: 75,
+            exclude: /vant/i,
             }),
       require('autoprefixer')({
-                browsers: ['last 5 versions'],
+        browsers: ['last 5 versions'],
             }),
     ],
         optimization: {
