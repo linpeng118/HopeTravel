@@ -15,11 +15,11 @@
     </van-nav-bar>
     <div class="new-connect">
       <p class="connet-title">{{$t('selectTravlerPage.customerName')}}</p>
-      <!-- <van-field
+      <van-field
         v-model="userform.name_cn"
         :label="$t('chineseName')"
         :placeholder="$t('selectTravlerPage.plhdUserName')"
-      /> -->
+      />
       <van-field
         v-model="userform.firstname"
         required
@@ -45,7 +45,8 @@
         :label="$t('passportNumber')"
         icon="question-o"
         :placeholder="$t('selectTravlerPage.mustWithIdFit')"
-        @click-icon="$toast($t('selectTravlerPage.mustWithIdFit'))"
+        right-icon="question-o"
+        @click-right-icon="$toast($t('selectTravlerPage.mustWithIdFit'))"
       />
       <div class="van-cell van-field" @click="shownationality=true">
         <div class="van-cell__title van-field__label">
