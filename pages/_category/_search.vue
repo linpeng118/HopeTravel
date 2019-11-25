@@ -127,17 +127,23 @@ import {LIST_PARAMS} from '@/assets/js/config'
 import Loading from '@/components/loading'
 
 export default {
-   async asyncData({params, query, $axios, store}){
+   async asyncData({params, query, $axios, store,redirect}){
       // 路由进来则会请求数据
       // tj 途径景点；cf 出发城市; js 结束城市; sj 行程天数；jg 价格预算；page 为当前的页数
       // cf29-tj143_131-js32
       // yg 当地跟团 type 1；yw 当地玩乐 type 2；yj稀饭自营 type 3 ；yl 游轮 type 7；ym 门票演出 4; yr 一日游 5
     let {category,search = ''} = params
     let {page = 1, sem = '0', w = null} = query
-
+    console.log(11111,params,query);
+    if(search.indexOf('y')==-1){
+      let urlNeu = '/'+category+'/ya'
+      redirect(urlNeu) 
+    }
     let getSearch = {}
      if(search){
        getSearch = getParams(search)
+       console.log(2222,getSearch);
+       
      }
     getSearch.category = category
     let active = 0
@@ -346,7 +352,9 @@ export default {
         if(data.tag) {
           delete data.tag
         }
-        this.filterLists = data;
+        this.filterLists = data;   
+        console.log(this.filterLists);
+        
       }
     },
     // 条件查询选择
@@ -404,6 +412,8 @@ export default {
     showMoreFilter(key, item) {
       let filterName = this.$refs['filter' + key][0].className
       let name = this.$refs['tags' + key][0].className
+      console.log(filterName,name);
+      
       if(item.items.length > 15) {
         let _obj = this._nomalLizePinyin(item.pinyin)
         this.showList = true
@@ -418,6 +428,8 @@ export default {
         this.$refs['tags' + key][0].className = name.indexOf('all') >= 0 ? 'filter-tags': 'filter-tags all'
         this.$refs['filter' + key][0].className = filterName.indexOf('down')>= 0 ? 'van-icon van-icon-arrow': 'van-icon van-icon-arrow-down'
       }
+      console.log(key, item);
+      
     },
     againSearch(){
       // this.prodPagination = {}
@@ -569,7 +581,10 @@ export default {
     },
     // 数据变化引起导航变化
     changeRouter(keyword){
+      console.log(8888888,this.filterResult);
+      
       let _url = changeParams(this.filterResult).split('/');
+      console.log(999999,_url);
       
       if(keyword){
         delete this.$route.query.w
@@ -589,6 +604,8 @@ export default {
     changeRouterReset(keyword){
       let  urlResetAll = changeParams(this.filterResult).split('/');
       let urlReset = urlResetAll[2].split('-')[0];
+      console.log(101010,urlResetAll,urlReset);
+      
       if(keyword){
         delete this.$route.query.w
       }
@@ -605,6 +622,8 @@ export default {
     _nomalLizePinyin(data) {
       let len = data.length
       let obj = {}
+      console.log(data);
+      
       data.sort((a, b) => {
         return a.key.charCodeAt(0) - b.key.charCodeAt(0)
       })
