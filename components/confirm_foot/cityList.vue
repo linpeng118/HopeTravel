@@ -140,7 +140,7 @@ export default {
   .filter-content{
     position: absolute;
     top: 0;
-    bottom: 1.173333rem;
+    bottom: 0;
     left: 0;
     right: 0;
     background-color: #fff;

@@ -139,7 +139,7 @@
   </div>
 </template>
 
- <script>
+<script>
 import {DLG_TYPE} from '@/assets/js/consts/dialog'
 import HotPlace from '@/components/hot_place/index.vue'
 import SnapUpItem from '@/components/items/snapUpItem'
@@ -249,13 +249,7 @@ export default {
     let u = navigator.userAgent
     let or = window.location.origin
     this.downUrl = `${apiConfig.base}/api/tour/v1/download`
-    // this.downUrl = or + '/api/tour/v1/download'
-    // if (u.indexOf('iPhone') > -1) {
-    //   this.downUrl = 'https://itunes.apple.com/cn/app/稀饭旅行/id1449120712?mt=8'
-    // } else {
-    //   this.downUrl = 'https://api.tourscool.com/api/tour/v1/download'
-    // }
-    // this.isAndroid = process.client ? !!window.cordova: ''
+    
   },
   beforeDestroy() {
     this.$refs.refHomePage.removeEventListener('scroll', this.scrollFn)
@@ -326,13 +320,7 @@ export default {
           productId: item,
         },
       })
-      // let routeData = this.$router.push({
-      //   name: 'product-detail',
-      //   query: {
-      //     productId: item
-      //   }
-      // });
-      // window.open(routeData.href, '_blank')
+      
     },
     // 目的地跳转列表
     selectDetail(query) {
@@ -347,10 +335,7 @@ export default {
       this.hotList = this.indexData[1].data.slice(0, 8)
       this.timeSalesList = this.indexData[2].data
       this.navList = this.indexData[3].data
-      // let {banner,hot, special} = data
-      // this.bannerList = banner
-      // this.hotList = hot.data[0].destination.slice(0,8)
-      // this.timeSalesList = special.data
+     
     },
     async onLoad() {
       console.log('onload')

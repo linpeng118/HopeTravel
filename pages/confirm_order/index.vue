@@ -181,7 +181,7 @@
             :placeholder="$t('confirmPage.enterConName')" />
           <div
             class="van-cell van-cell--required van-field">
-            <div class="van-cell__title">
+            <div class="van-cell__title van-field__label">
               <span>{{$t('phoneNumberCode')}}</span>
             </div>
             <div class="van-cell__value">
@@ -249,7 +249,7 @@
               class="settopicon" />
           </p>
         </div>
-        <van-actionsheet v-model="showcheckCou"
+        <van-action-sheet v-model="showcheckCou"
           :title="$t('coupons')"
           class="service-note">
           <van-radio-group v-model="setcou"
@@ -263,7 +263,7 @@
               v-for="(item,index) in couponDetails"
               :key="index">
               <div class="cupleft">
-                <p class="p1">{{item.minus_label}}</p>
+                <p class="p1">ffd{{item.minus_label}}</p>
                 <p class="p2">{{item.full_label}}</p>
               </div>
               <div class="cupcon">
@@ -276,7 +276,7 @@
               </div>
             </div>
           </van-radio-group>
-        </van-actionsheet>
+        </van-action-sheet>
       </section>
       <!--预定留言-->
       <section>
