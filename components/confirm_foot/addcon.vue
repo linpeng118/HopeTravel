@@ -35,7 +35,7 @@
         @click-icon="$toast($t('selectTravlerPage.mustWithIdFit'))"
       />
       <div class="van-cell van-field" @click="shownationality=true">
-        <div class="van-cell__title">
+        <div class="van-cell__title van-field__label">
           <span>{{$t('selectTravlerPage.nationality')}}</span>
         </div>
         <div class="van-cell__value"><span>{{userform.nationality!=''?userform.nationality: $t('pleaseChoose')}}</span></div>
@@ -45,7 +45,7 @@
       </div>
       <p class="connet-title">{{$t('else')}}</p>
       <div class="van-cell van-field" @click="showdate=true"><!---->
-        <div class="van-cell__title"><span>{{$t('selectTravlerPage.dateOfBirth')}}</span><!----></div>
+        <div class="van-cell__title  van-field__label"><span>{{$t('selectTravlerPage.dateOfBirth')}}</span><!----></div>
         <div class="van-cell__value"><span>{{!userform.dob?$t('selectTravlerPage.selectDate'):userform.dob}}</span></div>
         <i class="van-icon van-icon-arrow van-cell__right-icon"></i>
       </div>
@@ -299,7 +299,6 @@
     text-align: right;
   }
   .new-connect .van-cell .van-cell__title{
-    width:18%!important;
     padding-right: 30px;
     box-sizing: border-box!important;
   }
