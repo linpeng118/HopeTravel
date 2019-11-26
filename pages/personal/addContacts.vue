@@ -192,6 +192,7 @@
       console.log(from)
       next(vm=>{
         vm.pushpath=from.path;
+
         next();
       })
     },
@@ -258,12 +259,15 @@
           this.userform.phone=this.userform.phone_country+'-'+this.userform.phonex;
           let {data, code, msg} = await setcontanct(this.userform,this.queryid)
           if (code === 0) {
+            console.log(data,msg);
+            
             this.$router.replace({
               path:this.pushpath,
               query:{
                 checker:this.$route.query.checker||[],
                 adult:this.adult||null,
-                isLogin:this.$route.query.isLogin||null
+                isLogin:this.$route.query.isLogin||null,
+                type: this.$route.query.type || '',
               }
             })
           }
@@ -277,13 +281,14 @@
           this.userform.phone=this.userform.phone_country+'-'+this.userform.phonex;
           let {data, code, msg} = await addcontanct(this.userform);
           if (code === 0) {
-            console.log(data)
+            console.log(data,this.$route.query)
             this.$router.replace({
               path:this.pushpath,
               query:{
                 checker:this.$route.query.checker||[],
                 adult:this.$route.query.adult||null,
-                isLogin:this.$route.query.isLogin||null
+                isLogin:this.$route.query.isLogin||null,
+                 type: this.$route.query.type || '',
               }
             })
           }
