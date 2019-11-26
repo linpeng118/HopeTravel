@@ -86,19 +86,19 @@
       </div>
     </van-popup>
     <!--排序条件搜索-->
-    <div class="sort-box" v-if="sortShow">
+    <div class="sort-box-se" v-if="sortShow" @click="sortShow=false">
       <sort-item :sortShow="sortShow" :sortResult="sortResult" @selectSort="selectSortItem" @close="sortShow = false"></sort-item>
     </div>
     <!--类别条件搜索-->
-    <div class="sort-box" v-if="typeShow">
+    <div class="sort-box-se" v-if="typeShow">
       <play-item :dayShow="typeShow" :checkitem="checktype" @selectSort="selectTypeItem" @close="typeShow = false"></play-item>
     </div>
     <!--行程天数搜索-->
-    <div class="sort-box" v-if="dayShow && (filterLists.duration && filterLists.duration.total)">
+    <div class="sort-box-se" v-if="dayShow && (filterLists.duration && filterLists.duration.total)">
       <day-item :dayShow="dayShow" :checkitem="filterResult.duration" :dayResult="filterLists.duration" @selectSort="selectDayItem" @close="dayShow = false" @deleteDay="deleteDaySelect"></day-item>
     </div>
     <!--航线搜索-->
-    <div class="sort-box" v-if="routerShow && (filterLists.lines && filterLists.lines.total)">
+    <div class="sort-box-se" v-if="routerShow && (filterLists.lines && filterLists.lines.total)">
       <router-item :dayShow="routerShow" :checkitem="Number(checkrouter)" :dayResult="filterLists.lines" @selectSort="selectRouterItem" @close="routerShow= false"></router-item>
     </div>
     <!--更多列表的选择-->
@@ -127,17 +127,23 @@ import {LIST_PARAMS} from '@/assets/js/config'
 import Loading from '@/components/loading'
 
 export default {
-   async asyncData({params, query, $axios, store}){
+   async asyncData({params, query, $axios, store,redirect}){
       // 路由进来则会请求数据
       // tj 途径景点；cf 出发城市; js 结束城市; sj 行程天数；jg 价格预算；page 为当前的页数
       // cf29-tj143_131-js32
       // yg 当地跟团 type 1；yw 当地玩乐 type 2；yj稀饭自营 type 3 ；yl 游轮 type 7；ym 门票演出 4; yr 一日游 5
     let {category,search = ''} = params
     let {page = 1, sem = '0', w = null} = query
-
+    console.log(11111,params,query);
+    if(search.indexOf('y')==-1){
+      let urlNeu = '/'+category+'/ya'
+      redirect(urlNeu) 
+    }
     let getSearch = {}
      if(search){
        getSearch = getParams(search)
+       console.log(2222,getSearch);
+       
      }
     getSearch.category = category
     let active = 0
@@ -178,19 +184,6 @@ export default {
     dayItem,
     Loading
   },
-  /* head() {
-    let srcCustomerService
-    if (process.env.customerService === "53kf") {
-      srcCustomerService = 'https://tb.53kf.com/code/code/10181581/2'
-    }
-    return {
-      script: [
-        {
-          src: srcCustomerService
-        },
-      ]
-    }
-  }, */
   data() {
     return {
       // searchKeyWords: this.$route.query. || null,
@@ -249,7 +242,6 @@ export default {
     }
   },
   created() {
-    console.log('進來了',this.filterResult)
     this.sortTypes = [
       {id:1, order: '', order_by: '', name: this.$t('productListPage.sortDefault')},
       {id:2, order: 'asc', order_by: 'price', name: this.$t('productListPage.sortPriceLowToHigh')},
@@ -264,8 +256,21 @@ export default {
       {id:6,type: 7,title: this.$t('tours.cruise')},
     ];
   },
+  mounted() {
+    window.addEventListener('scroll', this.scrollFn)
+  },
+  destroyed() {
+    // 移除监听
+    window.removeEventListener('scroll', this.scrollFn)
+  },
   methods:{
-    
+    // 滚动监听
+    scrollFn(){
+      this.sortShow = false
+      this.typeShow = false
+      this.dayShow = false
+      this.routerShow = false
+    },
     // 返回上一级
     leftClick() {
       if(this.searchType > 0) {
@@ -346,7 +351,9 @@ export default {
         if(data.tag) {
           delete data.tag
         }
-        this.filterLists = data;
+        this.filterLists = data;   
+        console.log(this.filterLists);
+        
       }
     },
     // 条件查询选择
@@ -404,6 +411,8 @@ export default {
     showMoreFilter(key, item) {
       let filterName = this.$refs['filter' + key][0].className
       let name = this.$refs['tags' + key][0].className
+      console.log(filterName,name);
+      
       if(item.items.length > 15) {
         let _obj = this._nomalLizePinyin(item.pinyin)
         this.showList = true
@@ -418,6 +427,8 @@ export default {
         this.$refs['tags' + key][0].className = name.indexOf('all') >= 0 ? 'filter-tags': 'filter-tags all'
         this.$refs['filter' + key][0].className = filterName.indexOf('down')>= 0 ? 'van-icon van-icon-arrow': 'van-icon van-icon-arrow-down'
       }
+      console.log(key, item);
+      
     },
     againSearch(){
       // this.prodPagination = {}
@@ -524,19 +535,35 @@ export default {
     },
     sortChange(){
       this.sortShow = !this.sortShow
+      this.typeShow = false
+      this.dayShow = false
+      this.routerShow = false
     },
     typeChange(){
       this.typeShow = !this.typeShow
+      this.sortShow = false
+      this.dayShow = false
+      this.routerShow = false
     },
     routerChange(){
       this.routerShow = !this.routerShow
+      this.sortShow = false
+      this.dayShow = false
+      this.typeShow = false
     },
     dayChange(){
       this.dayShow = !this.dayShow
+      this.sortShow = false
+      this.typeShow = false
+      this.routerShow = false
     },
     // 筛选条件
     filterSelect () {
       this.showFilter = !this.showFilter
+      this.sortShow = false
+      this.dayShow = false
+      this.typeShow = false
+      this.routerShow = false
       // this.showcolor = 'filter'
     },
     selectProductDetail(productId){
@@ -569,7 +596,10 @@ export default {
     },
     // 数据变化引起导航变化
     changeRouter(keyword){
+      console.log(8888888,this.filterResult);
+      
       let _url = changeParams(this.filterResult).split('/');
+      console.log(999999,_url);
       
       if(keyword){
         delete this.$route.query.w
@@ -589,6 +619,8 @@ export default {
     changeRouterReset(keyword){
       let  urlResetAll = changeParams(this.filterResult).split('/');
       let urlReset = urlResetAll[2].split('-')[0];
+      console.log(101010,urlResetAll,urlReset);
+      
       if(keyword){
         delete this.$route.query.w
       }
@@ -605,6 +637,8 @@ export default {
     _nomalLizePinyin(data) {
       let len = data.length
       let obj = {}
+      console.log(data);
+      
       data.sort((a, b) => {
         return a.key.charCodeAt(0) - b.key.charCodeAt(0)
       })
@@ -629,8 +663,8 @@ export default {
 </script>
 <style type="text/scss" lang="scss" scoped>
   .list-wrap{
-    padding-top:88px;
     .filter-box{
+      margin-top: 176px;
       height: 88px;
       padding:26px 32px;
       display: flex;
@@ -651,6 +685,13 @@ export default {
         }
       }
     }
+  }
+  .sort-box-se{
+    position: absolute;
+    width: 100%;
+    top:264px;
+    height: 100%;
+    background:rgba(0,0,0,.45);
   }
   .filter-select{
     &.van-popup--right{
@@ -751,8 +792,7 @@ export default {
         color: #fff;
       }
     }
-    .show-list{
-    }
+   
     .filter-main-box{
       width: 100px;
       height: 100%;
@@ -762,6 +802,7 @@ export default {
 </style>
 <style type="text/scss" lang="scss">
   .product-list-page{
+
     .list-wrap{
       .tabs-box{
         .van-tabs__line{
@@ -785,9 +826,6 @@ export default {
       .van-cell__value{
         color: #399EF6;
       }
-    }
-    .van-overlay{
-      /*top: 254px !important;*/
     }
     .drift-wrap .van-overlay{
       top: 0 !important;

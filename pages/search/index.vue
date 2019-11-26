@@ -30,15 +30,15 @@
       </div>
       <div :class="historyList.length ? 'search-content-w' : ''">
         <!--左边侧边栏-->
-        <van-badge-group :active-key="activeKey"
+        <van-sidebar :active-key="activeKey"
                          @change="onChange"
                          class="badge-bar"
                          :class="historyList.length ? 'has-history' : ''"
                          ref="badgeBar">
-          <van-badge v-for="(area,index) in areaList"
+          <van-sidebar-item v-for="(area,index) in areaList"
                      :key="index"
                      :title="area" />
-        </van-badge-group>
+        </van-sidebar>
         <!--热门推荐的内容 默认显示热门推荐-->
         <recommend :data="recommendObj"
                    :titleList="recommendObj.subTitle"
@@ -425,7 +425,7 @@ export default {
   .search-content-w {
     padding-top: 124px;
   }
-  .van-badge {
+  .van-sidebar-item {
     padding: 32px 0;
     font-size: 28px;
     background-color: transparent;
@@ -433,7 +433,7 @@ export default {
     line-height: 36px;
     border: none;
   }
-  .van-badge--select {
+  .van-sidebar-item--select {
     background-color: #fff;
   }
   .search-main {
@@ -510,10 +510,10 @@ export default {
 }
 </style>
 <style>
-.search-wrap .van-badge__text {
+.search-wrap .van-sidebar-item__text {
   padding-left: 32px;
 }
-.search-wrap .van-badge--select .van-badge__text {
+.search-wrap .van-sidebar-item--select .van-sidebar-item__text {
   border-left: 6px solid #399ef6;
 }
 </style>

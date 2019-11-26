@@ -4,7 +4,7 @@
       <van-radio-group v-model="sortResult.id">
         <van-cell-group>
           <van-cell v-for="item in sortTypes" :key="item.id" :title="item.name" :class="sortResult.id === item.id ? 'active' : ''" clickable
-                    @click="selectSortItem(item)">
+                    @click.stop="selectSortItem(item)">
             <van-icon slot="right-icon" name="success" class="custom-icon" v-if="sortResult.id === item.id" />
           </van-cell>
         </van-cell-group>
@@ -46,10 +46,6 @@ export default {
 <style type="text/scss" lang="scss" scoped>
   .sort-box{
     width: 100%;
-    position: fixed;
-    top:264px;
-    bottom: 0;
-    background:rgba(0,0,0,.45);
     font-size:28px;
     .active{
       color: #EF9A1A;
