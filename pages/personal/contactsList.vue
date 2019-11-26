@@ -20,7 +20,7 @@
     </van-nav-bar>
     
     <div class="btnbox">
-      <nuxt-link class="changeuser-btn" tag="button" :to="{path:'/personal/addContacts',query:{'adult':$route.query.adult,'isLogin':$route.query.isLogin}}">
+      <nuxt-link class="changeuser-btn" tag="button" :to="{path:'/personal/addContacts',query:{'adult':$route.query.adult,'isLogin':$route.query.isLogin,'type':'list'}}">
         <van-icon name="plus" color="#1989fa;"/>&nbsp;<span class="add-word">{{$t('selectTravlerPage.addTravler')}}</span>
       </nuxt-link>
     </div>
@@ -71,7 +71,7 @@
                <i style="color: red">{{$t('personalPage.addIncompleteInfo')}}</i>
             </template>
         </span>
-        <nuxt-link :to="{path:'/personal/addContacts',query:{'id':item.customer_contract_id,'isLogin':$route.query.isLogin}}">
+        <nuxt-link :to="{path:'/personal/addContacts',query:{'id':item.customer_contract_id,'isLogin':$route.query.isLogin,'type':'list'}}">
           <b class="bicon"><van-icon name="edit" color="#399EF6;"/></b>
         </nuxt-link>
       </li>
@@ -192,7 +192,9 @@
   }
 
   .objitembox{
-    padding:  50px
+    padding:  50px;
+    height: 1000px;
+    overflow-y: auto;
   ;
   }
 

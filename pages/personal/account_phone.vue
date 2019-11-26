@@ -2,7 +2,7 @@
   <div>
     <van-nav-bar :title="$t('validatePhone')" left-arrow @click-left="onClickLeft"/>
     <div class="van-cell van-field">
-      <div class="van-cell__title">
+      <div class="van-cell__title van-field__label">
         <span @click="showsel=true" > {{areaCode}} <van-icon name="arrow"/></span>
       </div>
       <div class="van-cell__value">
