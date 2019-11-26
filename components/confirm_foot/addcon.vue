@@ -44,21 +44,20 @@
 
       </div>
       <p class="connet-title">{{$t('else')}}</p>
-      <div class="van-cell van-field" @click="showdate=true"><!---->
+      <div class="van-cell van-field" @click="showdate=true">
         <div class="van-cell__title  van-field__label"><span>{{$t('selectTravlerPage.dateOfBirth')}}</span><!----></div>
         <div class="van-cell__value"><span>{{!userform.dob?$t('selectTravlerPage.selectDate'):userform.dob}}</span></div>
         <i class="van-icon van-icon-arrow van-cell__right-icon"></i>
       </div>
-      <van-row class="setcheckbox">
-        <van-col span="5" style="text-align: right">{{$t('sex')}}</van-col>
-        <van-col span="3" style="text-align: right">&nbsp;</van-col>
-        <van-col span="16">
+      <div class="van-cell van-field">
+        <div class="van-cell__title  van-field__label"><span>{{$t('sex')}}</span></div>
+        <div class="van-cell__value">
           <van-radio-group v-model="userform.gender" style="position: relative;">
             <van-radio style="width: 30%;float: left" name="f">{{$t('woman')}}</van-radio>
             <van-radio style="width: 30%" name="m">{{$t('man')}}</van-radio>
           </van-radio-group>
-        </van-col>
-      </van-row>
+        </div>
+      </div>
     </div>
     <van-popup v-model="shownationality" position="right" style="width:100%;height: 100%;">
       <city-list :pageparent="'/personal/addContacts'"
@@ -341,10 +340,6 @@
    box-shadow:0px 4px 12px rgba(0,0,0,0.14);
    border-bottom:1px solid rgb(238, 238, 238);
    transition: all 0.5s;
-   .left-wrap {
-     /*color: #404040;*/
-     /*font-size: 32px;*/
-   }
    .right-wrap {
      .search {
        width:92px;
