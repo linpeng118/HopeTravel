@@ -256,8 +256,7 @@
             @change="setcouponx()">
             <div class="setcheck">
               <span>{{$t('confirmPage.yetNotSelCop')}}</span>
-              <van-radio name="null"
-                style="width: 30%;float: right;display: inline-block"> </van-radio>
+              <van-radio name="null"> </van-radio>
             </div>
             <div class="cup-item"
               v-for="(item,index) in couponDetails"
@@ -670,11 +669,10 @@
       },
       setcouponx: function (x) {
         let this_ = this;
-        if (this_.setcou === 'null') {
+        if (this_.setcou === 'null' || this_.setcou === '') {
           this_.showsetcou = '';
           this_.$store.commit("countprice", {coupon_cus_id: ''});
-        }
-        else {
+        } else {
           this_.showsetcou = this_.couponDetails[this_.setcou].title;
           this_.$store.commit("countprice", {coupon_cus_id: this_.couponDetails[this_.setcou].coupon_customer_id});
         }
@@ -738,8 +736,12 @@
     bottom: 165px;
   }
   .setcheck {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
     span {
       font-size: 24px;
+      flex: 1;
     }
     div {
       width: 120px;
