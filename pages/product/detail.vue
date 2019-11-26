@@ -454,7 +454,7 @@
 
       </div>
       <!-- 服务说明 -->
-      <van-actionsheet v-model="showServiceNode"
+      <<van-action-sheet v-model="showServiceNode"
                        :title="$t('productDetailPage.serviceDescription')"
                        class="service-note">
         <div class="servive-item mt-50"
@@ -466,9 +466,9 @@
           </h3>
           <p class="desc">{{item.content}}</p>
         </div>
-      </van-actionsheet>
+      </van-action-sheet>
       <!-- 优惠卷展开 -->
-      <van-actionsheet v-model="showServiceCop"
+      <<van-action-sheet v-model="showServiceCop"
                        :title="$t('coupons')"
                        class="service-note">
         <p class="cup-class">{{$t('productDetailPage.availableCoupons')}}</p>
@@ -492,9 +492,9 @@
                   v-if="item.is_received === true && item.is_receivable === false">{{$t('productDetailPage.haveReceive')}}</span>
           </div>
         </div>
-      </van-actionsheet>
+      </van-action-sheet>
       <!-- 恢复预定通知 -->
-      <van-actionsheet v-model="showSoldOut"
+      <<van-action-sheet v-model="showSoldOut"
                        title=" "
                        class="sold-out">
         <div class="sold-out-content">
@@ -513,7 +513,7 @@
                         @click="btnOrder">{{$t('submit')}}</van-button>
           </div>
         </div>
-      </van-actionsheet>
+      </van-action-sheet>
     </div>
     <!-- 加载态 -->
     <loading v-if="loading"></loading>

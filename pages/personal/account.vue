@@ -321,8 +321,9 @@ export default {
       flex: 0 0 1;
       .man,
       .woman {
-        display: inline-block;
+        float: left;
         font-size: 20px;
+        width: 120px;
       }
     }
   }

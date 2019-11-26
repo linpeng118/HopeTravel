@@ -86,19 +86,19 @@
       </div>
     </van-popup>
     <!--排序条件搜索-->
-    <div class="sort-box" v-if="sortShow">
+    <div class="sort-box-se" v-if="sortShow" @click="sortShow=false">
       <sort-item :sortShow="sortShow" :sortResult="sortResult" @selectSort="selectSortItem" @close="sortShow = false"></sort-item>
     </div>
     <!--类别条件搜索-->
-    <div class="sort-box" v-if="typeShow">
+    <div class="sort-box-se" v-if="typeShow">
       <play-item :dayShow="typeShow" :checkitem="checktype" @selectSort="selectTypeItem" @close="typeShow = false"></play-item>
     </div>
     <!--行程天数搜索-->
-    <div class="sort-box" v-if="dayShow && (filterLists.duration && filterLists.duration.total)">
+    <div class="sort-box-se" v-if="dayShow && (filterLists.duration && filterLists.duration.total)">
       <day-item :dayShow="dayShow" :checkitem="filterResult.duration" :dayResult="filterLists.duration" @selectSort="selectDayItem" @close="dayShow = false" @deleteDay="deleteDaySelect"></day-item>
     </div>
     <!--航线搜索-->
-    <div class="sort-box" v-if="routerShow && (filterLists.lines && filterLists.lines.total)">
+    <div class="sort-box-se" v-if="routerShow && (filterLists.lines && filterLists.lines.total)">
       <router-item :dayShow="routerShow" :checkitem="Number(checkrouter)" :dayResult="filterLists.lines" @selectSort="selectRouterItem" @close="routerShow= false"></router-item>
     </div>
     <!--更多列表的选择-->
@@ -184,19 +184,6 @@ export default {
     dayItem,
     Loading
   },
-  /* head() {
-    let srcCustomerService
-    if (process.env.customerService === "53kf") {
-      srcCustomerService = 'https://tb.53kf.com/code/code/10181581/2'
-    }
-    return {
-      script: [
-        {
-          src: srcCustomerService
-        },
-      ]
-    }
-  }, */
   data() {
     return {
       // searchKeyWords: this.$route.query. || null,
@@ -255,7 +242,6 @@ export default {
     }
   },
   created() {
-    console.log('進來了',this.filterResult)
     this.sortTypes = [
       {id:1, order: '', order_by: '', name: this.$t('productListPage.sortDefault')},
       {id:2, order: 'asc', order_by: 'price', name: this.$t('productListPage.sortPriceLowToHigh')},
@@ -270,8 +256,21 @@ export default {
       {id:6,type: 7,title: this.$t('tours.cruise')},
     ];
   },
+  mounted() {
+    window.addEventListener('scroll', this.scrollFn)
+  },
+  destroyed() {
+    // 移除监听
+    window.removeEventListener('scroll', this.scrollFn)
+  },
   methods:{
-    
+    // 滚动监听
+    scrollFn(){
+      this.sortShow = false
+      this.typeShow = false
+      this.dayShow = false
+      this.routerShow = false
+    },
     // 返回上一级
     leftClick() {
       if(this.searchType > 0) {
@@ -536,19 +535,35 @@ export default {
     },
     sortChange(){
       this.sortShow = !this.sortShow
+      this.typeShow = false
+      this.dayShow = false
+      this.routerShow = false
     },
     typeChange(){
       this.typeShow = !this.typeShow
+      this.sortShow = false
+      this.dayShow = false
+      this.routerShow = false
     },
     routerChange(){
       this.routerShow = !this.routerShow
+      this.sortShow = false
+      this.dayShow = false
+      this.typeShow = false
     },
     dayChange(){
       this.dayShow = !this.dayShow
+      this.sortShow = false
+      this.typeShow = false
+      this.routerShow = false
     },
     // 筛选条件
     filterSelect () {
       this.showFilter = !this.showFilter
+      this.sortShow = false
+      this.dayShow = false
+      this.typeShow = false
+      this.routerShow = false
       // this.showcolor = 'filter'
     },
     selectProductDetail(productId){
@@ -648,8 +663,8 @@ export default {
 </script>
 <style type="text/scss" lang="scss" scoped>
   .list-wrap{
-    padding-top:88px;
     .filter-box{
+      margin-top: 176px;
       height: 88px;
       padding:26px 32px;
       display: flex;
@@ -670,6 +685,13 @@ export default {
         }
       }
     }
+  }
+  .sort-box-se{
+    position: absolute;
+    width: 100%;
+    top:264px;
+    height: 100%;
+    background:rgba(0,0,0,.45);
   }
   .filter-select{
     &.van-popup--right{
@@ -770,8 +792,7 @@ export default {
         color: #fff;
       }
     }
-    .show-list{
-    }
+   
     .filter-main-box{
       width: 100px;
       height: 100%;
@@ -781,6 +802,7 @@ export default {
 </style>
 <style type="text/scss" lang="scss">
   .product-list-page{
+
     .list-wrap{
       .tabs-box{
         .van-tabs__line{
@@ -804,9 +826,6 @@ export default {
       .van-cell__value{
         color: #399EF6;
       }
-    }
-    .van-overlay{
-      /*top: 254px !important;*/
     }
     .drift-wrap .van-overlay{
       top: 0 !important;

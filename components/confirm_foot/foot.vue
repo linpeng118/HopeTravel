@@ -289,7 +289,7 @@
     height: 165px;
     background-color: #fff;
     position: fixed;
-    z-index: 1999;
+    z-index: 3000;
     box-sizing: border-box;
     padding: 40px 32px;
     left: 0;
