@@ -102,6 +102,11 @@
 <style lang="scss" scoped>
   .normal-dialog-comp {
     border-radius: 12px;
+    width: 646px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     .btn-close {
       position: absolute;
       right: 16px;
