@@ -58,7 +58,11 @@
       </div>
       <!-- 热门景点-->
       <div class="hot-points">
-        <h2 class="title"><img src="../../assets/imgs/cityHome/hot_city_icon@2x.png">热门景点</h2>
+        <h2 class="title">
+          <img src="../../assets/imgs/cityHome/hot_city_icon@2x.png">
+          热门景点
+          <span class="all">查看全部</span>
+          </h2>
         <van-grid :border="false" :column-num="3">
           <van-grid-item v-for="value in 3" :key="value" >
             <img-box position="bottom"></img-box>
@@ -101,7 +105,7 @@
     </div>
     <!-- 热销推荐 -->
     <div class="pro-lst-box">
-      <h2 class="title">热销推荐</h2>
+      <h2 class="title">热销推荐<span class="all">查看全部</span></h2>
       <div class="mian-b">
         <van-list v-model="loadingHot" :finished="finishedHot" finished-text="没有更多了" @load="onLoad">
           <div class="half">
@@ -185,6 +189,12 @@ export default {
         height: 32px;
         vertical-align: middle;
         margin-right: 10px;
+      }
+      .all{
+        float: right;
+        font-size:24px;
+        font-weight:400;
+        color: #0099FF;
       }
     }
   }
@@ -305,6 +315,7 @@ export default {
     background: #fff;
     h2.title{
       padding-left: 30px;
+      padding-right: 30px;
     }
     .mian-b{
       padding:0 20px;
