@@ -505,7 +505,6 @@ export default {
         font-weight: bold;
         i {
           font-size: 60px;
-          vertical-align: middle;
         }
       }
     }
