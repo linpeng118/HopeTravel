@@ -291,6 +291,7 @@ export default {
           observer: true, //修改swiper自己或子元素时，自动初始化swiper
           observeParents: true //修改swiper的父元素时，自动初始化swiper
         },
+        falg: true
     }
   },
   async mounted(){
@@ -343,12 +344,16 @@ export default {
     },
     //到附近景点的详情
     totour(id){
-      this.$router.push({
+      let tourId = this.$route.query.tourId
+      if (id === tourId) {
+        return
+      }
+        this.$router.push({
           path: '/tour/detailNeu',
           query: {
             'tourId':id
           }
-        });
+        })
     },
   }
 }
