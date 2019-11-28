@@ -1,425 +1,410 @@
  <template>
-  <div class="home-wrap"
-       ref="refHomePage">
-    <!--头部-->
-    <div class="header">
-      <!--下载广告-->
-      <template v-if="!isAndroid">
-        <div class="down-box"
-             v-if="closeDown === 'no'"
-             ref="refDownBox">
-          <div class="left"
-               @click="changeCloseDown">
-            <van-icon name="close" />
-            <!--<span v-t="'homePage.downloadText'"></span>-->
-            <span>{{$t('homePage.downloadText')}}</span>
-          </div>
-          <div class="right">
-            <a :href="downUrl">{{$t('homePage.goDownload')}}</a>
-          </div>
-        </div>
-      </template>
-      <!--搜索-->
-      <div class="search-box"
-           ref="searchBox">
-        <nuxt-link tag="div"
-                   class="left"
-                   to="/search"
-                   id="searchLeft">
-          <van-icon name="search" />
-          <span>{{$t('homePage.desKeywords')}}</span>
-        </nuxt-link>
-        <div @click.stop="showcall"
-             class="right">
-          <van-icon name="phone-circle-o" />
-        </div>
-      </div>
-    </div>
-    <!--banner-->
-    <div class="banner">
-      <van-swipe indicator-color="white">
-        <van-swipe-item v-for="banner in bannerList"
-                        :key="banner.image_url">
-          <a class="img"
-             :href="banner.link_url">
-            <img :src="banner.image_url" />
-          </a>
-        </van-swipe-item>
-      </van-swipe>
-    </div>
-    <!--标签-->
-    <div v-swiper:mySwiper="navSwiperOption"
-         class="entry-block">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide"
-             v-for="navItem in navList"
-             :key="navItem.title">
-          <nuxt-link class="entry-tourism"
-                     :to="navItem.link_url">
-            <img :src="navItem.image_url"
-                 alt="">
-            <p class="title">{{navItem.title}}</p>
-          </nuxt-link>
-        </div>
-      </div>
-      <!-- 操作 -->
-      <div class="swiper-pagination"></div>
-    </div>
-    <!--新增行程攻略列表-->
-    <div class="newnav">
-      <nuxt-link tag="div"
-                 to="/product_list/product-save">
-        <p class="p1">{{$t('savetime')}}</p>
-        <p class="p2">{{$t('savecon')}}</p>
-      </nuxt-link>
-      <nuxt-link tag="div"
-                 to="/article/list">
-        <p class="p1">{{$t('attack')}}</p>
-        <p class="p2">{{$t('attackcon')}}</p>
-      </nuxt-link>
-    </div>
-    <!--热门目的地-->
-    <div class="hot-target">
-      <div class="title">
-        <div class="name">{{$t('homePage.hotDes')}}</div>
-        <nuxt-link tag="div"
-                   class="link-all"
-                   to="/search">
-          {{$t('seeAll')}}
-          <van-icon name="arrow" />
-        </nuxt-link>
-      </div>
-      <hot-place :lists="hotList"
-                 @selectDetail="selectDetail"></hot-place>
-    </div>
-    <!--限时抢购-->
-    <div class="sale-time-box"
-         v-if="timeSalesList.length">
-      <h1 class="title">{{$t('homePage.timedSpecials')}}</h1>
-      <div v-swiper:mySwiper1="viewedSwiperOption">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide"
-               v-for="(sales,index) in timeSalesList"
-               :key="sales.product_id + index">
-            <snap-up-item :proData="sales"
-                          :isCollect="false"
-                          :isShowTime="true"
-                          @selectDetail="selectItem">
-              <div class="count-down"
-                   v-html="sales.time"></div>
-            </snap-up-item>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--精选商品-->
-    <div class="product-list">
-      <h1 class="title">{{$t('homePage.siftProduct')}}</h1>
-      <van-list class="half"
-                v-model="prodLoading"
-                :prodFinished="prodFinished"
-                :finished-text="$t('noMore')"
-                @load="onLoad">
-        <van-cell class="half-item"
-                  tagPos="bottom"
-                  v-for="product in productList"
-                  :key="product.desc">
-          <hot-item :isShowTitle="false"
-                    :proData="product"
-                    @selectItem="selectItem" />
-        </van-cell>
-      </van-list>
-    </div>
-    <!-- 底部导航 -->
-    <Tabbar :Index="0"></Tabbar>
-    <!--悬浮-->
-    <drift-aside ref="driftAside"
-                 :isHome="true"
-                 @backTop="backTop"></drift-aside>
-  </div>
-</template>
+     <div class="home-wrap" ref="refHomePage">
+         <!--头部-->
+         <div class="header">
+             <!--下载广告-->
+             <template v-if="!isAndroid">
+                 <div class="down-box" v-if="closeDown === 'no'" ref="refDownBox">
+                     <div class="left" @click="changeCloseDown">
+                         <van-icon name="close" />
+                         <!--<span v-t="'homePage.downloadText'"></span>-->
+                         <span>{{$t('homePage.downloadText')}}</span>
+                     </div>
+                     <div class="right">
+                         <a :href="downUrl">{{$t('homePage.goDownload')}}</a>
+                     </div>
+                 </div>
+             </template>
+             <!--搜索-->
+             <div class="search-box" ref="searchBox">
+                 <nuxt-link tag="div" class="left" to="/search" id="searchLeft">
+                     <van-icon name="search" />
+                     <span>{{$t('homePage.desKeywords')}}</span>
+                 </nuxt-link>
+                 <div @click.stop="showcall" data-agl-cvt="2" class="right">
+                     <van-icon name="phone-circle-o" />
+                 </div>
+             </div>
+         </div>
+         <!--banner-->
+         <div class="banner">
+             <van-swipe indicator-color="white">
+                 <van-swipe-item v-for="banner in bannerList" :key="banner.image_url">
+                     <a class="img" :href="banner.link_url">
+                         <img :src="banner.image_url" />
+                     </a>
+                 </van-swipe-item>
+             </van-swipe>
+         </div>
+         <!--标签-->
+         <div v-swiper:mySwiper="navSwiperOption" class="entry-block">
+             <div class="swiper-wrapper">
+                 <div class="swiper-slide" v-for="navItem in navList" :key="navItem.title">
+                     <nuxt-link class="entry-tourism" :to="navItem.link_url">
+                         <img :src="navItem.image_url" alt="">
+                         <p class="title">{{navItem.title}}</p>
+                     </nuxt-link>
+                 </div>
+             </div>
+             <!-- 操作 -->
+             <div class="swiper-pagination"></div>
+         </div>
+         <!--新增行程攻略列表-->
+         <div class="newnav">
+             <nuxt-link tag="div" to="/product_list/product-save">
+                 <p class="p1">{{$t('savetime')}}</p>
+                 <p class="p2">{{$t('savecon')}}</p>
+             </nuxt-link>
+             <nuxt-link tag="div" to="/article/list">
+                 <p class="p1">{{$t('attack')}}</p>
+                 <p class="p2">{{$t('attackcon')}}</p>
+             </nuxt-link>
+         </div>
+         <!--热门目的地-->
+         <div class="hot-target">
+             <div class="title">
+                 <div class="name">{{$t('homePage.hotDes')}}</div>
+                 <nuxt-link tag="div" class="link-all" to="/search">
+                     {{$t('seeAll')}}
+                     <van-icon name="arrow" />
+                 </nuxt-link>
+             </div>
+             <hot-place :lists="hotList" @selectDetail="selectDetail"></hot-place>
+         </div>
+         <!--限时抢购-->
+         <div class="sale-time-box" v-if="timeSalesList.length">
+             <h1 class="title">{{$t('homePage.timedSpecials')}}</h1>
+             <div v-swiper:mySwiper1="viewedSwiperOption">
+                 <div class="swiper-wrapper">
+                     <div class="swiper-slide" v-for="(sales,index) in timeSalesList" :key="sales.product_id + index">
+                         <snap-up-item :proData="sales" :isCollect="false" :isShowTime="true" @selectDetail="selectItem">
+                             <div class="count-down" v-html="sales.time"></div>
+                         </snap-up-item>
+                     </div>
+                 </div>
+             </div>
+         </div>
+         <!--精选商品-->
+         <div class="product-list">
+             <h1 class="title">{{$t('homePage.siftProduct')}}</h1>
+             <van-list class="half" v-model="prodLoading" :prodFinished="prodFinished" :finished-text="$t('noMore')" @load="onLoad">
+                 <van-cell class="half-item" tagPos="bottom" v-for="product in productList" :key="product.desc">
+                     <hot-item :isShowTitle="false" :proData="product" @selectItem="selectItem" />
+                 </van-cell>
+             </van-list>
+         </div>
+         <!-- 底部导航 -->
+         <Tabbar :Index="0"></Tabbar>
+         <!--悬浮-->
+         <drift-aside ref="driftAside" :isHome="true" @backTop="backTop"></drift-aside>
+     </div>
+ </template>
 
-<script>
-import {DLG_TYPE} from '@/assets/js/consts/dialog'
-import HotPlace from '@/components/hot_place/index.vue'
-import SnapUpItem from '@/components/items/snapUpItem'
-import HotItem from '@/components/items/hotItem'
-import {getHomeData, getHomeHotList} from '@/api/home'
-import countDown from '@/components/count-down'
-import DriftAside from '@/components/drift_aside'
-import {throttle as _throttle} from 'lodash'
-import {setCookieByKey, getCookieByKey} from '@/assets/js/utils'
-import {mapGetters, mapMutations} from 'vuex'
-import {replaceServerUrl} from '@/assets/js/utils'
-import apiConfig from './../apiConf.env'
-import Tabbar from '@/components/tabbar'
-export default {
-  name: 'home',
-  components: {
-    HotPlace,
-    SnapUpItem,
-    HotItem,
-    countDown,
-    DriftAside,
-    Tabbar,
-  },
-  /* head() {
-           let srcCustomerService
-           if (process.env.customerService === "53kf") {
-             srcCustomerService = 'https://tb.53kf.com/code/code/10181581/2'
-           }
-           return {
-             script: [
-               {
-                 src: srcCustomerService
-               },
-             ]
-           }
-         }, */
-  async asyncData({$axios, store}) {
-    let indexData
-    console.log(store.getters.currency)
-    let {code, data} = await $axios.$get('/api/index/mobile', {
-      headers: {
-        Language: store.getters.language,
-        Currency: store.getters.currency,
-      },
-    })
-    if (code === 0) {
-      indexData = data
-    }
-    return {
-      indexData,
-    }
-  },
-  fetch({store}) {
-    store.commit('setLanguage', store.getters.language)
-  },
-  data() {
-    return {
-      //底部导航栏跳转索引
-      active: 0,
-      // closeDown: process.client ? getCookieByKey(DOWN_CLOSE) || 'no' : '',
-      productList: [],
-      // nav swiper配置
-      navSwiperOption: {
-        // slidesPerView: 'auto',
-        spaceBetween: 8,
-        slidesPerView: 5,
-        pagination: {
-          el: '.swiper-pagination',
-        },
-      },
-      // swiper配置
-      viewedSwiperOption: {
-        slidesPerView: 'auto',
-        slidesOffsetBefore: 16,
-        spaceBetween: 8,
-        on: {
-          slideChange() {
-            // console.log('onSlideChangeEnd', this);
-          },
-          tap() {
-            // console.log('onTap', this);
-          },
-        },
-      },
-      timeSalesList: [], // 限时特价
-      bannerList: [], // banner
-      navList: [], // 小图标
-      hotList: [], // 热门目的地
-      prodLoading: false,
-      prodFinished: false,
-      prodPagination: {},
-      isAndroid: this.$route.query.platform,
-      // isAndroid: process.client ? !!window.cordova : 'ww'
-    }
-  },
-  computed: {
-    ...mapGetters(['closeDown']),
-  },
-  async mounted() {
-    // document.getElementsByTagName('body')[0].className = 'show-kf'
-    console.log(this.$router)
-    this.getHomeInitData()
-    this.getTime()
-    // 监听滚动
-    this.$refs.refHomePage.addEventListener('scroll', this.scrollFn)
-    //
-    let u = navigator.userAgent
-    let or = window.location.origin
-    this.downUrl = `${apiConfig.base}/api/tour/v1/download`
-    
-  },
-  beforeDestroy() {
-    this.$refs.refHomePage.removeEventListener('scroll', this.scrollFn)
-  },
-  methods: {
-    // 电话咨询
-    showcall() {
-      console.log(1)
-      this.vxToggleDialog(true)
-      this.vxSetDlgType(DLG_TYPE.PHONE)
-    },
-    //在线咨询
-    contactCustom() {
-      /* onCustomerService() */
-      let url = replaceServerUrl()
-      window.open(url, '_self')
-    },
-    // 判断手机是安卓还是苹果
-    downUrl() {},
-    // 转化为两位数
-    numChangeT(n) {
-      return n < 10 ? '0' + n : '' + n
-    },
-    // 倒计时时间转化
-    timeToData(maxtime) {
-      let second = Math.floor(maxtime % 60) //计算秒
-      let minite = Math.floor((maxtime / 60) % 60) //计算分
-      let hour = Math.floor((maxtime / 3600) % 24) //计算小时
-      let day = Math.floor(maxtime / 3600 / 24) //计算天
-      return `<span>${this.numChangeT(day)}</span>天<span>${this.numChangeT(hour)}</span>时<span>${this.numChangeT(
+ <script>
+     import {
+         DLG_TYPE
+     } from '@/assets/js/consts/dialog'
+     import HotPlace from '@/components/hot_place/index.vue'
+     import SnapUpItem from '@/components/items/snapUpItem'
+     import HotItem from '@/components/items/hotItem'
+     import {
+         getHomeData,
+         getHomeHotList
+     } from '@/api/home'
+     import countDown from '@/components/count-down'
+     import DriftAside from '@/components/drift_aside'
+     import {
+         throttle as _throttle
+     } from 'lodash'
+     import {
+         setCookieByKey,
+         getCookieByKey
+     } from '@/assets/js/utils'
+     import {
+         mapGetters,
+         mapMutations
+     } from 'vuex'
+     import {
+         replaceServerUrl
+     } from '@/assets/js/utils'
+     import apiConfig from './../apiConf.env'
+     import Tabbar from '@/components/tabbar'
+     export default {
+         name: 'home',
+         components: {
+             HotPlace,
+             SnapUpItem,
+             HotItem,
+             countDown,
+             DriftAside,
+             Tabbar,
+         },
+         /* head() {
+                  let srcCustomerService
+                  if (process.env.customerService === "53kf") {
+                    srcCustomerService = 'https://tb.53kf.com/code/code/10181581/2'
+                  }
+                  return {
+                    script: [
+                      {
+                        src: srcCustomerService
+                      },
+                    ]
+                  }
+                }, */
+         async asyncData({
+             $axios,
+             store
+         }) {
+             let indexData
+             console.log(store.getters.currency)
+             let {
+                 code,
+                 data
+             } = await $axios.$get('/api/index/mobile', {
+                 headers: {
+                     Language: store.getters.language,
+                     Currency: store.getters.currency,
+                 },
+             })
+             if (code === 0) {
+                 indexData = data
+             }
+             return {
+                 indexData,
+             }
+         },
+         fetch({
+             store
+         }) {
+             store.commit('setLanguage', store.getters.language)
+         },
+         data() {
+             return {
+                 //底部导航栏跳转索引
+                 active: 0,
+                 // closeDown: process.client ? getCookieByKey(DOWN_CLOSE) || 'no' : '',
+                 productList: [],
+                 // nav swiper配置
+                 navSwiperOption: {
+                     // slidesPerView: 'auto',
+                     spaceBetween: 8,
+                     slidesPerView: 5,
+                     pagination: {
+                         el: '.swiper-pagination',
+                     },
+                 },
+                 // swiper配置
+                 viewedSwiperOption: {
+                     slidesPerView: 'auto',
+                     slidesOffsetBefore: 16,
+                     spaceBetween: 8,
+                     on: {
+                         slideChange() {
+                             // console.log('onSlideChangeEnd', this);
+                         },
+                         tap() {
+                             // console.log('onTap', this);
+                         },
+                     },
+                 },
+                 timeSalesList: [], // 限时特价
+                 bannerList: [], // banner
+                 navList: [], // 小图标
+                 hotList: [], // 热门目的地
+                 prodLoading: false,
+                 prodFinished: false,
+                 prodPagination: {},
+                 isAndroid: this.$route.query.platform,
+                 // isAndroid: process.client ? !!window.cordova : 'ww'
+             }
+         },
+         computed: {
+             ...mapGetters(['closeDown']),
+         },
+         async mounted() {
+             // document.getElementsByTagName('body')[0].className = 'show-kf'
+             console.log(this.$router)
+             this.getHomeInitData()
+             this.getTime()
+             // 监听滚动
+             this.$refs.refHomePage.addEventListener('scroll', this.scrollFn)
+             //
+             let u = navigator.userAgent
+             let or = window.location.origin
+             this.downUrl = `${apiConfig.base}/api/tour/v1/download`
+
+         },
+         beforeDestroy() {
+             this.$refs.refHomePage.removeEventListener('scroll', this.scrollFn)
+         },
+         methods: {
+             // 电话咨询
+             showcall() {
+                 console.log(1)
+                 this.vxToggleDialog(true)
+                 this.vxSetDlgType(DLG_TYPE.PHONE)
+             },
+             //在线咨询
+             contactCustom() {
+                 /* onCustomerService() */
+                 let url = replaceServerUrl()
+                 window.open(url, '_self')
+             },
+             // 判断手机是安卓还是苹果
+             downUrl() {},
+             // 转化为两位数
+             numChangeT(n) {
+                 return n < 10 ? '0' + n : '' + n
+             },
+             // 倒计时时间转化
+             timeToData(maxtime) {
+                 let second = Math.floor(maxtime % 60) //计算秒
+                 let minite = Math.floor((maxtime / 60) % 60) //计算分
+                 let hour = Math.floor((maxtime / 3600) % 24) //计算小时
+                 let day = Math.floor(maxtime / 3600 / 24) //计算天
+                 return `<span>${this.numChangeT(day)}</span>天<span>${this.numChangeT(hour)}</span>时<span>${this.numChangeT(
         minite,
       )}</span>分<span>${this.numChangeT(second)}</span>秒`
-      // return day+':'+this.numChangeT(hour)+':'+this.numChangeT(minite)+':'+this.numChangeT(second)
-    },
-    getTime() {
-      setInterval(() => {
-        this.timeSalesList.forEach(value => {
-          var time = this.timeToData(value.special_end_date)
-          if (typeof value.jishi == 'undefined') {
-            this.$set(value, 'time', time)
-          } else {
-            value.time = time
-          }
-          if (value.special_end_date) {
-            --value.special_end_date
-          } else {
-            value.special_end_date = 0
-          }
-        })
-      }, 1000)
-    },
-    // banner跳转
-    bannerLink(link) {
-      if (link.indexOf('?') < 0) {
-        window.location.href = link
-      } else {
-        let query = link.split('?')[1].replace('keyword', 'w')
-        this.$router.push({
-          path: `/product_list?${query}`,
-        })
-      }
-    },
-    // 跳转商品详情
-    selectItem(item) {
-      this.$router.push({
-        name: 'product-detail',
-        query: {
-          productId: item,
-        },
-      })
-      
-    },
-    // 目的地跳转列表
-    selectDetail(query) {
-      query.itemType = 0
-      this.$router.push({
-        name: 'product_list',
-        query,
-      })
-    },
-    getHomeInitData() {
-      this.bannerList = this.indexData[0].data
-      this.hotList = this.indexData[1].data.slice(0, 8)
-      this.timeSalesList = this.indexData[2].data
-      this.navList = this.indexData[3].data
-     
-    },
-    async onLoad() {
-      console.log('onload')
-      const submitData = {
-        page: (this.prodPagination.page || 0) + 1,
-      }
-      const res = await getHomeHotList(submitData)
-      if (res.code === 0) {
-        this.productList.push(...res.data)
-        this.prodPagination = res.pagination
-        // 加载状态结束
-        this.prodLoading = false
-        // 数据全部加载完成
-        if (!this.prodPagination.more) {
-          this.prodFinished = true
-        }
-      } else {
-        console.log(res.msg)
-        this.productList = []
-        this.prodPagination = {}
-        this.prodLoading = false
-        this.prodFinished = false
-      }
-    },
-    // 滚动
-    scrollFn() {
-      const s1 = this.$refs.refHomePage.scrollTop
-      let SCROLL = 300
-      const h1 = this.$refs.refDownBox && this.$refs.refDownBox.getBoundingClientRect().height
-      let homeHeight = this.$refs.refHomePage.getBoundingClientRect().height
-      // console.log(homeHeight)
-      if (s1 > homeHeight) {
-        this.$refs.driftAside.homeScrollShow()
-      } else {
-        this.$refs.driftAside.homeScrollHide()
-      }
-      setTimeout(() => {
-        if (s1 === 0) {
-          this.$refs.searchBox.style.backgroundColor = `transparent`
-          this.$refs.searchBox.style.color = `rgb(255,255,255)`
-          document.getElementById('searchLeft').style.backgroundColor = `rgba(255,255,255,0.8)`
-          document.getElementById('searchLeft').style.color = `#989898`
-          this.$refs.searchBox.style.position = 'inherit'
-          this.$refs.searchBox.style.top = 'auto'
-        } else {
-          let rate = s1 / SCROLL
-          this.$refs.searchBox.style.backgroundColor = `rgba(255,255,255,${rate})`
-          document.getElementById('searchLeft').style.backgroundColor = `rgba(200,200,200,${rate})`
-          document.getElementById('searchLeft').style.color = `rgba(152,152,152,${rate})`
-          this.$refs.searchBox.style.color = `rgba(152,152,152,${rate})`
+                 // return day+':'+this.numChangeT(hour)+':'+this.numChangeT(minite)+':'+this.numChangeT(second)
+             },
+             getTime() {
+                 setInterval(() => {
+                     this.timeSalesList.forEach(value => {
+                         var time = this.timeToData(value.special_end_date)
+                         if (typeof value.jishi == 'undefined') {
+                             this.$set(value, 'time', time)
+                         } else {
+                             value.time = time
+                         }
+                         if (value.special_end_date) {
+                             --value.special_end_date
+                         } else {
+                             value.special_end_date = 0
+                         }
+                     })
+                 }, 1000)
+             },
+             // banner跳转
+             bannerLink(link) {
+                 if (link.indexOf('?') < 0) {
+                     window.location.href = link
+                 } else {
+                     let query = link.split('?')[1].replace('keyword', 'w')
+                     this.$router.push({
+                         path: `/product_list?${query}`,
+                     })
+                 }
+             },
+             // 跳转商品详情
+             selectItem(item) {
+                 this.$router.push({
+                     name: 'product-detail',
+                     query: {
+                         productId: item,
+                     },
+                 })
 
-          if (s1 > h1 || !h1) {
-            this.$refs.searchBox.style.position = 'fixed'
-            this.$refs.searchBox.style.top = '0px'
-          }
-        }
-      }, 17)
-    },
-    // 返回顶部
-    backTop() {
-      let timer = setInterval(() => {
-        let speed = Math.floor(-this.$refs.refHomePage.scrollTop / 3)
-        this.$refs.refHomePage.scrollTop = this.$refs.refHomePage.scrollTop + speed
-        if (this.$refs.refHomePage.scrollTop === 0) {
-          clearInterval(timer)
-        }
-      }, 17)
-    },
-    // 关闭下载
-    changeCloseDown() {
-      this.setCloseDown('yes')
-    },
-    ...mapMutations(['setCloseDown']),
-    ...mapMutations({
-      vxSaveReservePro: 'product/saveReservePro',
-      vxToggleDialog: 'toggleDialog', // 是否显示弹窗
-      vxSetDlgType: 'setDlgType', // 设置弹窗类型
-    }),
-  },
-}
-</script>
+             },
+             // 目的地跳转列表
+             selectDetail(query) {
+                 query.itemType = 0
+                 this.$router.push({
+                     name: 'product_list',
+                     query,
+                 })
+             },
+             getHomeInitData() {
+                 this.bannerList = this.indexData[0].data
+                 this.hotList = this.indexData[1].data.slice(0, 8)
+                 this.timeSalesList = this.indexData[2].data
+                 this.navList = this.indexData[3].data
+
+             },
+             async onLoad() {
+                 console.log('onload')
+                 const submitData = {
+                     page: (this.prodPagination.page || 0) + 1,
+                 }
+                 const res = await getHomeHotList(submitData)
+                 if (res.code === 0) {
+                     this.productList.push(...res.data)
+                     this.prodPagination = res.pagination
+                     // 加载状态结束
+                     this.prodLoading = false
+                     // 数据全部加载完成
+                     if (!this.prodPagination.more) {
+                         this.prodFinished = true
+                     }
+                 } else {
+                     console.log(res.msg)
+                     this.productList = []
+                     this.prodPagination = {}
+                     this.prodLoading = false
+                     this.prodFinished = false
+                 }
+             },
+             // 滚动
+             scrollFn() {
+                 const s1 = this.$refs.refHomePage.scrollTop
+                 let SCROLL = 300
+                 const h1 = this.$refs.refDownBox && this.$refs.refDownBox.getBoundingClientRect().height
+                 let homeHeight = this.$refs.refHomePage.getBoundingClientRect().height
+                 // console.log(homeHeight)
+                 if (s1 > homeHeight) {
+                     this.$refs.driftAside.homeScrollShow()
+                 } else {
+                     this.$refs.driftAside.homeScrollHide()
+                 }
+                 setTimeout(() => {
+                     if (s1 === 0) {
+                         this.$refs.searchBox.style.backgroundColor = `transparent`
+                         this.$refs.searchBox.style.color = `rgb(255,255,255)`
+                         document.getElementById('searchLeft').style.backgroundColor = `rgba(255,255,255,0.8)`
+                         document.getElementById('searchLeft').style.color = `#989898`
+                         this.$refs.searchBox.style.position = 'inherit'
+                         this.$refs.searchBox.style.top = 'auto'
+                     } else {
+                         let rate = s1 / SCROLL
+                         this.$refs.searchBox.style.backgroundColor = `rgba(255,255,255,${rate})`
+                         document.getElementById('searchLeft').style.backgroundColor = `rgba(200,200,200,${rate})`
+                         document.getElementById('searchLeft').style.color = `rgba(152,152,152,${rate})`
+                         this.$refs.searchBox.style.color = `rgba(152,152,152,${rate})`
+
+                         if (s1 > h1 || !h1) {
+                             this.$refs.searchBox.style.position = 'fixed'
+                             this.$refs.searchBox.style.top = '0px'
+                         }
+                     }
+                 }, 17)
+             },
+             // 返回顶部
+             backTop() {
+                 let timer = setInterval(() => {
+                     let speed = Math.floor(-this.$refs.refHomePage.scrollTop / 3)
+                     this.$refs.refHomePage.scrollTop = this.$refs.refHomePage.scrollTop + speed
+                     if (this.$refs.refHomePage.scrollTop === 0) {
+                         clearInterval(timer)
+                     }
+                 }, 17)
+             },
+             // 关闭下载
+             changeCloseDown() {
+                 this.setCloseDown('yes')
+             },
+             ...mapMutations(['setCloseDown']),
+             ...mapMutations({
+                 vxSaveReservePro: 'product/saveReservePro',
+                 vxToggleDialog: 'toggleDialog', // 是否显示弹窗
+                 vxSetDlgType: 'setDlgType', // 设置弹窗类型
+             }),
+         },
+     }
+
+ </script>
 
  <style type="text/scss" lang="scss" scoped>
-.home-wrap {
+     .home-wrap {
   height: 100vh;
   position: relative;
   overflow-y: auto;
@@ -505,7 +490,6 @@ export default {
         font-weight: bold;
         i {
           font-size: 60px;
-          vertical-align: middle;
         }
       }
     }
@@ -661,20 +645,21 @@ export default {
 }
 </style>
  <style>
-.home-wrap .van-swipe__indicator--active {
-  width: 32px;
-  height: 12px;
-  border-radius: 6px;
-}
+     .home-wrap .van-swipe__indicator--active {
+         width: 32px;
+         height: 12px;
+         border-radius: 6px;
+     }
 
-.home-wrap .count-down span {
-  width: 40px;
-  display: inline-block;
-  background-color: rgba(0, 0, 0, 0.6);
-  border-radius: 6px;
-  line-height: 40px;
-  font-weight: bold;
-  text-align: center;
-  margin-top: 6px;
-}
-</style>
+     .home-wrap .count-down span {
+         width: 40px;
+         display: inline-block;
+         background-color: rgba(0, 0, 0, 0.6);
+         border-radius: 6px;
+         line-height: 40px;
+         font-weight: bold;
+         text-align: center;
+         margin-top: 6px;
+     }
+
+ </style>

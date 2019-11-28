@@ -106,9 +106,6 @@
            <span class="spcie-box">
              <i class="spice-icon" v-for="(item3,ind3) in item.special_icons" :key="ind3">{{item3.title}}</i>
            </span>
-           <!--<span v-if="!item.is_soldout">-->
-             <!--{{productTypeValue(item.product_type)}}-->
-           <!--</span>-->
            <span class="spcie-else">
              <i class="vi" v-if="item.is_video"><img src="../../assets/imgs/tour/video3.png" alt=""></i>
            </span>
