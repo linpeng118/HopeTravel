@@ -262,7 +262,7 @@
               v-for="(item,index) in couponDetails"
               :key="index">
               <div class="cupleft">
-                <p class="p1">ffd{{item.minus_label}}</p>
+                <p class="p1">{{item.minus_label}}</p>
                 <p class="p2">{{item.full_label}}</p>
               </div>
               <div class="cupcon">
