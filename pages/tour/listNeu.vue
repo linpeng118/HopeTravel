@@ -184,4 +184,11 @@ export default {
     font-size: 36px;
     line-height: 50px;
   }
+  //navbar left返回图标重写 
+    .scenic .header .van-nav-bar__left{
+      i{
+        color: rgba(29,29,29,1) !important;
+      }
+      
+    }
 </style>
