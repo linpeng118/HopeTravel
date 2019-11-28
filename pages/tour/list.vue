@@ -38,7 +38,7 @@
                 :key="scenic.tour_city_id"
               >
                 <nuxt-link
-                  :to="`/tour/detail?tourId=${scenic.tour_city_id}`"
+                  :to="`/tour/detailNeu?tourId=${scenic.tour_city_id}`"
                   tag="div" 
                   class="scenic-list-product">
                 <div class="scenic-list-product-img">
