@@ -2,7 +2,7 @@
   <div class="scenic">
     <div class="header">
       <van-nav-bar
-  :title="sceincList?sceincList.name:'景区列表'"
+  :title="sceincName?sceincName:'景区列表'"
   left-text="返回"
   left-arrow
   :fixed="true"
@@ -12,16 +12,13 @@
 >
 </van-nav-bar>
     </div>
-
       <ul>
-        <!-- <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
           <van-list
             v-model="isLoading"
             :finished="finished"
             finished-text="没有更多了"
             @load="onLoad"
-          > -->
-             
+          >    
                 <nuxt-link v-for="item in sceincList" :key="item.tour_city_id" :to="`/tour/detailNeu?tourId=${item.tour_city_id}`"
                   tag="li" 
                   class="scenic-list-link">
@@ -33,27 +30,15 @@
                   <p class="nearby-brief">{{item.brief||$t('tour.no-con1')}}</p>
                   <p class="nearby-price" v-if="item.ticket_price">门票：{{item.ticket_price}}</p>
                 </div>
-                </nuxt-link>
-              
-            </ul>
-         <!--  </van-list>
-        </van-pull-refresh> -->
+                </nuxt-link>  
+          </van-list>
+           </ul>
       </div>
-    
- 
 </template>
 
 <script>
 import {getSceincList} from '@/api/sceinc'
 import { getSessionStore } from '@/assets/js/utils'
-// 节流函数
-const delay = (function() {
-  let timer = 0;
-  return function(callback, ms) {
-    clearTimeout(timer);
-    timer = setTimeout(callback, ms);
-  };
-})();
 export default {
   data () {
     return {
@@ -63,36 +48,19 @@ export default {
       sceincList: [],
       pagination: {},
       flag: false,
-      value: ''
+      value: '',
+      sceincName:'',
     }
-  },
-  watch: {
-    //用来监听页面变量的改变
-    //监听搜索，300ms执行一次fetchData方法（去搜索）
-    /* value() {
-      delay(() => {
-        this.search();
-      }, 300);
-    }, */
   },
   mounted () {
-    var list = JSON.parse(getSessionStore('sceincList'))
-    if (list === null) {
-      this.getSceincList({
-        city_id: this.$route.query.city_id || 2019,
-        page: 1,
-        page_size: 20
-      })
-    }else {
-      if (list.length > 0) {
-        this.sceincList = list
-      } else {
-        this.getSceincList({
-        page: 1,
-        page_size: 20
-      })
-      }
+    if(this.$route.query.title){
+    this.sceincName = decodeURIComponent(this.$route.query.title)+'景点';
     }
+    this.getSceincList({
+        city_id: this.$route.query.city_id,
+        page: 1,
+        page_size: 20
+      })
   },
   methods: {
     // 返回上一级
@@ -100,9 +68,7 @@ export default {
       this.$router.go(-1)
     },
     // 滑动会请求数据
-     /* onLoad() {
-       var page = Number(getSessionStore('page'))
-      console.log(page)
+     onLoad() {
       var page = page || this.pagination.page
       var page_size = this.pagination.page_size
       const submitData = {
@@ -110,53 +76,27 @@ export default {
         page_size: page_size,
         }
         this.getSceincList(submitData)
-      }, */
-    // 下拉刷新
-     /*  async onRefresh(){
-        this.sceincList= [],
-        this.pagination= {}
-        this.getSceincList({
-        page: 1,
-        page_size: 20
-        })
-      }, */
+      },
      async getSceincList(subData) {
-      /*  this.isLoading = true */
+       this.isLoading = true
          let {code, data} = await getSceincList(subData)
         if (code === 0) {
           this.sceincList.push(...data.items)
+          console.log( this.sceincList);
+          
           this.pagination = data.pagination
-          sessionStorage.setItem('sceincList',JSON.stringify(this.sceincList))
-          sessionStorage.setItem('page',Number(data.pagination.page))
           // 加载状态结束
-         /*  this.isLoading = false */
+          this.isLoading = false
           // 数据全部加载完成
           if (this.pagination.page >= this.pagination.total_page) {
-           /*  this.finished = true */
+            this.finished = true
           }
         } else {
           this.pagination = {}
-          /* this.isLoading = false
-          this.finished = false */
+          this.isLoading = false
+          this.finished = false
         }
       },
-      // 搜索
-      /* async search () {
-        let { code, data } = await getSceincList({
-          page: null,
-          page_size: null,
-          keyword: this.value
-          })
-          if (code === 0) {
-            if (data.items.length){
-              this.sceincList = data.items
-            }else {
-              this.$toast('未找到相关景点,请换一个关键词试试！');
-            }
-          } else {
-            this.$toast('未找到相关景点,请换一个关键词试试！');
-          }
-        } */
     },
 }
 </script>
@@ -238,4 +178,10 @@ export default {
       box-shadow: none !important;
       -webkit-box-shadow: none !important;
     }
+    //navbar 返回重写
+    .scenic .header .van-nav-bar__text{
+    color:rgba(29,29,29,1) !important;
+    font-size: 36px;
+    line-height: 50px;
+  }
 </style>

@@ -190,7 +190,7 @@
     <span class="more" v-if="comments&&comments.length>5" @click="toNearby()">{{$t('tour.lookmore')}}<img src="../../assets/imgs/tour/right.png" alt=""></span>
   </div>
   <ul v-if="nearby&&nearby.length">
-    <li v-for="(item,index) in nearby" :key="index">
+    <li v-for="(item,index) in nearby" :key="index" @click="totour(item.tour_city_id)">
       <div class="nearby-img"><img :src="item.image" alt=""></div>
       <div class="nearby-main">
         <p class="nearby-status">
@@ -314,7 +314,7 @@ export default {
       }
     },
     onClickLeft() {
-      this.$router.push('/tour/list');
+      this.$router.push('/tour/listNeu');
     },
     onClickRight() {
     
@@ -339,6 +339,15 @@ export default {
     toProducts(){
       this.$router.push({
           path: '/product/list',
+        });
+    },
+    //到附近景点的详情
+    totour(id){
+      this.$router.push({
+          path: '/tour/detailNeu',
+          query: {
+            'tourId':id
+          }
         });
     },
   }
