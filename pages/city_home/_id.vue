@@ -29,7 +29,7 @@
     <!-- title -->
     <div class="city-name-box">
       <span class="name">日本</span>
-      <van-button type="default" size="mini" round>切换<van-icon name="play" /></van-button>
+      <van-button type="default" size="mini" to="/search" round>切换<van-icon name="play" /></van-button>
     </div>
     <!-- 中间配置区域 -->
     <div class="config-area-main">
@@ -61,7 +61,7 @@
         <h2 class="title">
           <img src="../../assets/imgs/cityHome/hot_city_icon@2x.png">
           热门景点
-          <span class="all">查看全部</span>
+          <nuxt-link class="all" :to="`/tour/list?city_id=${$route.params.id}`">查看全部</nuxt-link>
           </h2>
         <van-grid :border="false" :column-num="3">
           <van-grid-item v-for="value in 3" :key="value" >
@@ -98,19 +98,19 @@
             <sale-item></sale-item>
           </div>
         </div>
-        <nuxt-link to="/" tag="div" class="look-all">
+        <nuxt-link :to="`/all/ya-cf${$route.params.id}?sale=1`" tag="div" class="look-all">
           查看全部
         </nuxt-link>
       </div>
     </div>
     <!-- 热销推荐 -->
     <div class="pro-lst-box">
-      <h2 class="title">热销推荐<span class="all">查看全部</span></h2>
+      <h2 class="title">热销推荐<nuxt-link :to="`/all/ya-cf${tourCityId}`" class="all" >查看全部</nuxt-link></h2>
       <div class="mian-b">
-        <van-list v-model="loadingHot" :finished="finishedHot" finished-text="没有更多了" @load="onLoad">
+        <van-list v-model="loadingHot" :finished="finishedHot" finished-text="没有更多了" @load="onLoad" :immediate-check="false">
           <div class="half">
-            <div class="item" v-for="value in 4" :key="'dfdfd'+value">
-              <city-product></city-product>
+            <div class="item" v-for="product in productHotList" :key="product.product_id">
+              <city-product :item="product"></city-product>
             </div>
           </div>
         </van-list>
@@ -122,6 +122,8 @@
 import ImgBox from '@/components/list/imgBox'
 import SaleItem from '@/components/list/sale'
 import CityProduct from '@/components/list/cityProduct'
+import {getLandingList} from '@/api/landing'
+import {getProductList} from '@/api/products'
 export default {
   components:{
     ImgBox, SaleItem, CityProduct
@@ -133,19 +135,36 @@ export default {
       current: 0,
       loadingHot: false, // 加载热销商品
       finishedHot: false, // 是否加载完成
-      productHotList: [
-        {
-          name:'',
-          id: 15
-        },
-        {
-          name: '23',
-          id: 36
-        }
-      ]
+      productHotList: [],
+      tourCityId: this.$route.params.id,
+      prodPagination: {}
     }
   },
+  mounted(){
+    this.init()
+  },
   methods:{
+    // 获取页面的数据
+    async init(){
+      // let {code, data, msg} = await getLandingList({
+      //   tourCityId: this.tourCityId
+      // })
+      // if (code === 0) {
+
+      // } else {
+      //   this.$toast.fail(msg)
+      // }
+
+      let {code,data,pagination} = await getProductList({
+        type: 0,
+        category: 'all',
+        reduce: 1,
+        start_city: this.tourCityId,
+        page: (this.prodPagination.page || 0) + 1,
+        page_size: 4
+      })
+
+    },
     onClickLeft(){
       if(this.$route.query.sem) {
         this.$router.push('/')
@@ -158,8 +177,24 @@ export default {
     onChange(index){
       this.current = index;
     },
-    onLoad(){
-
+    async onLoad(){
+      let {code,data,pagination} = await getProductList({
+        type: 0,
+        category: 'all',
+        start_city: this.tourCityId,
+        page: (this.prodPagination.page || 0) + 1
+      })
+      if(code === 0) {
+        // this.loadingHot = false
+        this.productHotList.push(...data)
+        this.prodPagination = pagination
+        // 加载状态结束
+        this.loadingHot = false
+        // 数据全部加载完成
+        if (!this.prodPagination.more) {
+          this.finishedHot = true
+        }
+      }
     }
   }
 }
@@ -206,6 +241,7 @@ export default {
     left: 0;
     right: 0;
     align-items: center;
+    z-index: 10;
     .van-search{
       padding: 10px 0;
     }

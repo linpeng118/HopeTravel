@@ -10,8 +10,8 @@ export const getProductList = (data) => {
       type: data.type,
       keyword: data.keyword || null,
       page: data.page || 1,
-      page_size: data.page_size || 9,
-      departure_city: data.start_city || null,
+      page_size: data.page_size || 10,
+      departure_city: data.departure_city || null,
       stop_city: data.stop_city || null,
       span_city: data.span_city || null,
       tag: data.tag || null,
@@ -23,6 +23,8 @@ export const getProductList = (data) => {
       order: data.order || null,
       cruise_id: data.lines || null,
       cruise_brand_id: data.brand || null,
+      start_city: data.start_city || null,
+      reduce: data.reduce || null
     }
   })
 }
