@@ -70,19 +70,19 @@
         </van-grid>
       </div>
       <!-- 热门玩法 -->
-      <div class="hot-play">
+      <div class="hot-play" v-if="hotPlayList.length">
         <h2 class="title"><img src="../../assets/imgs/cityHome/hot_paly_icon@2x.png">热门玩法</h2>
         <div class="slide-box">
           <van-swipe :loop="false" :width="380" @change="onChange">
-            <van-swipe-item v-for="n in 3" :key="n">
+            <van-swipe-item v-for="n in 2" :key="n">
               <van-grid :border="false" :column-num="3">
-                <van-grid-item v-for="n in 3" :key="'sdfsd'+n">
-                  <img-box position="center" :isHot="true"></img-box>
+                <van-grid-item v-for="(n,index ) in 3" :key="'sdfsd'+n">
+                  <img-box position="center" :isHot="true" :isSelfBg="true" :index="index"></img-box>
                 </van-grid-item>
               </van-grid>
             </van-swipe-item>
             <div class="custom-indicator" slot="indicator">
-              <div v-for="n in 3" :key="'dfdfd'+n" :class="current+1 == n ? 'currernt':''"></div>
+              <div v-for="n in 2" :key="'dfdfd'+n" :class="current+1 == n ? 'currernt':''"></div>
             </div>
           </van-swipe>
         </div>
@@ -90,7 +90,7 @@
       </div>
     </div>
     <!--  限时特价-->
-    <div class="pro-lst-box">
+    <div class="pro-lst-box" v-if="specialTimeList.length">
       <h2 class="title"><img src="../../assets/imgs/cityHome/hot_sale_icon@2x.png">限时特价</h2>
       <div class="mian-b">
         <div class="half">
@@ -116,17 +116,19 @@
         </van-list>
       </div>
     </div>
+     <drift-aside class="drift"></drift-aside>
   </div>
 </template>
 <script>
 import ImgBox from '@/components/list/imgBox'
 import SaleItem from '@/components/list/sale'
 import CityProduct from '@/components/list/cityProduct'
-import {getLandingList} from '@/api/landing'
+import {getLandingList, getLandingProductSale} from '@/api/landing'
 import {getProductList} from '@/api/products'
+import DriftAside from '@/components/drift_aside'
 export default {
   components:{
-    ImgBox, SaleItem, CityProduct
+    ImgBox, SaleItem, CityProduct, DriftAside
   },
   data(){
     return {
@@ -137,7 +139,9 @@ export default {
       finishedHot: false, // 是否加载完成
       productHotList: [],
       tourCityId: this.$route.params.id,
-      prodPagination: {}
+      prodPagination: {},
+      specialTimeList: [1,2,3,4,5,6],
+      hotPlayList: [1,2,3,4,5,6]
     }
   },
   mounted(){
@@ -155,7 +159,7 @@ export default {
       //   this.$toast.fail(msg)
       // }
 
-      let {code,data,pagination} = await getProductList({
+      let {code,data,pagination} = await getLandingProductSale({
         type: 0,
         category: 'all',
         reduce: 1,
@@ -328,7 +332,7 @@ export default {
     .hot-play{
       .custom-indicator{
         height:8px;
-        width: 96px;
+        width: 64px;
         background: #ECECEC;
         border-radius:4px;
         display: flex;
@@ -364,11 +368,11 @@ export default {
       padding: 30px 0;
     }
     .half{
-      display: flex;
-      flex-wrap:wrap;
+      column-count:2;
+      column-gap: 20px;
       .item{
-        width: 50%;
-        padding: 0 10px;
+        break-inside: avoid;
+
       }
     }
   }

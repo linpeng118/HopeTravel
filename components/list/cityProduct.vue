@@ -93,7 +93,7 @@ export default {
       overflow: hidden;
     }
     .tag-p-s{
-      margin: 10px 0;
+      margin-top: 10px;
       display: flex;
       flex-wrap:wrap;
       span{
@@ -109,7 +109,7 @@ export default {
       }
     }
     .price-b{
-      margin: 10px 0;
+      margin-bottom: 10px;
       font-size:24px;
       line-height:34px;
       color: #AEAEAE;

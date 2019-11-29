@@ -7,3 +7,9 @@ export const getLandingList = (data) => {
     }
   })
 }
+
+export const getLandingProductSale = (data) => {
+  return axios.get('/api/landingproducts', {
+    params: data
+  })
+}
