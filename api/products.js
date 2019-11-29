@@ -24,7 +24,8 @@ export const getProductList = (data) => {
       cruise_id: data.lines || null,
       cruise_brand_id: data.brand || null,
       start_city: data.start_city || null,
-      reduce: data.reduce || null
+      reduce: data.reduce || null,
+      is_special: data.is_special || null,
     }
   })
 }

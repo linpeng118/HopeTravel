@@ -133,15 +133,15 @@ export default {
       // cf29-tj143_131-js32
       // yg 当地跟团 type 1；yw 当地玩乐 type 2；yj稀饭自营 type 3 ；yl 游轮 type 7；ym 门票演出 4; yr 一日游 5
     let {category,search = ''} = params
-    let {page = 1, sem = '0', w = null,sale = null} = query
+    let {page = 1, sem = '0', w = null,sale = null, sp = null} = query
     if(search.indexOf('y')==-1){
       let urlNeu = '/'+category+'/ya'
       redirect(urlNeu) 
     }
     let getSearch = {}
-     if(search){
-       getSearch = getParams(search)
-     }
+    if(search){
+      getSearch = getParams(search)
+    }
     getSearch.category = category
     let active = 0
     let checktype = 2
@@ -158,6 +158,9 @@ export default {
     }
     if(sale){
       getSearch.reduce = sale
+    }
+    if(sp){
+      getSearch.is_special = sp
     }
     console.log(4444, getSearch);
     
