@@ -69,7 +69,7 @@
           </span>
           <div class="detail-buy">
             <span class="detail-buy-playTime">
-            {{$t('tour.playtime')+':'}}{{detailNeu.play_days>0?detailNeu.play_days+'天':''}} {{detailNeu.play_days>0 ? detailNeu.play_hours>0?product.play_hours+'小时':'':'暂无'}}
+            {{$t('tour.playtime')+':'}}{{detailNeu.play_days>0?detailNeu.play_days+'天':''}} {{detailNeu.play_days>=0 ? detailNeu.play_hours>0?product.play_hours+'小时':'':'暂无'}}
             </span>
             <span class="detail-buy-ticket"><a href="#ticket">{{$t('tour.byatt')}}</a></span>
             <span class="detail-buy-money" v-if="detailNeu.price">{{detailNeu.price}}/起</span>
@@ -85,7 +85,7 @@
 <section class="attack" v-if="attack&&attack.list&&attack.list.length">
   <div class="attack-status">
     <h2>玩法攻略</h2>
-    <span class="total">（{{attack.total}}篇）</span>
+    <span class="total">（{{attack.list.length}}篇）</span>
     <span class="more" v-if="attack&&attack.list.length>2" @click="toAttack()">{{$t('tour.lookmore')}}<img src="../../assets/imgs/tour/right.png" alt=""></span>
   </div>
 <div class="attack-swiper"
@@ -106,7 +106,7 @@
 <section class="tickets" v-if="tickets&&tickets.list&&tickets.list.length">
   <div class="tickets-status">
     <h2>{{$t('tour.tour-atr')}}</h2>
-    <span class="total">（{{tickets.total}}项）</span>
+    <span class="total">（{{tickets.list.length}}项）</span>
     <span class="more" @click="toTickets()" v-if="tickets&&tickets.list.length>3">{{$t('tour.lookmore')}}<img src="../../assets/imgs/tour/right.png" alt=""></span>
   </div>
   <ul>
@@ -151,7 +151,7 @@
       
       <div class="products-img">
         <img :src="item.image" alt="">
-        <span v-for="(special,index) in item.special_icons" :key="index">{{special.title}}</span>
+        
         <span class="products-is_video">
           <i v-if="item.is_video"><img src="../../assets/imgs/tour/video3.png" alt=""></i>
         </span>
@@ -1150,10 +1150,11 @@ export default {
     margin-top: 4px;
   }
   //详情栏notice 右箭头改动
-  .van-notice-bar--withicon{
-      .van-notice-bar__right-icon {
-        right: 0;
-      }
+   .header .van-notice-bar .van-notice-bar__right-icon{
+       
+        position: absolute !important;
+        right: 0 !important;
+      
     }
 
     //navbar left返回图标重写 
