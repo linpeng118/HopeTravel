@@ -11,7 +11,7 @@
     ></lay-header>
     <!--主要内容-->
     <div class="list-wrap">
-      <div class="tabs-box">
+      <div class="tabs-box" :class="$route.query.sale ? 'no-tab':''">
         <van-tabs v-model="active" @click="changeTypeClick">
           <template v-for="item in tagsList">
             <van-tab :title="item.title" :key="item.type">
@@ -133,8 +133,7 @@ export default {
       // cf29-tj143_131-js32
       // yg 当地跟团 type 1；yw 当地玩乐 type 2；yj稀饭自营 type 3 ；yl 游轮 type 7；ym 门票演出 4; yr 一日游 5
     let {category,search = ''} = params
-    let {page = 1, sem = '0', w = null} = query
-    console.log(11111,params,query);
+    let {page = 1, sem = '0', w = null,sale = null} = query
     if(search.indexOf('y')==-1){
       let urlNeu = '/'+category+'/ya'
       redirect(urlNeu) 
@@ -142,8 +141,6 @@ export default {
     let getSearch = {}
      if(search){
        getSearch = getParams(search)
-       console.log(2222,getSearch);
-       
      }
     getSearch.category = category
     let active = 0
@@ -159,7 +156,11 @@ export default {
         active = getSearch.type
       }
     }
-
+    if(sale){
+      getSearch.reduce = sale
+    }
+    console.log(4444, getSearch);
+    
     return {
       searchKeyWords: w, // 关键字
       searchType:sem,
@@ -234,7 +235,6 @@ export default {
           ...this.searchParams
         }
         this.getFilterList()
-        console.log(_params)
         this.searchGetProduct(_params)
         // this.keywordStatistics()
       },
@@ -411,7 +411,6 @@ export default {
     showMoreFilter(key, item) {
       let filterName = this.$refs['filter' + key][0].className
       let name = this.$refs['tags' + key][0].className
-      console.log(filterName,name);
       
       if(item.items.length > 15) {
         let _obj = this._nomalLizePinyin(item.pinyin)
@@ -419,16 +418,13 @@ export default {
         _obj.title = this.showTitle(key)
         _obj.type = key
         this.moreLists = _obj
-        console.log(this.moreLists)
         if(this.$refs['moreList']) {
           this.$refs['moreList'].activeList = []
         }
       } else {
         this.$refs['tags' + key][0].className = name.indexOf('all') >= 0 ? 'filter-tags': 'filter-tags all'
         this.$refs['filter' + key][0].className = filterName.indexOf('down')>= 0 ? 'van-icon van-icon-arrow': 'van-icon van-icon-arrow-down'
-      }
-      console.log(key, item);
-      
+      }  
     },
     againSearch(){
       // this.prodPagination = {}
@@ -516,11 +512,9 @@ export default {
     // 关闭更多选择层
     selectMorePopup(lists,type) {
       this.filterResult[type] = lists
-      console.log(this.filterResult)
       this.showList = false
     },
     selectCityList(id,type){
-      console.log(id)
       if(type === 'span_city' && this.filterResult[type]) {
         if(this.filterResult[type]) {
           this.filterResult[type] = removeOrAddStr(this.filterResult[type], id)
@@ -567,8 +561,6 @@ export default {
       // this.showcolor = 'filter'
     },
     selectProductDetail(productId){
-      console.log(productId);
-      
       this.$router.push({
         name: 'product-detail',
         query: {
@@ -578,7 +570,6 @@ export default {
     },
     // 选中筛选
     filterClick(item, key) {
-      console.log(item, key)
       let id = item.id + ''
       if(key === 'span_city' || key === 'duration') {
         // 多选项
@@ -592,14 +583,11 @@ export default {
         id = this.filterResult[key] == id ? '' : id
         this.$set(this.filterResult, key, id)
       }
-      // console.log(this.filterResult)
     },
     // 数据变化引起导航变化
     changeRouter(keyword){
-      console.log(8888888,this.filterResult);
       
       let _url = changeParams(this.filterResult).split('/');
-      console.log(999999,_url);
       
       if(keyword){
         delete this.$route.query.w
@@ -798,11 +786,10 @@ export default {
       height: 100%;
       margin-top: 0;
     }
-  }
+  } 
 </style>
 <style type="text/scss" lang="scss">
   .product-list-page{
-
     .list-wrap{
       .tabs-box{
         .van-tabs__line{
@@ -831,8 +818,13 @@ export default {
       top: 0 !important;
     }
   }
+  .product-list-page .list-wrap .tabs-box.no-tab .van-tabs__wrap{
+    display: none;
+  }
   .product-list-page .van-tabs__wrap--scrollable .van-tab{
     flex:1 !important;
   }
-  
+  .list-wrap .no-tab .filter-box{
+    margin-top: 88px;
+  }
 </style>
