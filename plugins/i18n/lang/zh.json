@@ -419,7 +419,8 @@
         "englishLastName": "英文姓",
         "deleteContact": "删除联系人",
         "sureDeleteContact": "是否确认删除联系人",
-        "englishName": "英文名"
+        "englishName": "英文名",
+        "passportInformation": "护照信息"
     },
     "couponsPage": {
         "title": "我的优惠劵",

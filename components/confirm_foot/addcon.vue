@@ -19,12 +19,12 @@
         :label="$t('accountComp.englishName')"
         :placeholder="$t('selectTravlerPage.plhdEnlastName')"
       />
-      <p class="connet-title">{{$t('selectTravlerPage.documentsInformatio')}}</p>
-      <van-field
+      <p class="connet-title">{{$t('selectTravlerPage.passportInformation')}}</p>
+      <!-- <van-field
         :label="$t('typeOfId')"
         disabled
         :placeholder="$t('passport')"
-      />
+      /> -->
       <van-field
         v-model="userform.passport"
         required
