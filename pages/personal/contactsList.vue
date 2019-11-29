@@ -20,7 +20,7 @@
     </van-nav-bar>
     
     <div class="btnbox">
-      <nuxt-link class="changeuser-btn" tag="button" :to="{path:'/personal/addContacts',query:{'adult':$route.query.adult,'isLogin':$route.query.isLogin,'type':'list'}}">
+      <nuxt-link class="changeuser-btn" tag="button" :to="{path:'/personal/addContacts',query:{'adult':$route.query.adult,'isLogin':$route.query.isLogin,'type':$route.query.type}}">
         <van-icon name="plus" color="#1989fa;"/>&nbsp;<span class="add-word">{{$t('selectTravlerPage.addTravler')}}</span>
       </nuxt-link>
     </div>
