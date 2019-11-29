@@ -1,5 +1,5 @@
 <template>
-  <div class="city-home-main" :style="{backgroundImage: `url(${img})`}">
+  <div class="city-home-main" :style="{backgroundImage: `url(${baseInfo.url})`}">
     <!-- topBar -->
     <div class="top-bar-ld" @click="onClickLeft">
       <div class="go-jump-page">
@@ -28,7 +28,7 @@
     </div>
     <!-- title -->
     <div class="city-name-box">
-      <span class="name">日本</span>
+      <span class="name">{{baseInfo.title}}</span>
       <van-button type="default" size="mini" to="/search" round>切换<van-icon name="play" /></van-button>
     </div>
     <!-- 中间配置区域 -->
@@ -64,8 +64,8 @@
           <nuxt-link class="all" :to="`/tour/list?city_id=${$route.params.id}`">查看全部</nuxt-link>
           </h2>
         <van-grid :border="false" :column-num="3">
-          <van-grid-item v-for="value in 3" :key="value" >
-            <img-box position="bottom"></img-box>
+          <van-grid-item v-for="value in hotViewList" :key="value.tour_city_id" >
+            <img-box position="bottom" :imgObj="value" @gotoPage="gotoPage"></img-box>
           </van-grid-item>
         </van-grid>
       </div>
@@ -76,9 +76,9 @@
           <van-swipe :loop="false" :width="380" @change="onChange">
             <van-swipe-item v-for="n in 2" :key="n">
               <van-grid :border="false" :column-num="3">
-                <van-grid-item v-for="(n,index ) in 3" :key="'sdfsd'+n">
-                  <img-box position="center" :isHot="true" :isSelfBg="true" :index="index"></img-box>
-                </van-grid-item>
+                <!-- <van-grid-item v-for="(n,index ) in 3" :key="'sdfsd'+n">
+                  <img-box position="center" :isSelfBg="true" :index="index">
+                </van-grid-item> -->
               </van-grid>
             </van-swipe-item>
             <div class="custom-indicator" slot="indicator">
@@ -94,11 +94,11 @@
       <h2 class="title"><img src="../../assets/imgs/cityHome/hot_sale_icon@2x.png">限时特价</h2>
       <div class="mian-b">
         <div class="half">
-          <div class="item" v-for="value in 4" :key="'dfdfd'+value">
-            <sale-item></sale-item>
+          <div class="item" v-for="product in specialTimeList" :key="product.product_id">
+            <sale-item :productObj="product"></sale-item>
           </div>
         </div>
-        <nuxt-link :to="`/all/ya-cf${$route.params.id}?sale=1`" tag="div" class="look-all">
+        <nuxt-link :to="`/all/ya-cf${$route.params.id}?sale=1&sp=1`" tag="div" class="look-all" v-if="specialTimeList.length == 4">
           查看全部
         </nuxt-link>
       </div>
@@ -116,7 +116,7 @@
         </van-list>
       </div>
     </div>
-     <drift-aside class="drift"></drift-aside>
+    <drift-aside class="drift"></drift-aside>
   </div>
 </template>
 <script>
@@ -140,34 +140,47 @@ export default {
       productHotList: [],
       tourCityId: this.$route.params.id,
       prodPagination: {},
-      specialTimeList: [1,2,3,4,5,6],
-      hotPlayList: [1,2,3,4,5,6]
+      specialTimeList: [],
+      hotPlayList: [],
+      baseInfo: {},
+      hotViewList: []
     }
   },
   mounted(){
     this.init()
+    this.getSpecialProduct()
+    this.getTime()
   },
   methods:{
     // 获取页面的数据
     async init(){
-      // let {code, data, msg} = await getLandingList({
-      //   tourCityId: this.tourCityId
-      // })
-      // if (code === 0) {
-
-      // } else {
-      //   this.$toast.fail(msg)
-      // }
-
-      let {code,data,pagination} = await getLandingProductSale({
+      let {code, data, msg} = await getLandingList({
+        configId: this.tourCityId
+      })
+      if (code === 0) {
+        this.baseInfo = data.index_img || {}
+        this.hotPlayList = data.hot_play || []
+        this.hotViewList = data.hot_view || []
+      } else {
+        this.$toast.fail(msg)
+      }
+    },
+    async getSpecialProduct(){
+      let {code,data,msg} = await getProductList({
         type: 0,
         category: 'all',
         reduce: 1,
         start_city: this.tourCityId,
         page: (this.prodPagination.page || 0) + 1,
-        page_size: 4
+        page_size: 4,
+        is_special: 1
       })
-
+      if(code === 0) {
+        this.specialTimeList = data
+        console.log(5555,this.specialTimeList)
+      } else {
+        console.log(mag)
+      }
     },
     onClickLeft(){
       if(this.$route.query.sem) {
@@ -180,6 +193,9 @@ export default {
     onSearch(){},
     onChange(index){
       this.current = index;
+    },
+    gotoPage(id){
+      this.$router.push(`/tour/list?city_id=${id}&title=${this.baseInfo.title}`)
     },
     async onLoad(){
       let {code,data,pagination} = await getProductList({
@@ -199,7 +215,37 @@ export default {
           this.finishedHot = true
         }
       }
-    }
+    },
+    numChangeT(n) {
+      return n < 10 ? '0' + n : '' + n
+    },
+    // 倒计时时间转化
+    timeToData(maxtime) {
+      let _time = maxtime/ 1000
+      let second = Math.floor(_time % 60) //计算秒
+      let minite = Math.floor((_time / 60) % 60) //计算分
+      let hour = Math.floor((_time / 3600) % 24) //计算小时
+      let day = Math.floor(_time / 3600 / 24) //计算天
+      return `<span>${this.numChangeT(day)}</span> 天 <span>${this.numChangeT(hour)}</span> : <span>${this.numChangeT(
+        minite,
+      )}</span> : <span>${this.numChangeT(second)}</span>`
+      // return day+':'+this.numChangeT(hour)+':'+this.numChangeT(minite)+':'+this.numChangeT(second)
+    },
+    getTime() {
+      setInterval(() => {
+        this.specialTimeList.forEach(value => {
+          let endTime = new Date(value.end_date + ' 23:59:59') - new Date()
+          if(endTime >=0){
+            let time = this.timeToData(endTime)
+            if (typeof value.jishi == 'undefined') {
+              this.$set(value, 'time', time)
+            } else {
+              value.time = time
+            }
+          }
+        })
+      })
+    },
   }
 }
 </script>
@@ -359,6 +405,7 @@ export default {
     }
     .mian-b{
       padding:0 20px;
+      margin-bottom: 10px;
     }
     .look-all{
       line-height:38px;

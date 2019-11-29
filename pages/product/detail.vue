@@ -925,7 +925,7 @@ export default {
       setTimeout(() => {
         // console.log(4444, this.profile.is_agent, String(this.$route.query.productId).indexOf('-') <= 0)
         if (this.profile.is_agent && String(this.$route.query.productId).indexOf('-') <= 0) {
-          this.$router.push({
+          this.$router.replace({
             name: 'product-detail',
             query: {
               productId: String(this.$route.query.productId) + '-' + this.profile.customer_id,
