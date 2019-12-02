@@ -1,8 +1,8 @@
 <template>
   <div class="city-home-main" :style="{backgroundImage: `url(${baseInfo.url})`}">
     <!-- topBar -->
-    <div class="top-bar-ld" @click="onClickLeft">
-      <div class="go-jump-page">
+    <div class="top-bar-ld">
+      <div class="go-jump-page" @click="onClickLeft">
         <template v-if="$route.query.sem"> 
           <img src="../../assets/imgs/cityHome/home@2x.png" alt="">
           <p>首页</p>
@@ -17,8 +17,7 @@
           placeholder="搜索目的地/关键词"
           show-action
           shape="round"
-          background="transparent"
-          @search="onSearch">
+          background="transparent">
           <div slot="action" @click="onSearch" style="color: #fff;">搜索</div>
         </van-search>
       </div>
