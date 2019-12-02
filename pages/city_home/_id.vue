@@ -193,8 +193,9 @@ export default {
         this.$router.go(-1)
       }
     },
-    onClickRight(){},
-    onSearch(){},
+    onSearch(){
+      this.$router.push(`/all/ya-cf${this.tourCityId}?w=${this.keywords}`)
+    },
     onChange(index){
       this.current = index;
     },
