@@ -36,10 +36,10 @@
       <!-- 8icons -->
       <div class="config-icons">
         <van-grid :border="false" :column-num="4">
-          <van-grid-item v-for="value in 8" :key="value" >
-            <div>
-              <img src="https://assets.tourscool.com/uploads/inn/2019/08/02/952/QNAOvDz7ymXG-xU46lCiAsHDyRc.png" alt="">
-              <div>sdfsdfsd</div>
+          <van-grid-item v-for="banner in bannerDataList" :key="banner.data_id" >
+            <div @click="gotoIconPage(banner)">
+              <img :src="banner.nav_image" alt="">
+              <div>{{banner.nav_title}}</div>
             </div>
           </van-grid-item>
         </van-grid>
@@ -49,7 +49,7 @@
         <h2 class="title"><img src="../../assets/imgs/cityHome/hot_city_icon@2x.png">热门城市</h2>
         <van-grid :border="false" :column-num="3">
           <van-grid-item v-for="city in hotCityList" :key="city.id" >
-            <div class="tag" @click="$router.push(`/tour/list?city_id=${city.id}&title=${city.title}`)">
+            <div class="tag" @click="$router.push(`/tour/list?city_id=${city.city_id}&title=${city.title}`)">
               <span>{{city.title}}</span>
               <em class="tips" v-if="city.is_hot"></em>
             </div>
@@ -61,7 +61,7 @@
         <h2 class="title">
           <img src="../../assets/imgs/cityHome/hot_city_icon@2x.png">
           热门景点
-          <nuxt-link class="all" :to="`/tour/list?city_id=${$route.params.id}`">查看全部</nuxt-link>
+          <nuxt-link class="all" :to="`/tour/list??city_id=${$route.params.id}`">查看全部</nuxt-link>
           </h2>
         <van-grid :border="false" :column-num="3">
           <van-grid-item v-for="value in hotViewList" :key="value.tour_city_id" >
@@ -82,7 +82,7 @@
               </van-grid>
             </van-swipe-item>
             <div class="custom-indicator" slot="indicator">
-              <div v-for="n in hotPlayList.length" :key="'dfdfd'+n" :class="current+1 == n ? 'currernt':''"></div>
+              <div v-for="n in hotPlayList.length" :key="'dfdfd'+n" :class="current+1 == n ? 'currernt':''" style="width:16px"></div>
             </div>
           </van-swipe>
         </div>
@@ -139,12 +139,13 @@ export default {
       finishedHot: false, // 是否加载完成
       productHotList: [],
       tourCityId: this.$route.params.id,
-      prodPagination: {},
-      specialTimeList: [],
-      hotPlayList: [],
-      baseInfo: {},
-      hotViewList: [],
-      hotCityList: []
+      prodPagination: {}, // 热销翻页数据
+      specialTimeList: [], // 限时人家
+      hotPlayList: [], // 热门玩法
+      baseInfo: {},// 背景数据
+      hotViewList: [], // 热门景点
+      hotCityList: [], // 热门城市
+      bannerDataList: [] // banner icon
     }
   },
   mounted(){
@@ -163,6 +164,7 @@ export default {
         this.hotPlayList = this._norHotPlayList(data.hot_play)
         this.hotViewList = data.hot_view || []
         this.hotCityList = data.hot_city || []
+        this.bannerDataList = data.banner_icon || []
       } else {
         this.$toast.fail(msg)
       }
@@ -201,6 +203,9 @@ export default {
     },
     gotoPageList(obj){
       this.$router.push(`/all/ya?ids=${obj.product_id}`)
+    },
+    gotoIconPage(banner){
+      window.open(`${banner.nav_link}${this.tourCityId}`,'_self')
     },
     async onLoad(){
       let {code,data,pagination} = await getProductList({
@@ -361,6 +366,7 @@ export default {
       color: #333;
       padding-right: 30px;
       padding-bottom: 30px;
+      text-align: center;
       img{
         width: 136px;
         height: 136px;
@@ -397,16 +403,15 @@ export default {
     }
     .hot-play{
       .custom-indicator{
+        width: 100%;
         height:8px;
-        width: 64px;
-        background: #ECECEC;
         border-radius:4px;
         display: flex;
         justify-content: center;
         margin: 0 auto;
         & > div{
-          width:32px;
           display: inline-block;
+          background: #ECECEC;
         }
         .currernt{
           background: #7BCDEC;
