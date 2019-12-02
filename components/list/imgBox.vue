@@ -1,8 +1,8 @@
 <template>
-  <div class="img-sg-b">
-    <img src="http://assets.tourscool.com/uploads/inn/2019/05/23/952/PvOp8X5Y_G5b2k-VsGiw39o7SEA.jpg" />
-    <p class="name" :style="stylePosition">7月富士音乐</p>
-    <em v-if="isHot"></em>
+  <div class="img-sg-b" :class="isSelfBg ? `bg-${index+1}`:''" @click="changePage">
+    <img v-if="!isSelfBg" :src="imgObj.image" />
+    <p class="name" :style="stylePosition">{{imgObj.name || imgObj.hot_title}}</p>
+    <em v-if="imgObj.is_hot"></em>
   </div>
 </template>
 <script>
@@ -16,9 +16,13 @@ export default {
       type: String,
       default: 'center'
     },
-    isHot: {
+    isSelfBg:{
       type: Boolean,
       default: false
+    },
+    index:{
+      type: Number,
+      default: -1
     }
   },
   computed:{
@@ -37,12 +41,43 @@ export default {
         transform
       }
     }
+  },
+  methods:{
+    changePage(){
+      this.$emit('gotoPage', this.imgObj)
+    }
   }
 }
 </script>
 <style type="text/scss" lang="scss" scoped>
 .img-sg-b{
   position: relative;
+  height:160px;
+  width: 100%;
+  border-radius:44px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-color: #ddd;
+  &.bg{
+    &-1{
+      background-image: url('../../assets/imgs/cityHome/point_bg_1.png')
+    }
+    &-2{
+      background-image: url('../../assets/imgs/cityHome/point_bg_2.png')
+    }
+    &-3{
+      background-image: url('../../assets/imgs/cityHome/point_bg_3.png')
+    }
+    &-4{
+      background-image: url('../../assets/imgs/cityHome/point_bg_4.png')
+    }
+    &-5{
+      background-image: url('../../assets/imgs/cityHome/point_bg_5.png')
+    }
+    &-6{
+      background-image: url('../../assets/imgs/cityHome/point_bg_6.png')
+    }
+  }
   img{
     width: 100%;
     height:160px;

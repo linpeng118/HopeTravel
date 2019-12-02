@@ -1,25 +1,36 @@
 <template>
-  <div class="sale-box-mp">
+  <div class="sale-box-mp" @click="changePage">
     <div class="img-m">
-      <img src="http://assets.tourscool.com/uploads/inn/2019/05/23/952/PvOp8X5Y_G5b2k-VsGiw39o7SEA.jpg" alt="">
-      <div class="time">
+      <img :src="productObj.image" alt="">
+      <div class="time" v-html="productObj.time">
+        <!-- <span>32</span>天<span>05</span>:<span>13</span>:<span>55</span> -->
       </div>
       <div class="price-f-b">
-        <span class="sell-p"><b>￥2519</b>起</span>
-        <span>已减￥888</span>
+        <span class="sell-p"><b>{{productObj | getPrice}}</b>起</span>
+        <span>已减{{productObj.agent_fee}}</span>
       </div>
     </div>
     <div class="name-p">
-      东京+日光私家团•鬼怒川温泉一泊+日光东照宫+...
+      {{productObj.name}}
     </div>
   </div>
 </template>
 <script>
 export default {
+  filters:{
+    getPrice(value){
+      return (value.special_price || value.default_price).toString().split('.')[0]
+    }
+  },
   props:{
     productObj:{
       type: Object,
       default: null
+    }
+  },
+  methods:{
+    changePage(){
+      this.$router.push(`/product/detail?productId=${this.productObj.product_id}`)
     }
   }
 }
@@ -38,7 +49,7 @@ export default {
       width: 100%;
       height: 130px;
       background:linear-gradient(180deg,rgba(0,0,0,0.6) 0%,rgba(0,0,0,0.3) 50%,rgba(0,0,0,0) 100%);
-      border-radius: 32px;
+      border-radius: 32px 32px 0 0;
     }
     img{
       width:100%;
@@ -85,5 +96,24 @@ export default {
     overflow: hidden;
   }
 }
-
+</style>
+<style type="text/scss" lang="scss">
+.sale-box-mp .time{
+  position: absolute;
+  top:16px;
+  left: 16px;
+  right:0;
+  font-size: 24px;
+  color: #fff;
+  span{
+    font-size: 24px;
+    display: inline-block;
+    height:34px;
+    line-height: 34px;
+    background: #fff;
+    border-radius: 12px;
+    padding:0 6px;
+    color: #333;
+  }
+}
 </style>

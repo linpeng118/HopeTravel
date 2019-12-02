@@ -1040,6 +1040,7 @@
              * @Date: 2019-10-08 14:08:48
              */
 
+<<<<<<< HEAD
             scrollFn() {
                 const s1 = this.$refs.refProductDetailPage.scrollTop
                 const s1H = this.$refs.refProductDetailPage.offsetHeight
@@ -1108,6 +1109,53 @@
                 } else if (idx === -1) {
                     this.showDay = `D${listLen}`
                 }
+=======
+    this.init()
+    this.$refs.refProductDetailPage.addEventListener('scroll', this.scrollFn)
+    document.getElementsByTagName('title')[0].innerText = this.product.name
+  },
+  beforeDestroy() {
+    this.$refs.refProductDetailPage.removeEventListener('scroll', this.scrollFn)
+  },
+  destroyed() {
+    clearInterval(this.timer)
+  },
+  methods: {
+    ...mapMutations({
+      vxSaveReservePro: 'product/saveReservePro',
+      vxToggleDialog: 'toggleDialog', // 是否显示弹窗
+      vxSetDlgType: 'setDlgType', // 设置弹窗类型
+      vxToggleLoginDlg: 'login/toggleDialog', 
+    }),
+    callguideClose() {
+      this.closeSelf = 1
+      setSessionStore('closeSelf', 1)
+    },
+    async init() {
+      if (!(this.product && this.product.product_id)) {
+        this.jumpTo('/')
+      }
+      // 是否有登录态
+      await this.initProfileData()
+      // 改用asyncData()
+      // await this.getProductDetailData()
+      // 返现逻辑
+      await this.ashbackLogic()
+      // 存储浏览记录
+      await this.saveLocal()
+      // 获取优惠卷列表
+      await this.getcouponList()
+    },
+    // 获取profile-登录态
+    async initProfileData() {
+      setTimeout(() => {
+        // console.log(4444, this.profile.is_agent, String(this.$route.query.productId).indexOf('-') <= 0)
+        if (this.profile.is_agent && String(this.$route.query.productId).indexOf('-') <= 0) {
+          this.$router.replace({
+            name: 'product-detail',
+            query: {
+              productId: String(this.$route.query.productId) + '-' + this.profile.customer_id,
+>>>>>>> yxh1205
             },
             // 点击预览图片
             onImgSlide(data) {
