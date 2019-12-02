@@ -104,8 +104,11 @@ export default {
       color: #fff;
       box-sizing: content-box;
       height: 80px;
-      padding-top: 40px;
+      padding-top: 20px;
       position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       .arrow {
         width: 100px;
         font-size: 40px;
@@ -115,15 +118,9 @@ export default {
         width: 400px;
         text-align: center;
         font: bold 34px/80px "";
-        position: absolute;
-        left: 150px;
-        top: 40px;
       }
       .description {
         font: 24px/80px "";
-        position: absolute;
-        right: 0;
-        top: 45px;
       }
     }
     .usable-rice {
