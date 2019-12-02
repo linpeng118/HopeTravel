@@ -524,12 +524,15 @@ export default {
       this.showList = false
     },
     selectCityList(id,type){
+      console.log(id,type,this.filterResult[type]);
+      
       if(type === 'span_city' && this.filterResult[type]) {
         if(this.filterResult[type]) {
           this.filterResult[type] = removeOrAddStr(this.filterResult[type], id)
         }
       } else {
-        this.filterResult[type] = id
+        /* this.filterResult[type] = id */
+        this.$set(this.filterResult,type,id);
       }
     },
     // 更多列表返回
