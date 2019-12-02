@@ -60,7 +60,7 @@
         <h2 class="title">
           <img src="../../assets/imgs/cityHome/hot_city_icon@2x.png">
           热门景点
-          <nuxt-link class="all" :to="`/tour/list??city_id=${$route.params.id}`">查看全部</nuxt-link>
+          <nuxt-link class="all" :to="`/tour/list??city_id=${$route.params.id}&title=${baseInfo.title}`">查看全部</nuxt-link>
           </h2>
         <van-grid :border="false" :column-num="3">
           <van-grid-item v-for="value in hotViewList" :key="value.tour_city_id" >
@@ -104,7 +104,7 @@
     </div>
     <!-- 热销推荐 -->
     <div class="pro-lst-box">
-      <h2 class="title">热销推荐<nuxt-link :to="`/all/ya-cf${tourCityId}`" class="all" >查看全部</nuxt-link></h2>
+      <h2 class="title">热销推荐</h2>
       <div class="mian-b">
         <van-list v-model="loadingHot" :finished="finishedHot" finished-text="没有更多了" @load="onLoad" :immediate-check="false">
           <div class="half">
@@ -199,7 +199,7 @@ export default {
       this.current = index;
     },
     gotoPage(obj){
-      this.$router.push(`/tour/list?city_id=${obj.tour_city_id}&title=${this.baseInfo.title}`)
+      this.$router.push(`/tour/detail?tourId=${obj.tour_city_id}`)
     },
     gotoPageList(obj){
       this.$router.push(`/all/ya?ids=${obj.product_id}`)
