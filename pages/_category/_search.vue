@@ -71,7 +71,7 @@
               <div class="filter-tags" :ref="'tags' + key">
                 <div class="item"
                      v-for="(city,index) in item.items"
-                     :key="city.name"
+                     :key="city.id+city.name"
                      :class="filterActive(city.id, key)"
                      @click="filterClick(city, key, index)" :ref="key + currentType">{{city.name}}</div>
               </div>
@@ -418,6 +418,8 @@ export default {
     },
     // 显示更多的标签
     showMoreFilter(key, item) {
+      console.log(key, item);
+      
       let filterName = this.$refs['filter' + key][0].className
       let name = this.$refs['tags' + key][0].className
       
@@ -524,13 +526,18 @@ export default {
       this.showList = false
     },
     selectCityList(id,type){
+      console.log(id,type,  this.filterResult[type]);
+      
       if(type === 'span_city' && this.filterResult[type]) {
         if(this.filterResult[type]) {
           this.filterResult[type] = removeOrAddStr(this.filterResult[type], id)
         }
       } else {
-        this.filterResult[type] = id
+        // this.filterResult[type] = id  数据修改未监听到修改
+        this.$set(this.filterResult, type, id)
       }
+      console.log(this.filterResult);
+      
     },
     // 更多列表返回
     moreListBack() {
@@ -637,6 +644,9 @@ export default {
       console.log(data);
       
       data.sort((a, b) => {
+        if(!a.key){
+          console.log(a);
+        }
         return a.key.charCodeAt(0) - b.key.charCodeAt(0)
       })
       for(let i= 0; i<len; i++) {
