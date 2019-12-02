@@ -511,6 +511,7 @@
             }
             try {
                 let currency = getCookie(CURRENCY, req && req.headers && req.headers.cookie)
+
                 let {
                     code,
                     msg,
@@ -521,7 +522,7 @@
                         'Phone-Type': store.state.phoneType,
                         'App-Version': store.state.phoneType,
                         Language: store.getters.language,
-                        Currency: currency ? currency : 'CNY',
+                        Currency: currency || store.state.currency,
                     },
                 })
                 if (code === 0) {
@@ -535,7 +536,7 @@
                     transfer = data.transfer
                     reviews = data.reviews.product ? data.reviews : null //评论版块
 
-                    console.log('data:', data.product.product_id, itinerary)
+                   
                 } else {
                     redirect('../error')
                     console.log('error:', msg)
