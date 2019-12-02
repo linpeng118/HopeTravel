@@ -53,8 +53,10 @@ export default {
     }
   },
   mounted () {
-    if(this.$route.query.title){
-    this.sceincName = decodeURIComponent(this.$route.query.title)+'景点';
+    if(this.$route.query.title=='null'||this.$route.query.title==''){
+      this.sceincName = '景区列表'
+    }else{
+      this.sceincName = decodeURIComponent(this.$route.query.title)+'景点';
     }
     this.getSceincList({
         city_id: this.$route.query.city_id,
