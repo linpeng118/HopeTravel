@@ -315,7 +315,7 @@ export default {
       }
     },
     onClickLeft() {
-      this.$router.push('/tour/list');
+      this.$router.go(-1);
     },
     onClickRight() {
     
@@ -1189,7 +1189,7 @@ export default {
       -webkit-box-shadow: none !important;
     }
     //详情栏notice 右箭头改动
-   .tour-page .header .van-notice-bar{
+   .detail-marquee .van-notice-bar{
       .van-notice-bar__right-icon{
         position: absolute !important;
         right: 0 !important;
