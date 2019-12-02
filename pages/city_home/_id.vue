@@ -106,7 +106,7 @@
     <div class="pro-lst-box">
       <h2 class="title">热销推荐</h2>
       <div class="mian-b">
-        <van-list v-model="loadingHot" :finished="finishedHot" finished-text="没有更多了" @load="onLoad" :immediate-check="false">
+        <van-list v-model="loadingHot" :finished="finishedHot" finished-text="没有更多了" @load="onLoad">
           <div class="half">
             <div class="item" v-for="product in productHotList" :key="product.product_id">
               <city-product :item="product"></city-product>
@@ -280,7 +280,7 @@ export default {
     width: 100%;
     background-repeat: no-repeat;
     background-color: #f1f1f1;
-    background-size: 100% 360px;
+    background-size: contain;
     &::before{
       content: '';
       width: 100%;
