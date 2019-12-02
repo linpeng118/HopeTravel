@@ -315,7 +315,7 @@ export default {
       }
     },
     onClickLeft() {
-      this.$router.push('/tour/list');
+      this.$router.go(-1);
     },
     onClickRight() {
     
