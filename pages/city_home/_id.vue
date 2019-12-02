@@ -45,19 +45,19 @@
         </van-grid>
       </div>
       <!--  热门城市-->
-      <div class="hot-city">
+      <div class="hot-city" v-if="hotCityList.length">
         <h2 class="title"><img src="../../assets/imgs/cityHome/hot_city_icon@2x.png">热门城市</h2>
         <van-grid :border="false" :column-num="3">
-          <van-grid-item v-for="value in 6" :key="value" >
-            <div class="tag">
-              <span>dsfsdf</span>
-              <em class="tips"></em>
+          <van-grid-item v-for="city in hotCityList" :key="city.id" >
+            <div class="tag" @click="$router.push(`/tour/list?city_id=${city.id}&title=${city.title}`)">
+              <span>{{city.title}}</span>
+              <em class="tips" v-if="city.is_hot"></em>
             </div>
           </van-grid-item>
         </van-grid>
       </div>
       <!-- 热门景点-->
-      <div class="hot-points">
+      <div class="hot-points" v-if="hotViewList.length">
         <h2 class="title">
           <img src="../../assets/imgs/cityHome/hot_city_icon@2x.png">
           热门景点
@@ -74,15 +74,15 @@
         <h2 class="title"><img src="../../assets/imgs/cityHome/hot_paly_icon@2x.png">热门玩法</h2>
         <div class="slide-box">
           <van-swipe :loop="false" :width="380" @change="onChange">
-            <van-swipe-item v-for="n in 2" :key="n">
+            <van-swipe-item v-for="(hot,index) in hotPlayList" :key="'hotPlayList'+index">
               <van-grid :border="false" :column-num="3">
-                <!-- <van-grid-item v-for="(n,index ) in 3" :key="'sdfsd'+n">
-                  <img-box position="center" :isSelfBg="true" :index="index">
-                </van-grid-item> -->
+                <van-grid-item v-for="(item,index ) in hot.items" :key="item.product_id">
+                  <img-box position="center" :isSelfBg="true" :index="index" :imgObj="item" @gotoPage="gotoPageList"></img-box>
+                </van-grid-item>
               </van-grid>
             </van-swipe-item>
             <div class="custom-indicator" slot="indicator">
-              <div v-for="n in 2" :key="'dfdfd'+n" :class="current+1 == n ? 'currernt':''"></div>
+              <div v-for="n in hotPlayList.length" :key="'dfdfd'+n" :class="current+1 == n ? 'currernt':''"></div>
             </div>
           </van-swipe>
         </div>
@@ -143,7 +143,8 @@ export default {
       specialTimeList: [],
       hotPlayList: [],
       baseInfo: {},
-      hotViewList: []
+      hotViewList: [],
+      hotCityList: []
     }
   },
   mounted(){
@@ -159,8 +160,9 @@ export default {
       })
       if (code === 0) {
         this.baseInfo = data.index_img || {}
-        this.hotPlayList = data.hot_play || []
+        this.hotPlayList = this._norHotPlayList(data.hot_play)
         this.hotViewList = data.hot_view || []
+        this.hotCityList = data.hot_city || []
       } else {
         this.$toast.fail(msg)
       }
@@ -194,8 +196,11 @@ export default {
     onChange(index){
       this.current = index;
     },
-    gotoPage(id){
-      this.$router.push(`/tour/list?city_id=${id}&title=${this.baseInfo.title}`)
+    gotoPage(obj){
+      this.$router.push(`/tour/list?city_id=${obj.tour_city_id}&title=${this.baseInfo.title}`)
+    },
+    gotoPageList(obj){
+      this.$router.push(`/all/ya?ids=${obj.product_id}`)
     },
     async onLoad(){
       let {code,data,pagination} = await getProductList({
@@ -246,6 +251,21 @@ export default {
         })
       })
     },
+    _norHotPlayList(data){
+      if(!data){
+        return 
+      }
+      let _arr = []
+      for(let i = 0; i < data.length; i++) {
+        if(!_arr[Math.floor(i/3)]){
+          _arr[Math.floor(i/3)] = {
+            items : []
+          }
+        }
+        _arr[Math.floor(i/3)].items.push(data[i])
+      }
+      return _arr
+    }
   }
 }
 </script>
