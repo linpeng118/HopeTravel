@@ -1,62 +1,60 @@
 <template>
-  <div class="search-main">
-    <div class="country-bg" @click="selectCountryLine(data.allLines)">
-      <img :src="data.allLines.image" alt="">
-      <div class="desc">{{data.cityName}}{{$t('searchComp.allWay')}}{{data.allLines.content}}条</div>
+    <div class="search-main">
+        <div class="country-bg" @click="selectCountryLine(data.allLines)">
+            <img :src="data.allLines.image" alt="">
+            <div class="desc">{{data.cityName}}{{$t('searchComp.allWay')}}{{data.allLines.content}}条</div>
+        </div>
+        <div class="hot-box" v-if="data.hotTarget && data.hotTarget.length">
+            <h2>{{$t('searchComp.hotDestinations')}}</h2>
+            <hot-place :lists="data.hotTarget" :isDesc="false" @selectDetail="selectDetail"></hot-place>
+        </div>
+        <div class="result-line" v-if="data.allArea && data.allArea.length">
+            <h2>{{$t('searchComp.allDestinations')}}</h2>
+            <div class="line">
+                <hot-city-tag v-for="line in data.allArea" :key="line.id" :className="line.active ? 'active' : 'normal'" @callOnTagKeywords="selectDetailKeyword" :isKeywords="true" :tag="line" />
+            </div>
+        </div>
     </div>
-    <div class="hot-box" v-if="data.hotTarget && data.hotTarget.length">
-      <h2>{{$t('searchComp.hotDestinations')}}</h2>
-      <hot-place :lists="data.hotTarget" :isDesc="false" @selectDetail="selectDetail"></hot-place>
-    </div>
-    <div class="result-line" v-if="data.allArea && data.allArea.length">
-      <h2>{{$t('searchComp.allDestinations')}}</h2>
-      <div class="line">
-        <hot-city-tag v-for="line in data.allArea"
-                      :key="line.id"
-                      :className="line.active ? 'active' : 'normal'"
-                      @callOnTagKeywords="selectDetailKeyword"
-                      :isKeywords="true"
-                      :tag="line" />
-      </div>
-    </div>
-  </div>
 </template>
 
 <script>
-import HotPlace from '@/components/hot_place/index.vue'
-import HotCityTag from '@/components/tags/index.vue'
-export default {
-  name: 'country',
-  components: {
-    HotPlace,
-    HotCityTag
-  },
-  props: {
-    data: {
-      type: Object,
-      default: null
+    import HotPlace from '@/components/hot_place/index.vue'
+    import HotCityTag from '@/components/tags/index.vue'
+    export default {
+        name: 'country',
+        components: {
+            HotPlace,
+            HotCityTag
+        },
+        props: {
+            data: {
+                type: Object,
+                default: null
+            }
+        },
+        created() {
+            console.log(this.data)
+        },
+        methods: {
+            selectDetail(item, items) {
+                this.$emit('selectDetail', item, items)
+            },
+            selectCountryLine(line) {
+                let {
+                    category
+                } = line
+                this.$emit('selectDetailLine', category)
+            },
+            selectDetailKeyword(value) {
+                this.$emit('selectDetailKeyword', value)
+            }
+        }
     }
-  },
-  created() {
-    console.log(this.data)
-  },
-  methods: {
-    selectDetail(item){
-      this.$emit('selectDetail', item)
-    },
-    selectCountryLine(line) {
-      let {category} = line
-      this.$emit('selectDetailLine', category)
-    },
-    selectDetailKeyword(value) {
-      this.$emit('selectDetailKeyword', value)
-    }
-  }
-}
+
 </script>
 
 <style type="text/scss" lang="scss" scoped>
-  .country-bg{
+    .country-bg{
     width:518px;
     height:120px;
     position: relative;

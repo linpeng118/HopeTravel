@@ -1149,13 +1149,7 @@ export default {
     font-weight:400;  
     margin-top: 4px;
   }
-  //详情栏notice 右箭头改动
-   .header .van-notice-bar .van-notice-bar__right-icon{
-       
-        position: absolute !important;
-        right: 0 !important;
-      
-    }
+  
 
     //navbar left返回图标重写 
     .header .van-nav-bar__left{
@@ -1193,5 +1187,13 @@ export default {
   
       box-shadow: none !important;
       -webkit-box-shadow: none !important;
+    }
+    //详情栏notice 右箭头改动
+   .tour-page .header .van-notice-bar{
+      .van-notice-bar__right-icon{
+        position: absolute !important;
+        right: 0 !important;
+      }
+      
     }
 </style>
