@@ -133,7 +133,7 @@ export default {
       // cf29-tj143_131-js32
       // yg 当地跟团 type 1；yw 当地玩乐 type 2；yj稀饭自营 type 3 ；yl 游轮 type 7；ym 门票演出 4; yr 一日游 5
     let {category,search = ''} = params
-    let {page = 1, sem = '0', w = null,sale = null, sp = null} = query
+    let {page = 1, sem = '0', w = null,sale = null, sp = null,ids = null} = query
     if(search.indexOf('y')==-1){
       let urlNeu = '/'+category+'/ya'
       redirect(urlNeu) 
@@ -161,6 +161,9 @@ export default {
     }
     if(sp){
       getSearch.is_special = sp
+    }
+    if(ids){
+      getSearch.product_id = ids
     }
     console.log(4444, getSearch);
     
@@ -219,7 +222,8 @@ export default {
         sort: 5,
         total: 1,
       },
-      loadingData: true // 列表更新的加载
+      loadingData: true, // 列表更新的加载
+      isFirstLoading: true
     }
   },
   computed: {
@@ -304,8 +308,10 @@ export default {
         brand: this.filterResult.brand || null,
         ...this.searchParams
       }
-
-      this.searchGetProduct(submitParams)
+      if(!this.isFirstLoading){
+        this.searchGetProduct(submitParams)
+      }
+      this.isFirstLoading = false
     },
     changeTypeClick(name){
       //ya 所有； yg 当地跟团 type 1；yw 当地玩乐 type 2；yj稀饭自营 type 3 ；yl 游轮 type 7

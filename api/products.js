@@ -26,6 +26,7 @@ export const getProductList = (data) => {
       start_city: data.start_city || null,
       reduce: data.reduce || null,
       is_special: data.is_special || null,
+      product_id: data.product_id || null
     }
   })
 }

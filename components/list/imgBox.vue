@@ -1,7 +1,7 @@
 <template>
   <div class="img-sg-b" :class="isSelfBg ? `bg-${index+1}`:''" @click="changePage">
     <img v-if="!isSelfBg" :src="imgObj.image" />
-    <p class="name" :style="stylePosition">{{imgObj.name}}</p>
+    <p class="name" :style="stylePosition">{{imgObj.name || imgObj.hot_title}}</p>
     <em v-if="imgObj.is_hot"></em>
   </div>
 </template>
@@ -44,7 +44,7 @@ export default {
   },
   methods:{
     changePage(){
-      this.$emit('gotoPage', this.imgObj.tour_city_id)
+      this.$emit('gotoPage', this.imgObj)
     }
   }
 }
