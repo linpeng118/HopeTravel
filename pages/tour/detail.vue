@@ -11,7 +11,6 @@
   @click-left="onClickLeft"
   @click-right="onClickRight"
   class="header"
-
   :class="{active:bottomSlide}"
 >
 </van-nav-bar>
@@ -375,18 +374,19 @@ export default {
     //景点详情
     .detail{
       .detail-banner{
-      width: 100%;
-      height: 640px;
-      background-repeat: no-repeat;
-      background-size: cover;
-      .detail-banner-black{
         width: 100%;
-        padding-top: 72px;
         height: 640px;
-        box-sizing: border-box;
-        z-index: 2;
-        background-color: rgba(29,29,29,.3);
+        background-repeat: no-repeat;
+        background-size: cover;
+        .detail-banner-black{
+          width: 100%;
+          padding-top: 140px;
+          height: 640px;
+          box-sizing: border-box;
+          z-index: 2;
+          background-color: rgba(29,29,29,.3);
           h1{
+            height: 74px;
             margin-top: 72px;
             font-size: 52px;
             line-height: 74px;
@@ -397,7 +397,7 @@ export default {
           article{
             font-size: 24px;
             line-height: 34px;
-            color:#fff;
+            color:#9E9E9E;
             font-weight: 400;
             text-align: center;
           }
@@ -586,6 +586,9 @@ export default {
         .swiper-slide{
           width: 334px;
           font-size: 0;
+          border-radius: 8px;
+          background-color: #fff;
+          overflow: hidden;
           img{
             width: 100%;
             height: 188px;
@@ -600,14 +603,14 @@ export default {
             white-space: nowrap;
             text-overflow:ellipsis;
             overflow: hidden;
-            padding-left: 16px;
+            padding: 0 16px;
           }
           .attack-status{
             font-size: 24px;
             line-height: 34px;
             font-weight: 400;
             color:rgba(158,158,158,1);
-            padding-left: 16px;
+            padding: 0 16px;
           }
         }
       }
@@ -801,6 +804,7 @@ export default {
             background:rgba(255,255,255,1);
             font-size: 0;
             position: relative;
+            border-radius: 8px;
             .products-name{
               width: 428px;
               font-size:28px;
@@ -919,23 +923,22 @@ export default {
               width: 220px;
               height: 220px;
               border-radius: 10px;
-            }
-            span{
-
+              display: inline-block;
+              background-color: #eee;
             }
             .products-is_video{
               position:absolute;
               width: 240px;
               margin-top: 170px;
               i{
-              float: right;
-              display: inline-block;
-              margin-right: 25px;
-              margin-bottom: 25px;
-              img{
-                width: 40px!important;
-                height: 40px!important;
-              }
+                float: right;
+                display: inline-block;
+                margin-right: 25px;
+                margin-bottom: 25px;
+                img{
+                  width: 40px!important;
+                  height: 40px!important;
+                }
             }
             }
           }
@@ -991,9 +994,9 @@ export default {
             margin-left: 70px;
             border-bottom:2px solid #CECECE ;
             p:nth-child(1){
-            color: #1D1D1D;
-            font-size: 28px;
-            line-height: 50px;
+              color: #1D1D1D;
+              font-size: 28px;
+              line-height: 50px;
             }
             p:nth-child(2){
               span{
@@ -1065,23 +1068,23 @@ export default {
       }
       ul{
         li{
-          width: 686px;
           height: 168px;
           margin-top: 16px;
           padding: 20px 12px 20px 20px;
           background-color: #fff;
           overflow: hidden;
+          border-radius: 8px;
           .nearby-img{
-          width: 170px;
-          height: 128px;
-          margin-right: 18px;
-          float: left;
-          background-color: #eee;
-          border-radius: 4px;
+            width: 170px;
+            height: 128px;
+            margin-right: 18px;
+            float: left;
+            background-color: #eee;
+            border-radius: 8px;
             img{
-                width: 100%;
-                height: 100%;
-              }
+              width: 100%;
+              height: 100%;
+            }
           }
             .nearby-main{ 
               width: 466px;
@@ -1144,7 +1147,7 @@ export default {
   
   .tour-page .header .van-nav-bar__text{
     color: #fff !important;
-    font-size: 36px;
+    font-size: 30px;
     line-height: 50px;
     font-weight:400;  
     margin-top: 4px;
@@ -1178,8 +1181,7 @@ export default {
     }
    //navbar 标题重写
     .header .van-nav-bar__title{
-      font-size: 40px;
-      font-weight: bold;
+      
       color:rgba(29,29,29,1);
     }
     //navbar 阴影消除

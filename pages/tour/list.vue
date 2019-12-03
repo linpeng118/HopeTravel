@@ -3,7 +3,6 @@
     <div class="header">
       <van-nav-bar
   :title="sceincName?sceincName:'景区列表'"
-  left-text="返回"
   left-arrow
   :fixed="true"
   :z-index="121"
@@ -23,7 +22,7 @@
                   tag="li" 
                   class="scenic-list-link">
                 
-                  <img :src="item.image" alt="img">
+                  <img :src="item.image">
                
                 <div class="scenic-message">
                   <p class="nearby-name">{{item.name}}</p>
@@ -116,24 +115,24 @@ export default {
   min-height: 100vh;
   background:rgba(243,243,243,1);
   padding-top: 136px;
-  .header{
-
-  }
   ul{
     width: 686px;
     margin: 0 auto;
-    
-      .scenic-list-link{
+    .scenic-list-link{
       width: 686px;
       height: 168px;
       background-color: #fff;
       padding: 20px 0 20px 20px;
       margin-bottom: 16px; 
       overflow: hidden;   
+      border-radius:8px;
       img{
         float: left;
         width: 170px;
         height: 128px; 
+        background: #ddd;
+        border-radius:8px;
+        overflow: hidden;
       }
       .scenic-message{
         float: left;
@@ -160,39 +159,7 @@ export default {
           color:rgba(158,158,158,1);
         }
       }
-      }
-    
+    }
   }
-  
-  
 }
-
-</style>
-<style lang="scss">
-  //vant重写
-  //navbar 标题重写
-    .header .van-nav-bar__title{
-      font-size: 40px;
-      font-weight: bold;
-      color:rgba(29,29,29,1);
-    }
-    //navbar 阴影消除
-    .scenic .header.van-nav-bar{
-  
-      box-shadow: none !important;
-      -webkit-box-shadow: none !important;
-    }
-    //navbar 返回重写
-    .scenic .header .van-nav-bar__text{
-    color:rgba(29,29,29,1) !important;
-    font-size: 36px;
-    line-height: 50px;
-  }
-  //navbar left返回图标重写 
-    .scenic .header .van-nav-bar__left{
-      i{
-        color: rgba(29,29,29,1) !important;
-      }
-      
-    }
 </style>
