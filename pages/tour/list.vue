@@ -160,6 +160,23 @@ export default {
         }
       }
     }
+    }
+    }
+    //navbar 返回重写
+    .scenic .header .van-nav-bar__text{
+    color:rgba(29,29,29,1) !important;
+    font-size: 36px;
+    line-height: 50px;
+    margin-top: 4px;
   }
-}
+  
+  //navbar left返回图标重写 
+    .scenic .header .van-nav-bar__left{
+      i{
+        margin-top: 4px;
+        color: rgba(29,29,29,1) !important;
+      }
+      
+    }
+
 </style>
