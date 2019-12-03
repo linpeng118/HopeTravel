@@ -48,26 +48,26 @@
         <h2 class="title"><img src="../../assets/imgs/cityHome/hot_city_icon@2x.png">热门城市</h2>
         <van-grid :border="false" :column-num="3">
           <van-grid-item v-for="city in hotCityList" :key="city.id" >
-            <div class="tag" @click="$router.push(`/tour/list?city_id=${city.city_id}&title=${city.title}`)">
+            <div class="tag" @click="$router.push(`/city_home/${city.city_id}`)">
               <span>{{city.title}}</span>
               <em class="tips" v-if="city.is_hot"></em>
             </div>
           </van-grid-item>
         </van-grid>
       </div>
-      <!-- 热门景点-->
-      <div class="hot-points" v-if="hotViewList.length">
+      <!-- 热门景点 先取消-->
+      <!-- <div class="hot-points" v-if="hotViewList.length">
         <h2 class="title">
           <img src="../../assets/imgs/cityHome/hot_city_icon@2x.png">
           热门景点
-          <nuxt-link class="all" :to="`/tour/list??city_id=${$route.params.id}&title=${baseInfo.title}`">查看全部</nuxt-link>
+          <nuxt-link class="all" :to="`/tour/list?city_id=${$route.params.id}&title=${baseInfo.title}`">查看全部</nuxt-link>
           </h2>
         <van-grid :border="false" :column-num="3">
           <van-grid-item v-for="value in hotViewList" :key="value.tour_city_id" >
             <img-box position="bottom" :imgObj="value" @gotoPage="gotoPage"></img-box>
           </van-grid-item>
         </van-grid>
-      </div>
+      </div> -->
       <!-- 热门玩法 -->
       <div class="hot-play" v-if="hotPlayList.length">
         <h2 class="title"><img src="../../assets/imgs/cityHome/hot_paly_icon@2x.png">热门玩法</h2>
@@ -97,7 +97,7 @@
             <sale-item :productObj="product"></sale-item>
           </div>
         </div>
-        <nuxt-link :to="`/all/ya-cf${$route.params.id}?sale=1&sp=1`" tag="div" class="look-all" v-if="specialTimeList.length == 4">
+        <nuxt-link :to="timeProductPath" tag="div" class="look-all" v-if="specialTimeList.length == 4">
           查看全部
         </nuxt-link>
       </div>
@@ -106,7 +106,7 @@
     <div class="pro-lst-box">
       <h2 class="title">热销推荐</h2>
       <div class="mian-b">
-        <van-list v-model="loadingHot" :finished="finishedHot" finished-text="没有更多了" @load="onLoad">
+        <van-list v-model="loadingHot" :finished="finishedHot" finished-text="没有更多了" @load="onLoad" :immediate-check="false">
           <div class="half">
             <div class="item" v-for="product in productHotList" :key="product.product_id">
               <city-product :item="product"></city-product>
@@ -147,9 +147,22 @@ export default {
       bannerDataList: [] // banner icon
     }
   },
-  mounted(){
-    this.init()
-    this.getSpecialProduct()
+  computed:{
+    timeProductPath(){
+      let category = this.baseInfo.category || 'all'
+      let url = ''
+      if(this.baseInfo.city_id){
+        url = `/${category}/ya-cf${this.baseInfo.city_id}?sale=1&sp=1`
+      } else {
+        url = `/${category}/ya?sale=1&sp=1`
+      }
+      return url
+    }
+  },
+  async mounted(){
+    await this.init()
+    await this.getSpecialProduct()
+    await this.onLoad()
     this.getTime()
   },
   methods:{
@@ -169,11 +182,12 @@ export default {
       }
     },
     async getSpecialProduct(){
+
       let {code,data,msg} = await getProductList({
         type: 0,
-        category: 'all',
+        category: this.baseInfo.category || 'all',
         reduce: 1,
-        start_city: this.tourCityId,
+        start_city: this.baseInfo.city_id || null,
         page: (this.prodPagination.page || 0) + 1,
         page_size: 4,
         is_special: 1
@@ -210,8 +224,8 @@ export default {
     async onLoad(){
       let {code,data,pagination} = await getProductList({
         type: 0,
-        category: 'all',
-        start_city: this.tourCityId,
+        category: this.baseInfo.category || 'all',
+        start_city: this.baseInfo.city_id || null,
         page: (this.prodPagination.page || 0) + 1
       })
       if(code === 0) {
