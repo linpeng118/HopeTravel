@@ -48,7 +48,7 @@
         <h2 class="title"><img src="../../assets/imgs/cityHome/hot_city_icon@2x.png">热门城市</h2>
         <van-grid :border="false" :column-num="3">
           <van-grid-item v-for="city in hotCityList" :key="city.id" >
-            <div class="tag" @click="$router.push(`/city_home/${city.city_id}`)">
+            <div class="tag" @click="$router.push(`/city_home/${city.config_id}`)">
               <span>{{city.title}}</span>
               <em class="tips" v-if="city.is_hot"></em>
             </div>
