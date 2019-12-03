@@ -115,7 +115,7 @@
         <span class="self-support" v-if="item.self_support">{{$t('selfSupport')}}</span>
         <span class="tickets-name">{{item.name}}</span>
         <span class="ifcard"></span>
-        <span class="tickets-price">￥{{item.default_price}}</span>
+        <span class="tickets-price">${{item.default_price}}</span>
       </div>
       <div class="tickets-tips">
         <span class="special-price" v-for="(item,index) in item.special_icons" v-if="item.special_icons&&index<2" :key="index"></span>
@@ -586,6 +586,7 @@ export default {
         .swiper-slide{
           width: 334px;
           font-size: 0;
+          background-color: #fff;
           img{
             width: 100%;
             height: 188px;
