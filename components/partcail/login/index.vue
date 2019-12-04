@@ -130,6 +130,8 @@
         }
         // 弹窗登录/页面登录
         await this.getUserInfo()
+        console.log(this.isDialog,this.redirect);
+        
         if (this.isDialog) {
           this.vxToggleLoginDlg(false)
           this.$router.go(0)
@@ -141,7 +143,9 @@
               }
             })
           } else {
-            this.$router.go(-1)
+            console.log('进来咯');
+            
+            this.$router.push({path:'/personal'})
           }
         }
       },
@@ -187,11 +191,17 @@
       // 获取到用户信息
       async getUserInfo(){
         let {data,code} = await getProfile()
+        console.log(data,code);
+        
         if(code === 0) {
+          console.log(1111);
+          
           this.vxSetProfile(data)
         } else {
           this.vxSetProfile({})
         }
+        console.log(this.$store.state.profile.profile);
+        
       }
     },
   }
