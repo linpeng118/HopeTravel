@@ -223,7 +223,13 @@ export default {
       this.$router.push(`/all/ya?ids=${obj.product_id}`)
     },
     gotoIconPage(banner){
-      window.open(`${banner.nav_link}${this.tourCityId}`,'_self')
+      let url = ''
+      if(this.baseInfo.category) {
+        url = banner.nav_link.replace(/all/, this.baseInfo.category)
+      } else {
+        url = banner.nav_link + this.baseInfo.city_id
+      }
+      this.$router.push(url)
     },
     gotoHotCityPage(city){
       let url = ''
