@@ -96,6 +96,8 @@ export default {
       margin-top: 10px;
       display: flex;
       flex-wrap:wrap;
+      height:36px;
+      overflow: hidden;
       span{
         height:36px;
         line-height: 36px;
