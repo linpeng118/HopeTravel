@@ -233,10 +233,7 @@ export default {
       this.$router.push(url)
     },
     async onLoad(){
-      if(!this.isFirstLoading){
-        this.searchGetProduct()
-      }
-      this.isFirstLoading = false
+      this.searchGetProduct()
     },
     async searchGetProduct(){
       let {code,data,pagination} = await getProductList({
