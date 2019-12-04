@@ -23,8 +23,8 @@ export default {
     },
     specialPrice(value){
       let fh = value.default_price.substring(0, 1)
-      let dp = value.default_price.substring(1)
-      let sp = value.special_price.substring(1)
+      let dp = value.default_price.substring(1).replace(/,/g, '')
+      let sp = value.special_price.substring(1).replace(/,/g, '')
       return fh + parseInt(dp - sp)
     }
   },
