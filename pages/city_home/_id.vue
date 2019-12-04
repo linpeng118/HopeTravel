@@ -149,6 +149,9 @@ export default {
       isFirstLoading: true // 第一次进入
     }
   },
+  validate({params}) { // 判断路由是否正确
+    return /^[0-9]*$/.test(params.id)
+  },
   computed:{
     timeProductPath(){
       let category = this.baseInfo.category || 'all'
@@ -232,11 +235,11 @@ export default {
       this.$router.push(url)
     },
     async onLoad(){
-      console.log(666666666666666,'onLoad')
-      this.searchGetProduct()
+      if(this.baseInfo.category){
+        this.searchGetProduct()
+      }
     },
     async searchGetProduct(){
-      console.log(7777777777777,'searchGetProduct')
       let {code,data,pagination} = await getProductList({
         type: 0,
         category: this.baseInfo.category || 'all',
@@ -244,10 +247,13 @@ export default {
         page: (this.prodPagination.page || 0) + 1
       })
       if(code === 0) {
-        if(!this.productHotList[0] || (this.productHotList[0].product_id != data[0].product_id)){
+        let findOne = this.productHotList.some(item => {
+          return item.product_id == data[0].product_id
+        })
+        if(!this.productHotList[0] || !findOne){
           this.productHotList.push(...data)
-          this.prodPagination = pagination
         }
+        this.prodPagination = pagination
         // 加载状态结束
         this.loadingHot = false
         // 数据全部加载完成
@@ -465,7 +471,7 @@ export default {
       padding-right: 30px;
     }
     .mian-b{
-      padding:0 20px;
+      padding-left: 26px;
       margin-bottom: 10px;
     }
     .look-all{
@@ -476,11 +482,11 @@ export default {
       padding: 30px 0;
     }
     .half{
-      column-count:2;
-      column-gap: 20px;
+      display: flex;
+      flex-wrap: wrap;
       .item{
-        break-inside: avoid;
-
+        width: 334px;
+        margin-right: 26px;
       }
     }
   }
