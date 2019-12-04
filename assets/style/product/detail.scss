@@ -479,10 +479,6 @@
                                         width: 100% !important;
                                     }
                                 }
-                                img {
-                                    width: 100% !important;
-                                    opacity: 0 !important;
-                                }
                             }
                         }
                         .summarize-wrap {
@@ -493,7 +489,7 @@
                                 overflow: hidden;
                                 p {
                                     img {
-                                        width: 100%;
+                                        width: 100% !important;
                                     }
                                 }
                             }

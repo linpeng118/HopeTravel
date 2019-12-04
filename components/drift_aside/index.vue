@@ -1,117 +1,122 @@
 <template>
-  <div class="drift-wrap">
-    <div v-if="showContactCall">
-      <div>
-        <a @click="contactCustom"><img src="../../assets/imgs/home/icon_contact.png"
-               alt=""></a>
-      </div>
-      <div @click="showcall">
-        <img src="../../assets/imgs/home/icon_phone.png"
-             alt="">
-      </div>
+    <div class="drift-wrap">
+        <div v-if="showContactCall">
+            <div>
+                <a @click="contactCustom" data-agl-cvt="1"><img src="../../assets/imgs/home/icon_contact.png" alt=""></a>
+            </div>
+            <div @click="showcall" data-agl-cvt="2">
+                <img src="../../assets/imgs/home/icon_phone.png" alt="">
+            </div>
+        </div>
+        <div @click="backTop" v-if="isShowDrift">
+            <img src="../../assets/imgs/home/icon_back_top.png" alt="">
+        </div>
+        <!--显示电话号码-->
     </div>
-    <div @click="backTop"
-         v-if="isShowDrift">
-      <img src="../../assets/imgs/home/icon_back_top.png"
-           alt="">
-    </div>
-    <!--显示电话号码-->
-  </div>
 </template>
 
 <script>
-import {DLG_TYPE} from '@/assets/js/consts/dialog'
-/* import onCustomerService from '@/assets/js/customerService.js' */
-import {replaceServerUrl} from '@/assets/js/utils'
-import {mapMutations, mapState, mapGetters} from 'vuex'
-export default {
-  name: 'drift_aside',
-  props: {
-    isHome: {
-      type: Boolean,
-      default: false,
-    },
-    showContactCall: {
-      type: Boolean,
-      default: true,
-    },
-  },
-  data() {
-    return {
-      isShowDrift: false, // 是否显示
-      scrollTop: 0, // 滚动的距离
-      isTel: false, // 电话号码显示
-    }
-  },
-  mounted() {
-    // 监听滚动
-    if (!this.isHome) {
-      window.addEventListener('scroll', this.scrollFn)
-    }
-  },
-  destroyed() {
-    // 移除监听
-    if (!this.isHome) {
-      window.removeEventListener('scroll', this.scrollFn)
-    }
-  },
-  methods: {
-    ...mapMutations({
-      vxSaveReservePro: 'product/saveReservePro',
-      vxToggleDialog: 'toggleDialog', // 是否显示弹窗
-      vxSetDlgType: 'setDlgType', // 设置弹窗类型
-    }),
-    backTop() {
-      if (!this.isHome) {
-        let timer = setInterval(() => {
-          let speed = Math.floor(-this.scrollTop / 3)
-          document.documentElement.scrollTop = document.body.scrollTop = this.scrollTop + speed
-          if (this.scrollTop === 0) {
-            clearInterval(timer)
-          }
-        }, 17)
-      } else {
-        this.$emit('backTop')
-      }
-    },
-    callPhone() {
-      this.isTel = !this.isTel
-    },
-    scrollFn() {
-      if (!this.isHome) {
-        let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-        let height = document.body.clientHeight
-        this.scrollTop = scrollTop
-        /* console.log(scrollTop, height) */
-        if (this.scrollTop > height) {
-          this.isShowDrift = true
-        } else {
-          this.isShowDrift = false
-        }
-      }
-    }, // 电话咨询
-    showcall() {
-      this.vxToggleDialog(true)
-      this.vxSetDlgType(DLG_TYPE.PHONE)
-    },
+    import {
+        DLG_TYPE
+    } from '@/assets/js/consts/dialog'
+    /* import onCustomerService from '@/assets/js/customerService.js' */
+    import {
+        replaceServerUrl
+    } from '@/assets/js/utils'
+    import {
+        mapMutations,
+        mapState,
+        mapGetters
+    } from 'vuex'
+    export default {
+        name: 'drift_aside',
+        props: {
+            isHome: {
+                type: Boolean,
+                default: false,
+            },
+            showContactCall: {
+                type: Boolean,
+                default: true,
+            },
+        },
+        data() {
+            return {
+                isShowDrift: false, // 是否显示
+                scrollTop: 0, // 滚动的距离
+                isTel: false, // 电话号码显示
+            }
+        },
+        mounted() {
+            // 监听滚动
+            if (!this.isHome) {
+                window.addEventListener('scroll', this.scrollFn)
+            }
+        },
+        destroyed() {
+            // 移除监听
+            if (!this.isHome) {
+                window.removeEventListener('scroll', this.scrollFn)
+            }
+        },
+        methods: {
+            ...mapMutations({
+                vxSaveReservePro: 'product/saveReservePro',
+                vxToggleDialog: 'toggleDialog', // 是否显示弹窗
+                vxSetDlgType: 'setDlgType', // 设置弹窗类型
+            }),
+            backTop() {
+                if (!this.isHome) {
+                    let timer = setInterval(() => {
+                        let speed = Math.floor(-this.scrollTop / 3)
+                        document.documentElement.scrollTop = document.body.scrollTop = this.scrollTop + speed
+                        if (this.scrollTop === 0) {
+                            clearInterval(timer)
+                        }
+                    }, 17)
+                } else {
+                    this.$emit('backTop')
+                }
+            },
+            callPhone() {
+                this.isTel = !this.isTel
+            },
+            scrollFn() {
+                if (!this.isHome) {
+                    let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+                    let height = document.body.clientHeight
+                    this.scrollTop = scrollTop
 
-    homeScrollShow() {
-      this.isShowDrift = true
-    },
-    homeScrollHide() {
-      this.isShowDrift = false
-    },
-    contactCustom() {
-      /* onCustomerService() */
-      let url = replaceServerUrl()
-      window.open(url, '_self')
-    },
-  },
-}
+                    if (this.scrollTop > height) {
+                        this.isShowDrift = true
+                    } else {
+                        this.isShowDrift = false
+                    }
+                }
+            }, // 电话咨询
+            showcall() {
+                this.vxToggleDialog(true)
+                this.vxSetDlgType(DLG_TYPE.PHONE)
+            },
+
+            homeScrollShow() {
+                this.isShowDrift = true
+            },
+            homeScrollHide() {
+                this.isShowDrift = false
+            },
+            contactCustom() {
+                /* onCustomerService() */
+                let url = replaceServerUrl()
+                window.open(url, '_self')
+            },
+        },
+    }
+
 </script>
 
 <style type="text/scss" lang="scss" scoped>
-.drift-wrap {
+    .drift-wrap {
   width: 88px;
   height: 400px;
   position: fixed;

@@ -57,12 +57,12 @@
 </script>
 <style>
   .login-dialog-comp+.van-overlay{
-    z-index: 1999!important;
+    /*z-index: 1999!important;*/
   }
 </style>
 <style lang="scss" scoped>
   .login-dialog-comp {
-    z-index: 2000!important;
+    /*z-index: 2000!important;*/
     border-radius: 12px;
     .btn-close {
       position: absolute;

@@ -3,29 +3,65 @@
 
 <head>
     {{ HEAD }}
-  <!--53客服-->
-  <script>
-    (function() {
-      var _arr = ['/protocol/about?platform=mp', '/protocol/user?platform=mp', '/protocol/xifan?platform=mp']
-      var index = _arr.indexOf(window.location.pathname + window.location.search)
-      if(index < 0) {
-        var timer = setInterval(function () {
-          if(window.__tourscool_customer_service_time >=0 ){
-            var _53code = document.createElement("script")
-            let src = "https://tb.53kf.com/code/code/10181581/2"
-            let date = window.__tourscool_customer_service_time
-            if (date < 1 || date >= 14) {
-              src = "https://tb.53kf.com/code/code/3d536eec7f1463b6367bc401b498f8c67/3"
+    <!--53客服-->
+    <script>
+        (function() {
+            var _arr = ['/protocol/about?platform=mp', '/protocol/user?platform=mp', '/protocol/xifan?platform=mp']
+            var index = _arr.indexOf(window.location.pathname + window.location.search)
+            if (index < 0) {
+                var timer = setInterval(function() {
+                    if (window.__tourscool_customer_service_time >= 0) {
+                        var _53code = document.createElement("script")
+                        let src = "https://tb.53kf.com/code/code/10181581/2"
+                        let date = window.__tourscool_customer_service_time
+                        if (date < 1 || date >= 14) {
+                            src = "https://tb.53kf.com/code/code/3d536eec7f1463b6367bc401b498f8c67/3"
+                        }
+                        _53code.src = src
+                        var s = document.getElementsByTagName("script")[0]
+                        s.parentNode.insertBefore(_53code, s)
+                        clearInterval(timer)
+                    }
+                }, 1000)
             }
-            _53code.src = src
-            var s = document.getElementsByTagName("script")[0]
-            s.parentNode.insertBefore(_53code, s)
-            clearInterval(timer)
-          }
-        }, 1000)
-      }
-    })();
-  </script>
+        })();
+
+    </script>
+    <!--  js百度ocpc埋码-->
+    <script>
+        window._agl = window._agl || [];
+        (function() {
+            _agl.push(
+                ['production', '_f7L2XwGXjyszb4d1e2oxPybgD']
+            );
+            (function() {
+                var agl = document.createElement('script');
+                agl.type = 'text/javascript';
+                agl.async = true;
+                agl.src = 'https://fxgate.baidu.com/angelia/fcagl.js?production=_f7L2XwGXjyszb4d1e2oxPybgD';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(agl, s);
+            })();
+        })();
+
+    </script>
+    <!--    读取/储存百度bd_vid-->
+    <script>
+        (function() {
+            //get query
+            function getQueryString(name) {
+                var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+                var r = window.location.search.substr(1).match(reg);
+                if (r != null) {
+                    return unescape(r[2]);
+                }
+                return null;
+            }
+            var bdVid = getQueryString('bd_vid');
+            document.cookie = 'bd_vid=' + escape(bdVid)
+        })();
+
+    </script>
 
 </head>
 

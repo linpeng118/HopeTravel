@@ -32,12 +32,7 @@
         :label="$t('accountComp.englishName')"
         :placeholder="$t('selectTravlerPage.plhdEnlastName')"
       />
-      <p class="connet-title">{{$t('selectTravlerPage.documentsInformatio')}}</p>
-      <van-field
-        :label="$t('typeOfId')"
-        disabled
-        :placeholder="$t('passport')"
-      />
+      <p class="connet-title">{{$t('selectTravlerPage.passportInformation')}}</p>
       <van-field
         v-model="userform.passport"
         required
@@ -45,20 +40,23 @@
         :label="$t('passportNumber')"
         icon="question-o"
         :placeholder="$t('selectTravlerPage.mustWithIdFit')"
-        @click-icon="$toast($t('selectTravlerPage.mustWithIdFit'))"
+        right-icon="question-o"
+        @click-right-icon="$toast($t('selectTravlerPage.mustWithIdFit'))"
       />
       <div class="van-cell van-field" @click="shownationality=true">
-        <div class="van-cell__title">
+        <div class="van-cell__title van-field__label">
           <span>{{$t('selectTravlerPage.nationality')}}</span>
         </div>
-        <div class="van-cell__value"><span>{{userform.nationality!=''?userform.nationality: $t('pleaseChoose')}}</span></div>
-        <i class="van-icon van-icon-arrow van-cell__right-icon"></i>
-
-
+        <div class="van-cell__value">
+          <span>{{userform.nationality!=''?userform.nationality: $t('pleaseChoose')}}</span>
+        </div>
+        <div style="margin-top: -4px">
+          <i class="van-icon van-icon-arrow van-cell__right-icon"></i>
+        </div>
       </div>
       <p class="connet-title">{{$t('contact')}}</p>
       <div class="van-cell van-field">
-        <div class="van-cell__title">
+        <div class="van-cell__title van-field__label">
           <span>{{$t('telephone')}}</span>
         </div>
         <div class="van-cell__value">
@@ -74,11 +72,14 @@
         type="email"
       />
       <p class="connet-title">{{$t('else')}}</p>
-      <div class="van-cell van-field" @click="showdate=true"><!---->
-        <div class="van-cell__title"><span>{{$t('selectTravlerPage.dateOfBirth')}}</span><!----></div>
+      <div class="van-cell van-field" @click="showdate=true">
+        <div class="van-cell__title van-field__label"><span>{{$t('selectTravlerPage.dateOfBirth')}}</span></div>
         <div class="van-cell__value"><span>{{!userform.dob?$t('selectTravlerPage.selectDate'):userform.dob}}</span></div>
-        <i class="van-icon van-icon-arrow van-cell__right-icon"></i>
+        <div style="margin-top: -4px">
+          <i class="van-icon van-icon-arrow van-cell__right-icon"></i>
+        </div>
       </div>
+
       <van-row class="setcheckbox">
         <van-col span="5" style="text-align: right">{{$t('sex')}}</van-col>
         <van-col span="3" style="text-align: right">&nbsp;</van-col>
@@ -90,14 +91,15 @@
         </van-col>
       </van-row>
       <van-cell-group>
-
       </van-cell-group>
       <div class="van-cell-group van-hairline--top-bottom">
-        <div class="van-cell van-cell--center van-cell--borderless van-switch-cell van-field"><!---->
-          <div class="van-cell__title"><span>{{$t('selectTravlerPage.isSelf')}}</span><!----></div>
+        <div class="van-cell van-cell--center van-cell--borderless van-switch-cell van-field">
+          <div class="van-cell__title van-field__label"><span>{{$t('selectTravlerPage.isSelf')}}</span></div>
           <div class="van-cell__value">
             <van-switch-cell v-model="userform.isuser"/>
-          </div><!----></div></div>
+          </div>
+        </div>
+      </div>
       <van-cell-group v-if="queryid!=0">
         <p @click="delconfirm()" style="float: right"><van-icon name="delete" class="elseicon" color="#399EF6;"/>&nbsp;<span class="elsespan">{{$t('delete')}}</span></p>
       </van-cell-group>
@@ -192,6 +194,7 @@
       console.log(from)
       next(vm=>{
         vm.pushpath=from.path;
+
         next();
       })
     },
@@ -258,12 +261,15 @@
           this.userform.phone=this.userform.phone_country+'-'+this.userform.phonex;
           let {data, code, msg} = await setcontanct(this.userform,this.queryid)
           if (code === 0) {
+            console.log(data,msg);
+            
             this.$router.replace({
               path:this.pushpath,
               query:{
                 checker:this.$route.query.checker||[],
                 adult:this.adult||null,
-                isLogin:this.$route.query.isLogin||null
+                isLogin:this.$route.query.isLogin||null,
+                type: this.$route.query.type || '',
               }
             })
           }
@@ -277,13 +283,14 @@
           this.userform.phone=this.userform.phone_country+'-'+this.userform.phonex;
           let {data, code, msg} = await addcontanct(this.userform);
           if (code === 0) {
-            console.log(data)
+            console.log(data,this.$route.query)
             this.$router.replace({
               path:this.pushpath,
               query:{
                 checker:this.$route.query.checker||[],
                 adult:this.$route.query.adult||null,
-                isLogin:this.$route.query.isLogin||null
+                isLogin:this.$route.query.isLogin||null,
+                 type: this.$route.query.type || '',
               }
             })
           }
@@ -388,7 +395,6 @@
     text-align: right;
   }
   .new-connect .van-cell .van-cell__title{
-    width:18%!important;
     padding-right: 30px;
     box-sizing: border-box!important;
   }
@@ -397,6 +403,7 @@
     font-size: 20px;
     font-weight: bold;
     width: 14px;
+    color: #ee0a24;
   }
   .new-connect .van-cell--required::before {
     color: #fff!important;
@@ -427,10 +434,6 @@
    box-shadow:0px 4px 12px rgba(0,0,0,0.14);
    border-bottom:1px solid rgb(238, 238, 238);
    transition: all 0.5s;
-   .left-wrap {
-     /*color: #404040;*/
-     /*font-size: 32px;*/
-   }
    .right-wrap {
      .search {
        width:92px;
