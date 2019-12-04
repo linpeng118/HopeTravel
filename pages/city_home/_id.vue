@@ -191,7 +191,7 @@ export default {
         type: 0,
         category: this.baseInfo.category || 'all',
         reduce: 1,
-        start_city: this.baseInfo.city_id || null,
+        departure_city: this.baseInfo.city_id || null,
         page: (this.prodPagination.page || 0) + 1,
         page_size: 4,
         is_special: 1
