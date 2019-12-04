@@ -107,7 +107,7 @@
     <div class="pro-lst-box">
       <h2 class="title">热销推荐</h2>
       <div class="mian-b">
-        <van-list v-model="loadingHot" :finished="finishedHot" finished-text="没有更多了" @load="onLoad" :immediate-check="false">
+        <van-list ref="refVanList" v-model="loadingHot" :finished="finishedHot" finished-text="没有更多了" @load="onLoad" :immediate-check="false">
           <div class="half">
             <div class="item" v-for="product in productHotList" :key="product.product_id">
               <city-product :item="product"></city-product>
@@ -184,7 +184,6 @@ export default {
       }
     },
     async getSpecialProduct(){
-
       let {code,data,msg} = await getProductList({
         type: 0,
         category: this.baseInfo.category || 'all',
@@ -233,9 +232,11 @@ export default {
       this.$router.push(url)
     },
     async onLoad(){
+      console.log(666666666666666,'onLoad')
       this.searchGetProduct()
     },
     async searchGetProduct(){
+      console.log(7777777777777,'searchGetProduct')
       let {code,data,pagination} = await getProductList({
         type: 0,
         category: this.baseInfo.category || 'all',
@@ -243,9 +244,10 @@ export default {
         page: (this.prodPagination.page || 0) + 1
       })
       if(code === 0) {
-        // this.loadingHot = false
-        this.productHotList.push(...data)
-        this.prodPagination = pagination
+        if(!this.productHotList[0] || (this.productHotList[0].product_id != data[0].product_id)){
+          this.productHotList.push(...data)
+          this.prodPagination = pagination
+        }
         // 加载状态结束
         this.loadingHot = false
         // 数据全部加载完成
