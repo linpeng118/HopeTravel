@@ -235,7 +235,7 @@ export default {
       this.$router.push(url)
     },
     async onLoad(){
-      if(this.baseInfo.category){
+      if(this.baseInfo.category || this.baseInfo.city_id){
         this.searchGetProduct()
       }
     },
