@@ -34,7 +34,7 @@
               </div>
               <dl class="pro-content">
                 <dt class="no-wrap-line3">{{item.name}}</dt>
-                <dd>{{$t('personalPage.price')}}}：<span class="price">{{item.default_price}}</span></dd>
+                <dd>{{$t('personalPage.price')}}：<span class="price">{{item.default_price}}</span></dd>
               </dl>
             </div>
           </van-cell>
