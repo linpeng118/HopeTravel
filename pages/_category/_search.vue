@@ -11,7 +11,7 @@
     ></lay-header>
     <!--主要内容-->
     <div class="list-wrap">
-      <div class="tabs-box" :class="$route.query.sale ? 'no-tab':''">
+      <div class="tabs-box" :class="($route.query.sale || $route.query.tb) ? 'no-tab':''">
         <van-tabs v-model="active" @click="changeTypeClick">
           <template v-for="item in tagsList">
             <van-tab :title="item.title" :key="item.type">
@@ -86,19 +86,19 @@
       </div>
     </van-popup>
     <!--排序条件搜索-->
-    <div class="sort-box-se" v-if="sortShow" @click="sortShow=false">
+    <div class="sort-box-se" v-if="sortShow" @click="sortShow=false" :class="($route.query.sale || $route.query.tb) ? 'no-tab':''">
       <sort-item :sortShow="sortShow" :sortResult="sortResult" @selectSort="selectSortItem" @close="sortShow = false"></sort-item>
     </div>
     <!--类别条件搜索-->
-    <div class="sort-box-se" v-if="typeShow">
+    <div class="sort-box-se" v-if="typeShow" :class="($route.query.sale || $route.query.tb) ? 'no-tab':''">
       <play-item :dayShow="typeShow" :checkitem="checktype" @selectSort="selectTypeItem" @close="typeShow = false"></play-item>
     </div>
     <!--行程天数搜索-->
-    <div class="sort-box-se" v-if="dayShow && (filterLists.duration && filterLists.duration.total)">
+    <div class="sort-box-se" v-if="dayShow && (filterLists.duration && filterLists.duration.total)" :class="($route.query.sale || $route.query.tb) ? 'no-tab':''">
       <day-item :dayShow="dayShow" :checkitem="filterResult.duration" :dayResult="filterLists.duration" @selectSort="selectDayItem" @close="dayShow = false" @deleteDay="deleteDaySelect"></day-item>
     </div>
     <!--航线搜索-->
-    <div class="sort-box-se" v-if="routerShow && (filterLists.lines && filterLists.lines.total)">
+    <div class="sort-box-se" v-if="routerShow && (filterLists.lines && filterLists.lines.total)" :class="($route.query.sale || $route.query.tb) ? 'no-tab':''">
       <router-item :dayShow="routerShow" :checkitem="Number(checkrouter)" :dayResult="filterLists.lines" @selectSort="selectRouterItem" @close="routerShow= false"></router-item>
     </div>
     <!--更多列表的选择-->
@@ -699,6 +699,9 @@ export default {
     top:264px;
     height: 100%;
     background:rgba(0,0,0,.45);
+    &.no-tab{
+      top:176px;
+    }
   }
   .filter-select{
     &.van-popup--right{
@@ -845,5 +848,8 @@ export default {
   }
   .list-wrap .no-tab .filter-box{
     margin-top: 88px;
+  }
+  .sort-box-se.no-tab .sort-box{
+    top: 176px;
   }
 </style>

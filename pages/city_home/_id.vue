@@ -225,11 +225,11 @@ export default {
     gotoIconPage(banner){
       let url = ''
       if(this.baseInfo.category) {
-        url = banner.nav_link.replace(/all/, this.baseInfo.category)
+        url = banner.nav_link.replace(/all/, this.baseInfo.category).split('-')[0]
       } else {
         url = banner.nav_link + this.baseInfo.city_id
       }
-      this.$router.push(url)
+      this.$router.push(`${url}?tb=1`)
     },
     gotoHotCityPage(city){
       let url = ''
