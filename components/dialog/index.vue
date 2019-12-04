@@ -103,7 +103,7 @@
   .normal-dialog-comp {
     border-radius: 12px;
     width: 646px;
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);

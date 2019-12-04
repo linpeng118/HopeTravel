@@ -1,5 +1,6 @@
 <template>
-  <div class="city-home-main" :style="{backgroundImage: `url(${baseInfo.url})`}">
+  <div class="city-home-main">
+    <div class="bg-top" :style="{backgroundImage: `url(${baseInfo.url})`}"></div>
     <!-- topBar -->
     <div class="top-bar-ld">
       <div class="go-jump-page" @click="onClickLeft">
@@ -48,7 +49,7 @@
         <h2 class="title"><img src="../../assets/imgs/cityHome/hot_city_icon@2x.png">热门城市</h2>
         <van-grid :border="false" :column-num="3">
           <van-grid-item v-for="city in hotCityList" :key="city.id" >
-            <div class="tag" @click="$router.push(`/city_home/${city.config_id}`)">
+            <div class="tag" @click="gotoHotCityPage(city)">
               <span>{{city.title}}</span>
               <em class="tips" v-if="city.is_hot"></em>
             </div>
@@ -76,7 +77,7 @@
             <van-swipe-item v-for="(hot,index) in hotPlayList" :key="'hotPlayList'+index">
               <van-grid :border="false" :column-num="3">
                 <van-grid-item v-for="(item,index ) in hot.items" :key="item.product_id">
-                  <img-box position="center" :isSelfBg="true" :index="index" :imgObj="item" @gotoPage="gotoPageList"></img-box>
+                  <img-box position="center" :isSelfBg="true" :index="index" :imgObj="item" @gotoPage="gotoPageList" :isHot="item.product_id.toString().split(',').length > 15"></img-box>
                 </van-grid-item>
               </van-grid>
             </van-swipe-item>
@@ -144,7 +145,8 @@ export default {
       baseInfo: {},// 背景数据
       hotViewList: [], // 热门景点
       hotCityList: [], // 热门城市
-      bannerDataList: [] // banner icon
+      bannerDataList: [], // banner icon
+      isFirstLoading: true // 第一次进入
     }
   },
   computed:{
@@ -162,7 +164,7 @@ export default {
   async mounted(){
     await this.init()
     await this.getSpecialProduct()
-    await this.onLoad()
+    await this.searchGetProduct()
     this.getTime()
   },
   methods:{
@@ -221,7 +223,22 @@ export default {
     gotoIconPage(banner){
       window.open(`${banner.nav_link}${this.tourCityId}`,'_self')
     },
+    gotoHotCityPage(city){
+      let url = ''
+      if(city.jump_url == 2) {
+        url = `/city_home/${city.config_id}`
+      } else {
+        url = `/all/ya?ids=${city.city_id}`
+      }
+      this.$router.push(url)
+    },
     async onLoad(){
+      if(!this.isFirstLoading){
+        this.searchGetProduct()
+      }
+      this.isFirstLoading = false
+    },
+    async searchGetProduct(){
       let {code,data,pagination} = await getProductList({
         type: 0,
         category: this.baseInfo.category || 'all',
@@ -292,9 +309,7 @@ export default {
   .city-home-main{
     position: relative;
     width: 100%;
-    background-repeat: no-repeat;
     background-color: #f1f1f1;
-    background-size: contain;
     &::before{
       content: '';
       width: 100%;
@@ -303,6 +318,14 @@ export default {
       position: absolute;
       top: 0;
       left: 0;
+    }
+    .bg-top{
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 366px;
+      background-repeat: no-repeat;
+      background-size: cover;
     }
      h2.title{
       padding: 20px 0 20px;

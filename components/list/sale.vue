@@ -7,7 +7,7 @@
       </div>
       <div class="price-f-b">
         <span class="sell-p"><b>{{productObj | getPrice}}</b>起</span>
-        <span>已减{{productObj.agent_fee}}</span>
+        <span>已减{{productObj | specialPrice}}</span>
       </div>
     </div>
     <div class="name-p">
@@ -20,6 +20,12 @@ export default {
   filters:{
     getPrice(value){
       return (value.special_price || value.default_price).toString().split('.')[0]
+    },
+    specialPrice(value){
+      let fh = value.default_price.substring(0, 1)
+      let dp = value.default_price.substring(1)
+      let sp = value.special_price.substring(1)
+      return fh + parseInt(dp - sp)
     }
   },
   props:{

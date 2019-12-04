@@ -2,7 +2,7 @@
   <div class="img-sg-b" :class="isSelfBg ? `bg-${index+1}`:''" @click="changePage">
     <img v-if="!isSelfBg" :src="imgObj.image" />
     <p class="name" :style="stylePosition">{{imgObj.name || imgObj.hot_title}}</p>
-    <em v-if="imgObj.is_hot"></em>
+    <em v-if="imgObj.is_hot || isHot"></em>
   </div>
 </template>
 <script>
@@ -23,6 +23,10 @@ export default {
     index:{
       type: Number,
       default: -1
+    },
+    isHot:{
+      type: Boolean,
+      default: false
     }
   },
   computed:{
