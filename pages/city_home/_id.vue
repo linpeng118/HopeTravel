@@ -211,7 +211,9 @@ export default {
       }
     },
     onSearch(){
-      this.$router.push(`/all/ya-cf${this.tourCityId}?w=${this.keywords}`)
+      if(this.keywords){
+        this.$router.push(`/all/ya-cf${this.tourCityId}?w=${this.keywords}`)
+      } 
     },
     onChange(index){
       this.current = index;
@@ -236,7 +238,7 @@ export default {
       if(city.jump_url == 2) {
         url = `/city_home/${city.config_id}`
       } else {
-        url = `/all/ya?ids=${city.city_id}`
+        url = `/all/ya-dc${city.city_id}`
       }
       this.$router.push(url)
     },
