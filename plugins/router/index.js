@@ -17,15 +17,12 @@ export default ({
     }
     try {
       // M站客服系统：首页/列表/定制/签证/活动
-      if (to.name === 'category-search' || to.name === 'visa' || to.name === 'custom') {
+      if (to.name === 'category-search' || to.name === 'visa' || to.name === 'custom' || to.name === 'city_home-id') {
         console.log('show customer service');
         document.body.setAttribute('class', 'show-customer-service')
-      } else if(to.name == 'product-detail' || to.name === 'search' || to.name === 'personal-order' || to.name === 'personal-order_des'){
-        // 在详情页面添加pr-dl class解决详情页面划不动的情况
-        document.body.setAttribute('class', 'pr-dl hide-customer-service')
       } else {
         console.log('hide customer service');
-        document.body.setAttribute('class', 'hide-customer-service')
+        document.body.setAttribute('class', 'pr-dl hide-customer-service')
       }
       
       if (to.path.indexOf('.html') >= 0) {}

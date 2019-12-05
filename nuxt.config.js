@@ -199,11 +199,11 @@ module.exports = {
         },
         postcss: [
       require('postcss-px2rem-exclude')({
-                remUnit: 75, // 转换基本单位
-                exclude: /vant/i,
+            remUnit: 75,
+            exclude: /vant/i,
             }),
       require('autoprefixer')({
-                browsers: ['last 5 versions'],
+        browsers: ['last 5 versions'],
             }),
     ],
         optimization: {
