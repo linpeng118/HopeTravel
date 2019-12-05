@@ -11,7 +11,7 @@
     ></lay-header>
     <!--主要内容-->
     <div class="list-wrap">
-      <div class="tabs-box">
+      <div class="tabs-box" :class="($route.query.sale || $route.query.tb) ? 'no-tab':''">
         <van-tabs v-model="active" @click="changeTypeClick">
           <template v-for="item in tagsList">
             <van-tab :title="item.title" :key="item.type">
@@ -71,7 +71,7 @@
               <div class="filter-tags" :ref="'tags' + key">
                 <div class="item"
                      v-for="(city,index) in item.items"
-                     :key="city.name"
+                     :key="city.id+city.name"
                      :class="filterActive(city.id, key)"
                      @click="filterClick(city, key, index)" :ref="key + currentType">{{city.name}}</div>
               </div>
@@ -86,19 +86,19 @@
       </div>
     </van-popup>
     <!--排序条件搜索-->
-    <div class="sort-box" v-if="sortShow">
+    <div class="sort-box-se" v-if="sortShow" @click="sortShow=false" :class="($route.query.sale || $route.query.tb) ? 'no-tab':''">
       <sort-item :sortShow="sortShow" :sortResult="sortResult" @selectSort="selectSortItem" @close="sortShow = false"></sort-item>
     </div>
     <!--类别条件搜索-->
-    <div class="sort-box" v-if="typeShow">
+    <div class="sort-box-se" v-if="typeShow" :class="($route.query.sale || $route.query.tb) ? 'no-tab':''">
       <play-item :dayShow="typeShow" :checkitem="checktype" @selectSort="selectTypeItem" @close="typeShow = false"></play-item>
     </div>
     <!--行程天数搜索-->
-    <div class="sort-box" v-if="dayShow && (filterLists.duration && filterLists.duration.total)">
+    <div class="sort-box-se" v-if="dayShow && (filterLists.duration && filterLists.duration.total)" :class="($route.query.sale || $route.query.tb) ? 'no-tab':''">
       <day-item :dayShow="dayShow" :checkitem="filterResult.duration" :dayResult="filterLists.duration" @selectSort="selectDayItem" @close="dayShow = false" @deleteDay="deleteDaySelect"></day-item>
     </div>
     <!--航线搜索-->
-    <div class="sort-box" v-if="routerShow && (filterLists.lines && filterLists.lines.total)">
+    <div class="sort-box-se" v-if="routerShow && (filterLists.lines && filterLists.lines.total)" :class="($route.query.sale || $route.query.tb) ? 'no-tab':''">
       <router-item :dayShow="routerShow" :checkitem="Number(checkrouter)" :dayResult="filterLists.lines" @selectSort="selectRouterItem" @close="routerShow= false"></router-item>
     </div>
     <!--更多列表的选择-->
@@ -127,18 +127,21 @@ import {LIST_PARAMS} from '@/assets/js/config'
 import Loading from '@/components/loading'
 
 export default {
-   async asyncData({params, query, $axios, store}){
+   async asyncData({params, query, $axios, store,redirect}){
       // 路由进来则会请求数据
       // tj 途径景点；cf 出发城市; js 结束城市; sj 行程天数；jg 价格预算；page 为当前的页数
       // cf29-tj143_131-js32
       // yg 当地跟团 type 1；yw 当地玩乐 type 2；yj稀饭自营 type 3 ；yl 游轮 type 7；ym 门票演出 4; yr 一日游 5
     let {category,search = ''} = params
-    let {page = 1, sem = '0', w = null} = query
-
+    let {page = 1, sem = '0', w = null,sale = null, sp = null,ids = null} = query
+    if(search.indexOf('y')==-1){
+      let urlNeu = '/'+category+'/ya'
+      redirect(urlNeu) 
+    }
     let getSearch = {}
-     if(search){
-       getSearch = getParams(search)
-     }
+    if(search){
+      getSearch = getParams(search)
+    }
     getSearch.category = category
     let active = 0
     let checktype = 2
@@ -153,7 +156,17 @@ export default {
         active = getSearch.type
       }
     }
-
+    if(sale){
+      getSearch.reduce = sale
+    }
+    if(sp){
+      getSearch.is_special = sp
+    }
+    if(ids){
+      getSearch.product_id = ids
+    }
+    console.log(4444, getSearch);
+    
     return {
       searchKeyWords: w, // 关键字
       searchType:sem,
@@ -178,19 +191,6 @@ export default {
     dayItem,
     Loading
   },
-  /* head() {
-    let srcCustomerService
-    if (process.env.customerService === "53kf") {
-      srcCustomerService = 'https://tb.53kf.com/code/code/10181581/2'
-    }
-    return {
-      script: [
-        {
-          src: srcCustomerService
-        },
-      ]
-    }
-  }, */
   data() {
     return {
       // searchKeyWords: this.$route.query. || null,
@@ -222,7 +222,8 @@ export default {
         sort: 5,
         total: 1,
       },
-      loadingData: true // 列表更新的加载
+      loadingData: true, // 列表更新的加载
+      isFirstLoading: true
     }
   },
   computed: {
@@ -241,7 +242,6 @@ export default {
           ...this.searchParams
         }
         this.getFilterList()
-        console.log(_params)
         this.searchGetProduct(_params)
         // this.keywordStatistics()
       },
@@ -249,7 +249,6 @@ export default {
     }
   },
   created() {
-    console.log('進來了',this.filterResult)
     this.sortTypes = [
       {id:1, order: '', order_by: '', name: this.$t('productListPage.sortDefault')},
       {id:2, order: 'asc', order_by: 'price', name: this.$t('productListPage.sortPriceLowToHigh')},
@@ -264,8 +263,21 @@ export default {
       {id:6,type: 7,title: this.$t('tours.cruise')},
     ];
   },
+  mounted() {
+    window.addEventListener('scroll', this.scrollFn)
+  },
+  destroyed() {
+    // 移除监听
+    window.removeEventListener('scroll', this.scrollFn)
+  },
   methods:{
-    
+    // 滚动监听
+    scrollFn(){
+      this.sortShow = false
+      this.typeShow = false
+      this.dayShow = false
+      this.routerShow = false
+    },
     // 返回上一级
     leftClick() {
       if(this.searchType > 0) {
@@ -296,8 +308,10 @@ export default {
         brand: this.filterResult.brand || null,
         ...this.searchParams
       }
-
-      this.searchGetProduct(submitParams)
+      if(!this.isFirstLoading){
+        this.searchGetProduct(submitParams)
+      }
+      this.isFirstLoading = false
     },
     changeTypeClick(name){
       //ya 所有； yg 当地跟团 type 1；yw 当地玩乐 type 2；yj稀饭自营 type 3 ；yl 游轮 type 7
@@ -346,7 +360,9 @@ export default {
         if(data.tag) {
           delete data.tag
         }
-        this.filterLists = data;
+        this.filterLists = data;   
+        console.log(this.filterLists);
+        
       }
     },
     // 条件查询选择
@@ -402,22 +418,24 @@ export default {
     },
     // 显示更多的标签
     showMoreFilter(key, item) {
+      console.log(key, item);
+      
       let filterName = this.$refs['filter' + key][0].className
       let name = this.$refs['tags' + key][0].className
+      
       if(item.items.length > 15) {
         let _obj = this._nomalLizePinyin(item.pinyin)
         this.showList = true
         _obj.title = this.showTitle(key)
         _obj.type = key
         this.moreLists = _obj
-        console.log(this.moreLists)
         if(this.$refs['moreList']) {
           this.$refs['moreList'].activeList = []
         }
       } else {
         this.$refs['tags' + key][0].className = name.indexOf('all') >= 0 ? 'filter-tags': 'filter-tags all'
         this.$refs['filter' + key][0].className = filterName.indexOf('down')>= 0 ? 'van-icon van-icon-arrow': 'van-icon van-icon-arrow-down'
-      }
+      }  
     },
     againSearch(){
       // this.prodPagination = {}
@@ -505,18 +523,21 @@ export default {
     // 关闭更多选择层
     selectMorePopup(lists,type) {
       this.filterResult[type] = lists
-      console.log(this.filterResult)
       this.showList = false
     },
     selectCityList(id,type){
-      console.log(id)
+      console.log(id,type,this.filterResult[type]);
+      
       if(type === 'span_city' && this.filterResult[type]) {
         if(this.filterResult[type]) {
           this.filterResult[type] = removeOrAddStr(this.filterResult[type], id)
         }
       } else {
-        this.filterResult[type] = id
+        /* this.filterResult[type] = id */
+        this.$set(this.filterResult,type,id);
       }
+      console.log(this.filterResult);
+      
     },
     // 更多列表返回
     moreListBack() {
@@ -524,24 +545,38 @@ export default {
     },
     sortChange(){
       this.sortShow = !this.sortShow
+      this.typeShow = false
+      this.dayShow = false
+      this.routerShow = false
     },
     typeChange(){
       this.typeShow = !this.typeShow
+      this.sortShow = false
+      this.dayShow = false
+      this.routerShow = false
     },
     routerChange(){
       this.routerShow = !this.routerShow
+      this.sortShow = false
+      this.dayShow = false
+      this.typeShow = false
     },
     dayChange(){
       this.dayShow = !this.dayShow
+      this.sortShow = false
+      this.typeShow = false
+      this.routerShow = false
     },
     // 筛选条件
     filterSelect () {
       this.showFilter = !this.showFilter
+      this.sortShow = false
+      this.dayShow = false
+      this.typeShow = false
+      this.routerShow = false
       // this.showcolor = 'filter'
     },
     selectProductDetail(productId){
-      console.log(productId);
-      
       this.$router.push({
         name: 'product-detail',
         query: {
@@ -551,7 +586,6 @@ export default {
     },
     // 选中筛选
     filterClick(item, key) {
-      console.log(item, key)
       let id = item.id + ''
       if(key === 'span_city' || key === 'duration') {
         // 多选项
@@ -565,10 +599,10 @@ export default {
         id = this.filterResult[key] == id ? '' : id
         this.$set(this.filterResult, key, id)
       }
-      // console.log(this.filterResult)
     },
     // 数据变化引起导航变化
     changeRouter(keyword){
+      
       let _url = changeParams(this.filterResult).split('/');
       
       if(keyword){
@@ -589,6 +623,8 @@ export default {
     changeRouterReset(keyword){
       let  urlResetAll = changeParams(this.filterResult).split('/');
       let urlReset = urlResetAll[2].split('-')[0];
+      console.log(101010,urlResetAll,urlReset);
+      
       if(keyword){
         delete this.$route.query.w
       }
@@ -605,7 +641,12 @@ export default {
     _nomalLizePinyin(data) {
       let len = data.length
       let obj = {}
+      console.log(data);
+      
       data.sort((a, b) => {
+        if(!a.key){
+          console.log(a);
+        }
         return a.key.charCodeAt(0) - b.key.charCodeAt(0)
       })
       for(let i= 0; i<len; i++) {
@@ -629,8 +670,8 @@ export default {
 </script>
 <style type="text/scss" lang="scss" scoped>
   .list-wrap{
-    padding-top:88px;
     .filter-box{
+      margin-top: 176px;
       height: 88px;
       padding:26px 32px;
       display: flex;
@@ -650,6 +691,16 @@ export default {
           vertical-align: text-top;
         }
       }
+    }
+  }
+  .sort-box-se{
+    position: absolute;
+    width: 100%;
+    top:264px;
+    height: 100%;
+    background:rgba(0,0,0,.45);
+    &.no-tab{
+      top:176px;
     }
   }
   .filter-select{
@@ -751,14 +802,13 @@ export default {
         color: #fff;
       }
     }
-    .show-list{
-    }
+   
     .filter-main-box{
       width: 100px;
       height: 100%;
       margin-top: 0;
     }
-  }
+  } 
 </style>
 <style type="text/scss" lang="scss">
   .product-list-page{
@@ -786,15 +836,20 @@ export default {
         color: #399EF6;
       }
     }
-    .van-overlay{
-      /*top: 254px !important;*/
-    }
     .drift-wrap .van-overlay{
       top: 0 !important;
     }
   }
+  .product-list-page .list-wrap .tabs-box.no-tab .van-tabs__wrap{
+    display: none;
+  }
   .product-list-page .van-tabs__wrap--scrollable .van-tab{
     flex:1 !important;
   }
-  
+  .list-wrap .no-tab .filter-box{
+    margin-top: 88px;
+  }
+  .sort-box-se.no-tab .sort-box{
+    top: 176px;
+  }
 </style>
