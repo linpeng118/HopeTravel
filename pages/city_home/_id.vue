@@ -157,7 +157,7 @@ export default {
       let category = this.baseInfo.category || 'all'
       let url = ''
       if(this.baseInfo.city_id){
-        url = `/${category}/ya-cf${this.baseInfo.city_id}?sale=1&sp=1`
+        url = `/${category}/ya-dc${this.baseInfo.city_id}?sale=1&sp=1`
       } else {
         url = `/${category}/ya?sale=1&sp=1`
       }
