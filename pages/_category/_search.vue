@@ -308,10 +308,7 @@ export default {
         brand: this.filterResult.brand || null,
         ...this.searchParams
       }
-      if(!this.isFirstLoading){
-        this.searchGetProduct(submitParams)
-      }
-      this.isFirstLoading = false
+      this.searchGetProduct(submitParams)
     },
     changeTypeClick(name){
       //ya 所有； yg 当地跟团 type 1；yw 当地玩乐 type 2；yj稀饭自营 type 3 ；yl 游轮 type 7
@@ -390,7 +387,12 @@ export default {
           this.productList = data
           this.loadingData = false
         } else {
-          this.productList.push(...data)
+          let findOne = this.productList.some(item => {
+            return item.product_id == data[0].product_id
+          })
+          if(!this.productList[0] || !findOne){
+            this.productList.push(...data)
+          }
         }
         this.prodPagination = pagination
         // 加载状态结束
@@ -647,13 +649,17 @@ export default {
         if(!a.key){
           console.log(a);
         }
-        return a.key.charCodeAt(0) - b.key.charCodeAt(0)
+        if(a.key && b.key){
+          return a.key.charCodeAt(0) - b.key.charCodeAt(0)
+        }
       })
       for(let i= 0; i<len; i++) {
-        if(!obj[data[i].key]) {
+        if(!obj[data[i].key] && data[i].key != null) {
           obj[data[i].key] = []
         }
-        obj[data[i].key].push({...data[i]})
+        if(data[i].key) {
+          obj[data[i].key].push({...data[i]})
+        }
       }
       return obj
     },
