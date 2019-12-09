@@ -8,8 +8,8 @@
                            @callOnRight="onHeaderRight"
                            @callOnLeft="goBack"
                            ref="refProdctDetailHeader" />
-    <div class="banner">
-    <img v-if="objdata&&objdata.cover" :src="objdata.cover" alt="">
+    <div class="banner" v-if="objdata&&objdata.cover" :style="{backgroundImage:'url('+objdata.cover+')'}">
+   
   </div>
     <!-- 右上角更多操作 -->
     <transition name="fade">
@@ -1314,6 +1314,9 @@
     width: 750px;
     height: 520px;
     position: relative;
+    background-position-y: center;
+    background-size: 100%;
+    background-repeat: no-repeat;
     .right{
       position: absolute;
       top: 20px;
@@ -1323,12 +1326,12 @@
       height: 100px;
       background: url('~assets/imgs/custom/more.png') no-repeat center center/40px 42px;
     }
-    img{
+    /* img{
       width: 750px;
       height: 520px;
       display: inline-block;
       background-color: #8f8f8f;
-    }
+    } */
     }
   .con{
     padding: 32px;
