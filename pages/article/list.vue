@@ -26,8 +26,8 @@
           <template v-if="datax.length">
             <van-cell v-for="(data,ind) in datax" :key="ind">
               <div class="product-item" @click="selectDetail(data.article_id)" target="_blank">
-                <div class="box-img">
-                  <img :src="data.cover" alt="">
+                <div class="box-img" :style="{backgroundImage:'url('+data.cover+')'}">
+                  
                 </div>
                 <div class="con">
                   <div class="p1" v-html="data.name.length>30?data.name.substr(0,26)+'...':data.name"></div>
@@ -37,7 +37,6 @@
                           v-html="data.create_user.name.length>6?data.create_user.name.substr(0,6)+'....':data.create_user.name"
                     ></span>
                     <span style="color:#575757;" v-else>佚名</span>
-
                     <span>阅读{{data.read_count}}</span>
                     <span>评论{{data.comment_count}}</span>
                   </p>
@@ -287,6 +286,8 @@
         overflow: hidden;
         position: absolute;
         background-color: #dedede;
+        background-size: cover;
+        background-repeat: no-repeat;
         box-shadow:0px 0px 12px rgba(52,52,52,0.2);
         img{
           height: 240px;
