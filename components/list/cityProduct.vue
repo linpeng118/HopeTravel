@@ -6,7 +6,8 @@
       <div class="rate">{{item.comment_score == '0.0' ? '5.0' : item.comment_score}}分</div>
     </div>
     <div class="name-p">
-      {{item.name}}
+      <span v-if="item.name_short" class="short-name">{{item.name_short}}</span>
+      <span v-else class="name">{{item.name}}</span>
     </div>
     <div class="tag-p-s" v-if="item.icons_tour && item.icons_tour.length">
       <span v-for="tag in item.icons_tour" :key="tag.title">{{tag.title}}</span>
@@ -91,6 +92,16 @@ export default {
       line-height:40px;
       color:#2D2D2D;
       overflow: hidden;
+      span{
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp:2;
+        overflow: hidden;
+        font-size:28px;
+        font-weight:bold;
+        line-height:40px;
+        color:rgba(45,45,45,1);
+      }
     }
     .tag-p-s{
       margin-top: 10px;
