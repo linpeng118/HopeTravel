@@ -222,6 +222,9 @@
          computed: {
              ...mapGetters(['closeDown']),
          },
+        //  created() {
+        //    console.log(212121,this.indexData[2])
+        //  },
          async mounted() {
              // document.getElementsByTagName('body')[0].className = 'show-kf'
              console.log(this.$router)
