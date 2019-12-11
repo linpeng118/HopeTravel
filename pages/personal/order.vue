@@ -19,13 +19,13 @@
                                 <div class="pro-pic">
                                     <img :src="order.image" alt>
                                 </div>
-                                <dl class="pro-content">
-                                    <!--<dt class="no-wrap-line3">{{order.product_name}}</dt>-->
-                                    <dt class="title-wrap-line3">
-                                        <div class="text">{{order.product_name}}</div>
-                                    </dt>
-                                    <dd>{{$t('personalPage.travelDate')}}:{{order.product_departure_date.split(' ')[0]}}</dd>
-                                </dl>
+                                <div class="pro-content">
+                                    <span class="short-name">{{order.name_short}}</span>
+                                    <span class="title-wrap-line3">
+                                        {{order.product_name}}
+                                    </span>
+                                    <span class="departure_date">{{$t('personalPage.travelDate')}}:{{order.product_departure_date.split(' ')[0]}}</span>
+                                </div>
                             </div>
                             <div class="footer clearfix">
                                 <div class="fl left-f">
@@ -218,71 +218,42 @@
                         }
 
                         .pro-content {
-                            width: 383px;
-
-                            dt {
+                                width: 383px;
                                 text-align: justify;
-                                font-size: 24px;
+                                font-size: 0;
                                 color: #191919;
-
-                                &.title-wrap-line3 {
-                                    /*position: relative;*/
-                                    line-height: 30px;
-                                    height: 90px;
+                                position: relative;
+                                .short-name{
+                                    font-size:32px;
+                                    font-weight:bold;
+                                    line-height:44px;
+                                    color:rgba(45,45,45,1);
+                                    display: -webkit-box;
+                                    -webkit-box-orient: vertical;
+                                    -webkit-line-clamp: 2;
+                                    overflow: hidden;
+                                }
+                                .title-wrap-line3 {
+                                    display: block;
                                     overflow: hidden;
                                     box-sizing: content-box;
-
-                                    .text {
-                                        float: right;
-                                        margin-left: -5px;
-                                        width: 100%;
-                                        word-break: break-all;
-                                        box-sizing: content-box;
-                                    }
-
-                                    &::before {
-                                        float: left;
-                                        width: 5px;
-                                        content: '';
-                                        height: 90px;
-                                    }
-
-                                    &::after {
-                                        float: right;
-                                        content: "...";
-                                        height: 30px;
-                                        line-height: 30px;
-                                        /* 为三个省略号的宽度 */
-                                        width: 30px;
-                                        /* 使盒子不占位置 */
-                                        margin-left: -30px;
-                                        /* 移动省略号位置 */
-                                        position: relative;
-                                        left: 100%;
-                                        top: -30px;
-                                        padding-right: 1px;
-                                        background-color: #FFF;
-                                    }
-
-                                    /*&::after{*/
-                                    /*content: "...";*/
-                                    /*position: absolute;*/
-                                    /*bottom: 0;*/
-                                    /*right: 0;*/
-                                    /*padding-left: 24px;*/
-                                    /*background: -webkit-linear-gradient(left, transparent, #fff 55%);*/
-                                    /*background: -o-linear-gradient(right, transparent, #fff 55%);*/
-                                    /*background: -moz-linear-gradient(right, transparent, #fff 55%);*/
-                                    /*background: linear-gradient(to right, transparent, #fff 55%);*/
-                                    /*}*/
+                                    font-size:28px;
+                                    font-weight:400;
+                                    line-height:40px;
+                                    color:rgba(45,45,45,1);
+                                    overflow: hidden;
+                                    white-space: nowrap;
+                                    text-overflow: ellipsis;
                                 }
-                            }
+                                .departure_date{
+                                    position: absolute;
+                                    bottom: 0;
+                                    display: block;
+                                    color: #989898;
+                                    font: 24px/24px "";
+                                    margin-top: 20px;
 
-                            dd {
-                                color: #989898;
-                                font: 24px/24px "";
-                                margin-top: 20px;
-                            }
+                                }
                         }
                     }
 
