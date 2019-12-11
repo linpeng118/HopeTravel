@@ -19,6 +19,7 @@
       <!--页头信息-->
       <section>
         <div class="confirm-title">
+          <p>{{product.name_short}}</p>
           <p>{{product.name}}</p>
           <p>{{showtype}}</p>
         </div>
@@ -412,7 +413,7 @@
         this.getqu();
         this.settitletip();
       },20)
-
+      
     },
 
     methods: {
@@ -857,15 +858,22 @@
     padding-top:88px;
   }
   .confirm-title p:nth-child(1) {
-    padding-top: 10px;
-    width: 100%;
-    font-size: 28px;
-    font-weight: 700;
-    line-height: 32px;
-    color: rgba(19, 19, 19, 1);
-    opacity: 1;
+    font-size:28px;
+    font-weight:bold;
+    line-height:40px;
+    color:rgba(45,45,45,1);
+    opacity:1;
   }
   .confirm-title p:nth-child(2) {
+    padding-top:8px;
+    width: 100%;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 34px;
+    color:rgba(45,45,45,1);
+    opacity: 1;
+  }
+  .confirm-title p:nth-child(3) {
     width: 100%;
     font-size: 24px;
     line-height: 60px;

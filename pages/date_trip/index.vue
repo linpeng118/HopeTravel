@@ -399,7 +399,7 @@
             }
             else if (this.product.min_num_guest == this.product.max_num_guest) {
               objroom = {
-                adult: this.product.min_num_guest,
+                adult: this.product.min_num_guest, 
                 child: 0,
                 pair: false,
                 add: false
