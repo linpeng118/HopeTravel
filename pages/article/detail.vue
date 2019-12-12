@@ -84,7 +84,11 @@
           <div class="prox" v-for="(pro,inde) in item.relate_product" :key="inde" @click="topro(pro.product_id)">
            <div class="imgbox"><img :src="pro.image" alt=""></div>
             <div class="conbox">
-              <p v-html="pro.name.length>29?pro.name.substr(0,26)+'...':pro.name"></p>
+              <p class="short_name">{{pro.name_short}}</p>
+              <p
+                v-html="pro.name.length>29?pro.name.substr(0,26)+'...':pro.name"
+                :class="pro.name_short ? '': 'mt-20'"
+                ></p>
               <p><span>{{pro.default_price}}</span>&nbsp;<span>起</span></p>
             </div>
           </div>
@@ -1508,7 +1512,7 @@
         font-size: 28px;
         padding: 20px 5px;
         p:nth-child(2){
-          margin-top: 20px;
+          // margin-top: 20px;
           span:nth-child(1){
             font-size: 44px;
             color:#f15b4a;
@@ -1696,5 +1700,11 @@
     }
 
   }
-
+.short_name {
+  font-size:32px;
+  font-weight:bold;
+  line-height:44px;
+  color:rgba(45,45,45,1);
+  opacity:1;
+}
 </style>
