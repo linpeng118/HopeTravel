@@ -68,7 +68,12 @@ export default {
   methods: {
     // 返回上一级
     onClickLeft() {
-      this.$router.go(-1)
+      let href = window.location.href.slice(-1)
+      if(href == '#'){
+        this.$router.go(-2)
+      } else {
+        this.$router.go(-1)
+      }
     },
     // 滑动会请求数据
      onLoad() {

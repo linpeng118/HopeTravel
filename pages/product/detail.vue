@@ -1246,7 +1246,12 @@
                 if (this.goToBackPage == '/') {
                     this.$router.push('/')
                 } else {
+                   let href = window.location.href.slice(-1)
+                    if(href == '#'){
+                    this.$router.go(-2)
+                    } else {
                     this.$router.go(-1)
+                    }
                 }
             },
             // 返回首页

@@ -253,7 +253,12 @@
           })
         }
         else{
-          this.$router.go(-1)
+          let href = window.location.href.slice(-1)
+          if(href == '#'){
+            this.$router.go(-2)
+          } else {
+            this.$router.go(-1)
+          }
         }
       },
       async onClickRight() {
@@ -333,7 +338,12 @@
         let {data,code,msg} = await delcontanct(this.queryid)
         if (code === 0) {
           this.$toast(this.$t('operateSuc'))
-          this.$router.go(-1)
+          let href = window.location.href.slice(-1)
+          if(href == '#'){
+            this.$router.go(-2)
+          } else {
+            this.$router.go(-1)
+          }
         }
         else {
           this.$toast(msg)
