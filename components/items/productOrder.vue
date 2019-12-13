@@ -96,6 +96,9 @@
         apiPath: require('@/apiConf.env'),
       }
     },
+    created () {
+      console.log(1212112,this.orderInfo)
+    },
     methods: {
       // 去支付（先兑换token）
       async btnPay() {
@@ -116,7 +119,7 @@
       },
       // 支付跳转
       subData(val) {
-        console.log(val);
+        console.log(12312131,val);
         // 跳转链接
         let successUrl = `//${window.location.host}/order/search/detail?order_id=${val.order_id}`;
         let failureUrl = `//${window.location.host}/order/search/detail?order_id=${val.order_id}`;
