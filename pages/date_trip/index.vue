@@ -104,7 +104,7 @@
     </section>
     <!--footer-->
     <section>
-      <confirm-foot></confirm-foot>
+      <confirm-foot :rooms="rooms"></confirm-foot>
     </section>
   </section>
 </template>
@@ -215,10 +215,10 @@
                 child: 0
 
               });
-              this.$dialog.alert({
-                message: this_.$t('dateTripPage.notEnoughPeople')
-              });
-
+              // this.$dialog.alert({
+              //   message: this_.$t('dateTripPage.notEnoughPeople')
+              // });
+              console.log(121212,this.rooms)
             }
 
           }
