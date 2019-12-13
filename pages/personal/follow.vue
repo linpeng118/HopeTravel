@@ -56,7 +56,7 @@
             @click="changeProduct2(index)"
           >
             <van-checkbox :name="data.article_id" ref="checkboxe2" v-if="isModify" class="checked2" />
-            <div class="product-item" target="_blank">
+            <div class="product-item" @click="selectArticle(data.article_id)">
               <div class="box-img">
                 <img :src="data.cover" alt="">
               </div>
@@ -173,13 +173,24 @@ export default {
     },
 
 
-    // 详情跳转
+    // 产品详情跳转
     selectItem(productId) {
       if(!this.isModify) {
         this.$router.push({
           name: 'product-detail',
           query: {
             productId
+          }
+        })
+      }
+    },
+    // 行程攻略详情跳转
+    selectArticle(article_id){
+      if(!this.isModify){
+        this.$router.push({
+          name: 'article-detail',
+          query:{
+            attackId:article_id
           }
         })
       }
