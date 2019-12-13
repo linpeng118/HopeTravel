@@ -22,15 +22,17 @@
     <section class="section0">
       <section>
         <div class="confirm-item">
-          <p class="item-con"
-            @click="topro()">
-            <span style="width: 80%"
-              v-html="orderInfo.product_name.length>45?orderInfo.product_name.substr(0,40)+'...':orderInfo.product_name"></span>
-            <span style="width: 10%"></span>
-            <van-icon color="#404040"
-              name="arrow"
-              size="1.2em" />
-          </p>
+          
+          <div class="item-con" @click="topro()">
+                        <div class="item-top" v-if="orderInfo.name_short">
+                            <span class="item-short">{{orderInfo.name_short}}</span>
+                            <van-icon color="#404040" name="arrow" size="12" v-if="orderInfo.name_short"/>
+                        </div>
+                        <div class="item-bottom" v-if="orderInfo.product_name">
+                            <span class="item-name">{{orderInfo.product_name}}</span>
+                            <van-icon color="#404040" name="arrow" size="12" v-if="!orderInfo.name_short"/>
+                        </div>
+                    </div>
           <p class="item-conx">
             <span>
               <i>{{orderInfo.product_departure_date}}</i>
@@ -212,6 +214,14 @@
       this.getOrderData()
     },
     methods: {
+      topro(){
+        this.$router.push({
+          name: 'product-detail',
+          query:{
+            'productId': this.orderInfo.product_id
+          }
+        })
+      },
       async getOrderData() {
         let {code, data, msg} = await getTouristsOrderDetail({
           order_id: this.orderId,
@@ -363,25 +373,6 @@
         box-sizing: border-box;
         padding: 20px 24px;
         font-size: 24px;
-    }
-
-    .item-con span:nth-child(1) {
-        display: inline-block;
-        width: 430px;
-        font-size: 24px;
-        color: rgba(19, 19, 19, 1);
-    }
-
-    .item-con span:nth-child(2) {
-        width: 150px;
-        font-size: 24px;
-        display: inline-block;
-        color: #ff9100;
-        text-align: right;
-    }
-
-    .item-con i {
-        top: 6px;
     }
 
     .item-tip {
@@ -627,4 +618,50 @@
         bottom: 0;
     }
  }
+</style>
+<style lang="scss" scoped>
+    .item-con{
+        font-size: 0;
+
+        .item-top{
+            position: relative;
+            width: 100%;
+            height: 40px;
+            .item-short{
+            width: 80%;
+            font-size:28px;
+            font-weight:bold;
+            line-height:40px;
+            color:rgba(45,45,45,1);
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp:2
+        }
+        i{
+            position: absolute;
+            top: 8px;
+            right: 0;
+        }
+        }  
+        .item-bottom{
+           position: relative;
+            width: 100%;
+            .item-name{
+            display: block;
+            width: 90%;
+            margin-top: 10px;
+            font-size:24px;
+            font-weight:400;
+            line-height:34px;
+            color:rgba(45,45,45,1);
+        }
+        i{
+            position: absolute;
+            top: 8px;
+            right: 0;
+        }
+        }
+        
+    }
 </style>
