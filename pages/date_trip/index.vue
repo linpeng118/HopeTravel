@@ -2,7 +2,8 @@
   <section class="section0">
     <header-date :title="$t('dateTripPage.title')"></header-date>
     <section class="section1">
-      <div class="not-login-box" v-if="!isLogin">
+      <div class="not-login-box"
+        v-if="!isLogin">
         <login-line></login-line>
       </div>
       <!--日历head-->
@@ -44,7 +45,8 @@
               <span>{{$t('adult')}}</span>
               <span>
                 <van-stepper integer
-                  v-model="item.adult" class="notzero"
+                  v-model="item.adult"
+                  class="notzero"
                   :min="1"
                   :max="product.max_num_guest-item.child" />
               </span>
@@ -57,13 +59,14 @@
                   :min="0"
                   v-model="item.child"
                   :max="product.max_num_guest-item.adult"
-                  v-if="item.child>0" class="notzero"
-                />
-                 <van-stepper integer
-                              :min="0"
-                              v-model="item.child"
-                              class="else"
-                              :max="product.max_num_guest-item.adult" v-else/>
+                  v-if="item.child>0"
+                  class="notzero" />
+                <van-stepper integer
+                  :min="0"
+                  v-model="item.child"
+                  class="else"
+                  :max="product.max_num_guest-item.adult"
+                  v-else />
               </span>
             </div>
 
@@ -88,15 +91,24 @@
             <span>
               <van-stepper v-model="total_adult"
                 integer
-                :min="1" class="notzero" />
+                :min="1"
+                class="notzero" />
             </span>
           </div>
           <div v-if="product.is_kids"
             class="checkitem_con">
             <span>{{$t('child')}} <i v-if="product.max_child_age!=-1">&nbsp;0-{{product.max_child_age}}{{$t('yearsOld')}}</i></span>
             <span>
-               <van-stepper v-if="total_kids>0" integer :min="0" v-model="total_kids" class="notzero" />
-               <van-stepper v-else integer :min="0" v-model="total_kids" class="else"/>
+              <van-stepper v-if="total_kids>0"
+                integer
+                :min="0"
+                v-model="total_kids"
+                class="notzero" />
+              <van-stepper v-else
+                integer
+                :min="0"
+                v-model="total_kids"
+                class="else" />
             </span>
           </div>
         </li>
@@ -116,11 +128,14 @@
   import headerDate from '@/components/header/dateTrap.vue'
   import {getdateTrip} from '@/api/date_trip'
   import loginLine from '@/components/header/loginLine'
-  import {getProfile} from "@/api/profile"
+  import {getProfile} from '@/api/profile'
 
   export default {
     components: {
-      dateTrip, ConfirmFoot, headerDate, loginLine
+      dateTrip,
+      ConfirmFoot,
+      headerDate,
+      loginLine,
     },
     data() {
       return {
@@ -141,8 +156,8 @@
             adult: 1,
             child: 0,
             pair: false,
-            add: false
-          }
+            add: false,
+          },
         ],
         //选择人数时参数
         total_kids: 0,
@@ -159,22 +174,20 @@
             slideChange() {
               // console.log('onSlideChangeEnd', this);
             },
-            tap(e) {
-
-            }
-          }
+            tap(e) {},
+          },
         },
         product: {},
-        isLogin: true
+        isLogin: true,
       }
     },
     computed: {
       ...mapState({
-        vxReservePro: state => state.product.reservePro
+        vxReservePro: state => state.product.reservePro,
       }),
       // 获取计算价格参数
       get_vuex_countprice() {
-        return this.$store.state.confirm.countprice;
+        return this.$store.state.confirm.countprice
       },
       // 产品
       // product(){
@@ -185,133 +198,129 @@
       // ])
     },
     watch: {
-      'rooms': {
-        handler: function (val, oldval) {   //特别注意，不能用箭头函数，箭头函数，this指向全局
-          let countchind = 0;
-          let countadult = 0;
-          let objval = [];
-          let this_=this;
+      rooms: {
+        handler: function(val, oldval) {
+          //特别注意，不能用箭头函数，箭头函数，this指向全局
+          let countchind = 0
+          let countadult = 0
+          let objval = []
+          let this_ = this
           for (let i = 0; i < val.length; i++) {
-            countadult += val[i].adult;
-            countchind += val[i].child;
-            let objarrx = {adult: val[i].adult, child: val[i].child, pair: val[i].pair == true ? 'Y' : 'N', };
+            countadult += val[i].adult
+            countchind += val[i].child
+            let objarrx = {adult: val[i].adult, child: val[i].child, pair: val[i].pair == true ? 'Y' : 'N'}
             objval.push(objarrx)
           }
           if (this.product.product_entity_type == 1 && this.product.self_support == 0 && this.roomintnum == 1) {
-
-            if ((countadult + countchind) >= this.product.min_num_guest) {
-              this.$store.commit("countprice", {
-                room_total: objval.length,//房间总数
-                room_attributes: objval,//房间数据,
+            if (countadult + countchind >= this.product.min_num_guest) {
+              this.$store.commit('countprice', {
+                room_total: objval.length, //房间总数
+                room_attributes: objval, //房间数据,
                 adult: countadult,
-                child: countchind
-              });
-            }
-            else if (this.product.product_id) {
-              this.$store.commit("countprice", {
-                room_total: 0,//房间总数
-                room_attributes: [],//房间数据,
+                child: countchind,
+              })
+            } else if (this.product.product_id) {
+              this.$store.commit('countprice', {
+                room_total: 0, //房间总数
+                room_attributes: [], //房间数据,
                 adult: 0,
-                child: 0
-
-              });
+                child: 0,
+              })
               // this.$dialog.alert({
               //   message: this_.$t('dateTripPage.notEnoughPeople')
               // });
-              console.log(121212,this.rooms)
+              console.log(121212, this.rooms)
             }
-
-          }
-          else {
-            this.$store.commit("countprice", {
-              room_total: objval.length,//房间总数
-              room_attributes: objval,//房间数据,
+          } else {
+            this.$store.commit('countprice', {
+              room_total: objval.length, //房间总数
+              room_attributes: objval, //房间数据,
               adult: countadult,
-              child: countchind
-            });
+              child: countchind,
+            })
           }
         },
-        deep: true
+        deep: true,
       },
-      'total_adult'(val, oldval) {
-        let this_=this;
-        if (this.roomintnum == 1) {
-          if (this.product.product_entity_type == 1 && this.product.self_support == 0) {}
-          else {
-            let countperson = val + this.total_kids;
-            if (countperson >= this.product.min_num_guest) {
-              this.$store.commit("countprice", {
-                room_total: 1,//房间总数
-                room_attributes: [{
-                  adult: val,
-                  child: this.total_kids,
-                  pair: 'N',
-                }],//房间数据,
-                adult: val,
-                child: this.total_kids
-
-              });
-            }
-            else if (this.product.product_id) {
-              this.$store.commit("countprice", {
-                room_total: 0,//房间总数
-                room_attributes: [],//房间数据,
-                adult: 0,
-                child: 0
-
-              });
-              this.$dialog.alert({
-                message: this_.$t('dateTripPage.notEnoughPeople')
-              });
-            }
-          }
-        }
-      },
-      'total_kids'(val) {
-        let this_=this;
+      total_adult(val, oldval) {
+        let this_ = this
         if (this.roomintnum == 1) {
           if (this.product.product_entity_type == 1 && this.product.self_support == 0) {
           } else {
-            let countperson = this.total_adult + val;
+            let countperson = val + this.total_kids
             if (countperson >= this.product.min_num_guest) {
-              this.$store.commit("countprice", {
-                room_total: 1,//房间总数
-                room_attributes: [{
-                  adult: this.total_adult,
-                  child: val,
-                  pair: 'N',
-                }],//房间数据,
-                adult: this.total_adult,
-                child: val
-              });
+              this.$store.commit('countprice', {
+                room_total: 1, //房间总数
+                room_attributes: [
+                  {
+                    adult: val,
+                    child: this.total_kids,
+                    pair: 'N',
+                  },
+                ], //房间数据,
+                adult: val,
+                child: this.total_kids,
+              })
             } else if (this.product.product_id) {
-              this.$store.commit("countprice", {
-                room_total: 0,//房间总数
-                room_attributes: [],//房间数据,
+              this.$store.commit('countprice', {
+                room_total: 0, //房间总数
+                room_attributes: [], //房间数据,
                 adult: 0,
-                child: 0
-              });
+                child: 0,
+              })
               this.$dialog.alert({
-                message: this_.$t('dateTripPage.notEnoughPeople')
-              });
+                message: this_.$t('dateTripPage.notEnoughPeople'),
+              })
             }
           }
         }
-      }
+      },
+      total_kids(val) {
+        let this_ = this
+        if (this.roomintnum == 1) {
+          if (this.product.product_entity_type == 1 && this.product.self_support == 0) {
+          } else {
+            let countperson = this.total_adult + val
+            if (countperson >= this.product.min_num_guest) {
+              this.$store.commit('countprice', {
+                room_total: 1, //房间总数
+                room_attributes: [
+                  {
+                    adult: this.total_adult,
+                    child: val,
+                    pair: 'N',
+                  },
+                ], //房间数据,
+                adult: this.total_adult,
+                child: val,
+              })
+            } else if (this.product.product_id) {
+              this.$store.commit('countprice', {
+                room_total: 0, //房间总数
+                room_attributes: [], //房间数据,
+                adult: 0,
+                child: 0,
+              })
+              this.$dialog.alert({
+                message: this_.$t('dateTripPage.notEnoughPeople'),
+              })
+            }
+          }
+        }
+      },
     },
     mounted() {
       this.profileInit()
       setTimeout(() => {
         this.product = JSON.parse(JSON.stringify(this.vxReservePro))
         //进来清空一次之前的价格日历vuex，之后可能要考虑返回的情况
-        this.$store.dispatch("emptyprice");
+        this.$store.dispatch('emptyprice')
         //获得价格日历数据
         if (this.product.product_id) {
-          this.getpricedate(this.product.product_id);
-        }
-        else {
+          this.getpricedate(this.product.product_id)
+        } else {
           let href = window.location.href.slice(-1)
-          if(href == '#'){
+          if (href == '#') {
             this.$router.go(-2)
           } else {
             this.$router.go(-1)
@@ -323,9 +332,9 @@
       // 判断此人是否登录
       async profileInit() {
         // 1. 是否有token。有就请求个人信息；无则return
-        let res = await getProfile();
-        let {code, data} = res;
-        if(code === 0) {
+        let res = await getProfile()
+        let {code, data} = res
+        if (code === 0) {
           this.isLogin = true
         } else {
           this.isLogin = false
@@ -335,133 +344,124 @@
       async getpricedate(id) {
         let {data, code} = await getdateTrip(id)
         if (code === 0) {
-          this.pricedate = data;
+          this.pricedate = data
           //初始化选择第一条给子组件的数据和第一个月份数据
-          var this_ = this;
+          var this_ = this
           //初始化生成房间
-          this.roomint();
+          this.roomint()
           if (this.firstyear != '' && this.firstmonth != '' && this.firstday != '') {
             for (let i = 0; i < this_.pricedate.length; i++) {
               if (this_.pricedate[i].years == this_.firstyear && this_.pricedate[i].month == this_.firstmonth) {
-                this_.datedata = this_.pricedate[i];
-                this_.activeMonth = this_.firstmonth;
-                this_.checkday = this_.firstday + '';
+                this_.datedata = this_.pricedate[i]
+                this_.activeMonth = this_.firstmonth
+                this_.checkday = this_.firstday + ''
               }
             }
             if (this.activeMonth == '') {
-              this.datedata = this.pricedate[0];
-              this.activeMonth = this.pricedate[0].month;
+              this.datedata = this.pricedate[0]
+              this.activeMonth = this.pricedate[0].month
             }
-          }
-          else {
-            this.datedata = this.pricedate[0];
-            this.activeMonth = this.pricedate[0].month;
+          } else {
+            this.datedata = this.pricedate[0]
+            this.activeMonth = this.pricedate[0].month
           }
         } else {
-
         }
       },
       setMonth(val, ind) {
-        this.activeMonth = val;
-        this.datedata = this.pricedate[ind];
-        this.checkday = '';
-        this.showsday = '';
-        this.showeday = '';
-        this.$store.commit("countprice", {
-          departure_date: '',//出发日期
-        });
+        this.activeMonth = val
+        this.datedata = this.pricedate[ind]
+        this.checkday = ''
+        this.showsday = ''
+        this.showeday = ''
+        this.$store.commit('countprice', {
+          departure_date: '', //出发日期
+        })
       },
       //监听选择出发日期
       setcheckday(val) {
-        this.checkday = val;
-        let sday1 = new Date(parseInt(this.datedata.years) + '/' + parseInt(this.datedata.month) + '/' + parseInt(this.checkday));
-        let day1en = sday1.getTime() + (this.product.duration_days - 1) * 24 * 60 * 60 * 1000;
-        let eday1 = new Date(day1en);
-        let sday2 = (sday1.getMonth() + 1) + '月' + (sday1.getDate()) + '日';
-        let eday2 = (eday1.getMonth() + 1) + '月' + (eday1.getDate()) + '日';
-        this.showsday = sday2;
-        this.showeday = eday2;
-        var tha = this;
+        this.checkday = val
+        let sday1 = new Date(
+          parseInt(this.datedata.years) + '/' + parseInt(this.datedata.month) + '/' + parseInt(this.checkday),
+        )
+        let day1en = sday1.getTime() + (this.product.duration_days - 1) * 24 * 60 * 60 * 1000
+        let eday1 = new Date(day1en)
+        let sday2 = sday1.getMonth() + 1 + '月' + sday1.getDate() + '日'
+        let eday2 = eday1.getMonth() + 1 + '月' + eday1.getDate() + '日'
+        this.showsday = sday2
+        this.showeday = eday2
+        var tha = this
         // console.log(this.roomintnum)
-        this.$store.commit("countprice", {
-          product_id: tha.product.product_id,//产品id
-          departure_date: parseInt(this.datedata.years) + '-' + parseInt(this.datedata.month) + '-' + parseInt(this.checkday),//出发日期
-        });
+        this.$store.commit('countprice', {
+          product_id: tha.product.product_id, //产品id
+          departure_date:
+            parseInt(this.datedata.years) + '-' + parseInt(this.datedata.month) + '-' + parseInt(this.checkday), //出发日期
+        })
       },
       //设置默认房间数和每个房间住的人数
       roomint() {
         if (this.product.product_entity_type == 1 && this.product.self_support == 0) {
-          let proroom = [];
-          for (let i = 0; i < Math.ceil(this.product.min_num_guest / this.product.max_num_guest); i++) {
-            let objroom = {};
-            if (i != Math.ceil(this.product.min_num_guest / this.product.max_num_guest) - 1) {
+          let proroom = [],
+            maxPeople = this.product.min_num_guest,
+            maxRooms = this.product.max_num_guest;
+          for (let i = 0; i < Math.ceil(maxPeople / maxRooms); i++) {
+            let objroom = {}
+            if (i < Math.ceil(maxPeople / maxRooms) - 1) {
               objroom = {
-                adult: this.product.max_num_guest,
+                adult: maxRooms,
                 child: 0,
                 pair: false,
-                add: false
+                add: false,
               }
-            }
-            else if (this.product.min_num_guest == this.product.max_num_guest) {
+            } else {
               objroom = {
-                adult: this.product.min_num_guest, 
+                adult: maxPeople - maxRooms * i,
                 child: 0,
                 pair: false,
-                add: false
-              }
-            }
-            else {
-              objroom = {
-                adult: this.product.min_num_guest % this.product.max_num_guest,
-                child: 0,
-                pair: false,
-                add: false
+                add: false,
               }
             }
             proroom.push(objroom)
           }
-          this.rooms = proroom;
+          this.rooms = proroom
+        } else {
+          this.total_adult = this.product.min_num_guest
+          this.rooms = [
+            {
+              adult: this.product.min_num_guest,
+              child: 0,
+              pair: false,
+              add: false,
+            },
+          ]
         }
-        else {
-          this.total_adult = this.product.min_num_guest;
-          this.rooms = [{
-            adult: this.product.min_num_guest,
-            child: 0,
-            pair: false,
-            add: false
-          }]
-        }
-        this.roomintnum = 1;
+        this.roomintnum = 1
       },
       //添加房间
       roomadd() {
-        this.rooms.push(
-          {
-            adult: 1,
-            child: 0,
-            pair: false,
-            add: true
-          }
-        )
+        this.rooms.push({
+          adult: 1,
+          child: 0,
+          pair: false,
+          add: true,
+        })
       },
       roomdel(ind) {
         this.rooms.splice(ind, 1)
       },
-
-
-    }
+    },
   }
 </script>
 <style>
-  body{
-    overflow: scroll!important;
-    position: relative!important;
+  body {
+    overflow: scroll !important;
+    position: relative !important;
   }
 </style>
 <style scoped>
-  body{
-    overflow: scroll!important;
-    position: relative!important;
+  body {
+    overflow: scroll !important;
+    position: relative !important;
   }
   .trip-head {
     width: 100%;
@@ -481,7 +481,7 @@
   }
   .active-head-con {
     border-bottom: 4px solid #399ef6 !important;
-    color: #399ef6!important;
+    color: #399ef6 !important;
   }
   .trip-tip {
     font-size: 24px;
@@ -532,11 +532,11 @@
     margin-top: 20px;
   }
   .addroom-btn {
-    width:464px;
-    height:76px;
-    background:rgba(57,158,246,1);
-    opacity:1;
-    border-radius:12px;
+    width: 464px;
+    height: 76px;
+    background: rgba(57, 158, 246, 1);
+    opacity: 1;
+    border-radius: 12px;
     text-align: center;
     line-height: 76px;
     font-size: 32px;
@@ -546,13 +546,13 @@
   }
   .checkitem_title {
     font-size: 30px;
-    height:90px;
+    height: 90px;
     line-height: 90px;
     color: #191919;
     border-bottom: 3px solid #e4e4e4;
   }
   .checkitem_title span {
-    color: #FB605D;
+    color: #fb605d;
     float: right;
     font-size: 24px;
   }
