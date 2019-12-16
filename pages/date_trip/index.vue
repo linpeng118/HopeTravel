@@ -317,12 +317,6 @@
         this.$store.dispatch('emptyprice')
         //获得价格日历数据
         if (this.product.product_id) {
-<<<<<<< Updated upstream
-          this.getpricedate(this.product.product_id);
-        }
-        else {
-          this.$router.go(-1);
-=======
           this.getpricedate(this.product.product_id)
         } else {
           let href = window.location.href.slice(-1)
@@ -331,7 +325,6 @@
           } else {
             this.$router.go(-1)
           }
->>>>>>> Stashed changes
         }
       }, 20)
     },
