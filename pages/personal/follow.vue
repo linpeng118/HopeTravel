@@ -34,7 +34,7 @@
               </div>
               <div class="pro-content">
                 <span class="pro-short">{{item.name_short}}</span>
-                <span class="pro-name">{{item.name}}</span>
+                <span :class="item.name_short?'pro-name': 'pro-name2'">{{item.name}}</span>
                 <span class="pro-price">{{$t('personalPage.price')}}：<i class="price">{{item.default_price}}</i></span>
               </div>
             </div>
@@ -233,10 +233,11 @@ export default {
           }
         }
         .pro-content {
-          flex: 1;
-          font-size:0;
+          width: 200px;
+          flex: 1 1;
           position:relative;
           .pro-short{
+            // width: 27%;
             display: block;
             font-size:32px;
             font-weight:bold;
@@ -245,7 +246,7 @@ export default {
             overflow: hidden;          
             display: -webkit-box;
             -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
+            -webkit-line-clamp: 1;
           }
            .pro-name{
             display: block;
@@ -256,6 +257,17 @@ export default {
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
+          }
+          .pro-name2{
+            display: block;
+            font-size:28px;
+            font-weight:400;
+            line-height:40px;
+            color:rgba(45,45,45,1);
+            overflow: hidden;          
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
           }
           .pro-price{
             position: absolute;

@@ -244,7 +244,7 @@
                 color: rgba(45, 45, 45, 1);
                 display: -webkit-box;
                 -webkit-box-orient: vertical;
-                -webkit-line-clamp: 2;
+                -webkit-line-clamp: 1;
                 overflow: hidden;
               }
               .title-wrap-line1 {
