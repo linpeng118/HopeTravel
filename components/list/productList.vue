@@ -20,7 +20,7 @@
         <div class="title">
           {{data.name_short}}
         </div>
-        <span class="name-short">{{data.name}}</span>
+        <span :class="data.name_short? 'name-short': 'name-short-2'">{{data.name}}</span>
         <div class="tags-wrap">
           <span v-for="item in data.icons_show" :key="item" class="hollow color">{{item}}</span>
           <span v-for="(item,index) in data.icons_tour" :key="index" class="hollow">
@@ -245,6 +245,17 @@ export default {
           overflow: hidden;
           white-space: nowrap;
           margin-top: 4px;
+        }
+        .name-short-2 {
+          display: block;
+          font-size:28px;
+          font-weight:400;
+          line-height:40px;
+          color:rgba(45,45,45,1);
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
         }
         .tags-wrap{
           height: 36px;
