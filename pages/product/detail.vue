@@ -1512,7 +1512,7 @@
           font-family:PingFang SC;
           font-size:24px;
           font-weight:400;
-          line-height:34px;
+          line-height:40px;
           color:rgba(45,45,45,1);
         }
     }
