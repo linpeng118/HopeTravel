@@ -207,7 +207,12 @@ export default {
       if(this.$route.query.sem) {
         this.$router.push('/')
       } else{
-        this.$router.go(-1)
+        let href = window.location.href.slice(-1)
+        if(href == '#'){
+          this.$router.go(-2)
+        } else {
+          this.$router.go(-1)
+        }
       }
     },
     onSearch(){

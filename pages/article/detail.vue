@@ -8,8 +8,8 @@
                            @callOnRight="onHeaderRight"
                            @callOnLeft="goBack"
                            ref="refProdctDetailHeader" />
-    <div class="banner">
-    <img v-if="objdata&&objdata.cover" :src="objdata.cover" alt="">
+    <div class="banner" v-if="objdata&&objdata.cover" :style="{backgroundImage:'url('+objdata.cover+')'}">
+   
   </div>
     <!-- 右上角更多操作 -->
     <transition name="fade">
@@ -84,7 +84,11 @@
           <div class="prox" v-for="(pro,inde) in item.relate_product" :key="inde" @click="topro(pro.product_id)">
            <div class="imgbox"><img :src="pro.image" alt=""></div>
             <div class="conbox">
-              <p v-html="pro.name.length>29?pro.name.substr(0,26)+'...':pro.name"></p>
+              <p class="short_name">{{pro.name_short}}</p>
+              <p
+                v-html="pro.name.length>29?pro.name.substr(0,26)+'...':pro.name"
+                :class="pro.name_short ? '': 'mt-20'"
+                ></p>
               <p><span>{{pro.default_price}}</span>&nbsp;<span>起</span></p>
             </div>
           </div>
@@ -202,7 +206,12 @@
           });
         }
         else{
-          this.$router.go(-1)
+          let href = window.location.href.slice(-1)
+          if(href == '#'){
+            this.$router.go(-2)
+          } else {
+            this.$router.go(-1)
+          }
         }
 
 
@@ -1314,6 +1323,9 @@
     width: 750px;
     height: 520px;
     position: relative;
+    background-position-y: center;
+    background-size: 100%;
+    background-repeat: no-repeat;
     .right{
       position: absolute;
       top: 20px;
@@ -1323,12 +1335,12 @@
       height: 100px;
       background: url('~assets/imgs/custom/more.png') no-repeat center center/40px 42px;
     }
-    img{
+    /* img{
       width: 750px;
       height: 520px;
       display: inline-block;
       background-color: #8f8f8f;
-    }
+    } */
     }
   .con{
     padding: 32px;
@@ -1505,7 +1517,7 @@
         font-size: 28px;
         padding: 20px 5px;
         p:nth-child(2){
-          margin-top: 20px;
+          // margin-top: 20px;
           span:nth-child(1){
             font-size: 44px;
             color:#f15b4a;
@@ -1693,5 +1705,11 @@
     }
 
   }
-
+.short_name {
+  font-size:32px;
+  font-weight:bold;
+  line-height:44px;
+  color:rgba(45,45,45,1);
+  opacity:1;
+}
 </style>
