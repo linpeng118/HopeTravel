@@ -18,8 +18,9 @@
       </div>
       <div class="product-desc">
         <div class="title">
-          {{data.name}}
+          {{data.name_short}}
         </div>
+        <span :class="data.name_short? 'name-short': 'name-short-2'">{{data.name}}</span>
         <div class="tags-wrap">
           <span v-for="item in data.icons_show" :key="item" class="hollow color">{{item}}</span>
           <span v-for="(item,index) in data.icons_tour" :key="index" class="hollow">
@@ -41,7 +42,7 @@
           </span>
           <span v-if="data.coupons.length>1" style="color:#fb605d">......</span>
         </div>
-        <div class="tags-wrap">
+        <div class="tags-wrap tags-person">
           <span class="solid" v-if="data.self_support">{{$t('selfSupport')}}</span>
           <span class="share-p" v-if="isShowFx">{{$t('productDetailPage.shareMakes')}}{{data.agent_fee}}</span>
           <span class="gray-w">
@@ -152,10 +153,10 @@ export default {
       padding: 10px 0;
       .img-show{
         position:relative;
-        width:182px;
-        height:220px;
-        border-radius:12px;
-        background-color: #d8d8d8;
+        width:200px;
+        height:260px;
+        border-radius:20px;
+        background:rgba(0,0,0,0.2);
         overflow: hidden;
         img{
           height: 100%;
@@ -216,21 +217,50 @@ export default {
         }
       }
       .product-desc{
-        flex: 1;
-        -webkit-flex: 1;
+       /*  flex: 1;
+        -webkit-flex: 1; */
+        width: 446px;
+        box-sizing: border-box;
         padding-left: 26px;
+        font-size: 0;
+        height:260px;
+        position: relative;
         .title{
-          font-size: 30px;
-          font-weight:400;
+          font-size:32px;
+          font-weight:bold;
           line-height:44px;
-          height: 88px;
+          color:rgba(45,45,45,1);
           overflow: hidden;
-          color: #3e3e3e;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 1;
+        }
+        .name-short{
+          display: block;
+          font-size:28px;
+          font-weight:400;
+          line-height:40px;
+          color:rgba(45,45,45,1);
+          text-overflow:ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          margin-top: 4px;
+        }
+        .name-short-2 {
+          display: block;
+          font-size:28px;
+          font-weight:400;
+          line-height:40px;
+          color:rgba(45,45,45,1);
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
         }
         .tags-wrap{
           height: 36px;
           overflow: hidden;
-          margin: 10px 0 10px;
+          margin-top: 8px;
           font-size: 0;
           span{
             margin-right: 10px;
@@ -269,8 +299,15 @@ export default {
             margin-left: 10px;
           }
         }
+        .tags-person{
+          position: absolute;
+          bottom: -8px;
+          margin: 0;
+        }
         .product-price{
           font-size:22px;
+          position: absolute;
+          bottom: 28px;
           .share-transF{
             margin-top: -15px;
             line-height: 40px;

@@ -172,8 +172,12 @@
       },
       // 返回上一级
       leftClick() {
+        let href = window.location.href.slice(-1)
+        if(href == '#'){
+          this.$router.go(-2)
+        } else {
           this.$router.go(-1)
-
+        }
       },
       // 上拉刷新
       async onRefresh(){

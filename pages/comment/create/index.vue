@@ -205,7 +205,12 @@
                     return
                 }
                 this.$toast('发布成功，感谢您的评价~')
+                let href = window.location.href.slice(-1)
+                if(href == '#'){
+                this.$router.go(-2)
+                } else {
                 this.$router.go(-1)
+                }
             }
         }
     }
