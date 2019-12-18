@@ -17,7 +17,9 @@
         <span class="title">{{proData.title}}</span>
       </div>
     </div>
-    <div class="desc no-wrap-line2 imitate-ellipsis2">{{proData.name}}</div>
+    <div class="desc short_name" v-if="proData.name_short">{{proData.name_short}}</div>
+    <div class="desc no-wrap-line2 imitate-ellipsis2" v-if="!proData.name_short">{{proData.name}}</div>
+    
     <div class="tag-icon-tour">
       <span v-for="(item,index) in proData.icons_tour"
             :key="index">{{item.title}}</span>
@@ -135,6 +137,19 @@
       margin-top: 10px;
       font-size: 28px;
       color: #3e3e3e;
+    }
+    .short_name {
+      height: 80px;
+      font-size:28px;
+      font-weight:bold;
+      line-height:40px;
+      color:rgba(45,45,45,1);
+      opacity:1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display:-webkit-box; //作为弹性伸缩盒子模型显示。
+      -webkit-box-orient:vertical; //设置伸缩盒子的子元素排列方式--从上到下垂直排列
+      -webkit-line-clamp:2; //显示的行
     }
     .price-wrap {
       margin-top: 8px;

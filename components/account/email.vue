@@ -27,7 +27,7 @@
     data () {
       return {
         VERIFY_CODE,
-        email:"",//邮箱地址
+        email: "",//邮箱地址
         emailCode:"",//邮箱验证码
         timer: null, // 定时器
         countDownTime: TIME, // 倒计时时间
@@ -55,7 +55,8 @@
         if(isEmail(this.email)) {
           // 倒计时状态修改
           this.codeType = VERIFY_CODE.GETTING // 获取验证码
-          let {code,msg} = await captchaEmail(this.email)
+          const _email = this.email.toLocaleLowerCase()
+          let {code,msg} = await captchaEmail(_email)
           if(code === 0) {
             await this.countDown()
             this.$toast(msg)
@@ -68,8 +69,9 @@
         }
       },
       async bindEmail() {
+        const _email = this.email.toLocaleLowerCase()
         let {code, msg} = await validateEmail({
-          email: this.email,
+          email: _email,
           code: this.emailCode
         })
         if (code === 0) {

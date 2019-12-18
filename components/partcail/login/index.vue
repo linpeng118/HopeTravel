@@ -107,7 +107,12 @@
                 path: this.redirect
               })
             } else {
-              this.$router.go(-1)
+              let href = window.location.href.slice(-1)
+              if(href == '#'){
+                this.$router.go(-2)
+              } else {
+                this.$router.go(-1)
+              }
             }
             break;
         }
@@ -134,7 +139,8 @@
         
         if (this.isDialog) {
           this.vxToggleLoginDlg(false)
-          this.$router.go(0)
+          // this.$router.go(0) 手机端有些浏览器不能刷新
+          location.reload()
         } else {
           if (this.redirect) {
             this.$router.replace({

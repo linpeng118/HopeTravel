@@ -12,6 +12,7 @@
       <dl class="pro-content">
         <!-- 产品名 -->
         <dt class="product-title title-wrap-line3">
+          <span class="short-name">{{orderInfo.name_short}}</span>
           <div class="text">{{orderInfo.product_name}}</div>
         </dt>
         <!-- 价格 -->
@@ -95,6 +96,9 @@
         apiPath: require('@/apiConf.env'),
       }
     },
+    created () {
+      console.log(1212112,this.orderInfo)
+    },
     methods: {
       // 去支付（先兑换token）
       async btnPay() {
@@ -115,7 +119,7 @@
       },
       // 支付跳转
       subData(val) {
-        console.log(val);
+        console.log(12312131,val);
         // 跳转链接
         let successUrl = `//${window.location.host}/order/search/detail?order_id=${val.order_id}`;
         let failureUrl = `//${window.location.host}/order/search/detail?order_id=${val.order_id}`;
@@ -161,68 +165,52 @@
       // border-bottom: 1px solid #f1f1f1;
 
       .pro-pic {
-        margin-right: 26px;
-        width: 182px;
-        height: 182px;
+        width: 222px;
+        height: 222px;
         background: #ddd;
         border-radius: 12px;
 
         img {
-          width: 182px !important;
-          height: 182px !important;
+          width: 100% !important;
+          height: 100% !important;
         }
       }
 
       .pro-content {
-        width: 436px;
+        width: 390px;
         position: relative;
-
+        margin-left: 26px;
         .product-title {
           text-align: justify;
-          font-size: 24px;
+          font-size: 0;
           color: #191919;
 
           &.title-wrap-line3 {
             /*position: relative;*/
             line-height: 30px;
-            height: 90px;
+            height: 130px;
             overflow: hidden;
             box-sizing: content-box;
-
+            .short-name{
+              font-size:32px;
+              font-weight:bold;
+              line-height:44px;
+              color:rgba(45,45,45,1);
+              display: -webkit-box;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 2;
+              overflow: hidden;
+            }
             .text {
-              float: right;
-              margin-left: -5px;
-              width: 100%;
-              word-break: break-all;
+              overflow: hidden;
               box-sizing: content-box;
-              font-size: 32px;
-              font-family: PingFang SC;
-              font-weight: 400;
-              line-height: 44px;
-              color: rgba(0, 0, 0, 1);
-            }
-            &::before {
-              float: left;
-              width: 5px;
-              content: "";
-              height: 90px;
-            }
-            &::after {
-              float: right;
-              content: "...";
-              height: 45px;
-              line-height: 45px;
-              /* 为三个省略号的宽度 */
-              width: 40px;
-              /* 使盒子不占位置 */
-              margin-left: -40px;
-              /* 移动省略号位置 */
-              position: relative;
-              left: 100%;
-              top: -45px;
-              padding-right: 1px;
-              background-color: #fff;
-              text-align: center;
+              font-size:28px;
+              font-weight:400;
+              line-height:40px;
+              color:rgba(45,45,45,1);
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
             }
           }
         }

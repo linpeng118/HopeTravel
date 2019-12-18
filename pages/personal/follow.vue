@@ -32,10 +32,11 @@
               <div class="pro-pic">
                 <img :src="item.image" alt>
               </div>
-              <dl class="pro-content">
-                <dt class="no-wrap-line3">{{item.name}}</dt>
-                <dd>{{$t('personalPage.price')}}：<span class="price">{{item.default_price}}</span></dd>
-              </dl>
+              <div class="pro-content">
+                <span class="pro-short">{{item.name_short}}</span>
+                <span :class="item.name_short?'pro-name': 'pro-name2'">{{item.name}}</span>
+                <span class="pro-price">{{$t('personalPage.price')}}：<i class="price">{{item.default_price}}</i></span>
+              </div>
             </div>
           </van-cell>
         </van-cell-group>
@@ -55,7 +56,7 @@
             @click="changeProduct2(index)"
           >
             <van-checkbox :name="data.article_id" ref="checkboxe2" v-if="isModify" class="checked2" />
-            <div class="product-item" target="_blank">
+            <div class="product-item" @click="selectArticle(data.article_id)">
               <div class="box-img">
                 <img :src="data.cover" alt="">
               </div>
@@ -126,7 +127,12 @@ export default {
       }
     },
     onClickLeft() {
-      this.$router.go(-1)
+      let href = window.location.href.slice(-1)
+      if(href == '#'){
+        this.$router.go(-2)
+      } else {
+        this.$router.go(-1)
+      }
     },
     saveFollow() {},
     // 编辑
@@ -167,13 +173,24 @@ export default {
     },
 
 
-    // 详情跳转
+    // 产品详情跳转
     selectItem(productId) {
       if(!this.isModify) {
         this.$router.push({
           name: 'product-detail',
           query: {
             productId
+          }
+        })
+      }
+    },
+    // 行程攻略详情跳转
+    selectArticle(article_id){
+      if(!this.isModify){
+        this.$router.push({
+          name: 'article-detail',
+          query:{
+            attackId:article_id
           }
         })
       }
@@ -208,7 +225,7 @@ export default {
         .pro-pic {
           margin-right: 26px;
           width: 208px;
-          height: 144px;
+          height: 170px;
           background: #ddd;
           img {
             width: 208px !important;
@@ -216,23 +233,55 @@ export default {
           }
         }
         .pro-content {
-          flex: 1;
-          font-size:24px;
-          line-height: 33px;
-          dt {
-            height: 66px;
-            line-height: 33px;
-            overflow: hidden;
-            color: #191919;
-            font-size:24px;
+          width: 200px;
+          flex: 1 1;
+          position:relative;
+          .pro-short{
+            // width: 27%;
+            display: block;
+            font-size:32px;
+            font-weight:bold;
+            line-height:44px;
+            color:rgba(45,45,45,1);
+            overflow: hidden;          
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
           }
-          dd {
-            padding-top: 36px;
-            color: #989898;
+           .pro-name{
+            display: block;
+            font-size:28px;
+            font-weight:400;
+            line-height:40px;
+            color:rgba(45,45,45,1);
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+          }
+          .pro-name2{
+            display: block;
+            font-size:28px;
+            font-weight:400;
+            line-height:40px;
+            color:rgba(45,45,45,1);
+            overflow: hidden;          
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+          }
+          .pro-price{
+            position: absolute;
+            bottom: 0;
+            font-size:14px;
+            font-weight:400;
+            line-height:20px;
+            color:rgba(45,45,45,1);
             .price{
-              font-size:32px;
+              font-style: normal;
+              font-size:36px;
+              line-height: 44px;
               font-weight:400;
-              color:#FB605D;
+              color:#FB605D !important;
             }
           }
         }
