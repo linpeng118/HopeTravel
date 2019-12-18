@@ -31,6 +31,7 @@
             <form :action="apiPath.payment+'/payment/mobile/checkout'" method="post">
                 <input type="text" name="order_id" value="" ref="order_id">
                 <input type="text" name="order_title" value="" ref="order_title">
+                <!-- <input type="text" name="order_title_short" value="" ref="order_title_short"> -->
                 <input type="text" name="total_fee[CNY]" value="" ref="total_feecny">
                 <input type="text" name="total_fee[USD]" value="" ref="total_feeusd">
                 <input type="text" name="client_type" value="tourscool">
@@ -66,6 +67,7 @@
     } from '@/assets/js/config'
     import {
         getSessionStore,
+        getLocalStore,
         replaceServerUrl,
         clearCookieByKey
     } from '@/assets/js/utils'
@@ -83,6 +85,9 @@
         props: {
             orderInfo: {
                 type: Object
+            },
+            rooms: {
+              type: Array
             }
         },
         data() {
@@ -198,6 +203,7 @@
                 this.loading = true
                 let referer_id = getSessionStore(SESSIONSTORE) || ''
                 let platform = getSessionStore(PLATFORM) || ''
+                // let short_name = localStorage.getItem('tourscool_vuex')
                 console.log(this.orderInfo, referer_id, platform)
                 await this.isUserLogin()
                 let {
@@ -210,6 +216,8 @@
                 }, referer_id, platform)
                 if (code === 0) {
                     // 表单提交
+                    // console.log(12121212,JSON.parse(short_name))
+                    // data.short_name = JSON.parse(short_name).product.reservePro.name_short
                     this.subData(data);
                     window._agl && window._agl.push(['track', ['success', {
                         t: 3
@@ -222,6 +230,7 @@
                 }
             },
             subData(data) {
+              console.log(1111111,data)
                 let successUrl = '//' + window.location.host + "/personal/order_des?order_id=" + data.order_id;
                 let failureUrl = '//' + window.location.host + "/personal/order?status=null";
                 // 设置token
@@ -233,7 +242,8 @@
                 }
                 token = token.replace('Bearer ', '');
                 this.$refs.order_id.value = data.order_id;
-                this.$refs.order_title.value = data.product_name;
+                this.$refs.order_title.value = data.product_name;  
+                // this.$refs.order_title_short.value = data.short_name;
                 this.$refs.total_feecny.value = data.cny_price * 100;
                 this.$refs.total_feeusd.value = data.price * 100;
                 this.$refs.success_url.value = successUrl
@@ -252,9 +262,21 @@
                 this.shownext = true
             },
             async islogin() {
+              let minNumGuest = getLocalStore('tourscool_vuex').product.reservePro || 0
+              let total_adult = 0
+              this.rooms.forEach(item => {
+                total_adult += item.adult
+              });
+              if (total_adult < minNumGuest) {
+                this.$dialog.alert({
+                message: this_.$t('dateTripPage.notEnoughPeople')
+              });
+              } else {
                 this.$router.push({
                     path: "/confirm_order"
                 })
+              }
+                
             },
             async isUserLogin() {
                 let {

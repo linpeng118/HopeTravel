@@ -37,10 +37,14 @@
                     </span> &nbsp;&nbsp;
                     <span v-if="product.sales>0">出行人数：{{product.sales}}</span> </p>
                 <!-- name -->
-                <p class="name">
-                    <span class="prod-tag" v-if="product.self_support">{{$t('selfSupport')}}</span>
-                    {{product.name}}
-                </p>
+                <div class="name">
+                  <div class="title">
+                    <div class="prod-tag" v-if="product.self_support">{{$t('selfSupport')}}</div>
+                    <div class="name_short">{{product.name_short}}</div>
+                  </div>
+                    <div class="subtitle mt-10">{{product.name}}</div>
+                </div>
+                
                 <!-- 价格 -->
                 <div class="price-wrap">
                     <span class="share-btn" @click="shareProductHandle" v-if="profile.is_agent && product.agent_fee.substring(1) > 0">
@@ -759,6 +763,9 @@
                 console.log(to, from)
             },
         },
+        created () {
+          console.log(1212121,this.product)
+        },
         async mounted() {
             this.closeSelf = getSessionStore('closeSelf')
             setTimeout(() => {
@@ -1239,7 +1246,12 @@
                 if (this.goToBackPage == '/') {
                     this.$router.push('/')
                 } else {
+                   let href = window.location.href.slice(-1)
+                    if(href == '#'){
+                    this.$router.go(-2)
+                    } else {
                     this.$router.go(-1)
+                    }
                 }
             },
             // 返回首页
@@ -1488,6 +1500,20 @@
                 animation: playvideo 1.2s infinite;
                 margin-top: -30%;
             }
+        }
+        .name_short {
+          font-family:PingFang SC;
+          font-size:32px;
+          font-weight:bold;
+          line-height:44px;
+          color:rgba(45,45,45,1);
+        }
+        .subtitle {
+          font-family:PingFang SC;
+          font-size:24px;
+          font-weight:400;
+          line-height:40px;
+          color:rgba(45,45,45,1);
         }
     }
 
