@@ -21,7 +21,7 @@
                 </van-swipe>
                 <!-- 产品编号 -->
                 <div class="serial-num">
-                    {{$t('productDetailPage.productId')}}：{{product.code}}
+                    {{$t('productDetailPage.productId')}}：{{product.product_id}}
                 </div>
                 <!--视频-->
                 <div class="video-box" @click="playVideo" v-if="product.videos && product.videos[0].video">
@@ -272,15 +272,37 @@
                     <h3 class="title-s">{{$t('productDetailPage.priceDescription')}}</h3>
                     <div class="text" v-html="expense.price_notice"></div>
                 </div>
-                <div class="price-include">
-                    <h3 class="title-s">{{$t('productDetailPage.feeIncludes')}}</h3>
-                    <div class="text" v-html="expense.package_include"></div>
+                <div class="price-inexclude">
+                    <!-- 新数据（包含与不包含）表格显示 -->
+                    <div class="newData" v-if="expense.package_include_list.length>0 || expense.package_exclude_list.length>0">
+                        <h3 class="title-s" v-if="expense.package_include_list.length>0">{{$t('productDetailPage.feeIncludes')}}</h3>
+                        <ul class="price-newInclude">
+                            <li v-for="(item,index) in expense.package_include_list" :key="index">
+                                <span class="title">{{item.title}}</span>
+                                <span class="content">{{item.content}}</span>
+                            </li>
+                        </ul>
+                        <h3 class="title-s" v-if="expense.package_exclude_list.length>0">{{$t('productDetailPage.feeExcludes')}}</h3>
+                        <ul class="price-newExclude">
+                            <li v-for="(item,index) in expense.package_exclude_list" :key="index">
+                                <span class="title">{{item.title}}</span>
+                                <span class="content">{{item.content}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- 兼容旧数据（包含与不包含） -->
+                    <div class="oldData" v-else>
+                        <div class="price-include">
+                            <h3 class="title-s">{{$t('productDetailPage.feeIncludes')}}</h3>
+                            <div class="text" v-html="expense.package_include"></div>
+                        </div>
+                        <van-collapse v-model="priceExclude">
+                            <van-collapse-item :title="$t('productDetailPage.feeExcludes')" name="exclude">
+                                <span v-html="expense.package_exclude"></span>
+                            </van-collapse-item>
+                        </van-collapse>
+                    </div>
                 </div>
-                <van-collapse v-model="priceExclude">
-                    <van-collapse-item :title="$t('productDetailPage.feeExcludes')" name="exclude">
-                        <span v-html="expense.package_exclude"></span>
-                    </van-collapse-item>
-                </van-collapse>
             </div>
             <!-- 注意事项 -->
             <div class="notice mt-24" ref="refNotice">
@@ -334,7 +356,7 @@
 
             </div>
             <!-- 服务说明 -->
-            <<van-action-sheet v-model="showServiceNode" :title="$t('productDetailPage.serviceDescription')" class="service-note">
+            <van-action-sheet v-model="showServiceNode" :title="$t('productDetailPage.serviceDescription')" class="service-note">
                 <div class="servive-item mt-50" v-for="(item,index) in serviceNote" :key="index">
                     <h3 class="title">
                         <img src="../../assets/imgs/product/tick@2x.png" alt="icon">&nbsp;{{item.title}}
@@ -343,7 +365,7 @@
                 </div>
                 </van-action-sheet>
                 <!-- 优惠卷展开 -->
-                <<van-action-sheet v-model="showServiceCop" :title="$t('coupons')" class="service-note">
+                <van-action-sheet v-model="showServiceCop" :title="$t('coupons')" class="service-note">
                     <p class="cup-class">{{$t('productDetailPage.availableCoupons')}}</p>
                     <div class="cup-item" v-for="(item,index) in couponDetails" :key="index">
                         <div class="cupleft">
@@ -362,7 +384,7 @@
                     </div>
                     </van-action-sheet>
                     <!-- 恢复预定通知 -->
-                    <<van-action-sheet v-model="showSoldOut" title=" " class="sold-out">
+                    <van-action-sheet v-model="showSoldOut" title=" " class="sold-out">
                         <div class="sold-out-content">
                             <h3 class="title">{{$t('productDetailPage.soldOutDesc')}}</h3>
                             <p class="desc mt-30">{{$t('productDetailPage.emailOrPhone')}}</p>
@@ -539,7 +561,8 @@
                     top_price = data.top_price // 团期价格
                     transfer = data.transfer
                     reviews = data.reviews.product ? data.reviews : null //评论版块
-
+                    console.log('expense',data);
+                    
                    
                 } else {
                     redirect('../error')
@@ -764,7 +787,7 @@
             },
         },
         created () {
-          console.log(1212121,this.product)
+          console.log(1212121,this.expense,this.product)
         },
         async mounted() {
             this.closeSelf = getSessionStore('closeSelf')
