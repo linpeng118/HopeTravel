@@ -49,7 +49,7 @@
           </p>
         </div>
       </div>
-      <div class="elsefix" v-if="objdata&&showtip">
+      <!-- <div class="elsefix" v-if="objdata&&showtip">
         <div class="attack-head" >
           <div class="imgbox"><img :src="objdata.create_user.face" alt=""></div>
           <div class="conbox">
@@ -67,7 +67,7 @@
             <van-icon v-if="shownav==true" name="arrow-up" class="elseicon " @click="shownav=false" />
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="elsefixbox" v-if="shownav&&showtip" @click="shownav=false">
         <div >
           <p v-for="(itemx,indx) in objcon" @click.stop="totitle(indx)" :key="indx">{{itemx.chapter_title}}</p>
