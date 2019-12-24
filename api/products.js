@@ -122,11 +122,13 @@ export const getFilterList = (data) => {
  * @param {Object} data
  */
 export const getProductDetail = (data) => {
-    return axios.get(`/api/product/${data.product_id}`, {
-        headers: {
-            'Authorization': data.token
-        }
-    })
+    return axios.get(`/api/product/${data.product_id}`
+        /* , {
+                headers: {
+                    'Authorization': data.token
+                }
+            } */
+    )
 }
 
 
