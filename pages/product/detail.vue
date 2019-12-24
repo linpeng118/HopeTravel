@@ -462,6 +462,7 @@
     import Loading from '@/components/loading'
     import {
         getCookie,
+        getCookieByKey,
         getLocalStore,
         setLocalStore,
         getSessionStore,
@@ -537,7 +538,7 @@
             }
             try {
                 let currency = getCookie(CURRENCY, req && req.headers && req.headers.cookie)
-
+                let token = getCookieByKey('token');
                 let {
                     code,
                     msg,
@@ -549,6 +550,7 @@
                         'App-Version': store.state.phoneType,
                         Language: store.getters.language,
                         Currency: currency || store.state.currency,
+                        'Authorization': token
                     },
                 })
                 if (code === 0) {
@@ -618,6 +620,9 @@
                 goToBackPage: '',
 
                 closeSelf: 1,
+
+                videos: [],
+                video: '',
             }
         },
         beforeRouteEnter(to, from, next) {
@@ -824,7 +829,7 @@
                 // 是否有登录态
                 await this.initProfileData()
                 // 改用asyncData()
-                // await this.getProductDetailData()
+                /* await this.getProductDetailData() */
                 // 返现逻辑
                 await this.ashbackLogic()
                 // 存储浏览记录
@@ -880,12 +885,14 @@
             //点击收藏，重新获取收藏状态
             async getProductDetailData() {
                 /* this.loading = true */
+                let token = getCookieByKey('token');
                 const {
                     code,
                     data,
                     msg
                 } = await getProductDetail({
                     product_id: this.productId,
+                    token : token
                 })
                 console.log(code, data, msg)
                 if (code === 0) {
@@ -1174,6 +1181,7 @@
                     this.vxToggleLoginDlg(true)
                 } else {
                     if (this.product.is_favorite) {
+                        
                         const {
                             code,
                             data,
@@ -1184,10 +1192,13 @@
                         if (code === 0) {
                             this.$toast(this.$t('productDetailPage.takeOffSuc'))
                             this.getProductDetailData()
+                            this.product.is_favorite = false;
                         } else {
                             this.$toast(this.$t('productDetailPage.takeOffFail'))
                         }
+                        
                     } else {
+                       
                         const {
                             code,
                             data,
@@ -1198,9 +1209,11 @@
                         if (code === 0) {
                             this.$toast(this.$t('productDetailPage.focusOnSuc'))
                             this.getProductDetailData()
+                            this.product.is_favorite = true;
                         } else {
                             this.$toast(this.$t('productDetailPage.focusOnFail'))
                         }
+                         
                     }
                 }
             },
