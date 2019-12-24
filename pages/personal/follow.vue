@@ -80,7 +80,7 @@
           </van-cell>
         </van-cell-group>
       </van-checkbox-group>
-      <div class="no-product" v-if="!productList.length && !firstLoad">{{$t('personalPage.goToCollect')}}</div>
+      <div class="no-product" v-if="!productList2.length && !firstLoad">{{$t('personalPage.goToCollect')}}</div>
       <div class="no-product" v-if="firstLoad">{{$t('dataLoading')}}</div>
       <div v-if="isModify" class="btn-delete"><van-button block @click="deleteProductFavorites2">{{$t('delete')}}</van-button></div>
     </div>

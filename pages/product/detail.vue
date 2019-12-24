@@ -538,7 +538,7 @@
             }
             try {
                 let currency = getCookie(CURRENCY, req && req.headers && req.headers.cookie)
-                let token = getCookieByKey('token');
+               /*  let token = getCookieByKey('token'); */
                 let {
                     code,
                     msg,
@@ -550,7 +550,7 @@
                         'App-Version': store.state.phoneType,
                         Language: store.getters.language,
                         Currency: currency || store.state.currency,
-                        'Authorization': token
+                        /* 'Authorization': token */
                     },
                 })
                 if (code === 0) {
@@ -885,14 +885,14 @@
             //点击收藏，重新获取收藏状态
             async getProductDetailData() {
                 /* this.loading = true */
-                let token = getCookieByKey('token');
+               /*  let token = getCookieByKey('token'); */
                 const {
                     code,
                     data,
                     msg
                 } = await getProductDetail({
                     product_id: this.productId,
-                    token : token
+                   /*  token : token */
                 })
                 console.log(code, data, msg)
                 if (code === 0) {
