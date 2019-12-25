@@ -481,7 +481,8 @@
         getProductDetail,
         addFavorite,
         delFavorite,
-        schedule
+        schedule,
+        getisproduct
     } from '@/api/products'
     import {
         couponList,
@@ -564,13 +565,14 @@
                     console.log('expense',data);
                     
                     
-                   
+                 
+
                 } else {
                     redirect('../error')
                     console.log('error:', msg)
                 }
                 //一进页面 显示收藏状态
-                    let favoriteList = getLocalStore('favorite') || [];
+                   /*  let favoriteList = getLocalStore('favorite') || [];
                     let setFavoriteList = [...new Set(favoriteList)]
                     if(setFavoriteList.length!==0){
                     setFavoriteList.some((item,index)=>{
@@ -583,7 +585,7 @@
                         
                         product.is_favorite = false
                     }
-        console.log(product.is_favorite);
+        console.log(product.is_favorite); */
         
             } catch (error) {
                 console.log('detail-error', error)
@@ -630,6 +632,7 @@
                 shareDataInfo: {},
                 referrerId: '',
                 productId: '',
+                product_id: 0,
                 ids: {},
                 isVideoShow: false, // 是否显示视频
                 goToBackPage: '',
@@ -806,8 +809,10 @@
                 console.log(to, from)
             },
         },
-        created () {
+        async created () {
           console.log(1212121,this.expense,this.product)
+          await this.getisproductFcn()
+          
         },
         async mounted() {
             this.closeSelf = getSessionStore('closeSelf')
@@ -817,6 +822,7 @@
             }, 3000)
 
             this.init()
+            /* this.getisproductFcn() */
             this.$refs.refProductDetailPage.addEventListener('scroll', this.scrollFn)
             document.getElementsByTagName('title')[0].innerText = this.product.name
         },
@@ -855,7 +861,7 @@
                /*  await this.getFavorite(); */
             },
             // 通过localStorage来对收藏/取消收藏状态进行判断
-            getFavorite(){
+            /* getFavorite(){
                  let favoriteList = getLocalStore('favorite') || [];
                  let setFavoriteList = [...new Set(favoriteList)]
                  console.log(setFavoriteList.length,setFavoriteList);
@@ -879,6 +885,18 @@
                     setFavoriteList.unshift(this.product.product_id);
                     setLocalStore('favorite',[...new Set(setFavoriteList)])
                     this.product.is_favorite = true
+                }
+            }, */
+             // 是否收藏
+            async getisproductFcn() {
+                let {code, data} = await getisproduct(this.product.product_id)
+                if (code === 0) {
+                    if(data.is_favorite == 1){
+                        this.product.is_favorite= true;
+                    }
+                    else{
+                        this.product.is_favorite= false;
+                    }
                 }
             },
             // 获取profile-登录态
@@ -1224,11 +1242,12 @@
                     // })
                     this.vxToggleLoginDlg(true)
                 } else {
-                    this.getFavorite();
+                   /*  this.getFavorite(); */
                     console.log(this.product.is_favorite);
                     
-                    if (this.product.is_favorite==false) {
-                        /* if (this.product.is_favorite) { */
+                   /*  if (this.product.is_favorite==false) { */
+                        if (this.product.is_favorite) {
+                            
                         const {
                             code,
                             data,
@@ -1237,12 +1256,17 @@
                             product_id: this.product.product_id,
                         })
                         if (code === 0) {
+                            this.getisproductFcn();
+                            this.product.is_favorite = false
                             this.$toast(this.$t('productDetailPage.takeOffSuc'))
                             /* this.getProductDetailData() */
                            
                             
                         } else {
+                            this.getisproductFcn();
+                            this.product.is_favorite = true
                             this.$toast(this.$t('productDetailPage.takeOffFail'))
+                            
                         }
                         
                     } else {
@@ -1256,7 +1280,7 @@
                         })
                         if (code === 0) {
                             this.$toast(this.$t('productDetailPage.focusOnSuc'))
-                           /*  this.getProductDetailData() */
+                            this.getProductDetailData()
                            
                         } else {
                             this.$toast(this.$t('productDetailPage.focusOnFail'))
