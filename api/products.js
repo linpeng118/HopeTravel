@@ -99,11 +99,22 @@ export const upcomm = (data) => {
 
         })
     }
-    //是否收藏
+    //攻略是否收藏
 export const getisfa = (id) => {
         return axios.get('/api/isfavorite', {
             params: {
                 product_type: 'article',
+                product_id: id
+
+            }
+
+        })
+    }
+    //产品是否收藏
+export const getisproduct = (id) => {
+        return axios.get('/api/isfavorite', {
+            params: {
+                product_type: 'product',
                 product_id: id
 
             }
