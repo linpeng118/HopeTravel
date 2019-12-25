@@ -90,6 +90,7 @@
 <script>
 import {getFavorites} from '@/api/profile'
 import {delFavorite,delFavorite2,getFavoriteList2} from '@/api/products'
+import {setLocalStore,getLocalStore} from '@/assets/js/utils'
 export default {
   name: 'follow',
   data() {
@@ -103,11 +104,24 @@ export default {
       type:1,
     }
   },
+
   mounted() {
     this.init()
     this.init2()
   },
   methods: {
+    favoriteFcn(){
+        let favoriteList = getLocalStore('favorite') || [];
+        let setFavoriteList = [...new Set(favoriteList)]
+        let favIndex = 0;
+        if(setFavoriteList.length!==0){
+        setFavoriteList =setFavoriteList.filter(item=>
+          !this.result.includes(item)
+        )
+        console.log(this.result,setFavoriteList);
+        setLocalStore('favorite',[...new Set(setFavoriteList)]);
+        }
+    },
     async init() {
       let {code, data, msg} = await getFavorites({page_size: 6})
       if(code === 0) {
@@ -146,7 +160,8 @@ export default {
         this.$refs.checkboxe2[index].toggle()
       }
     },
-    async deleteProductFavorites(){
+    async deleteProductFavorites(){ 
+      this.favoriteFcn();
       let {code} = await delFavorite({
         product_id: this.result.join(',')
       })
@@ -161,6 +176,8 @@ export default {
 
 
     async deleteProductFavorites2(){
+      console.log(this.result2.join(','));
+      
       let {code} = await delFavorite2({
         product_id: this.result2.join(','),
       })

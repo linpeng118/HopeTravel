@@ -538,7 +538,6 @@
             }
             try {
                 let currency = getCookie(CURRENCY, req && req.headers && req.headers.cookie)
-               /*  let token = getCookieByKey('token'); */
                 let {
                     code,
                     msg,
@@ -550,7 +549,6 @@
                         'App-Version': store.state.phoneType,
                         Language: store.getters.language,
                         Currency: currency || store.state.currency,
-                        /* 'Authorization': token */
                     },
                 })
                 if (code === 0) {
@@ -565,11 +563,28 @@
                     reviews = data.reviews.product ? data.reviews : null //评论版块
                     console.log('expense',data);
                     
+                    
                    
                 } else {
                     redirect('../error')
                     console.log('error:', msg)
                 }
+                //一进页面 显示收藏状态
+                    let favoriteList = getLocalStore('favorite') || [];
+                    let setFavoriteList = [...new Set(favoriteList)]
+                    if(setFavoriteList.length!==0){
+                    setFavoriteList.some((item,index)=>{
+                        return item == product.product_id ?  product.is_favorite = true : product.is_favorite = false
+                    })
+                    console.log("你",product.product_id);
+                    }
+                    else{
+                        console.log("你进来");
+                        
+                        product.is_favorite = false
+                    }
+        console.log(product.is_favorite);
+        
             } catch (error) {
                 console.log('detail-error', error)
             }
@@ -836,6 +851,35 @@
                 await this.saveLocal()
                 // 获取优惠卷列表
                 await this.getcouponList()
+                // 通过localStorage来对收藏/取消收藏状态进行判断
+               /*  await this.getFavorite(); */
+            },
+            // 通过localStorage来对收藏/取消收藏状态进行判断
+            getFavorite(){
+                 let favoriteList = getLocalStore('favorite') || [];
+                 let setFavoriteList = [...new Set(favoriteList)]
+                 console.log(setFavoriteList.length,setFavoriteList);
+                 let favIndex = 0;
+                if(setFavoriteList.length!==0){
+                if(setFavoriteList.indexOf(this.product.product_id)>-1){
+                    favIndex = setFavoriteList.indexOf(this.product.product_id);
+                    setFavoriteList.splice(favIndex,1);
+                    setLocalStore('favorite',[...new Set(setFavoriteList)]);
+                    this.product.is_favorite = false;
+                    console.log('fa')
+                }
+                else{
+                    setFavoriteList.unshift(this.product.product_id);
+                    setLocalStore('favorite',[...new Set(setFavoriteList)]);
+                    this.product.is_favorite = true;
+                    console.log('tr')
+                }
+                }
+                else{
+                    setFavoriteList.unshift(this.product.product_id);
+                    setLocalStore('favorite',[...new Set(setFavoriteList)])
+                    this.product.is_favorite = true
+                }
             },
             // 获取profile-登录态
             async initProfileData() {
@@ -885,14 +929,12 @@
             //点击收藏，重新获取收藏状态
             async getProductDetailData() {
                 /* this.loading = true */
-               /*  let token = getCookieByKey('token'); */
                 const {
                     code,
                     data,
                     msg
                 } = await getProductDetail({
                     product_id: this.productId,
-                   /*  token : token */
                 })
                 console.log(code, data, msg)
                 if (code === 0) {
@@ -967,6 +1009,7 @@
             // 存储浏览记录
             saveLocal() {
                 let browsList = getLocalStore('browsList') || []
+                /* let favorite = getLocalStore("favorite") || [] */
                 browsList.unshift(this.productId)
                 let set = [...new Set(browsList)]
                 // console.log(set)
@@ -1174,14 +1217,18 @@
             },
             // 关注与取关
             async attentionProduct() {
+               
                 if (!this.profile.customer_id) {
                     // this.$router.replace({
                     //   path: `/login?redirect=${this.$route.fullPath}`,
                     // })
                     this.vxToggleLoginDlg(true)
                 } else {
-                    if (this.product.is_favorite) {
-                        
+                    this.getFavorite();
+                    console.log(this.product.is_favorite);
+                    
+                    if (this.product.is_favorite==false) {
+                        /* if (this.product.is_favorite) { */
                         const {
                             code,
                             data,
@@ -1191,8 +1238,9 @@
                         })
                         if (code === 0) {
                             this.$toast(this.$t('productDetailPage.takeOffSuc'))
-                            this.getProductDetailData()
-                            this.product.is_favorite = false;
+                            /* this.getProductDetailData() */
+                           
+                            
                         } else {
                             this.$toast(this.$t('productDetailPage.takeOffFail'))
                         }
@@ -1208,8 +1256,8 @@
                         })
                         if (code === 0) {
                             this.$toast(this.$t('productDetailPage.focusOnSuc'))
-                            this.getProductDetailData()
-                            this.product.is_favorite = true;
+                           /*  this.getProductDetailData() */
+                           
                         } else {
                             this.$toast(this.$t('productDetailPage.focusOnFail'))
                         }

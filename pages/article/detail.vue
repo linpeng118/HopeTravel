@@ -303,7 +303,9 @@
         }
       },
       async delfav() {
-        let {code,data} = await delFavorite2(this.objid)
+        let {code,data} = await delFavorite2({
+          product_id : this.objid
+          })
         if (code === 0) {
           this.isfav=0;
           this.getpro()

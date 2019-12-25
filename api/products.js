@@ -185,7 +185,6 @@ export const delFavorite2 = (data) => {
         params: {
             product_id: data.product_id,
             type: 'article'
-
         }
     })
 }
