@@ -288,7 +288,10 @@
               :placeholder="$t('confirmPage.tipsRequire')"
               rows="2"
               autosize
+              maxlength="200"
+              :input="maxlength(comment)"
               v-model="comment" />
+              <p>{{characterLength}}/200</p>
           </div>
         </div>
       </section>
@@ -368,7 +371,7 @@
         isLogin: this.$route.query.isLogin || false, // 默认false-->游客
         isLoginkeyword: true,
         usertraver: [],//未登录的用户
-
+        characterLength: ''
       }
     },
     computed: {
@@ -417,6 +420,9 @@
     },
 
     methods: {
+      maxlength(value) {
+        this.characterLength = value.length
+      },
       async init() {
         // 1. 是否有token。有就请求个人信息；无则return
         let res = await getProfile();
@@ -910,6 +916,14 @@
     box-sizing: border-box;
     padding: 20px 24px;
     font-size: 28px;
+    position: relative;
+  }
+  .item-con p {
+    font-size: 14px;
+    color: #9f9f9f;
+    position: absolute;
+    right: 5px;
+    bottom: 20px;
   }
 
   .item-con span:nth-child(1) {
