@@ -6,28 +6,13 @@ import axios from '@/plugins/axios/axios'
  */
 export const getProductList = (data) => {
   return axios.get('/api/products', {
-    params: {
-      type: data.type,
-      keyword: data.keyword || null,
-      page: data.page || 1,
-      page_size: data.page_size || 10,
-      departure_city: data.departure_city || null,
-      stop_city: data.stop_city || null,
-      span_city: data.span_city || null,
-      tag: data.tag || null,
-      duration: data.duration || null,
-      price: data.price || null,
-      product_type: data.product_type || null,
-      category: data.category || null,
-      order_by: data.order_by || null,
-      order: data.order || null,
-      cruise_id: data.lines || null,
-      cruise_brand_id: data.brand || null,
-      start_city: data.start_city || null,
-      reduce: data.reduce || null,
-      is_special: data.is_special || null,
-      product_id: data.product_id || null
-    }
+    params: data
+  })
+}
+
+export const getFilterstotal = (data) => {
+  return axios.get('/api/filterstotal', {
+    params: data
   })
 }
 
@@ -118,6 +103,14 @@ export const getFilterList = (data) => {
     params: data
   })
 }
+
+// 产品筛选条件
+export const getNewFilterList = (data) => {
+  return axios.get('/api/newfilters', {
+    params: data
+  })
+}
+
 
 /**
  * 获取产品详情
