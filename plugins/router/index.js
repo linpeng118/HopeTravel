@@ -17,7 +17,7 @@ export default ({
     }
     try {
       // M站客服系统：首页/列表/定制/签证/活动
-      if (to.name === 'category-search' || to.name === 'visa' || to.name === 'custom' || to.name === 'city_home-id') {
+      if (to.name === 'category-search1' || to.name === 'visa' || to.name === 'custom' || to.name === 'city_home-id') {
         console.log('show customer service');
         document.body.setAttribute('class', 'show-customer-service')
       } else {
