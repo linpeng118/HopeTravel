@@ -19,9 +19,10 @@
       </template>
       <div class="no-more"
         v-else>
-        <img src="~/assets/imgs/net_error_no_data_img@2x.png"
+        <!-- <img src="~/assets/imgs/net_error_no_data_img@2x.png"
           alt="">
-        <h2>已经搜肠刮肚了了，还是没有找到</h2>
+        <h2>已经搜肠刮肚了了，还是没有找到</h2> -->
+        <h2>暂无数据</h2>
       </div>
     </div>
   </div>
