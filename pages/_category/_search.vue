@@ -1,12 +1,13 @@
 <template>
   <section class="product-list-page" ref="refprolistPage">
     <lay-header
-      :searchKeyWords="searchKeyWords"
       @leftClick="leftClick"
       :searchString="headerTitleShow"
+      @search="searchKeywordsProduct"
+      @query="queryChange"
     ></lay-header>
     <van-sticky>
-      <tab-tags :items="filterTabs" @changeTag="changeFilterTag" v-if="tourCityName && !$route.query.tb"></tab-tags>
+      <tab-tags :items="filterTabs" @changeTag="changeFilterTag" v-if="(tourCityName && !$route.query.tb) || headerKeySearch"></tab-tags>
       <div v-if="filterRightList.length">
         <van-dropdown-menu active-color="#02ACF9">
           <van-dropdown-item v-model="sortResult" :options="sortTypes" ref="sortTypesDropdown" />
@@ -73,7 +74,7 @@
         </van-list>
       </div>
     </van-pull-refresh>
-    <div class="refresh-box" v-if="!productList.length">
+    <div class="refresh-box" v-if="isShowSkeleton">
       <div class="product-main" v-for="n in 4" :key="'skeleton' + n">
         <div class="item-ske">
           <van-skeleton avatar-shape="square" avatar-size="100px" title avatar :row="3"/>
@@ -162,7 +163,7 @@ export default {
     // cf29-tj143_131-js32
     // yg 当地跟团 type 1；yw 当地玩乐 type 2；yj稀饭自营 type 3 ；yl 游轮 type 7；ym 门票演出 4; yr 一日游 5
     let {category,search = ''} = params
-    let {page = 1, sem = '0', w = null,sale = null, sp = null,ids = null} = query
+    let {page = 1, sem = '0', w = null, sale = null, sp = null, ids = null, key = null} = query
     if(search.indexOf('y')==-1){
       let urlNeu = '/'+category+'/ya'
       redirect(urlNeu) 
@@ -189,7 +190,8 @@ export default {
       categoryId: category,
       filterResult: {
         ...getSearch
-      }
+      },
+      headerKeySearch: key, // 关键字搜索
     }
   },
   components: {
@@ -234,7 +236,8 @@ export default {
       tourCityName: '',
       headerTitleShow: '',
       subType: [], // 二级副标题
-      currentCityKey: '' //
+      currentCityKey: '', //
+      isShowSkeleton: true
     }
   },
   computed: {
@@ -313,10 +316,33 @@ export default {
       }
     },
     // 搜索
-    onRefresh(){
-
+    async onRefresh(){
+      let _params = {
+        sub_type: this.subType.toString(),
+        keyword: this.searchKeyWords || null,
+        ...this.searchParams,
+        ...this.selectedObj
+      }
+      await this.searchGetProduct(_params)
+      this.isLoading = false
     },
-
+    searchKeywordsProduct() {
+      let _urlArr = this.$route.path.split('/')
+      let query = JSON.parse(JSON.stringify(this.$route.query))
+      if(!this.searchKeyWords) {
+        delete query.w
+      } else {
+        query.w = this.searchKeyWords
+      }
+      this.$router.replace({
+        name: 'category-search',
+        params:{
+          category: _urlArr[1],
+          search: _urlArr[2]
+        },
+        query
+      })
+    },
     // 返回上一级
     leftClick() {
       if(this.searchType > 0) {
@@ -332,16 +358,10 @@ export default {
         }
       }
     },
-    // 出搜索页面
-    goToKeywordPage(){
-      let route = this.searchKeyWords ? `/search/keyword?w=${this.searchKeyWords}`: '/search/keyword'
-      this.$router.push(route)
-    },
     // 改变关键字
     queryChange(value) {
-      if(!value){
-        this.changeRouter(true)
-      }
+      this.searchKeyWords = value
+      this.changeRouter()
     },
     onLoad(){
       let _s = this.sortResult.split(':')
@@ -461,6 +481,8 @@ export default {
         let one = this.filterTabs.find(item => item.is_selected)
         if(this.$route.query.tb) {
           this.headerTitleShow = this.tourCityName + one.title
+        } else if(this.headerKeySearch) {
+          this.headerTitleShow = ''
         } else {
           this.headerTitleShow = this.tourCityName || (this.tourCityName + one.title)
         }
@@ -497,9 +519,6 @@ export default {
     },
     // 数据请求
     async searchGetProduct(params, sort){
-      if(sort){
-        this.loadingData = true
-      }
       const {data,code,pagination} = await getProductList(params)
       if(code === 0){
         this.loadingData = false
@@ -508,7 +527,7 @@ export default {
           this.loadingData = false
         } else {
           let findOne = this.productList.some(item => {
-            return item.product_id == data[0].product_id
+            return item.product_id == data[0] && data[0].product_id
           })
           if(!this.productList[0] || !findOne){
             this.productList.push(...data)
@@ -523,6 +542,7 @@ export default {
           this.prodFinished = true
         }
       }
+      this.isShowSkeleton = !!this.productList.length
     },
     // 显示title
     showTitle(name) {
@@ -562,23 +582,6 @@ export default {
         })
       }
       return name
-    },
-    currentType(){},
-    // 航线查询选择
-    selectRouterItem(item){
-      // 进行数据请求
-      let params = {
-        keyword: this.searchKeyWords || null,
-        ...this.searchParams
-      }
-      if(this.checkrouter == item.id) {
-        this.checkrouter = ''
-      } else {
-        params.lines =item.id
-        this.checkrouter = item.id
-      }
-      this.routerShow = !this.routerShow
-      this.searchGetProduct(params, 'lines')
     },
     // 视觉判断tag是否选中
     filterActive(id, key) {
@@ -624,13 +627,17 @@ export default {
       let _url = changeParams(this.searchParams)
       if(_url != this.$route.path) {
         let _urlArr = changeParams(this.searchParams).split('/');
+        let query = this.$route.query
+        if(this.searchKeyWords) {
+          this.$route.query.w = this.searchKeyWords
+        }
         this.$router.replace({
           name: 'category-search',
           params:{
             category: _urlArr[1],
             search: _urlArr[2]
           },
-          query: this.$route.query
+          query
         })
       }
     },
@@ -675,8 +682,9 @@ export default {
 <style type="text/scss" lang="scss" scoped>
 .product-list-page{
    background: #F2F7F9;
+   min-height: 100vh;
   .refresh-box{
-    // min-height: calc(100vh - 88px);
+    min-height: calc(100vh - 88px);
   }
   .product-main{
     padding: 20px 32px 0 32px;
