@@ -26,6 +26,7 @@ export const LIST_PARAMS = {
     js: 'stop_city',
     sj: 'duration',
     tj: 'span_city',
+    tc: 'tour_city',
     pt: 'product_type',
     zl: 'brand'
 }
@@ -36,6 +37,7 @@ export const TRUE_PARAMS = {
     'price': 'jg',
     'stop_city': 'js',
     'duration': 'sj',
+    'tour_city': 'tc',
     'span_city': 'tj',
     'product_type': 'pt',
     'brand': 'zl',

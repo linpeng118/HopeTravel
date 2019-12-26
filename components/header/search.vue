@@ -1,31 +1,21 @@
 <template>
-  <van-nav-bar class="layout-header tours-no-bb classBg show-bg"
-               ref="layoutHeader"
-               fixed
-               :z-index="999"
-               @click-left="onClickLeft"
-               :style="{boxShadow: isHistory ? 'none' : ''}"
-  >
-    <van-icon class="left-wrap" :name="serachtype == 1 ? 'wap-home':'arrow-left'" slot="left" />
-    <van-icon class="right-wrap" slot="right">
-      <div class="big-search">
-        <div :class="isSearch || isProductList ? 'has-keyword': ''">
-          <div class="search-box" v-if="serachtype=='1'" @click="pushserach()">
-            <van-icon name="search" @click="pushserach()" />
-            <input class="box" @click="pushserach()" :placeholder="searchKeyWords" v-model="query1" ref="query1" :class="isProductList ? 'list' : ''" />
-          </div>
-          <div class="search-box" v-else>
-            <van-icon name="search" />
-            <input class="box" :placeholder="searchKeyWords" v-model="query" ref="query" :class="isProductList ? 'list' : ''" @focus="emitOperate" />
-            <van-icon name="clear" v-show="query" @click="clear" />
-          </div>
-          <div class="search-btn" @click="getSearchList" v-if="isSearch">{{$t('headerSearch.search')}}</div>
-          <nuxt-link tag="div" class="personal-btn" to="/personal" v-if="isProductList">
-            <van-icon name="user-circle-o" color="#666" />
-          </nuxt-link>
-        </div>
-      </div>
-    </van-icon>
+  <van-nav-bar class="layout-header" @click-left="onClickLeft">
+      <van-icon class="left-wrap" :name="serachtype == 1 ? 'wap-home':'arrow-left'" slot="left" />
+      <van-icon class="right-wrap" slot="title">
+        <template v-if="$route.query.tb">
+          {{searchString}}
+        </template>
+        <template v-else>
+          <van-search
+            v-model="searchKeyWords"
+            placeholder="请输入搜索关键词"
+            show-action
+            shape="round">
+            <div slot="label" class="search-left-text" v-if="searchString">{{searchString}}</div>
+            <div slot="action" @click="onSearch" style="color: #02ACF9">搜索</div>
+          </van-search>
+        </template>
+      </van-icon>
   </van-nav-bar>
 </template>
 
@@ -39,21 +29,13 @@
         type: String,
         default: ''
       },
-      isSearch: {
-        type: Boolean,
-        default: false
-      },
-      isHistory: {
-        type:Boolean,
-        default: false
-      },
-      isProductList: {
-        type:Boolean,
-        default: false
-      },
       serachtype:{
         type:String,
         default: '0'
+      },
+      searchString: {
+        type: String,
+        default: ''
       }
     },
     data() {
@@ -62,126 +44,39 @@
         query1: this.$route.query.w || '',
       }
     },
-    created() {
-      this.$watch('query', _throttle((newValue) => {
-        this.$emit('query', newValue)
-      }, 500))
-    },
     methods: {
       onClickLeft() {
-        // this.$router.go(-1)
         this.$emit('leftClick')
       },
       clear() {
         this.query = ''
       },
-      getSearchList() {
-        this.$emit('searchList', this.query)
-      },
-      pushserach(){
-          this.$router.push({
-            path: '/search'
-          })
-      },
       // 派发数据给列表页面
-      emitOperate(){
-        this.$emit('searchKey')
-      },
+      onSearch(){}
     }
   }
 </script>
 
 <style lang="scss" scoped>
-  .layout-header {
-    height: 88px;
-    font-size: 32px;
-    color: #eee;
-    background-color: transparent;
-    transition: all 0.5s;
-    overflow: hidden;
-    &.show-bg {
-      background-color: #fff;
-      color: #191919;
-      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.14);
-      .left-wrap {
-        /*color: #191919;*/
-      }
-    }
-    .right-wrap {
-      .big-search{
-        width: 634px;
-        height: 72px;
-      }
-      .van-search{
-        background: #fff !important;
-        border-radius:36px;
-        height: 72px;
-        padding: 0;
-      }
-    }
-  }
-  .search-box{
-    display: flex;
-    display: -webkit-flex;
-    align-items: center;
-    -webkit-align-items: center;
-    box-sizing: border-box;
-    width:618px;
-    padding: 0 6px 0 20px;
-    height:68px;
-    background: #DBDBDB;
-    border-radius:36px;
-    overflow: hidden;
-    i.van-icon-search{
-      color: #fff;
-      font-size: 40px;
-    }
-    .box{
-      width: 550px;
-      border: none;
-      outline: 0;
-      color: #666;
-      background: #DBDBDB;
-      padding: 10px 0;
-      line-height: 40px;
-      &.list{
-        width: 470px !important;
-      }
-    }
-    input{
-
-    }
-    i.van-icon-clear{
-      color: #666;
-      padding-right: 10px;
-    }
-  }
-  .has-keyword{
-    display: flex;
-    display: -webkit-flex;
-    align-items: center;
-    justify-content: center;
-    .search-box{
-      flex: 1;
-      -webkit-flex: 1;
-      align-items: center;
-      .box{
-        width: 460px;
-        padding: 10px 0;
-      }
-    }
-    .search-btn{
-      line-height: 72px;
-      padding-left: 10px;
-      color: #00ABF9;
-    }
-    .personal-btn{
-      font-size: 48px !important;
-      padding-left: 10px;
-      i{
-        vertical-align: bottom;
-        font-size: 48px !important;
-      }
-    }
-  }
+.right-wrap{
+  width: 100%;
+  margin-top: -6px;
+}
+.search-left-text { 
+  color: #02ACF9;
+  border-right: 2px solid #fff;
+  padding-right: 10px;
+}
+</style>
+<style>
+.layout-header .van-nav-bar__title{
+  max-width: 85%;
+  margin: 0 0 0 12% ;
+}
+.layout-header .van-search{
+  padding: 0 !important;
+}
+.layout-header .van-nav-bar{
+  box-shadow: none;
+}
 </style>

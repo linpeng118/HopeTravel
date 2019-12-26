@@ -118,9 +118,7 @@
           this.$toast(this.$t('partcailComp.enterPhone'))
           return
         }
-        // 倒计时状态修改
-        this.codeType = VERIFY_CODE.GETTING // 获取验证码
-        console.log(9999,this.codeType);
+        
         
         try {
           const {code, msg} = await getSmsCode({
@@ -136,7 +134,13 @@
             this.codeType = VERIFY_CODE.START
             /* this.resetTimer() */
           }
-           await this.countDown()
+          else{
+        // 倒计时状态修改
+        this.codeType = VERIFY_CODE.GETTING // 获取验证码
+        console.log(9999,this.codeType);
+            await this.countDown()
+          }
+           
         } catch (error) {
           console.log(error)
           this.codeType = VERIFY_CODE.START
