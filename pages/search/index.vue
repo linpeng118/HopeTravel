@@ -1,7 +1,7 @@
 <template>
-    <div class="sssssss">
-        <lay-header searchKeyWords="城市/景点/产品/关键字" :isSearch="isSearch" @searchList="searchList" @searchStart="searchStart" @query="queryChange" @leftClick="leftClick" :isHistory="historyList.length > 0" ref="layHeader"></lay-header>
-        <div class="search-wrap" v-if="searchWrapShow" style="padding-bottom:50px;">
+    <div>
+        <lay-header :isFixed="true" searchKeyWords="城市/景点/产品/关键字" :isSearch="isSearch" @searchList="searchList" @searchStart="searchStart" @query="queryChange" @leftClick="leftClick" :isHistory="historyList.length > 0" ref="layHeader"></lay-header>
+        <div class="search-wrap" v-if="searchWrapShow" style="padding-bottom:50px;top:46px">
             <div class="history-list" v-if="historyList.length" ref="historyBox">
                 <h2 class="title">{{$t('searchPage.searchHistory')}}</h2>
                 <div class="search-items">
@@ -408,9 +408,8 @@
 </script>
 
 <style type="text/scss" lang="scss" scoped>
-    .search-wrap {
+.search-wrap {
   position: relative;
-  top: 88px;
   z-index: 9;
   bottom: 0;
   .badge-bar {

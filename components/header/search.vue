@@ -1,5 +1,5 @@
 <template>
-  <van-nav-bar class="layout-header" @click-left="onClickLeft">
+  <van-nav-bar class="layout-header" @click-left="onClickLeft" :fixed="isFixed" :style="{'z-index': isFixed ? '1000': '' }">
       <van-icon class="left-wrap" :name="serachtype == 1 ? 'wap-home':'arrow-left'" slot="left" />
       <van-icon class="right-wrap" slot="title">
         <template v-if="$route.query.tb">
@@ -10,7 +10,8 @@
             v-model="query"
             placeholder="请输入搜索关键词"
             show-action
-            shape="round">
+            shape="round"
+            @focus="focusHandler">
             <div slot="label" class="search-left-text" v-if="searchString">{{searchString}}</div>
             <div slot="action" @click="onSearch" style="color: #02ACF9">搜索</div>
           </van-search>
@@ -32,6 +33,14 @@
       searchString: {
         type: String,
         default: ''
+      },
+      isProductPage: {
+        type: Boolean,
+        default: false
+      },
+      isFixed: {
+        type: Boolean,
+        default: false
       }
     },
     data() {
@@ -54,6 +63,14 @@
       // 派发数据给列表页面
       onSearch(){
         this.$emit('search')
+      },
+      focusHandler(){
+        if(this.isProductPage) {
+          this.$router.push({
+            name: 'search-keyword',
+            query: this.$route.query
+          })
+        }
       }
     }
   }
