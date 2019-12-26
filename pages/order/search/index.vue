@@ -133,6 +133,7 @@
           
           if (code !== 0) {
             this.$toast(msg)
+            this.codeType = VERIFY_CODE.START
             /* this.resetTimer() */
           }
            await this.countDown()

@@ -21,7 +21,7 @@
                 </van-swipe>
                 <!-- 产品编号 -->
                 <div class="serial-num">
-                    {{$t('productDetailPage.productId')}}：{{product.code}}
+                    {{$t('productDetailPage.productId')}}：{{product.product_id}}
                 </div>
                 <!--视频-->
                 <div class="video-box" @click="playVideo" v-if="product.videos && product.videos[0].video">
@@ -272,15 +272,37 @@
                     <h3 class="title-s">{{$t('productDetailPage.priceDescription')}}</h3>
                     <div class="text" v-html="expense.price_notice"></div>
                 </div>
-                <div class="price-include">
-                    <h3 class="title-s">{{$t('productDetailPage.feeIncludes')}}</h3>
-                    <div class="text" v-html="expense.package_include"></div>
+                <div class="price-inexclude">
+                    <!-- 新数据（包含与不包含）表格显示 -->
+                    <div class="newData" v-if="expense.package_include_list.length>0 || expense.package_exclude_list.length>0">
+                        <h3 class="title-s" v-if="expense.package_include_list.length>0">{{$t('productDetailPage.feeIncludes')}}</h3>
+                        <ul class="price-newInclude">
+                            <li v-for="(item,index) in expense.package_include_list" :key="index">
+                                <span class="title">{{item.title}}</span>
+                                <span class="content">{{item.content}}</span>
+                            </li>
+                        </ul>
+                        <h3 class="title-s" v-if="expense.package_exclude_list.length>0">{{$t('productDetailPage.feeExcludes')}}</h3>
+                        <ul class="price-newExclude">
+                            <li v-for="(item,index) in expense.package_exclude_list" :key="index">
+                                <span class="title">{{item.title}}</span>
+                                <span class="content">{{item.content}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- 兼容旧数据（包含与不包含） -->
+                    <div class="oldData" v-else>
+                        <div class="price-include">
+                            <h3 class="title-s">{{$t('productDetailPage.feeIncludes')}}</h3>
+                            <div class="text" v-html="expense.package_include"></div>
+                        </div>
+                        <van-collapse v-model="priceExclude">
+                            <van-collapse-item :title="$t('productDetailPage.feeExcludes')" name="exclude">
+                                <span v-html="expense.package_exclude"></span>
+                            </van-collapse-item>
+                        </van-collapse>
+                    </div>
                 </div>
-                <van-collapse v-model="priceExclude">
-                    <van-collapse-item :title="$t('productDetailPage.feeExcludes')" name="exclude">
-                        <span v-html="expense.package_exclude"></span>
-                    </van-collapse-item>
-                </van-collapse>
             </div>
             <!-- 注意事项 -->
             <div class="notice mt-24" ref="refNotice">
@@ -334,7 +356,7 @@
 
             </div>
             <!-- 服务说明 -->
-            <<van-action-sheet v-model="showServiceNode" :title="$t('productDetailPage.serviceDescription')" class="service-note">
+            <van-action-sheet v-model="showServiceNode" :title="$t('productDetailPage.serviceDescription')" class="service-note">
                 <div class="servive-item mt-50" v-for="(item,index) in serviceNote" :key="index">
                     <h3 class="title">
                         <img src="../../assets/imgs/product/tick@2x.png" alt="icon">&nbsp;{{item.title}}
@@ -343,7 +365,7 @@
                 </div>
                 </van-action-sheet>
                 <!-- 优惠卷展开 -->
-                <<van-action-sheet v-model="showServiceCop" :title="$t('coupons')" class="service-note">
+                <van-action-sheet v-model="showServiceCop" :title="$t('coupons')" class="service-note">
                     <p class="cup-class">{{$t('productDetailPage.availableCoupons')}}</p>
                     <div class="cup-item" v-for="(item,index) in couponDetails" :key="index">
                         <div class="cupleft">
@@ -362,7 +384,7 @@
                     </div>
                     </van-action-sheet>
                     <!-- 恢复预定通知 -->
-                    <<van-action-sheet v-model="showSoldOut" title=" " class="sold-out">
+                    <van-action-sheet v-model="showSoldOut" title=" " class="sold-out">
                         <div class="sold-out-content">
                             <h3 class="title">{{$t('productDetailPage.soldOutDesc')}}</h3>
                             <p class="desc mt-30">{{$t('productDetailPage.emailOrPhone')}}</p>
@@ -440,6 +462,7 @@
     import Loading from '@/components/loading'
     import {
         getCookie,
+        getCookieByKey,
         getLocalStore,
         setLocalStore,
         getSessionStore,
@@ -458,7 +481,8 @@
         getProductDetail,
         addFavorite,
         delFavorite,
-        schedule
+        schedule,
+        getisproduct
     } from '@/api/products'
     import {
         couponList,
@@ -515,7 +539,6 @@
             }
             try {
                 let currency = getCookie(CURRENCY, req && req.headers && req.headers.cookie)
-
                 let {
                     code,
                     msg,
@@ -539,12 +562,31 @@
                     top_price = data.top_price // 团期价格
                     transfer = data.transfer
                     reviews = data.reviews.product ? data.reviews : null //评论版块
+                    console.log('expense',data);
+                    
+                    
+                 
 
-                   
                 } else {
                     redirect('../error')
                     console.log('error:', msg)
                 }
+                //一进页面 显示收藏状态
+                   /*  let favoriteList = getLocalStore('favorite') || [];
+                    let setFavoriteList = [...new Set(favoriteList)]
+                    if(setFavoriteList.length!==0){
+                    setFavoriteList.some((item,index)=>{
+                        return item == product.product_id ?  product.is_favorite = true : product.is_favorite = false
+                    })
+                    console.log("你",product.product_id);
+                    }
+                    else{
+                        console.log("你进来");
+                        
+                        product.is_favorite = false
+                    }
+        console.log(product.is_favorite); */
+        
             } catch (error) {
                 console.log('detail-error', error)
             }
@@ -590,11 +632,15 @@
                 shareDataInfo: {},
                 referrerId: '',
                 productId: '',
+                product_id: 0,
                 ids: {},
                 isVideoShow: false, // 是否显示视频
                 goToBackPage: '',
 
                 closeSelf: 1,
+
+                videos: [],
+                video: '',
             }
         },
         beforeRouteEnter(to, from, next) {
@@ -763,8 +809,10 @@
                 console.log(to, from)
             },
         },
-        created () {
-          console.log(1212121,this.product)
+        async created () {
+          console.log(1212121,this.expense,this.product)
+          await this.getisproductFcn()
+          
         },
         async mounted() {
             this.closeSelf = getSessionStore('closeSelf')
@@ -774,6 +822,7 @@
             }, 3000)
 
             this.init()
+            /* this.getisproductFcn() */
             this.$refs.refProductDetailPage.addEventListener('scroll', this.scrollFn)
             document.getElementsByTagName('title')[0].innerText = this.product.name
         },
@@ -801,13 +850,54 @@
                 // 是否有登录态
                 await this.initProfileData()
                 // 改用asyncData()
-                // await this.getProductDetailData()
+                /* await this.getProductDetailData() */
                 // 返现逻辑
                 await this.ashbackLogic()
                 // 存储浏览记录
                 await this.saveLocal()
                 // 获取优惠卷列表
                 await this.getcouponList()
+                // 通过localStorage来对收藏/取消收藏状态进行判断
+               /*  await this.getFavorite(); */
+            },
+            // 通过localStorage来对收藏/取消收藏状态进行判断
+            /* getFavorite(){
+                 let favoriteList = getLocalStore('favorite') || [];
+                 let setFavoriteList = [...new Set(favoriteList)]
+                 console.log(setFavoriteList.length,setFavoriteList);
+                 let favIndex = 0;
+                if(setFavoriteList.length!==0){
+                if(setFavoriteList.indexOf(this.product.product_id)>-1){
+                    favIndex = setFavoriteList.indexOf(this.product.product_id);
+                    setFavoriteList.splice(favIndex,1);
+                    setLocalStore('favorite',[...new Set(setFavoriteList)]);
+                    this.product.is_favorite = false;
+                    console.log('fa')
+                }
+                else{
+                    setFavoriteList.unshift(this.product.product_id);
+                    setLocalStore('favorite',[...new Set(setFavoriteList)]);
+                    this.product.is_favorite = true;
+                    console.log('tr')
+                }
+                }
+                else{
+                    setFavoriteList.unshift(this.product.product_id);
+                    setLocalStore('favorite',[...new Set(setFavoriteList)])
+                    this.product.is_favorite = true
+                }
+            }, */
+             // 是否收藏
+            async getisproductFcn() {
+                let {code, data} = await getisproduct(this.product.product_id)
+                if (code === 0) {
+                    if(data.is_favorite == 1){
+                        this.product.is_favorite= true;
+                    }
+                    else{
+                        this.product.is_favorite= false;
+                    }
+                }
             },
             // 获取profile-登录态
             async initProfileData() {
@@ -937,6 +1027,7 @@
             // 存储浏览记录
             saveLocal() {
                 let browsList = getLocalStore('browsList') || []
+                /* let favorite = getLocalStore("favorite") || [] */
                 browsList.unshift(this.productId)
                 let set = [...new Set(browsList)]
                 // console.log(set)
@@ -1144,13 +1235,19 @@
             },
             // 关注与取关
             async attentionProduct() {
+               
                 if (!this.profile.customer_id) {
                     // this.$router.replace({
                     //   path: `/login?redirect=${this.$route.fullPath}`,
                     // })
                     this.vxToggleLoginDlg(true)
                 } else {
-                    if (this.product.is_favorite) {
+                   /*  this.getFavorite(); */
+                    console.log(this.product.is_favorite);
+                    
+                   /*  if (this.product.is_favorite==false) { */
+                        if (this.product.is_favorite) {
+                            
                         const {
                             code,
                             data,
@@ -1159,12 +1256,21 @@
                             product_id: this.product.product_id,
                         })
                         if (code === 0) {
+                            this.getisproductFcn();
+                            this.product.is_favorite = false
                             this.$toast(this.$t('productDetailPage.takeOffSuc'))
-                            this.getProductDetailData()
+                            /* this.getProductDetailData() */
+                           
+                            
                         } else {
+                            this.getisproductFcn();
+                            this.product.is_favorite = true
                             this.$toast(this.$t('productDetailPage.takeOffFail'))
+                            
                         }
+                        
                     } else {
+                       
                         const {
                             code,
                             data,
@@ -1175,9 +1281,11 @@
                         if (code === 0) {
                             this.$toast(this.$t('productDetailPage.focusOnSuc'))
                             this.getProductDetailData()
+                           
                         } else {
                             this.$toast(this.$t('productDetailPage.focusOnFail'))
                         }
+                         
                     }
                 }
             },
