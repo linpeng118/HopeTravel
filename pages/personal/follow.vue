@@ -35,7 +35,7 @@
               <div class="pro-content">
                 <span class="pro-short">{{item.name_short}}</span>
                 <span :class="item.name_short?'pro-name': 'pro-name2'">{{item.name}}</span>
-                <span class="pro-price">{{$t('personalPage.price')}}：<i class="price">{{item.default_price}}</i></span>
+                <span class="pro-price">{{$t('personalPage.price')}}：<i class="price">{{item.default_price}}起</i></span>
               </div>
             </div>
           </van-cell>
@@ -226,7 +226,7 @@ export default {
           margin-right: 26px;
           width: 208px;
           height: 170px;
-          background: #ddd;
+          // background: #ddd;
           img {
             width: 208px !important;
             height: 144px !important;
