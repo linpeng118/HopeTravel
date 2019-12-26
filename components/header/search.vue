@@ -7,7 +7,7 @@
         </template>
         <template v-else>
           <van-search
-            v-model="searchKeyWords"
+            v-model="query"
             placeholder="请输入搜索关键词"
             show-action
             shape="round">
@@ -25,10 +25,6 @@
     components: {
     },
     props: {
-      searchKeyWords:{
-        type: String,
-        default: ''
-      },
       serachtype:{
         type:String,
         default: '0'
@@ -40,9 +36,13 @@
     },
     data() {
       return {
-        query: this.$route.query.w || '',
-        query1: this.$route.query.w || '',
+        query: this.$route.query.w || ''
       }
+    },
+    created() {
+      this.$watch('query', _throttle((newValue) => {
+        this.$emit('query', newValue)
+      }, 500))
     },
     methods: {
       onClickLeft() {
@@ -52,7 +52,9 @@
         this.query = ''
       },
       // 派发数据给列表页面
-      onSearch(){}
+      onSearch(){
+        this.$emit('search')
+      }
     }
   }
 </script>
