@@ -630,6 +630,103 @@
                 color: rgba(174, 174, 174, 1);
                 position: relative;
               }
+                line-height: 44px;
+                color: #191919;
+            }
+            .group-price-desc,
+            .price-desc {
+                margin: 0 auto;
+                padding: 24px 0 28px;
+                width: 686px;
+                border-bottom: 2px solid #e4e4e4;
+                .title-s {
+                    font-size: 28px;
+                    font-weight: 400;
+                    line-height: 44px;
+                    color: #191919;
+                }
+                .text {
+                    font-size: 24px;
+                    font-weight: 300;
+                    line-height: 40px;
+                    color: #3e3e3e;
+                }
+            }
+            /* 新数据列表显示 */
+            .price-inexclude {
+                .newData {
+                    padding-bottom: 20px;
+                    .title-s {
+                        font-size: 28px;
+                        font-weight: bold;
+                        line-height: 40px;
+                        color: rgba(45, 45, 45, 1);
+                        margin-left: 32px;
+                        margin-top: 30px;
+                    }
+                    ul {
+                        width: 686px;
+                        margin: 0 auto;
+                        li {
+                            margin-top: 20px;
+                            width: 100%;
+                            border: 2px solid rgba(0, 171, 249, 1);
+                            border-radius: 8px;
+                            overflow: hidden;
+                            position: relative;
+                            .title {
+                                display: inline-block;
+                                width: 132px;
+                                text-align: center;
+                                font-size: 28px;
+                                font-weight: bold;
+                                line-height: 40px;
+                                vertical-align: middle;
+                                color: rgba(45, 45, 45, 1);
+                                padding-top: 0;
+                            }
+                            .content {
+                                display: inline-block;
+                                padding: 14px 22px;
+                                width: 550px;
+                                font-size: 24px;
+                                font-weight: 400;
+                                line-height: 34px;
+                                vertical-align: middle;
+                                color: rgba(174, 174, 174, 1);
+                                position: relative;
+                            }
+                        }
+                        li::before {
+                            position: absolute;
+                            content: '';
+                            left: 132px;
+                            border: 1px solid rgba(0, 171, 249, 1);
+                            top: 0;
+                            bottom: 0;
+                        }
+                    }
+                }
+                .oldData {
+                    .price-include {
+                        margin: 0 auto;
+                        padding: 24px 0 28px;
+                        width: 686px;
+                        border-bottom: 2px solid #e4e4e4;
+                        .title-s {
+                            font-size: 28px;
+                            font-weight: 400;
+                            line-height: 44px;
+                            color: #191919;
+                        }
+                        .text {
+                            font-size: 24px;
+                            font-weight: 300;
+                            line-height: 40px;
+                            color: #3e3e3e;
+                        }
+                    }
+                }
             }
             li::before {
               position: absolute;
