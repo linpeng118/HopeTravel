@@ -5,8 +5,8 @@
       :isSearch="true"
       @query="queryChange"
       @leftClick="leftClick"
-      @searchList="selectKeywords"
-      @searchKey="changePage"
+      @search="searchKeywordsProduct"
+      :isFixed="true"
     >
     </lay-header>
     <div class="hot-wrapper">
@@ -77,10 +77,15 @@
     },
     watch: {
       searchKeyWords(newValue) {
-        console.log('变化了')
         this.search()
         if(!newValue){
-          this.$router.push('/search/keyword')
+          let query = JSON.parse(JSON.stringify(this.$route.query))
+          delete query.w
+          console.log(query);
+          this.$router.push({
+            name: 'search-keyword',
+            query
+          })
           this.searchResult = false
           this.init()
           this.getHistoryList()
@@ -145,7 +150,8 @@
         })
       },
       // 搜索关键字
-      selectKeywords(item){
+      searchKeywordsProduct(){
+        let item = this.searchKeyWords
         this.keywordStatistics(item)
         this.saveLocal()
         this.$router.push({
@@ -155,10 +161,10 @@
             search: 'ya'
           },
           query:{
-            w: item
+            w: item,
+            key: 1  // 添加的目的是为了在列表页面展示搜索的头部
           }
         })
-        
       },
       async search(){
         if(this.searchKeyWords) {
@@ -191,10 +197,6 @@
       },
       selectProductInfo(item){
         this.$router.push(`/product/detail?productId=${item}`)
-      },
-      // 改变页面的路由  主要是为了搜索返回在搜索结果页面
-      changePage(){
-
       },
       // 存储浏览记录
       saveLocal() {
