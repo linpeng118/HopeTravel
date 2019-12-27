@@ -189,7 +189,7 @@ function getParams(str) {
     let _searchArr = str.split('-')
     let res = {}
     let type = {
-        ya: 'local_heel', // 重新设计导航没有稀饭推荐了，为了兼容以前链接
+        ya: 'all', // 重新设计导航没有稀饭推荐了，为了兼容以前链接
         yg: 'local_heel',
         yw: 'local_play',
         yj: 'self_support',

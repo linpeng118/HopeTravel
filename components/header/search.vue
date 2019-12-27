@@ -12,7 +12,7 @@
             show-action
             shape="round"
             @focus="focusHandler">
-            <div slot="label" class="search-left-text" v-if="searchString">{{searchString}}</div>
+            <div slot="label" class="search-left-text" v-if="searchString && searchString != 'all'">{{searchString}}</div>
             <div slot="action" @click="onSearch" style="color: #02ACF9">搜索</div>
           </van-search>
         </template>

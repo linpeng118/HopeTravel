@@ -12,7 +12,10 @@
       <div v-if="filterRightList.length">
         <van-dropdown-menu active-color="#02ACF9">
           <van-dropdown-item v-model="sortResult" :options="sortTypes" ref="sortTypesDropdown" />
-          <van-dropdown-item title="全部目的地" @close="closeDropdown()" v-if="allDestination.length && searchParams.type != 'cruise'" ref="destinationDropdown">
+          <van-dropdown-item :title="filteryTitleName('目的地', 'departure_city', '全部')" 
+            @close="closeDropdown()" 
+            v-if="allDestination.length && searchParams.type != 'cruise'" 
+            ref="destinationDropdown">
             <div class="dropdown-select-box">
               <div v-for="destination in allDestination" 
                 :key="'departure_city' + destination.id" :class="filterActive(destination.id, 'departure_city')"
@@ -26,7 +29,7 @@
               <van-button class="sure" :loading="loadingNum" type="info" loading-text="加载中..." @click="changeSelectProduct()">查看{{productTotal}}条产品</van-button>
             </div>
           </van-dropdown-item>
-          <van-dropdown-item title="航线" v-if="linesYlList.length" ref="durationDropdown" @close="closeDropdown()">
+          <van-dropdown-item :title="filteryTitleName('航线', 'lines', '')" v-if="linesYlList.length" ref="durationDropdown" @close="closeDropdown()">
             <div class="dropdown-select-box">
               <div v-for="lines in linesYlList" :key="lines.id" :class="filterActive(lines.id, 'lines')"
                 @click="getProductNum(lines, 'lines')">
@@ -38,7 +41,7 @@
               <van-button class="sure" type="info" :loading="loadingNum" loading-text="加载中..." @click="changeSelectProduct()">查看{{productTotal}}条产品</van-button>
             </div>
           </van-dropdown-item>
-          <van-dropdown-item title="天数/日期" v-if="durationList.length && searchParams.type != 'local_play'" ref="durationDropdown" @close="closeDropdown()">
+          <van-dropdown-item :title="filteryTitleName('天数/日期', 'duration', '')" v-if="durationList.length && searchParams.type != 'local_play'" ref="durationDropdown" @close="closeDropdown()">
             <div class="dropdown-select-box">
               <div v-for="duration in durationList" :key="'duration' + duration.id" :class="filterActive(duration.id, 'duration')"
                 @click="getProductNum(duration, 'duration')">
@@ -237,10 +240,10 @@ export default {
     }
   },
   computed: {
-    isClearData() {
+    isClearData(){
       let {departure_city, duration, stop_city, span_city, price, lines} = this.selectedObj
       return departure_city || stop_city || span_city || price || lines
-    }
+    },
   },
   watch:{
     $route:{
@@ -278,6 +281,11 @@ export default {
     window.removeEventListener('scroll', this.scrollFn)
   },
   methods:{
+    filteryTitleName(name, type, other){
+      let value = this.searchParams[type] || ''
+      let len = value.split(',').length
+      return value ? `${name}${len}` : `${other}${name}`
+    },
     // 二级副标题搜索
     changeFilterTabsSub(id){
       let index = this.subType.indexOf(id)
