@@ -28,13 +28,13 @@
           </van-dropdown-item>
           <van-dropdown-item title="航线" v-if="linesYlList.length" ref="durationDropdown" @close="closeDropdown()">
             <div class="dropdown-select-box">
-              <div v-for="lines in linesYlList" :key="'lines' + lines.id" :class="filterActive(lines.id, 'lines')"
+              <div v-for="lines in linesYlList" :key="lines.id" :class="filterActive(lines.id, 'lines')"
                 @click="getProductNum(lines, 'lines')">
                 {{lines.name}}
               </div>
             </div>
             <div class="btn-ocr">
-              <van-button class="cancel" :class="selectedObj.lines? 'go': ''" @click="cancelSelected('lines', 'linesYlList')" :disabled="!selectedObj.duration">清空</van-button>
+              <van-button class="cancel" :class="selectedObj.lines? 'go': ''" @click="cancelSelected('lines', 'linesYlList')" :disabled="!selectedObj.lines">清空</van-button>
               <van-button class="sure" type="info" :loading="loadingNum" loading-text="加载中..." @click="changeSelectProduct()">查看{{productTotal}}条产品</van-button>
             </div>
           </van-dropdown-item>
@@ -339,7 +339,14 @@ export default {
         },
         query
       })
-      location.reload()
+      let _params = {
+        sub_type: this.subType.toString(),
+        keyword: this.searchKeyWords || null,
+        ...this.searchParams,
+        ...this.selectedObj
+      }
+      this.searchGetProduct(_params, true)
+      // location.reload()
     },
     // 返回上一级
     leftClick() {
@@ -396,7 +403,15 @@ export default {
         newValue = this.selectedObj.price == item.id ? '' : item.id + ''
       } else {
         if(this.selectedObj[key]){
-          newValue = removeOrAddStr(this.selectedObj[key], item.id + '')
+          let _arr = this.selectedObj[key].split(',')
+          let id = item.id + ''
+          let index = _arr.indexOf(id) 
+          if(index >= 0){
+            _arr.splice(index, 1)
+          } else {
+            _arr.push(id)
+          }
+          newValue = _arr.join(',')
         } else {
           newValue = item.id + ''
         }
@@ -406,6 +421,7 @@ export default {
     },
     // 清除数据
     cancelSelected(key, data){
+      console.log(key, data)
       if(key) {
         this.$set(this.searchParams, key, '')
         this.$set(this.selectedObj, key, '')
@@ -605,22 +621,6 @@ export default {
           productId
         }
       });
-    },
-    // 选中筛选
-    filterClick(item, key) {
-      let id = item.id + ''
-      if(key === 'span_city' || key === 'duration') {
-        // 多选项
-        if(this.filterResult[key]) {
-          this.$set(this.filterResult, key, removeOrAddStr(this.filterResult[key],id))
-        } else {
-          this.$set(this.filterResult, key, id)
-        }
-      } else if (key === 'departure_city' || key === 'stop_city' || key === 'price'|| key === 'brand' || key === 'product_type') {
-        // 单选项
-        id = this.filterResult[key] == id ? '' : id
-        this.$set(this.filterResult, key, id)
-      }
     },
     // 数据变化引起导航变化
     changeRouter(keyword){
