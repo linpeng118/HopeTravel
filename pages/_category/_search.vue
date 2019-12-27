@@ -42,7 +42,7 @@
             <div class="dropdown-select-box">
               <div v-for="lines in linesYlList" :key="'lines' + lines.id" :class="filterActive(lines.id, 'lines')"
                 @click="getProductNum(lines, 'lines')">
-                {{duration.name}}
+                {{lines.name}}
               </div>
             </div>
             <div class="btn-ocr">
@@ -528,7 +528,7 @@ export default {
           this.loadingData = false
         } else {
           let findOne = this.productList.some(item => {
-            return item.product_id == data[0] && data[0].product_id
+            return item.product_id == (data[0] && data[0].product_id)
           })
           if(!this.productList[0] || !findOne){
             this.productList.push(...data)
@@ -543,7 +543,7 @@ export default {
           this.prodFinished = true
         }
       }
-      this.isShowSkeleton = !!this.productList.length
+      this.isShowSkeleton = !this.productList.length
     },
     // 显示title
     showTitle(name) {
