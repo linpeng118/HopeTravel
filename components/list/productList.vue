@@ -9,9 +9,9 @@
           {{$t('saleOver')}}
         </div>
         <div class="tags" v-if="showTag&&!data.is_soldout">{{productTypeValue(data.product_type)}}</div>
-        <div class="dep-city" v-if="data.departure_city">{{data.departure_city}}出发</div>
-        <div class="show-video" v-if="data.is_video" :style="{bottom: showTag&&!data.is_soldout ? '0.533333rem' : '0'}">
-          <img src="../../assets/imgs/product/icon_video@2x.png" alt="">
+        <div class="dep-city" v-if="data.departure_city">{{data.departure_city | departureCity}}</div>
+        <div class="show-video" v-if="data.is_video">
+          <van-icon name="play-circle-o" color="#fff" size="30" />
         </div>
       </div>
       <div class="product-desc">
@@ -65,6 +65,14 @@ export default {
   filters: {
     showInt(val) {
       return val.split('.')[0]
+    },
+    departureCity(value) {
+      let _arr = value.split('/')
+      let len = _arr.length
+      if(len > 1) {
+        return `${_arr[0]}等${len}地出发`
+      }
+      return `${value}出发`
     }
   },
   props: {
@@ -187,9 +195,10 @@ export default {
         }
         .show-video{
           position: absolute;
-          width: 88px;
-          height: 88px;
-          bottom: 40px;
+          padding: 20px;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
         }
       }
       .product-desc{
@@ -203,7 +212,7 @@ export default {
           .one-c{
             max-height: 88px;
             width: 100%;
-            font-size: 32px;
+            font-size: 30px;
             font-weight: bold;
             line-height: 44px;
             overflow: hidden;
