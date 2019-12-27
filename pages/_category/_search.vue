@@ -159,10 +159,6 @@ import {TAB_PARAMS} from '@/assets/js/consts/products'
 
 export default {
    async asyncData({params, query, $axios, store,redirect}){
-    // 路由进来则会请求数据
-    // tj 途径景点；cf 出发城市; js 结束城市; sj 行程天数；jg 价格预算；page 为当前的页数
-    // cf29-tj143_131-js32
-    // yg 当地跟团 type 1；yw 当地玩乐 type 2；yj稀饭自营 type 3 ；yl 游轮 type 7；ym 门票演出 4; yr 一日游 5
     let {category,search = ''} = params
     let {page = 1, sem = '0', w = null, sale = null, sp = null, ids = null, key = null} = query
     if(search.indexOf('y')==-1){
@@ -207,7 +203,6 @@ export default {
   },
   data() {
     return {
-      // searchKeyWords: this.$route.query. || null,
       prodPagination: {}, // 分页数据
       prodLoading: false, // 是否处于加载状态，加载过程中不触发load事件
       prodFinished: false, // 是否已加载完成，加载完成后不再触发load事件
@@ -297,7 +292,7 @@ export default {
         ...this.searchParams,
         ...this.selectedObj
       }
-      this.searchGetProduct(_params)
+      this.searchGetProduct(_params, true)
     },
     filterActiveSub(id){
       return this.subType.indexOf(id) >= 0 ? 'current' : ''
@@ -344,7 +339,7 @@ export default {
         },
         query
       })
-      window.onLoad()
+      location.reload()
     },
     // 返回上一级
     leftClick() {
