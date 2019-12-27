@@ -278,13 +278,6 @@
             },
             // 历史记录到详情
             selectKeywords(key) {
-                // this.$router.push({
-                //   name: 'product_list',
-                //   query: {
-                //     itemType: 0,
-                //     w: key
-                //   }
-                // })
                 this.keywordStatistics(key)
                 this.$router.push({
                     name: 'category-search',
@@ -294,7 +287,7 @@
                     },
                     query: {
                         w: key,
-                        sr: 1,
+                        key: 1,
                     },
                 })
             },
