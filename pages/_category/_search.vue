@@ -12,7 +12,7 @@
       <div v-if="filterRightList.length">
         <van-dropdown-menu active-color="#02ACF9">
           <van-dropdown-item v-model="sortResult" :options="sortTypes" ref="sortTypesDropdown" />
-          <van-dropdown-item title="全部目的地" @close="closeDropdown()" v-if="allDestination.length" ref="destinationDropdown">
+          <van-dropdown-item title="全部目的地" @close="closeDropdown()" v-if="allDestination.length && searchParams.type != 'cruise'" ref="destinationDropdown">
             <div class="dropdown-select-box">
               <div v-for="destination in allDestination" 
                 :key="'departure_city' + destination.id" :class="filterActive(destination.id, 'departure_city')"
@@ -26,18 +26,6 @@
               <van-button class="sure" :loading="loadingNum" type="info" loading-text="加载中..." @click="changeSelectProduct()">查看{{productTotal}}条产品</van-button>
             </div>
           </van-dropdown-item>
-          <van-dropdown-item title="天数/日期" v-if="durationList.length && searchParams.type != 'local_play'" ref="durationDropdown" @close="closeDropdown()">
-            <div class="dropdown-select-box">
-              <div v-for="duration in durationList" :key="'duration' + duration.id" :class="filterActive(duration.id, 'duration')"
-                @click="getProductNum(duration, 'duration')">
-                {{duration.name}}
-              </div>
-            </div>
-            <div class="btn-ocr">
-              <van-button class="cancel" :class="selectedObj.duration? 'go': ''" @click="cancelSelected('duration', 'durationList')" :disabled="!selectedObj.duration">清空</van-button>
-              <van-button class="sure" type="info" :loading="loadingNum" loading-text="加载中..." @click="changeSelectProduct()">查看{{productTotal}}条产品</van-button>
-            </div>
-          </van-dropdown-item>
           <van-dropdown-item title="航线" v-if="linesYlList.length" ref="durationDropdown" @close="closeDropdown()">
             <div class="dropdown-select-box">
               <div v-for="lines in linesYlList" :key="'lines' + lines.id" :class="filterActive(lines.id, 'lines')"
@@ -47,6 +35,18 @@
             </div>
             <div class="btn-ocr">
               <van-button class="cancel" :class="selectedObj.lines? 'go': ''" @click="cancelSelected('lines', 'linesYlList')" :disabled="!selectedObj.duration">清空</van-button>
+              <van-button class="sure" type="info" :loading="loadingNum" loading-text="加载中..." @click="changeSelectProduct()">查看{{productTotal}}条产品</van-button>
+            </div>
+          </van-dropdown-item>
+          <van-dropdown-item title="天数/日期" v-if="durationList.length && searchParams.type != 'local_play'" ref="durationDropdown" @close="closeDropdown()">
+            <div class="dropdown-select-box">
+              <div v-for="duration in durationList" :key="'duration' + duration.id" :class="filterActive(duration.id, 'duration')"
+                @click="getProductNum(duration, 'duration')">
+                {{duration.name}}
+              </div>
+            </div>
+            <div class="btn-ocr">
+              <van-button class="cancel" :class="selectedObj.duration? 'go': ''" @click="cancelSelected('duration', 'durationList')" :disabled="!selectedObj.duration">清空</van-button>
               <van-button class="sure" type="info" :loading="loadingNum" loading-text="加载中..." @click="changeSelectProduct()">查看{{productTotal}}条产品</van-button>
             </div>
           </van-dropdown-item>
@@ -328,6 +328,7 @@ export default {
       this.isLoading = false
     },
     searchKeywordsProduct() {
+      this.keywordStatistics(this.searchKeyWords)
       let _urlArr = this.$route.path.split('/')
       let query = JSON.parse(JSON.stringify(this.$route.query))
       if(!this.searchKeyWords) {
@@ -343,6 +344,7 @@ export default {
         },
         query
       })
+      window.onLoad()
     },
     // 返回上一级
     leftClick() {
@@ -424,9 +426,12 @@ export default {
       this.getFilterstotal()
       this.changeRouter()
     },
-    // cancelSelectedItem(key){
-
-    // },
+    // search 关键词操作统计
+    keywordStatistics(item) {
+      if (item) {
+        postKeywordsCensus(item)
+      }
+    },
     // 初始化筛选列表
     async getFilterList() {
       let subParams = {
@@ -435,7 +440,7 @@ export default {
       }
       let {code, data = {}} = await getNewFilterList(subParams)
       if (code === 0) {
-        let {departure_city, duration, filter_sort, filter_tabs, price, span_city, stop_city, filter_tabs_sub, lines, tour_city,brand} = data
+        let {departure_city, duration, filter_sort, filter_tabs, price, span_city, stop_city, filter_tabs_sub, lines, tour_city,brand,type_name} = data
         this.sortTypes = this._nomolaizfilter(filter_sort.items) // 综合排序
         this.sortResult = filter_sort.items[0] && filter_sort.items[0].key // 选中的排序
         this.filterTabs = filter_tabs && filter_tabs.items // tabs标签
@@ -479,13 +484,12 @@ export default {
             isAll: false
           }
         ]  // 右边筛选列表
-        let one = this.filterTabs.find(item => item.is_selected)
         if(this.$route.query.tb) {
-          this.headerTitleShow = this.tourCityName + one.title
+          this.headerTitleShow = tour_city + type_name
         } else if(this.headerKeySearch) {
           this.headerTitleShow = ''
         } else {
-          this.headerTitleShow = this.tourCityName || (this.tourCityName + one.title)
+          this.headerTitleShow = tour_city || (this.tourCityName + type_name)
         }
       }
     },
