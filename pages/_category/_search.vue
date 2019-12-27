@@ -5,7 +5,7 @@
       :searchString="headerTitleShow"
       @search="searchKeywordsProduct"
       @query="queryChange"
-      :isProductPage="true"
+      :isProductPage="!headerTitleShow"
     ></lay-header>
     <van-sticky>
       <tab-tags :items="filterTabs" @changeTag="changeFilterTag" v-if="(tourCityName && !$route.query.tb) || headerKeySearch"></tab-tags>

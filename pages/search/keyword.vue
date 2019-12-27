@@ -149,6 +149,21 @@
           }
         })
       },
+      selectKeywords(item){
+        this.keywordStatistics(item)
+        this.saveLocal()
+        this.$router.push({
+          name:'category-search',
+          params:{
+            category: 'all',
+            search: 'ya'
+          },
+          query:{
+            w: item,
+            key: 1
+          }
+        })
+      },
       // 搜索关键字
       searchKeywordsProduct(){
         let item = this.searchKeyWords
