@@ -2,13 +2,13 @@
   <div class="product-list">
     <div class="product-item" @click="selectDetail(data.product_id)">
       <div class="img-show">
-        <div class="img-bg" v-lazy:background-image="data.image">
-          <!-- <img v-lazy="data.image" alt=""> -->
+        <div class="img-bg" :style="{'background-image': data.image}">
+          <!-- <img v-lazy="data.image" alt="">  v-lazy:background-image="data.image"-->
         </div>
         <div class="tags2" v-if="data.is_soldout">
           {{$t('saleOver')}}
         </div>
-        <div class="tags" v-if="showTag&&!data.is_soldout">{{productTypeValue(data.product_type)}}</div>
+        <div class="tags">{{productTypeValue(data.product_type)}}</div>
         <div class="dep-city" v-if="data.departure_city">{{data.departure_city | departureCity}}</div>
         <div class="show-video" v-if="data.is_video">
           <van-icon name="play-circle-o" color="#fff" size="30" />
@@ -152,6 +152,7 @@ export default {
           height:100%;
           overflow:hidden;
           background-size: cover;
+          background-color: #d3d3d3;
         }
         .tags{
           line-height:40px;

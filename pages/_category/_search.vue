@@ -29,7 +29,7 @@
               <van-button class="sure" :loading="loadingNum" type="info" loading-text="加载中..." @click="changeSelectProduct()">查看{{productTotal}}条产品</van-button>
             </div>
           </van-dropdown-item>
-          <van-dropdown-item :title="filteryTitleName('航线', 'lines', '')" v-if="linesYlList.length" ref="durationDropdown" @close="closeDropdown()">
+          <van-dropdown-item :title="filteryTitleName('航线', 'lines', '')" v-if="linesYlList.length" ref="linesDropdown" @close="closeDropdown()">
             <div class="dropdown-select-box">
               <div v-for="lines in linesYlList" :key="lines.id" :class="filterActive(lines.id, 'lines')"
                 @click="getProductNum(lines, 'lines')">
@@ -311,6 +311,7 @@ export default {
       this.$refs.sortTypesDropdown && this.$refs.sortTypesDropdown.toggle(false)
       this.$refs.destinationDropdown && this.$refs.destinationDropdown.toggle(false)
       this.$refs.durationDropdown && this.$refs.durationDropdown.toggle(false)
+      this.$refs.linesDropdownDropdown && this.$refs.linesDropdownDropdown.toggle(false)
     },
     // 筛选项重置
     changeSelectedObj() {  
@@ -647,6 +648,12 @@ export default {
           },
           query
         })
+      } else {
+        this.showList = false
+        this.$refs.sortTypesDropdown && this.$refs.sortTypesDropdown.toggle(false)
+        this.$refs.destinationDropdown && this.$refs.destinationDropdown.toggle(false)
+        this.$refs.durationDropdown && this.$refs.durationDropdown.toggle(false)
+        this.$refs.linesDropdownDropdown && this.$refs.linesDropdownDropdown.toggle(false)
       }
     },
     //数据变化引起导航变化(在重置时)
