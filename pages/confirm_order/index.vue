@@ -447,7 +447,6 @@
           this.profile = data
           this.vxSetProfile(data)
           this.xname = this.product.name
-          console.log(66666666666, this.product.name)
           this.getCouponList()
           if (
             this.countprice.savephone == '' ||

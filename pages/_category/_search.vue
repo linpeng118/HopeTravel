@@ -15,7 +15,7 @@
           <van-dropdown-item :title="filteryTitleName('目的地', 'departure_city', '全部')" 
             @close="closeDropdown()" 
             v-if="allDestination.length && searchParams.type != 'cruise'" 
-            ref="destinationDropdown">
+            ref="destinationDropdown" v-cloak>
             <div class="dropdown-select-box">
               <div v-for="destination in allDestination" 
                 :key="'departure_city' + destination.id" :class="filterActive(destination.id, 'departure_city')"
@@ -70,9 +70,9 @@
       </div>
     </div>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-      <div class="refresh-box">
+      <div class="refresh-box" v-cloak>
         <van-list v-model="prodLoading" :finished="prodFinished" :finished-text="$t('noMore')" @load="onLoad" :immediate-check="false">
-          <div v-for="item in productList" :key="item.product_id + Math.random()" class="product-main">
+          <div v-for="item in productList" :key="item.product_id" class="product-main">
             <product-list :data="item" @selectItem="selectProductDetail"></product-list>
           </div>
         </van-list>
@@ -163,7 +163,7 @@ import {TAB_PARAMS} from '@/assets/js/consts/products'
 export default {
    async asyncData({params, query, $axios, store,redirect}){
     let {category,search = ''} = params
-    let {page = 1, sem = '0', w = null, sale = null, sp = null, ids = null, key = null} = query
+    let {page = 1, sem = '0', w = null, sale = null, sp = null, ids = null, key = null, ory = null, or = null} = query
     if(search.indexOf('y')==-1){
       let urlNeu = '/'+category+'/ya'
       redirect(urlNeu) 
@@ -173,15 +173,15 @@ export default {
       getSearch = getParams(search)
     }
     getSearch.category = category
-    if(sale){
-      getSearch.reduce = sale
-    }
-    if(sp){
-      getSearch.is_special = sp
-    }
-    if(ids){
-      getSearch.product_id = ids
-    }
+    // if(sale){
+    //   getSearch.reduce = sale
+    // }
+    // if(sp){
+    //   getSearch.is_special = sp
+    // }
+    // if(ids){
+    //   getSearch.product_id = ids
+    // }
     return {
       searchKeyWords: w, // 关键字
       searchType:sem,
@@ -192,6 +192,10 @@ export default {
         ...getSearch
       },
       headerKeySearch: key, // 关键字搜索
+      orderSort: {
+        order_by: ory,
+        order: or
+      }
     }
   },
   components: {
@@ -211,7 +215,7 @@ export default {
       prodFinished: false, // 是否已加载完成，加载完成后不再触发load事件
       productList: [], // 产品列表数据
       showList: false, // 更多列表的选择
-      sortResult: 0, // 排序的选择条件
+      sortResult: 'default:desc', // 排序的选择条件
       startCity: [],
       submitserData:null,//跳转存储数据
       checkrouter:0,
@@ -236,7 +240,8 @@ export default {
       headerTitleShow: '',
       subType: [], // 二级副标题
       currentCityKey: '', //
-      isShowSkeleton: true
+      isShowSkeleton: true,
+      testtest: '1'
     }
   },
   computed: {
@@ -248,33 +253,52 @@ export default {
   watch:{
     $route:{
       handler(){
+        let {query} = this.$route
         this.changeSelectedObj()
         let _params = {
           keyword: this.searchKeyWords || null,
           ...this.searchParams,
-          ...this.selectedObj
+          ...this.selectedObj,
+          order_by: query.ory,
+          order: query.or
         }
-        console.log(3333, _params);
+        if(query.ory) {
+          this.sortResult = `${query.ory}:${query.or}`
+        }
         this.getFilterList()
         this.searchGetProduct(_params)
       },
       immediate:true
     },
+    searchKeyWords(newValue, oldValue) {
+      if(newValue != oldValue) {
+        this.keywordStatistics(this.searchKeyWords)
+      }
+    },
     sortResult(newValue, oldValue) {
       if(oldValue) {
-        let _s = newValue.split(':')
-        let _params = {
-          keyword: this.searchKeyWords || null,
-          order: _s[1],
-          order_by: _s[0],
-          ...this.searchParams
+        if(newValue != oldValue){
+          let _url = changeParams(this.searchParams)
+          let _s = newValue.split(':')
+          let _urlArr = this.$route.path.split('/')
+          let query = JSON.parse(JSON.stringify(this.$route.query))
+          query.ory = _s[0]
+          query.or = _s[1]
+          this.$router.replace({
+            name: 'category-search',
+            params:{
+              category: _urlArr[1],
+              search: _urlArr[2]
+            },
+            query
+          })
         }
-        this.searchGetProduct(_params, true)
       }
     }
   },
   mounted() {
     window.addEventListener('scroll', this.scrollFn)
+    this.changeSelectedObj()
   },
   destroyed() {
     // 移除监听
@@ -298,7 +322,8 @@ export default {
         sub_type: this.subType.toString(),
         keyword: this.searchKeyWords || null,
         ...this.searchParams,
-        ...this.selectedObj
+        ...this.selectedObj,
+        ...this.orderSort
       }
       this.searchGetProduct(_params, true)
     },
@@ -326,36 +351,38 @@ export default {
         sub_type: this.subType.toString(),
         keyword: this.searchKeyWords || null,
         ...this.searchParams,
-        ...this.selectedObj
+        ...this.selectedObj,
+        ...this.orderSort
       }
       await this.searchGetProduct(_params)
       this.isLoading = false
     },
     searchKeywordsProduct() {
-      this.keywordStatistics(this.searchKeyWords)
-      let _urlArr = this.$route.path.split('/')
-      let query = JSON.parse(JSON.stringify(this.$route.query))
-      if(!this.searchKeyWords) {
-        delete query.w
-      } else {
-        query.w = this.searchKeyWords
+      let _url = changeParams(this.searchParams)
+      if(_url != this.$route.path) {
+        let _urlArr = this.$route.path.split('/')
+        let query = JSON.parse(JSON.stringify(this.$route.query))
+        if(!this.searchKeyWords) {
+          delete query.w
+        } else {
+          query.w = this.searchKeyWords
+        }
+        this.$router.replace({
+          name: 'category-search',
+          params:{
+            category: _urlArr[1],
+            search: _urlArr[2]
+          },
+          query
+        })
+        let _params = {
+          sub_type: this.subType.toString(),
+          keyword: this.searchKeyWords || null,
+          ...this.searchParams,
+          ...this.selectedObj
+        }
+        this.searchGetProduct(_params, true)
       }
-      this.$router.replace({
-        name: 'category-search',
-        params:{
-          category: _urlArr[1],
-          search: _urlArr[2]
-        },
-        query
-      })
-      let _params = {
-        sub_type: this.subType.toString(),
-        keyword: this.searchKeyWords || null,
-        ...this.searchParams,
-        ...this.selectedObj
-      }
-      this.searchGetProduct(_params, true)
-      // location.reload()
     },
     // 返回上一级
     leftClick() {
@@ -378,13 +405,11 @@ export default {
       this.changeRouter()
     },
     onLoad(){
-      let _s = this.sortResult.split(':')
       let submitParams = {
         page: (this.prodPagination.page || 0) + 1,
-        order_by: _s[0] || null,
-        order: _s[1] || null,
         keyword: this.searchKeyWords || null,
-        ...this.searchParams
+        ...this.searchParams,
+        ...this.orderSort
       }
       this.searchGetProduct(submitParams)
     },
@@ -406,7 +431,7 @@ export default {
       this.getFilterstotal()
     },
     // 改变搜索条件
-    getProductNum(item, key){
+    getProductNum(item, key, data){
       let newValue
       if(key == 'price') {
         newValue = this.selectedObj.price == item.id ? '' : item.id + ''
@@ -430,7 +455,6 @@ export default {
     },
     // 清除数据
     cancelSelected(key, data){
-      console.log(key, data)
       if(key) {
         this.$set(this.searchParams, key, '')
         this.$set(this.selectedObj, key, '')
@@ -456,13 +480,13 @@ export default {
     async getFilterList() {
       let subParams = {
         ...this.searchParams,
-        keyword: this.searchKeyWords || null
+        keyword: this.searchKeyWords || null,
+        ...this.orderSort
       }
       let {code, data = {}} = await getNewFilterList(subParams)
       if (code === 0) {
         let {departure_city, duration, filter_sort, filter_tabs, price, span_city, stop_city, filter_tabs_sub, lines, tour_city,brand,type_name} = data
         this.sortTypes = this._nomolaizfilter(filter_sort.items) // 综合排序
-        this.sortResult = filter_sort.items[0] && filter_sort.items[0].key // 选中的排序
         this.filterTabs = filter_tabs && filter_tabs.items // tabs标签
         this.durationList = duration && duration.items
         this.allDestination = departure_city && departure_city.items // 全部目的地
@@ -634,6 +658,8 @@ export default {
     // 数据变化引起导航变化
     changeRouter(keyword){
       let _url = changeParams(this.searchParams)
+      console.log(_url);
+      
       if(_url != this.$route.path) {
         let _urlArr = changeParams(this.searchParams).split('/');
         let query = this.$route.query

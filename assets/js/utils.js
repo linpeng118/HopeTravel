@@ -189,7 +189,7 @@ function getParams(str) {
     let _searchArr = str.split('-')
     let res = {}
     let type = {
-        ya: 'all', // 重新设计导航没有稀饭推荐了，为了兼容以前链接
+        ya: 'all',
         yg: 'local_heel',
         yw: 'local_play',
         yj: 'self_support',
@@ -223,12 +223,12 @@ function changeParams(params) {
         if (key === 'span_city' && params.span_city) {
             params.span_city = params.span_city.split(',').sort((a, b) => {
                 return parseInt(a) - parseInt(b)
-            }).join('_')
+            }).join(',')
         }
         if (key === 'duration' && params.duration) {
             params.duration = params.duration.split(',').sort((a, b) => {
                 return parseInt(a) - parseInt(b)
-            }).join('_')
+            }).join(',')
         }
         if (params[key]) {
             if (key !== 'category' && key !== 'type') {
