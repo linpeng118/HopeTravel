@@ -287,8 +287,7 @@ export default {
         this.subType.push(id)
       }
       this.prodPagination.page = 0
-      this.productList = []
-      await this.searchGetProduct()
+      await this.searchGetProduct(true)
     },
     filterActiveSub(id){
       return this.subType.indexOf(id) >= 0 ? 'current' : ''
@@ -311,8 +310,8 @@ export default {
     // 搜索
     async onRefresh(){
       this.prodPagination.page = 0
-      this.productList = []
-      await this.searchGetProduct()
+      // this.productList = []
+      await this.searchGetProduct(true)
     },
     searchKeywordsProduct() {
       let {query} = this.$route
@@ -343,7 +342,7 @@ export default {
       this.searchKeyWords = value
     },
     onLoad(){
-      this.searchGetProduct(false)
+      this.searchGetProduct()
     },
     changeFilterTag(list, index) {
       let {category, tour_city} = this.searchParams
@@ -499,10 +498,8 @@ export default {
       }
     },
     // 数据请求
-    async searchGetProduct(loading){
-      if(!loading){
-        this.isLoading = true
-      }
+    async searchGetProduct(refresh){
+      this.isLoading = true
       let {query} = this.$route
       let _params = {
         sub_type: this.subType.toString(),
@@ -515,12 +512,16 @@ export default {
       }
       const {data,code,pagination} = await getProductList(_params)
       if(code === 0){
-        let findOne = this.productList.some(item => {
-          return item.product_id == (data[0] && data[0].product_id)
-        })
-        if(!this.productList[0] || !findOne){
-          this.productList.push(...data)
-        }
+        if(refresh) {
+           this.productList = data
+        } else {
+          let findOne = this.productList.some(item => {
+            return item.product_id == (data[0] && data[0].product_id)
+          })
+          if(!this.productList[0] || !findOne){
+            this.productList.push(...data)
+          }
+        } 
         this.productTotal = pagination.total_record
         this.prodPagination = pagination
         // 加载状态结束
