@@ -288,9 +288,7 @@ export default {
       }
       this.prodPagination.page = 0
       this.productList = []
-      this.isLoading = true
       await this.searchGetProduct()
-      this.isLoading = false
     },
     filterActiveSub(id){
       return this.subType.indexOf(id) >= 0 ? 'current' : ''
@@ -315,7 +313,6 @@ export default {
       this.prodPagination.page = 0
       this.productList = []
       await this.searchGetProduct()
-      this.isLoading = false
     },
     searchKeywordsProduct() {
       let {query} = this.$route
@@ -346,7 +343,7 @@ export default {
       this.searchKeyWords = value
     },
     onLoad(){
-      this.searchGetProduct()
+      this.searchGetProduct(false)
     },
     changeFilterTag(list, index) {
       let {category, tour_city} = this.searchParams
@@ -502,7 +499,10 @@ export default {
       }
     },
     // 数据请求
-    async searchGetProduct(){
+    async searchGetProduct(loading){
+      if(!loading){
+        this.isLoading = true
+      }
       let {query} = this.$route
       let _params = {
         sub_type: this.subType.toString(),
@@ -531,6 +531,7 @@ export default {
         }
       }
       this.isShowSkeleton = !this.productList.length && !this.prodFinished
+      this.isLoading = false
     },
     // 显示title
     showTitle(name) {
