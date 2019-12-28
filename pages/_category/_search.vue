@@ -53,7 +53,7 @@
               <van-button class="sure" type="info" :loading="loadingNum" loading-text="加载中..." @click="changeSelectProduct()">查看{{productTotal}}条产品</van-button>
             </div>
           </van-dropdown-item>
-          <div class="fileter-list-show" @click="startChangeFilters">
+          <div class="fileter-list-show" @click="startChangeFilters(false)">
             筛选 <img src="../../assets/imgs/icon_fileter@2x.png" width="8" alt="">
           </div>
         </van-dropdown-menu>
@@ -70,21 +70,21 @@
       </div>
     </div>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-      <div class="refresh-box" v-cloak>
+      <div class="refresh-box">
         <van-list v-model="prodLoading" :finished="prodFinished" :finished-text="$t('noMore')" @load="onLoad" :immediate-check="false">
           <div v-for="item in productList" :key="item.product_id" class="product-main">
             <product-list :data="item" @selectItem="selectProductDetail"></product-list>
           </div>
         </van-list>
+        <div v-if="isShowSkeleton">
+          <div class="product-main" v-for="n in 4" :key="'skeleton' + n">
+            <div class="item-ske">
+              <van-skeleton avatar-shape="square" avatar-size="100px" title avatar :row="3"/>
+            </div>
+          </div>
+        </div>  
       </div>
     </van-pull-refresh>
-    <div class="refresh-box" v-if="isShowSkeleton">
-      <div class="product-main" v-for="n in 4" :key="'skeleton' + n">
-        <div class="item-ske">
-          <van-skeleton avatar-shape="square" avatar-size="100px" title avatar :row="3"/>
-        </div>
-      </div>
-    </div>  
     <!--更多列表的选择-->
     <van-popup v-model="showList" position="right" class="filter-select" @click-overlay="closeDropdown()">
       <div class="content-fls-c">
@@ -255,25 +255,13 @@ export default {
       handler(){
         let {query} = this.$route
         this.changeSelectedObj()
-        let _params = {
-          keyword: this.searchKeyWords || null,
-          ...this.searchParams,
-          ...this.selectedObj,
-          order_by: query.ory,
-          order: query.or
-        }
         if(query.ory) {
           this.sortResult = `${query.ory}:${query.or}`
         }
         this.getFilterList()
-        this.searchGetProduct(_params)
+        this.searchGetProduct()
       },
       immediate:true
-    },
-    searchKeyWords(newValue, oldValue) {
-      if(newValue != oldValue) {
-        this.keywordStatistics(this.searchKeyWords)
-      }
     },
     sortResult(newValue, oldValue) {
       if(oldValue) {
@@ -292,6 +280,8 @@ export default {
             },
             query
           })
+          this.prodPagination.page = 0
+          this.productList = []
         }
       }
     }
@@ -318,21 +308,15 @@ export default {
       } else {
         this.subType.push(id)
       }
-      let _params = {
-        sub_type: this.subType.toString(),
-        keyword: this.searchKeyWords || null,
-        ...this.searchParams,
-        ...this.selectedObj,
-        ...this.orderSort
-      }
-      this.searchGetProduct(_params, true)
+      this.prodPagination.page = 0
+      this.productList = []
     },
     filterActiveSub(id){
       return this.subType.indexOf(id) >= 0 ? 'current' : ''
     },
     // 开始筛选
-    startChangeFilters(){
-      this.showList = true
+    startChangeFilters(type) {
+      this.showList = !type
       this.$refs.sortTypesDropdown && this.$refs.sortTypesDropdown.toggle(false)
       this.$refs.destinationDropdown && this.$refs.destinationDropdown.toggle(false)
       this.$refs.durationDropdown && this.$refs.durationDropdown.toggle(false)
@@ -347,21 +331,17 @@ export default {
     },
     // 搜索
     async onRefresh(){
-      let _params = {
-        sub_type: this.subType.toString(),
-        keyword: this.searchKeyWords || null,
-        ...this.searchParams,
-        ...this.selectedObj,
-        ...this.orderSort
-      }
-      await this.searchGetProduct(_params)
+      this.prodPagination.page = 0
+      this.productList = []
+      await this.searchGetProduct()
       this.isLoading = false
     },
     searchKeywordsProduct() {
+      let query = JSON.parse(JSON.stringify(this.$route.query))
       let _url = changeParams(this.searchParams)
-      if(_url != this.$route.path) {
+      if(query.w != this.searchKeyWords) {
+        this.keywordStatistics(this.searchKeyWords)
         let _urlArr = this.$route.path.split('/')
-        let query = JSON.parse(JSON.stringify(this.$route.query))
         if(!this.searchKeyWords) {
           delete query.w
         } else {
@@ -375,13 +355,6 @@ export default {
           },
           query
         })
-        let _params = {
-          sub_type: this.subType.toString(),
-          keyword: this.searchKeyWords || null,
-          ...this.searchParams,
-          ...this.selectedObj
-        }
-        this.searchGetProduct(_params, true)
       }
     },
     // 返回上一级
@@ -405,13 +378,7 @@ export default {
       this.changeRouter()
     },
     onLoad(){
-      let submitParams = {
-        page: (this.prodPagination.page || 0) + 1,
-        keyword: this.searchKeyWords || null,
-        ...this.searchParams,
-        ...this.orderSort
-      }
-      this.searchGetProduct(submitParams)
+      this.searchGetProduct()
     },
     changeFilterTag(list, index) {
       let {category, tour_city} = this.searchParams
@@ -567,20 +534,24 @@ export default {
       }
     },
     // 数据请求
-    async searchGetProduct(params, sort){
-      const {data,code,pagination} = await getProductList(params)
+    async searchGetProduct(){
+      let {query} = this.$route
+      let _params = {
+        sub_type: this.subType.toString(),
+        keyword: this.searchKeyWords || null,
+        ...this.searchParams,
+        ...this.selectedObj,
+        order_by: query.ory,
+        order: query.or,
+        page: (this.prodPagination.page || 0) + 1
+      }
+      const {data,code,pagination} = await getProductList(_params)
       if(code === 0){
-        this.loadingData = false
-        if(sort){
-          this.productList = data
-          this.loadingData = false
-        } else {
-          let findOne = this.productList.some(item => {
-            return item.product_id == (data[0] && data[0].product_id)
-          })
-          if(!this.productList[0] || !findOne){
-            this.productList.push(...data)
-          }
+        let findOne = this.productList.some(item => {
+          return item.product_id == (data[0] && data[0].product_id)
+        })
+        if(!this.productList[0] || !findOne){
+          this.productList.push(...data)
         }
         this.productTotal = pagination.total_record
         this.prodPagination = pagination
@@ -591,7 +562,7 @@ export default {
           this.prodFinished = true
         }
       }
-      this.isShowSkeleton = !this.productList.length
+      this.isShowSkeleton = !this.productList.length && !this.prodFinished
     },
     // 显示title
     showTitle(name) {
@@ -658,8 +629,6 @@ export default {
     // 数据变化引起导航变化
     changeRouter(keyword){
       let _url = changeParams(this.searchParams)
-      console.log(_url);
-      
       if(_url != this.$route.path) {
         let _urlArr = changeParams(this.searchParams).split('/');
         let query = this.$route.query
@@ -675,11 +644,7 @@ export default {
           query
         })
       } else {
-        this.showList = false
-        this.$refs.sortTypesDropdown && this.$refs.sortTypesDropdown.toggle(false)
-        this.$refs.destinationDropdown && this.$refs.destinationDropdown.toggle(false)
-        this.$refs.durationDropdown && this.$refs.durationDropdown.toggle(false)
-        this.$refs.linesDropdownDropdown && this.$refs.linesDropdownDropdown.toggle(false)
+        this.startChangeFilters(true)
       }
     },
     //数据变化引起导航变化(在重置时)
