@@ -27,6 +27,5 @@ export const getHotSearchList = () => {
  * @param keyword
  */
 export const postKeywordsCensus = (keyword) => {
-  console.log(11111111,keyword)
   return axios.post('/api/keyword', {'keyword': keyword})
 }
