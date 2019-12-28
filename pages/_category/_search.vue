@@ -173,15 +173,6 @@ export default {
       getSearch = getParams(search)
     }
     getSearch.category = category
-    // if(sale){
-    //   getSearch.reduce = sale
-    // }
-    // if(sp){
-    //   getSearch.is_special = sp
-    // }
-    // if(ids){
-    //   getSearch.product_id = ids
-    // }
     return {
       searchKeyWords: w, // 关键字
       searchType:sem,
@@ -266,20 +257,7 @@ export default {
     sortResult(newValue, oldValue) {
       if(oldValue) {
         if(newValue != oldValue){
-          let _url = changeParams(this.searchParams)
-          let _s = newValue.split(':')
-          let _urlArr = this.$route.path.split('/')
-          let query = JSON.parse(JSON.stringify(this.$route.query))
-          query.ory = _s[0]
-          query.or = _s[1]
-          this.$router.replace({
-            name: 'category-search',
-            params:{
-              category: _urlArr[1],
-              search: _urlArr[2]
-            },
-            query
-          })
+          this.changeRouter()
           this.prodPagination.page = 0
           this.productList = []
         }
@@ -301,7 +279,7 @@ export default {
       return value ? `${name}${len}` : `${other}${name}`
     },
     // 二级副标题搜索
-    changeFilterTabsSub(id){
+    async changeFilterTabsSub(id){
       let index = this.subType.indexOf(id)
       if(index >= 0) {
         this.subType.splice(index, 1)
@@ -310,6 +288,9 @@ export default {
       }
       this.prodPagination.page = 0
       this.productList = []
+      this.isLoading = true
+      await this.searchGetProduct()
+      this.isLoading = false
     },
     filterActiveSub(id){
       return this.subType.indexOf(id) >= 0 ? 'current' : ''
@@ -337,25 +318,13 @@ export default {
       this.isLoading = false
     },
     searchKeywordsProduct() {
-      let query = JSON.parse(JSON.stringify(this.$route.query))
-      let _url = changeParams(this.searchParams)
+      let {query} = this.$route
       if(query.w != this.searchKeyWords) {
         this.keywordStatistics(this.searchKeyWords)
-        let _urlArr = this.$route.path.split('/')
-        if(!this.searchKeyWords) {
-          delete query.w
-        } else {
-          query.w = this.searchKeyWords
-        }
-        this.$router.replace({
-          name: 'category-search',
-          params:{
-            category: _urlArr[1],
-            search: _urlArr[2]
-          },
-          query
-        })
       }
+      this.prodPagination.page = 0
+      this.productList = []
+      this.changeRouter(true)
     },
     // 返回上一级
     leftClick() {
@@ -375,7 +344,6 @@ export default {
     // 改变关键字
     queryChange(value) {
       this.searchKeyWords = value
-      this.changeRouter()
     },
     onLoad(){
       this.searchGetProduct()
@@ -629,39 +597,28 @@ export default {
     // 数据变化引起导航变化
     changeRouter(keyword){
       let _url = changeParams(this.searchParams)
-      if(_url != this.$route.path) {
-        let _urlArr = changeParams(this.searchParams).split('/');
-        let query = this.$route.query
-        if(this.searchKeyWords) {
-          this.$route.query.w = this.searchKeyWords
+      let query = JSON.parse(JSON.stringify(this.$route.query))
+      console.log(_url, this.$route.path);
+      let _s = this.sortResult.split(':')
+      let _urlArr = _url.split('/')
+      query.ory = _s[0] || null
+      query.or = _s[1] || null
+      if(keyword) {
+        if(!this.searchKeyWords){
+          delete query.w
+        } else {
+          query.w = this.searchKeyWords
         }
-        this.$router.replace({
-          name: 'category-search',
-          params:{
-            category: _urlArr[1],
-            search: _urlArr[2]
-          },
-          query
-        })
-      } else {
-        this.startChangeFilters(true)
-      }
-    },
-    //数据变化引起导航变化(在重置时)
-    changeRouterReset(keyword){
-      let  urlResetAll = changeParams(this.filterResult).split('/')
-      let urlReset = urlResetAll[2].split('-')[0]
-      if(keyword){
-        delete this.$route.query.w
       }
       this.$router.replace({
         name: 'category-search',
         params:{
-          category: urlResetAll[1],
-          search: urlReset
+          category: _urlArr[1],
+          search: _urlArr[2]
         },
-        query:this.$route.query
+        query
       })
+      this.startChangeFilters(true)
     },
     // 格式化拼音列表
     _nomalLizePinyin(data) {
