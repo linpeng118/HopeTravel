@@ -9,7 +9,7 @@
     ></lay-header>
     <van-sticky>
       <tab-tags :items="filterTabs" @changeTag="changeFilterTag" v-if="(tourCityName && !$route.query.tb) || headerKeySearch"></tab-tags>
-      <div v-if="filterRightList.length">
+      <div v-if="!$route.query.bar">
         <van-dropdown-menu active-color="#02ACF9">
           <van-dropdown-item v-model="sortResult" :options="sortTypes" ref="sortTypesDropdown" />
           <van-dropdown-item :title="filteryTitleName('目的地', 'departure_city', '全部')" 
@@ -53,7 +53,7 @@
               <van-button class="sure" type="info" :loading="loadingNum" loading-text="加载中..." @click="changeSelectProduct()">查看{{productTotal}}条产品</van-button>
             </div>
           </van-dropdown-item>
-          <div class="fileter-list-show" @click="startChangeFilters(false)">
+          <div class="fileter-list-show" @click="startChangeFilters(false)" v-if="filterRightList.length">
             筛选 <img src="../../assets/imgs/icon_fileter@2x.png" width="8" alt="">
           </div>
         </van-dropdown-menu>
@@ -173,6 +173,16 @@ export default {
       getSearch = getParams(search)
     }
     getSearch.category = category
+    if(ids){
+      getSearch.product_id = ids
+    }
+    if(sale){
+      getSearch.reduce = sale
+    }
+    if(sp){
+      getSearch.is_special = sp
+    }
+
     return {
       searchKeyWords: w, // 关键字
       searchType:sem,
@@ -418,49 +428,50 @@ export default {
       if (code === 0) {
         let {departure_city, duration, filter_sort, filter_tabs, price, span_city, stop_city, filter_tabs_sub, lines, tour_city,brand,type_name} = data
         this.sortTypes = this._nomolaizfilter(filter_sort.items) // 综合排序
-        this.filterTabs = filter_tabs && filter_tabs.items // tabs标签
-        this.durationList = duration && duration.items
-        this.allDestination = departure_city && departure_city.items // 全部目的地
-        this.filterTabsSub = filter_tabs_sub && filter_tabs_sub.items
-        this.linesYlList = lines && lines.items
+        this.filterTabs = (filter_tabs && filter_tabs.items) || [] // tabs标签
+        this.durationList = (duration && duration.items) || []
+        this.allDestination = (departure_city && departure_city.items) || [] // 全部目的地
+        this.filterTabsSub = (filter_tabs_sub && filter_tabs_sub.items) || []
+        this.linesYlList = (lines && lines.items) || []
         this.tourCityName = tour_city || ''
         this.filterRightList = [
           {
             key: 'departure_city',
             value: this.showTitle('start_city'),
-            items: departure_city.items || [],
-            pinyin: departure_city.pinyin,
+            items: (departure_city && departure_city.items) || [],
+            pinyin: (departure_city && departure_city.pinyin ) || [],
             isAll: false
           },
           {
             key: 'stop_city',
             value: this.showTitle('stop_city'),
-            items: stop_city.items || [],
-            pinyin: stop_city.pinyin,
+            items: (stop_city && stop_city.items) || [],
+            pinyin: (stop_city && stop_city.pinyin) || [],
             isAll: false
           },
           {
             key: 'span_city',
             value: this.showTitle('span_city'),
-            items: span_city.items || [],
-            pinyin: span_city.pinyin,
+            items: (span_city && span_city.items) || [],
+            pinyin: (span_city && span_city.pinyin) || [],
             isAll: false
           },
           {
             key: 'brand',
             value: this.showTitle('brand'),
-            items: brand.items || [],
+            items: (brand && brand.items) || [],
             isAll: false
           },
           {
             key: 'price',
             value: this.showTitle('price'),
-            items: price.items || [],
+            items: (price && price.items) || [],
             isAll: false
           }
         ]  // 右边筛选列表
         if(this.$route.query.tb) {
-          this.headerTitleShow = tour_city + type_name
+          let bar = this.$route.query.bar
+          this.headerTitleShow = bar || tour_city + type_name
         } else if(this.headerKeySearch) {
           this.headerTitleShow = ''
         } else {
