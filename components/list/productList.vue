@@ -6,7 +6,7 @@
         <div class="tags2" v-if="data.is_soldout">
           {{$t('saleOver')}}
         </div>
-        <div class="tags">{{productTypeValue(data.product_type)}}</div>
+        <div class="tags">{{data.sub_type}}</div>
         <div class="dep-city" v-if="data.departure_city">{{data.departure_city | departureCity}}</div>
         <div class="show-video" v-if="data.is_video">
           <van-icon name="play-circle-o" color="#fff" size="30" />
@@ -106,9 +106,6 @@ export default {
     this.getProfile()
   },
   methods: {
-    imgOnload(){
-      console.log('图片从新加载了')
-    },
     productTypeValue(val) {
       const type = [
         {type: 3,title: this.$t('tours.exquisiteGroup')},
