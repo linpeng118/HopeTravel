@@ -247,8 +247,8 @@ export default {
   },
   computed: {
     isClearData(){
-      let {departure_city, duration, stop_city, span_city, price, lines} = this.selectedObj
-      return departure_city || stop_city || span_city || price || lines
+      let {departure_city, duration, stop_city, span_city, price, lines, brand} = this.selectedObj
+      return departure_city || stop_city || span_city || price || lines || brand
     },
   },
   watch:{
@@ -312,9 +312,9 @@ export default {
     },
     // 筛选项重置
     changeSelectedObj() {  
-      let {departure_city = '', duration = '',stop_city = '', span_city = '', price = '', lines = ''} = this.searchParams
+      let {departure_city = '', duration = '',stop_city = '', span_city = '', price = '', lines = '', brand = ''} = this.searchParams
       this.selectedObj = {
-        departure_city, duration, stop_city, span_city, price, lines
+        departure_city, duration, stop_city, span_city, price, lines, brand
       }
     },
     // 搜索
