@@ -2,7 +2,7 @@
   <div class="product-list">
     <div class="product-item" @click="selectDetail(data.product_id)">
       <div class="img-show">
-        <div class="img-bg" v-lazy:background-image="data.image"></div>
+        <div class="img-bg" v-lazy:background-image="data.is_video ? data.video_image : data.image"></div>
         <div class="tags2" v-if="data.is_soldout">
           {{$t('saleOver')}}
         </div>
