@@ -475,7 +475,7 @@ export default {
         } else if(this.headerKeySearch) {
           this.headerTitleShow = ''
         } else {
-          this.headerTitleShow = tour_city || (this.tourCityName + type_name)
+          this.headerTitleShow = tour_city || (this.tourCityName + (type_name || ''))
         }
       }
     },
