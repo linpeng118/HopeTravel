@@ -281,6 +281,7 @@ export default {
           border-radius: 8px;
           padding: 0 6px;
           margin-right: 6px;
+          margin-bottom: 10px;
         }
         .coupons{
           color: #FEC133;
