@@ -138,8 +138,11 @@
                 tag="li"
                 :to="{path:'/personal/addContacts',query:{'id':item.id,'checker':paramcontanct,'isLogin':isLogin}}">
                 <span>出行人{{ind+1}}<i>{{item.name}}</i></span>
-                <span><i>
-                    <van-icon name="edit" /></i></span>
+                <span>
+                  <i>
+                    <van-icon name="edit" />
+                  </i>
+                </span>
               </nuxt-link>
             </template>
           </ul>
@@ -158,10 +161,8 @@
             <van-collapse-item v-for="x of countprice.adult"
               :key="x+'2'"
               :name="x">
-              <div slot="title"
-                class="contitle">游客{{x}} <i class="i1">成人</i></div>
-              <addcon @traveuser="truser"
-                :ind="x"></addcon>
+              <div slot="title" class="contitle">游客{{x}} <i class="i1">成人</i></div>
+              <addcon @traveuser="truser" :ind="x"></addcon>
             </van-collapse-item>
             <van-collapse-item v-for="x of countprice.child"
               :key="x+'3'"
