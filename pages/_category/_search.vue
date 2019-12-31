@@ -24,7 +24,7 @@
               </div>
             </div>
             <div class="btn-ocr">
-              <van-button class="cancel" :class="selectedObj.departure_city ? 'go': ''" :disabled="!selectedObj.departure_city"
+              <van-button class="cancel" :class="selectedObj.departure_city ? 'disable': ''" :disabled="!selectedObj.departure_city"
                 @click="cancelSelected('departure_city', 'allDestination')">清空</van-button> 
               <van-button class="sure" :loading="loadingNum" type="info" loading-text="加载中..." @click="changeSelectProduct()">查看{{productTotal}}条产品</van-button>
             </div>
@@ -37,7 +37,7 @@
               </div>
             </div>
             <div class="btn-ocr">
-              <van-button class="cancel" :class="selectedObj.lines? 'go': ''" @click="cancelSelected('lines', 'linesYlList')" :disabled="!selectedObj.lines">清空</van-button>
+              <van-button class="cancel" :class="selectedObj.lines? 'disable': ''" @click="cancelSelected('lines', 'linesYlList')" :disabled="!selectedObj.lines">清空</van-button>
               <van-button class="sure" type="info" :loading="loadingNum" loading-text="加载中..." @click="changeSelectProduct()">查看{{productTotal}}条产品</van-button>
             </div>
           </van-dropdown-item>
@@ -49,7 +49,7 @@
               </div>
             </div>
             <div class="btn-ocr">
-              <van-button class="cancel" :class="selectedObj.duration? 'go': ''" @click="cancelSelected('duration', 'durationList')" :disabled="!selectedObj.duration">清空</van-button>
+              <van-button class="cancel" :class="selectedObj.duration? 'disable': ''" @click="cancelSelected('duration', 'durationList')" :disabled="!selectedObj.duration">清空</van-button>
               <van-button class="sure" type="info" :loading="loadingNum" loading-text="加载中..." @click="changeSelectProduct()">查看{{productTotal}}条产品</van-button>
             </div>
           </van-dropdown-item>
@@ -119,8 +119,8 @@
           </template>
         </div>
         <div class="bottom">
-          <van-button class="cancel" @click="cancelSelected()" :class="isClearData? 'go': ''" :disabled="!isClearData">清空</van-button>
-          <van-button class="sure" type="info" :loading="loadingNum" loading-text="加载中..." @click="changeSelectProduct()">查看{{productTotal}}条产品</van-button>
+          <van-button class="cancel" @click="cancelSelected()" :class="isClearData? 'disable': ''" :disabled="!isClearData">清空</van-button>
+          <van-button class="sure" type="info" :loading="loadingNum" loading-text="加载中..." :class="!productTotal? 'disable': ''" @click="changeSelectProduct()" :disabled="!productTotal">查看{{productTotal}}条产品</van-button>
         </div>
       </div>
     </van-popup>
@@ -137,7 +137,7 @@
           </van-index-bar>
         </div>
         <div class="bottom">
-          <van-button class="cancel" @click="cancelSelected(currentCityKey)" :class="selectedObj[currentCityKey] ? 'go': ''" :disabled="!selectedObj[currentCityKey]">清空</van-button>
+          <van-button class="cancel" @click="cancelSelected(currentCityKey)" :class="selectedObj[currentCityKey] ? 'disable': ''" :disabled="!selectedObj[currentCityKey]">清空</van-button>
           <van-button class="sure" type="info" :loading="loadingNum" loading-text="加载中..." @click="changeSelectProduct()">查看{{productTotal}}条产品</van-button>
         </div>
       </div>
@@ -717,14 +717,14 @@ export default {
     background: #F3F3F3;
     color: #AEAEAE;
   }
-  .go{
-    background: #fff;
-    border: 1px solid #AEAEAE;
-    color: #2d2d2d;
-  }
   .sure{
     background: #00ABF9;
     color: #fff;
+  }
+  .disable{
+    background: #fff;
+    border: 1px solid #AEAEAE;
+    color: #2d2d2d;
   }
 }
 .fileter-list-show{
@@ -815,14 +815,15 @@ export default {
       background: #F3F3F3;
       color: #AEAEAE;
     }
-    .go{
-      background: #fff;
-      border: 1px solid #AEAEAE;
-      color: #2d2d2d;
-    }
+    
     .sure{
       background: #00ABF9;
       color: #fff;
+    }
+    .disable{
+      background: #fff;
+      border: 1px solid #AEAEAE;
+      color: #2d2d2d;
     }
   }
   .city-list{
