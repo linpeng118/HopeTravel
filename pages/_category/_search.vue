@@ -297,6 +297,7 @@ export default {
         this.subType.push(id)
       }
       this.prodPagination.page = 0
+      this.prodFinished = false
       await this.searchGetProduct(true)
     },
     filterActiveSub(id){
@@ -535,6 +536,8 @@ export default {
         } 
         this.productTotal = pagination.total_record
         this.prodPagination = pagination
+        console.log(11111, this.prodPagination);
+        
         // 加载状态结束
         this.prodLoading = false
         // 数据全部加载完成
