@@ -41,7 +41,7 @@
               <van-button class="sure" type="info" :loading="loadingNum" loading-text="加载中..." @click="changeSelectProduct()">查看{{productTotal}}条产品</van-button>
             </div>
           </van-dropdown-item>
-          <van-dropdown-item :title="filteryTitleName('天数/日期', 'duration', '')" v-if="durationList.length && searchParams.type != 'local_play'" ref="durationDropdown" @close="closeDropdown()">
+          <van-dropdown-item :title="filteryTitleName('行程天数', 'duration', '')" v-if="durationList.length && searchParams.type != 'local_play'" ref="durationDropdown" @close="closeDropdown()">
             <div class="dropdown-select-box">
               <div v-for="duration in durationList" :key="'duration' + duration.id" :class="filterActive(duration.id, 'duration')"
                 @click="getProductNum(duration, 'duration')">
