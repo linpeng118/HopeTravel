@@ -328,10 +328,10 @@ export default {
       let {query} = this.$route
       if(query.w != this.searchKeyWords) {
         this.keywordStatistics(this.searchKeyWords)
+        this.prodPagination.page = 0
+        this.productList = []
+        this.changeRouter(true)
       }
-      this.prodPagination.page = 0
-      this.productList = []
-      this.changeRouter(true)
     },
     // 返回上一级
     leftClick() {
