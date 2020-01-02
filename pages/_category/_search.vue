@@ -14,7 +14,7 @@
           <van-dropdown-item v-model="sortResult" :options="sortTypes" ref="sortTypesDropdown" />
           <van-dropdown-item :title="filteryTitleName('目的地', 'departure_city', '全部')" 
             @close="closeDropdown()" 
-            v-if="allDestination.length && searchParams.type != 'cruise'" 
+            v-if="(allDestination.length && searchParams.type != 'cruise') && ($route.query.tb != 1 || searchParams.type != 'local_play')" 
             ref="destinationDropdown" v-cloak>
             <div class="dropdown-select-box">
               <div v-for="destination in allDestination" 
@@ -93,7 +93,7 @@
             <div :key="fileter.key" v-if="fileter.items.length">
               <div class="title">
                 {{fileter.value}} 
-                <span v-if="fileter.items.length > 6 && fileter.items.length < 16" @click="changeShowAll(fileter)">
+                <span v-if="fileter.items.length > 6 && fileter.items.length < 16" @click="changeShowAll(fileter)" :class="fileter.isAll ? 'turn-up':''">
                   {{fileter.isAll ? '收起':'展开'}}
                   <van-icon name="play" />
                 </span>
@@ -756,6 +756,14 @@ export default {
         font-size: 24px;
         font-weight: normal;
         color: #00ABF9;
+        i{
+          transition: all 0.3s;
+        }
+        &.turn-up{
+          i{
+            transform: rotate(-90deg)
+          }
+        }
       }
       i{
         transform:rotate(90deg);

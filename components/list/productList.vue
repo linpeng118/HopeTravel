@@ -222,6 +222,7 @@ export default {
         }
         .main-title{
           margin-top: 6px;
+          font-size: 28px;
         }
         .self-s{
           background: #FFCB3C;
@@ -239,7 +240,7 @@ export default {
       .tags-wrap{
         max-height: 36px;
         overflow: hidden;
-        margin-top: 8px;
+        margin-top: 10px;
         font-size: 0;
         span{
           margin-right: 10px;
@@ -259,7 +260,6 @@ export default {
           font-size: 20px;
           border-radius:16px;
           padding: 0 12px;
-          margin-bottom: 5px;
           background-color: #F2F7F9;
           line-height: 36px;
           display: inline-block;
@@ -275,7 +275,7 @@ export default {
         line-height: 34px;
         width: 100%;
         overflow: hidden;
-        margin-top: 6px;
+        margin-top: 12px;
         span{
           display: inline-block;
           border-radius: 8px;
@@ -295,7 +295,7 @@ export default {
       .product-price-share{
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-end;
         .share-p{
           font-size:24px;
           .score{
@@ -319,5 +319,10 @@ export default {
       }
     }
   }
+}
+</style>
+<style>
+.btn-ocr .van-button--info{
+  border: none !important;
 }
 </style>
