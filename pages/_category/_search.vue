@@ -14,7 +14,7 @@
           <van-dropdown-item v-model="sortResult" :options="sortTypes" ref="sortTypesDropdown" />
           <van-dropdown-item :title="filteryTitleName('目的地', 'departure_city', '全部')" 
             @close="closeDropdown()" 
-            v-if="(allDestination.length && searchParams.type != 'cruise') && ($route.query.tb != 1 || searchParams.type != 'local_play')" 
+            v-if="(allDestination.length && searchParams.type != 'cruise') && (searchParams.type != 'local_play' || !searchParams.tour_city)" 
             ref="destinationDropdown" v-cloak>
             <div class="dropdown-select-box">
               <div v-for="destination in allDestination" 
