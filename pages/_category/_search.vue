@@ -690,13 +690,14 @@ export default {
   max-height: 384px;
   overflow: hidden;
   overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
   & > div{
     width: 160px;
     height: 48px;
     background: #F2F7F9;
     border-radius: 8px;
     text-align: center;
-    display: inline-block;
     color: #AEAEAE;
     font-weight: 400;
     font-size: 24px;
