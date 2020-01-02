@@ -8,7 +8,7 @@
       :isProductPage="!headerTitleShow"
     ></lay-header>
     <van-sticky>
-      <tab-tags :items="filterTabs" @changeTag="changeFilterTag" v-if="(tourCityName && !$route.query.tb) || headerKeySearch"></tab-tags>
+      <tab-tags :items="filterTabs" @changeTag="changeFilterTag" v-if="(tourCityName && !$route.query.tb) || headerKeySearch || $route.query.cs"></tab-tags>
       <div v-if="!$route.query.bar">
         <van-dropdown-menu active-color="#02ACF9">
           <van-dropdown-item v-model="sortResult" :options="sortTypes" ref="sortTypesDropdown" />
@@ -334,7 +334,7 @@ export default {
         this.keywordStatistics(this.searchKeyWords)
         this.prodPagination.page = 0
         this.productList = []
-        this.changeRouter(true)
+        this.changeRouter(true, 'cs')
       }
     },
     // 返回上一级
@@ -594,7 +594,9 @@ export default {
     filterActive(id, key) {
       id = id + ''
       let value = this.selectedObj[key] || ''
-      return value.split(',').indexOf(id) >= 0 ? 'current': ''
+      let p = key == 'price' ? 'price' : ''
+      let cu = value.split(',').indexOf(id) >= 0 ? 'current': ''
+      return `${p} ${cu}`
     },
     // 搜索数据
     changeSelectProduct() {
@@ -614,7 +616,7 @@ export default {
       });
     },
     // 数据变化引起导航变化
-    changeRouter(keyword){
+    changeRouter(keyword, typeLocal){
       let _url = changeParams(this.searchParams)
       let query = JSON.parse(JSON.stringify(this.$route.query))
       console.log(_url, this.$route.path);
@@ -628,6 +630,9 @@ export default {
         } else {
           query.w = this.searchKeyWords
         }
+      }
+      if(typeLocal) {
+        query.cs = 1
       }
       this.$router.replace({
         name: 'category-search',
@@ -800,6 +805,9 @@ export default {
         &.more{
           color: #00ABF9;
         }
+        &.price{
+          width: 240px;
+        }
       }
     }
   }
@@ -821,6 +829,7 @@ export default {
       line-height: 58px;
       border-radius: 44px;
       font-size: 28px;
+      padding: 0 10px;
     }
     .cancel{
       background: #F3F3F3;
