@@ -242,7 +242,6 @@ export default {
       subType: [], // 二级副标题
       currentCityKey: '', //
       isShowSkeleton: true,
-      testtest: '1'
     }
   },
   computed: {
@@ -255,7 +254,11 @@ export default {
     $route:{
       handler(){
         let {query} = this.$route
+        let lx = query.lx
         this.changeSelectedObj()
+        if(lx) {
+          this.subType = lx.split(',')
+        }
         if(query.ory) {
           this.sortResult = `${query.ory}:${query.or}`
         }
@@ -290,14 +293,16 @@ export default {
     },
     // 二级副标题搜索
     async changeFilterTabsSub(id){
-      let index = this.subType.indexOf(id)
-      if(index >= 0) {
-        this.subType.splice(index, 1)
-      } else {
-        this.subType.push(id)
+      if(!this.isLoading) {
+        let index = this.subType.indexOf(id)
+        if(index >= 0) {
+          this.subType.splice(index, 1)
+        } else {
+          this.subType.push(id)
+        }
+        this.prodPagination.page = 0
+        await this.searchGetProduct(true)
       }
-      this.prodPagination.page = 0
-      await this.searchGetProduct(true)
     },
     filterActiveSub(id){
       return this.subType.indexOf(id) >= 0 ? 'current' : ''
