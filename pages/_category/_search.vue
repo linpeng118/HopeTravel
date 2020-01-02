@@ -71,7 +71,7 @@
     </div>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <div class="refresh-box">
-        <van-list v-model="prodLoading" :finished="prodFinished" :finished-text="$t('noMore')" @load="onLoad" :immediate-check="false">
+        <van-list v-model="prodLoading" :finished="prodFinished" :finished-text="$t('noMore')" @load="onLoad" :immediate-check="false" ref="refProductList">
           <div v-for="item in productList" :key="item.product_id" class="product-main">
             <product-list :data="item" @selectItem="selectProductDetail"></product-list>
           </div>
@@ -297,7 +297,6 @@ export default {
         this.subType.push(id)
       }
       this.prodPagination.page = 0
-      this.prodFinished = false
       await this.searchGetProduct(true)
     },
     filterActiveSub(id){
@@ -526,6 +525,7 @@ export default {
       if(code === 0){
         if(refresh) {
            this.productList = data
+           this.prodFinished = false
         } else {
           let findOne = this.productList.some(item => {
             return item.product_id == (data[0] && data[0].product_id)
@@ -536,8 +536,6 @@ export default {
         } 
         this.productTotal = pagination.total_record
         this.prodPagination = pagination
-        console.log(11111, this.prodPagination);
-        
         // 加载状态结束
         this.prodLoading = false
         // 数据全部加载完成
