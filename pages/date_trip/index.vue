@@ -403,7 +403,7 @@
         if (this.product.product_entity_type == 1 && this.product.self_support == 0) {
           let proroom = [],
             maxPeople = this.product.min_num_guest,
-            maxRooms = this.product.max_num_guest;
+            maxRooms = this.product.max_num_guest
           for (let i = 0; i < Math.ceil(maxPeople / maxRooms); i++) {
             let objroom = {}
             if (i < Math.ceil(maxPeople / maxRooms) - 1) {
@@ -473,7 +473,6 @@
     font-size: 28px;
     line-height: 104px;
     display: inline-block;
-    float: left;
     width: 116.5px;
     box-sizing: border-box;
     border-bottom: 4px solid #fff;
@@ -493,14 +492,12 @@
     padding: 0 25px;
   }
   .trip-tip span:nth-child(1) {
-    float: left;
     display: inline-block;
     width: 50%;
     text-align: left;
     color: #434343;
   }
   .trip-tip span:nth-child(2) {
-    float: right;
     display: inline-block;
     width: 40%;
     text-align: right;

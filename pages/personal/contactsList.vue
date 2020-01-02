@@ -112,8 +112,6 @@
         let {data, code, msg} = await getcontants()
         if(code === 0) {
           this.list = data;
-          console.log(66666666666666666,this.list);
-          
           this.setcheck();
         }
         else if(code==401){

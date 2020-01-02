@@ -14,7 +14,21 @@ const ENTITY_TYPE = {
   TICKET: 4,
 }
 
+const TAB_PARAMS = {
+  all: 'ya',
+  local_heel:'yg',
+  local_play:'yw',
+  self_support:'yj',
+  cruise:'yl',
+  one_day:'yr',
+  ticket:'ym',
+  shuttle:'yc',
+  taste:'yt',
+  wifi:'yf',
+}
+
 export {
   LIST_TYPE,
-  ENTITY_TYPE
+  ENTITY_TYPE,
+  TAB_PARAMS
 }
