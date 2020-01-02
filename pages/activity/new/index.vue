@@ -244,20 +244,24 @@
       padding: 0 25px 40px;
       text-align: left;
       .product {
-        display: inline-block;
+        /* display: inline-block; */
+        float: left;
         margin-top: 40px;
-        width: 338px;
+        /* width: 338px; */
+        width: 40%;
         height: 430px;
         overflow: hidden;
         .banner {
           position: relative;
-          width: 338px;
+          /* width: 338px; */
+          width: 100%;
           height: 238px;
           border-radius: 20px;
           overflow: hidden;
           margin-bottom: 10px;
           img {
-            width: 338px;
+            /* width: 338px; */
+            width: 100%;
             height: 238px;
           }
         }
@@ -265,7 +269,8 @@
           padding: 12px 20px;
           background: #fff;
           .name {
-            width: 320px;
+            /* width: 320px; */
+            width: 95%;
             height: 80px;
             font-size: 20px;
             font-family: PingFang SC;
