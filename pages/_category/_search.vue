@@ -8,7 +8,7 @@
       :isProductPage="!headerTitleShow"
     ></lay-header>
     <van-sticky>
-      <tab-tags :items="filterTabs" @changeTag="changeFilterTag" v-if="(tourCityName && !$route.query.tb) || headerKeySearch || $route.query.cs"></tab-tags>
+      <tab-tags :items="filterTabs" @changeTag="changeFilterTag" v-if="!headerTitleShow"></tab-tags>
       <div v-if="!$route.query.bar">
         <van-dropdown-menu active-color="#02ACF9">
           <van-dropdown-item v-model="sortResult" :options="sortTypes" ref="sortTypesDropdown" />
