@@ -72,7 +72,7 @@
       <van-datetime-picker
         v-model="datedob"
         type="date"
-        :min-date="new Date('1920-01-01')"
+        :min-date="new Date('1950-01-01')"
         :max-date="new Date()"
         @confirm="setval"
       />

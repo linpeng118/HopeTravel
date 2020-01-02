@@ -400,7 +400,7 @@
         "aboutPartnerTitle": "稀饭联盟说明"
     },
     "productListPage": {
-        "sortDefault": "推荐排序",
+        "sortDefault": "默认排序",
         "sortPriceLowToHigh": "价格从低到高",
         "sortPriceHighToLow": "价格从高到底",
         "sortPopular": "最受欢迎",

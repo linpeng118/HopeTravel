@@ -1,7 +1,14 @@
 <template>
-    <div class="sssssss">
-        <lay-header searchKeyWords="城市/景点/产品/关键字" :isSearch="isSearch" @searchList="searchList" @searchStart="searchStart" @query="queryChange" @leftClick="leftClick" :isHistory="historyList.length > 0" ref="layHeader"></lay-header>
-        <div class="search-wrap" v-if="searchWrapShow" style="padding-bottom:50px;">
+    <div>
+        <lay-header 
+            :isFixed="true" 
+            :isSearch="isSearch" 
+            @query="queryChange" 
+            @leftClick="leftClick" 
+            @search="searchList"
+            ref="layHeader">
+        </lay-header>
+        <div class="search-wrap" v-if="searchWrapShow" style="padding-bottom:50px;top:46px">
             <div class="history-list" v-if="historyList.length" ref="historyBox">
                 <h2 class="title">{{$t('searchPage.searchHistory')}}</h2>
                 <div class="search-items">
@@ -243,18 +250,9 @@
             },
             // 搜索按钮
             searchList() {
-                console.log('2221121wwww', this.searchWords)
                 this.keywordStatistics(this.searchWords)
                 this.saveLocal()
                 this.getHistoryList()
-                // this.$router.push({
-                //   name: 'product_list',
-                //   query: {
-                //     itemType: 0,
-                //     w: this.searchWords
-                //   }
-                // })
-
                 this.$router.push({
                     name: 'category-search',
                     params: {
@@ -263,6 +261,7 @@
                     },
                     query: {
                         w: this.searchWords,
+                        key: 1
                     },
                 })
             },
@@ -279,13 +278,6 @@
             },
             // 历史记录到详情
             selectKeywords(key) {
-                // this.$router.push({
-                //   name: 'product_list',
-                //   query: {
-                //     itemType: 0,
-                //     w: key
-                //   }
-                // })
                 this.keywordStatistics(key)
                 this.$router.push({
                     name: 'category-search',
@@ -295,7 +287,7 @@
                     },
                     query: {
                         w: key,
-                        sr: 1,
+                        key: 1,
                     },
                 })
             },
@@ -310,7 +302,7 @@
             },
             //
             searchStart() {
-                // this.isSearch = true
+            
             },
             // search 关键词操作
             keywordStatistics(item) {
@@ -323,7 +315,6 @@
             },
             // 获取搜索字段
             queryChange(value) {
-                // console.log(value)
                 this.searchWords = value
             },
             // 搜索关键字跳转列表
@@ -408,9 +399,8 @@
 </script>
 
 <style type="text/scss" lang="scss" scoped>
-    .search-wrap {
+.search-wrap {
   position: relative;
-  top: 88px;
   z-index: 9;
   bottom: 0;
   .badge-bar {
