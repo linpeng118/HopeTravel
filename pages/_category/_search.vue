@@ -98,7 +98,7 @@
                   <van-icon name="play" />
                 </span>
               </div>
-              <div class="main-box" :style="{'max-height': fileter.isAll ? 'none': ''}">
+              <div class="main-box" :style="{'max-height': fileter.isAll || fileter.key == 'price' ? 'none': ''}">
                 <template v-for="(item, index) in fileter.items">
                   <template v-if="fileter.items.length < 16">
                     <div :key="fileter.value + item.id" :class="filterActive(item.id, fileter.key)" @click="getProductNum(item, fileter.key)">
