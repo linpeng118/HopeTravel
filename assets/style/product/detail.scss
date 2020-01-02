@@ -77,21 +77,20 @@
                 font-size: 32px;
                 padding: 0 24px;
                 .title {
-                  display: flex;
-                  align-items: center;
-                  .prod-tag {
-                    padding: 2px 12px;
-                    width: 88px;
-                    height: 36px;
-                    text-align: center;
-                    font-size: 24px;
-                    font-weight: 400;
-                    line-height: 34px;
-                    background: rgba(254,193,51,1);
-                    color: #fff;
-                    border-radius: 30px;
-                    margin-right: 10px;
-                  }
+                    .prod-tag {
+                        float: left;
+                        padding: 2px 12px;
+                        width: 88px;
+                        height: 36px;
+                        text-align: center;
+                        font-size: 24px;
+                        font-weight: 400;
+                        line-height: 34px;
+                        background: rgba(254, 193, 51, 1);
+                        color: #fff;
+                        border-radius: 30px;
+                        margin-right: 10px;
+                    }
                 }
             }
             .price-wrap {
@@ -114,7 +113,7 @@
                     margin-right: 24px;
                     width: 220px;
                     height: 52px;
-                    background: linear-gradient(180deg, rgba(253, 141, 103, 1) 0%, rgba(245, 41, 30, 1) 100%);
+                    background: linear-gradient( 180deg, rgba(253, 141, 103, 1) 0%, rgba(245, 41, 30, 1) 100%);
                     border-radius: 40px;
                     font-size: 22px;
                     text-align: center;
@@ -287,11 +286,11 @@
                 align-items: center;
                 justify-content: space-between;
                 b {
-                    color: #F48206;
+                    color: #f48206;
                     font-size: 32px;
                 }
                 span {
-                    color: #399EF6;
+                    color: #399ef6;
                     font-size: 24px;
                     height: 100%;
                     display: flex;
@@ -309,7 +308,7 @@
                 padding: 0 28px;
                 height: 34px;
                 line-height: 34px;
-                color: #B5B5B5;
+                color: #b5b5b5;
                 font-size: 24px;
             }
             .comment__cnt {
@@ -565,8 +564,7 @@
                 color: #191919;
             }
             .group-price-desc,
-            .price-desc,
-            .price-include {
+            .price-desc {
                 margin: 0 auto;
                 padding: 24px 0 28px;
                 width: 686px;
@@ -582,6 +580,179 @@
                     font-weight: 300;
                     line-height: 40px;
                     color: #3e3e3e;
+                }
+            }
+            /* 新数据列表显示 */
+            .price-inexclude {
+                .newData {
+                    padding-bottom: 20px;
+                    .title-s {
+                        font-size: 28px;
+                        font-weight: bold;
+                        line-height: 40px;
+                        color: rgba(45, 45, 45, 1);
+                        margin-left: 32px;
+                        margin-top: 30px;
+                    }
+                    ul {
+                        width: 686px;
+                        margin: 0 auto;
+                        li {
+                            margin-top: 20px;
+                            width: 100%;
+                            border: 2px solid rgba(0, 171, 249, 1);
+                            border-radius: 8px;
+                            overflow: hidden;
+                            position: relative;
+                            .title {
+                                display: inline-block;
+                                width: 132px;
+                                text-align: center;
+                                font-size: 28px;
+                                font-weight: bold;
+                                line-height: 40px;
+                                vertical-align: middle;
+                                color: rgba(45, 45, 45, 1);
+                                padding-top: 0;
+                            }
+                            .content {
+                                display: inline-block;
+                                padding: 14px 22px;
+                                width: 550px;
+                                font-size: 24px;
+                                font-weight: 400;
+                                line-height: 34px;
+                                vertical-align: middle;
+                                color: rgba(174, 174, 174, 1);
+                                position: relative;
+                            }
+                            line-height: 44px;
+                            color: #191919;
+                        }
+                        .group-price-desc,
+                        .price-desc {
+                            margin: 0 auto;
+                            padding: 24px 0 28px;
+                            width: 686px;
+                            border-bottom: 2px solid #e4e4e4;
+                            .title-s {
+                                font-size: 28px;
+                                font-weight: 400;
+                                line-height: 44px;
+                                color: #191919;
+                            }
+                            .text {
+                                font-size: 24px;
+                                font-weight: 300;
+                                line-height: 40px;
+                                color: #3e3e3e;
+                            }
+                        }
+                        /* 新数据列表显示 */
+                        /* .price-inexclude {
+                            .newData {
+                                padding-bottom: 20px;
+                                .title-s {
+                                    font-size: 28px;
+                                    font-weight: bold;
+                                    line-height: 40px;
+                                    color: rgba(45, 45, 45, 1);
+                                    margin-left: 32px;
+                                    margin-top: 30px;
+                                }
+                                ul {
+                                    width: 686px;
+                                    margin: 0 auto;
+                                    li {
+                                        margin-top: 20px;
+                                        width: 100%;
+                                        border: 2px solid rgba(0, 171, 249, 1);
+                                        border-radius: 8px;
+                                        overflow: hidden;
+                                        position: relative;
+                                        .title {
+                                            display: inline-block;
+                                            width: 132px;
+                                            text-align: center;
+                                            font-size: 28px;
+                                            font-weight: bold;
+                                            line-height: 40px;
+                                            vertical-align: middle;
+                                            color: rgba(45, 45, 45, 1);
+                                            padding-top: 0;
+                                        }
+                                        .content {
+                                            display: inline-block;
+                                            padding: 14px 22px;
+                                            width: 550px;
+                                            font-size: 24px;
+                                            font-weight: 400;
+                                            line-height: 34px;
+                                            vertical-align: middle;
+                                            color: rgba(174, 174, 174, 1);
+                                            position: relative;
+                                        }
+                                    }
+                                    li::before {
+                                        position: absolute;
+                                        content: '';
+                                        left: 132px;
+                                        border: 1px solid rgba(0, 171, 249, 1);
+                                        top: 0;
+                                        bottom: 0;
+                                    }
+                                }
+                            }
+                            .oldData {
+                                .price-include {
+                                    margin: 0 auto;
+                                    padding: 24px 0 28px;
+                                    width: 686px;
+                                    border-bottom: 2px solid #e4e4e4;
+                                    .title-s {
+                                        font-size: 28px;
+                                        font-weight: 400;
+                                        line-height: 44px;
+                                        color: #191919;
+                                    }
+                                    .text {
+                                        font-size: 24px;
+                                        font-weight: 300;
+                                        line-height: 40px;
+                                        color: #3e3e3e;
+                                    }
+                                }
+                            }
+                        } */
+                        li::before {
+                            position: absolute;
+                            content: "";
+                            left: 132px;
+                            border: 1px solid rgba(0, 171, 249, 1);
+                            top: 0;
+                            bottom: 0;
+                        }
+                    }
+                }
+                .oldData {
+                    .price-include {
+                        margin: 0 auto;
+                        padding: 24px 0 28px;
+                        width: 686px;
+                        border-bottom: 2px solid #e4e4e4;
+                        .title-s {
+                            font-size: 28px;
+                            font-weight: 400;
+                            line-height: 44px;
+                            color: #191919;
+                        }
+                        .text {
+                            font-size: 24px;
+                            font-weight: 300;
+                            line-height: 40px;
+                            color: #3e3e3e;
+                        }
+                    }
                 }
             }
             .group-price-desc {
@@ -669,7 +840,7 @@
                 padding: 0 26px;
                 border-radius: 100px;
                 &::after {
-                    content: '';
+                    content: "";
                     width: 0;
                     height: 0;
                     border: 14px solid transparent;
@@ -811,7 +982,7 @@
         position: fixed;
         right: 60px;
         bottom: 400px;
-        background: linear-gradient(180deg, rgba(253, 141, 103, 1) 0%, rgba(245, 41, 30, 1) 100%);
+        background: linear-gradient( 180deg, rgba(253, 141, 103, 1) 0%, rgba(245, 41, 30, 1) 100%);
         border-radius: 80px;
         text-align: center;
         z-index: 1000;
@@ -855,13 +1026,13 @@
                 line-height: 44px;
                 margin-bottom: 5px;
                 font-size: 28px;
-                color: #3E3E3E;
+                color: #3e3e3e;
             }
         }
         .btn-box {
             width: 160px;
             height: 64px;
-            background: #399EF6;
+            background: #399ef6;
             border-radius: 12px;
             color: #fff;
             line-height: 64px;
@@ -930,7 +1101,7 @@
         width: 228px;
         height: 140px;
         text-align: center;
-        background-image: url('../../assets/imgs/color.png');
+        background-image: url("../../assets/imgs/color.png");
         background-repeat: no-repeat;
         background-position: 0;
         background-size: 228px 140px;
@@ -975,7 +1146,7 @@
         .btn1 {
             width: 120px;
             height: 40px;
-            background: linear-gradient(180deg, rgba(27, 141, 255, 1) 0%, rgba(53, 201, 255, 1) 100%);
+            background: linear-gradient( 180deg, rgba(27, 141, 255, 1) 0%, rgba(53, 201, 255, 1) 100%);
             opacity: 1;
             border-radius: 40px;
             display: block;

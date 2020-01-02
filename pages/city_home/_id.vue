@@ -31,89 +31,94 @@
       <span class="name">{{baseInfo.title}}</span>
       <van-button type="default" size="mini" to="/search" round>切换<van-icon name="play" /></van-button>
     </div>
-    <!-- 中间配置区域 -->
-    <div class="config-area-main">
-      <!-- 8icons -->
-      <div class="config-icons">
-        <van-grid :border="false" :column-num="4">
-          <van-grid-item v-for="banner in bannerDataList" :key="banner.data_id" >
-            <div @click="gotoIconPage(banner)">
-              <img :src="banner.nav_image" alt="">
-              <div>{{banner.nav_title}}</div>
-            </div>
-          </van-grid-item>
-        </van-grid>
-      </div>
-      <!--  热门城市-->
-      <div class="hot-city" v-if="hotCityList.length">
-        <h2 class="title"><img src="../../assets/imgs/cityHome/hot_city_icon@2x.png">热门城市</h2>
-        <van-grid :border="false" :column-num="3">
-          <van-grid-item v-for="city in hotCityList" :key="city.id" >
-            <div class="tag" @click="gotoHotCityPage(city)">
-              <span>{{city.title}}</span>
-              <em class="tips" v-if="city.is_hot"></em>
-            </div>
-          </van-grid-item>
-        </van-grid>
-      </div>
-      <!-- 热门景点 先取消-->
-      <!-- <div class="hot-points" v-if="hotViewList.length">
-        <h2 class="title">
-          <img src="../../assets/imgs/cityHome/hot_city_icon@2x.png">
-          热门景点
-          <nuxt-link class="all" :to="`/tour/list?city_id=${$route.params.id}&title=${baseInfo.title}`">查看全部</nuxt-link>
-          </h2>
-        <van-grid :border="false" :column-num="3">
-          <van-grid-item v-for="value in hotViewList" :key="value.tour_city_id" >
-            <img-box position="bottom" :imgObj="value" @gotoPage="gotoPage"></img-box>
-          </van-grid-item>
-        </van-grid>
-      </div> -->
-      <!-- 热门玩法 -->
-      <div class="hot-play" v-if="hotPlayList.length">
-        <h2 class="title"><img src="../../assets/imgs/cityHome/hot_paly_icon@2x.png">热门玩法</h2>
-        <div class="slide-box">
-          <van-swipe :loop="false" :width="380" @change="onChange">
-            <van-swipe-item v-for="(hot,index) in hotPlayList" :key="'hotPlayList'+index">
-              <van-grid :border="false" :column-num="3">
-                <van-grid-item v-for="(item,index ) in hot.items" :key="item.product_id">
-                  <img-box position="center" :isSelfBg="true" :index="index" :imgObj="item" @gotoPage="gotoPageList" :isHot="item.product_id.toString().split(',').length > 15"></img-box>
-                </van-grid-item>
-              </van-grid>
-            </van-swipe-item>
-            <div class="custom-indicator" slot="indicator">
-              <div v-for="n in hotPlayList.length" :key="'dfdfd'+n" :class="current+1 == n ? 'currernt':''" style="width:16px"></div>
-            </div>
-          </van-swipe>
+    
+    <div class="bg-bottom">
+      <!-- 中间配置区域 -->
+      <div class="config-area-main">
+        <!-- 8icons -->
+        <div class="config-icons">
+          <van-grid :border="false" :column-num="4">
+            <van-grid-item v-for="banner in bannerDataList" :key="banner.data_id" >
+              <div @click="gotoIconPage(banner)">
+                <img :src="banner.nav_image" alt="">
+                <div>{{banner.nav_title}}</div>
+              </div>
+            </van-grid-item>
+          </van-grid>
         </div>
-        
-      </div>
-    </div>
-    <!--  限时特价-->
-    <div class="pro-lst-box" v-if="specialTimeList.length">
-      <h2 class="title"><img src="../../assets/imgs/cityHome/hot_sale_icon@2x.png">限时特价</h2>
-      <div class="mian-b">
-        <div class="half">
-          <div class="item" v-for="product in specialTimeList" :key="product.product_id">
-            <sale-item :productObj="product"></sale-item>
+        <!--  热门城市-->
+        <div class="hot-city" v-if="hotCityList.length">
+          <h2 class="title"><img src="../../assets/imgs/cityHome/hot_city_icon@2x.png">热门城市</h2>
+          <van-grid :border="false" :column-num="3">
+            <van-grid-item v-for="city in hotCityList" :key="city.id" >
+              <div class="tag" @click="gotoHotCityPage(city)">
+                <span>{{city.title}}</span>
+                <em class="tips" v-if="city.is_hot"></em>
+              </div>
+            </van-grid-item>
+          </van-grid>
+        </div>
+        <!-- 热门景点 先取消-->
+        <!-- <div class="hot-points" v-if="hotViewList.length">
+          <h2 class="title">
+            <img src="../../assets/imgs/cityHome/hot_city_icon@2x.png">
+            热门景点
+            <nuxt-link class="all" :to="`/tour/list?city_id=${$route.params.id}&title=${baseInfo.title}`">查看全部</nuxt-link>
+            </h2>
+          <van-grid :border="false" :column-num="3">
+            <van-grid-item v-for="value in hotViewList" :key="value.tour_city_id" >
+              <img-box position="bottom" :imgObj="value" @gotoPage="gotoPage"></img-box>
+            </van-grid-item>
+          </van-grid>
+        </div> -->
+        <!-- 热门玩法 -->
+        <div class="hot-play" v-if="hotPlayList.length">
+          <h2 class="title"><img src="../../assets/imgs/cityHome/hot_paly_icon@2x.png">热门玩法</h2>
+          <div class="slide-box">
+            <van-swipe :loop="false" :width="380" @change="onChange">
+              <van-swipe-item v-for="(hot,index) in hotPlayList" :key="'hotPlayList'+index">
+                <van-grid :border="false" :column-num="3">
+                  <van-grid-item v-for="(item,index ) in hot.items" :key="item.product_id">
+                    <img-box position="center" :isSelfBg="true" :index="index" :imgObj="item" @gotoPage="gotoPageList" :isHot="item.product_id.toString().split(',').length > 15"></img-box>
+                  </van-grid-item>
+                </van-grid>
+              </van-swipe-item>
+              <div class="custom-indicator" slot="indicator">
+                <div v-for="n in hotPlayList.length" :key="'dfdfd'+n" :class="current+1 == n ? 'currernt':''" style="width:16px"></div>
+              </div>
+            </van-swipe>
           </div>
+          
         </div>
-        <nuxt-link :to="timeProductPath" tag="div" class="look-all" v-if="specialTimeList.length == 4">
-          查看全部
-        </nuxt-link>
       </div>
-    </div>
-    <!-- 热销推荐 -->
-    <div class="pro-lst-box">
-      <h2 class="title">热销推荐</h2>
-      <div class="mian-b">
-        <van-list ref="refVanList" v-model="loadingHot" :finished="finishedHot" finished-text="没有更多了" @load="onLoad" :immediate-check="false">
+      <!--  限时特价-->
+      <div class="pro-lst-box" v-if="specialTimeList.length">
+        <h2 class="title"><img src="../../assets/imgs/cityHome/hot_sale_icon@2x.png">限时特价</h2>
+        <div class="mian-b">
           <div class="half">
-            <div class="item" v-for="product in productHotList" :key="product.product_id">
-              <city-product :item="product"></city-product>
+            <div class="item" v-for="product in specialTimeList" :key="product.product_id">
+              <sale-item :productObj="product"></sale-item>
             </div>
           </div>
-        </van-list>
+          <nuxt-link :to="timeProductPath" tag="div" class="look-all" v-if="specialTimeList.length >= 4">
+            查看全部
+             <!--  -->
+          </nuxt-link>
+        </div>
+      </div>
+      <div class="h-line"></div>
+      <!-- 热销推荐 -->
+      <div class="pro-lst-box" v-if="productHotList.length">
+        <h2 class="title">热销推荐</h2>
+        <div class="mian-b">
+          <van-list ref="refVanList" v-model="loadingHot" :finished="finishedHot" finished-text="没有更多了" @load="onLoad" :immediate-check="false">
+            <div class="half">
+              <div class="item" v-for="product in productHotList" :key="product.product_id">
+                <city-product :item="product"></city-product>
+              </div>
+            </div>
+          </van-list>
+        </div>
       </div>
     </div>
     <drift-aside class="drift"></drift-aside>
@@ -157,9 +162,9 @@ export default {
       let category = this.baseInfo.category || 'all'
       let url = ''
       if(this.baseInfo.city_id){
-        url = `/${category}/ya-dc${this.baseInfo.city_id}?sale=1&sp=1`
+        url = `/${category}/ya-tc${this.baseInfo.city_id}?sale=1&sp=1&tb=1&bar=${this.baseInfo.title}限时特价`
       } else {
-        url = `/${category}/ya?sale=1&sp=1`
+        url = `/${category}/ya?sale=1&sp=1&bar=${this.baseInfo.title}限时特价`
       }
       return url
     }
@@ -226,8 +231,9 @@ export default {
     gotoPage(obj){
       this.$router.push(`/tour/detail?tourId=${obj.tour_city_id}`)
     },
+    // 玩法跳转列表
     gotoPageList(obj){
-      this.$router.push(`/all/ya?ids=${obj.product_id}`)
+      this.$router.push(`/all/ya?ids=${obj.product_id}&tb=1&bar=${obj.hot_title}`)
     },
     gotoIconPage(banner){
       let url = ''
@@ -243,7 +249,7 @@ export default {
       if(city.jump_url == 2) {
         url = `/city_home/${city.config_id}`
       } else {
-        url = `/all/ya-dc${city.city_id}`
+        url = `/all/ya-tc${city.city_id}`
       }
       this.$router.push(url)
     },
@@ -327,7 +333,7 @@ export default {
   .city-home-main{
     position: relative;
     width: 100%;
-    background-color: #f1f1f1;
+    min-height: 100vh;
     &::before{
       content: '';
       width: 100%;
@@ -345,7 +351,7 @@ export default {
       background-repeat: no-repeat;
       background-size: cover;
     }
-     h2.title{
+    h2.title{
       padding: 20px 0 20px;
       font-size:32px;
       color: #333;
@@ -395,6 +401,18 @@ export default {
     position: absolute;
     height:366px;
   }
+  .h-line{
+    height: 20px;
+    background-color: #f1f1f1;
+  }
+  .bg-bottom{
+    background:#fff; 
+    position:relative;
+    z-index:2;
+    border-radius:74px 74px 0px 0px;
+    padding-top:30px;
+    min-height: 120px;
+  }
   .city-name-box{
     position: relative;
     padding: 124px 38px 100px 38px;
@@ -413,9 +431,7 @@ export default {
   }
   .config-area-main{
     position: relative;
-    padding: 30px 0 30px 30px;
-    border-radius:74px 74px 0px 0px;
-    background-color: #fff;
+    padding: 0 0 30px 30px;
     .config-icons{
       font-size: 32px;
       color: #333;
@@ -476,7 +492,6 @@ export default {
     }
   }
   .pro-lst-box{
-    margin: 20px 0;
     padding: 10px 0;
     background: #fff;
     h2.title{

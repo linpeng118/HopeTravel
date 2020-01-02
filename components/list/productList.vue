@@ -1,59 +1,53 @@
 <template>
   <div class="product-list">
-    <div class="product-item" @click="selectDetail(data.product_id)" target="_blank">
+    <div class="product-item" @click="selectDetail(data.product_id)">
       <div class="img-show">
-        <img :src="data.image" alt="">
+        <div class="img-bg" v-lazy:background-image="data.is_video ? data.video_image : data.image"></div>
         <div class="tags2" v-if="data.is_soldout">
           {{$t('saleOver')}}
-          <p v-if="showTag" >{{productTypeValue(data.product_type)}}</p>
         </div>
-        <div class="tags" v-if="showTag&&!data.is_soldout">{{productTypeValue(data.product_type)}}</div>
-        <div class="special-icon">
-          <span v-for="(item,index) in data.special_icons" :class="item.type === 'special' ? 'color': ''" :key="index">{{item.title}}</span>
-          <!--<span>3折</span>-->
-        </div>
-        <div class="show-video" v-if="data.is_video" :style="{bottom: showTag&&!data.is_soldout ? '0.533333rem' : '0'}">
-          <img src="../../assets/imgs/product/icon_video@2x.png" alt="">
+        <div class="tags">{{data.sub_type}}</div>
+        <div class="dep-city" v-if="data.departure_city">{{data.departure_city | departureCity}}</div>
+        <div class="show-video" v-if="data.is_video">
+          <van-icon name="play-circle-o" color="#fff" size="30" />
         </div>
       </div>
       <div class="product-desc">
-        <div class="title">
-          {{data.name_short}}
+        <div class="title-wrap">
+          <div class="one-c">
+            <span class="self-s" v-if="data.self_support">{{$t('selfSupport')}}</span>
+            <span>{{data.name_short || data.name}}</span>
+          </div>
+          <div v-if="data.name_short" class="van-ellipsis main-title">
+            {{data.name}}
+          </div>
         </div>
-        <span :class="data.name_short? 'name-short': 'name-short-2'">{{data.name}}</span>
-        <div class="tags-wrap">
-          <span v-for="item in data.icons_show" :key="item" class="hollow color">{{item}}</span>
+        <div class="tags-wrap" v-if="data.icons_show.length || data.icons_tour.length">
+          <span v-for="item in data.icons_show" :key="item" class="hollow">{{item}}</span>
           <span v-for="(item,index) in data.icons_tour" :key="index" class="hollow">
-            <!--<template v-if="index < 2">{{item.title}}</template>-->
             {{item.title}}
           </span>
         </div>
-        <div class="product-price">
-          <template v-if="!data.special_price">
-            <span class="sale-price" :class="data.self_support ? 'self-c':''"><strong>{{data.default_price | showInt}}</strong>/{{$t('since')}}</span>
-          </template>
-          <template v-else>
-            <span class="sale-price"><strong>{{data.special_price | showInt}}</strong>/{{$t('since')}}</span><span class="default-price" style="text-decoration: line-through">{{$t('listComp.originalPrice')}}：{{data.default_price | showInt}}</span>
-          </template>
-          <span v-if="data.coupons&&data.coupons.length" class="setspecial">
-               <i class="ileft"></i>
-               <i class="icon">{{data.coupons[0]}}</i>
-               <i class="iright"></i>
+        <div class="coupons-special" v-if="data.special_icons.length || data.coupons.length">
+          <span v-for="(item,index) in data.special_icons" :key="item.title + index + item.title" class="coupons">
+            {{item.title}}
           </span>
-          <span v-if="data.coupons.length>1" style="color:#fb605d">......</span>
+          <span v-for="(item,index) in data.coupons" :key="item + index" class="special">
+            {{item}}
+          </span>
         </div>
-        <div class="tags-wrap tags-person">
-          <span class="solid" v-if="data.self_support">{{$t('selfSupport')}}</span>
-          <span class="share-p" v-if="isShowFx">{{$t('productDetailPage.shareMakes')}}{{data.agent_fee}}</span>
-          <span class="gray-w">
-            <span v-if="data.comment_score !== '0.0'">
-              {{data.comment_score}}分
+        <div class="product-price-share">
+          <div class="share-p">
+            <span class="score" v-if="data.comment_score != '0.0'">
+               {{data.comment_score}}分
             </span>
-            <span v-else>
-              暂无评论
+            <span class="gray-w" v-if="data.sales">
+              {{data.sales}}人出行
             </span>
-            </span>
-          <span class="gray-w" v-if="data.sales>0">{{data.sales}}人出行</span>
+          </div>
+          <div class="sale-price">
+            <span>{{data.special_price || data.default_price}}</span>起
+          </div>
         </div>
       </div>
     </div>
@@ -63,27 +57,21 @@
 <script>
 // import {getProfile} from '@/api/profile'
 import { mapGetters} from 'vuex'
+
 export default {
   name: 'productList',
   filters: {
     showInt(val) {
       return val.split('.')[0]
     },
-    // productTypeValue(val) {
-    //   const type = [
-    //     {type: 3,title: this.$t('tours.exquisiteGroup')},
-    //     {type: 1,title: this.$t('tours.localGroup')},
-    //     {type: 2,title: this.$t('tours.localPlay')},
-    //     {type: 4,title: this.$t('tours.tickets')},
-    //     {type: 5,title: this.$t('tours.aDayTrip')},
-    //     {type: 6,title: this.$t('tours.connectionService')},
-    //     {type: 7,title: this.$t('tours.cruise')},
-    //   ]
-    //   let target = type.find(item => {
-    //     return item.type === val
-    //   })
-    //   return target.title
-    // }
+    departureCity(value) {
+      let _arr = value.split('/')
+      let len = _arr.length
+      if(len > 1) {
+        return `${_arr[0]}等${len}地出发`
+      }
+      return `${value}出发`
+    }
   },
   props: {
     data: {
@@ -146,231 +134,195 @@ export default {
 </script>
 
 <style type="text/scss" lang="scss" scoped>
-  .product-list{
-    .product-item{
-      display: flex;
-      display: -webkit-flex;
-      padding: 10px 0;
-      .img-show{
-        position:relative;
-        width:200px;
-        height:260px;
-        border-radius:20px;
-        background:rgba(0,0,0,0.2);
-        overflow: hidden;
-        img{
-          height: 100%;
-        }
-        .tags{
-          width: 100%;
-          line-height:48px;
-          padding: 0 12px;
-          position: absolute;
-          bottom: 0;
-          font-size:22px;
-          font-weight:400;
-          background-color: rgba(0,0,0,0.45);
-          color: #fff;
-        }
-        .tags2{
-          width: 100%;
-          height: 100%;
-          padding: 40% 12px;
-          position: absolute;
-          bottom: 0;
-          font-size:22px;
-          font-weight:400;
-          text-align: center;
-          background-color: rgba(0,0,0,0.45);
-          color: #fff;
-          p{
-            text-align: left;
-            padding-top: 50px;
-          }
-        }
-        .special-icon{
-          position: absolute;
-          top: 0;
-          left: 0;
-          font-size: 0;
-          height:36px;
-          border-radius:0 0 12px 0px;
-          overflow: hidden;
-          span{
-            font-size:22px;
-            color: #fff;
-            background-color: #399EF6;
-            display: inline-block;
-            width: 58px;
-            text-align: center;
-            line-height: 36px;
-            &.color{
-              background-color: #FF0000;
-            }
-          }
-        }
-        .show-video{
-          position: absolute;
-          width: 88px;
-          height: 88px;
-          bottom: 40px;
+[v-cloak] {
+  display: none !important;
+}
+.product-list{
+  background: #fff;
+  padding: 20px;
+  border-radius:20px;
+  .product-item{
+    display: flex;
+    .img-show{
+      position:relative;
+      width:200px;
+      border-radius:20px;
+      overflow: hidden;
+      .img-bg{
+        width:100%;
+        height:100%;
+        overflow:hidden;
+        background-size: cover;
+        background-color: #d3d3d3;
+      }
+      .tags{
+        line-height:40px;
+        padding: 0 10px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-size:20px;
+        font-weight:400;
+        background-color: #3ED68F;
+        color: #fff;
+        border-radius:20px 0px 20px 0px;
+      }
+      .tags2{
+        width: 100%;
+        height: 100%;
+        padding: 40% 12px;
+        position: absolute;
+        bottom: 0;
+        font-size:22px;
+        font-weight:400;
+        text-align: center;
+        background-color: rgba(0,0,0,0.45);
+        color: #fff;
+        p{
+          text-align: left;
+          padding-top: 50px;
         }
       }
-      .product-desc{
-       /*  flex: 1;
-        -webkit-flex: 1; */
-        width: 446px;
-        box-sizing: border-box;
-        padding-left: 26px;
+      .dep-city{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height:40px;
+        border-radius:0px 20px 0px 20px;
+        background:rgba(0,0,0,0.2);
+        font-size:20px;
+        color: #fff;
+        padding: 0 10px;
+        line-height: 40px;
+      }
+      .show-video{
+        position: absolute;
+        padding: 20px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+    .product-desc{
+      width: 446px;
+      box-sizing: border-box;
+      padding-left: 10px;
+      position: relative;
+      .title-wrap{
+        font-size: 24px;
+        margin-bottom: 6px;
+        .one-c{
+          max-height: 88px;
+          width: 100%;
+          font-size: 30px;
+          font-weight: bold;
+          line-height: 44px;
+          overflow: hidden;
+          color: #2d2d2d;
+        }
+        .main-title{
+          margin-top: 6px;
+          font-size: 28px;
+        }
+        .self-s{
+          background: #FFCB3C;
+          height: 32px;
+          line-height: 32px;
+          color: #fff;
+          padding: 0 10px;
+          border-radius: 30px;
+          font-weight: normal;
+          font-size: 20px;
+          display: inline-block;
+          vertical-align: text-bottom;
+        }
+      }
+      .tags-wrap{
+        max-height: 36px;
+        overflow: hidden;
+        margin-top: 10px;
         font-size: 0;
-        height:260px;
-        position: relative;
-        .title{
-          font-size:32px;
-          font-weight:bold;
-          line-height:44px;
-          color:rgba(45,45,45,1);
-          overflow: hidden;
-          display: -webkit-box;
-          -webkit-box-orient: vertical;
-          -webkit-line-clamp: 1;
+        span{
+          margin-right: 10px;
+          display: inline-block;
+          line-height: 32px;
         }
-        .name-short{
-          display: block;
-          font-size:28px;
-          font-weight:400;
-          line-height:40px;
-          color:rgba(45,45,45,1);
-          text-overflow:ellipsis;
-          overflow: hidden;
-          white-space: nowrap;
-          margin-top: 4px;
+        .solid{
+          padding: 0 4px;
+          background-color: #EF9A1A;
+          color: #fff;
+          font-size:24px;
+          color: #fff;
+          border-radius:6px;
         }
-        .name-short-2 {
-          display: block;
-          font-size:28px;
-          font-weight:400;
-          line-height:40px;
-          color:rgba(45,45,45,1);
-          overflow: hidden;
-          display: -webkit-box;
-          -webkit-box-orient: vertical;
-          -webkit-line-clamp: 2;
-        }
-        .tags-wrap{
-          height: 36px;
-          overflow: hidden;
-          margin-top: 8px;
-          font-size: 0;
-          span{
-            margin-right: 10px;
-            display: inline-block;
-            line-height: 32px;
-          }
-          .solid{
-            padding: 0 4px;
-            background-color: #EF9A1A;
-            color: #fff;
-            font-size:24px;
-            color: #fff;
-            border-radius:6px;
-          }
-          .hollow{
-            color: #989898;
-            font-size: 20px;
-            border-radius:16px;
-            padding: 0 12px;
-            margin-bottom: 5px;
-            background-color: #eee;
-            line-height: 32px !important;
-            display: inline-block;
-            &.color{
-              color: #FB605D;
-              border-color: #FB605D;
-            }
-          }
-          .share-p{
+        .hollow{
+          color: #00ABF9;
+          font-size: 20px;
+          border-radius:16px;
+          padding: 0 12px;
+          background-color: #F2F7F9;
+          line-height: 36px;
+          display: inline-block;
+          &.color{
             color: #FB605D;
-            font-size: 22px;
+            border-color: #FB605D;
+          }
+        }
+      }
+      .coupons-special{
+        font-size: 20px;
+        height: 36px;
+        line-height: 34px;
+        width: 100%;
+        overflow: hidden;
+        margin-top: 12px;
+        span{
+          display: inline-block;
+          border-radius: 8px;
+          padding: 0 6px;
+          margin-right: 6px;
+          margin-bottom: 10px;
+        }
+        .coupons{
+          color: #FEC133;
+          border:1px solid #FEC133;
+        }
+        .special{
+          color: #F55E2F;
+          border:1px solid #F55E2F;
+        }
+      }
+      .product-price-share{
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        .share-p{
+          font-size:24px;
+          .score{
+            color: #FEC133
           }
           .gray-w{
-            color: #989898;
-            font-size: 22px;
+            color: #AEAEAE;
             margin-left: 10px;
           }
         }
-        .tags-person{
-          position: absolute;
-          bottom: -8px;
-          margin: 0;
-        }
-        .product-price{
-          font-size:22px;
-          position: absolute;
-          bottom: 28px;
-          .share-transF{
-            margin-top: -15px;
-            line-height: 40px;
+        .sale-price{
+          color: #AEAEAE;
+          font-size:24px;
+          span{
+            font-size:36px;
+            color: #F55E2F;
+            font-weight:400;
           }
-          .sale-price{
-            color: #FB605D;
-            margin-right: 10px;
-            strong{
-              font-size:40px;
-            }
-            &.self-c{
-              color: #EF9A1A;
-            }
-          }
-          .default-price{
-            color: #3A3A3A;
-          }
-          .share-p{
-            color: #FF7246;
-          }
-
+          
         }
       }
     }
   }
-  .setspecial{
-    display: inline-block;
-    margin-right: 10px;
-    font-size: 20px;
-    font-weight: 300;
-    color:rgba(251,96,93,1);
-    position: relative;
-    overflow: hidden;
-    padding: 2px 0 0 0 ;
-    vertical-align: bottom;
-  }
-  .ileft{
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    border-radius: 14px;
-    background-color: #fff;
-    position: absolute;
-    border: 2px solid rgba(251,96,93,1);
-    margin-top: 15px;
-    margin-left: -7px;
-  }
-  .iright{
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    border-radius: 14px;
-    background-color: #fff;
-    position: absolute;
-    border: 2px solid rgba(251,96,93,1);
-    margin-top: -28px;
-    margin-left:calc(100% - 7px);
-  }
-  .icon{
-    border: 2px solid rgba(251,96,93,1);
-    padding: 10px 14px 10px 10px;
-    line-height: 20px;
-    border-radius: 8px;
-    display: inline-block;
-  }
+}
+</style>
+<style>
+.btn-ocr .van-button--info{
+  border: none !important;
+}
 </style>
