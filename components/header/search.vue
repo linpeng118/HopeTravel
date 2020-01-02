@@ -98,4 +98,7 @@
 .layout-header .van-nav-bar{
   box-shadow: none;
 }
+.layout-header .van-field__left-icon .van-icon{
+  color: #aeaeae !important;
+}
 </style>
