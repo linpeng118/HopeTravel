@@ -77,7 +77,8 @@
       </section>
       <!--行程选择-->
       <section>
-        <div class="confirm-item" v-if="pricelist.attributes&&pricelist.attributes.length">
+        <div class="confirm-item"
+          v-if="pricelist.attributes&&pricelist.attributes.length">
           <p class="item-title"><span style="color: #f44;padding-left:0">* </span>{{$t('confirmPage.tripSel')}}</p>
           <template v-for="(attrx,ind) in showtrvel">
             <div :key="ind">
@@ -106,10 +107,12 @@
             <div class="item-title">
               <p>
                 <span>{{seltrvel.title}}</span>
-                <span @click="checktrverend()" style="float:right;color:#399EF6">{{$t('sured')}}</span>
+                <span @click="checktrverend()"
+                  style="float:right;color:#399EF6">{{$t('sured')}}</span>
               </p>
             </div>
-            <van-radio-group v-model="checktrvel" class="radiobox" >
+            <van-radio-group v-model="checktrvel"
+              class="radiobox">
               <template v-for="(item,index) in seltrvel.items">
                 <van-radio class="radioitem"
                   :key="index"
@@ -135,8 +138,11 @@
                 tag="li"
                 :to="{path:'/personal/addContacts',query:{'id':item.id,'checker':paramcontanct,'isLogin':isLogin}}">
                 <span>出行人{{ind+1}}<i>{{item.name}}</i></span>
-                <span><i>
-                    <van-icon name="edit" /></i></span>
+                <span>
+                  <i>
+                    <van-icon name="edit" />
+                  </i>
+                </span>
               </nuxt-link>
             </template>
           </ul>
@@ -155,10 +161,8 @@
             <van-collapse-item v-for="x of countprice.adult"
               :key="x+'2'"
               :name="x">
-              <div slot="title"
-                class="contitle">游客{{x}} <i class="i1">成人</i></div>
-              <addcon @traveuser="truser"
-                :ind="x"></addcon>
+              <div slot="title" class="contitle">游客{{x}} <i class="i1">成人</i></div>
+              <addcon @traveuser="truser" :ind="x"></addcon>
             </van-collapse-item>
             <van-collapse-item v-for="x of countprice.child"
               :key="x+'3'"
@@ -176,12 +180,11 @@
         <div class="confirm-item contact">
           <p class="item-title">{{$t('contactInfo')}}</p>
           <van-field :label="$t('orderDetailPage.contact')"
-           required
-           clearable
+            required
+            clearable
             v-model="contact.name"
             :placeholder="$t('confirmPage.enterConName')" />
-          <div
-            class="van-cell van-cell--required van-field">
+          <div class="van-cell van-cell--required van-field">
             <div class="van-cell__title van-field__label">
               <span>{{$t('phoneNumberCode')}}</span>
             </div>
@@ -198,8 +201,8 @@
             </div>
           </div>
           <van-field :label="$t('email')"
-                     required
-                     clearable
+            required
+            clearable
             v-model="contact.email"
             :placeholder="$t('confirmPage.mustTipskp')" />
           <van-popup v-model="showsel"
@@ -288,7 +291,10 @@
               :placeholder="$t('confirmPage.tipsRequire')"
               rows="2"
               autosize
+              maxlength="200"
+              :input="maxlength(comment)"
               v-model="comment" />
+            <p>{{characterLength}}/200</p>
           </div>
         </div>
       </section>
@@ -300,13 +306,15 @@
               <i class="agreea">
                 {{$t('confirmPage.acceptRead')}}
               </i>
-              <nuxt-link :to="{path:'/protocol/more'}" v-if="product.product_entity_type==1">
+              <nuxt-link :to="{path:'/protocol/more'}"
+                v-if="product.product_entity_type==1">
                 <a class="agreea"
                   style="color: #216BFF">{{$t('agreeXifanServerM')}}</a>
               </nuxt-link>
-              <nuxt-link :to="{path:'/protocol/alone'}" v-if="product.product_entity_type==0">
+              <nuxt-link :to="{path:'/protocol/alone'}"
+                v-if="product.product_entity_type==0">
                 <a class="agreea"
-                   style="color: #216BFF">{{$t('agreeXifanServerA')}}</a>
+                  style="color: #216BFF">{{$t('agreeXifanServerA')}}</a>
               </nuxt-link>
             </van-checkbox>
           </div>
@@ -321,31 +329,33 @@
 </template>
 
 <script>
-
   import ConfirmFoot from '@/components/confirm_foot/foot.vue'
   import {getquhao} from '@/api/contacts'
   import {orderCouponList} from '@/api/confirm_order'
-  import {getProfile} from "@/api/profile"
+  import {getProfile} from '@/api/profile'
   import {getSessionStore} from '@/assets/js/utils'
   import {guojialist} from '@/api/contacts'
   import TelCode from '@/components/confirm_foot/telcode'
-  import {mapMutations,mapState} from 'vuex'
+  import {mapMutations, mapState} from 'vuex'
   import addcon from '@/components/confirm_foot/addcon'
   import loginLine from '@/components/header/loginLine'
   export default {
     components: {
-      ConfirmFoot, TelCode, addcon, loginLine
+      ConfirmFoot,
+      TelCode,
+      addcon,
+      loginLine,
     },
     data() {
       return {
-        countprice: {},//vuex里面的价格计算参数
-        pricelist: {},//vuex里面的价格返回参数
-        showchecktime: false,//是否显示选择出发时间组件
-        showchecktrver: false,//是否显示行程组件
-        seltrvel: {},//某一组行程数据的值
-        checktrvel: '',//弹层临时选择的trvel
-        checkedtrvel: [],//所选择的所有行程数据的值
-        showtrvel: [],//行程选项页面显示值
+        countprice: {}, //vuex里面的价格计算参数
+        pricelist: {}, //vuex里面的价格返回参数
+        showchecktime: false, //是否显示选择出发时间组件
+        showchecktrver: false, //是否显示行程组件
+        seltrvel: {}, //某一组行程数据的值
+        checktrvel: '', //弹层临时选择的trvel
+        checkedtrvel: [], //所选择的所有行程数据的值
+        showtrvel: [], //行程选项页面显示值
         activeind: 0,
         activeNames: [1],
         // 静态参数
@@ -355,93 +365,110 @@
         checkqu: '86',
         tongyi: true,
         comment: '',
-        contact: {"name": "", "phone": "", "email": ""},
+        contact: {name: '', phone: '', email: ''},
         showcheckCou: false,
-        couponDetails: [],//我的优惠卷列表
+        couponDetails: [], //我的优惠卷列表
         setcou: '',
         showsetcou: '',
         setsaveuser: false,
         product: {},
         showtype: '',
         xname: '',
-        profile: '',//用户信息
+        profile: '', //用户信息
         isLogin: this.$route.query.isLogin || false, // 默认false-->游客
         isLoginkeyword: true,
-        usertraver: [],//未登录的用户
-
+        usertraver: [], //未登录的用户
+        characterLength: '',
       }
     },
     computed: {
       //获取计算价格参数
       get_vuex_countprice() {
-        return this.$store.state.confirm.countprice;
+        return this.$store.state.confirm.countprice
       },
       get_vuex_pricelist() {
-        return this.$store.state.confirm.pricelist;
+        return this.$store.state.confirm.pricelist
       },
       ...mapState({
-        vxReservePro: state => state.product.reservePro
+        vxReservePro: state => state.product.reservePro,
       }),
     },
     watch: {
       get_vuex_countprice(val) {
-        this.countprice = val;
-        this.checkedtrvel = val.attributes;
+        this.countprice = val
+        this.checkedtrvel = val.attributes
       },
-      'get_vuex_pricelist': {
-        handler: function (val) {
-          this.pricelist = val;
-          this.setshowtrvel();
+      get_vuex_pricelist: {
+        handler: function(val) {
+          this.pricelist = val
+          this.setshowtrvel()
         },
-        deep: true    //深度监听
+        deep: true, //深度监听
       },
       'countprice.is_point'(val) {
-        this.$store.commit("countprice", {is_point: val});
+        this.$store.commit('countprice', {is_point: val})
       },
     },
     mounted() {
-
-      setTimeout( ()=>{
-        let obj = getSessionStore('pricelist') ? JSON.parse(getSessionStore('pricelist')) : {};
-        this.$store.commit("pricelist", obj);
-        let objw = getSessionStore('countprice') ? JSON.parse(getSessionStore('countprice')) : {};
-        this.$store.commit("countprice", objw);
+      setTimeout(() => {
+        let obj = getSessionStore('pricelist') ? JSON.parse(getSessionStore('pricelist')) : {}
+        this.$store.commit('pricelist', obj)
+        let objw = getSessionStore('countprice') ? JSON.parse(getSessionStore('countprice')) : {}
+        this.$store.commit('countprice', objw)
         this.product = JSON.parse(JSON.stringify(this.vxReservePro))
-        this.countprice = this.$store.state.confirm.countprice;
-        this.pricelist = this.get_vuex_pricelist;
+        this.countprice = this.$store.state.confirm.countprice
+        this.pricelist = this.get_vuex_pricelist
         this.init()
-        this.getqu();
-        this.settitletip();
-      },20)
-      
+        this.getqu()
+        this.settitletip()
+      }, 20)
     },
 
     methods: {
+      maxlength(value) {
+        this.characterLength = value.length
+        let second = 6
+        const timer = setInterval(() => {
+          second--
+          if (value.length == 200 && second) {
+            this.$toast('最多200个汉字')
+          } else {
+            clearInterval(timer)
+            this.$toast.clear()
+          }
+        }, 500)
+      },
       async init() {
         // 1. 是否有token。有就请求个人信息；无则return
-        let res = await getProfile();
-        let {code, data} = res;
+        let res = await getProfile()
+        let {code, data} = res
         if (code === 0) {
           this.isLoginkeyword = true
-          this.isLogin = true;
-          this.profile = data;
+          this.isLogin = true
+          this.profile = data
           this.vxSetProfile(data)
-          this.xname = this.product.name;
-          console.log(66666666666, this.product.name)
-          this.getCouponList();
-          if (this.countprice.savephone == '' || this.countprice.savephone == undefined || this.countprice.savephone == 'undefined') {
-            this.$store.commit("countprice", {
+          this.xname = this.product.name
+          this.getCouponList()
+          if (
+            this.countprice.savephone == '' ||
+            this.countprice.savephone == undefined ||
+            this.countprice.savephone == 'undefined'
+          ) {
+            this.$store.commit('countprice', {
               savename: data.nickname || data.chinese_name,
               saveemail: data.email,
               savephone: data.phone,
-            });
-            this.countprice.savename = data.nickname || data.chinese_name;
-            this.countprice.savephone = data.phone;
-            this.countprice.saveemail = data.email;
-            this.contact = {"name": data.nickname || data.chinese_name, "phone": data.phone, "email": data.email}
-          }
-          else {
-            this.contact = {"name": this.countprice.savename, "phone": this.countprice.savephone, "email": this.countprice.saveemail}
+            })
+            this.countprice.savename = data.nickname || data.chinese_name
+            this.countprice.savephone = data.phone
+            this.countprice.saveemail = data.email
+            this.contact = {name: data.nickname || data.chinese_name, phone: data.phone, email: data.email}
+          } else {
+            this.contact = {
+              name: this.countprice.savename,
+              phone: this.countprice.savephone,
+              email: this.countprice.saveemail,
+            }
           }
         } else {
           this.isLoginkeyword = false
@@ -453,14 +480,14 @@
       async getpricedate(id) {
         let {data, code} = await getdateTrip(id)
         if (code === 0) {
-          this.pricedate = data;
+          this.pricedate = data
         } else {
           // this.pricedate = []
         }
       },
       //获得可用优惠卷列表
       async getCouponList(type) {
-        let this_ = this;
+        let this_ = this
         let objdata = {
           product_id: this.product.product_id,
           departure: this.countprice.departure_date,
@@ -468,29 +495,26 @@
         }
         let {data, code} = await orderCouponList(objdata)
         if (code === 0) {
-          this.couponDetails = data || [];        
-        }
-        else {
-          this.couponDetails = [];
+          this.couponDetails = data || []
+        } else {
+          this.couponDetails = []
         }
         if (type) {
-          this.showcheckCou = true;
-        }
-        else {
+          this.showcheckCou = true
+        } else {
           if (this_.couponDetails && this_.couponDetails.length && this_.countprice.coupon_cus_id == '') {
             for (let i = 0; i < this_.couponDetails.length; i++) {
               if (this_.couponDetails[i].is_best === true) {
-                this_.setcou = i;
-                this_.showsetcou = this_.couponDetails[i].title;
-                this_.$store.commit("countprice", {coupon_cus_id: this_.couponDetails[i].coupon_customer_id});
+                this_.setcou = i
+                this_.showsetcou = this_.couponDetails[i].title
+                this_.$store.commit('countprice', {coupon_cus_id: this_.couponDetails[i].coupon_customer_id})
               }
             }
-          }
-          else if (this_.couponDetails && this_.couponDetails.length && this_.countprice.coupon_cus_id != '') {
+          } else if (this_.couponDetails && this_.couponDetails.length && this_.countprice.coupon_cus_id != '') {
             for (let i = 0; i < this_.couponDetails.length; i++) {
               if (this_.couponDetails[i].coupon_customer_id == this_.countprice.coupon_cus_id) {
-                this_.setcou = i;
-                this_.showsetcou = this_.couponDetails[i].title;
+                this_.setcou = i
+                this_.showsetcou = this_.couponDetails[i].title
               }
             }
           }
@@ -498,91 +522,97 @@
       },
       //设置页头数据
       settitletip() {
-        this.countprice = this.get_vuex_countprice;
-        let date = new Date((this.countprice.departure_date).replace(/-/g, "/")).getTime();
-        let date1 = this.timeFormat(date);
+        this.countprice = this.get_vuex_countprice
+        let date = new Date(this.countprice.departure_date.replace(/-/g, '/')).getTime()
+        let date1 = this.timeFormat(date)
         if (this.product.product_entity_type == 1 && this.product.self_support == 0) {
-          this.showtype = date1 + '  ' + this.countprice.adult + '成人  ' + this.countprice.child + '儿童  ' + this.countprice.room_total + '房间  '
+          this.showtype =
+            date1 +
+            '  ' +
+            this.countprice.adult +
+            '成人  ' +
+            this.countprice.child +
+            '儿童  ' +
+            this.countprice.room_total +
+            '房间  '
         } else {
           this.showtype = date1 + '  ' + this.countprice.adult + '成人  ' + this.countprice.child + '儿童  '
         }
       },
       timeFormat(timestamp) {
-        let time = new Date(timestamp);
-        let year = time.getFullYear();
-        let month = time.getMonth() + 1;
-        let date = time.getDate();
-        return year + '年' + (month < 10 ? '0' + month : month) + '月' + (date < 10 ? '0' + date : date) + '日';
+        let time = new Date(timestamp)
+        let year = time.getFullYear()
+        let month = time.getMonth() + 1
+        let date = time.getDate()
+        return year + '年' + (month < 10 ? '0' + month : month) + '月' + (date < 10 ? '0' + date : date) + '日'
       },
       //选择行程以后
       checktime() {
-        this.$store.commit("countprice", {product_departure: this.countprice.product_departure});
-        this.showchecktime = false;
+        this.$store.commit('countprice', {product_departure: this.countprice.product_departure})
+        this.showchecktime = false
       },
       //选择行程之前
       checktrver(item, index) {
-        this.seltrvel = item;
-        this.checktrvel = '';
+        this.seltrvel = item
+        this.checktrvel = ''
         for (let i = 0; i < this.checkedtrvel.length; i++) {
           if (this.checkedtrvel[i].option_id == this.seltrvel.id) {
             this.checktrvel = this.checkedtrvel[i].option_val_id
           }
         }
-        this.showchecktrver = true;
+        this.showchecktrver = true
       },
       //确认行程形成之后
       checktrverend() {
-        var this_ = this;
-        let obj = null;
+        var this_ = this
+        let obj = null
         for (let i = 0; i < this_.checkedtrvel.length; i++) {
           if (this_.checkedtrvel[i].option_id == this_.seltrvel.id) {
-            this_.checkedtrvel.splice(i, 1);
+            this_.checkedtrvel.splice(i, 1)
           }
         }
         if (this_.checktrvel != '') {
           obj = {
             option_id: this_.seltrvel.id,
-            option_val_id: this_.checktrvel
+            option_val_id: this_.checktrvel,
           }
-          this_.checkedtrvel.push(obj);
+          this_.checkedtrvel.push(obj)
         }
 
-        this_.$store.commit("countprice", {attributes: this.checkedtrvel});
-        this.showchecktrver = false;
+        this_.$store.commit('countprice', {attributes: this.checkedtrvel})
+        this.showchecktrver = false
       },
       //设置页面显示行程
       setshowtrvel() {
-        var obj = [];
-        var this_ = this;
+        var obj = []
+        var this_ = this
         if (!this_.pricelist.coupons.id) {
-          this_.showsetcou = '';
+          this_.showsetcou = ''
           this_.setcou = ''
-        }
-        else {
-          this_.showsetcou = this_.pricelist.coupons.title;
+        } else {
+          this_.showsetcou = this_.pricelist.coupons.title
           for (let i = 0; i < this_.couponDetails.length; i++) {
             if (this_.couponDetails[i].coupon_id == this_.pricelist.coupons.id) {
-              this_.setcou = i;
-
+              this_.setcou = i
             }
           }
         }
         for (let i = 0; i < this_.pricelist.attributes.length; i++) {
-          let item = this_.pricelist.attributes[i];
-          item.itemsx = null;
-          obj.push(item);
+          let item = this_.pricelist.attributes[i]
+          item.itemsx = null
+          obj.push(item)
         }
         for (let i = 0; i < this_.pricelist.attributes_override.length; i++) {
-          let item = this_.pricelist.attributes_override[i];
-          item.itemsx = null;
-          obj.push(item);
+          let item = this_.pricelist.attributes_override[i]
+          item.itemsx = null
+          obj.push(item)
         }
-        this_.showtrvel = obj;
+        this_.showtrvel = obj
         for (let i = 0; i < this_.showtrvel.length; i++) {
-          let itemx = this_.showtrvel[i];
+          let itemx = this_.showtrvel[i]
           for (let j = 0; j < this_.checkedtrvel.length; j++) {
             if (itemx.id == this_.checkedtrvel[j].option_id) {
-              let kitem = this_.showtrvel[i].items;
+              let kitem = this_.showtrvel[i].items
               for (let k = 0; k < kitem.length; k++) {
                 if (kitem[k].id == this_.checkedtrvel[j].option_val_id) {
                   this_.showtrvel[i].itemsx = kitem[k]
@@ -594,7 +624,7 @@
       },
       onClickLeft() {
         let href = window.location.href.slice(-1)
-        if(href == '#'){
+        if (href == '#') {
           this.$router.go(-2)
         } else {
           this.$router.go(-1)
@@ -602,26 +632,23 @@
       },
       onClickRight() {
         this.$router.replace({
-          path: `/login?redirect=${this.$route.fullPath}`
+          path: `/login?redirect=${this.$route.fullPath}`,
         })
       },
       // 得到区号
       async getqu() {
-
         let {data, code, msg, hot_country} = await guojialist()
         if (code === 0) {
           this._nomalLizePinyin(data, hot_country)
+        } else {
         }
-        else {
-        }
-
       },
       _nomalLizePinyin(data, hot) {
-        let len = data.length;
-        let len2 = hot.length;
+        let len = data.length
+        let len2 = hot.length
         let obj = {
-          '热门城市': []
-        };
+          热门城市: [],
+        }
         for (let i = 0; i < len2; i++) {
           obj['热门城市'].push({...hot[i]})
         }
@@ -632,23 +659,22 @@
           obj[data[i].key].push({...data[i]})
         }
 
-
         this.columns = obj
       },
       onChangequ(picker) {
-        this.checkqu = picker[0].telcode;
-        this.showsel = false;
+        this.checkqu = picker[0].telcode
+        this.showsel = false
       },
       getaddoder() {
-        let objarr = [];
+        let objarr = []
         for (let i = 0; i < this.paramcontanct.length; i++) {
           objarr.push(this.paramcontanct[i].id)
         }
-        let date = null;
+        let date = null
         if (this.countprice.departure_date) {
-          date = this.countprice.departure_date;
+          date = this.countprice.departure_date
         }
-        let point = this.pricelist.points ? this.pricelist.points.point : 0;
+        let point = this.pricelist.points ? this.pricelist.points.point : 0
         let objcontact = {
           phone: this.checkqu + '-' + this.contact.phone,
           name: this.contact.name,
@@ -663,65 +689,63 @@
           total_kids: this.countprice.child,
           total_adult: this.countprice.adult,
           room_total: this.countprice.room_total,
-          tongyi: this.tongyi,//用户协议
+          tongyi: this.tongyi, //用户协议
           comment: this.comment,
           users: this.isLogin ? objarr : this.usertraver,
           contact: objcontact,
-          integral: this.countprice.is_point ? point : '',//积分
+          integral: this.countprice.is_point ? point : '', //积分
           coupon_cus_id: this.countprice.coupon_cus_id,
-
         }
         return addorder
       },
-      setcouponx: function (x) {
-        let this_ = this;
+      setcouponx: function(x) {
+        let this_ = this
         if (this_.setcou === 'null' || this_.setcou === '') {
-          this_.showsetcou = '';
-          this_.$store.commit("countprice", {coupon_cus_id: ''});
+          this_.showsetcou = ''
+          this_.$store.commit('countprice', {coupon_cus_id: ''})
         } else {
-          this_.showsetcou = this_.couponDetails[this_.setcou].title;
-          this_.$store.commit("countprice", {coupon_cus_id: this_.couponDetails[this_.setcou].coupon_customer_id});
+          this_.showsetcou = this_.couponDetails[this_.setcou].title
+          this_.$store.commit('countprice', {coupon_cus_id: this_.couponDetails[this_.setcou].coupon_customer_id})
         }
-        this.showcheckCou = false;
+        this.showcheckCou = false
       },
       setsave() {
-        this.$store.commit("countprice", {
+        this.$store.commit('countprice', {
           savename: this.contact.name,
           saveemail: this.contact.email,
           savephone: this.contact.phone,
-        });
+        })
       },
-      truser: function (x) {
-        this.usertraver[x.ind] = x.val;
+      truser: function(x) {
+        this.usertraver[x.ind] = x.val
         console.log(this.usertraver)
       },
       ...mapMutations({
-        vxSetProfile: 'profile/setProfile'
-      })
-    }
+        vxSetProfile: 'profile/setProfile',
+      }),
+    },
   }
-
 </script>
 <style>
-  body{
-    overflow: scroll!important;
-    position: relative!important;
+  body {
+    overflow: scroll !important;
+    position: relative !important;
   }
-  .confirm-item .van-cell--required::before{
+  .confirm-item .van-cell--required::before {
     content: '* ';
     font-size: 20px;
     font-weight: bold;
   }
-  .confirm-item.contact .van-cell--required .van-cell__title span{
+  .confirm-item.contact .van-cell--required .van-cell__title span {
     margin-left: 5px;
   }
 </style>
 <style lang="scss" scoped>
-  body{
-    overflow: scroll!important;
-    position: relative!important;
+  body {
+    overflow: scroll !important;
+    position: relative !important;
   }
-  .neuHeader{
+  .neuHeader {
     padding-top: 88px;
   }
   .checkcoubtn {
@@ -777,7 +801,7 @@
       width: 228px;
       height: 140px;
       text-align: center;
-      background-image: url("../../assets/imgs/color.png");
+      background-image: url('../../assets/imgs/color.png');
       background-repeat: no-repeat;
       background-position: 0;
       background-size: 228px 140px;
@@ -822,11 +846,7 @@
       .btn1 {
         width: 120px;
         height: 40px;
-        background: linear-gradient(
-          180deg,
-          rgba(27, 141, 255, 1) 0%,
-          rgba(53, 201, 255, 1) 100%
-        );
+        background: linear-gradient(180deg, rgba(27, 141, 255, 1) 0%, rgba(53, 201, 255, 1) 100%);
         opacity: 1;
         border-radius: 40px;
         display: block;
@@ -860,22 +880,22 @@
     -webkit-overflow-scrolling: touch;
   }
   .section0.not-login {
-    padding-top:88px;
+    padding-top: 88px;
   }
   .confirm-title p:nth-child(1) {
-    font-size:28px;
-    font-weight:bold;
-    line-height:40px;
-    color:rgba(45,45,45,1);
-    opacity:1;
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 40px;
+    color: rgba(45, 45, 45, 1);
+    opacity: 1;
   }
   .confirm-title p:nth-child(2) {
-    padding-top:8px;
+    padding-top: 8px;
     width: 100%;
     font-size: 24px;
     font-weight: 400;
     line-height: 34px;
-    color:rgba(45,45,45,1);
+    color: rgba(45, 45, 45, 1);
     opacity: 1;
   }
   .confirm-title p:nth-child(3) {
@@ -910,6 +930,14 @@
     box-sizing: border-box;
     padding: 20px 24px;
     font-size: 28px;
+    position: relative;
+  }
+  .item-con p {
+    font-size: 14px;
+    color: #9f9f9f;
+    position: absolute;
+    right: 5px;
+    bottom: 20px;
   }
 
   .item-con span:nth-child(1) {

@@ -1,4 +1,5 @@
 import { LIST_PARAMS, TRUE_PARAMS, CUSTOMER_SERVICE } from './config'
+import {TAB_PARAMS} from './consts/products'
 /**
  * 存储localStorage
  */
@@ -188,13 +189,16 @@ function getParams(str) {
     let _searchArr = str.split('-')
     let res = {}
     let type = {
-        ya: 0,
-        yg: 1,
-        yw: 2,
-        yj: 3,
-        yl: 7,
-        ym: 4,
-        yr: 5,
+        ya: 'all',
+        yg: 'local_heel',
+        yw: 'local_play',
+        yj: 'self_support',
+        yl: 'cruise',
+        ym: 'ticket',
+        yr: 'one_day',
+        yc: 'shuttle',
+        yt: 'taste',
+        yf: 'wifi'
     }
     for (let i = 0, len = _searchArr.length; i < len; i++) {
         if (_searchArr[i].length === 2 && _searchArr[i].indexOf('y') === 0) {
@@ -219,12 +223,12 @@ function changeParams(params) {
         if (key === 'span_city' && params.span_city) {
             params.span_city = params.span_city.split(',').sort((a, b) => {
                 return parseInt(a) - parseInt(b)
-            }).join('_')
+            }).join(',')
         }
         if (key === 'duration' && params.duration) {
             params.duration = params.duration.split(',').sort((a, b) => {
                 return parseInt(a) - parseInt(b)
-            }).join('_')
+            }).join(',')
         }
         if (params[key]) {
             if (key !== 'category' && key !== 'type') {
@@ -233,8 +237,8 @@ function changeParams(params) {
         }
     })
     resArr.sort()
-    if (params.type || params.type === 0) {
-        resArr.unshift(`${_arr[params.type]}`)
+    if (params.type) {
+        resArr.unshift(`${TAB_PARAMS[params.type]}`)
     }
     params.category = params.category || 'all'
     let _url = `/${params.category}/${resArr.join('-')}`
