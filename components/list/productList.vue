@@ -298,13 +298,14 @@ export default {
         }
         .special{
           color: #F55E2F;
-          border:1px solid #F55E2F;
+          border:2px solid #F55E2F;
         }
       }
       .product-price-share{
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
+        margin-top: 6px;
         .share-p{
           font-size:24px;
           .score{

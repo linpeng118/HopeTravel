@@ -12,8 +12,8 @@
       <dl class="pro-content">
         <!-- 产品名 -->
         <dt class="product-title title-wrap-line3">
-          <span class="short-name">{{orderInfo.name_short}}</span>
-          <div class="text">{{orderInfo.product_name}}</div>
+          <div class="short-name">{{orderInfo.name_short || orderInfo.product_name}}</div>
+          <div class="text" v-if="orderInfo.name_short">{{orderInfo.product_name}}</div>
         </dt>
         <!-- 价格 -->
         <dt class="price">
@@ -184,7 +184,6 @@
           text-align: justify;
           font-size: 0;
           color: #191919;
-
           &.title-wrap-line3 {
             /*position: relative;*/
             line-height: 30px;
@@ -192,13 +191,11 @@
             overflow: hidden;
             box-sizing: content-box;
             .short-name{
+              height: 88px;
               font-size:32px;
               font-weight:bold;
               line-height:44px;
               color:rgba(45,45,45,1);
-              display: -webkit-box;
-              -webkit-box-orient: vertical;
-              -webkit-line-clamp: 2;
               overflow: hidden;
             }
             .text {
