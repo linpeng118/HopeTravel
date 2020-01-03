@@ -46,7 +46,7 @@
             </span>
           </div>
           <div class="sale-price">
-            <span>{{data.special_price || data.default_price}}</span>起
+            <span>{{(data.special_price || data.default_price) | filterPrice}}</span>起
           </div>
         </div>
       </div>
@@ -71,6 +71,10 @@ export default {
         return `${_arr[0]}等${len}地出发`
       }
       return `${value}出发`
+    },
+    filterPrice(value){
+      let _arr = value.toString().split('.')
+      return _arr[0]
     }
   },
   props: {
