@@ -8,10 +8,13 @@
                      <div class="left" @click="changeCloseDown">
                          <van-icon name="close" />
                          <!--<span v-t="'homePage.downloadText'"></span>-->
-                         <span>{{$t('homePage.downloadText')}}</span>
+                     </div>
+                     <div class="downloadText">
+                         <span>{{$t('homePage.downloadText1')}}</span>
+                         <span>{{$t('homePage.downloadText2')}}</span>
                      </div>
                      <div class="right">
-                         <a :href="downUrl">{{$t('homePage.goDownload')}}</a>
+                         <a :href="downUrl">{{$t('homePage.goOpen')}}</a>
                      </div>
                  </div>
              </template>
@@ -432,28 +435,42 @@
     z-index: 2100;
     .down-box {
       width: 100%;
-      height: 80px;
-      padding: 0 32px;
-      background-color: #398bf6;
+      height: 120px;
+      padding: 20px 32px;
+      background-color:#00ABF9;
       color: #fff;
       display: flex;
       display: -webkit-flex;
-      justify-content: space-between;
-      -webkit-justify-content: space-between;
+      /* justify-content: space-between;
+      -webkit-justify-content: space-between; */
       align-items: center;
       -webkit-align-items: center;
       font-size: 24px;
-      i {
-        vertical-align: text-bottom;
+      .left{
+          i {
+            width: 32px;
+            height: 32px;
+            vertical-align: text-bottom;
+      }
+      }
+      .downloadText{
+          margin-left: 24px;
+          span{
+            font-size:28px;
+            font-weight:400;
+            line-height:40px;
+            display: block
+          }
       }
       .right {
+          margin-left: 200px;
+          background-color: #FFCB3C;
+          border-radius: 6px;
+          width:132px;
+          height:48px;
         a {
-          height: 40px;
-          width: 114px;
           display: block;
-          line-height: 40px;
-          background-color: #efa11a;
-          border-radius: 20px;
+          line-height: 48px;
           text-align: center;
           color: #fff;
         }

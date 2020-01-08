@@ -109,7 +109,10 @@
         "visaNav": "签证办理",
         "hotDes": "热门目的地",
         "timedSpecials": "限时特价",
-        "siftProduct": "精选商品"
+        "siftProduct": "精选商品",
+        "downloadText1": "下载APP，",
+        "downloadText2": "领APP专享2600元大礼",
+        "goOpen": "立即打开"
     },
     "confirmPage": {
         "title": "确认订单",
