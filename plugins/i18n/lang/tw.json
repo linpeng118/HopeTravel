@@ -150,7 +150,10 @@
         "visaNav": "簽證辦理",
         "hotDes": "熱門目的地",
         "timedSpecials": "限時特價",
-        "siftProduct": "精選商品"
+        "siftProduct": "精選商品",
+        "downloadText1": "下載APP，",
+        "downloadText2": "領APP專享2600元大禮",
+        "goOpen": "立即打開"
     },
     "confirmPage": {
         "title": "確認訂單",
