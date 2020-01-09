@@ -8,29 +8,54 @@
       @callOnRight="onHeaderRight"
       @callOnLeft="onHeaderLeft"
       ref="refProdctDetailHeader" />
-      <div class="product-detail" ref="refProductDetail">
-        <!-- banner -->
-        <div class="banner-wrap">
-          <van-swipe class="banner" :autoplay="6000" @change="onBannerChange" :show-indicators="false">
-            <van-swipe-item v-for="image in product.images" :key="image">
-              <div class="banner-img">
-                <img :src="image" alt="image" />
-              </div>
-            </van-swipe-item>
-          </van-swipe>
-          <!-- banner页数 -->
-          <div class="custom-indicator">
-            <span><img src="../../assets/imgs/product/icon_img@2x.png" />{{product.images && product.images.length }}</span>
-            <span v-if="product.videos && product.videos.length"><img src="../../assets/imgs/product/icon_video_s@2x.png" />{{product.videos.length}}</span>
-          </div>
-          <!-- 产品编号 产品类型-->
-          <div class="serial-num">
-            <span>{{product.departure_city | departureCity}}地{{ $t("dateTripPage.startOff")}} {{product.tour_category}}</span>
-            <span>{{ $t("productDetailPage.productId") }}：{{ product.product_id }}</span>
-          </div>
-          <div class="video-box"></div>
+    <div class="product-detail" ref="refProductDetail">
+      <!-- banner -->
+      <div class="banner-wrap">
+        <van-swipe class="banner" :autoplay="6000" @change="onBannerChange" :show-indicators="false">
+          <van-swipe-item v-if="product.videos && product.videos.length">
+            <div class="banner-img">
+              <img :src="product.videos[0].cover" alt="image" />
+            </div>
+          </van-swipe-item>
+          <van-swipe-item v-for="image in product.images" :key="image">
+            <div class="banner-img">
+              <img :src="image" alt="image" />
+            </div>
+          </van-swipe-item>
+        </van-swipe>
+        <!-- banner页数 -->
+        <div class="custom-indicator">
+          <span><img src="../../assets/imgs/product/icon_img@2x.png" />{{product.images && product.images.length }}</span>
+          <span v-if="product.videos && product.videos.length"><img src="../../assets/imgs/product/icon_video_s@2x.png" />{{product.videos.length}}</span>
+        </div>
+        <!-- 产品编号 产品类型-->
+        <div class="serial-num">
+          <span>{{product.departure_city | departureCity}}地{{ $t("dateTripPage.startOff")}} {{product.tour_category}}</span>
+          <span>{{ $t("productDetailPage.productId") }}：{{ product.product_id }}</span>
+        </div>
+        <div class="video-box" @click="playVideo">
+          <img src="../../assets/imgs/product/icon_video@2x.png" alt="">
         </div>
       </div>
+    </div>
+    <!--视频弹出框-->
+    <van-popup v-model="isVideoShow" position="right">
+      <van-nav-bar title="" left-arrow />
+      <div class="video" v-if="product.videos && product.videos[0].video">
+        <div class="video-main video-div">
+          <video
+            ref="productVideo"
+            :src="product.videos[0].video"
+            controls="controls"
+            autoplay
+            preload="auto"
+          >
+            暂时不支持播放该视频
+          </video>
+          <!--<div class="video-loading">-- v-if="product.videos[0] && product.videos[0].video"><i></i>--:src="product.videos[0].video"></div>-->
+        </div>
+      </div>
+    </van-popup>
   </div>
 </template>
 
@@ -114,6 +139,18 @@ export default {
   data(){
     return {
       isTransparent: false, // 导航头是否透明
+      isVideoShow: false, // 是否显示视频
+    }
+  },
+  watch: {
+    isVideoShow(newValue, oldValue) {
+      if (newValue) {
+        console.log("播放");
+        this.$refs.productVideo.play();
+      } else {
+        console.log("暂停");
+        this.$refs.productVideo.pause();
+      }
     }
   },
   created(){
@@ -137,8 +174,20 @@ export default {
       }
     },
     onBannerChange(){},
-    // 显示title
-    playVideo(){}
+    // 视频播放
+    playVideo() {
+      this.isVideoShow = true;
+      this.$nextTick(() => {
+        this.$refs.productVideo.play();
+      }, 50);
+    },
+    // 暂停视频
+    pausePlay() {
+      this.$nextTick(() => {
+        this.$refs.productVideo.pause();
+      }, 50);
+      this.isVideoShow = false;
+    },
   }
 };
 </script>
