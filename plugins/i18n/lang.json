@@ -310,6 +310,7 @@
         "priceDescription": "价格说明",
         "feeIncludes": "费用包含",
         "feeExcludes": "费用不含",
+        "ownExpense": "自费项目",
         "orderNotice": "恢复预定通知",
         "orderNow": "立即预定",
         "serviceDescription": "服务说明",

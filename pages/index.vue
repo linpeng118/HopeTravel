@@ -448,8 +448,7 @@
       font-size: 24px;
       .left{
           i {
-            width: 32px;
-            height: 32px;
+            font-size: 32px;
             vertical-align: text-bottom;
       }
       }

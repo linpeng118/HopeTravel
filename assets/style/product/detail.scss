@@ -648,82 +648,6 @@
                                 color: #3e3e3e;
                             }
                         }
-                        /* 新数据列表显示 */
-                        /* .price-inexclude {
-                            .newData {
-                                padding-bottom: 20px;
-                                .title-s {
-                                    font-size: 28px;
-                                    font-weight: bold;
-                                    line-height: 40px;
-                                    color: rgba(45, 45, 45, 1);
-                                    margin-left: 32px;
-                                    margin-top: 30px;
-                                }
-                                ul {
-                                    width: 686px;
-                                    margin: 0 auto;
-                                    li {
-                                        margin-top: 20px;
-                                        width: 100%;
-                                        border: 2px solid rgba(0, 171, 249, 1);
-                                        border-radius: 8px;
-                                        overflow: hidden;
-                                        position: relative;
-                                        .title {
-                                            display: inline-block;
-                                            width: 132px;
-                                            text-align: center;
-                                            font-size: 28px;
-                                            font-weight: bold;
-                                            line-height: 40px;
-                                            vertical-align: middle;
-                                            color: rgba(45, 45, 45, 1);
-                                            padding-top: 0;
-                                        }
-                                        .content {
-                                            display: inline-block;
-                                            padding: 14px 22px;
-                                            width: 550px;
-                                            font-size: 24px;
-                                            font-weight: 400;
-                                            line-height: 34px;
-                                            vertical-align: middle;
-                                            color: rgba(174, 174, 174, 1);
-                                            position: relative;
-                                        }
-                                    }
-                                    li::before {
-                                        position: absolute;
-                                        content: '';
-                                        left: 132px;
-                                        border: 1px solid rgba(0, 171, 249, 1);
-                                        top: 0;
-                                        bottom: 0;
-                                    }
-                                }
-                            }
-                            .oldData {
-                                .price-include {
-                                    margin: 0 auto;
-                                    padding: 24px 0 28px;
-                                    width: 686px;
-                                    border-bottom: 2px solid #e4e4e4;
-                                    .title-s {
-                                        font-size: 28px;
-                                        font-weight: 400;
-                                        line-height: 44px;
-                                        color: #191919;
-                                    }
-                                    .text {
-                                        font-size: 24px;
-                                        font-weight: 300;
-                                        line-height: 40px;
-                                        color: #3e3e3e;
-                                    }
-                                }
-                            }
-                        } */
                         li::before {
                             position: absolute;
                             content: "";
@@ -751,6 +675,86 @@
                             font-weight: 300;
                             line-height: 40px;
                             color: #3e3e3e;
+                        }
+                    }
+                }
+            }
+            .own_expense {
+                margin: 30px 32px;
+                width: 686px;
+                padding-bottom: 90px;
+                h3 {
+                    font-size: 28px;
+                    font-weight: bold;
+                    line-height: 38px;
+                    color: rgba(45, 45, 45, 1);
+                }
+                .expense {
+                    width: 100%;
+                    margin-top: 26px;
+                    position: relative;
+                    table {
+                        /* align-items: center; */
+                        /* border-collapse: collapse; */
+                        border-collapse: separate;
+                        border-spacing: 0;
+                        tr {
+                            width: 100%;
+                            box-sizing: border-box;
+                            text-align: center;
+                            th {
+                                width: 140px;
+                                height: 116px;
+                                box-sizing: border-box;
+                                font-size: 28px;
+                                font-weight: bold;
+                                line-height: 38px;
+                                color: rgba(255, 255, 255, 1);
+                                border: 2px solid #00ABF9;
+                                background-color: #00ABF9;
+                                span {
+                                    display: block;
+                                }
+                            }
+                            th:nth-child(1) {
+                                width: 272px;
+                            }
+                            td {
+                                width: 140px;
+                                height: 130px;
+                                box-sizing: border-box;
+                                font-size: 24px;
+                                font-weight: 400;
+                                line-height: 32px;
+                                color: rgba(174, 174, 174, 1);
+                                color: #AEAEAE;
+                                border: 2px solid #00ABF9;
+                            }
+                            td:nth-child(1) {
+                                width: 272px;
+                            }
+                        }
+                        tr:nth-child(1) th:nth-child(1) {
+                            border-top-left-radius: 8px;
+                        }
+                        tr:nth-child(1) th:nth-last-child(1) {
+                            border-top-right-radius: 8px;
+                        }
+                    }
+                    .expense_opt {
+                        position: absolute;
+                        right: 0;
+                        bottom: -52px;
+                        span {
+                            font-size: 24px;
+                            font-weight: 400;
+                            line-height: 32px;
+                            color: rgba(0, 171, 249, 1);
+                            margin-right: 10px;
+                            vertical-align: text-bottom;
+                        }
+                        img {
+                            vertical-align: text-bottom;
                         }
                     }
                 }
