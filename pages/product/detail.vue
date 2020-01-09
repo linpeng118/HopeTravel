@@ -435,11 +435,11 @@
             <div class="expense_opt" v-if="expense.own_expense.list_data.length>7">
               <div @click="putAway" v-if="isputAway">
                 <span>收起</span>
-                <img src="../../assets/imgs/product/putAway.png" alt="收起">
+                <img src="../../assets/imgs/product/putAway.png" alt="">
               </div>
               <div @click="cover" v-if="iscover">
                 <span>展开</span>
-                <img src="../../assets/imgs/product/cover.png" alt="展开">
+                <img src="../../assets/imgs/product/cover.png" alt="">
               </div>
             </div>
           </div>
