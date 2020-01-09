@@ -412,6 +412,38 @@
             </van-collapse>
           </div>
         </div>
+        <div class="own_expense">
+          <h3>{{$t('productDetailPage.ownExpense')}}</h3>
+          <div class="expense">
+            <table>
+              <tr>
+                <th>项目名称</th>
+                <th>成人
+                  <span>({{expense.own_expense.adult_desc}})</span></th>
+                <th>儿童
+                  <span>({{expense.own_expense.child_desc}})</span></th>
+                <th>老人
+                  <span>({{expense.own_expense.old_desc}})</span></th>
+              </tr>
+              <tr v-for="(item,index) in own_expense_list" :key="index">
+                <td>{{item.project_name}}</td>
+                <td>{{item.adult_price}}</td>
+                <td>{{item.child_price}}</td>
+                <td>{{item.old_price}}</td>
+              </tr>
+            </table> 
+            <div class="expense_opt" v-if="expense.own_expense.list_data.length>7">
+              <div @click="putAway" v-if="isputAway">
+                <span>收起</span>
+                <img src="../../assets/imgs/product/putAway.png" alt="收起">
+              </div>
+              <div @click="cover" v-if="iscover">
+                <span>展开</span>
+                <img src="../../assets/imgs/product/cover.png" alt="展开">
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <!-- 注意事项 -->
       <div class="notice mt-24"
@@ -676,7 +708,7 @@
       }
       try {
         let currency = getCookie(CURRENCY, req && req.headers && req.headers.cookie)
-        let {code, msg, data} = await $axios.$get(`/api/product/${productId}`, {
+        let {code, msg, data} = await $axios.$get(`/api/product/${productId}/newdetail`, {
           headers: {
             Platform: store.state.platform,
             'Phone-Type': store.state.phoneType,
@@ -732,6 +764,9 @@
     },
     data() {
       return {
+        own_expense_list: [],
+        isputAway: true, //费用明细 自费项目 是否收起
+        iscover: false, //费用明细 自费项目 是否展开
         ENTITY_TYPE,
         loading: false,
         // productId: Number(this.$route.query.productId) || null,
@@ -942,7 +977,7 @@
       },
     },
     async created() {
-      console.log(1212121, this.expense, this.product)
+      console.log(1212121,this.expense, this.product)
       await this.getisproductFcn()
     },
     async mounted() {
@@ -955,7 +990,8 @@
       this.init()
       /* this.getisproductFcn() */
       this.$refs.refProductDetailPage.addEventListener('scroll', this.scrollFn)
-      document.getElementsByTagName('title')[0].innerText = this.product.name
+      document.getElementsByTagName('title')[0].innerText = this.product.name;
+      this.cover();
     },
     beforeDestroy() {
       this.$refs.refProductDetailPage.removeEventListener('scroll', this.scrollFn)
@@ -1576,6 +1612,19 @@
           }
         }, 17)
       },
+      //费用明细的自费项目 超过7个 显示展开和收起
+      //7个以上项目 点击展开
+      cover(){
+        this.iscover = false;
+        this.isputAway = true;
+        this.own_expense_list = this.expense.own_expense.list_data
+      },
+      //点击收起
+      putAway(){
+        this.isputAway = false
+        this.iscover = true;
+        this.own_expense_list = this.expense.own_expense.list_data.slice(0,7);
+      }
     },
   }
 </script>
