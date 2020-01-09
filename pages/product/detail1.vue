@@ -52,7 +52,6 @@
           >
             暂时不支持播放该视频
           </video>
-          <!--<div class="video-loading">-- v-if="product.videos[0] && product.videos[0].video"><i></i>--:src="product.videos[0].video"></div>-->
         </div>
       </div>
     </van-popup>
@@ -146,10 +145,10 @@ export default {
     isVideoShow(newValue, oldValue) {
       if (newValue) {
         console.log("播放");
-        this.$refs.productVideo.play();
+        // this.$refs.productVideo.play();
       } else {
         console.log("暂停");
-        this.$refs.productVideo.pause();
+        // this.$refs.productVideo.pause();
       }
     }
   },
@@ -194,5 +193,32 @@ export default {
 
 <style scoped lang="scss">
 @import "~/assets/style/product/detail1.scss";
-
+.product-detail-page{
+  .van-popup {
+    width: 100vw;
+    height: 100vh;
+    font-size: 24px;
+    margin-top: -2px;
+  }
+  .video {
+    position: fixed;
+    top: 88px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #000;
+  }
+  .video-main {
+    margin-top: 200px;
+    font-size: 0;
+    font-family: none;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  video {
+    width: 100%;
+    height: 100%;
+    background: #000;
+  }
+}
 </style>
