@@ -3,16 +3,17 @@
     ref="productDetailHeader"
     :fixed="true"
     :class="{'transparent': transparent}"
-    :title="title"
     :z-index="999"
     @click-left="onClickLeft"
     @click-right="onClickRight">
     <van-icon class="left-wrap-neu"
-      name="arrow-left"
+      :name="$route.query.sem == 1 ? 'wap-home-o':'arrow-left'"
       slot="left" />
     <van-icon class="right-wrap-neu"
       name="ellipsis"
       slot="right"/>
+    <div slot="title">
+    </div>
   </van-nav-bar>
 </template>
 
@@ -56,28 +57,12 @@
   .product-detail-header-neu {
     height: 88px;
     font-size: 32px;
-    transition: all 0.5s;
-    background-color: #fff !important;
-    color: #000 !important;
+    background-color: transparent !important;
+    color: #fff !important;
+    box-shadow: none !important;
     .left-wrap-neu,
     .right-wrap-neu {
-      color: #404040;
-      font-size: 32px;
-    }
-    .left-wrap {
-      /*padding: 16px;*/
-    }
-    &.transparent {
-      background-color: transparent;
-      color: #fff;
-      .left-wrap,
-      .right-wrap {
-        background: rgba(0, 0, 0, 0.5);
-        /*padding: 10px;*/
-        border-radius: 50%;
-        color: #fff;
-        /*font-size: 32px;*/
-      }
+      color: #fff !important;
     }
   }
 </style>
