@@ -147,7 +147,7 @@
     </section>
     <!--评价按钮-->
     <div class="comment__create"
-      v-if="details.status.code==2 && details.product_comment_status==0"
+      v-if="details.status.code==2 && details.product_comment_status==900001"
       @click.stop="linkToCreate(details)">去评价，最高可得500米粒哟~</div>
     <div class="comment__create"
       v-if="details.status.code==2 && details.product_comment_status==900003"
