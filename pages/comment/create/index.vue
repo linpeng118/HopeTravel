@@ -162,7 +162,7 @@
             fileUpload(file) {
                 let formData = new FormData()
                 formData.append('uploadFile', file)
-                let url = process.env.NODE_ENV === 'production' ? `https://assets.tourscool.jp/upload.php?t=${+new Date()}` : `http://www.htw.tourscool.net/upload.php?t=${+new Date()}`
+                let url = process.env.NODE_ENV === 'production' ? `https://assets.tourscool.com/upload.php?t=${+new Date()}` : `https://assets.tourscool.cn/upload.php?t=${+new Date()}`
                 /*上传至服务器*/
                 axios({
                     url,
