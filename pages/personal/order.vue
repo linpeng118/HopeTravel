@@ -47,11 +47,11 @@
                 <div class="fr right-f"
                   v-if="order.status">
                   <span class="tip"
-                    v-if="order.status.code==2 && order.product_comment_status==0">评价最高送500米粒</span>
+                    v-if="order.status.code==2 && order.product_comment_status==900001">评价最高送500米粒</span>
                   <button :class="getPayClassName(order.status)"
                     v-if="order.status.code!=2">{{order.status.name}}</button>
                   <button class="un-go"
-                    v-if="order.status.code==2 && order.product_comment_status==0"
+                    v-if="order.status.code==2 && order.product_comment_status==900001"
                     @click.stop="linkToCreate(order)">去评价</button>
                   <button class="un-go"
                     v-if="order.status.code==2 && order.product_comment_status==900003"
