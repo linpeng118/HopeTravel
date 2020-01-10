@@ -804,8 +804,75 @@
             }
         }
         .notice {
-            font-weight: 400;
-            .title {
+            font-weight: bold;
+            width: 686px;
+            margin: 0 32px;
+            h1 {
+                font-size: 32px;
+                line-height: 42px;
+                color: rgba(45, 45, 45, 1);
+                position: relative;
+                text-align: center;
+            }
+            h1::before {
+                content: '';
+                position: absolute;
+                left: 210px;
+                top: 18px;
+                width: 60px;
+                height: 4px;
+                background: linear-gradient(90deg, rgba(45, 45, 45, 0) 0%, rgba(114, 114, 114, 1) 100%);
+                border-radius: 10px;
+            }
+            h1::after {
+                content: '';
+                position: absolute;
+                right: 210px;
+                top: 18px;
+                width: 60px;
+                height: 4px;
+                background: linear-gradient(90deg, rgba(45, 45, 45, 1) 0%, rgba(114, 114, 114, 0) 100%);
+                border-radius: 10px;
+            }
+            ul {
+                margin-top: 42px;
+                width: 100%;
+                li {
+                    width: 100%;
+                    margin-top: 32px;
+                    h2 {
+                        font-size: 28px;
+                        line-height: 38px;
+                        color: rgba(45, 45, 45, 1);
+                        display: inline-block;
+                        vertical-align: middle;
+                    }
+                    img {
+                        display: inline-block;
+                        vertical-align: middle;
+                        width: 20px;
+                        height: 14px;
+                        margin-left: 10px;
+                    }
+                    span {
+                        display: block;
+                        font-size: 24px;
+                        padding: 20px 0;
+                        /* .text {
+                            margin-top: 18px;
+                            font-size: 24px;
+                            line-height: 40px;
+                            color: #3e3e3e;
+                        }
+                        .tip {
+                            font-size: 20px;
+                            line-height: 36px;
+                            color: #bcbcbc;
+                        } */
+                    }
+                }
+            }
+            /* .title {
                 font-size: 28px;
                 line-height: 44px;
                 color: #191919;
@@ -820,7 +887,7 @@
                 font-size: 20px;
                 line-height: 36px;
                 color: #bcbcbc;
-            }
+            } */
         }
         // fixed
         .footer-fixed {

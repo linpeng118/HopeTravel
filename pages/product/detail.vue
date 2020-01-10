@@ -448,7 +448,8 @@
       <!-- 注意事项 -->
       <div class="notice mt-24"
         ref="refNotice">
-        <van-collapse v-model="activeNotice"
+        <h1 class="buy-title">购买须知</h1>
+        <!-- <van-collapse v-model="activeNotice"
           accordion>
           <van-collapse-item v-for="(item, index) in notice"
             :key="item.title"
@@ -456,7 +457,17 @@
             :name="index+1">
             <span v-html="item.content"></span>
           </van-collapse-item>
-        </van-collapse>
+        </van-collapse> -->
+        <ul>
+          <li v-for="(item, index) in notice" :key="index" >
+            <div>
+              <h2>{{item.title}}</h2>
+              <img src="../../assets/imgs/product/notice_cover.png" alt="" @click="noticeCover(index)" v-show="coverIndex!=index?isNoticeAway=true:isNoticeAway=false">
+              <img src="../../assets/imgs/product/notice_away.png" alt="" @click="noticeAway(index)" v-show="coverIndex==index?isNoticeCover=true:isNoticeCover=false">
+            </div>
+              <span v-html="item.content" v-show="coverIndex==index?isNoticeCover=true:isNoticeCover=false"></span>  
+          </li>
+        </ul>
       </div>
       <!--引导二维码-->
       <div class="code-two">
@@ -764,9 +775,13 @@
     },
     data() {
       return {
+        
         own_expense_list: [],
         isputAway: true, //费用明细 自费项目 是否收起
         iscover: false, //费用明细 自费项目 是否展开
+        isNoticeAway: true, //购买须知 是否收起
+        isNoticeCover: false, ////购买须知 是否展开
+        coverIndex: 5, //购买须知里 现在展开的是第几项 只有0-4
         ENTITY_TYPE,
         loading: false,
         // productId: Number(this.$route.query.productId) || null,
@@ -977,7 +992,7 @@
       },
     },
     async created() {
-      console.log(1212121,this.expense, this.product)
+      console.log(1212121,this.expense, this.product,this.notice)
       await this.getisproductFcn()
     },
     async mounted() {
@@ -1624,6 +1639,18 @@
         this.isputAway = false
         this.iscover = true;
         this.own_expense_list = this.expense.own_expense.list_data.slice(0,7);
+      },
+      //购买须知
+      // 点击展开
+      noticeCover(index){
+        this.isNoticeAway = false;
+        this.isNoticeCover = true;
+        this.coverIndex = index;
+      },
+      noticeAway(){
+        this.isNoticeAway = true;
+        this.isNoticeCover = false;
+        this.coverIndex = 5;
       }
     },
   }
