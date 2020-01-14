@@ -316,7 +316,7 @@
                 <a class="agreea"
                   style="color: #216BFF">{{$t('agreeXifanServerA')}}</a>
               </nuxt-link>
-            </van-checkbox>
+            <!-- </van-checkbox> -->
           </div>
         </div>
       </section>
