@@ -11,9 +11,9 @@
       name="ellipsis"
       slot="right"/>
     <div slot="title" v-if="isShowTitle" class="title-top">
-      <div class="item" :class="area == 'product'? 'active': ''">产品</div>
-      <div class="item" v-if="review" :class="area == 'review'? 'active': ''">评价</div>
-      <div class="item" :class="area == 'detail'? 'active': ''">详情</div>
+      <div class="item" :class="area == 'product'? 'active': ''" @click="gotoRegion('product')">产品</div>
+      <div class="item" v-if="review" :class="area == 'review'? 'active': ''" @click="gotoRegion('review')">评价</div>
+      <div class="item" :class="area == 'detail'? 'active': ''" @click="gotoRegion('detail')">详情</div>
     </div>
   </van-nav-bar>
 </template>
@@ -56,6 +56,9 @@
       },
       onClickRight() {
         this.$emit('callOnRight')
+      },
+      gotoRegion(type){
+        this.$emit('goTo', type)
       }
     },
   }
