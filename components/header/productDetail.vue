@@ -1,9 +1,7 @@
 <template>
-  <van-nav-bar class="product-detail-header-neu tours-no-bb"
+  <van-nav-bar class="product-detail-header-neu" :class="isShowTitle ? 'bg': ''"
     ref="productDetailHeader"
-    :fixed="true"
-    :class="{'transparent': transparent}"
-    :z-index="999"
+    fixed
     @click-left="onClickLeft"
     @click-right="onClickRight">
     <van-icon class="left-wrap-neu"
@@ -12,7 +10,10 @@
     <van-icon class="right-wrap-neu"
       name="ellipsis"
       slot="right"/>
-    <div slot="title">
+    <div slot="title" v-if="isShowTitle" class="title-top">
+      <div class="item" :class="area == 'product'? 'active': ''">产品</div>
+      <div class="item" v-if="review" :class="area == 'review'? 'active': ''">评价</div>
+      <div class="item" :class="area == 'detail'? 'active': ''">详情</div>
     </div>
   </van-nav-bar>
 </template>
@@ -20,25 +21,32 @@
 <script>
   export default {
     props: {
-      title: {
+      review: {
+        type: Number,
+        default: 0
+      },
+      area: {
         type: String,
-        default: ''
-      },
-      transparent: {
-        type: Boolean,
-        default: false
-      },
-      fixed: {
-        type: Boolean,
-        default: false
-      },
+        default: 'product'
+      }
     },
     data() {
       return {
-        isFixed: true,
+        isShowTitle: false,
       }
     },
     computed: {
+    },
+    mounted(){
+      document.addEventListener('scroll',(e) => {
+        let scrolltopTemp = document.documentElement.scrollTop||document.body.scrollTop
+        if(scrolltopTemp > 50) {
+          this.isShowTitle = true
+        } else {
+          this.isShowTitle = false
+        }
+        
+      })
     },
     methods: {
       onClickLeft() {
@@ -57,12 +65,29 @@
   .product-detail-header-neu {
     height: 88px;
     font-size: 32px;
-    background-color: transparent !important;
-    color: #fff !important;
+    background-color: transparent;
     box-shadow: none !important;
     .left-wrap-neu,
     .right-wrap-neu {
       color: #fff !important;
+    }
+    &.bg{
+      background-color: #fff;
+      
+      .left-wrap-neu,
+      .right-wrap-neu {
+        color: #404040 !important;
+      }
+    }
+    .title-top{
+      display: flex;
+      .item{
+        flex: 1;
+        font-size: 24px;
+      }
+      .active{
+        color: #00ABF9;
+      }
     }
   }
 </style>

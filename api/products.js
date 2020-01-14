@@ -192,6 +192,21 @@ export const delFavorite2 = (data) => {
         }
     })
 }
+// 删除或者添加收藏
+export const addOrDelFavorite = (data) => {
+    if(data.favorite) {
+        return axios.delete(`/api/favorite`, {
+            params: {
+                product_id: data.product_id,
+            }
+        })
+    } else {
+        return axios.post(`/api/favorite`, {
+            product_id: data.product_id
+        })
+    }
+    
+}
 
 /**
  * 获取收藏列表
