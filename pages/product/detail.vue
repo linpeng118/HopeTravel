@@ -226,7 +226,7 @@
                   <div class="content" v-html="items.content"></div>
                 </div>
                 <template v-if="items.attractions">
-                  <div class="point-box" v-for="(points,index) in items.attractions" :key="'points' + index">
+                  <div class="point-box" v-for="(points,index) in items.attractions" :key="'points' + index" @click="changePointShow(points)">
                     <div class="img-box" v-if="points.images && points.images.length">
                       <img v-lazy="points.images[0]" alt="">
                     </div>
@@ -235,7 +235,7 @@
                       <div class="scort" v-if="points.score">
                         {{points.score}}
                       </div>
-                      <div v-html="points.content" class="info-title"></div>
+                      <div v-html="points.content" class="info-title van-multi-ellipsis--l2"></div>
                     </div>
                     <div class="note-b">
                       <img src="../../assets/imgs//product/icon_point_1.png" alt="">
@@ -347,15 +347,15 @@
                     <td>{{item.project_name}}</td>
                     <td>{{item.adult_price}}</td>
                     <td>{{item.child_price}}</td>
-                    <td>{{item.old_priv}}</td>
+                    <td>{{item.old_price}}</td>
                   </tr>
                 </template>
               </table>
               <template v-if="expense.own_expense.list_data.length > 7">
                 <div class="expense_opt">
                   <div @click="putAway">
-                    <span>收起</span>
-                    <van-icon name="play" />
+                    <span>{{isputAway ? '收起' : '展开'}}</span>
+                    <van-icon name="play" :class="isputAway ? 'rotate': ''" />
                   </div>
                 </div>
               </template>
@@ -484,11 +484,11 @@
               {{itinerary.type}}
             </div>
             <div class="name">
-              <template v-if="itinerary.icon == 'icon_meal'">
+              <template v-if="itinerary.allName">
                 <span v-if="itinerary.allName">{{itinerary.allName}}</span>
               </template>
               <template v-else>
-                {{itinerary.text}} <span v-if="itinerary.allName">，{{itinerary.allName}}</span>
+                {{itinerary.text}}
               </template>
             </div>
           </div>
@@ -513,7 +513,7 @@
           <span class="item-title">{{ $t("productDetailPage.personal") }}</span>
         </div>
         <div class="show-more-item" @click="onFollow">
-          <van-icon :name="product.is_favorite ? 'star': 'star-o'" size="16" />
+          <van-icon name="star-o" size="16" />
           <span class="item-title">{{ $t("productDetailPage.myFollow") }}</span>
         </div>
       </div>
@@ -537,6 +537,15 @@
         </div>
       </div>
     </van-action-sheet>
+    <!-- 景点详情弹出层 -->
+    <van-popup v-model="pointShow" class="point-wrapper">
+      <van-swipe :autoplay="3000" indicator-color="white">
+        <van-swipe-item v-for="images in pointDetails.images" :key="'pointDetails'+images" class="item-box">
+          <img v-lazy="images">
+        </van-swipe-item>
+      </van-swipe>
+      <div class="content" v-html="pointDetails.content"></div>
+    </van-popup>
     <drift-aside ref="driftAside"
       :showContactCall="false"
       @backTop="backTop"></drift-aside>
@@ -629,7 +638,7 @@ export default {
     productId = Number(query.productId)
      try {
         let currency = getCookie(CURRENCY, req && req.headers && req.headers.cookie)
-        let cookie = getCookie('token',req && req.headers && req.headers.cookie)
+        let cookie = getCookie('token', req && req.headers && req.headers.cookie) || store.state.token
         // top=7是产品团期产品总共会传递过来的条数
         let {code, msg, data} = await $axios.$get(`/api/product/${productId}/newdetail?top=7`, 
           {
@@ -691,6 +700,8 @@ export default {
       showDetailProduct: false, // 是否显示简和详
       showSoldOut: false,
       account: '', // 邮箱或手机号
+      pointShow: false, // 显示景点详情
+      pointDetails: {}
     }
   },
   computed: {
@@ -713,12 +724,12 @@ export default {
     itineraryList(){
       const _obj = {
         breakfast_meal: '早餐',
-        dinner_meal: '晚餐',
-        lunch_meal: '午餐'
+        lunch_meal: '午餐',
+        dinner_meal: '晚餐'
       }, meal = {
         breakfast_meal: this.itinerary.itinerary_resume.breakfast_meal,
+        lunch_meal: this.itinerary.itinerary_resume.lunch_meal,
         dinner_meal: this.itinerary.itinerary_resume.dinner_meal,
-        lunch_meal: this.itinerary.itinerary_resume.lunch_meal
       }
       let _meal = []
       let num = 0
@@ -756,7 +767,7 @@ export default {
         {
           type: '出发',
           text: `${this.product.departure_city_list.length > 1 ? this.product.departure_city_list[0] + '等多地出发' : this.product.departure_city_list}出发`,
-          allName: `${this.product.departure_city_list.length > 1 ? this.product.departure_city_list : ''}`,
+          allName: `${this.product.departure_city_list.length > 1 ? this.product.departure_city_list : ''}出发`,
           icon: 'icon_start'
         },
         {
@@ -898,6 +909,10 @@ export default {
           clearInterval(timer)
         }
       }, 17)
+    },
+    changePointShow(points){
+      this.pointDetails= points
+      this.pointShow = true
     },
     // 预定
     async btnOrder() {
