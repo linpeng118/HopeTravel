@@ -168,6 +168,9 @@ export default {
       let urlNeu = '/'+category+'/ya'
       redirect(urlNeu) 
     }
+    if(category == 'visitor_check'){
+      redirect('/order/search')
+    }
     let getSearch = {}
     if(search){
       getSearch = getParams(search)

@@ -356,6 +356,7 @@
         "priceDescription": "價格說明",
         "feeIncludes": "費用包含",
         "feeExcludes": "費用不含",
+        "ownExpense": "自費項目",
         "orderNotice": "恢複預定通知",
         "orderNow": "立即預定",
         "serviceDescription": "服務說明",
