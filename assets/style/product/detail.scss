@@ -476,7 +476,7 @@
   
     .comment-main {
       margin-top: 20px;
-  
+      padding-bottom: 24px;  
       .title {
         display: flex;
         justify-content: space-between;
@@ -495,9 +495,12 @@
       }
   
       .content {
-        line-height: 40px;
-        max-height: 160px;
+        display: -webkit-box;
         overflow: hidden;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
       }
     }
   }
@@ -732,8 +735,6 @@
       }
   
       .info-title {
-        height: 44px;
-        line-height: 44px;
         font-size: 24px !important;
         overflow: hidden;
         margin-top: 20px;
@@ -975,8 +976,11 @@
         margin-top: 20px;
         text-align: right;
         i{
-          transform: rotate(-90deg);
-          vertical-align: bottom;
+          transform: rotate(90deg);
+          transition: all 0.3s;
+          &.rotate{
+            transform: rotate(-90deg);
+          }
         }
       }
     }
@@ -1077,40 +1081,61 @@
       }
     }
   }
-  .sold-out {
-    padding: 0 26px;
-    min-height: 200px;
-    max-height: 90%;
-    border-radius: 24px 24px 0 0;
-    .title {
-        font-size: 30px;
-    }
-    .desc {
-        font-size: 30px;
-        font-weight: bold;
-    }
-    .sold-out-content {
-        padding: 40px 30px 80px 30px;
-        .account-wrap {
-            display: flex;
-            display: -webkit-flex;
-            justify-content: space-around;
-            -webkit-justify-content: space-around;
-            align-items: center;
-            -webkit-align-items: center;
-            .account-input {
-                flex: 0 0 1;
-                width: 100%;
-            }
-            .account-btn {
-                height: 80px;
-                margin-left: 20px;
-                flex: 0 0 100px;
-                width: 100px;
-                background: rgba(251, 96, 93, 1);
-                color: #fff;
-            }
+.sold-out {
+padding: 0 26px;
+min-height: 200px;
+max-height: 90%;
+border-radius: 24px 24px 0 0;
+.title {
+    font-size: 30px;
+}
+.desc {
+    font-size: 30px;
+    font-weight: bold;
+}
+.sold-out-content {
+    padding: 40px 30px 80px 30px;
+    .account-wrap {
+        display: flex;
+        display: -webkit-flex;
+        justify-content: space-around;
+        -webkit-justify-content: space-around;
+        align-items: center;
+        -webkit-align-items: center;
+        .account-input {
+            flex: 0 0 1;
+            width: 100%;
         }
+        .account-btn {
+            height: 80px;
+            margin-left: 20px;
+            flex: 0 0 100px;
+            width: 100px;
+            background: rgba(251, 96, 93, 1);
+            color: #fff;
+        }
+    }
+}
+}
+.point-wrapper{
+    width: 600px;
+    background-color: #fff;
+    overflow: hidden;
+    font-size: 24px;
+    border-radius: 20px;
+    .item-box{
+      height: 400px;
+      img{
+        height: 400px;
+        width: 600px;
+      }      
+    }
+    .content{
+        padding: 30px;
+        line-height: 44px;
+        max-height: 280px;
+        overflow-y: auto;
+        overflow-x: hidden;
     }
 }
   .duration-box:first-child .detail::before {
