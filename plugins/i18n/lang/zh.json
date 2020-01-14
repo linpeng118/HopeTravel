@@ -108,7 +108,7 @@
     "attackcomm": "攻略评论",
     "allcomm": "全部评论",
     "comment": {
-        "rate": "评分",
+        "rate": "评价",
         "detail": "评论详情"
     },
     "tour": {
@@ -382,7 +382,7 @@
         "priceEight": "八人一间",
         "priceAdult": "成人价格",
         "productFeature": "产品特色",
-        "notice": "注意事项",
+        "notice": "购买须知",
         "follow": "收藏",
         "getSuccess": "领取成功",
         "weekend": "周末",

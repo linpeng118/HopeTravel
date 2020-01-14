@@ -108,7 +108,7 @@
     "plhdNameEmail": "用戶名 / 郵箱",
     "plhdPhoneNumber": "請輸入手機號",
     "comment": {
-        "rate": "評分",
+        "rate": "評估",
         "detail": "評論詳情"
     },
     "tours": {
@@ -381,7 +381,7 @@
         "priceEight": "八人一間",
         "priceAdult": "成人價格",
         "productFeature": "産品特色",
-        "notice": "注意事項",
+        "notice": "購買須知",
         "follow": "收藏",
         "getSuccess": "領取成功",
         "weekend": "周末",
