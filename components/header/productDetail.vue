@@ -22,8 +22,8 @@
   export default {
     props: {
       review: {
-        type: Number,
-        default: 0
+        type: Boolean,
+        default: false
       },
       area: {
         type: String,
@@ -90,4 +90,10 @@
       }
     }
   }
+
+</style>
+<style>
+.product-detail-header-neu.van-hairline--bottom::after{
+  border-bottom-width: 0;
+}
 </style>

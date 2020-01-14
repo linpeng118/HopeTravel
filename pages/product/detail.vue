@@ -4,6 +4,7 @@
       fixed
       @callOnRight="onHeaderRight"
       @callOnLeft="onHeaderLeft"
+      :review="!!reviews.product"
       ref="refProdctDetailHeader" />
     <div class="product-detail" ref="refProductDetail">
       <!-- banner -->
@@ -122,19 +123,19 @@
             </van-row>
           </div>
         </div>
-        <!-- 评分 -->
-        <div class="nav-title">
-          <div>{{ $t("comment.rate") }} <span class="sorct">{{ reviews.comment.score }}</span></div>
+        <!-- 评价 -->
+        <div class="nav-title" v-if="reviews.product">
+          <div>{{ $t("comment.rate") }} <span class="sorct">{{ reviews.product.comment_score }}</span></div>
           <div class="m-lst" @click="gotoReview">{{ $t("seeAll") }}({{ reviews.product.comment_count }}) <van-icon name="arrow" /></div>
         </div>
-        <div class="product-main-box">
+        <div class="product-main-box" v-if="reviews.product">
           <div class="comment-wrapper">
             <div class="tags-line">
               <span v-if="reviews.product.top">{{getTagName('top')}}{{ reviews.product.top }}</span>
               <span v-if="reviews.product.good">{{getTagName('good')}}{{ reviews.product.good }}</span>
               <span v-if="reviews.product.image">{{getTagName('image')}}{{ reviews.product.image }}</span>
               <span v-if="reviews.product.append">{{getTagName('append')}}{{ reviews.product.append }}</span>
-              <span v-if="reviews.product.bad">{{getTagName('bad')}}{{ reviews.product.bad }}</span>
+              <!-- <span v-if="reviews.product.bad">{{getTagName('bad')}}{{ reviews.product.bad }}</span> -->
             </div>
             <div class="comment-main">
               <div class="title">
@@ -180,7 +181,7 @@
           </div>
         </div>
       </div>
-      <div style="height:6px; background: #EBEBEB"></div>
+      <div style="height:6px; background: #EBEBEB" ref="refProductTab"></div>
       <!-- 产品描述部分 -->
       <van-sticky :offset-top="44">
         <div class="product-tab">
@@ -192,214 +193,219 @@
                 </span>
               </van-col>
             </template>
-            
           </van-row>
         </div>
       </van-sticky>
-      <div class="product-feature">
-        <h1 class="title">产品特色</h1>
-        <div v-for="image in product.feature_images" :key="'feature_images' + image">
-          <img :src="image">
-        </div>
-      </div>
-      <!-- 行程天数 -->
-      <div class="product-info-xc" v-if="itinerary">
-        <h1 class="title">{{itinerary.items.length}}天行程</h1>
-        <div class="duration-box" :class="isShowProductDetail ? 'show' : ''" v-for="(items, index) in itinerary.items" :key="'itineraryitems' + index">
-          <div class="days">
-            Day{{index+1}}
+      <div class="collapse-d-ps">
+        <div class="product-feature" v-if="product.feature_images.length">
+          <h1 class="title">产品特色</h1>
+          <div v-for="image in product.feature_images" :key="'feature_images' + image">
+            <img v-lazy="image">
           </div>
-          <div class="detail">
-            <h3 class="name">{{items.title}}</h3>
-            <div class="tips" v-if="items.attractions">
-              <span v-for="attraction in items.attractions" :key="'attraction' + attraction.tour_city_id">
-                {{attraction.name}} 
-              </span>
+        </div>
+        <!-- 行程天数 -->
+        <div class="product-info-xc" v-if="itinerary">
+          <h1 class="title">{{itinerary.items.length}}天行程</h1>
+          <div class="duration-box" :class="isShowProductDetail ? 'show' : ''" v-for="(items, index) in itinerary.items" :key="'itineraryitems' + index">
+            <div class="days">
+              Day{{index+1}}
             </div>
-            <div class="meal">
-              <span>{{items.meal | changMealText}}</span>
-            </div>
-            <template v-if="isShowProductDetail">
-              <div class="product-main-box">
-                <h4 class="title">概述</h4>
-                <div class="content" v-html="items.content"></div>
+            <div class="detail">
+              <h3 class="name">{{items.title}}</h3>
+              <div class="tips" v-if="items.attractions">
+                <span v-for="attraction in items.attractions" :key="'attraction' + attraction.tour_city_id">
+                  {{attraction.name}} 
+                </span>
               </div>
-              <template v-if="items.attractions">
-                <div class="point-box" v-for="(points,index) in items.attractions" :key="'points' + index">
-                  <div class="img-box" v-if="points.images && points.images.length">
-                    <img :src="points.images[0]" alt="">
-                  </div>
-                  <div class="rightb">
-                    <h4 class="title">{{points.name}}</h4>
-                    <div class="scort" v-if="points.score">
-                      {{points.score}}
+              <div class="meal">
+                <span>{{items.meal | changMealText}}</span>
+              </div>
+              <template v-if="isShowProductDetail">
+                <div class="product-main-box">
+                  <h4 class="title">概述</h4>
+                  <div class="content" v-html="items.content"></div>
+                </div>
+                <template v-if="items.attractions">
+                  <div class="point-box" v-for="(points,index) in items.attractions" :key="'points' + index">
+                    <div class="img-box" v-if="points.images && points.images.length">
+                      <img v-lazy="points.images[0]" alt="">
                     </div>
-                    <div v-html="points.content" class="info-title"></div>
+                    <div class="rightb">
+                      <h4 class="title">{{points.name}}</h4>
+                      <div class="scort" v-if="points.score">
+                        {{points.score}}
+                      </div>
+                      <div v-html="points.content" class="info-title"></div>
+                    </div>
+                    <div class="note-b">
+                      <img src="../../assets/imgs//product/icon_point_1.png" alt="">
+                      景点
+                    </div>
+                  </div>
+                </template>
+                <div class="point-box" v-if="items.meal">
+                  <div class="rightb">
+                    <h4 class="title">餐饮</h4>
+                    <div class="info-title">
+                      {{items.meal | changMealText}}
+                    </div>
                   </div>
                   <div class="note-b">
-                    <img src="../../assets/imgs//product/icon_point_1.png" alt="">
-                    景点
+                    <img src="../../assets/imgs//product/icon_meal_1.png" alt="">
+                    餐饮
                   </div>
                 </div>
+                <div class="point-box" v-if="items.hotel">
+                  <div class="rightb">
+                    <h4 class="title">酒店</h4>
+                    <div class="info-title-hotel" v-html="items.hotel">
+                    </div>
+                  </div>
+                  <div class="note-b">
+                    <img src="../../assets/imgs//product/icon_hotel_1.png" alt="">
+                    酒店
+                  </div>
+                </div>  
               </template>
-              <div class="point-box" v-if="items.meal">
-                <div class="rightb">
-                  <h4 class="title">餐饮</h4>
-                  <div class="info-title">
-                    {{items.meal | changMealText}}
-                  </div>
-                </div>
-                <div class="note-b">
-                  <img src="../../assets/imgs//product/icon_meal_1.png" alt="">
-                  餐饮
-                </div>
-              </div>
-              <div class="point-box" v-if="items.hotel">
-                <div class="rightb">
-                  <h4 class="title">酒店</h4>
-                  <div class="info-title-hotel" v-html="items.hotel">
-                  </div>
-                </div>
-                <div class="note-b">
-                  <img src="../../assets/imgs//product/icon_hotel_1.png" alt="">
-                  酒店
-                </div>
-              </div>  
-            </template>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="qa-kf">
-        对行程不满意？您还可以找<span>稀饭定制师</span>
-      </div>
-      
-      <div class="price-inexclude">
-        <!-- 费用说明 -->
-        <template v-if="expense.standard_price">
-          <h1 class="title">费用说明</h1>
-          <div class="newData" >
-            <h3 class="title-s">
-              {{$t('productDetailPage.groupCostDetail')}}
+        <div class="qa-kf">
+          对行程不满意？您还可以找<nuxt-link to="/custom">稀饭定制师</nuxt-link>
+        </div>
+        <div class="price-inexclude">
+          <!-- 费用说明 -->
+          <template v-if="expense.standard_price">
+            <h1 class="title">费用说明</h1>
+            <div class="newData" >
+              <h3 class="title-s">
+                {{$t('productDetailPage.groupCostDetail')}}
+              </h3>
+              <div class="price-sm">
+                <template v-for="(standard, key) in expense.standard_price">
+                  <div class="item" :key="key" v-if="standard">
+                    <p>{{standard.toString().split('.')[0]}}/人</p>
+                    <p class="tips">{{key | changeStandarPrice}}</p>
+                  </div>
+                </template>
+              </div>
+            </div>
+          </template>
+          <div class="price-tips-box">
+            <h3 class="title-s">价格说明</h3>
+            <div v-html="expense.price_notice" class="notice-p"></div>
+          </div>
+          <!-- 新数据（包含与不包含）表格显示 -->
+          <div class="newData" v-if="expense.package_include_list.length>0 || expense.package_exclude_list.length>0">
+            <h3 class="title-s" v-if="expense.package_include_list.length>0">
+              {{$t('productDetailPage.feeIncludes')}}
             </h3>
-            <div class="price-sm">
-              <template v-for="(standard, key) in expense.standard_price">
-                <div class="item" :key="key" v-if="standard">
-                  <p>{{standard.toString().split('.')[0]}}/人</p>
-                  <p class="tips">{{key | changeStandarPrice}}</p>
+            <ul class="price-newInclude">
+              <li v-for="(item,index) in expense.package_include_list" :key="index">
+                <span class="title">{{item.title}}</span>
+                <span class="content">{{item.content}}</span>
+              </li>
+            </ul>
+            <h3 class="title-s" v-if="expense.package_exclude_list.length>0">
+              {{$t('productDetailPage.feeExcludes')}}
+            </h3>
+            <ul class="price-newExclude">
+              <li v-for="(item,index) in expense.package_exclude_list" :key="index">
+                <span class="title">{{item.title}}</span>
+                <span class="content">{{item.content}}</span>
+              </li>
+            </ul>
+          </div>
+          <!-- 兼容旧数据（包含与不包含） -->
+          <div class="newData" v-else>
+            <div class="price-include">
+              <h3 class="title-s">{{$t('productDetailPage.feeIncludes')}}</h3>
+              <div class="text" v-html="expense.package_include"></div>
+            </div>
+            <van-collapse v-model="priceExclude" class="price-exclude">
+              <van-collapse-item name="exclude">
+                <span v-html="expense.package_exclude"></span>
+                <template slot="title">
+                  <strong>{{$t('productDetailPage.feeExcludes')}}</strong> <van-icon name="play" class="arrow" />
+                </template>
+                <div slot="right-icon"></div>
+              </van-collapse-item>
+            </van-collapse>
+          </div>
+          <div class="own_expense" v-if="expense.own_expense.list_data">
+            <h3>自费项目</h3>
+            <div class="expense">
+              <table>
+                <tr>
+                  <th>项目名称</th>
+                  <th>成人 <span>({{expense.own_expense.adult_desc}})</span></th>
+                  <th>儿童 <span>({{expense.own_expense.child_desc}})</span></th>
+                  <th>老人 <span>({{expense.own_expense.old_desc}})</span></th>
+                </tr>
+                <template v-for="(item,index) in expense.own_expense.list_data">
+                  <tr :key="index" v-if="isputAway || index < 7">
+                    <td>{{item.project_name}}</td>
+                    <td>{{item.adult_price}}</td>
+                    <td>{{item.child_price}}</td>
+                    <td>{{item.old_priv}}</td>
+                  </tr>
+                </template>
+              </table>
+              <template v-if="expense.own_expense.list_data.length > 7">
+                <div class="expense_opt">
+                  <div @click="putAway">
+                    <span>收起</span>
+                    <van-icon name="play" />
+                  </div>
                 </div>
               </template>
             </div>
           </div>
-        </template>
-        <!-- 新数据（包含与不包含）表格显示 -->
-        <div class="newData" v-if="expense.package_include_list.length>0 || expense.package_exclude_list.length>0">
-          <h3 class="title-s" v-if="expense.package_include_list.length>0">
-            {{$t('productDetailPage.feeIncludes')}}
-          </h3>
-          <ul class="price-newInclude">
-            <li v-for="(item,index) in expense.package_include_list" :key="index">
-              <span class="title">{{item.title}}</span>
-              <span class="content">{{item.content}}</span>
-            </li>
-          </ul>
-          <h3 class="title-s" v-if="expense.package_exclude_list.length>0">
-            {{$t('productDetailPage.feeExcludes')}}
-          </h3>
-          <ul class="price-newExclude">
-            <li v-for="(item,index) in expense.package_exclude_list" :key="index">
-              <span class="title">{{item.title}}</span>
-              <span class="content">{{item.content}}</span>
-            </li>
-          </ul>
         </div>
-        <!-- 兼容旧数据（包含与不包含） -->
-        <div class="newData" v-else>
-          <div class="price-include">
-            <h3 class="title-s">{{$t('productDetailPage.feeIncludes')}}</h3>
-            <div class="text" v-html="expense.package_include"></div>
-          </div>
-          <van-collapse v-model="priceExclude" class="price-exclude">
-            <van-collapse-item name="exclude">
-              <span v-html="expense.package_exclude"></span>
-              <template slot="title">
-                <strong>{{$t('productDetailPage.feeExcludes')}}</strong> <van-icon name="play" class="arrow" />
-              </template>
+        <!-- 注意事项 -->
+        <div class="notice mt-24" ref="refNotice">
+          <h1 class="title">购买须知</h1>
+          <van-collapse v-model="activeNames" accordion>
+            <van-collapse-item :name="item.key" v-for="(item, index) in notice" :key="index">
+              <div slot="title">{{item.title}} <van-icon name="play" /></div>
               <div slot="right-icon"></div>
+              <div>
+                <span v-html="item.content"></span>
+              </div>
             </van-collapse-item>
           </van-collapse>
         </div>
-        <div class="own_expense" v-if="expense.own_expense.list_data">
-          <h3>自费项目</h3>
-          <div class="expense">
-            <table>
-              <tr>
-                <th>项目名称</th>
-                <th>成人 <span>({{expense.own_expense.adult_desc}})</span></th>
-                <th>儿童 <span>({{expense.own_expense.child_desc}})</span></th>
-                <th>老人 <span>({{expense.own_expense.old_desc}})</span></th>
-              </tr>
-              <template v-for="(item,index) in expense.own_expense.list_data">
-                <tr :key="index" v-if="isputAway || index < 7">
-                  <td>{{item.project_name}}</td>
-                  <td>{{item.adult_price}}</td>
-                  <td>{{item.child_price}}</td>
-                  <td>{{item.old_priv}}</td>
-                </tr>
-              </template>
-            </table>
-            <template v-if="expense.own_expense.list_data.length > 7">
-              <div class="expense_opt">
-                <div @click="putAway">
-                  <span>收起</span>
-                  <van-icon name="play" />
-                </div>
-              </div>
-            </template>
-          </div>
-        </div>
-      </div>
-      <!-- 注意事项 -->
-      <div class="notice mt-24" ref="refNotice">
-        <h1 class="title">购买须知</h1>
-        <van-collapse v-model="activeNames" accordion>
-          <van-collapse-item :name="item.key" v-for="(item, index) in notice" :key="index">
-            <div slot="title">{{item.title}} <van-icon name="play" /></div>
-            <div slot="right-icon"></div>
+        <!--引导二维码-->
+        <div style="height:6px; background: #EBEBEB"></div>
+        <div class="code-two">
+          <div class="img-box">
+            <img
+              src="../../assets/imgs/product/img_qr_code@2x.png"
+              alt=""
+              class="code"
+            />
             <div>
-              <span v-html="item.content"></span>
+              {{ $t("productDetailPage.xifanlvxing") }}
             </div>
-          </van-collapse-item>
-        </van-collapse>
-      </div>
-      <!--引导二维码-->
-      <div style="height:6px; background: #EBEBEB"></div>
-      <div class="code-two">
-        <div class="img-box">
-          <img
-            src="../../assets/imgs/product/img_qr_code@2x.png"
-            alt=""
-            class="code"
-          />
-          <div>
-            {{ $t("productDetailPage.xifanlvxing") }}
+          </div>
+          <div class="word-explain">
+            <h2>{{ $t("productDetailPage.jiebanlvyou") }}</h2>
+            <p>{{ $t("productDetailPage.pingtuan") }}</p>
+            <p>{{ $t("productDetailPage.playTogether") }}</p>
+            <p>{{ $t("productDetailPage.helpTogether") }}</p>
+          </div>
+          <div
+            class="btn-box"
+            v-clipboard:copy="'zmcslxs'"
+            v-clipboard:success="onCopy"
+            v-clipboard:error="onError"
+          >
+            复制公众号
           </div>
         </div>
-        <div class="word-explain">
-          <h2>{{ $t("productDetailPage.jiebanlvyou") }}</h2>
-          <p>{{ $t("productDetailPage.pingtuan") }}</p>
-          <p>{{ $t("productDetailPage.playTogether") }}</p>
-          <p>{{ $t("productDetailPage.helpTogether") }}</p>
-        </div>
-        <div
-          class="btn-box"
-          v-clipboard:copy="'zmcslxs'"
-          v-clipboard:success="onCopy"
-          v-clipboard:error="onError"
-        >
-          复制公众号
-        </div>
+        <div style="height:6px; background: #EBEBEB"></div>
       </div>
-      <div style="height:6px; background: #EBEBEB"></div>
+      
     </div>
     <div class="product-bottom-oper">
       <div class="btn-operate" v-for="tabbar in operateTabbar" :key="tabbar.name" @click="onOperate(tabbar)" :class="product.is_favorite && tabbar.type === 'attention'?'active': ''">
@@ -413,6 +419,7 @@
           {{product.is_soldout? $t("productDetailPage.orderNotice"): $t("productDetailPage.orderNow")}}</van-button>
       </div> 
     </div>
+
     <!--视频弹出框-->
     <van-popup v-model="isVideoShow" class="video-box">
       <van-nav-bar title="视频播放" left-arrow @click-left="pausePlay" />
@@ -477,7 +484,12 @@
               {{itinerary.type}}
             </div>
             <div class="name">
-              {{itinerary.text}} <span v-if="itinerary.allName">，{{itinerary.allName}}</span> 
+              <template v-if="itinerary.icon == 'icon_meal'">
+                <span v-if="itinerary.allName">{{itinerary.allName}}</span>
+              </template>
+              <template v-else>
+                {{itinerary.text}} <span v-if="itinerary.allName">，{{itinerary.allName}}</span>
+              </template>
             </div>
           </div>
         </template>
@@ -506,9 +518,33 @@
         </div>
       </div>
     </transition>
+    <!-- 恢复预定通知 -->
+    <van-action-sheet v-model="showSoldOut" title="恢复预定通知" class="sold-out" close-icon="cross">
+      <div class="sold-out-content">
+        <h3 class="title">{{$t('productDetailPage.soldOutDesc')}}</h3>
+        <p class="desc mt-30">{{$t('productDetailPage.emailOrPhone')}}</p>
+        <div class="account-wrap mt-30">
+          <van-cell-group class="account-input">
+            <van-field class="tours-input"
+              v-model="account"
+              :placeholder="$t('plhdNameEmail')">
+            </van-field>
+          </van-cell-group>
+          <van-button class="account-btn"
+            slot="button"
+            size="small"
+            @click="btnOrder">{{$t('submit')}}</van-button>
+        </div>
+      </div>
+    </van-action-sheet>
+    <drift-aside ref="driftAside"
+      :showContactCall="false"
+      @backTop="backTop"></drift-aside>
+
+    <!-- 侧边栏 -->
     <div class="aside-box" v-if="showDetailProduct">
-      <div class="detail-jt" :class="!showDetailProduct ? 'cul': ''" @click="changeDetailOrsmp">
-        <span>{{!showDetailProduct? '详': '简'}}</span>/{{!showDetailProduct? '简': '详'}}
+      <div class="detail-jt" :class="isShowProductDetail ? 'cul': ''" @click="changeDetailOrsmp">
+        <span>{{isShowProductDetail? '详': '简'}}</span>/{{isShowProductDetail? '简': '详'}}
       </div>
     </div>
   </div>
@@ -516,9 +552,10 @@
 
 <script>
 import ProductDetailHeader from '@/components/header/productDetail'
-import { couponDetail, getcouponobj, getProfile } from "@/api/profile";
-import { mapMutations, mapState, mapGetters } from "vuex";
-import { DLG_TYPE } from "@/assets/js/consts/dialog";
+import { couponDetail, getcouponobj, getProfile } from "@/api/profile"
+import { mapMutations, mapState, mapGetters } from "vuex"
+import { DLG_TYPE } from "@/assets/js/consts/dialog"
+import DriftAside from '@/components/drift_aside'
 import {
   getCookie,
   getCookieByKey,
@@ -549,7 +586,7 @@ export default {
     }
   },
   components: {
-    ProductDetailHeader
+    ProductDetailHeader, DriftAside
   },
   filters: {
     departureCity(value) {
@@ -568,7 +605,7 @@ export default {
           _arr.push(_obj[key])
         }
       }
-      return _arr.length ? _arr.length === 3 ? '全部包含' : `含${_arr.join('/')}餐` : '三餐自理'
+      return _arr.length ? _arr.length === 3 ? '包含三餐' : `含${_arr.join('/')}餐` : '三餐自理'
     },
     changeStandarPrice(key){
       const _obj = {
@@ -612,7 +649,7 @@ export default {
           itinerary = data.itinerary // 行程详情
           notice = data.notice // 注意事项
           product = data.product // 产品信息
-          top_price = data.top_price // 团期价格
+          top_price = data.top_price[0] ? data.top_price : [] // 团期价格
           transfer = data.transfer
           reviews = data.reviews //评论版块
         } else {
@@ -649,10 +686,11 @@ export default {
       priceExclude: [], // 不包含面板
       isputAway: false, //费用明细 自费项目 是否收起
       activeNames: '', // 购买须知
-      // 右上角更多显示
-      showMore: false,
+      showMore: false,// 右上角更多显示
       profileInfo: {},
-      showDetailProduct: false
+      showDetailProduct: false, // 是否显示简和详
+      showSoldOut: false,
+      account: '', // 邮箱或手机号
     }
   },
   computed: {
@@ -673,6 +711,25 @@ export default {
     },
     // 行程概要数据整合 注意如果要增加数据一定概要记得配置icon
     itineraryList(){
+      const _obj = {
+        breakfast_meal: '早餐',
+        dinner_meal: '晚餐',
+        lunch_meal: '午餐'
+      }, meal = {
+        breakfast_meal: this.itinerary.itinerary_resume.breakfast_meal,
+        dinner_meal: this.itinerary.itinerary_resume.dinner_meal,
+        lunch_meal: this.itinerary.itinerary_resume.lunch_meal
+      }
+      let _meal = []
+      let num = 0
+      for(let key in meal) {
+        num += meal[key]
+        if(meal[key]){
+          _meal.push(`${meal[key]}次${_obj[key]}`)
+        }
+      }
+      let mealAllName = num ? `${num}次包含：${_meal.join('，')}` : ''
+
       const _arr = [
         {
           type: '住宿',
@@ -688,6 +745,7 @@ export default {
         {
           type: '用餐',
           text: `${this.itinerary.itinerary_resume.breakfast_meal + this.itinerary.itinerary_resume.dinner_meal + this.itinerary.itinerary_resume.lunch_meal}次包含 ${this.itinerary.itinerary_resume.not_include_meal}次自理`,
+          allName: mealAllName,
           icon: 'icon_meal'
         },
         {
@@ -697,8 +755,8 @@ export default {
         },
         {
           type: '出发',
-          text: `${this.product.departure_city_list.length > 1 ? this.product.departure_city_list[0] + '等多地出发' : this.product.departure_city_list}`,
-          allName: `${this.product.departure_city_list}`,
+          text: `${this.product.departure_city_list.length > 1 ? this.product.departure_city_list[0] + '等多地出发' : this.product.departure_city_list}出发`,
+          allName: `${this.product.departure_city_list.length > 1 ? this.product.departure_city_list : ''}`,
           icon: 'icon_start'
         },
         {
@@ -800,7 +858,6 @@ export default {
     document.addEventListener('scroll',(e) => {
       this.showMore = false
       const h1 = this.$refs.refProductd && this.$refs.refProductd.getBoundingClientRect().height
-      
       const scrolltopTemp = document.documentElement.scrollTop||document.body.scrollTop
       if( h1 <= scrolltopTemp + 300 ){
         this.showDetailProduct = true
@@ -833,6 +890,27 @@ export default {
         }
       })
     },
+    backTop() {
+      let timer = setInterval(() => {
+        let speed = Math.floor(-this.$refs.refProductDetailPage.scrollTop / 3)
+        this.$refs.refProductDetailPage.scrollTop = this.$refs.refProductDetailPage.scrollTop + speed
+        if (this.$refs.refProductDetailPage.scrollTop === 0) {
+          clearInterval(timer)
+        }
+      }, 17)
+    },
+    // 预定
+    async btnOrder() {
+      const data = {
+        productId: this.productId,
+        account: this.account,
+      }
+      const {code, msg} = await schedule(data)
+      if (code === 0) {
+        this.showSoldOut = false
+      }
+      this.$toast(msg)
+    },
     // 返回首页
     onHomePage() {
       this.jumpTo("/");
@@ -851,7 +929,11 @@ export default {
     },
     // 收藏页面
     async onFollow() {
-      this.attentionProduct()
+      if (!this.profileInfo.customer_id) {
+        this.vxToggleLoginDlg(true)
+      } else {
+        this.$router.push('/personal/follow')
+      }
     },
     onHeaderLeft() {
       if (this.$route.query.sem) {
@@ -868,6 +950,13 @@ export default {
     onBannerChange(){},
     // 简详切换
     changeDetailOrsmp(){
+      if(!this.isShowProductDetail) {
+        const refDom = this.$refs.refProductTab
+        window.scroll({
+          top: refDom.offsetTop,
+          behavior: 'smooth'
+        })
+      }
       this.isShowProductDetail = !this.isShowProductDetail
     },
     onOperate(item) {
@@ -950,7 +1039,7 @@ export default {
     // 期团选中日期跳转
     async onGroupPriceDate(data) {
       if (this.product.is_soldout) {
-        this.showSoldOut = true;
+        this.showSoldOut = true
         return;
       } else {
         // 暂存需要定制的商品信息
@@ -1102,5 +1191,10 @@ export default {
 }
 .notice [class*=van-hairline]::after{
   opacity: 0;
+}
+.collapse-d-ps .van-collapse-item__content{
+  padding: 20px 0;
+  font-size: 24px;
+  font-weight: normal !important;
 }
 </style>
