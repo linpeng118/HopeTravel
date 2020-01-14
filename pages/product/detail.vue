@@ -1066,7 +1066,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "~/assets/style/product/detail1.scss";
+@import "~/assets/style/product/detail.scss";
 .product-detail-page{
   position: relative;
   .video-box {
