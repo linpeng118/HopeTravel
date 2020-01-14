@@ -4,11 +4,13 @@
       fixed
       @callOnRight="onHeaderRight"
       @callOnLeft="onHeaderLeft"
+      @goTo="gotoRegion"
       :review="!!reviews.product"
+      :area="areaNav"
       ref="refProdctDetailHeader" />
     <div class="product-detail" ref="refProductDetail">
       <!-- banner -->
-      <div class="banner-wrap" v-if="product">
+      <div class="banner-wrap" v-if="product" ref="refBanner">
         <van-swipe class="banner" :autoplay="60000000" @change="onBannerChange" :show-indicators="false">
           <van-swipe-item v-if="product.videos && product.videos.length">
             <div class="video-box" @click="playVideo">
@@ -37,94 +39,96 @@
       </div>
       <!-- 产品 -->
       <div class="product" ref="refProductd">
-        <div class="product-box">
-          <!-- name部分 -->
-          <div class="name">
-            <div class="title"><span class="prod-tag" v-if="product.self_support">{{ $t("selfSupport") }}</span>{{ product.name_short || product.name }}</div>
-            <div class="name_short" v-if="product.name_short">{{ product.name }}</div>
-          </div>
-          <div class="tag-box" v-if="product.tags">
-            <span v-for="tag in product.tags.tag_attribute" :key="'tag' + tag">{{tag}}</span>
-          </div>
-          <div class="price-box">
-            <div>
-              <strong>{{product.special_price || product.default_price}}</strong> 起/人
+        <div ref="refRivewTop">
+          <div class="product-box">
+            <!-- name部分 -->
+            <div class="name">
+              <div class="title"><span class="prod-tag" v-if="product.self_support">{{ $t("selfSupport") }}</span>{{ product.name_short || product.name }}</div>
+              <div class="name_short" v-if="product.name_short">{{ product.name }}</div>
             </div>
-            <div>
-              <span v-if="product.comment_score !== '0.0'" class="score">{{ product.comment_score }}分</span>
-              <span v-if="product.comment_count"> | {{product.comment_count}}条评论</span>
-              <span v-if="product.sales" style="margin-left:10px">{{ product.sales }}人出行</span>
+            <div class="tag-box" v-if="product.tags">
+              <span v-for="tag in product.tags.tag_attribute" :key="'tag' + tag">{{tag}}</span>
             </div>
-          </div>
-          <div class="showapp" v-if="product.is_newer_discount" @click="downloadApp">
-            App下单立减{{product.newer_min_discount}}起,更有新人优惠等你拿
-          </div>
-          <div class="mili-box" v-if="product.self_support || product.product_entity_type == 1">
-            <span class="label">米粒</span>
-            <span>米粒可抵用{{product.point_percent}}</span>
-          </div>
-        </div>
-        <!-- 活动优惠券服务 -->
-        <div class="product-main-box" v-if="couponDetailList.length || product.tags.tag_market.length || product.tags.tag_service.length">
-          <van-cell is-link v-if="couponDetailList.length" @click="changeStatusPopup('couponShow')">
-            <template slot="title">
-              <div class="popup-item">
-                <span class="custom-title">领券</span>
-                <span class="coupon" v-for="coupon in couponDetailList" :key="coupon.id">{{coupon.title}}</span>
+            <div class="price-box">
+              <div>
+                <strong>{{product.special_price || product.default_price}}</strong> 起/人
               </div>
+              <div>
+                <span v-if="product.comment_score !== '0.0'" class="score">{{ product.comment_score }}分</span>
+                <span v-if="product.comment_count"> | {{product.comment_count}}条评论</span>
+                <span v-if="product.sales" style="margin-left:10px">{{ product.sales }}人出行</span>
+              </div>
+            </div>
+            <div class="showapp" v-if="product.is_newer_discount" @click="downloadApp">
+              App下单立减{{product.newer_min_discount}}起,更有新人优惠等你拿
+            </div>
+            <div class="mili-box" v-if="product.self_support || product.product_entity_type == 1">
+              <span class="label">米粒</span>
+              <span>米粒可抵用{{product.point_percent}}</span>
+            </div>
+          </div>
+          <!-- 活动优惠券服务 -->
+          <div class="product-main-box" v-if="couponDetailList.length || product.tags.tag_market.length || product.tags.tag_service.length">
+            <van-cell is-link v-if="couponDetailList.length" @click="changeStatusPopup('couponShow')">
+              <template slot="title">
+                <div class="popup-item">
+                  <span class="custom-title">领券</span>
+                  <span class="coupon" v-for="coupon in couponDetailList" :key="coupon.id">{{coupon.title}}</span>
+                </div>
+              </template>
+            </van-cell>
+            <template v-if="product.tags">
+              <van-cell is-link v-if="product.tags.tag_market && product.tags.tag_market.length" @click="changeStatusPopup('marketShow')">
+                <template slot="title">
+                  <div class="popup-item">
+                    <span class="custom-title">活动</span>
+                    <span class="text" v-for="market in product.tags.tag_market" :key="'market' + market">{{market}}</span>
+                  </div>
+                </template>
+              </van-cell>
             </template>
-          </van-cell>
-          <template v-if="product.tags">
-            <van-cell is-link v-if="product.tags.tag_market && product.tags.tag_market.length" @click="changeStatusPopup('marketShow')">
-              <template slot="title">
-                <div class="popup-item">
-                  <span class="custom-title">活动</span>
-                  <span class="text" v-for="market in product.tags.tag_market" :key="'market' + market">{{market}}</span>
-                </div>
-              </template>
-            </van-cell>
-          </template>
-          <template v-if="product.tags">
-            <van-cell is-link v-if="product.tags.tag_service && product.tags.tag_service.length" @click="changeStatusPopup('serviceShow')">
-              <template slot="title">
-                <div class="popup-item">
-                  <span class="custom-title">服务</span>
-                  <span class="text" v-for="service in product.tags.tag_service" :key="'service' + service">
-                    <van-icon name="checked" color="#3ED68F" size="16" />{{service}}
-                  </span>
-                </div>
-              </template>
-            </van-cell>
-          </template>
-        </div>
-        <!-- 团期价格 -->
-        <div class="nav-title">
-          <span>{{ $t("productDetailPage.groupPrice") }}</span>
-        </div>
-        <div class="product-main-box"> 
-          <div class="time-price">
-            <van-row :gutter="10">
-              <van-col span="6" v-for="priceItem in topPriceList" :key="priceItem.year + priceItem.month + priceItem.day">
-                <div class="items-tp" @click="onGroupPriceDate(priceItem)">
-                  <div>
-                    {{ priceItem.month }}/{{ priceItem.day }} 
-                    {{ getWeek(priceItem.year, priceItem.month, priceItem.day)}}
+            <template v-if="product.tags">
+              <van-cell is-link v-if="product.tags.tag_service && product.tags.tag_service.length" @click="changeStatusPopup('serviceShow')">
+                <template slot="title">
+                  <div class="popup-item">
+                    <span class="custom-title">服务</span>
+                    <span class="text" v-for="service in product.tags.tag_service" :key="'service' + service">
+                      <van-icon name="checked" color="#3ED68F" size="16" />{{service}}
+                    </span>
                   </div>
-                  <div class="p-text">
-                    {{priceItem.price}} 
-                    <span class="special" v-if="priceItem.is_special">特</span>
-                    <span class="soldout" v-if="priceItem.is_soldout">罄</span>
+                </template>
+              </van-cell>
+            </template>
+          </div>
+          <!-- 团期价格 -->
+          <div class="nav-title">
+            <span>{{ $t("productDetailPage.groupPrice") }}</span>
+          </div>
+          <div class="product-main-box"> 
+            <div class="time-price">
+              <van-row :gutter="10">
+                <van-col span="6" v-for="priceItem in topPriceList" :key="priceItem.year + priceItem.month + priceItem.day">
+                  <div class="items-tp" @click="onGroupPriceDate(priceItem)">
+                    <div>
+                      {{ priceItem.month }}/{{ priceItem.day }} 
+                      {{ getWeek(priceItem.year, priceItem.month, priceItem.day)}}
+                    </div>
+                    <div class="p-text">
+                      {{priceItem.price}} 
+                      <span class="special" v-if="priceItem.is_special">特</span>
+                      <span class="soldout" v-if="priceItem.is_soldout">罄</span>
+                    </div>
                   </div>
-                </div>
-              </van-col>
-              <van-col span="6">
-                <div class="more-pt" @click="onGroupPriceMore">更多团期 <img src="../../assets/imgs/product/icon_more@2x.png" alt=""></div>
-              </van-col>
-            </van-row>
+                </van-col>
+                <van-col span="6">
+                  <div class="more-pt" @click="onGroupPriceMore">更多团期 <img src="../../assets/imgs/product/icon_more@2x.png" alt=""></div>
+                </van-col>
+              </van-row>
+            </div>
           </div>
         </div>
         <!-- 评价 -->
-        <div class="nav-title" v-if="reviews.product">
+        <div class="nav-title" v-if="reviews.product" ref="refComment">
           <div>{{ $t("comment.rate") }} <span class="sorct">{{ reviews.product.comment_score }}</span></div>
           <div class="m-lst" @click="gotoReview">{{ $t("seeAll") }}({{ reviews.product.comment_count }}) <van-icon name="arrow" /></div>
         </div>
@@ -181,13 +185,13 @@
           </div>
         </div>
       </div>
-      <div style="height:6px; background: #EBEBEB" ref="refProductTab"></div>
+      <div style="height:6px; background: #EBEBEB" ref="refDetailHeight"></div>
       <!-- 产品描述部分 -->
       <van-sticky :offset-top="44">
         <div class="product-tab">
           <van-row>
             <template v-for="(tab, index) in tabList">
-              <van-col :key="'tabList' + index" :span="product.feature_images.length ? 6 : 8" v-if="tab.isShow">
+              <van-col :key="'tabList' + index" :span="product.feature_images.length ? 6 : 8" v-if="tab.isShow" @click="changeProductTab(tab)">
                 <span :class="{ active: activeTab === tab.id }">
                   {{tab.name}}
                 </span>
@@ -197,14 +201,15 @@
         </div>
       </van-sticky>
       <div class="collapse-d-ps">
-        <div class="product-feature" v-if="product.feature_images.length">
+        <div class="product-feature" v-if="product.feature_images.length" ref="refProductFeature">
           <h1 class="title">产品特色</h1>
           <div v-for="image in product.feature_images" :key="'feature_images' + image">
             <img v-lazy="image">
           </div>
         </div>
+        <div ref="refProductTab"></div>
         <!-- 行程天数 -->
-        <div class="product-info-xc" v-if="itinerary">
+        <div class="product-info-xc" v-if="itinerary" ref="refProductInfo">
           <h1 class="title">{{itinerary.items.length}}天行程</h1>
           <div class="duration-box" :class="isShowProductDetail ? 'show' : ''" v-for="(items, index) in itinerary.items" :key="'itineraryitems' + index">
             <div class="days">
@@ -243,6 +248,17 @@
                     </div>
                   </div>
                 </template>
+                <div class="point-box" v-if="items.hotel">
+                  <div class="rightb">
+                    <h4 class="title">酒店</h4>
+                    <div class="info-title-hotel" v-html="items.hotel">
+                    </div>
+                  </div>
+                  <div class="note-b">
+                    <img src="../../assets/imgs//product/icon_hotel_1.png" alt="">
+                    酒店
+                  </div>
+                </div> 
                 <div class="point-box" v-if="items.meal">
                   <div class="rightb">
                     <h4 class="title">餐饮</h4>
@@ -255,25 +271,14 @@
                     餐饮
                   </div>
                 </div>
-                <div class="point-box" v-if="items.hotel">
-                  <div class="rightb">
-                    <h4 class="title">酒店</h4>
-                    <div class="info-title-hotel" v-html="items.hotel">
-                    </div>
-                  </div>
-                  <div class="note-b">
-                    <img src="../../assets/imgs//product/icon_hotel_1.png" alt="">
-                    酒店
-                  </div>
-                </div>  
               </template>
             </div>
           </div>
+          <div class="qa-kf">
+            对行程不满意？您还可以找<nuxt-link to="/custom">稀饭定制师</nuxt-link>
+          </div>
         </div>
-        <div class="qa-kf">
-          对行程不满意？您还可以找<nuxt-link to="/custom">稀饭定制师</nuxt-link>
-        </div>
-        <div class="price-inexclude">
+        <div class="price-inexclude" ref="refPriceExplain">
           <!-- 费用说明 -->
           <template v-if="expense.standard_price">
             <h1 class="title">费用说明</h1>
@@ -332,34 +337,36 @@
               </van-collapse-item>
             </van-collapse>
           </div>
-          <div class="own_expense" v-if="expense.own_expense.list_data">
-            <h3>自费项目</h3>
-            <div class="expense">
-              <table>
-                <tr>
-                  <th>项目名称</th>
-                  <th>成人 <span>({{expense.own_expense.adult_desc}})</span></th>
-                  <th>儿童 <span>({{expense.own_expense.child_desc}})</span></th>
-                  <th>老人 <span>({{expense.own_expense.old_desc}})</span></th>
-                </tr>
-                <template v-for="(item,index) in expense.own_expense.list_data">
-                  <tr :key="index" v-if="isputAway || index < 7">
-                    <td>{{item.project_name}}</td>
-                    <td>{{item.adult_price}}</td>
-                    <td>{{item.child_price}}</td>
-                    <td>{{item.old_price}}</td>
+          <div class="own_expense" v-if="expense.own_expense">
+            <template v-if="expense.own_expense.list_data">
+              <h3>自费项目</h3>
+              <div class="expense">
+                <table>
+                  <tr>
+                    <th>项目名称</th>
+                    <th>成人 <span>({{expense.own_expense.adult_desc}})</span></th>
+                    <th>儿童 <span>({{expense.own_expense.child_desc}})</span></th>
+                    <th>老人 <span>({{expense.own_expense.old_desc}})</span></th>
                   </tr>
-                </template>
-              </table>
-              <template v-if="expense.own_expense.list_data.length > 7">
-                <div class="expense_opt">
-                  <div @click="putAway">
-                    <span>{{isputAway ? '收起' : '展开'}}</span>
-                    <van-icon name="play" :class="isputAway ? 'rotate': ''" />
+                  <template v-for="(item,index) in expense.own_expense.list_data">
+                    <tr :key="index" v-if="isputAway || index < 7">
+                      <td>{{item.project_name}}</td>
+                      <td>{{item.adult_price}}</td>
+                      <td>{{item.child_price}}</td>
+                      <td>{{item.old_price}}</td>
+                    </tr>
+                  </template>
+                </table>
+                <template v-if="expense.own_expense.list_data && expense.own_expense.list_data.length > 7">
+                  <div class="expense_opt">
+                    <div @click="putAway">
+                      <span>{{isputAway ? '收起' : '展开'}}</span>
+                      <van-icon name="play" :class="isputAway ? 'rotate': ''" />
+                    </div>
                   </div>
-                </div>
-              </template>
-            </div>
+                </template>
+              </div>
+            </template>   
           </div>
         </div>
         <!-- 注意事项 -->
@@ -440,13 +447,13 @@
     </van-popup>
     <!-- 优惠券弹框 -->
     <van-action-sheet v-model="couponShow" :title="$t('coupons')" class="service-note" close-icon="cross">
-      <div class="cup-item" v-for="coupon in couponDetailList" :key="'couponD' + coupon.id">
+      <div class="cup-item" v-for="(coupon, index) in couponDetailList" :key="'couponD' + coupon.id">
         <div class="main-box">
           <div class="cupleft">
             <div class="price">
               <span>{{coupon.minus_label.substring(0, 1)}}</span>{{coupon.minus_label.substring(1)}}
             </div>
-            <p>使用说明 <van-icon name="arrow-down" /></p>
+            <p @click="changeCouponShow(coupon, index)">使用说明 <van-icon name="arrow-down" /></p>
           </div>
           <div class="cupcon">
             <div class="title">{{coupon.full_label}}</div>
@@ -538,7 +545,7 @@
       </div>
     </van-action-sheet>
     <!-- 景点详情弹出层 -->
-    <van-popup v-model="pointShow" class="point-wrapper">
+    <van-popup v-model="pointShow" class="point-wrapper" :lock-scroll="false">
       <van-swipe :autoplay="3000" indicator-color="white">
         <van-swipe-item v-for="images in pointDetails.images" :key="'pointDetails'+images" class="item-box">
           <img v-lazy="images">
@@ -701,7 +708,9 @@ export default {
       showSoldOut: false,
       account: '', // 邮箱或手机号
       pointShow: false, // 显示景点详情
-      pointDetails: {}
+      pointDetails: {},
+      areaNav: 'product',
+      chnageTab: false // 是否切换到导航的最右边
     }
   },
   computed: {
@@ -766,13 +775,14 @@ export default {
         },
         {
           type: '出发',
-          text: `${this.product.departure_city_list.length > 1 ? this.product.departure_city_list[0] + '等多地出发' : this.product.departure_city_list}出发`,
-          allName: `${this.product.departure_city_list.length > 1 ? this.product.departure_city_list : ''}出发`,
+          text: `${this.product.departure_city_list.length > 1 ? this.product.departure_city_list[0] + '等多地出发' : this.product.departure_city_list + '出发'}`,
+          allName: `${this.product.departure_city_list.length > 1 ? this.product.departure_city_list.join('，') : ''}`,
           icon: 'icon_start'
         },
         {
           type: '结束',
-          text: `${this.product.end_city}结束`,
+          text: `${this.product.end_city_list.length > 1 ? this.product.end_city_list[0] + '等多地结束' : this.product.end_city_list + '结束'}`,
+          allName: `${this.product.end_city_list.join('，')}`,
           icon: 'icon_end'
         },
         {
@@ -806,19 +816,19 @@ export default {
           isShow: this.hasFeature
         },
         {
-          id: 3,
+          id: 2,
           name: this.itinerary.items.length + '天行程',
           ref: "refDays",
           isShow: true
         },
         {
-          id: 4,
+          id: 3,
           name: this.$t("costDetail"),
           ref: "refCost",
           isShow: true
         },
         {
-          id: 5,
+          id: 4,
           name: this.$t("productDetailPage.notice"),
           ref: "refNotice",
           isShow: true
@@ -859,23 +869,53 @@ export default {
     }
   },
   created(){
-    this.isputAway = this.expense.own_expense.list_data && (this.expense.own_expense.list_data.length > 4 ? false: true)
+    this.isputAway = this.expense.own_expense && this.expense.own_expense.list_data && (this.expense.own_expense.list_data.length > 4 ? false: true)
   },
   async mounted(){
-    console.log(66666, this.product.is_favorite);
-    
     await this.getcoupondetail()
     this.getUserInfo()
     document.addEventListener('scroll',(e) => {
       this.showMore = false
-      const h1 = this.$refs.refProductd && this.$refs.refProductd.getBoundingClientRect().height
-      const scrolltopTemp = document.documentElement.scrollTop||document.body.scrollTop
-      if( h1 <= scrolltopTemp + 300 ){
+      const h2 = this.$refs.refBanner && this.$refs.refBanner.getBoundingClientRect().height || 0
+      const h3 = this.$refs.refRivewTop && this.$refs.refRivewTop.getBoundingClientRect().height || 0
+      const h4 = this.$refs.refProductd && this.$refs.refProductd.getBoundingClientRect().height || 0
+      const h5 = this.$refs.refProductFeature && this.$refs.refProductFeature.getBoundingClientRect().height || 0
+      const h6 = this.$refs.refProductInfo && this.$refs.refProductInfo.getBoundingClientRect().height || 0
+      const h7 = this.$refs.refPriceExplain && this.$refs.refPriceExplain.getBoundingClientRect().height || 0
+      const scrolltopTemp = document.documentElement.scrollTop || document.body.scrollTop
+      const reviewBox = h2 + h3 -78
+      const detailBox = h4 + h2 - 78
+      const infoBox = h4 + h2 + h5 - 78
+      const priceBox = infoBox + h6
+      const explainBox = priceBox + h7      
+      if( detailBox <= scrolltopTemp){
         this.showDetailProduct = true
       } else {
         this.showDetailProduct = false
       }
-      
+      if(scrolltopTemp > reviewBox) {
+        this.areaNav ='review'
+      } 
+      if(scrolltopTemp > detailBox) {
+        this.areaNav ='detail'
+        this.activeTab = 1
+      } 
+      if(scrolltopTemp <= reviewBox) {
+        this.areaNav ='product'
+      }
+      if(scrolltopTemp >= infoBox) {
+        this.activeTab = 2
+      }
+
+      if(scrolltopTemp >= priceBox) {
+        this.activeTab = 3
+      }
+      if(scrolltopTemp >= explainBox) {
+        this.activeTab = 4
+      }
+      if(this.chnageTab){
+        this.activeTab = 4
+      }
     })
     document.addEventListener('click',(e) => {
       this.$nextTick(() => {
@@ -913,6 +953,29 @@ export default {
     changePointShow(points){
       this.pointDetails= points
       this.pointShow = true
+    },
+    // 导航去不同的区域
+    gotoRegion(type){
+      let top = 0
+      var L = document.documentElement.scrollTop||document.body.scrollTop
+      let h = {
+        top: 0,
+        height: 0
+      }
+      if(type == 'review') {
+        h = this.$refs.refComment && this.$refs.refComment.getBoundingClientRect()
+      } else if (type == 'detail') {
+        h = this.$refs.refDetailHeight && this.$refs.refDetailHeight.getBoundingClientRect()
+      }
+      this.areaNav = type
+      top = h.top + L - h.height * 2
+      if(type == 'product') {
+        top = 0
+      }
+      window.scroll({
+        top,
+        behavior: 'smooth'
+      })
     },
     // 预定
     async btnOrder() {
@@ -965,13 +1028,12 @@ export default {
     onBannerChange(){},
     // 简详切换
     changeDetailOrsmp(){
-      if(!this.isShowProductDetail) {
-        const refDom = this.$refs.refProductTab
-        window.scroll({
-          top: refDom.offsetTop,
-          behavior: 'smooth'
-        })
-      }
+      const h = this.$refs.refProductTab && this.$refs.refProductTab.getBoundingClientRect()
+      const L = document.documentElement.scrollTop||document.body.scrollTop
+      window.scroll({
+        top: h.top + L - 80,
+        behavior: 'smooth'
+      })
       this.isShowProductDetail = !this.isShowProductDetail
     },
     onOperate(item) {
@@ -1023,6 +1085,41 @@ export default {
           }
         }
       } 
+    },
+    // 点击导航
+    changeProductTab(tab){
+      this.chnageTab = false
+      const h2 = this.$refs.refBanner && this.$refs.refBanner.getBoundingClientRect().height || 0
+      const h3 = this.$refs.refRivewTop && this.$refs.refRivewTop.getBoundingClientRect().height || 0
+      const h4 = this.$refs.refProductd && this.$refs.refProductd.getBoundingClientRect().height || 0
+      const h5 = this.$refs.refProductFeature && this.$refs.refProductFeature.getBoundingClientRect().height || 0
+      const h6 = this.$refs.refProductInfo && this.$refs.refProductInfo.getBoundingClientRect().height || 0
+      const h7 = this.$refs.refPriceExplain && this.$refs.refPriceExplain.getBoundingClientRect().height || 0
+  
+      const scrolltopTemp = document.documentElement.scrollTop || document.body.scrollTop
+      const detailBox = h4 + h2 - 78
+      const infoBox = h4 + h2 + h5 - 78
+      const priceBox = infoBox + h6
+      const explainBox = priceBox + h7
+      
+      let top = 0
+      // 1 产品特色 2 行程 3 费用明细 4 购买须知
+      if(tab.id == 1) {
+        top = detailBox
+      } else if(tab.id == 2) {
+        top = infoBox
+      } else if(tab.id == 3) {
+        top = priceBox
+      } else if(tab.id == 4) {
+        top = explainBox
+        this.chnageTab = true
+      }
+
+      window.scroll({
+        top,
+        behavior: 'smooth'
+      })
+      this.activeTab = tab.id
     },
     // 电话咨询
     telCounsel() {
@@ -1126,6 +1223,10 @@ export default {
         default:
           break;
       }
+    },
+    // 优惠券详情展示
+    changeCouponShow(coupon, index){
+      this.$set(this.couponDetailList[index], 'select', !coupon.select)   
     },
     // 评论tag字段解析
     getTagName(value) {
