@@ -174,7 +174,8 @@
         "leaveMessage": "預訂留言",
         "tipsRequire": "選填，你可備注預訂相關要求",
         "agreeXifanServer": "《稀飯旅行用戶服務條款》",
-        "acceptRead": "我已閱讀並接受"
+        "acceptRead": "我已閱讀並接受",
+        "newAcceptRead": "點擊去支付表示已閱讀並同意"
     },
     "customPage": {
         "title": "私人定制",
