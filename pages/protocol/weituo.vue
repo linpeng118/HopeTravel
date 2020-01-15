@@ -13,7 +13,7 @@
   }
 </script>
 
-<style type="text/scss" lang="scss">
+<style type="text/scss" lang="scss" scoped>
   .out-layer-con {
     position: relative;
     top: 88px;

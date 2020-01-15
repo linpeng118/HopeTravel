@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="con" :class="!isApp?'appPadding':''">
     <div class="header" v-if="!isApp">
       <van-nav-bar
         class="bar-shadow"
@@ -15,7 +15,6 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -44,9 +43,18 @@ export default {
 }
 </script>
 
-<style type="text/scss" lang="scss">
+<style type="text/scss" lang="scss" scoped>
+  .appPadding{
+    padding-top: 92px;
+}
+  .header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
   .out-layer-con{
-    position: relative;
+    /* position: relative; */
     border-top: 2px solid #D8D8D8;
   }
   .weituo{
