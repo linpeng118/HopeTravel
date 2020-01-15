@@ -55,7 +55,7 @@
               </div>
               <div>
                 <span v-if="product.comment_score !== '0.0'" class="score">{{ product.comment_score }}分</span>
-                <span v-if="product.comment_count"> | {{product.comment_count}}条评论</span>
+                <span v-if="product.comment_count"> | {{product.comment_count}}{{$t('productDetailPage.n_comnent')}}</span>
                 <span v-if="product.sales" style="margin-left:10px">{{ product.sales }}人出行</span>
               </div>
             </div>
@@ -72,7 +72,7 @@
             <van-cell is-link v-if="couponDetailList.length" @click="changeStatusPopup('couponShow')">
               <template slot="title">
                 <div class="popup-item">
-                  <span class="custom-title">领券</span>
+                  <span class="custom-title">{{$t('productDetailPage.n_coupon')}}</span>
                   <span class="coupon" v-for="coupon in couponDetailList" :key="coupon.id">{{coupon.title}}</span>
                 </div>
               </template>
@@ -81,7 +81,7 @@
               <van-cell is-link v-if="product.tags.tag_market && product.tags.tag_market.length" @click="changeStatusPopup('marketShow')">
                 <template slot="title">
                   <div class="popup-item">
-                    <span class="custom-title">活动</span>
+                    <span class="custom-title">{{$t('productDetailPage.n_activity')}}</span>
                     <span class="text" v-for="market in product.tags.tag_market" :key="'market' + market">{{market}}</span>
                   </div>
                 </template>
@@ -91,7 +91,7 @@
               <van-cell is-link v-if="product.tags.tag_service && product.tags.tag_service.length" @click="changeStatusPopup('serviceShow')">
                 <template slot="title">
                   <div class="popup-item">
-                    <span class="custom-title">服务</span>
+                    <span class="custom-title">{{$t('productDetailPage.n_service')}}</span>
                     <span class="text" v-for="service in product.tags.tag_service" :key="'service' + service">
                       <van-icon name="checked" color="#3ED68F" size="16" />{{service}}
                     </span>
@@ -121,7 +121,7 @@
                   </div>
                 </van-col>
                 <van-col span="6">
-                  <div class="more-pt" @click="onGroupPriceMore">更多团期 <img src="../../assets/imgs/product/icon_more@2x.png" alt=""></div>
+                  <div class="more-pt" @click="onGroupPriceMore">{{$t('productDetailPage.n_more_group')}} <img src="../../assets/imgs/product/icon_more@2x.png" alt=""></div>
                 </van-col>
               </van-row>
             </div>
@@ -158,7 +158,7 @@
           </div>
         </div>
         <div class="qa-kf" @click="onlineCounsel()">
-          <img src="../../assets/imgs/product/icon_comment@2x.png" width="30">对行程有疑问？请<span>稀饭助手饭饭</span>为您解答
+          <img src="../../assets/imgs/product/icon_comment@2x.png" width="30">{{$t('productDetailPage.n_qaxf')}}<span>{{$t('productDetailPage.n_xfzsff')}}</span>{{$t('productDetailPage.n_answer')}}
         </div>
         <!-- 行程概要 -->
         <div class="nav-title">
@@ -202,7 +202,7 @@
       </van-sticky>
       <div class="collapse-d-ps">
         <div class="product-feature" v-if="product.feature_images.length" ref="refProductFeature">
-          <h1 class="title">产品特色</h1>
+          <h1 class="title">{{$t('productDetailPage.productFeature')}}</h1>
           <div v-for="image in product.feature_images" :key="'feature_images' + image">
             <img v-lazy="image">
           </div>
@@ -244,44 +244,44 @@
                     </div>
                     <div class="note-b">
                       <img src="../../assets/imgs/product/icon_point_1.png" alt="">
-                      景点
+                      {{$t('productDetailPage.n_point')}}
                     </div>
                   </div>
                 </template>
                 <div class="point-box" v-if="items.hotel">
                   <div class="rightb">
-                    <h4 class="title">酒店</h4>
+                    <h4 class="title">{{$t('productDetailPage.n_hotel')}}</h4>
                     <div class="info-title-hotel" v-html="items.hotel">
                     </div>
                   </div>
                   <div class="note-b">
                     <img src="../../assets/imgs/product/icon_hotel_1.png" alt="">
-                    酒店
+                    {{$t('productDetailPage.n_hotel')}}
                   </div>
                 </div> 
                 <div class="point-box" v-if="items.meal">
                   <div class="rightb">
-                    <h4 class="title">餐饮</h4>
+                    <h4 class="title">{{$t('productDetailPage.n_meal')}}</h4>
                     <div class="info-title">
                       {{items.meal | changMealText}}
                     </div>
                   </div>
                   <div class="note-b">
                     <img src="../../assets/imgs/product/icon_meal_1.png" alt="">
-                    餐饮
+                    {{$t('productDetailPage.n_meal')}}
                   </div>
                 </div>
               </template>
             </div>
           </div>
           <div class="qa-kf">
-            对行程不满意？您还可以找<nuxt-link to="/custom">稀饭定制师</nuxt-link>
+            {{$t('productDetailPage.n_trip')}}<nuxt-link to="/custom">{{$t('productDetailPage.n_xhdzs')}}</nuxt-link>
           </div>
         </div>
         <div class="price-inexclude" ref="refPriceExplain">
           <!-- 费用说明 -->
           <template v-if="expense.standard_price">
-            <h1 class="title">费用说明</h1>
+            <h1 class="title">{{$t('productDetailPage.n_priceTipes')}}</h1>
             <div class="newData" >
               <h3 class="title-s">
                 {{$t('productDetailPage.groupCostDetail')}}
@@ -297,7 +297,7 @@
             </div>
           </template>
           <div class="price-tips-box">
-            <h3 class="title-s">价格说明</h3>
+            <h3 class="title-s">{{$t('productDetailPage.priceDescription')}}</h3>
             <div v-html="expense.price_notice" class="notice-p"></div>
           </div>
           <!-- 新数据（包含与不包含）表格显示 -->
@@ -339,14 +339,14 @@
           </div>
           <div class="own_expense" v-if="expense.own_expense">
             <template v-if="expense.own_expense.list_data">
-              <h3>自费项目</h3>
+              <h3>{{$t('productDetailPage.ownExpense')}}</h3>
               <div class="expense">
                 <table>
                   <tr>
-                    <th>项目名称</th>
-                    <th>成人 <span>({{expense.own_expense.adult_desc}})</span></th>
-                    <th>儿童 <span>({{expense.own_expense.child_desc}})</span></th>
-                    <th>老人 <span>({{expense.own_expense.old_desc}})</span></th>
+                    <th>{{$t('productDetailPage.n_entryName')}}</th>
+                    <th>{{$t('productDetailPage.n_adult')}} <span>({{expense.own_expense.adult_desc}})</span></th>
+                    <th>{{$t('productDetailPage.n_children')}} <span>({{expense.own_expense.child_desc}})</span></th>
+                    <th>{{$t('productDetailPage.n_oldMan')}} <span>({{expense.own_expense.old_desc}})</span></th>
                   </tr>
                   <template v-for="(item,index) in expense.own_expense.list_data">
                     <tr :key="index" v-if="isputAway || index < 7">
@@ -371,7 +371,7 @@
         </div>
         <!-- 注意事项 -->
         <div class="notice mt-24" ref="refNotice">
-          <h1 class="title">购买须知</h1>
+          <h1 class="title">{{$t('productDetailPage.notice')}}</h1>
           <van-collapse v-model="activeNames" accordion>
             <van-collapse-item :name="item.key" v-for="(item, index) in notice" :key="index">
               <div slot="title">{{item.title}} <van-icon name="play" /></div>
@@ -453,7 +453,7 @@
             <div class="price">
               <span>{{coupon.minus_label.substring(0, 1)}}</span>{{coupon.minus_label.substring(1)}}
             </div>
-            <p @click="changeCouponShow(coupon, index)">使用说明 <van-icon name="arrow-down" /></p>
+            <p @click="changeCouponShow(coupon, index)">{{$t('couponsPage.instructions')}} <van-icon name="arrow-down" /></p>
           </div>
           <div class="cupcon">
             <div class="title">{{coupon.full_label}}</div>
@@ -470,13 +470,13 @@
       </div>
     </van-action-sheet>
     <!-- 活动 -->
-    <van-action-sheet v-model="marketShow" title="活动说明" class="service-note" close-icon="cross">
+    <van-action-sheet v-model="marketShow" :title="$t('productDetailPage.n_explainActivity')" class="service-note" close-icon="cross">
       <div class="market-item" v-for="market in product.tags.tag_market" :key="'marketdetail' + market">
         <van-icon name="passed" size="20" color="#FB605D" /> {{market}}
       </div>
     </van-action-sheet>
     <!-- 服务 -->
-    <van-action-sheet v-model="serviceShow" title="服务说明" class="service-note" close-icon="cross">
+    <van-action-sheet v-model="serviceShow" :title="$t('productDetailPage.serviceDescription')" class="service-note" close-icon="cross">
       <div class="market-item" v-for="service in product.tags.tag_service" :key="'servicedetail' + service">
         <van-icon name="passed" size="20" color="#FB605D" /> {{service}}
       </div>
@@ -526,7 +526,7 @@
       </div>
     </transition>
     <!-- 恢复预定通知 -->
-    <van-action-sheet v-model="showSoldOut" title="恢复预定通知" class="sold-out" close-icon="cross">
+    <van-action-sheet v-model="showSoldOut" :title="$t('productDetailPage.orderNotice')" class="sold-out" close-icon="cross">
       <div class="sold-out-content">
         <h3 class="title">{{$t('productDetailPage.soldOutDesc')}}</h3>
         <p class="desc mt-30">{{$t('productDetailPage.emailOrPhone')}}</p>
@@ -1241,11 +1241,11 @@ export default {
     // 评论tag字段解析
     getTagName(value) {
       const obj= {
-        top: '精华',
-        good: '好评',
-        bad: '差评',
-        image: '有图',
-        append: '追评'
+        top: this.$t('productDetailPage.n_top'),
+        good: this.$t('productDetailPage.n_good'),
+        bad: this.$t('productDetailPage.n_bad'),
+        image: this.$t('productDetailPage.n_image'),
+        append: this.$t('productDetailPage.n_append')
       }
       return obj[value]
     },
