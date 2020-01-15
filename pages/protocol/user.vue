@@ -41,7 +41,7 @@
   }
 </script>
 
-<style type="text/scss" lang="scss">
+<style type="text/scss" lang="scss" scoped>
   .agreement-page {
     .out-layer-con {
       position: relative;
