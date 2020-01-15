@@ -502,7 +502,8 @@
     },
     "contractPage": {
         "travelContract": "旅行合同",
-        "travelSelf": "旅行合同及安全提示"
+        "travelSelf": "旅行合同及安全提示",
+        "safetyWarning": "安全提示"
     },
     "searchPage": {
         "searchHistory": "历史搜索",
