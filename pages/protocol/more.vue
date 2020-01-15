@@ -1,5 +1,15 @@
 <template>
-  <div class="alone-wrap out-layer-con">
+  <div>
+    <div class="header" v-if="!isApp">
+      <van-nav-bar
+        class="bar-shadow"
+        :title="$t('contractPage.travelSelf')"
+        @click-left="onClickLeft"
+        left-arrow
+        v-if="!isApp"
+      >
+      </van-nav-bar>
+    </div>
     <van-cell :title="$t('contractPage.travelContract')" is-link to="contract" />
     <van-cell :title="$t('alonePage.selfActive')" is-link to="prompt" />
   </div>
@@ -10,9 +20,24 @@
     name: 'more',
     head() {
       return {
-        title: '旅行合同及安全提示'
+        title: '旅行合同及安全提示',
       }
     },
+    data(){
+      return{
+        isApp: this.$route.query.platform,
+      }
+    },
+    methods:{
+      onClickLeft() {
+     let href = window.location.href.slice(-1)
+      if(href == '#'){
+        this.$router.go(-2)
+      } else {
+        this.$router.go(-1)
+      }
+    }
+    }
   }
 </script>
 
@@ -24,7 +49,7 @@
     }
   }
 </style>
-<style>
+<style type="text/scss" lang="scss" scoped>
   .out-layer-con{
     position: relative;
     top: 88px;

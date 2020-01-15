@@ -42,7 +42,7 @@
   }
 </script>
 
-<style type="text/scss" lang="scss">
+<style type="text/scss" lang="scss" scoped>
   .out-layer-con {
     position: relative;
     border-top: 2px solid #D8D8D8;
