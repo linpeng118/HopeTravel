@@ -11,7 +11,7 @@
     <div class="product-detail" ref="refProductDetail">
       <!-- banner -->
       <div class="banner-wrap" v-if="product" ref="refBanner">
-        <van-swipe class="banner" :autoplay="60000000" @change="onBannerChange" :show-indicators="false">
+        <van-swipe class="banner" :autoplay="3000" :show-indicators="false">
           <van-swipe-item v-if="product.videos && product.videos.length">
             <div class="video-box" @click="playVideo">
               <img src="../../assets/imgs/product/icon_video@2x.png" alt="">
@@ -243,7 +243,7 @@
                       <div v-html="points.content" class="info-title van-multi-ellipsis--l2"></div>
                     </div>
                     <div class="note-b">
-                      <img src="../../assets/imgs//product/icon_point_1.png" alt="">
+                      <img src="../../assets/imgs/product/icon_point_1.png" alt="">
                       景点
                     </div>
                   </div>
@@ -255,7 +255,7 @@
                     </div>
                   </div>
                   <div class="note-b">
-                    <img src="../../assets/imgs//product/icon_hotel_1.png" alt="">
+                    <img src="../../assets/imgs/product/icon_hotel_1.png" alt="">
                     酒店
                   </div>
                 </div> 
@@ -267,7 +267,7 @@
                     </div>
                   </div>
                   <div class="note-b">
-                    <img src="../../assets/imgs//product/icon_meal_1.png" alt="">
+                    <img src="../../assets/imgs/product/icon_meal_1.png" alt="">
                     餐饮
                   </div>
                 </div>
@@ -428,7 +428,7 @@
     </div>
 
     <!--视频弹出框-->
-    <van-popup v-model="isVideoShow" class="video-box">
+    <van-popup v-model="isVideoShow" class="video-box" @close="moveHandle">
       <van-nav-bar title="视频播放" left-arrow @click-left="pausePlay" />
       <div class="video" v-if="product.videos && product.videos.length">
         <div class="video-main video-div">
@@ -545,13 +545,15 @@
       </div>
     </van-action-sheet>
     <!-- 景点详情弹出层 -->
-    <van-popup v-model="pointShow" class="point-wrapper" :lock-scroll="false">
+    <van-popup v-model="pointShow" class="point-wrapper" @close="moveHandle">
       <van-swipe :autoplay="3000" indicator-color="white">
         <van-swipe-item v-for="images in pointDetails.images" :key="'pointDetails'+images" class="item-box">
           <img v-lazy="images">
         </van-swipe-item>
       </van-swipe>
-      <div class="content" v-html="pointDetails.content"></div>
+      <div class="content">
+        <div v-html="pointDetails.content"></div>
+      </div>
     </van-popup>
     <drift-aside ref="driftAside"
       :showContactCall="false"
@@ -710,7 +712,8 @@ export default {
       pointShow: false, // 显示景点详情
       pointDetails: {},
       areaNav: 'product',
-      chnageTab: false // 是否切换到导航的最右边
+      chnageTab: false, // 是否切换到导航的最右边
+      screenShow: false
     }
   },
   computed: {
@@ -953,6 +956,7 @@ export default {
     changePointShow(points){
       this.pointDetails= points
       this.pointShow = true
+      this.screenShow = true
     },
     // 导航去不同的区域
     gotoRegion(type){
@@ -1121,6 +1125,9 @@ export default {
       })
       this.activeTab = tab.id
     },
+    moveHandle(){
+      this.screenShow = false
+    },
     // 电话咨询
     telCounsel() {
       this.vxToggleDialog(true);
@@ -1150,9 +1157,11 @@ export default {
     },
     // 期团选中日期跳转
     async onGroupPriceDate(data) {
-      if (this.product.is_soldout) {
+      if (data.is_soldout) {
         this.showSoldOut = true
         return;
+      } else if(data.is_soldout) {
+        // 售罄的处理方式
       } else {
         // 暂存需要定制的商品信息
         await this.vxSaveReservePro({
@@ -1274,6 +1283,11 @@ export default {
 @import "~/assets/style/product/detail.scss";
 .product-detail-page{
   position: relative;
+  &.forbid{
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+  }
   .video-box {
     width: 100vw;
     height: 100vh;
