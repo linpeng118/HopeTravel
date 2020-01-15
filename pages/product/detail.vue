@@ -779,7 +779,7 @@ export default {
         {
           type: '出发',
           text: `${this.product.departure_city_list.length > 1 ? this.product.departure_city_list[0] + '等多地出发' : this.product.departure_city_list + '出发'}`,
-          allName: `${this.product.departure_city_list.length > 1 ? this.product.departure_city_list.join('，') : ''}`,
+          allName: `${ this.product.departure_city_list.join('，')}`,
           icon: 'icon_start'
         },
         {
@@ -875,6 +875,7 @@ export default {
     this.isputAway = this.expense.own_expense && this.expense.own_expense.list_data && (this.expense.own_expense.list_data.length > 4 ? false: true)
   },
   async mounted(){
+    console.log(11111, this.product);
     await this.getcoupondetail()
     this.getUserInfo()
     document.addEventListener('scroll',(e) => {
