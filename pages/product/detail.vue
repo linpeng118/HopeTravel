@@ -115,7 +115,7 @@
                     </div>
                     <div class="p-text">
                       {{priceItem.price}} 
-                      <span class="special" v-if="priceItem.is_special">特</span>
+                      <span class="special" v-if="priceItem.is_special && !priceItem.is_soldout">特</span>
                       <span class="soldout" v-if="priceItem.is_soldout">罄</span>
                     </div>
                   </div>
