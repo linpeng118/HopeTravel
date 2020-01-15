@@ -189,7 +189,6 @@ export default {
       listParams: {
         page: 1,
         created: "desc", //desc 倒叙 asc 正序
-        score: "desc", //desc 倒叙 asc 正序
         is_top: "0", //精华- 1搜索 0 不搜索
         is_good: "0", //好评- 1搜索 0 不搜索
         is_bad: "0", //差评- 1搜索 0 不搜索
@@ -248,7 +247,6 @@ export default {
       this.listParams = {
         page: 1,
         created: "desc", //desc 倒叙 asc 正序
-        score: "desc", //desc 倒叙 asc 正序
         is_top: "0", //精华- 1搜索 0 不搜索
         is_good: "0", //好评- 1搜索 0 不搜索
         is_bad: "0", //差评- 1搜索 0 不搜索
@@ -316,7 +314,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .commentDetail {
-  padding-top: 46px;
+  padding-top: 88px;
   height: 100vh;
   background: #f2f2f2;
   border-top: 1px solid #eee;
