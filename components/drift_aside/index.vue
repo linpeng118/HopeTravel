@@ -121,8 +121,8 @@
   /* height: 400px; */
   position: fixed;
   right: 10px;
-  /* bottom: 80px; */
-  top: 830px;
+  bottom: 100px;
+  /* top: 700px; */
   font-size: 36px;
   z-index: 100;
   img {
