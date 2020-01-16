@@ -56,9 +56,10 @@ export default {
     /* position: relative; */
     border-top: 2px solid #D8D8D8;
   }
+
   .weituo{
     font-size: 28px;
-    line-height: 34px;
+    line-height: 38px;
     padding: 32px;
     h2.title{
       text-align: center;
