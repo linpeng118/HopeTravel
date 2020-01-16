@@ -490,10 +490,9 @@
       }
     }
     .search-box {
-        margin-top: 10px;
       height: 88px;
       /*background-color: rgba(255,255,255,.7);*/
-      padding: 0 30px;
+      padding: 20px 30px 0px;
       display: flex;
       display: -webkit-flex;
       -webkit-justify-content: space-between;
