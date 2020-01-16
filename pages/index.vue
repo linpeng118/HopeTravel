@@ -5,6 +5,7 @@
              <!--下载广告-->
              <template v-if="!isAndroid">
                  <div class="down-box" v-if="closeDown === 'no'" ref="refDownBox">
+                     <div class="down-manner"></div>
                      <div class="left" @click="changeCloseDown">
                          <van-icon name="close" />
                          <!--<span v-t="'homePage.downloadText'"></span>-->
@@ -437,7 +438,7 @@
       width: 100%;
       height: 120px;
       padding: 20px 32px;
-      background-color:#00ABF9;
+      background-color:#00ABF9;     
       color: #fff;
       display: flex;
       display: -webkit-flex;
@@ -446,14 +447,26 @@
       align-items: center;
       -webkit-align-items: center;
       font-size: 24px;
+      position: relative;
+      .down-manner{
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 120px;
+        background: url('../assets/imgs/woniu.png') no-repeat;
+        background-size: contain;
+      }
       .left{
           i {
             font-size: 32px;
             vertical-align: text-bottom;
+            z-index: 2;
       }
       }
       .downloadText{
           margin-left: 24px;
+          z-index: 2;
           span{
             font-size:28px;
             font-weight:400;
@@ -467,6 +480,7 @@
           border-radius: 6px;
           width:132px;
           height:48px;
+          z-index: 2;
         a {
           display: block;
           line-height: 48px;
@@ -476,6 +490,7 @@
       }
     }
     .search-box {
+        margin-top: 10px;
       height: 88px;
       /*background-color: rgba(255,255,255,.7);*/
       padding: 0 30px;
