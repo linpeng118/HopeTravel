@@ -115,9 +115,7 @@
       </div>
     </section>
     <!--footer-->
-    <section>
-      <confirm-foot :rooms="rooms"></confirm-foot>
-    </section>
+    <confirm-foot :rooms="rooms"></confirm-foot>
   </section>
 </template>
 

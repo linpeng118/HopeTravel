@@ -454,7 +454,7 @@
         <div class="main-box">
           <div class="cupleft">
             <div class="price">
-              <span>{{coupon.minus_label.substring(0, 1)}}</span>{{coupon.minus_label.substring(1)}}
+              <span v-if="coupon.type != 'percent'">{{coupon.minus_label.substring(0, 1)}}</span>{{coupon.type != 'percent' ? coupon.minus_label.substring(1) : coupon.minus_label}}
             </div>
             <p @click="changeCouponShow(coupon, index)">{{$t('couponsPage.instructions')}} <van-icon name="arrow-down" /></p>
           </div>
@@ -1335,5 +1335,8 @@ export default {
   padding: 20px 0;
   font-size: 24px;
   font-weight: normal !important;
+}
+.service-note  .van-hairline--bottom::after{
+  border-bottom-width: 0;
 }
 </style>
