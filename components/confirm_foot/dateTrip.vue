@@ -160,7 +160,7 @@
     float: left;
     height: 118px;
     text-align: center;
-    padding-top: 15px;
+    margin-top: 15px;
     margin-bottom: 25px;
   }
 
