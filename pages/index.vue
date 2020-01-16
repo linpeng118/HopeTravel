@@ -490,6 +490,7 @@
       }
     }
     .search-box {
+        margin-top: 10px;
       height: 88px;
       /*background-color: rgba(255,255,255,.7);*/
       padding: 0 30px;
