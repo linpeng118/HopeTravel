@@ -217,66 +217,69 @@
             </div>
             <div class="detail">
               <h3 class="name">{{items.title}}</h3>
-              <div class="tips" v-if="items.attractions">
-                <span v-for="attraction in items.attractions" :key="'attraction' + attraction.tour_city_id">
-                  {{attraction.name}} 
-                </span>
-              </div>
-              <div class="meal">
-                <span>{{items.meal | changMealText}}</span>
-              </div>
-              <template v-if="isShowProductDetail">
-                <div class="product-main-box">
-                  <h4 class="title">概述</h4>
-                  <div class="content" v-html="items.content"></div>
+              <div class="border-lf">
+                <div class="tips" v-if="items.attractions && items.attractions.length">
+                  <span v-for="attraction in items.attractions" :key="'attraction' + attraction.tour_city_id">
+                    {{attraction.name}} 
+                  </span>
                 </div>
-                <template v-if="items.attractions">
-                  <div class="point-box" v-for="(points,index) in items.attractions" :key="'points' + index" @click="changePointShow(points)">
-                    <div class="img-box" v-if="points.images && points.images.length">
-                      <img v-lazy="points.images[0]" alt="">
-                    </div>
-                    <div class="rightb">
-                      <h4 class="title">{{points.name}}</h4>
-                      <div class="scort" v-if="points.score">
-                        {{points.score}}
+                <div class="meal">
+                  <span>{{items.meal | changMealText}}</span>
+                </div>
+                <template v-if="isShowProductDetail">
+                  <div class="product-main-box">
+                    <h4 class="title">概述</h4>
+                    <div class="content" v-html="items.content"></div>
+                  </div>
+                  <template v-if="items.attractions">
+                    <div class="point-box" v-for="(points,index) in items.attractions" :key="'points' + index" @click="changePointShow(points)">
+                      <div class="img-box" v-if="points.images && points.images.length">
+                        <img v-lazy="points.images[0]" alt="">
                       </div>
-                      <div v-html="points.content" class="info-title van-multi-ellipsis--l2"></div>
+                      <div class="rightb">
+                        <h4 class="title">{{points.name}}</h4>
+                        <div class="scort" v-if="points.score">
+                          {{points.score}}
+                        </div>
+                        <div v-html="points.content" class="info-title van-multi-ellipsis--l2"></div>
+                      </div>
+                      <div class="note-b">
+                        <img src="../../assets/imgs/product/icon_point_1.png" alt="">
+                        {{$t('productDetailPage.n_point')}}
+                      </div>
+                    </div>
+                  </template>
+                  <div class="point-box" v-if="items.hotel">
+                    <div class="rightb">
+                      <h4 class="title">{{$t('productDetailPage.n_hotel')}}</h4>
+                      <div class="info-title-hotel" v-html="items.hotel">
+                      </div>
                     </div>
                     <div class="note-b">
-                      <img src="../../assets/imgs/product/icon_point_1.png" alt="">
-                      {{$t('productDetailPage.n_point')}}
+                      <img src="../../assets/imgs/product/icon_hotel_1.png" alt="">
+                      {{$t('productDetailPage.n_hotel')}}
+                    </div>
+                  </div> 
+                  <div class="point-box" v-if="items.meal">
+                    <div class="rightb">
+                      <h4 class="title">{{$t('productDetailPage.n_meal')}}</h4>
+                      <div class="info-title">
+                        {{items.meal | changMealText}}
+                      </div>
+                    </div>
+                    <div class="note-b">
+                      <img src="../../assets/imgs/product/icon_meal_1.png" alt="">
+                      {{$t('productDetailPage.n_meal')}}
                     </div>
                   </div>
                 </template>
-                <div class="point-box" v-if="items.hotel">
-                  <div class="rightb">
-                    <h4 class="title">{{$t('productDetailPage.n_hotel')}}</h4>
-                    <div class="info-title-hotel" v-html="items.hotel">
-                    </div>
-                  </div>
-                  <div class="note-b">
-                    <img src="../../assets/imgs/product/icon_hotel_1.png" alt="">
-                    {{$t('productDetailPage.n_hotel')}}
-                  </div>
-                </div> 
-                <div class="point-box" v-if="items.meal">
-                  <div class="rightb">
-                    <h4 class="title">{{$t('productDetailPage.n_meal')}}</h4>
-                    <div class="info-title">
-                      {{items.meal | changMealText}}
-                    </div>
-                  </div>
-                  <div class="note-b">
-                    <img src="../../assets/imgs/product/icon_meal_1.png" alt="">
-                    {{$t('productDetailPage.n_meal')}}
-                  </div>
-                </div>
-              </template>
+              </div>
             </div>
           </div>
-          <div class="qa-kf">
-            {{$t('productDetailPage.n_trip')}}<nuxt-link to="/custom">{{$t('productDetailPage.n_xhdzs')}}</nuxt-link>
-          </div>
+          
+        </div>
+        <div class="qa-kf">
+          {{$t('productDetailPage.n_trip')}}<nuxt-link to="/custom">{{$t('productDetailPage.n_xhdzs')}}</nuxt-link>
         </div>
         <div class="price-inexclude" ref="refPriceExplain">
           <!-- 费用说明 -->
@@ -546,7 +549,7 @@
     </van-action-sheet>
     <!-- 景点详情弹出层 -->
     <van-popup v-model="pointShow" class="point-wrapper" @close="moveHandle">
-      <van-swipe :autoplay="3000" indicator-color="white">
+      <van-swipe :autoplay="3000" indicator-color="white" ref="refSwipeVan">
         <van-swipe-item v-for="images in pointDetails.images" :key="'pointDetails'+images" class="item-box">
           <img v-lazy="images">
         </van-swipe-item>
@@ -887,12 +890,14 @@ export default {
       const h6 = this.$refs.refProductInfo && this.$refs.refProductInfo.getBoundingClientRect().height || 0
       const h7 = this.$refs.refPriceExplain && this.$refs.refPriceExplain.getBoundingClientRect().height || 0
       const scrolltopTemp = document.documentElement.scrollTop || document.body.scrollTop
+      const widthPage = document.documentElement.offsetHeight || document.body.offsetHeight
       const reviewBox = h2 + h3 -78
-      const detailBox = h4 + h2 - 78
+      const detailBox = h4 + h2 - 78  + h5 - widthPage / 2
       const infoBox = h4 + h2 + h5 - 78
       const priceBox = infoBox + h6
-      const explainBox = priceBox + h7      
-      if( detailBox <= scrolltopTemp){
+      const explainBox = priceBox + h7     
+
+      if( detailBox <= scrolltopTemp && (h4 + h2 - 78  + h5 + h6) > scrolltopTemp){
         this.showDetailProduct = true
       } else {
         this.showDetailProduct = false
@@ -957,7 +962,10 @@ export default {
     changePointShow(points){
       this.pointDetails= points
       this.pointShow = true
-      this.screenShow = true
+      document.body.addEventListener('touchmove', this.bodyScroll, { passive: false });
+    },
+    bodyScroll(event){
+      event.preventDefault();
     },
     // 导航去不同的区域
     gotoRegion(type){
@@ -1127,7 +1135,7 @@ export default {
       this.activeTab = tab.id
     },
     moveHandle(){
-      this.screenShow = false
+      document.body.removeEventListener('touchmove',this.bodyScroll, {passive: false});
     },
     // 电话咨询
     telCounsel() {
