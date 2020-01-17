@@ -311,11 +311,15 @@
                 <a class="agreea"
                   style="color: #216BFF">{{$t('agreeXifanServerM')}}</a>
               </nuxt-link>
+              
               <nuxt-link :to="{path:'/protocol/alone'}"
                 v-if="product.product_entity_type==0">
                 <a class="agreea"
                   style="color: #216BFF">{{$t('agreeXifanServerA')}}</a>
               </nuxt-link>
+              <i class="agreea">
+                等内容
+                </i>
             <!-- </van-checkbox> -->
           </div>
         </div>
