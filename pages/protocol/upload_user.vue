@@ -18,7 +18,7 @@ export default {
 }
 </script>
 
-<style type="text/scss" lang="scss">
+<style type="text/scss" lang="scss" scoped>
   .privacy-page {
     .out-layer-con {
       position: relative;

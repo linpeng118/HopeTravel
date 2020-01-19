@@ -118,10 +118,11 @@
 <style type="text/scss" lang="scss" scoped>
     .drift-wrap {
   width: 88px;
-  height: 400px;
+  /* height: 400px; */
   position: fixed;
   right: 10px;
-  bottom: 80px;
+  bottom: 100px;
+  /* top: 700px; */
   font-size: 36px;
   z-index: 100;
   img {
