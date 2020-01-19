@@ -39,7 +39,7 @@
   }
 </script>
 
-<style type="text/scss" lang="scss">
+<style type="text/scss" lang="scss" scoped>
   .about-us-page {
     .header {
       border-bottom: 2px solid #dedede;

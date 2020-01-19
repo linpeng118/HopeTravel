@@ -82,8 +82,8 @@
     "since": "起",
     "selfSupport": "自营",
     "contactService": "联系客服",
-    "agreeXifanServerM": "《旅行合同等内容》",
-    "agreeXifanServerA": "《预定协议等内容》",
+    "agreeXifanServerM": "《旅行合同》",
+    "agreeXifanServerA": "《预定协议》",
     "coupons": "优惠券",
     "usecoupons": "使用优惠券",
     "costDetail": "费用明细",
@@ -108,7 +108,7 @@
     "attackcomm": "攻略评论",
     "allcomm": "全部评论",
     "comment": {
-        "rate": "评分",
+        "rate": "评价",
         "detail": "评论详情"
     },
     "tour": {
@@ -149,7 +149,10 @@
         "visaNav": "签证办理",
         "hotDes": "热门目的地",
         "timedSpecials": "限时特价",
-        "siftProduct": "精选商品"
+        "siftProduct": "精选商品",
+        "downloadText1": "下载APP，",
+        "downloadText2": "领APP专享2600元大礼",
+        "goOpen": "立即打开"
     },
     "confirmPage": {
         "title": "确认订单",
@@ -170,8 +173,8 @@
         "leaveMessage": "预订留言",
         "tipsRequire": "选填，你可备注预订相关要求",
         "agreeXifanServer": "《稀饭旅行用户服务条款》",
-
-        "acceptRead": "我已阅读并接受"
+        "acceptRead": "我已阅读并接受",
+        "newAcceptRead": "点击去支付表示已阅读并同意"
     },
     "customPage": {
         "title": "私人定制",
@@ -354,6 +357,7 @@
         "priceDescription": "价格说明",
         "feeIncludes": "费用包含",
         "feeExcludes": "费用不含",
+        "ownExpense": "自费项目",
         "orderNotice": "恢复预定通知",
         "orderNow": "立即预定",
         "serviceDescription": "服务说明",
@@ -371,14 +375,14 @@
         "priceDouble": "双人一间",
         "priceTriple": "三人一间",
         "priceQuad": "四人一间",
-        "priceKids": "小孩价格",
+        "priceKids": "儿童价格",
         "priceFive": "五人一间",
         "priceSix": "六人一间",
         "priceSeven": "七人一间",
         "priceEight": "八人一间",
         "priceAdult": "成人价格",
         "productFeature": "产品特色",
-        "notice": "注意事项",
+        "notice": "购买须知",
         "follow": "收藏",
         "getSuccess": "领取成功",
         "weekend": "周末",
@@ -396,7 +400,31 @@
         "jiebanlvyou": "结伴同游",
         "pingtuan": "拼团人数不够？",
         "playTogether": "想找人一起玩？",
-        "helpTogether": "稀饭结伴社群帮你结伴！"
+        "helpTogether": "稀饭结伴社群帮你结伴！",
+        "n_comnent": "条评论",
+        "n_coupon": "领券",
+        "n_activity": "活动",
+        "n_service": "服务",
+        "n_more_group": "更多团期",
+        "n_top": "精华",
+        "n_good": "好评",
+        "n_bad": "差评",
+        "n_image": "有图",
+        "n_append": "追评",
+        "n_qaxf": "对行程有疑问？请",
+        "n_xfzsff": "稀饭助手饭饭",
+        "n_answer": "为您解答",
+        "n_point": "景点",
+        "n_hotel": "酒店",
+        "n_meal": "餐饮",
+        "n_trip": "对行程不满意？您还可以找",
+        "n_xhdzs": "稀饭定制师",
+        "n_priceTipes": "费用说明",
+        "n_entryName": "项目名称",
+        "n_adult": "成人",
+        "n_children": "儿童",
+        "n_oldMan": "老人",
+        "n_explainActivity": "活动说明"
     },
     "selectTravlerPage": {
         "selectTitle": "选择出行人",
@@ -474,7 +502,8 @@
     },
     "contractPage": {
         "travelContract": "旅行合同",
-        "travelSelf": "旅行合同及安全提示"
+        "travelSelf": "旅行合同及安全提示",
+        "safetyWarning": "安全提示"
     },
     "searchPage": {
         "searchHistory": "历史搜索",

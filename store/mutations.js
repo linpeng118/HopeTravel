@@ -17,7 +17,12 @@ export default {
   // 设置token
   setToken(state, data) {
     state.token = data
-    setCookieByKey(TOKEN, state.token)
+    if(process.client) {
+      setCookieByKey(TOKEN, state.token)
+    }
+  },
+  setServeToken(state, data) {
+    state.token = data
   },
   // 设置货币类型
   setCurrency(state, data) {

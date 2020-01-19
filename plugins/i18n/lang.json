@@ -109,7 +109,10 @@
         "visaNav": "签证办理",
         "hotDes": "热门目的地",
         "timedSpecials": "限时特价",
-        "siftProduct": "精选商品"
+        "siftProduct": "精选商品",
+        "downloadText1": "下载APP，",
+        "downloadText2": "领APP专享2600元大礼",
+        "goOpen": "立即打开"
     },
     "confirmPage": {
         "title": "确认订单",
@@ -130,7 +133,8 @@
         "leaveMessage": "预订留言",
         "tipsRequire": "选填，你可备注预订相关要求",
         "agreeXifanServer": "《稀饭旅行用户服务条款》",
-        "acceptRead": "我已阅读并接受"
+        "acceptRead": "我已阅读并接受",
+        "newAcceptRead": "点击去支付表示已阅读并同意"
     },
     "customPage": {
         "title": "私人定制",
@@ -307,6 +311,7 @@
         "priceDescription": "价格说明",
         "feeIncludes": "费用包含",
         "feeExcludes": "费用不含",
+        "ownExpense": "自费项目",
         "orderNotice": "恢复预定通知",
         "orderNow": "立即预定",
         "serviceDescription": "服务说明",
@@ -421,7 +426,8 @@
     },
     "contractPage": {
         "travelContract": "旅行合同",
-        "travelSelf": "旅行合同及安全提示"
+        "travelSelf": "旅行合同及安全提示",
+        "safetyWarning": "安全提示"
     },
     "searchPage": {
         "searchHistory": "历史搜索",

@@ -285,7 +285,6 @@ export default {
       .coupons-special{
         font-size: 20px;
         height: 36px;
-        line-height: 34px;
         width: 100%;
         overflow: hidden;
         margin-top: 12px;
@@ -295,14 +294,19 @@ export default {
           padding: 0 6px;
           margin-right: 6px;
           margin-bottom: 10px;
+          box-sizing: border-box;
         }
         .coupons{
           color: #FEC133;
-          border:1px solid #FEC133;
+          border:2px solid #FEC133;
+          line-height: 32px;
+          display: inline-block;
         }
         .special{
           color: #F55E2F;
           border:2px solid #F55E2F;
+          line-height: 32px;
+          display: inline-block;
         }
       }
       .product-price-share{
