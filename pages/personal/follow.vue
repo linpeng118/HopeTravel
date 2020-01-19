@@ -30,7 +30,7 @@
             <van-checkbox :name="item.product_id" ref="checkboxes" v-if="isModify" class="checked" />
             <div class="content" @click="selectItem(item.product_id)">
               <div class="pro-pic">
-                <img :src="item.image" alt>
+                <img v-lazy="item.image" alt>
               </div>
               <div class="pro-content">
                 <span class="pro-short">{{item.name_short}}</span>
@@ -246,7 +246,7 @@ export default {
           // background: #ddd;
           img {
             width: 208px !important;
-            height: 144px !important;
+            height: 170px !important;
           }
         }
         .pro-content {

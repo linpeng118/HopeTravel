@@ -22,8 +22,8 @@
     "regist": "注冊",
     "room": "房間",
     "delete": "刪除",
-    "agreeXifanServerM": "《旅行合同等內容》",
-    "agreeXifanServerA": "《預定協議等內容》",
+    "agreeXifanServerM": "《旅行合同》",
+    "agreeXifanServerA": "《預定協議》",
     "adult": "成人",
     "person": "人",
     "child": "兒童",
@@ -108,7 +108,7 @@
     "plhdNameEmail": "用戶名 / 郵箱",
     "plhdPhoneNumber": "請輸入手機號",
     "comment": {
-        "rate": "評分",
+        "rate": "評估",
         "detail": "評論詳情"
     },
     "tours": {
@@ -150,7 +150,10 @@
         "visaNav": "簽證辦理",
         "hotDes": "熱門目的地",
         "timedSpecials": "限時特價",
-        "siftProduct": "精選商品"
+        "siftProduct": "精選商品",
+        "downloadText1": "下載APP，",
+        "downloadText2": "領APP專享2600元大禮",
+        "goOpen": "立即打開"
     },
     "confirmPage": {
         "title": "確認訂單",
@@ -171,7 +174,8 @@
         "leaveMessage": "預訂留言",
         "tipsRequire": "選填，你可備注預訂相關要求",
         "agreeXifanServer": "《稀飯旅行用戶服務條款》",
-        "acceptRead": "我已閱讀並接受"
+        "acceptRead": "我已閱讀並接受",
+        "newAcceptRead": "點擊去支付表示已閱讀並同意"
     },
     "customPage": {
         "title": "私人定制",
@@ -353,6 +357,7 @@
         "priceDescription": "價格說明",
         "feeIncludes": "費用包含",
         "feeExcludes": "費用不含",
+        "ownExpense": "自費項目",
         "orderNotice": "恢複預定通知",
         "orderNow": "立即預定",
         "serviceDescription": "服務說明",
@@ -377,7 +382,7 @@
         "priceEight": "八人一間",
         "priceAdult": "成人價格",
         "productFeature": "産品特色",
-        "notice": "注意事項",
+        "notice": "購買須知",
         "follow": "收藏",
         "getSuccess": "領取成功",
         "weekend": "周末",
@@ -395,7 +400,31 @@
         "jiebanlvyou": "結伴同遊",
         "pingtuan": "拼團人數不夠？",
         "playTogether": "想找人壹起玩？",
-        "helpTogether": "稀飯結伴社群幫妳結伴！"
+        "helpTogether": "稀飯結伴社群幫妳結伴！",
+        "n_comnent": "條評論",
+        "n_coupon": "領券",
+        "n_activity": "活動",
+        "n_service": "服務",
+        "n_more_group": "更多團期",
+        "n_top": "精華",
+        "n_good": "好評",
+        "n_bad": "差評",
+        "n_image": "有圖",
+        "n_append": "追評",
+        "n_qaxf": "對行程有疑問？請",
+        "n_xfzsff": "稀飯助手飯飯",
+        "n_answer": "為您解答",
+        "n_point": "景點",
+        "n_hotel": "酒店",
+        "n_meal": "餐飲",
+        "n_trip": "對行程不滿意？您還可以找",
+        "n_xhdzs": "稀飯定制師",
+        "n_priceTipes": "費用說明",
+        "n_entryName": "項目名稱",
+        "n_adult": "成人",
+        "n_children": "兒童",
+        "n_oldMan": "老人",
+        "n_explainActivity": "活動說明"
     },
     "selectTravlerPage": {
         "selectTitle": "選擇出行人",
@@ -473,7 +502,8 @@
     },
     "contractPage": {
         "travelContract": "旅行合同",
-        "travelSelf": "旅行合同及安全提示"
+        "travelSelf": "旅行合同及安全提示",
+        "safetyWarning": "安全提示"
     },
     "searchPage": {
         "searchHistory": "曆史搜索",

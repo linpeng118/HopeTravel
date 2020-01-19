@@ -31,7 +31,7 @@
   }
 </script>
 
-<style type="text/scss" lang="scss">
+<style type="text/scss" lang="scss" scoped>
   .union-page {
     .out-layer-con {
       position: relative;
