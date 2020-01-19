@@ -118,17 +118,14 @@
 <style type="text/scss" lang="scss" scoped>
     .drift-wrap {
   width: 88px;
-  /* height: 400px; */
   position: fixed;
   right: 10px;
-  bottom: 100px;
-  /* top: 700px; */
+  bottom: 200px;
   font-size: 36px;
   z-index: 100;
   img {
     height: 88px;
     width: 88px;
-    /*  margin: 5px 0; */
   }
   .van-popup {
     border-radius: 16px;
