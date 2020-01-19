@@ -1,43 +1,52 @@
 <template>
-  <van-nav-bar class="product-detail-header-neu tours-no-bb"
+  <van-nav-bar class="product-detail-header-neu" :class="isShowTitle ? 'bg': ''"
     ref="productDetailHeader"
-    :fixed="true"
-    :class="{'transparent': transparent}"
-    :title="title"
-    :z-index="999"
+    fixed
     @click-left="onClickLeft"
     @click-right="onClickRight">
     <van-icon class="left-wrap-neu"
-      name="arrow-left"
+      :name="$route.query.sem == 1 ? 'wap-home-o':'arrow-left'"
       slot="left" />
     <van-icon class="right-wrap-neu"
       name="ellipsis"
       slot="right"/>
+    <div slot="title" v-if="isShowTitle" class="title-top">
+      <div class="item" :class="area == 'product'? 'active': ''" @click="gotoRegion('product')">产品</div>
+      <div class="item" v-if="review" :class="area == 'review'? 'active': ''" @click="gotoRegion('review')">评价</div>
+      <div class="item" :class="area == 'detail'? 'active': ''" @click="gotoRegion('detail')">详情</div>
+    </div>
   </van-nav-bar>
 </template>
 
 <script>
   export default {
     props: {
-      title: {
+      review: {
+        type: Boolean,
+        default: false
+      },
+      area: {
         type: String,
-        default: ''
-      },
-      transparent: {
-        type: Boolean,
-        default: false
-      },
-      fixed: {
-        type: Boolean,
-        default: false
-      },
+        default: 'product'
+      }
     },
     data() {
       return {
-        isFixed: true,
+        isShowTitle: false,
       }
     },
     computed: {
+    },
+    mounted(){
+      document.addEventListener('scroll',(e) => {
+        let scrolltopTemp = document.documentElement.scrollTop||document.body.scrollTop
+        if(scrolltopTemp > 50) {
+          this.isShowTitle = true
+        } else {
+          this.isShowTitle = false
+        }
+        
+      })
     },
     methods: {
       onClickLeft() {
@@ -47,6 +56,9 @@
       },
       onClickRight() {
         this.$emit('callOnRight')
+      },
+      gotoRegion(type){
+        this.$emit('goTo', type)
       }
     },
   }
@@ -56,28 +68,35 @@
   .product-detail-header-neu {
     height: 88px;
     font-size: 32px;
-    transition: all 0.5s;
-    background-color: #fff !important;
-    color: #000 !important;
+    background-color: transparent;
+    box-shadow: none !important;
     .left-wrap-neu,
     .right-wrap-neu {
-      color: #404040;
-      font-size: 32px;
+      color: #fff !important;
     }
-    .left-wrap {
-      /*padding: 16px;*/
+    &.bg{
+      background-color: #fff;
+      
+      .left-wrap-neu,
+      .right-wrap-neu {
+        color: #404040 !important;
+      }
     }
-    &.transparent {
-      background-color: transparent;
-      color: #fff;
-      .left-wrap,
-      .right-wrap {
-        background: rgba(0, 0, 0, 0.5);
-        /*padding: 10px;*/
-        border-radius: 50%;
-        color: #fff;
-        /*font-size: 32px;*/
+    .title-top{
+      display: flex;
+      .item{
+        flex: 1;
+        font-size: 24px;
+      }
+      .active{
+        color: #00ABF9;
       }
     }
   }
+
+</style>
+<style>
+.product-detail-header-neu.van-hairline--bottom::after{
+  border-bottom-width: 0;
+}
 </style>

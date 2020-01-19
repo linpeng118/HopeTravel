@@ -48,19 +48,24 @@
     width: 100%;
     max-width: 720px;
   }
+  .advantage_wrap h2{
+    font-size: 34px;
+  }
   .advantage_inner {
     width: 90%;
     margin: 0 auto;
     padding: 0.3rem 0;
   }
   .advantage_inner_p1 {
-    font-size: 0.28rem;
+    /* font-size: 0.28rem; */
+    font-size: 28px;
     color: #222222;
     line-height: 0.5rem;
     font-weight: bold;
   }
   .advantage_inner_p2 {
-    font-size: 0.24rem;
+    /* font-size: 0.24rem; */
+    font-size: 28px;
     color: #666666;
     line-height: 0.42rem;
   }
@@ -89,7 +94,8 @@
   table {
     border-color: #666666;
     color: #666666;
-    font-size: 0.24rem;
+    /* font-size: 0.24rem; */
+    font-size: 24px;
     border-right: 1px solid #666666;
     border-bottom: 1px solid #666666;
   }
@@ -100,14 +106,16 @@
     border-left: 1px solid #666666;
   }
   table tbody td {
-    font-size: 0.22rem;
+    /* font-size: 0.22rem; */
+    font-size: 22px;
     text-align: center;
     padding: 0.05rem 0.1rem;
     border-top: 1px solid #666666;
     border-left: 1px solid #666666;
   }
   .advantage_inner_p3 {
-    font-size: 0.24rem;
+    /* font-size: 0.24rem; */
+    font-size: 24px;
     margin: 0.1rem 0 0.2rem 0;
   }
   body .td1,

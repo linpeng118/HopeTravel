@@ -302,21 +302,25 @@
       <section>
         <div class="confirm-item">
           <div class="item-con">
-            <van-checkbox v-model="tongyi">
+            <!-- <van-checkbox v-model="tongyi"> -->
               <i class="agreea">
-                {{$t('confirmPage.acceptRead')}}
+                {{$t('confirmPage.newAcceptRead')}}
               </i>
               <nuxt-link :to="{path:'/protocol/more'}"
                 v-if="product.product_entity_type==1">
                 <a class="agreea"
                   style="color: #216BFF">{{$t('agreeXifanServerM')}}</a>
               </nuxt-link>
+              
               <nuxt-link :to="{path:'/protocol/alone'}"
                 v-if="product.product_entity_type==0">
                 <a class="agreea"
                   style="color: #216BFF">{{$t('agreeXifanServerA')}}</a>
               </nuxt-link>
-            </van-checkbox>
+              <i class="agreea">
+                等内容
+                </i>
+            <!-- </van-checkbox> -->
           </div>
         </div>
       </section>

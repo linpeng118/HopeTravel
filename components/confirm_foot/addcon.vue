@@ -72,8 +72,8 @@
       <van-datetime-picker
         v-model="datedob"
         type="date"
-        :min-date="new Date('1950-01-01')"
-        :max-date="new Date()"
+        :min-date="minDate"
+        :max-date="maxDate"
         @confirm="setval"
       />
     </van-popup>
@@ -107,7 +107,7 @@
          "nationality":this.$t('china'),
        },
         shownationality: false,
-        datedob:new Date('1990-01-01'),
+        datedob:new Date('1990/01/01'),
         showdate:false,
         title:this.$t('selectTravlerPage.addTitle'),
         queryid:this.$route.query.id||0,
@@ -117,6 +117,8 @@
         moreLists:{},
         showselqu:false,
         columns: [],
+        minDate: new Date('1900/01/01'),
+        maxDate: new Date()
       }
     },
     computed: {},

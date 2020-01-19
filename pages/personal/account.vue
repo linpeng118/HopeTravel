@@ -121,7 +121,7 @@ export default {
       nickname: "", //昵称
       nameShow: false,  //
       currentDate: new Date(), // 当前日期
-      minDate: new Date(1900, 1, 1),
+      minDate: new Date('1900/01/01'),
       maxDate: new Date(),
       showBirthday: false, // 生日
       showPhone: false, // 手机号码
