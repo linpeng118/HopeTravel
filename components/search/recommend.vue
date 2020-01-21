@@ -61,7 +61,7 @@
                 this.$emit('selectDetail', item, items)
             },
             selectDetailPlay(play) {
-                console.log(play)
+                console.log(33312131, play)
                 let {
                     category,
                     product_type,
