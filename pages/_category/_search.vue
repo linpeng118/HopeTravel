@@ -2,13 +2,13 @@
   <section class="product-list-page" ref="refprolistPage">
     <lay-header
       @leftClick="leftClick"
-      :searchString="headerTitleShow"
+      :searchString="headerTitleShow || $route.query.pt"
       @search="searchKeywordsProduct"
       @query="queryChange"
       :isProductPage="!headerTitleShow"
     ></lay-header>
     <van-sticky>
-      <tab-tags :items="filterTabs" @changeTag="changeFilterTag" v-if="!headerTitleShow"></tab-tags>
+      <tab-tags :items="filterTabs" @changeTag="changeFilterTag" v-if="!headerTitleShow || $route.query.jd"></tab-tags>
       <div v-if="!$route.query.bar">
         <van-dropdown-menu active-color="#02ACF9">
           <van-dropdown-item v-model="sortResult" :options="sortTypes" ref="sortTypesDropdown" />
@@ -482,7 +482,10 @@ export default {
           this.headerTitleShow = bar || tour_city + type_name
         } else if(this.headerKeySearch) {
           this.headerTitleShow = ''
-        } else {
+        } else if(this.$route.query.pt) {
+          this.headerTitleShow = this.$route.query.pt
+        }
+        else {
           this.headerTitleShow = tour_city || (this.tourCityName + (type_name || ''))
         }
       }

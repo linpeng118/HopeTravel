@@ -60,8 +60,7 @@
     } from '@/api/search'
     import {
         setLocalStore,
-        getLocalStore,
-        changeParams
+        getLocalStore
     } from '@/assets/js/utils'
     import {
         replaceServerUrl
@@ -361,12 +360,16 @@
                 }
             },
             selectDetail(query, tag) {
-                console.log('detail', tag)
-                let _query = changeParams(query)
                 if (tag.jump_url && tag.jump_url == 2) {
-                    this.$router.push(`/city_home/${tag.config_id}#`)
+                    this.$router.push(`/city_home/${tag.config_id}`)
                 } else {
-                    this.$router.push(_query)
+                    console.log(tag);
+                    if(tag.span_city || tag.start_city){
+                        let _cs = tag.span_city ? 'at' + tag.span_city : 'dc' + tag.start_city
+                        this.$router.push(`/${tag.category}/ya-${_cs}?jd=1`)
+                    } else {
+                        this.$router.push(`/${tag.category || 'all'}/ya-pt${tag.product_type}?jd=1&pt=${tag.content}`)
+                    }
                 }
             },
             selectDetailLine(category) {
