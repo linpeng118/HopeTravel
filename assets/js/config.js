@@ -29,7 +29,8 @@ export const LIST_PARAMS = {
     tc: 'tour_city',
     pt: 'product_type',
     zl: 'brand',
-    ln: 'lines'
+    ln: 'lines',
+    at: 'attraction'
 }
 
 export const TRUE_PARAMS = {
@@ -42,7 +43,8 @@ export const TRUE_PARAMS = {
     'span_city': 'tj',
     'product_type': 'pt',
     'brand': 'zl',
-    'lines': 'ln'
+    'lines': 'ln',
+    'attraction': 'at'
 }
 
 // 
