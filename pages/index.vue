@@ -1,14 +1,12 @@
  <template>
      <div class="home-wrap" ref="refHomePage">
          <!--头部-->
-         <div class="header">
-             <!--下载广告-->
-             <template v-if="!isAndroid">
+         <div class="header" v-if="!isAndroid">
+            
                  <div class="down-box" v-if="closeDown === 'no'" ref="refDownBox">
                      <div class="down-manner"></div>
                      <div class="left" @click="changeCloseDown">
                          <van-icon name="close" />
-                         <!--<span v-t="'homePage.downloadText'"></span>-->
                      </div>
                      <div class="downloadText">
                          <span>{{$t('homePage.downloadText1')}}</span>
@@ -18,27 +16,30 @@
                          <a :href="downUrl">{{$t('homePage.goOpen')}}</a>
                      </div>
                  </div>
-             </template>
-             <!--搜索-->
-             <div class="search-box" ref="searchBox">
-                 <nuxt-link tag="div" class="left" to="/search" id="searchLeft">
-                     <van-icon name="search" />
-                     <span>{{$t('homePage.desKeywords')}}</span>
-                 </nuxt-link>
-                 <div @click.stop="showcall" data-agl-cvt="2" class="right">
-                     <van-icon name="phone-circle-o" />
-                 </div>
-             </div>
+             
+             
          </div>
-         <!--banner-->
-         <div class="banner">
-             <van-swipe indicator-color="white">
-                 <van-swipe-item v-for="banner in bannerList" :key="banner.image_url">
-                     <a class="img" :href="banner.link_url">
-                         <img :src="banner.image_url" />
-                     </a>
-                 </van-swipe-item>
-             </van-swipe>
+         <div class="bannerSearch">
+             <!--搜索-->
+            <div class="search-box" ref="searchBox">
+                    <nuxt-link tag="div" class="left" to="/search" id="searchLeft">
+                        <van-icon name="search" />
+                        <span>{{$t('homePage.desKeywords')}}</span>
+                    </nuxt-link>
+                    <div @click.stop="showcall" data-agl-cvt="2" class="right">
+                        <van-icon name="phone-circle-o" />
+                    </div>
+                </div>
+            <!--banner-->     
+            <div class="banner"> 
+                <van-swipe indicator-color="white">
+                    <van-swipe-item v-for="banner in bannerList" :key="banner.image_url">
+                        <a class="img" :href="banner.link_url">
+                            <img :src="banner.image_url" />
+                        </a>
+                    </van-swipe-item>
+                </van-swipe>
+            </div>
          </div>
          <!--标签-->
          <div v-swiper:mySwiper="navSwiperOption" class="entry-block">
@@ -369,7 +370,10 @@
                          this.$refs.searchBox.style.color = `rgb(255,255,255)`
                          document.getElementById('searchLeft').style.backgroundColor = `rgba(255,255,255,0.8)`
                          document.getElementById('searchLeft').style.color = `#989898`
-                         this.$refs.searchBox.style.position = 'inherit'
+                         this.$refs.searchBox.style.position = 'absolute'
+                         if(this.closeDown === 'yes'){
+                             this.$refs.searchBox.style.position = 'relative'
+                         }
                          this.$refs.searchBox.style.top = 'auto'
                      } else {
                          let rate = s1 / SCROLL
@@ -397,7 +401,8 @@
              },
              // 关闭下载
              changeCloseDown() {
-                 this.setCloseDown('yes')
+                 this.setCloseDown('yes');
+                 this.$refs.searchBox.style.position = 'relative';
              },
              ...mapMutations(['setCloseDown']),
              ...mapMutations({
@@ -417,22 +422,11 @@
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   background: #f1f1f1;
-  .banner {
-    height: 420px;
-    a {
-      display: inline-block;
-      width: 100%;
-      height: 420px;
-    }
-    img {
-      height: 420px;
-      width: 100%;
-    }
-  }
   .header {
-    position: absolute;
+    // position: absolute;
     width: 100%;
-    top: 0;
+    // left: 0;
+    // top: 0;
     z-index: 2100;
     .down-box {
       width: 100%;
@@ -489,10 +483,29 @@
         }
       }
     }
-    .search-box {
-      height: 88px;
-      /*background-color: rgba(255,255,255,.7);*/
-      padding: 20px 30px 0px;
+    
+  }
+  .bannerSearch{
+      position: relative;
+      .banner {
+        height: 420px;
+            a {
+            display: inline-block;
+            width: 100%;
+            height: 420px;
+            }
+            img {
+            height: 420px;
+            width: 100%;
+            } 
+  }
+  .search-box {
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 2;
+      height: 108px;
+      padding: 20px 30px 20px;
       display: flex;
       display: -webkit-flex;
       -webkit-justify-content: space-between;
@@ -502,31 +515,35 @@
       color: #fff;
       transition: 0.3s all;
       width: 100%;
-      .left {
-        width: 618px;
-        height: 72px;
-        padding: 12px 14px;
-        border-radius: 36px;
-        background-color: rgba(255, 255, 255, 0.8);
-        color: #989898;
-        display: flex;
-        display: -webkit-flex;
-        font-size: 42px;
-        align-items: center;
-        -webkit-align-items: center;
-        transition: 0.3s all;
-        span {
-          font-size: 22px;
+        .left {
+            width: 618px;
+            height: 72px;
+            padding: 12px 14px;
+            border-radius: 36px;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #989898;
+            display: flex;
+            display: -webkit-flex;
+            font-size: 42px;
+            align-items: center;
+            -webkit-align-items: center;
+            transition: 0.3s all;
+            span {
+            font-size: 22px;
+            }
         }
-      }
-      .right {
-        font-weight: bold;
-        i {
-          font-size: 60px;
+        .right {
+            font-weight: bold;
+            i {
+            font-size: 60px;
+            vertical-align: middle
+            }
         }
-      }
     }
   }
+     
+  
+  
 
   .entry-block {
     padding: 52px 0px 25px;
