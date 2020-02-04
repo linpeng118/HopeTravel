@@ -20,7 +20,10 @@
              
          </div>
          <div class="bannerSearch">
-             <!--搜索-->
+            
+            <!--banner-->     
+            <div class="banner"> 
+                 <!--搜索-->
             <div class="search-box" ref="searchBox">
                     <nuxt-link tag="div" class="left" to="/search" id="searchLeft">
                         <van-icon name="search" />
@@ -30,8 +33,6 @@
                         <van-icon name="phone-circle-o" />
                     </div>
                 </div>
-            <!--banner-->     
-            <div class="banner"> 
                 <van-swipe indicator-color="white">
                     <van-swipe-item v-for="banner in bannerList" :key="banner.image_url">
                         <a class="img" :href="banner.link_url">
@@ -371,9 +372,9 @@
                          document.getElementById('searchLeft').style.backgroundColor = `rgba(255,255,255,0.8)`
                          document.getElementById('searchLeft').style.color = `#989898`
                          this.$refs.searchBox.style.position = 'absolute'
-                         if(this.closeDown === 'yes'){
+                         /* if(this.closeDown === 'yes'){
                              this.$refs.searchBox.style.position = 'relative'
-                         }
+                         } */
                          this.$refs.searchBox.style.top = 'auto'
                      } else {
                          let rate = s1 / SCROLL
@@ -402,7 +403,7 @@
              // 关闭下载
              changeCloseDown() {
                  this.setCloseDown('yes');
-                 this.$refs.searchBox.style.position = 'relative';
+                //  this.$refs.searchBox.style.position = 'relative';
              },
              ...mapMutations(['setCloseDown']),
              ...mapMutations({
@@ -489,17 +490,8 @@
       position: relative;
       .banner {
         height: 420px;
-            a {
-            display: inline-block;
-            width: 100%;
-            height: 420px;
-            }
-            img {
-            height: 420px;
-            width: 100%;
-            } 
-  }
-  .search-box {
+        position: relative;
+        .search-box {
       position: absolute;
       left: 0;
       top: 0;
@@ -541,6 +533,17 @@
         }
     }
   }
+            a {
+            display: inline-block;
+            width: 100%;
+            height: 420px;
+            }
+            img {
+            height: 420px;
+            width: 100%;
+            } 
+  }
+  
      
   
   
