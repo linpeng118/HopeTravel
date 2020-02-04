@@ -97,7 +97,7 @@ export default {
     async validateCode() {
       let {code,msg} = await validatePhone({
         code: this.phoneForm.smsCode,
-        phone: this.phoneForm.phone
+        phone: `${this.phoneForm.areaCode}-${this.phoneForm.phone}`
       })
       if (code === 0) {
         this.$emit('validatePhone', this.phoneForm.phone)
