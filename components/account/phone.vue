@@ -71,7 +71,7 @@ export default {
       this.codeType = VERIFY_CODE.GETTING // 获取验证码
       let {code,msg} = await getSmsCode({
         phone: `${this.phoneForm.areaCode}-${this.phoneForm.phone}`,
-        scene: SMS_SCENE.LOGIN
+        scene: SMS_SCENE.VALIDATE
       })
       if (code === 0) {
         await this.countDown()
