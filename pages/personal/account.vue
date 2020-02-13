@@ -175,7 +175,7 @@ export default {
         clearCookieByKey(TOKEN)
         this.vxSetProfile({})
         this.$router.push({
-          path: '/'
+          path: '/personal'
         })
       }).catch(() => {
       });
