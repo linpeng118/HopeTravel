@@ -71,7 +71,7 @@ export default {
       this.codeType = VERIFY_CODE.GETTING // 获取验证码
       let {code,msg} = await getSmsCode({
         phone: `${this.phoneForm.areaCode}-${this.phoneForm.phone}`,
-        scene: SMS_SCENE.LOGIN
+        scene: SMS_SCENE.VALIDATE
       })
       if (code === 0) {
         await this.countDown()
@@ -97,7 +97,7 @@ export default {
     async validateCode() {
       let {code,msg} = await validatePhone({
         code: this.phoneForm.smsCode,
-        phone: this.phoneForm.phone
+        phone: `${this.phoneForm.areaCode}-${this.phoneForm.phone}`
       })
       if (code === 0) {
         this.$emit('validatePhone', this.phoneForm.phone)
