@@ -48,7 +48,7 @@
           <span>{{$t('selectTravlerPage.nationality')}}</span>
         </div>
         <div class="van-cell__value">
-          <span>{{userform.nationality!=''?userform.nationality: $t('pleaseChoose')}}</span>
+          <span>{{userform.location_info!=''?userform.location_info: $t('pleaseChoose')}}</span>
         </div>
         <div style="margin-top: -4px">
           <i class="van-icon van-icon-arrow van-cell__right-icon"></i>
@@ -105,17 +105,17 @@
       </van-cell-group>
     </div>
     <van-popup v-model="shownationality" position="right" style="width:100%;height: 100%;">
-      <city-list :pageparent="'/personal/addContacts'"
-                 :dataObj="moreLists"
+      <newcity-list :pageparent="'/personal/addContacts'"
+                 :dataObj="countryList"
                  @selectItem="selectItem"
                  ref="moreList"
                  @back="moreListBack"
                  @countryName="countryName" >
-      </city-list>
+      </newcity-list>
     </van-popup>
     <van-popup v-model="showselqu" position="right" style="width:100%;height: 100%;">
       <tel-code :pageparent="'/personal/addContacts'"
-                 :dataObj="moreLists"
+                 :dataObj="telList"
                  @selectCode="selectCode"
                  ref="moreList2"
                  @back="moreListBack2"
@@ -135,18 +135,19 @@
 </template>
 
 <script>
-  import {guojialist} from '@/api/contacts'
+  import {guojialist,getLocationsCountry} from '@/api/contacts'
   import {setcontanct} from '@/api/contacts'
   import {delcontanct} from '@/api/contacts'
   import {addcontanct} from '@/api/contacts'
   import {getcontants} from '@/api/contacts'
   import {getcontant} from '@/api/contacts'
-  import CityList from '@/components/confirm_foot/cityList'
+  import NewcityList from '@/components/confirm_foot/newCityList'
   import TelCode from '@/components/confirm_foot/telcode'
   import {getquhao} from '@/api/contacts'
+  import {mapMutations,mapGetters} from 'vuex'
   export default {
     components: {
-      CityList,TelCode
+      NewcityList,TelCode
     },
     data() {
       return {
@@ -159,12 +160,14 @@
          "dob":"",
          "email":"",
          "passport":"",
-         "nationality":this.$t('china'),
+         "nationality":0,//保存国家的id
          "six":0,
          "phone_country":'86',
          "identity":null,
-         "isuser":false
+         "isuser":false,
+         'location_info':this.$t('china'),//保存国家名字
        },
+       local_List:[],
         shownationality: false,
         datedob:new Date('1990/01/01'),
         showdate:false,
@@ -173,14 +176,21 @@
         adult:this.$route.query.adult||null,
         checker:this.$route.query.checker||[],
         pushpath:"",
-        moreLists:{},
+        countryList:{},//国家列表
+        telList:{},//区号列表
         showselqu:false,
         columns: [],
         minDate: new Date('1900/01/01'),
-        maxDate: new Date()
+        maxDate: new Date(),
+        // nationalityIdPc:0,//传到pc的国家id
+        // nationalityNamePc:''//国籍名字
       }
     },
-    computed: {},
+    computed: {
+      /* ...mapGetters([
+      'national'
+    ]) */
+    },
     created(){
     },
     mounted(){
@@ -188,8 +198,12 @@
         this.title= this.$t('selectTravlerPage.editTitle');
         this.getcontant();
       }
-      this.guojia();
+      this.gotCountry();
+      // this.gotQuhao();
       this.getqu();
+      /* if(this.national){
+        this.location_info = this.national;
+      } */
     },
 
     beforeRouteEnter(to, from, next) {
@@ -201,6 +215,9 @@
       })
     },
     methods: {
+     /*  ...mapMutations({
+      vxSaveNational: 'profile/saveNational'
+    }), */
       countryName(data){
         this.userform.nationality=data;
         this.shownationality=false
@@ -269,7 +286,6 @@
           let {data, code, msg} = await setcontanct(this.userform,this.queryid)
           if (code === 0) {
             console.log(data,msg);
-            
             this.$router.replace({
               path:this.pushpath,
               query:{
@@ -312,6 +328,18 @@
         let {data, code} = await getcontant(this.queryid)
         if (code === 0) {
          this.userform=data;
+         console.log('sssssssssssss',this.location_info);
+         for (let key in this.local_List) {
+           console.log('sssssssssssssqqqqq',this.local_List[key].id,this.userform.nationality);
+           
+           if(this.local_List[key].id==this.userform.nationality){
+             console.log('sssssssssssssqqqqqvvvvvv',this.local_List[key].id);
+             
+             this.userform.location_info = this.local_List[key].name;
+             console.log(this.userform.location_info);
+             
+           }
+         }
          if(this.userform.phone.indexOf('-')!=-1){
            var arr=this.userform.phone.split('-');
            this.userform.phonex=arr[1];
@@ -321,6 +349,12 @@
            this.userform.phonex=this.userform.phone;
            this.userform.phone_country='86';
          }
+         /* this.local_List.map((val)=>{
+            if(val.id === this.userform.nationality){
+              this.location_info = val.name;
+            }
+         }) */
+         
         }
         else {
         }
@@ -352,10 +386,32 @@
         }
 
       },
-      async guojia(){
-        let {data, code,msg,hot_country} = await guojialist()
+      //得到国家列表
+      async gotCountry(){
+        let {data, code,msg} = await getLocationsCountry()
+       
         if (code === 0) {
-          this._nomalLizePinyin(data,hot_country)
+          let hot_data = data.hot_data;
+          let localList = data.list;
+          this.local_List = data.list;
+          console.log(this.local_List);
+          
+         this.countryList = this._nomalLizePinyin(localList,hot_data);
+          
+        console.log('this.countryList',this.countryList);
+        }
+        else {
+
+        }
+
+      },
+      //得到区号所对应的列表
+      async gotQuhao(){
+        let {data, code,msg,hot_country} = await  guojialist()
+       
+        if (code === 0) {
+       this.telList = this._nomalLizePinyin(data,hot_country)
+       console.log('this.telList',this.telList);
         }
         else {
 
@@ -365,25 +421,54 @@
       //格式化拼音列表
       _nomalLizePinyin(data,hot) {
         let len = data.length;
-        let len2 = hot.length;
-        let obj = {
-          '热门城市':[]
+        
+        
+
+        console.log(data,hot);
+        
+          let len2 = hot.length;
+          let obj = {
+          '热门':[],
+          // '列表':[]
         };
+        let arr = {};
         for(let i= 0; i<len2; i++) {
-          obj['热门城市'].push({...hot[i]})
+          obj['热门'].push({...hot[i]})
         }
         for(let i= 0; i<len; i++) {
-          if(!obj[data[i].key]) {
-            obj[data[i].key] = []
+          if(!obj[data[i].name_pinyin]) {
+            obj[data[i].name_pinyin] = []
           }
-          obj[data[i].key].push({...data[i]})
+          obj[data[i].name_pinyin].push({...data[i]})
+           
+           
         }
-        this.moreLists=obj
+        // obj['列表'] = arr;
+        // this.telList = obj
+        return obj;
+      
+      /*  else{
+            let obj = {};
+            for(let i= 0; i<len; i++) {
+          if(!obj[data[i].key]) {
+            obj[data[i].key] = ['']
+          }
+          this.countryList.push({...data[i]})
+          
+        }
+        console.log('this.countryList',this.countryList);
+       } */
+        
+       
+        
+        
       },
 
-      selectItem(lists,type) { // 关闭更多选择层
-        this.userform.nationality=lists[0].name;
-        this.shownationality = false
+      selectItem(lists) { // 关闭更多选择层
+        this.userform.nationality = lists[0].id;
+        /* this.vxSaveNational(lists[0].name); */
+        this.userform.location_info = lists[0].name;
+        this.shownationality = false   
       },
       selectCode(lists,type) { // 关闭更多选择层
         this.userform.phone_country=lists[0].telcode;
