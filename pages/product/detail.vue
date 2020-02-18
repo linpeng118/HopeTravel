@@ -764,8 +764,7 @@ export default {
         },
         {
           type: '景点',
-          // text: `共${this.itinerary.itinerary_resume.tour_city_list.length}个景点`,
-          text: `共N个景点`,
+          text: `共${this.itinerary.itinerary_resume.tour_city_list.length}个重要景点`,
           allName: this.itinerary.itinerary_resume.tour_city_list.join('，'),
           icon: 'icon_resume'
         },
