@@ -1,19 +1,9 @@
 <template>
   <div class="hot-item" @click="selectItem" target="_blank">
     <div class="banner" :productId="proData.product_id">
-      <img v-lazy="proData.image"
-        alt="banner">
-      <div class="tag-wrap"
-        :class="tagPos">
-        <div class="tag"
-          v-for="(item,index) in proData.icons_show"
-          :class="index===1? 'color': ''"
-          :key="item">
-          {{item}}
-        </div>
-      </div>
-      <div class="title-wrap" v-if="isShowTitle">
-        <span class="title">{{proData.title}}</span>
+      <img v-lazy="proData.image" alt="banner">
+      <div class="tag-wrap">
+        {{proData.departure_city | departureCity}}  {{proData.sub_type}}
       </div>
     </div>
     <div class="desc" :class="proData.name_short ? 'one' : 'no-wrap-line2 imitate-ellipsis2'">{{proData.name_short || proData.name}}</div>
@@ -39,7 +29,15 @@
     filters:{
       getPrice(value) {
         return value.toString().split('.')[0]
-      }
+      },
+      departureCity(value){
+        let _arr = value.split('/')
+        let len = _arr.length
+        if(len > 1) {
+          return `${_arr[0]}等${len}地出发`
+        }
+        return `${value}出发`
+        }
     },
     props: {
       proData: {
@@ -59,14 +57,6 @@
           self_support: 0,
           special_price: '',
         })
-      },
-      isShowTitle: {
-        type: Boolean,
-        default: true,
-      },
-      tagPos: {
-        type: String,
-        default: 'top'
       }
     },
     data() {
@@ -105,23 +95,16 @@
       }
       .tag-wrap {
         position: absolute;
-        left: 0;
-        top: 0;
+        left: 20px;
+        bottom: 10px;
         height:36px;
-        border-radius: 0 0 0.16rem 0;
-        overflow: hidden;
-        .tag {
-          display: inline-block;
-          font-size:22px;
-          color: #fff;
-          background-color: #ef9a1a;
-          width: 58px;
-          text-align: center;
-          line-height: 36px;
-        }
-        .color {
-          background: #fe423f;
-        }
+        background-color: rgba(0,0,0,0.5);
+        color: #fff;
+        height:36px;
+        font-size: 24px;
+        line-break: 36px;
+        padding: 0 10px;
+        border-radius:8px;
       }
       .title-wrap {
         box-sizing: border-box;
