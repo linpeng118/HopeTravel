@@ -27,8 +27,8 @@
       <span class="unit">/{{$t('since')}}&nbsp;</span>
     </div>
     <div class="lv-info">
-      <span>{{proData.sales}}人出行</span>
-      <span class="score">{{proData.comment_score}}分</span>
+      <span v-if="proData.sales > 0">{{proData.sales}}人出行</span>
+      <span class="score" v-if="proData.comment_score != '0.0'">{{proData.comment_score}}分</span>
     </div>
   </div>
 </template>
