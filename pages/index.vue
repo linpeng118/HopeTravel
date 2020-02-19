@@ -83,12 +83,12 @@
                   <a class="cp-mk" :href="`/product/detail?productId=${theme.a_product[0] && theme.a_product[0].product_id}`">
                     <p class="name">{{theme.a_product_name}}</p>
                     <p class="grap">{{theme.a_product_keyword}}</p>
-                    <p class="price">{{theme.a_product[0] && theme.a_product[0].default_price}}</p>
+                    <p class="price" v-if="theme.a_product[0]">{{theme.a_product[0].default_price | getPrice}}</p>
                   </a>
-                  <a class="cp-mk" :href="`/product/detail?productId=${theme.a_product[0] && theme.a_product[0].product_id}`">
+                  <a class="cp-mk" :href="`/product/detail?productId=${theme.b_product[0] && theme.b_product[0].product_id}`">
                     <p class="name">{{theme.b_product_name}}</p>
                     <p class="grap">{{theme.b_product_keyword}}</p>
-                    <p class="price">{{theme.b_product[0] && theme.b_product[0].default_price}}</p>
+                    <p class="price" v-if="theme.b_product[0]">{{theme.b_product[0].default_price | getPrice}}</p>
                   </a>
                 </div>
               </div>
@@ -187,6 +187,11 @@ import apiConfig from "./../apiConf.env";
 import Tabbar from "@/components/tabbar";
 export default {
   name: "home",
+   filters:{
+    getPrice(value) {
+      return value.toString().split('.')[0]
+    },
+   },
   components: {
     HotPlace,
     SnapUpItem,
@@ -365,7 +370,7 @@ export default {
     },
     getHomeInitData() {
       this.bannerList = this.indexData.banner || []
-      this.timeSalesList = this.indexData.special.special_products || []
+      this.timeSalesList = (this.indexData.special && this.indexData.special.special_products) || []
       this.assuranceList = this.indexData.assurance || []
       this.navList = this.indexData.main_nav || [];
       this.assNavList = this.indexData.ass_nav || [];
@@ -382,7 +387,7 @@ export default {
         tabName: this.selectTabsList[0].filter[0].name
       }
       console.log(this.tabCurrent) 
-      this.timeSalesIds = this.getTimeSaleIds(this.indexData.special.special_products)
+      this.timeSalesIds = this.getTimeSaleIds(this.timeSalesList)
     },
     changeProductTab(tab, index){
       let {tabValue, tabName} = this.tabCurrent
