@@ -1,481 +1,571 @@
- <template>
-     <div class="home-wrap" ref="refHomePage">
-         <!--头部-->
-         <div class="header" v-if="!isAndroid">
-            
-                 <div class="down-box" v-if="closeDown === 'no'" ref="refDownBox">
-                     <div class="down-manner"></div>
-                     <div class="left" @click="changeCloseDown">
-                         <van-icon name="close" />
-                     </div>
-                     <div class="downloadText">
-                         <span>{{$t('homePage.downloadText1')}}</span>
-                         <span>{{$t('homePage.downloadText2')}}</span>
-                     </div>
-                     <div class="right">
-                         <a :href="downUrl">{{$t('homePage.goOpen')}}</a>
-                     </div>
-                 </div>
-             
-             
-         </div>
-         <div class="bannerSearch">
-            
-            <!--banner-->     
-            <div class="banner"> 
-                 <!--搜索-->
-            <div class="search-box" ref="searchBox">
-                    <nuxt-link tag="div" class="left" to="/search" id="searchLeft">
-                        <van-icon name="search" />
-                        <span>{{$t('homePage.desKeywords')}}</span>
-                    </nuxt-link>
-                    <div @click.stop="showcall" data-agl-cvt="2" class="right">
-                        <van-icon name="phone-circle-o" />
-                    </div>
+<template>
+  <div class="home-wrap" ref="refHomePage">
+    <!--头部-->
+    <div class="header" v-if="!isAndroid">
+      <div class="down-box" v-if="closeDown === 'no'" ref="refDownBox">
+        <div class="down-manner"></div>
+        <div class="left" @click="changeCloseDown">
+          <van-icon name="close" />
+        </div>
+        <div class="downloadText">
+          <span>{{ $t("homePage.downloadText1") }}</span>
+          <span>{{ $t("homePage.downloadText2") }}</span>
+        </div>
+        <div class="right">
+          <a :href="downUrl">{{ $t("homePage.goOpen") }}</a>
+        </div>
+      </div>
+    </div>
+    <div class="bannerSearch">
+      <!--banner-->
+      <div class="banner">
+        <!--搜索-->
+        <div class="search-box" ref="searchBox">
+          <nuxt-link tag="div" class="left" to="/search" id="searchLeft">
+            <van-icon name="search" />
+            <span>{{ $t("homePage.desKeywords") }}</span>
+          </nuxt-link>
+          <div @click.stop="showcall" class="right">
+            <van-icon name="phone-o" />
+          </div>
+        </div>
+        <van-swipe indicator-color="white">
+          <van-swipe-item v-for="banner in bannerList" :key="banner.image">
+            <a class="img" :href="banner.link">
+              <img :src="banner.image" />
+            </a>
+          </van-swipe-item>
+        </van-swipe>
+      </div>
+    </div>
+    <!--标签-->
+    <div class="entry-block">
+      <div v-for="navItem in navList" :key="navItem.title">
+        <a class="entry-tourism" :href="navItem.nav_link">
+          <img :src="navItem.nav_image" />
+          <p class="title">{{ navItem.nav_title }}</p>
+        </a>
+      </div>
+    </div>
+    <!--标签-->
+    <div class="entry-block last">
+      <div v-for="navItem in assNavList" :key="navItem.title">
+        <a class="entry-tourism" :href="navItem.nav_link">
+          <img :src="navItem.nav_image" />
+          <p class="title">{{ navItem.nav_title }}</p>
+        </a>
+      </div>
+    </div>
+    <!--推荐目的地-->
+    <div class="hot-target">
+      <div class="title">
+        <div class="name">{{ $t("homePage.hotDes") }}</div>
+        <nuxt-link tag="div" class="link-all" to="/search">
+          {{ $t("seeAll") }}
+          <van-icon name="arrow" />
+        </nuxt-link>
+      </div>
+      <hot-place :lists="hotList"></hot-place>
+    </div>
+    <!-- 旅行月历 -->
+    <div class="travel-calendar">
+      <div class="title-name">{{ $t("homePage.trcalendar") }}</div>
+      <div class="tab-main-content">
+        <van-tabs :border="false" color="#00ABF9" line-width="60">
+          <van-tab :title="calendar.month && calendar.month.tab_name" v-for="(calendar, index) in tourCalendarList" :key="'Calendar' + index">
+            <div class="items">
+              <div class="box-lx">
+                <div class="info" v-for="theme in calendar.theme" :key="theme.a_product_name" :style="{backgroundImage: `url(${theme.image})`}">
+                  <div class="lm-name">
+                    <div class="fs14">{{theme.theme}}</div>
+                    <div>{{theme.desc}}</div>
+                  </div>
+                  <a class="cp-mk" :href="`/product/detail?productId=${theme.a_product[0] && theme.a_product[0].product_id}`">
+                    <p class="name">{{theme.a_product_name}}</p>
+                    <p class="grap">{{theme.a_product_keyword}}</p>
+                    <p class="price" v-if="theme.a_product[0]">{{theme.a_product[0].default_price | getPrice}}</p>
+                  </a>
+                  <a class="cp-mk" :href="`/product/detail?productId=${theme.b_product[0] && theme.b_product[0].product_id}`">
+                    <p class="name">{{theme.b_product_name}}</p>
+                    <p class="grap">{{theme.b_product_keyword}}</p>
+                    <p class="price" v-if="theme.b_product[0]">{{theme.b_product[0].default_price | getPrice}}</p>
+                  </a>
                 </div>
-                <van-swipe indicator-color="white">
-                    <van-swipe-item v-for="banner in bannerList" :key="banner.image_url">
-                        <a class="img" :href="banner.link_url">
-                            <img :src="banner.image_url" />
-                        </a>
-                    </van-swipe-item>
-                </van-swipe>
+              </div>
             </div>
-         </div>
-         <!--标签-->
-         <div v-swiper:mySwiper="navSwiperOption" class="entry-block">
-             <div class="swiper-wrapper">
-                 <div class="swiper-slide" v-for="navItem in navList" :key="navItem.title">
-                     <nuxt-link class="entry-tourism" :to="navItem.link_url">
-                         <img :src="navItem.image_url" alt="">
-                         <p class="title">{{navItem.title}}</p>
-                     </nuxt-link>
-                 </div>
-             </div>
-             <!-- 操作 -->
-             <div class="swiper-pagination"></div>
-         </div>
-         <!--新增行程攻略列表-->
-         <div class="newnav">
-             <nuxt-link tag="div" to="/product_list/product-save">
-                 <p class="p1">{{$t('savetime')}}</p>
-                 <p class="p2">{{$t('savecon')}}</p>
-             </nuxt-link>
-             <nuxt-link tag="div" to="/article/list">
-                 <p class="p1">{{$t('attack')}}</p>
-                 <p class="p2">{{$t('attackcon')}}</p>
-             </nuxt-link>
-         </div>
-         <!--热门目的地-->
-         <div class="hot-target">
-             <div class="title">
-                 <div class="name">{{$t('homePage.hotDes')}}</div>
-                 <nuxt-link tag="div" class="link-all" to="/search">
-                     {{$t('seeAll')}}
-                     <van-icon name="arrow" />
-                 </nuxt-link>
-             </div>
-             <hot-place :lists="hotList" @selectDetail="selectDetail"></hot-place>
-         </div>
-         <!--限时抢购-->
-         <div class="sale-time-box" v-if="timeSalesList.length">
-             <h1 class="title">{{$t('homePage.timedSpecials')}}</h1>
-             <div v-swiper:mySwiper1="viewedSwiperOption">
-                 <div class="swiper-wrapper">
-                     <div class="swiper-slide" v-for="(sales,index) in timeSalesList" :key="sales.product_id + index">
-                         <snap-up-item :proData="sales" :isCollect="false" :isShowTime="true" @selectDetail="selectItem">
-                             <div class="count-down" v-html="sales.time"></div>
-                         </snap-up-item>
-                     </div>
-                 </div>
-             </div>
-         </div>
-         <!--精选商品-->
-         <div class="product-list">
-             <h1 class="title">{{$t('homePage.siftProduct')}}</h1>
-             <van-list class="half" v-model="prodLoading" :prodFinished="prodFinished" :finished-text="$t('noMore')" @load="onLoad">
-                 <van-cell class="half-item" tagPos="bottom" v-for="product in productList" :key="product.desc">
-                     <hot-item :isShowTitle="false" :proData="product" @selectItem="selectItem" />
-                 </van-cell>
-             </van-list>
-         </div>
-         <!-- 底部导航 -->
-         <Tabbar :Index="0"></Tabbar>
-         <!--悬浮-->
-         <drift-aside ref="driftAside" :isHome="true" @backTop="backTop"></drift-aside>
-     </div>
- </template>
+          </van-tab>
+        </van-tabs>
+      </div>
+    </div>
+    <!--限时抢购-->
+    <div class="sale-time-box" v-if="timeSalesList.length">
+      <div class="title">
+        <div class="name">{{ $t("homePage.timedSpecials") }}</div>
+        <nuxt-link tag="div" class="link-all" :to="`/all/ya?ids=${timeSalesIds}&tb=1&bar=${$t('homePage.timedSpecials')}`" v-if="timeSalesList.length >= 3">
+          {{ $t("seeAll") }}
+          <van-icon name="arrow" />
+        </nuxt-link>
+      </div>
+      <div class="main-sale">
+        <van-row gutter="10">
+          <van-col span="12">
+            <sale-time :height="190" :title="2" :item="timeSalesList[0]"></sale-time>
+          </van-col>
+          <van-col span="12">
+            <template v-for="time in timeSalesList.slice(1,3)">
+              <sale-time :item="time" :key="time.product_id"></sale-time>
+            </template>
+          </van-col>
+        </van-row>
+      </div>
+    </div>
+    <div class="service-xf">
+      <div class="title">
+        <div class="name">{{ $t("homePage.serviceXf") }}</div>
+      </div>
+      <div class="content">
+        <div class="item" v-for="assurance in assuranceList" :key="assurance.text">
+          <div class="img-box">
+            <img :src="assurance.image" alt="">
+          </div>
+          <div class="text">
+            <span>{{assurance.title}}</span>{{assurance.text}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="height:6px;background:#F2F7F9"></div>
+    <!--精选商品-->
+    <div class="product-list">
+      <div class="product-tabs">
+        <span v-for="(tabs, index) in productTabsList" 
+        :key="'productTabsList' + tabs.value" :class="tabs.value == tabCurrent.value ? 'active': ''" @click="changeProductTab(tabs,index)">{{tabs.tab_name}}</span>
+      </div>
+      <div class="tab-items-sub">
+        <span v-for="(subtab, index) in selectTabsList" :key="subtab.title" :class="subtab.filter[0].value == tabCurrent.tabValue ? 'active': ''" @click="changeSubTab(subtab,index)">{{subtab.title}}</span>
+      </div>
+      <van-list v-model="prodLoading" :prodFinished="prodFinished" :finished-text="$t('noMore')" @load="getData">
+        <div class="vue-waterfall-easy-scroll" ref="scrollEl">
+          <div class="vue-waterfall-easy">
+            <div class="img-box-water">
+              <img :src="tabCurrent.image" alt="">
+              <div class="content">
+                <a class="text" v-for="link in tabCurrent.links" :key="link.text" :href="link.link">
+                  {{link.text}} <img src="../assets/imgs/home/icon_arrow.png" alt="">
+                </a>
+              </div>
+            </div>
+            <div class="img-box-water" v-for="product in productList" :key="product.product_id">
+              <hot-item :isShowTitle="false" :proData="product" @selectItem="selectItem" />
+            </div>
+          </div>
+        </div>
+      </van-list>
+    </div>
+    <!-- 底部导航 -->
+    <Tabbar :Index="0"></Tabbar>
+    <!--悬浮-->
+    <drift-aside ref="driftAside" :isHome="true" @backTop="backTop"></drift-aside>
+  </div>
+</template>
 
- <script>
-     import {
-         DLG_TYPE
-     } from '@/assets/js/consts/dialog'
-     import HotPlace from '@/components/hot_place/index.vue'
-     import SnapUpItem from '@/components/items/snapUpItem'
-     import HotItem from '@/components/items/hotItem'
-     import {
-         getHomeData,
-         getHomeHotList
-     } from '@/api/home'
-     import countDown from '@/components/count-down'
-     import DriftAside from '@/components/drift_aside'
-     import {
-         throttle as _throttle
-     } from 'lodash'
-     import {
-         setCookieByKey,
-         getCookieByKey
-     } from '@/assets/js/utils'
-     import {
-         mapGetters,
-         mapMutations
-     } from 'vuex'
-     import {
-         replaceServerUrl
-     } from '@/assets/js/utils'
-     import apiConfig from './../apiConf.env'
-     import Tabbar from '@/components/tabbar'
-     export default {
-         name: 'home',
-         components: {
-             HotPlace,
-             SnapUpItem,
-             HotItem,
-             countDown,
-             DriftAside,
-             Tabbar,
-         },
-         /* head() {
-                  let srcCustomerService
-                  if (process.env.customerService === "53kf") {
-                    srcCustomerService = 'https://tb.53kf.com/code/code/10181581/2'
-                  }
-                  return {
-                    script: [
-                      {
-                        src: srcCustomerService
-                      },
-                    ]
-                  }
-                }, */
-         async asyncData({
-             $axios,
-             store
-         }) {
-             let indexData
-             console.log(store.getters.currency)
-             let {
-                 code,
-                 data
-             } = await $axios.$get('/api/index/mobile', {
-                 headers: {
-                     Language: store.getters.language,
-                     Currency: store.getters.currency,
-                 },
-             })
-             if (code === 0) {
-                 indexData = data
-             }
-             return {
-                 indexData,
-             }
-         },
-         fetch({
-             store
-         }) {
-             store.commit('setLanguage', store.getters.language)
-         },
-         data() {
-             return {
-                 //底部导航栏跳转索引
-                 active: 0,
-                 // closeDown: process.client ? getCookieByKey(DOWN_CLOSE) || 'no' : '',
-                 productList: [],
-                 // nav swiper配置
-                 navSwiperOption: {
-                     // slidesPerView: 'auto',
-                     spaceBetween: 8,
-                     slidesPerView: 5,
-                     pagination: {
-                         el: '.swiper-pagination',
-                     },
-                 },
-                 // swiper配置
-                 viewedSwiperOption: {
-                     slidesPerView: 'auto',
-                     slidesOffsetBefore: 16,
-                     spaceBetween: 8,
-                     on: {
-                         slideChange() {
-                             // console.log('onSlideChangeEnd', this);
-                         },
-                         tap() {
-                             // console.log('onTap', this);
-                         },
-                     },
-                 },
-                 timeSalesList: [], // 限时特价
-                 bannerList: [], // banner
-                 navList: [], // 小图标
-                 hotList: [], // 热门目的地
-                 prodLoading: false,
-                 prodFinished: false,
-                 prodPagination: {},
-                 isAndroid: this.$route.query.platform,
-                 // isAndroid: process.client ? !!window.cordova : 'ww'
-             }
-         },
-         computed: {
-             ...mapGetters(['closeDown']),
-         },
-        //  created() {
-        //    console.log(212121,this.indexData[2])
-        //  },
-         async mounted() {
-             // document.getElementsByTagName('body')[0].className = 'show-kf'
-             console.log(this.$router)
-             this.getHomeInitData()
-             this.getTime()
-             // 监听滚动
-             this.$refs.refHomePage.addEventListener('scroll', this.scrollFn)
-             //
-             let u = navigator.userAgent
-             let or = window.location.origin
-             this.downUrl = `${apiConfig.base}/api/tour/v1/download`
-
-         },
-         beforeDestroy() {
-             this.$refs.refHomePage.removeEventListener('scroll', this.scrollFn)
-         },
-         methods: {
-             // 电话咨询
-             showcall() {
-                 console.log(1)
-                 this.vxToggleDialog(true)
-                 this.vxSetDlgType(DLG_TYPE.PHONE)
-             },
-             //在线咨询
-             contactCustom() {
-                 /* onCustomerService() */
-                 let url = replaceServerUrl()
-                 window.open(url, '_self')
-             },
-             // 判断手机是安卓还是苹果
-             downUrl() {},
-             // 转化为两位数
-             numChangeT(n) {
-                 return n < 10 ? '0' + n : '' + n
-             },
-             // 倒计时时间转化
-             timeToData(maxtime) {
-                 let second = Math.floor(maxtime % 60) //计算秒
-                 let minite = Math.floor((maxtime / 60) % 60) //计算分
-                 let hour = Math.floor((maxtime / 3600) % 24) //计算小时
-                 let day = Math.floor(maxtime / 3600 / 24) //计算天
-                 return `<span>${this.numChangeT(day)}</span>天<span>${this.numChangeT(hour)}</span>时<span>${this.numChangeT(
-        minite,
-      )}</span>分<span>${this.numChangeT(second)}</span>秒`
-                 // return day+':'+this.numChangeT(hour)+':'+this.numChangeT(minite)+':'+this.numChangeT(second)
-             },
-             getTime() {
-                 setInterval(() => {
-                     this.timeSalesList.forEach(value => {
-                         var time = this.timeToData(value.special_end_date)
-                         if (typeof value.jishi == 'undefined') {
-                             this.$set(value, 'time', time)
-                         } else {
-                             value.time = time
-                         }
-                         if (value.special_end_date) {
-                             --value.special_end_date
-                         } else {
-                             value.special_end_date = 0
-                         }
-                     })
-                 }, 1000)
-             },
-             // banner跳转
-             bannerLink(link) {
-                 if (link.indexOf('?') < 0) {
-                     window.location.href = link
-                 } else {
-                     let query = link.split('?')[1].replace('keyword', 'w')
-                     this.$router.push({
-                         path: `/product_list?${query}`,
-                     })
-                 }
-             },
-             // 跳转商品详情
-             selectItem(item) {
-                 this.$router.push({
-                     name: 'product-detail',
-                     query: {
-                         productId: item,
-                     },
-                 })
-
-             },
-             // 目的地跳转列表
-             selectDetail(query) {
-                 query.itemType = 0
-                 this.$router.push({
-                     name: 'product_list',
-                     query,
-                 })
-             },
-             getHomeInitData() {
-                 this.bannerList = this.indexData[0].data
-                 this.hotList = this.indexData[1].data.slice(0, 8)
-                 this.timeSalesList = this.indexData[2].data
-                 this.navList = this.indexData[3].data
-
-             },
-             async onLoad() {
-                 console.log('onload')
-                 const submitData = {
-                     page: (this.prodPagination.page || 0) + 1,
-                 }
-                 const res = await getHomeHotList(submitData)
-                 if (res.code === 0) {
-                     this.productList.push(...res.data)
-                     this.prodPagination = res.pagination
-                     // 加载状态结束
-                     this.prodLoading = false
-                     // 数据全部加载完成
-                     if (!this.prodPagination.more) {
-                         this.prodFinished = true
-                     }
-                 } else {
-                     console.log(res.msg)
-                     this.productList = []
-                     this.prodPagination = {}
-                     this.prodLoading = false
-                     this.prodFinished = false
-                 }
-             },
-             // 滚动
-             scrollFn() {
-                 const s1 = this.$refs.refHomePage.scrollTop
-                 let SCROLL = 300
-                 const h1 = this.$refs.refDownBox && this.$refs.refDownBox.getBoundingClientRect().height
-                 let homeHeight = this.$refs.refHomePage.getBoundingClientRect().height
-                 // console.log(homeHeight)
-                 if (s1 > homeHeight) {
-                     this.$refs.driftAside.homeScrollShow()
-                 } else {
-                     this.$refs.driftAside.homeScrollHide()
-                 }
-                 setTimeout(() => {
-                     if (s1 === 0) {
-                         this.$refs.searchBox.style.backgroundColor = `transparent`
-                         this.$refs.searchBox.style.color = `rgb(255,255,255)`
-                         document.getElementById('searchLeft').style.backgroundColor = `rgba(255,255,255,0.8)`
-                         document.getElementById('searchLeft').style.color = `#989898`
-                         this.$refs.searchBox.style.position = 'absolute'
-                         /* if(this.closeDown === 'yes'){
+<script>
+import { DLG_TYPE } from "@/assets/js/consts/dialog";
+import HotPlace from "@/components/hot_place/home";
+import SnapUpItem from "@/components/items/snapUpItem";
+import SaleTime from "@/components/items/saleTime";
+import HotItem from "@/components/items/hotItem";
+import { getHomeData } from "@/api/home";
+import { getProductList } from "@/api/products";
+import countDown from "@/components/count-down";
+import DriftAside from "@/components/drift_aside";
+import { throttle as _throttle } from "lodash";
+import { setCookieByKey, getCookieByKey } from "@/assets/js/utils";
+import { mapGetters, mapMutations } from "vuex";
+import { replaceServerUrl } from "@/assets/js/utils";
+import apiConfig from "./../apiConf.env";
+import Tabbar from "@/components/tabbar";
+export default {
+  name: "home",
+   filters:{
+    getPrice(value) {
+      return value.toString().split('.')[0]
+    },
+   },
+  components: {
+    HotPlace,
+    SnapUpItem,
+    HotItem,
+    countDown,
+    DriftAside,
+    Tabbar,
+    SaleTime
+  },
+  async asyncData({ $axios, store }) {
+    let indexData;
+    console.log(store.getters.currency);
+    let { code, data } = await $axios.$get("/api/m_index_v2", {
+      headers: {
+        Language: store.getters.language,
+        Currency: store.getters.currency
+      }
+    });
+    if (code === 0) {
+      indexData = data;
+    }
+    return {
+      indexData
+    };
+  },
+  fetch({ store }) {
+    store.commit("setLanguage", store.getters.language);
+  },
+  data() {
+    return {
+      imgBoxEls: null,
+      beginIndex: 0, // 开始要排列的图片索引,首次为第二列的第一张图片，后续加载则为已经排列图片的下一个索引
+      colsHeightArr: [],
+      reachBottomDistance: 20, // 默认在最低那一列到底时触发
+      //底部导航栏跳转索引
+      active: 0,
+      productList: [], // 待图片预加载imgsArr完成，插入新的字段height之后,才会生成imgsArr_c，这时才开始渲染
+      timeSalesList: [], // 限时特价
+      bannerList: [], // banner
+      navList: [], // 小图标
+      assNavList: [], // 小小图标
+      hotList: {}, // 热门目的地
+      assuranceList: [], // 服務保障
+      tourCalendarList: [], // 旅行月历
+      productTabsList: [], // 瀑布流tab数据
+      selectTabsList: [], // 瀑布流二级菜单
+      tabImageList: [],
+      timeSalesIds:'', // 显示特价产品ids的组合
+      tabCurrent: {},
+      prodLoading: false,
+      prodFinished: false,
+      prodPagination: {},
+      isAndroid: this.$route.query.platform
+    }
+  },
+  computed: {
+    ...mapGetters(["closeDown"]),
+    itemWidth(){  
+      return (138*0.5*(414/375))  
+    },
+    gutterWidth(){
+      return (9*0.5*(414/375))
+    }
+  },
+  async mounted() {
+    this.getHomeInitData()
+    // 监听滚动
+    this.$refs.refHomePage.addEventListener("scroll", this.scrollFn)
+    let u = navigator.userAgent
+    let or = window.location.origin
+    this.downUrl = `${apiConfig.base}/api/tour/v1/download`
+  },
+  beforeDestroy() {
+    this.$refs.refHomePage.removeEventListener("scroll", this.scrollFn)
+  },
+  methods: {
+    waterfall(){
+      let that = this
+      if (!this.imgBoxEls) return
+      let top,left,height,colWidth = this.imgBoxEls[0].offsetWidth + 12
+      if (this.beginIndex == 0) this.colsHeightArr = []
+      for (let i = this.beginIndex; i < this.productList.length + 1; i++) {
+        if (!that.imgBoxEls[i]) return
+        height = that.imgBoxEls[i].offsetHeight
+        if (i < 2) {
+          that.colsHeightArr.push(height)
+          top = 0
+          left = i * colWidth
+        } else {
+          let minHeight = Math.min.apply(null, that.colsHeightArr) // 最低高低
+          let minIndex = that.colsHeightArr.indexOf(minHeight) // 最低高度的索引
+          top = minHeight
+          left = minIndex * colWidth
+          // 设置元素定位的位置
+          // 更新colsHeightArr
+          that.colsHeightArr[minIndex] = minHeight + height
+        }
+        that.imgBoxEls[i].style.left = left + 'px'
+        that.imgBoxEls[i].style.top = top + 'px'
+      }
+      this.$refs.scrollEl.style.height = Math.max(...that.colsHeightArr) + 'px'
+      this.beginIndex = this.productList.length + 1 // 排列完之后，新增图片从这个索引开始预加载图片和排列
+    },
+    async getData(obj){
+      const submitData = {
+        page: (this.prodPagination.page || 0) + 1,
+        [this.tabCurrent.name]: this.tabCurrent.value,
+        [this.tabCurrent.tabName]: this.tabCurrent.tabValue
+      }
+      const {code, data, pagination} = await getProductList(submitData)
+      if(code === 0) {
+        this.productList.push(...data);
+        this.prodPagination = pagination;
+        // 加载状态结束
+        this.prodLoading = false;
+        // 数据全部加载完成
+        if (!this.prodPagination.more) {
+          this.prodFinished = true;
+        }
+        this.imgBoxEls = this.$el.getElementsByClassName("img-box-water")
+        this.$nextTick(()=> {
+          this.waterfall()
+        })
+      }
+    },
+    resetWater(){
+      this.imgBoxEls= null
+      this.beginIndex= 0
+      this.colsHeightArr= []
+      this.prodLoading= false
+      this.prodFinished= false
+      this.prodPagination= {}
+      this.productList = []
+    },
+    // 电话咨询
+    showcall() {
+      console.log(1);
+      this.vxToggleDialog(true);
+      this.vxSetDlgType(DLG_TYPE.PHONE);
+    },
+    //在线咨询
+    contactCustom() {
+      /* onCustomerService() */
+      let url = replaceServerUrl();
+      window.open(url, "_self");
+    },
+    // 判断手机是安卓还是苹果
+    downUrl() {},
+    // banner跳转
+    bannerLink(link) {
+      if (link.indexOf("?") < 0) {
+        window.location.href = link;
+      } else {
+        let query = link.split("?")[1].replace("keyword", "w");
+        this.$router.push({
+          path: `/product_list?${query}`
+        });
+      }
+    },
+    // 跳转商品详情
+    selectItem(item) {
+      this.$router.push({
+        name: "product-detail",
+        query: {
+          productId: item
+        }
+      });
+    },
+    // 目的地跳转列表
+    selectDetail(query) {
+      query.itemType = 0;
+      this.$router.push({
+        name: "product_list",
+        query
+      });
+    },
+    getHomeInitData() {
+      this.bannerList = this.indexData.banner || []
+      this.timeSalesList = (this.indexData.special && this.indexData.special.special_products) || []
+      this.assuranceList = this.indexData.assurance || []
+      this.navList = this.indexData.main_nav || [];
+      this.assNavList = this.indexData.ass_nav || [];
+      this.tourCalendarList = this.indexData.tour_calendar || []
+      this._nomolizeHotList(this.indexData.rec_dest)
+      this.selectTabsList = this.indexData.select_tabs || []
+      this._nomolizePcTab(this.indexData.product_tabs)
+      this.tabCurrent = {
+        value: this.productTabsList[0].value,
+        name: this.productTabsList[0].name,
+        tabName: this.productTabsList[0].tab_name,
+        ...this.tabImageList[0],
+        tabValue: this.selectTabsList[0].filter[0].value,
+        tabName: this.selectTabsList[0].filter[0].name
+      }
+      console.log(this.tabCurrent) 
+      this.timeSalesIds = this.getTimeSaleIds(this.timeSalesList)
+    },
+    changeProductTab(tab, index){
+      let {tabValue, tabName} = this.tabCurrent
+      this.tabCurrent = {
+        name: tab.name,
+        value: tab.value,
+        ...this.tabImageList[index],
+        tabValue,
+        tabName
+      }
+      this.resetWater()
+      this.getData()
+    },
+    changeSubTab(tab,index){
+      this.$set(this.tabCurrent, 'tabValue', tab.filter[0].value)
+      this.$set(this.tabCurrent, 'tabName', tab.filter[0].name)
+      this.resetWater()
+      this.getData()
+    },
+    _nomolizeHotList(data){
+      let imgArr = [],textArr =[]
+      data.forEach(item => {
+        if(item.image) {
+          imgArr.push(item)
+        } else {
+          textArr.push(item)
+        }
+      })
+      this.hotList = {
+        image: imgArr,
+        text: textArr
+      }
+    },
+    _nomolizePcTab(data){
+      let product = [],image = []
+      data.forEach(item => {
+        product.push({
+          ...item.category_filter[0],
+          ...item.category_name
+        })
+        image.push({
+          links: item.links,
+          image: item.category_name && item.category_name.image
+        })
+      })
+      this.productTabsList = product
+      this.tabImageList = image
+    },
+    getTimeSaleIds(data){
+      let _arr = []
+      data.forEach(item => {
+        _arr.push(item.product_id)
+      })
+      return _arr.join(',')
+    },
+    // 滚动
+    scrollFn() {
+      const s1 = this.$refs.refHomePage.scrollTop;
+      let SCROLL = 300;
+      const h1 =
+        this.$refs.refDownBox &&
+        this.$refs.refDownBox.getBoundingClientRect().height;
+      let homeHeight = this.$refs.refHomePage.getBoundingClientRect().height;
+      // console.log(homeHeight)
+      if (s1 > homeHeight) {
+        this.$refs.driftAside.homeScrollShow();
+      } else {
+        this.$refs.driftAside.homeScrollHide();
+      }
+      setTimeout(() => {
+        if (s1 === 0) {
+          this.$refs.searchBox.style.backgroundColor = `transparent`;
+          this.$refs.searchBox.style.color = `rgb(255,255,255)`;
+          document.getElementById(
+            "searchLeft"
+          ).style.backgroundColor = `rgba(255,255,255,0.8)`;
+          document.getElementById("searchLeft").style.color = `#989898`;
+          this.$refs.searchBox.style.position = "absolute";
+          /* if(this.closeDown === 'yes'){
                              this.$refs.searchBox.style.position = 'relative'
                          } */
-                         this.$refs.searchBox.style.top = 'auto'
-                     } else {
-                         let rate = s1 / SCROLL
-                         this.$refs.searchBox.style.backgroundColor = `rgba(255,255,255,${rate})`
-                         document.getElementById('searchLeft').style.backgroundColor = `rgba(200,200,200,${rate})`
-                         document.getElementById('searchLeft').style.color = `rgba(152,152,152,${rate})`
-                         this.$refs.searchBox.style.color = `rgba(152,152,152,${rate})`
+          this.$refs.searchBox.style.top = "auto";
+        } else {
+          let rate = s1 / SCROLL;
+          this.$refs.searchBox.style.backgroundColor = `rgba(255,255,255,${rate})`;
+          document.getElementById(
+            "searchLeft"
+          ).style.backgroundColor = `rgba(200,200,200,${rate})`;
+          document.getElementById(
+            "searchLeft"
+          ).style.color = `rgba(152,152,152,${rate})`;
+          this.$refs.searchBox.style.color = `rgba(152,152,152,${rate})`;
 
-                         if (s1 > h1 || !h1) {
-                             this.$refs.searchBox.style.position = 'fixed'
-                             this.$refs.searchBox.style.top = '0px'
-                         }
-                     }
-                 }, 17)
-             },
-             // 返回顶部
-             backTop() {
-                 let timer = setInterval(() => {
-                     let speed = Math.floor(-this.$refs.refHomePage.scrollTop / 3)
-                     this.$refs.refHomePage.scrollTop = this.$refs.refHomePage.scrollTop + speed
-                     if (this.$refs.refHomePage.scrollTop === 0) {
-                         clearInterval(timer)
-                     }
-                 }, 17)
-             },
-             // 关闭下载
-             changeCloseDown() {
-                 this.setCloseDown('yes');
-                //  this.$refs.searchBox.style.position = 'relative';
-             },
-             ...mapMutations(['setCloseDown']),
-             ...mapMutations({
-                 vxSaveReservePro: 'product/saveReservePro',
-                 vxToggleDialog: 'toggleDialog', // 是否显示弹窗
-                 vxSetDlgType: 'setDlgType', // 设置弹窗类型
-             }),
-         },
-     }
+          if (s1 > h1 || !h1) {
+            this.$refs.searchBox.style.position = "fixed";
+            this.$refs.searchBox.style.top = "0px";
+          }
+        }
+      }, 17);
+    },
+    // 返回顶部
+    backTop() {
+      let timer = setInterval(() => {
+        let speed = Math.floor(-this.$refs.refHomePage.scrollTop / 3);
+        this.$refs.refHomePage.scrollTop =
+          this.$refs.refHomePage.scrollTop + speed;
+        if (this.$refs.refHomePage.scrollTop === 0) {
+          clearInterval(timer);
+        }
+      }, 17);
+    },
+    // 关闭下载
+    changeCloseDown() {
+      this.setCloseDown("yes");
+      //  this.$refs.searchBox.style.position = 'relative';
+    },
+    ...mapMutations(["setCloseDown"]),
+    ...mapMutations({
+      vxSaveReservePro: "product/saveReservePro",
+      vxToggleDialog: "toggleDialog", // 是否显示弹窗
+      vxSetDlgType: "setDlgType" // 设置弹窗类型
+    })
+  }
+};
+</script>
 
- </script>
-
- <style type="text/scss" lang="scss" scoped>
-     .home-wrap {
+<style type="text/scss" lang="scss" scoped>
+.home-wrap {
   height: 100vh;
   position: relative;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  background: #f1f1f1;
   .header {
-    // position: absolute;
     width: 100%;
-    // left: 0;
-    // top: 0;
     z-index: 2100;
     .down-box {
       width: 100%;
       height: 120px;
       padding: 20px 32px;
-      background-color:#00ABF9;     
+      background-color: #00abf9;
       color: #fff;
       display: flex;
-      display: -webkit-flex;
-      /* justify-content: space-between;
-      -webkit-justify-content: space-between; */
       align-items: center;
-      -webkit-align-items: center;
       font-size: 24px;
       position: relative;
-      .down-manner{
+      .down-manner {
         position: absolute;
         left: 0;
         top: 0;
         width: 100%;
         height: 120px;
-        background: url('../assets/imgs/woniu.png') no-repeat;
+        background: url("../assets/imgs/woniu.png") no-repeat;
         background-size: contain;
       }
-      .left{
-          i {
-            font-size: 32px;
-            vertical-align: text-bottom;
-            z-index: 2;
-      }
-      }
-      .downloadText{
-          margin-left: 24px;
+      .left {
+        i {
+          font-size: 40px;
+          vertical-align: text-bottom;
           z-index: 2;
-          span{
-            font-size:28px;
-            font-weight:400;
-            line-height:40px;
-            display: block
-          }
+        }
+      }
+      .downloadText {
+        margin-left: 24px;
+        z-index: 2;
+        span {
+          font-size: 28px;
+          font-weight: 400;
+          line-height: 40px;
+          display: block;
+        }
       }
       .right {
-          margin-left: 200px;
-          background-color: #FFCB3C;
-          border-radius: 6px;
-          width:132px;
-          height:48px;
-          z-index: 2;
+        margin-left: 200px;
+        background-color: #ffcb3c;
+        border-radius: 6px;
+        width: 132px;
+        height: 48px;
+        z-index: 2;
         a {
           display: block;
           line-height: 48px;
@@ -484,168 +574,99 @@
         }
       }
     }
-    
   }
-  .bannerSearch{
+  .bannerSearch {
+    position: relative;
+    .banner {
+      height: 420px;
       position: relative;
-      .banner {
-        height: 420px;
-        position: relative;
-        .search-box {
-      position: absolute;
-      left: 0;
-      top: 0;
-      z-index: 2;
-      height: 108px;
-      padding: 20px 30px 20px;
-      display: flex;
-      display: -webkit-flex;
-      -webkit-justify-content: space-between;
-      justify-content: space-between;
-      align-items: center;
-      -webkit-align-items: center;
-      color: #fff;
-      transition: 0.3s all;
-      width: 100%;
+      z-index: 3;
+      .search-box {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 10;
+        height: 108px;
+        padding: 20px 30px 20px;
+        display: flex;
+        justify-content: space-between;
+        color: #fff;
+        width: 100%;
+        align-items: center;
         .left {
-            width: 618px;
-            height: 72px;
-            padding: 12px 14px;
-            border-radius: 36px;
-            background-color: rgba(255, 255, 255, 0.8);
-            color: #989898;
-            display: flex;
-            display: -webkit-flex;
-            font-size: 42px;
-            align-items: center;
-            -webkit-align-items: center;
-            transition: 0.3s all;
-            span {
+          width: 620px;
+          height: 72px;
+          padding: 12px 14px;
+          border-radius: 36px;
+          background-color: rgba(255, 255, 255, 0.8);
+          color: #989898;
+          display: flex;
+          font-size: 42px;
+          align-items: center;
+          transition: 0.3s all;
+          span {
             font-size: 22px;
-            }
+          }
         }
         .right {
-            font-weight: bold;
-            i {
-            font-size: 60px;
-            vertical-align: middle
-            }
+          font-weight: normal;
+          i {
+            font-size: 50px;
+          }
         }
+      }
+    }
+    a {
+      display: inline-block;
+      width: 100%;
+      height: 420px;
+    }
+    img {
+      height: 420px;
+      width: 100%;
     }
   }
-            a {
-            display: inline-block;
-            width: 100%;
-            height: 420px;
-            }
-            img {
-            height: 420px;
-            width: 100%;
-            } 
-  }
-  
-     
-  
-  
 
   .entry-block {
-    padding: 52px 0px 25px;
-    background-color: #fff;
+    padding: 40px 10px 0 10px;
     text-align: center;
-    .swiper-pagination {
-      position: relative !important;
-    }
-    .entry-tourism {
-      width: 96px;
-      .title {
-        color: #191919;
-        font-size: 24px;
-      }
-      img {
-        width: 88px;
-        height: 88px;
-      }
-    }
-  }
-
-  .newnav {
+    display: flex;
+    flex-wrap: wrap;
     background-color: #fff;
-    height: 120px;
-    width: 100%;
-
-    div:nth-child(1) {
-      width: 342px;
-      height: 120px;
-      float: left;
-      text-align: left;
-      background-image: url('../assets/imgs/pic_time@2x.png');
-      background-repeat: no-repeat;
-      background-size: 342px 120px;
-      box-sizing: border-box;
-      margin-left: 32px;
-      padding-left: 24px;
-      .p1 {
-        color: #393939;
-        font-weight: bold;
-        font-size: 28px;
-        text-align: left;
-        line-height: 40px;
-        margin-top: 15px;
-      }
-      .p2 {
-        color: #b1b1b1;
-
-        text-align: left;
-        line-height: 60px;
-        font-size: 24px;
-      }
+    &.last{
+      padding: 16px 10px 40px 10px;
     }
-    div:nth-child(2) {
-      width: 342px;
-      box-sizing: border-box;
-      padding-left: 24px;
-      height: 120px;
-      margin-right: 32px;
-      float: right;
-      text-align: right;
-      background-image: url('../assets/imgs/pic_help@2x.png');
-      background-repeat: no-repeat;
-      background-size: 342px 120px;
-      padding-right: 24px;
-      .p1 {
-        margin-top: 15px;
-        color: #393939;
-        font-weight: bold;
-        font-size: 28px;
-        line-height: 40px;
-        text-align: right;
-      }
-      .p2 {
-        color: #b1b1b1;
-        font-size: 24px;
-        text-align: right;
-        line-height: 60px;
-      }
+    & > div {
+      width: 20%;
+    }
+    .title {
+      color: #191919;
+      font-size: 24px;
+    }
+    img {
+      width: 80px;
+      height: 80px;
+      display: inline-block;
+    }
+    .entry-tourism{
+      display: block;
     }
   }
-  .hot-target {
-    padding: 12px 24px 12px 38px;
+
+  .hot-target, .sale-time-box, .service-xf{
+    padding: 12px 32px;
     background-color: #fff;
     .title {
       display: flex;
-      display: -webkit-flex;
       justify-content: space-between;
-      -webkit-justify-content: space-between;
       align-items: center;
-      -webkit-align-items: center;
-      padding-bottom: 40px;
+      padding-bottom: 18px;
       .name {
         color: #191919;
-        font-size: 40px;
-        font-weight: 400;
+        font-size: 48px;
       }
       .link-all {
-        color: #5e5e5e;
+        color: #00ABF9;
         font-size: 24px;
       }
       i {
@@ -654,65 +675,212 @@
     }
   }
   .sale-time-box {
-    margin-top: 24px;
-    background-color: #fff;
-    .swiper-container {
-      z-index: 0;
-      padding-right: 60px;
-    }
-    .title {
-      color: #191919;
-      font-size: 40px;
-      font-weight: 300;
-      padding: 24px 32px;
+    margin-top: 24px; 
+  }
+  .service-xf{
+    margin-bottom: 30px;
+    .content{
+      box-shadow:0px 0px 12px rgba(57,57,57,0.15);
+      border-radius:20px;
+      padding: 24px;
+      .item{
+        display: flex;
+        font-size:24px;
+        line-height:34px;
+        color: #AEAEAE;
+        margin-bottom: 30px;
+        align-items: center;
+        &:last-child{
+          margin-bottom: 0;
+        }
+        span{
+          color: #393939;
+        }
+      }
+      .img-box{
+        width: 60px;
+      }
+      img{
+        width: 60px;
+        height: 60px;
+      }
+      .text{
+        flex: 1;
+        padding-left: 20px;
+      }
     }
   }
   .product-list {
-    background-color: #fff;
-    margin-top: 24px;
-    .title {
-      color: #191919;
-      font-size: 40px;
-      font-weight: 300;
-      padding: 24px 32px;
+    .vue-waterfall-easy-scroll {
+      width: 100%;
+      padding: 0 32px;
     }
-    .half {
-      display: flex;
-      display: -webkit-flex;
-      flex-wrap: wrap;
-      -webkit-flex-wrap: wrap;
-      padding: 0 15px;
-      display: -webkit-flex;
-      -webkit-flex-wrap: wrap;
+    .vue-waterfall-easy {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      .img-box-water{
+        position: absolute;
+        font-size: 24px;
+        width: 334px;
+        border-radius: 8px;
+        img{
+          height: 334px;
+          width: 334px;
+          display: block;
+          border-radius: 8px 8px 0 0;
+        }
+        .content{
+          background:linear-gradient(136deg,rgba(102,201,246,1) 0%,rgba(106,170,235,1) 100%);
+          box-shadow:0px 2px 12px rgba(57,57,57,0.16);
+          padding: 20px;
+          color: #fff;
+          font-size:28px;
+          line-height:44px;
+          margin-bottom: 20px;
+          border-radius: 0 0 8px 8px;
+          img{
+            width: 21px;
+            height: 21px;
+            display: inline-block;
+          }
+          a.text{
+            display: block;
+            color: #fff;
+          }
+        }
+      }
     }
-    .half-item {
-      width: 50%;
+    .product-tabs{
+      padding: 0 32px;
+      margin-bottom: 20px;
+      span{
+        display: inline-block;
+        margin-right: 70px;
+        font-size: 28px;
+        color: #2D2D2D;
+        font-weight: bold;
+        &.active{
+          color: #00ABF9;
+        }
+      }
     }
-    .van-cell {
-      padding: 10px;
+    .tab-items-sub{
+      padding: 0 32px;
+      font-size:24px;
+      margin-bottom: 30px;
+      span{
+        height:48px;
+        border:2px solid #00ABF9;
+        color: #00ABF9;
+        margin-right: 40px;
+        line-height: 48px;
+        display: inline-block;
+        border-radius:44px;
+        padding: 0 16px;
+        &.active{
+          background-color: #00ABF9;
+          color: #fff;
+        }
+      }
     }
   }
   .count-down {
     margin-left: 10px;
   }
+  .travel-calendar{
+    margin-top: 20px;
+    position: relative;
+    .title-name{
+      font-size:48px;
+      position: absolute;
+      left: 32px;
+      top: 10px;
+      color: #2D2D2D;
+      z-index: 2;
+    }
+    .tab-main-content{
+      padding: 0 0 0 32px;
+      font-size: 0;
+    }
+    .items{
+      width: 100%;
+      overflow: hidden;
+      overflow-x: scroll;
+      margin-top: 20px;
+    }
+    .box-lx{
+      position: relative;
+      white-space: nowrap;
+      height: 368px;
+    }
+    .info{
+      width: 320px;
+      border-radius:8px;
+      height: 368px;
+      margin-right: 20px;
+      display: inline-block;
+      font-size:24px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      padding: 20px;
+      .lm-name{
+        color: #fff;
+        line-height: 40px;
+        .fs14{
+          font-size: 28px;
+        }
+      }
+    }
+    .cp-mk{
+      background: #fff;
+      border-radius:8px;
+      line-height: 34px;
+      padding:10px;
+      margin-top: 10px;
+      display: block;
+      color: #2D2D2D;
+      .price{
+        color: #F55E2F;
+      }
+      p{
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+        &.grap{
+          color: #AEAEAE;
+          font-size: 20px;
+        }
+      }
+    }
+  }
 }
 </style>
- <style>
-     .home-wrap .van-swipe__indicator--active {
-         width: 32px;
-         height: 12px;
-         border-radius: 6px;
-     }
+<style>
+.home-wrap .van-swipe__indicator--active {
+  width: 26px;
+  height: 10px;
+  border-radius: 12px;
+}
 
-     .home-wrap .count-down span {
-         width: 40px;
-         display: inline-block;
-         background-color: rgba(0, 0, 0, 0.6);
-         border-radius: 6px;
-         line-height: 40px;
-         font-weight: bold;
-         text-align: center;
-         margin-top: 6px;
-     }
-
- </style>
+.home-wrap .count-down span {
+  width: 40px;
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 6px;
+  line-height: 40px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 6px;
+}
+.travel-calendar .van-tab{
+  flex: none;
+}
+.travel-calendar .van-tabs__line{
+  width: 40px !important;
+}
+.travel-calendar .van-tabs__nav--line{
+  justify-content:flex-end;
+  padding-right: 32px;
+}
+</style>

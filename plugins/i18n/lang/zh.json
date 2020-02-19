@@ -147,12 +147,14 @@
         "desKeywords": "目的地/关键词",
         "customNav": "个性定制",
         "visaNav": "签证办理",
-        "hotDes": "热门目的地",
-        "timedSpecials": "限时特价",
+        "hotDes": "推荐目的地",
+        "timedSpecials": "超值特惠",
         "siftProduct": "精选商品",
         "downloadText1": "下载APP，",
         "downloadText2": "领APP专享2600元大礼",
-        "goOpen": "立即打开"
+        "goOpen": "立即打开",
+        "trcalendar": "旅行月历",
+        "serviceXf": "稀饭旅行服务保障"
     },
     "confirmPage": {
         "title": "确认订单",
@@ -314,7 +316,7 @@
         "noNickName": "昵称还没有设置呢",
         "riceGrain": "米粒",
         "commonPassenger": "常用旅客",
-        "homepage": "主页",
+        "homepage": "首页",
         "myDistribution": "目的地",
         "destinationAlone": "在线咨询",
         "userCenter": "我的",

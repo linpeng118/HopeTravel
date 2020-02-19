@@ -1,10 +1,38 @@
 <template>
     <div class="tabbar">
-        <van-tabbar v-model="active" style="z-index:9999" active-color="#399EF6">
-            <van-tabbar-item icon="wap-home" to="/">{{$t('personalPage.homepage')}}</van-tabbar-item>
-            <van-tabbar-item icon="location-o" to="/search">{{$t('personalPage.myDistribution')}}</van-tabbar-item>
-            <van-tabbar-item icon="chat-o" data-agl-cvt="1" :dot="dotShow!=1" @click="contactCustom">{{$t('onlineConsult')}}</van-tabbar-item>
-            <van-tabbar-item icon="user-o" to="/personal">{{$t('personalPage.userCenter')}}</van-tabbar-item>
+        <van-tabbar v-model="active" style="z-index:9999" active-color="#00ABF9">
+            <van-tabbar-item to="/">
+                <span>{{$t('personalPage.homepage')}}</span>
+                <img
+                    slot="icon"
+                    slot-scope="props"
+                    :src="props.active ? icon.active : icon.inactive"
+                >
+            </van-tabbar-item>
+            <van-tabbar-item to="/search">
+                <span>{{$t('personalPage.myDistribution')}}</span>
+                <img
+                    slot="icon"
+                    slot-scope="props"
+                    :src="props.active ? icon.active2 : icon.inactive2"
+                >
+            </van-tabbar-item>
+            <van-tabbar-item data-agl-cvt="1" :dot="dotShow!=1" @click="contactCustom">
+                <span>{{$t('onlineConsult')}}</span>
+                <img
+                    slot="icon"
+                    slot-scope="props"
+                    :src="props.active ? icon.active3 : icon.inactive3"
+                >
+            </van-tabbar-item>
+            <van-tabbar-item icon="user-o" to="/personal">
+                <span>{{$t('personalPage.userCenter')}}</span>
+                <img
+                    slot="icon"
+                    slot-scope="props"
+                    :src="props.active ? icon.active4 : icon.inactive4"
+                >
+            </van-tabbar-item>
         </van-tabbar>
     </div>
 </template>
@@ -30,6 +58,16 @@
             return {
                 active: 0,
                 dotShow: 1,
+                icon: {
+                    active: require('../../assets/imgs/home/home-active.png'),
+                    inactive: require('../../assets/imgs/home/home.png'),
+                    active2: require('../../assets/imgs/home/destination-active.png'),
+                    inactive2: require('../../assets/imgs/home/destination.png'),
+                    active3: require('../../assets/imgs/home/help-active.png'),
+                    inactive3: require('../../assets/imgs/home/help.png'),
+                    active4: require('../../assets/imgs/home/personal-active.png'),
+                    inactive4: require('../../assets/imgs/home/personal.png'),
+                },
             }
         },
         mounted() {

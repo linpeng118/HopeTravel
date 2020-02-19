@@ -147,12 +147,14 @@
         "desKeywords": "目的地/關鍵詞",
         "customNav": "個性定制",
         "visaNav": "簽證辦理",
-        "hotDes": "熱門目的地",
-        "timedSpecials": "限時特價",
+        "hotDes": "推薦目的地",
+        "timedSpecials": "超值特惠",
         "siftProduct": "精選商品",
         "downloadText1": "下載APP，",
         "downloadText2": "領APP專享2600元大禮",
-        "goOpen": "立即打開"
+        "goOpen": "立即打開",
+        "trcalendar": "旅行月歷",
+        "serviceXf": "稀飯旅行服務保障"
     },
     "confirmPage": {
         "title": "確認訂單",
