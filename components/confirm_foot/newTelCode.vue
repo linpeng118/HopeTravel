@@ -22,9 +22,10 @@
                   
                   </div>
                 <ul class="city-list" >
-                  <li v-for="item in value" :key="item.id" @click="selectItem(item)" :class="selectActive(item)">
+                  <li v-for="item in value" :key="item.id" @click="selectCode(item)" :class="selectActive(item)">
                     <span>{{item.name}}</span>
-                    <i class="van-icon van-icon-success"></i>
+                    <span>{{item.tel_code}}</span>
+                    <!-- <i class="van-icon van-icon-success"></i> -->
                   </li>
                 </ul>
               </template>
@@ -61,6 +62,7 @@
           <ul>
             <li v-for="(value,index) in searchList" :key="index" @click="selectItemSearch(value)">
               <span>{{value.name}}</span>
+              <span>{{value.tel_code}}</span>
             </li>
           </ul>
         </div>
@@ -124,6 +126,12 @@ export default {
     // this.listData = this.dataObj['列表'].push(this.dataObj['热门']);
     // this.tagsData = this.dataObj['热门'];
     // console.log('this.listData',this.listData,this.listData[0]);
+    for (let key in this.dataObj) {
+       this.dataObj[key] = this.dataObj[key].filter(val=>{
+            return val.tel_code
+        })
+      
+    }
     
   },
   
@@ -180,7 +188,7 @@ export default {
       this.$emit('back')
     },
     // 点击每一项
-    selectItem(item) {
+    selectCode(item) {
       // console.log(this.dataObj)
       let index = this.activeList.findIndex(list => (item.id === list.id))
       if(index >= 0) {
@@ -225,7 +233,7 @@ export default {
     sendEvent(){
       console.log(this.activeList);
       
-      this.$emit('selectItem', this.activeList, this.dataObj.type)
+      this.$emit('selectCode', this.activeList, this.dataObj.type)
     },
 
     onShortcutTouchStart(e) {
@@ -297,6 +305,16 @@ export default {
           -webkit-justify-content: space-between;
           align-items: center;
           -webkit-align-items: center;
+          position: relative;
+          span:last-child{
+            position: absolute;
+            right: 0;
+            color:#ECA84D;
+            height:44px;
+            font-size:32px;
+            font-weight:500;
+            line-height:44px;
+          }
           i{
             display: none;
           }
@@ -308,9 +326,12 @@ export default {
           } */
           &.active{
             color: #1989fa;
-            i{
-              display: inline-block;
+            span{
+              color: #1989fa;
             }
+            /* i{
+              display: inline-block;
+            } */
           }
         }
       }
@@ -407,6 +428,11 @@ export default {
               position: absolute;
               top: 50%;
               transform: translateY(-50%);
+              &:last-child{
+                color: #399EF6;
+                position: absolute;
+                right: 0;
+              }
             }
           }
         }
