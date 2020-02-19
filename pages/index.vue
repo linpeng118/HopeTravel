@@ -80,16 +80,16 @@
                     <div class="fs14">{{theme.theme}}</div>
                     <div>{{theme.desc}}</div>
                   </div>
-                  <div class="cp-mk">
+                  <a class="cp-mk" :href="`/product/detail?productId=${theme.a_product[0] && theme.a_product[0].product_id}`">
                     <p class="name">{{theme.a_product_name}}</p>
                     <p class="grap">{{theme.a_product_keyword}}</p>
                     <p class="price">{{theme.a_product[0] && theme.a_product[0].default_price}}</p>
-                  </div>
-                  <div class="cp-mk">
+                  </a>
+                  <a class="cp-mk" :href="`/product/detail?productId=${theme.a_product[0] && theme.a_product[0].product_id}`">
                     <p class="name">{{theme.b_product_name}}</p>
                     <p class="grap">{{theme.b_product_keyword}}</p>
                     <p class="price">{{theme.b_product[0] && theme.b_product[0].default_price}}</p>
-                  </div>
+                  </a>
                 </div>
               </div>
             </div>
@@ -101,7 +101,7 @@
     <div class="sale-time-box" v-if="timeSalesList.length">
       <div class="title">
         <div class="name">{{ $t("homePage.timedSpecials") }}</div>
-        <nuxt-link tag="div" class="link-all" to="/search">
+        <nuxt-link tag="div" class="link-all" :to="`/all/ya?ids=${timeSalesIds}&tb=1&bar=${$t('homePage.timedSpecials')}`" v-if="timeSalesList.length >= 3">
           {{ $t("seeAll") }}
           <van-icon name="arrow" />
         </nuxt-link>
@@ -234,6 +234,7 @@ export default {
       productTabsList: [], // 瀑布流tab数据
       selectTabsList: [], // 瀑布流二级菜单
       tabImageList: [],
+      timeSalesIds:'', // 显示特价产品ids的组合
       tabCurrent: {},
       prodLoading: false,
       prodFinished: false,
@@ -380,7 +381,8 @@ export default {
         tabValue: this.selectTabsList[0].filter[0].value,
         tabName: this.selectTabsList[0].filter[0].name
       }
-      console.log(this.tabCurrent)
+      console.log(this.tabCurrent) 
+      this.timeSalesIds = this.getTimeSaleIds(this.indexData.special.special_products)
     },
     changeProductTab(tab, index){
       let {tabValue, tabName} = this.tabCurrent
@@ -428,6 +430,13 @@ export default {
       })
       this.productTabsList = product
       this.tabImageList = image
+    },
+    getTimeSaleIds(data){
+      let _arr = []
+      data.forEach(item => {
+        _arr.push(item.product_id)
+      })
+      return _arr.join(',')
     },
     // 滚动
     scrollFn() {
@@ -578,6 +587,7 @@ export default {
         justify-content: space-between;
         color: #fff;
         width: 100%;
+        align-items: center;
         .left {
           width: 620px;
           height: 72px;
@@ -819,6 +829,8 @@ export default {
       line-height: 34px;
       padding:10px;
       margin-top: 10px;
+      display: block;
+      color: #2D2D2D;
       .price{
         color: #F55E2F;
       }

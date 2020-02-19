@@ -1,19 +1,19 @@
 <template>
   <div class="hot-place">
     <div class="hot-item" v-for="image in lists.image" :key="image.keyword">
-      <div class="img-box">
+      <a class="img-box" :href="image.link">
         <img :src="image.image" alt="" />
         <div class="top-text">
           <p class="title">{{image.title}}</p>
           <p>{{image.keyword}}</p>
         </div>                      
-      </div>
+      </a>
     </div>
     <div class="hot-item" v-for="text in lists.text" :key="text.keyword">
-      <div class="text-box">
+      <a class="text-box" :href="text.link">
         <p>{{text.title}}</p>
         <p class="gray">{{text.keyword}}</p>
-      </div>
+      </a>
     </div>
   </div>
 </template>
@@ -51,6 +51,7 @@ export default {
       font-size: 20px;
       color: #fff;
       position: relative;
+      display: block;
       &::before{
         position: absolute;
         left: 0;
@@ -58,7 +59,7 @@ export default {
         top: 0;
         bottom:0;
         background-color: rgba(0,0,0,0.1);
-        content: '';
+        // content: '';
       }
     }
     .top-text {
@@ -81,6 +82,8 @@ export default {
     .text-box {
       margin-top: 20px;
       line-height: 34px;
+      display: block;
+      color: #2D2D2D;
       .gray {
         color: #aeaeae;
       }
