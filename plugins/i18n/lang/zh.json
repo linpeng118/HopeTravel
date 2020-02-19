@@ -189,7 +189,8 @@
         "classicRoute": "经典路线",
         "referencePrice": "参考价格",
         "peopleStarts": "人/起",
-        "featureList": [{
+        "featureList": [
+            {
                 "title1": "全球出发",
                 "title2": "一人成团"
             },
@@ -519,12 +520,36 @@
         "refusedRefund": "拒签退款",
         "countrySent": "全国送签",
         "visaList": {
-            "content1": ["面试培训，专家指导", "全国范围约签", "办签进度实时反馈"],
-            "content2": ["最快6个工作日出签", "极简办理，全程指导", "办签进度实时反馈"],
-            "content3": ["全国受理，1对1指导", "团购优惠，当日送签", "游/探亲/商务/毕业典礼"],
-            "content4": ["极速办理，最快5-30分钟办理", "电子落地签，方便快捷", "过签率，出签有保障"],
-            "content5": ["从业10年以上专业顾问", "当日递交，最快5个工作日出签", "99%过签率，出签有保障"],
-            "content6": ["最快5个工作日出签", "超值，一签畅游欧洲26国", "99%过签率，出签有保障"]
+            "content1": [
+                "面试培训，专家指导",
+                "全国范围约签",
+                "办签进度实时反馈"
+            ],
+            "content2": [
+                "最快6个工作日出签",
+                "极简办理，全程指导",
+                "办签进度实时反馈"
+            ],
+            "content3": [
+                "全国受理，1对1指导",
+                "团购优惠，当日送签",
+                "游/探亲/商务/毕业典礼"
+            ],
+            "content4": [
+                "极速办理，最快5-30分钟办理",
+                "电子落地签，方便快捷",
+                "过签率，出签有保障"
+            ],
+            "content5": [
+                "从业10年以上专业顾问",
+                "当日递交，最快5个工作日出签",
+                "99%过签率，出签有保障"
+            ],
+            "content6": [
+                "最快5个工作日出签",
+                "超值，一签畅游欧洲26国",
+                "99%过签率，出签有保障"
+            ]
         },
         "noNeed": "没有想要的？",
         "consultSister": "马上咨询签证小姐姐吧",
@@ -575,28 +600,34 @@
         "next": "下一步",
         "forgetPass": "忘记密码",
         "resetVerifyCode": "重新获取",
-        "enterPhone": "请输入手机号码",
-        "enterPhoneCode": "请输入手机验证码",
+        "enterPhone": "请输入手机号",
+        "enterPhoneCode": "请输入验证码",
         "enterEmail": "请输入邮箱号码",
-        "loginTips": "稀饭旅行账号登录",
+        "loginTips": "短信快捷登录",
+        "loginSubTips": "新号码将自动生成账户",
         "ptlogin": "普通登录",
         "placePassword": "登录密码",
         "phoneCodeLogin": "手机验证码登录",
         "notUser": "还没有账号？",
         "toreg": "去注册",
-        "AgreementLogin": "登录即代表您已同意我们的",
-        "AgreementName": "服务协议",
+        "toursLogin": "稀饭账号登录",
+        "AgreementLogin": "登录即同意我们的",
+        "AgreementName": "《稀饭旅行服务协议》",
+        "privacy": "《隐私政策》",
         "enterUsername": "请输入用户名",
+        "placeCount": "手机号码/电子邮箱",
         "enterPass": "请输入密码",
         "regTips": "稀饭旅行账号注册",
         "phoneReg": "手机号注册",
         "emailReg": "邮箱注册",
+        "emailRegTip": "请输入电子邮箱",
         "passEnterType": "请输入6-20位密码",
         "phoneRegsucess": "手机号注册成功！",
         "emailRegsucess": "邮箱注册成功",
-        "hoveUser": "已有账号？",
+        "hoveUser": "已有账号？去登录",
         "nowLogin": "马上登录",
-        "AgreementReg": "我已经阅读并同意《服务协议》"
+        "AgreementReg": "我已经阅读并同意《服务协议》",
+        "subscribeLogin": "只差一步，<br>完成您的预订"
     },
     "accountComp": {
         "avatarTitle": "上传头像",
