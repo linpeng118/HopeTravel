@@ -1,6 +1,6 @@
 <template>
-  <div class="com-sale-time" :style="{height:height + 'px'}">
-    <div class="img" @click="chakerer">
+  <nuxt-link tag="div" :to="`/product/detail?productId=${item.product_id}`" class="com-sale-time" :style="{height:height + 'px'}">
+    <div class="img">
       <img :src="item.image" alt="">
     </div>
     <div class="count-down-time">
@@ -23,11 +23,11 @@
           <span>{{(item.special_price || item.default_price) | getPrice}}</span> 起
         </div>
         <span>
-          已减{{item.reduced_price}}
+          已减{{item.reduced_price | getPrice}}
         </span>
       </div>
     </div>
-  </div>
+  </nuxt-link>
 </template>
 <script>
 export default {
@@ -37,7 +37,7 @@ export default {
       return value.toString().split('.')[0]
     },
     getTwo(value) {
-      return value > 10 ? value : '0' + value
+      return value >= 10 ? value : '0' + value
     }
   },
   props:{
@@ -63,9 +63,6 @@ export default {
     onChange(e) {
       console.log(2342354123, e)
       // this.timeData = e.detail
-    },
-    chakerer(){
-      alert('msg')
     }
   }
 }

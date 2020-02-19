@@ -22,17 +22,13 @@
     </div>
     <div class="price-wrap">
       <span class="price">
-        {{proData.special_price ? proData.special_price : proData.default_price }}
+        {{(proData.special_price || proData.default_price) | getPrice }}
       </span>
       <span class="unit">/{{$t('since')}}&nbsp;</span>
-      <span class="ori-price"
-        v-if="proData.special_price">
-        {{proData.default_price}}
-      </span>
     </div>
     <div class="lv-info">
-      <span>547人出行</span>
-      <span class="score">5.0分</span>
+      <span>{{proData.sales}}人出行</span>
+      <span class="score">{{proData.comment_score}}分</span>
     </div>
   </div>
 </template>
@@ -40,6 +36,11 @@
 <script>
   export default {
     components: {},
+    filters:{
+      getPrice(value) {
+        return value.toString().split('.')[0]
+      }
+    },
     props: {
       proData: {
         type: Object,
