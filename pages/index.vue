@@ -150,9 +150,9 @@
             <div class="img-box-water">
               <img :src="tabCurrent.image" alt="">
               <div class="content">
-                <p v-for="link in tabCurrent.links" :key="link.text">
+                <a class="text" v-for="link in tabCurrent.links" :key="link.text" :href="link.link">
                   {{link.text}} <img src="../assets/imgs/home/icon_arrow.png" alt="">
-                </p>
+                </a>
               </div>
             </div>
             <div class="img-box-water" v-for="product in productList" :key="product.product_id">
@@ -425,7 +425,7 @@ export default {
         })
         image.push({
           links: item.links,
-          image: item.category_name.image
+          image: item.category_name && item.category_name.image
         })
       })
       this.productTabsList = product
@@ -738,6 +738,10 @@ export default {
             width: 21px;
             height: 21px;
             display: inline-block;
+          }
+          a.text{
+            display: block;
+            color: #fff;
           }
         }
       }
