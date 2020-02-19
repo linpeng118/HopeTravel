@@ -1,7 +1,7 @@
 <template>
   <div class="hot-item" @click="selectItem" target="_blank">
     <div class="banner" :productId="proData.product_id">
-      <img :src="proData.image"
+      <img v-lazy="proData.image"
         alt="banner">
       <div class="tag-wrap"
         :class="tagPos">
@@ -12,17 +12,13 @@
           {{item}}
         </div>
       </div>
-      <div class="title-wrap"
-        v-if="isShowTitle">
+      <div class="title-wrap" v-if="isShowTitle">
         <span class="title">{{proData.title}}</span>
       </div>
     </div>
-    <div class="desc short_name" v-if="proData.name_short">{{proData.name_short}}</div>
-    <div class="desc no-wrap-line2 imitate-ellipsis2" v-if="!proData.name_short">{{proData.name}}</div>
-    
-    <div class="tag-icon-tour">
-      <span v-for="(item,index) in proData.icons_tour"
-            :key="index">{{item.title}}</span>
+    <div class="desc" :class="proData.name_short ? 'one' : 'no-wrap-line2 imitate-ellipsis2'">{{proData.name_short || proData.name}}</div>
+    <div class="tag-icon-tour" v-if="proData.icons_tour.length">
+      <span v-for="(item,index) in proData.icons_tour" :key="index">{{item.title}}</span>
     </div>
     <div class="price-wrap">
       <span class="price">
@@ -33,6 +29,10 @@
         v-if="proData.special_price">
         {{proData.default_price}}
       </span>
+    </div>
+    <div class="lv-info">
+      <span>547人出行</span>
+      <span class="score">5.0分</span>
     </div>
   </div>
 </template>
@@ -87,16 +87,20 @@
     width: 100%;
     height: 100%;
     font-size: 0;
+    box-shadow:0px 0 12px rgba(57,57,57,0.16);
+    margin-bottom: 20px;
+    border-radius: 8px;
+    padding-bottom: 20px;
+    overflow: hidden;
     .banner {
       position: relative;
       height: 240px;
-      border-radius:8px;
       background-color: #d8d8d8;
       overflow: hidden;
       img {
         width: 100%;
         height: 100%;
-        background-color: #d8d8d8;
+        border-radius: 8px 8px 0px 0px;
       }
       .tag-wrap {
         position: absolute;
@@ -134,32 +138,25 @@
       }
     }
     .desc {
-      margin-top: 10px;
+      margin: 10px 20px;
       font-size: 28px;
-      color: #3e3e3e;
-    }
-    .short_name {
-      height: 80px;
-      font-size:28px;
-      font-weight:bold;
-      line-height:40px;
-      color:rgba(45,45,45,1);
-      opacity:1;
+      color: #2D2D2D;
       overflow: hidden;
-      text-overflow: ellipsis;
-      display:-webkit-box; //作为弹性伸缩盒子模型显示。
-      -webkit-box-orient:vertical; //设置伸缩盒子的子元素排列方式--从上到下垂直排列
-      -webkit-line-clamp:2; //显示的行
+      &.one{
+        text-overflow:ellipsis;
+        white-space: nowrap;
+      }
     }
     .price-wrap {
       margin-top: 8px;
+      padding: 0 20px;
       .price {
         font-size: 32px;
-        color: #ff0000;
+        color: #F55E2F;
       }
       .unit {
         font-size: 24px;
-        color: #ff0000;
+        color: #AEAEAE;
       }
       .ori-price {
         font-size: 24px;
@@ -170,17 +167,29 @@
     .tag-icon-tour{
       font-size:22px;
       line-height: 32px;
-      color: #666;
+      color: #00ABF9;
       height: 30px;
       overflow: hidden;
       margin-top: 5px;
+      height: 36px;
+      padding: 0 20px;
       span{
         display: inline-block;
-        border-radius:16px;
-        background-color: #E4E4E4;
+        border-radius:8px;
+        border:1px solid #00ABF9;
         padding: 0 10px;
         margin-bottom: 5px;
-        margin-right: 2px;
+        margin-right: 10px;
+      }
+    }
+    .lv-info{
+      display: flex;
+      justify-content: space-between;
+      font-size: 24px;
+      color: #AEAEAE;
+      padding: 8px 20px 0 20px;
+      .score{
+        color: #FEC133;
       }
     }
   }
