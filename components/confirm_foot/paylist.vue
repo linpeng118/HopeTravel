@@ -39,14 +39,15 @@
             <span>{{payData.attributes_selected.total_price}}</span>
           </p>
           <template v-if="payData.attributes_selected.items&&payData.attributes_selected.items.length">
-            <p class="payitem2"
-               v-for="(item,ind2) in payData.attributes_selected.items"
-               :key="ind2">
-              <span>{{item.name}}</span>
-              <span>
-                <i :style="item.prefix=='+'?'color:#D51D28':'color:#aaa;text-decoration:line-through'">{{item.prefix}} </i>
-                {{item.price}}</span>
-            </p>
+            <div class="payitem3"
+                 v-for="(item,ind2) in payData.attributes_selected.items"
+                 :key="ind2">
+              <div class="yellow-color mt-10">{{item.name}}</div>
+              <div class="mt-10">
+                <p class="mt-10">{{item.adult}}{{$t('productDetailPage.n_adult')}}x{{item.adult_price}}</p>
+                <p class="mt-10" v-if="item.kids">{{item.kids}}{{$t('productDetailPage.n_children')}}x{{item.kids_price}}</p>
+              </div>
+            </div>
           </template>
 
         </li>
@@ -55,12 +56,12 @@
             v-if="payData.discount">
           <p class="payitem">
             <span>{{$t('confirmFootComp.discount')}}:</span>
-            <span :style="'color:#aaa;text-decoration:line-through'">-{{payData.discount}}</span>
+            <span :style="'color:#aaa;'">-{{payData.discount}}</span>
           </p>
           <p class="payitem2"
              v-if="payData.points&&showmili=='1'">
             <span>{{$t('confirmFootComp.riceGrains')}}</span>
-            <span style="text-decoration:line-through;color:#aaa;"><i :style="'color:#aaa'">-</i>
+            <span style=";color:#aaa;"><i :style="'color:#aaa'">-</i>
               {{payData.points.discount}}</span>
           </p>
           <p class="payitem2"
@@ -73,7 +74,7 @@
           <p class="payitem2"
              v-if="payData.coupons">
             <span>{{$t('coupons')}}</span>
-            <span style="text-decoration:line-through;color:#aaa;"><i :style="'color:#aaa'">-</i>
+            <span style=";color:#aaa;"><i :style="'color:#aaa'">-</i>
               {{payData.coupons.save}}</span>
           </p>
         </li>
@@ -173,6 +174,7 @@
   }
 
   .paysection {
+    padding: 10px 0;
     border-top: 2px solid #e4e4e4;
   }
 
@@ -206,9 +208,19 @@
 
   .payitem2 {
     width: 750px;
+    height: 60px;
     padding: 0 32px;
     box-sizing: border-box;
-    height: 60px;
+  }
+  .payitem3 {
+    width: 750px;
+    padding: 0 32px;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .yellow-color {
+    color: rgba(255, 203, 60, 1);
   }
 
   .payitem2 span:nth-child(1) {
