@@ -205,6 +205,7 @@
           v-model="prodLoading"
           :prodFinished="prodFinished"
           :finished-text="$t('noMore')"
+          ref="waterProduct"
           @load="getData"
         >
           <div class="vue-waterfall-easy-scroll" ref="scrollEl">
@@ -235,6 +236,9 @@
                 />
               </div>
             </div>
+          </div>
+          <div v-if="prodFinished" class="filish-bottom">
+            {{$t('noMore')}}
           </div>
         </van-list>
       </div>
@@ -398,8 +402,8 @@ export default {
       this.beginIndex = this.productList.length + 1; // 排列完之后，新增图片从这个索引开始预加载图片和排列
     },
     async getData(obj) {
-      console.log(67345345345, this.prodLoading);
       if (this.prodFinished) {
+        this.prodLoading = false
         return;
       }
       const submitData = {
@@ -510,13 +514,14 @@ export default {
         tabValue,
         tabName
       };
-      this.getData();
+      // this.getData();
+      this.$refs.waterProduct.check()
     },
     changeSubTab(tab, index) {
       this.resetWater();
       this.$set(this.tabCurrent, "tabValue", tab.filter[0].value);
       this.$set(this.tabCurrent, "tabName", tab.filter[0].name);
-      this.getData();
+      this.$refs.waterProduct.check()
     },
     _nomolizeHotList(data) {
       let imgArr = [],
@@ -836,9 +841,11 @@ export default {
   }
   .product-list {
     // height: 100%;
+    padding-bottom: 110px;
     .vue-waterfall-easy-scroll {
       width: 100%;
       padding: 0 32px;
+      min-height: 520px;
     }
     .vue-waterfall-easy {
       position: relative;
@@ -881,7 +888,7 @@ export default {
       }
     }
     .product-tabs {
-      padding: 0 32px;
+      padding: 20px 32px 0 32px;
       margin-bottom: 20px;
       span {
         display: inline-block;
@@ -912,6 +919,11 @@ export default {
           color: #fff;
         }
       }
+    }
+    .filish-bottom{
+      text-align: center;
+      font-size: 24px;
+      color: #999;
     }
   }
   .count-down {
