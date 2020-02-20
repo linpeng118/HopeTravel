@@ -72,26 +72,10 @@ export const validatePhone = (data) => {
   })
 }
 
-// 获取邮箱验证码
-export const getEmailCode = (data) => {
-  return axios.post('/api/email/send', {
-    email: data.email,
-    scene: data.scene
-  })
-}
-
-// 验证邮箱地址
-export const validateEmail = (data) => {
-  return axios.post('/api/email/validate', {
-    email: data.email,
-    code: data.code
-  })
-}
-
 // 上传头像
 export const saveProfile = (data) => {
   return axios({
-    url:'http://www.htw.tourscool.net/upload.php',
+    url: 'http://www.htw.tourscool.net/upload.php',
     method: 'post',
     data: data
   })
@@ -100,4 +84,33 @@ export const saveProfile = (data) => {
 // 个人中心验证邮箱
 export const captchaEmail = (email) => {
   return axios.get(`/api/email/captcha?email=${email}`)
+}
+
+
+
+// 获取邮箱验证码
+export const getEmailCode = (data) => {
+  return axios.post('/api/oauth/email/send', {
+    email: data.email,
+    scene: data.scene
+  })
+}
+
+// 验证邮箱地址
+export const validateEmail = (data) => {
+  return axios.post('/api/oauth/verifyCode', {
+    scene: data.scene,
+    account: data.account,
+    code: data.code
+  })
+}
+
+// 邮箱注册
+export const Emailregister = (data) => {
+  return axios.post('/api/oauth/register', {
+    code: data.code,
+    account: data.account,
+    password: data.password,
+    scene: data.scene
+  })
 }

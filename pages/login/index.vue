@@ -35,7 +35,9 @@
            alt=""
            v-else>
       同意
-      <span @click.stop="onAgreement">{{$t('partcailComp.AgreementName')}}</span>
+      <span @click.stop="$router.push({
+        path: '/protocol/user',
+      })">{{$t('partcailComp.AgreementName')}}</span>
       和
       <span @click.stop="$router.push({
         path: '/protocol/xifan',
@@ -63,7 +65,7 @@ export default {
     return {
       redirect: this.$route.query.redirect ? decodeURIComponent(this.$route.query.redirect) : '', // 重定向地址
 
-      formStyle: 2, //1.登录 2.注册
+      formStyle: 1, //1.登录 2.注册
       isAgree: true, //是否同意协议
     }
   },
@@ -79,11 +81,18 @@ export default {
           },
         })
       } else {
-        this.$router.go(-1)
+        let href = window.location.href.slice(-1)
+        if (href == '#') {
+          this.$router.go(-2)
+        } else {
+          this.$router.go(-1)
+        }
       }
     },
+
     //协议同意切换
     toggleAgreeProp() {
+      this.isAgree = !this.isAgree
       switch (this.formStyle) {
         case 1:
           this.$refs.loginComp.switchAgree(this.isAgree)
@@ -92,7 +101,6 @@ export default {
           this.$refs.regComp.switchAgree(this.isAgree)
           break
       }
-      this.isAgree = !this.isAgree
     },
     // 登陆回调
     async loginCallBack() {
