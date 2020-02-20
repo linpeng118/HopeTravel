@@ -16,156 +16,241 @@
         </div>
       </div>
     </div>
-    <div class="bannerSearch">
-      <!--banner-->
-      <div class="banner">
-        <!--搜索-->
-        <div class="search-box" ref="searchBox">
-          <nuxt-link tag="div" class="left" to="/search" id="searchLeft">
-            <van-icon name="search" />
-            <span>{{ $t("homePage.desKeywords") }}</span>
+    <template v-if="!loadingPage">
+      <div class="bannerSearch">
+        <!--banner-->
+        <div class="banner">
+          <!--搜索-->
+          <div class="search-box" ref="searchBox">
+            <nuxt-link tag="div" class="left" to="/search" id="searchLeft">
+              <van-icon name="search" />
+              <span>{{ $t("homePage.desKeywords") }}</span>
+            </nuxt-link>
+            <div @click.stop="showcall" class="right">
+              <van-icon name="phone-o" />
+            </div>
+          </div>
+          <van-swipe indicator-color="white">
+            <van-swipe-item v-for="banner in bannerList" :key="banner.image">
+              <a class="img" :href="banner.link">
+                <img :src="banner.image" />
+              </a>
+            </van-swipe-item>
+          </van-swipe>
+        </div>
+      </div>
+      <!--标签-->
+      <div class="entry-block">
+        <div v-for="navItem in navList" :key="navItem.title">
+          <a class="entry-tourism" :href="navItem.nav_link">
+            <img :src="navItem.nav_image" />
+            <p class="title">{{ navItem.nav_title }}</p>
+          </a>
+        </div>
+      </div>
+      <!--标签-->
+      <div class="entry-block last">
+        <div v-for="navItem in assNavList" :key="navItem.title">
+          <a class="entry-tourism" :href="navItem.nav_link">
+            <img :src="navItem.nav_image" />
+            <p class="title">{{ navItem.nav_title }}</p>
+          </a>
+        </div>
+      </div>
+      <!--推荐目的地-->
+      <div class="hot-target">
+        <div class="title">
+          <div class="name">{{ $t("homePage.hotDes") }}</div>
+          <nuxt-link tag="div" class="link-all" to="/search">
+            {{ $t("seeAll") }}
+            <van-icon name="arrow" />
           </nuxt-link>
-          <div @click.stop="showcall" class="right">
-            <van-icon name="phone-o" />
+        </div>
+        <hot-place :lists="hotList"></hot-place>
+      </div>
+      <!-- 旅行月历 -->
+      <div class="travel-calendar">
+        <div class="title-name">{{ $t("homePage.trcalendar") }}</div>
+        <div class="tab-main-content">
+          <van-tabs :border="false" color="#00ABF9" line-width="60">
+            <van-tab
+              :title="calendar.month && calendar.month.tab_name"
+              v-for="(calendar, index) in tourCalendarList"
+              :key="'Calendar' + index"
+            >
+              <div class="items">
+                <div class="box-lx">
+                  <div
+                    class="info"
+                    v-for="theme in calendar.theme"
+                    :key="theme.a_product_name"
+                    :style="{ backgroundImage: `url(${theme.image})` }"
+                  >
+                    <div class="lm-name">
+                      <div class="fs14">{{ theme.theme }}</div>
+                      <div>{{ theme.desc }}</div>
+                    </div>
+                    <a
+                      class="cp-mk"
+                      :href="
+                        `/product/detail?productId=${theme.a_product[0] &&
+                          theme.a_product[0].product_id}`
+                      "
+                    >
+                      <p class="name">{{ theme.a_product_name }}</p>
+                      <p class="grap">{{ theme.a_product_keyword }}</p>
+                      <p class="price" v-if="theme.a_product[0]">
+                        {{ theme.a_product[0].default_price | getPrice }}
+                      </p>
+                    </a>
+                    <a
+                      class="cp-mk"
+                      :href="
+                        `/product/detail?productId=${theme.b_product[0] &&
+                          theme.b_product[0].product_id}`
+                      "
+                    >
+                      <p class="name">{{ theme.b_product_name }}</p>
+                      <p class="grap">{{ theme.b_product_keyword }}</p>
+                      <p class="price" v-if="theme.b_product[0]">
+                        {{ theme.b_product[0].default_price | getPrice }}
+                      </p>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </van-tab>
+          </van-tabs>
+        </div>
+      </div>
+      <!--限时抢购-->
+      <div class="sale-time-box" v-if="timeSalesList.length">
+        <div class="title">
+          <div class="name">{{ $t("homePage.timedSpecials") }}</div>
+          <nuxt-link
+            tag="div"
+            class="link-all"
+            :to="
+              `/all/ya?ids=${timeSalesIds}&tb=1&bar=${$t(
+                'homePage.timedSpecials'
+              )}`
+            "
+            v-if="timeSalesList.length >= 3"
+          >
+            {{ $t("seeAll") }}
+            <van-icon name="arrow" />
+          </nuxt-link>
+        </div>
+        <div class="main-sale">
+          <van-row gutter="10">
+            <van-col span="12">
+              <sale-time
+                :height="190"
+                :title="2"
+                :item="timeSalesList[0]"
+              ></sale-time>
+            </van-col>
+            <van-col span="12">
+              <template v-for="time in timeSalesList.slice(1, 3)">
+                <sale-time :item="time" :key="time.product_id"></sale-time>
+              </template>
+            </van-col>
+          </van-row>
+        </div>
+      </div>
+      <div class="service-xf">
+        <div class="title">
+          <div class="name">{{ $t("homePage.serviceXf") }}</div>
+        </div>
+        <div class="content">
+          <div
+            class="item"
+            v-for="assurance in assuranceList"
+            :key="assurance.text"
+          >
+            <div class="img-box">
+              <img :src="assurance.image" alt="" />
+            </div>
+            <div class="text">
+              <span>{{ assurance.title }}</span
+              >{{ assurance.text }}
+            </div>
           </div>
         </div>
-        <van-swipe indicator-color="white">
-          <van-swipe-item v-for="banner in bannerList" :key="banner.image">
-            <a class="img" :href="banner.link">
-              <img :src="banner.image" />
-            </a>
-          </van-swipe-item>
-        </van-swipe>
       </div>
-    </div>
-    <!--标签-->
-    <div class="entry-block">
-      <div v-for="navItem in navList" :key="navItem.title">
-        <a class="entry-tourism" :href="navItem.nav_link">
-          <img :src="navItem.nav_image" />
-          <p class="title">{{ navItem.nav_title }}</p>
-        </a>
-      </div>
-    </div>
-    <!--标签-->
-    <div class="entry-block last">
-      <div v-for="navItem in assNavList" :key="navItem.title">
-        <a class="entry-tourism" :href="navItem.nav_link">
-          <img :src="navItem.nav_image" />
-          <p class="title">{{ navItem.nav_title }}</p>
-        </a>
-      </div>
-    </div>
-    <!--推荐目的地-->
-    <div class="hot-target">
-      <div class="title">
-        <div class="name">{{ $t("homePage.hotDes") }}</div>
-        <nuxt-link tag="div" class="link-all" to="/search">
-          {{ $t("seeAll") }}
-          <van-icon name="arrow" />
-        </nuxt-link>
-      </div>
-      <hot-place :lists="hotList"></hot-place>
-    </div>
-    <!-- 旅行月历 -->
-    <div class="travel-calendar">
-      <div class="title-name">{{ $t("homePage.trcalendar") }}</div>
-      <div class="tab-main-content">
-        <van-tabs :border="false" color="#00ABF9" line-width="60">
-          <van-tab :title="calendar.month && calendar.month.tab_name" v-for="(calendar, index) in tourCalendarList" :key="'Calendar' + index">
-            <div class="items">
-              <div class="box-lx">
-                <div class="info" v-for="theme in calendar.theme" :key="theme.a_product_name" :style="{backgroundImage: `url(${theme.image})`}">
-                  <div class="lm-name">
-                    <div class="fs14">{{theme.theme}}</div>
-                    <div>{{theme.desc}}</div>
-                  </div>
-                  <a class="cp-mk" :href="`/product/detail?productId=${theme.a_product[0] && theme.a_product[0].product_id}`">
-                    <p class="name">{{theme.a_product_name}}</p>
-                    <p class="grap">{{theme.a_product_keyword}}</p>
-                    <p class="price" v-if="theme.a_product[0]">{{theme.a_product[0].default_price | getPrice}}</p>
-                  </a>
-                  <a class="cp-mk" :href="`/product/detail?productId=${theme.b_product[0] && theme.b_product[0].product_id}`">
-                    <p class="name">{{theme.b_product_name}}</p>
-                    <p class="grap">{{theme.b_product_keyword}}</p>
-                    <p class="price" v-if="theme.b_product[0]">{{theme.b_product[0].default_price | getPrice}}</p>
+      <div style="height:6px;background:#F2F7F9"></div>
+      <!--精选商品-->
+      <div class="product-list">
+        <div class="product-tabs">
+          <span
+            v-for="(tabs, index) in productTabsList"
+            :key="'productTabsList' + tabs.value"
+            :class="tabs.value == tabCurrent.value ? 'active' : ''"
+            @click="changeProductTab(tabs, index)"
+            >{{ tabs.tab_name }}</span
+          >
+        </div>
+        <div class="tab-items-sub">
+          <span
+            v-for="(subtab, index) in selectTabsList"
+            :key="subtab.title"
+            :class="
+              subtab.filter[0].value == tabCurrent.tabValue ? 'active' : ''
+            "
+            @click="changeSubTab(subtab, index)"
+            >{{ subtab.title }}</span
+          >
+        </div>
+        <van-list
+          v-model="prodLoading"
+          :prodFinished="prodFinished"
+          :finished-text="$t('noMore')"
+          @load="getData"
+        >
+          <div class="vue-waterfall-easy-scroll" ref="scrollEl">
+            <div class="vue-waterfall-easy">
+              <div class="img-box-water">
+                <img :src="tabCurrent.image" alt="" />
+                <div class="content">
+                  <a
+                    class="text"
+                    v-for="link in tabCurrent.links"
+                    :key="link.text"
+                    :href="link.link"
+                  >
+                    {{ link.text }}
+                    <img src="../assets/imgs/home/icon_arrow.png" alt="" />
                   </a>
                 </div>
               </div>
-            </div>
-          </van-tab>
-        </van-tabs>
-      </div>
-    </div>
-    <!--限时抢购-->
-    <div class="sale-time-box" v-if="timeSalesList.length">
-      <div class="title">
-        <div class="name">{{ $t("homePage.timedSpecials") }}</div>
-        <nuxt-link tag="div" class="link-all" :to="`/all/ya?ids=${timeSalesIds}&tb=1&bar=${$t('homePage.timedSpecials')}`" v-if="timeSalesList.length >= 3">
-          {{ $t("seeAll") }}
-          <van-icon name="arrow" />
-        </nuxt-link>
-      </div>
-      <div class="main-sale">
-        <van-row gutter="10">
-          <van-col span="12">
-            <sale-time :height="190" :title="2" :item="timeSalesList[0]"></sale-time>
-          </van-col>
-          <van-col span="12">
-            <template v-for="time in timeSalesList.slice(1,3)">
-              <sale-time :item="time" :key="time.product_id"></sale-time>
-            </template>
-          </van-col>
-        </van-row>
-      </div>
-    </div>
-    <div class="service-xf">
-      <div class="title">
-        <div class="name">{{ $t("homePage.serviceXf") }}</div>
-      </div>
-      <div class="content">
-        <div class="item" v-for="assurance in assuranceList" :key="assurance.text">
-          <div class="img-box">
-            <img :src="assurance.image" alt="">
-          </div>
-          <div class="text">
-            <span>{{assurance.title}}</span>{{assurance.text}}
-          </div>
-        </div>
-      </div>
-    </div>
-    <div style="height:6px;background:#F2F7F9"></div>
-    <!--精选商品-->
-    <div class="product-list">
-      <div class="product-tabs">
-        <span v-for="(tabs, index) in productTabsList" 
-        :key="'productTabsList' + tabs.value" :class="tabs.value == tabCurrent.value ? 'active': ''" @click="changeProductTab(tabs,index)">{{tabs.tab_name}}</span>
-      </div>
-      <div class="tab-items-sub">
-        <span v-for="(subtab, index) in selectTabsList" :key="subtab.title" :class="subtab.filter[0].value == tabCurrent.tabValue ? 'active': ''" @click="changeSubTab(subtab,index)">{{subtab.title}}</span>
-      </div>
-      <van-list v-model="prodLoading" :prodFinished="prodFinished" :finished-text="$t('noMore')" @load="getData">
-        <div class="vue-waterfall-easy-scroll" ref="scrollEl">
-          <div class="vue-waterfall-easy">
-            <div class="img-box-water">
-              <img :src="tabCurrent.image" alt="">
-              <div class="content">
-                <a class="text" v-for="link in tabCurrent.links" :key="link.text" :href="link.link">
-                  {{link.text}} <img src="../assets/imgs/home/icon_arrow.png" alt="">
-                </a>
+              <div
+                class="img-box-water"
+                v-for="product in productList"
+                :key="product.product_id"
+              >
+                <hot-item
+                  :isShowTitle="false"
+                  :proData="product"
+                  @selectItem="selectItem"
+                />
               </div>
             </div>
-            <div class="img-box-water" v-for="product in productList" :key="product.product_id">
-              <hot-item :isShowTitle="false" :proData="product" @selectItem="selectItem" />
-            </div>
           </div>
-        </div>
-      </van-list>
+        </van-list>
+      </div>
+    </template>
+    <div class="page-load-box" v-if="loadingPage">
+      <van-loading type="spinner" color="#1989fa" />
+      <div @click="reLoadPage">重新刷新</div>
     </div>
     <!-- 底部导航 -->
     <Tabbar :Index="0"></Tabbar>
     <!--悬浮-->
-    <drift-aside ref="driftAside" :isHome="true" @backTop="backTop"></drift-aside>
+    <drift-aside
+      ref="driftAside"
+      :isHome="true"
+      @backTop="backTop"
+    ></drift-aside>
   </div>
 </template>
 
@@ -187,11 +272,11 @@ import apiConfig from "./../apiConf.env";
 import Tabbar from "@/components/tabbar";
 export default {
   name: "home",
-   filters:{
+  filters: {
     getPrice(value) {
-      return value.toString().split('.')[0]
-    },
-   },
+      return value.toString().split(".")[0];
+    }
+  },
   components: {
     HotPlace,
     SnapUpItem,
@@ -239,92 +324,116 @@ export default {
       productTabsList: [], // 瀑布流tab数据
       selectTabsList: [], // 瀑布流二级菜单
       tabImageList: [],
-      timeSalesIds:'', // 显示特价产品ids的组合
+      timeSalesIds: "", // 显示特价产品ids的组合
       tabCurrent: {},
       prodLoading: false,
       prodFinished: false,
       prodPagination: {},
+      loadingPage: true,
       isAndroid: this.$route.query.platform
-    }
+    };
   },
   computed: {
     ...mapGetters(["closeDown"]),
-    itemWidth(){  
-      return (138*0.5*(414/375))  
+    itemWidth() {
+      return 138 * 0.5 * (414 / 375);
     },
-    gutterWidth(){
-      return (9*0.5*(414/375))
+    gutterWidth() {
+      return 9 * 0.5 * (414 / 375);
     }
   },
+  created(){
+    
+  },
   async mounted() {
-    this.getHomeInitData()
+    this.getHomeInitData();
     // 监听滚动
-    this.$refs.refHomePage.addEventListener("scroll", this.scrollFn)
-    let u = navigator.userAgent
-    let or = window.location.origin
-    this.downUrl = `${apiConfig.base}/api/tour/v1/download`
+    this.$refs.refHomePage.addEventListener("scroll", this.scrollFn);
+    let u = navigator.userAgent;
+    let or = window.location.origin;
+    this.downUrl = `${apiConfig.base}/api/tour/v1/download`;
+    if(JSON.stringify(this.indexData) != '{}') {
+      this.$nextTick(() => {
+        this.loadingPage = false
+      })
+    } else {
+      this.loadingPage = true
+    }
   },
   beforeDestroy() {
-    this.$refs.refHomePage.removeEventListener("scroll", this.scrollFn)
+    this.$refs.refHomePage.removeEventListener("scroll", this.scrollFn);
   },
   methods: {
-    waterfall(){
-      let that = this
-      if (!this.imgBoxEls) return
-      let top,left,height,colWidth = this.imgBoxEls[0].offsetWidth + 12
-      if (this.beginIndex == 0) this.colsHeightArr = []
+    reLoadPage(){
+      location.reload()
+    },
+    waterfall() {
+      let that = this;
+      if (!this.imgBoxEls) return;
+      let top,
+        left,
+        height,
+        colWidth = this.imgBoxEls[0].offsetWidth + 12;
+      if (this.beginIndex == 0) this.colsHeightArr = [];
       for (let i = this.beginIndex; i < this.productList.length + 1; i++) {
-        if (!that.imgBoxEls[i]) return
-        height = that.imgBoxEls[i].offsetHeight
+        if (!that.imgBoxEls[i]) return;
+        height = that.imgBoxEls[i].offsetHeight;
         if (i < 2) {
-          that.colsHeightArr.push(height)
-          top = 0
-          left = i * colWidth
+          that.colsHeightArr.push(height);
+          top = 0;
+          left = i * colWidth;
         } else {
-          let minHeight = Math.min.apply(null, that.colsHeightArr) // 最低高低
-          let minIndex = that.colsHeightArr.indexOf(minHeight) // 最低高度的索引
-          top = minHeight
-          left = minIndex * colWidth
+          let minHeight = Math.min.apply(null, that.colsHeightArr); // 最低高低
+          let minIndex = that.colsHeightArr.indexOf(minHeight); // 最低高度的索引
+          top = minHeight;
+          left = minIndex * colWidth;
           // 设置元素定位的位置
           // 更新colsHeightArr
-          that.colsHeightArr[minIndex] = minHeight + height
+          that.colsHeightArr[minIndex] = minHeight + height;
         }
-        that.imgBoxEls[i].style.left = left + 'px'
-        that.imgBoxEls[i].style.top = top + 'px'
+        that.imgBoxEls[i].style.left = left + "px";
+        that.imgBoxEls[i].style.top = top + "px";
       }
-      this.$refs.scrollEl.style.height = Math.max(...that.colsHeightArr) + 'px'
-      this.beginIndex = this.productList.length + 1 // 排列完之后，新增图片从这个索引开始预加载图片和排列
+      this.$refs.scrollEl.style.height = Math.max(...that.colsHeightArr) + "px";
+      this.beginIndex = this.productList.length + 1; // 排列完之后，新增图片从这个索引开始预加载图片和排列
     },
-    async getData(obj){
+    async getData(obj) {
+      console.log(67345345345, this.prodLoading);
+      if (this.prodFinished) {
+        return;
+      }
       const submitData = {
         page: (this.prodPagination.page || 0) + 1,
         [this.tabCurrent.name]: this.tabCurrent.value,
         [this.tabCurrent.tabName]: this.tabCurrent.tabValue
-      }
-      const {code, data, pagination} = await getProductList(submitData)
-      if(code === 0) {
+      };
+      const { code, data, pagination } = await getProductList(submitData);
+      if (code === 0) {
         this.productList.push(...data);
         this.prodPagination = pagination;
         // 加载状态结束
         this.prodLoading = false;
         // 数据全部加载完成
-        if (!this.prodPagination.more) {
+        if (!pagination.more) {
           this.prodFinished = true;
         }
-        this.imgBoxEls = this.$el.getElementsByClassName("img-box-water")
-        this.$nextTick(()=> {
-          this.waterfall()
-        })
+        if (data.length) {
+          this.imgBoxEls = this.$el.getElementsByClassName("img-box-water");
+          this.$nextTick(() => {
+            this.waterfall();
+          });
+        }
       }
     },
-    resetWater(){
-      this.imgBoxEls= null
-      this.beginIndex= 0
-      this.colsHeightArr= []
-      this.prodLoading= false
-      this.prodFinished= false
-      this.prodPagination= {}
-      this.productList = []
+    resetWater() {
+      this.$refs.scrollEl.style.height = "270px";
+      this.imgBoxEls = null;
+      this.beginIndex = 0;
+      this.colsHeightArr = [];
+      this.prodLoading = false;
+      this.prodFinished = false;
+      this.prodPagination = {};
+      this.productList = [];
     },
     // 电话咨询
     showcall() {
@@ -369,15 +478,17 @@ export default {
       });
     },
     getHomeInitData() {
-      this.bannerList = this.indexData.banner || []
-      this.timeSalesList = (this.indexData.special && this.indexData.special.special_products) || []
-      this.assuranceList = this.indexData.assurance || []
+      this.bannerList = this.indexData.banner || [];
+      this.timeSalesList =
+        (this.indexData.special && this.indexData.special.special_products) ||
+        [];
+      this.assuranceList = this.indexData.assurance || [];
       this.navList = this.indexData.main_nav || [];
       this.assNavList = this.indexData.ass_nav || [];
-      this.tourCalendarList = this.indexData.tour_calendar || []
-      this._nomolizeHotList(this.indexData.rec_dest)
-      this.selectTabsList = this.indexData.select_tabs || []
-      this._nomolizePcTab(this.indexData.product_tabs)
+      this.tourCalendarList = this.indexData.tour_calendar || [];
+      this._nomolizeHotList(this.indexData.rec_dest);
+      this.selectTabsList = this.indexData.select_tabs || [];
+      this._nomolizePcTab(this.indexData.product_tabs);
       this.tabCurrent = {
         value: this.productTabsList[0].value,
         name: this.productTabsList[0].name,
@@ -385,63 +496,65 @@ export default {
         ...this.tabImageList[0],
         tabValue: this.selectTabsList[0].filter[0].value,
         tabName: this.selectTabsList[0].filter[0].name
-      }
-      console.log(this.tabCurrent) 
-      this.timeSalesIds = this.getTimeSaleIds(this.timeSalesList)
+      };
+      console.log(this.tabCurrent);
+      this.timeSalesIds = this.getTimeSaleIds(this.timeSalesList);
     },
-    changeProductTab(tab, index){
-      let {tabValue, tabName} = this.tabCurrent
+    changeProductTab(tab, index) {
+      this.resetWater();
+      let { tabValue, tabName } = this.tabCurrent;
       this.tabCurrent = {
         name: tab.name,
         value: tab.value,
         ...this.tabImageList[index],
         tabValue,
         tabName
-      }
-      this.resetWater()
-      this.getData()
+      };
+      this.getData();
     },
-    changeSubTab(tab,index){
-      this.$set(this.tabCurrent, 'tabValue', tab.filter[0].value)
-      this.$set(this.tabCurrent, 'tabName', tab.filter[0].name)
-      this.resetWater()
-      this.getData()
+    changeSubTab(tab, index) {
+      this.resetWater();
+      this.$set(this.tabCurrent, "tabValue", tab.filter[0].value);
+      this.$set(this.tabCurrent, "tabName", tab.filter[0].name);
+      this.getData();
     },
-    _nomolizeHotList(data){
-      let imgArr = [],textArr =[]
+    _nomolizeHotList(data) {
+      let imgArr = [],
+        textArr = [];
       data.forEach(item => {
-        if(item.image) {
-          imgArr.push(item)
+        if (item.image) {
+          imgArr.push(item);
         } else {
-          textArr.push(item)
+          textArr.push(item);
         }
-      })
+      });
       this.hotList = {
         image: imgArr,
         text: textArr
-      }
+      };
     },
-    _nomolizePcTab(data){
-      let product = [],image = []
+    _nomolizePcTab(data) {
+      let product = [],
+        image = [];
       data.forEach(item => {
         product.push({
           ...item.category_filter[0],
           ...item.category_name
-        })
+        });
         image.push({
           links: item.links,
           image: item.category_name && item.category_name.image
-        })
-      })
-      this.productTabsList = product
-      this.tabImageList = image
+        });
+      });
+      this.productTabsList = product;
+      this.tabImageList = image;
     },
-    getTimeSaleIds(data){
-      let _arr = []
+    getTimeSaleIds(data) {
+      let _arr = [];
       data.forEach(item => {
-        _arr.push(item.product_id)
-      })
-      return _arr.join(',')
+        _arr.push(item.product_id);
+      });
+      return _arr.join(",");
     },
     // 滚动
     scrollFn() {
@@ -626,14 +739,23 @@ export default {
       width: 100%;
     }
   }
-
+  .page-load-box{
+    text-align: center;
+    margin-top: 40px;
+    font-size: 28px;
+    & > div{
+      line-height: 40px;
+      margin-top: 20px;
+      color: #00ABF9;
+    }
+  }
   .entry-block {
     padding: 40px 10px 0 10px;
     text-align: center;
     display: flex;
     flex-wrap: wrap;
     background-color: #fff;
-    &.last{
+    &.last {
       padding: 16px 10px 40px 10px;
     }
     & > div {
@@ -648,12 +770,14 @@ export default {
       height: 80px;
       display: inline-block;
     }
-    .entry-tourism{
+    .entry-tourism {
       display: block;
     }
   }
 
-  .hot-target, .sale-time-box, .service-xf{
+  .hot-target,
+  .sale-time-box,
+  .service-xf {
     padding: 12px 32px;
     background-color: #fff;
     .title {
@@ -666,7 +790,7 @@ export default {
         font-size: 48px;
       }
       .link-all {
-        color: #00ABF9;
+        color: #00abf9;
         font-size: 24px;
       }
       i {
@@ -675,42 +799,43 @@ export default {
     }
   }
   .sale-time-box {
-    margin-top: 24px; 
+    margin-top: 24px;
   }
-  .service-xf{
+  .service-xf {
     margin-bottom: 30px;
-    .content{
-      box-shadow:0px 0px 12px rgba(57,57,57,0.15);
-      border-radius:20px;
+    .content {
+      box-shadow: 0px 0px 12px rgba(57, 57, 57, 0.15);
+      border-radius: 20px;
       padding: 24px;
-      .item{
+      .item {
         display: flex;
-        font-size:24px;
-        line-height:34px;
-        color: #AEAEAE;
+        font-size: 24px;
+        line-height: 34px;
+        color: #aeaeae;
         margin-bottom: 30px;
         align-items: center;
-        &:last-child{
+        &:last-child {
           margin-bottom: 0;
         }
-        span{
+        span {
           color: #393939;
         }
       }
-      .img-box{
+      .img-box {
         width: 60px;
       }
-      img{
+      img {
         width: 60px;
         height: 60px;
       }
-      .text{
+      .text {
         flex: 1;
         padding-left: 20px;
       }
     }
   }
   .product-list {
+    // height: 100%;
     .vue-waterfall-easy-scroll {
       width: 100%;
       padding: 0 32px;
@@ -719,67 +844,71 @@ export default {
       position: relative;
       width: 100%;
       height: 100%;
-      .img-box-water{
+      .img-box-water {
         position: absolute;
         font-size: 24px;
         width: 334px;
         border-radius: 8px;
-        img{
+        img {
           height: 334px;
           width: 334px;
           display: block;
           border-radius: 8px 8px 0 0;
         }
-        .content{
-          background:linear-gradient(136deg,rgba(102,201,246,1) 0%,rgba(106,170,235,1) 100%);
-          box-shadow:0px 2px 12px rgba(57,57,57,0.16);
+        .content {
+          background: linear-gradient(
+            136deg,
+            rgba(102, 201, 246, 1) 0%,
+            rgba(106, 170, 235, 1) 100%
+          );
+          box-shadow: 0px 2px 12px rgba(57, 57, 57, 0.16);
           padding: 20px;
           color: #fff;
-          font-size:28px;
-          line-height:44px;
+          font-size: 28px;
+          line-height: 44px;
           margin-bottom: 20px;
           border-radius: 0 0 8px 8px;
-          img{
+          img {
             width: 21px;
             height: 21px;
             display: inline-block;
           }
-          a.text{
+          a.text {
             display: block;
             color: #fff;
           }
         }
       }
     }
-    .product-tabs{
+    .product-tabs {
       padding: 0 32px;
       margin-bottom: 20px;
-      span{
+      span {
         display: inline-block;
         margin-right: 70px;
         font-size: 28px;
-        color: #2D2D2D;
+        color: #2d2d2d;
         font-weight: bold;
-        &.active{
-          color: #00ABF9;
+        &.active {
+          color: #00abf9;
         }
       }
     }
-    .tab-items-sub{
+    .tab-items-sub {
       padding: 0 32px;
-      font-size:24px;
+      font-size: 24px;
       margin-bottom: 30px;
-      span{
-        height:48px;
-        border:2px solid #00ABF9;
-        color: #00ABF9;
+      span {
+        height: 48px;
+        border: 2px solid #00abf9;
+        color: #00abf9;
         margin-right: 40px;
         line-height: 48px;
         display: inline-block;
-        border-radius:44px;
+        border-radius: 44px;
         padding: 0 16px;
-        &.active{
-          background-color: #00ABF9;
+        &.active {
+          background-color: #00abf9;
           color: #fff;
         }
       }
@@ -788,67 +917,67 @@ export default {
   .count-down {
     margin-left: 10px;
   }
-  .travel-calendar{
+  .travel-calendar {
     margin-top: 20px;
     position: relative;
-    .title-name{
-      font-size:48px;
+    .title-name {
+      font-size: 48px;
       position: absolute;
       left: 32px;
       top: 10px;
-      color: #2D2D2D;
+      color: #2d2d2d;
       z-index: 2;
     }
-    .tab-main-content{
+    .tab-main-content {
       padding: 0 0 0 32px;
       font-size: 0;
     }
-    .items{
+    .items {
       width: 100%;
       overflow: hidden;
       overflow-x: scroll;
       margin-top: 20px;
     }
-    .box-lx{
+    .box-lx {
       position: relative;
       white-space: nowrap;
       height: 368px;
     }
-    .info{
+    .info {
       width: 320px;
-      border-radius:8px;
+      border-radius: 8px;
       height: 368px;
       margin-right: 20px;
       display: inline-block;
-      font-size:24px;
+      font-size: 24px;
       background-size: cover;
       background-repeat: no-repeat;
       padding: 20px;
-      .lm-name{
+      .lm-name {
         color: #fff;
         line-height: 40px;
-        .fs14{
+        .fs14 {
           font-size: 28px;
         }
       }
     }
-    .cp-mk{
+    .cp-mk {
       background: #fff;
-      border-radius:8px;
+      border-radius: 8px;
       line-height: 34px;
-      padding:10px;
+      padding: 10px;
       margin-top: 10px;
       display: block;
-      color: #2D2D2D;
-      .price{
-        color: #F55E2F;
+      color: #2d2d2d;
+      .price {
+        color: #f55e2f;
       }
-      p{
+      p {
         overflow: hidden;
-        text-overflow:ellipsis;
+        text-overflow: ellipsis;
         white-space: nowrap;
-        &.grap{
-          color: #AEAEAE;
+        &.grap {
+          color: #aeaeae;
           font-size: 20px;
         }
       }
@@ -873,14 +1002,14 @@ export default {
   text-align: center;
   margin-top: 6px;
 }
-.travel-calendar .van-tab{
+.travel-calendar .van-tab {
   flex: none;
 }
-.travel-calendar .van-tabs__line{
+.travel-calendar .van-tabs__line {
   width: 40px !important;
 }
-.travel-calendar .van-tabs__nav--line{
-  justify-content:flex-end;
+.travel-calendar .van-tabs__nav--line {
+  justify-content: flex-end;
   padding-right: 32px;
 }
 </style>
