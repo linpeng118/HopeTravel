@@ -2,7 +2,8 @@
   <div class="login-comp">
 
     <!-- 邮箱注册 -->
-    <div class="mobile-form">
+    <div class="mobile-form"
+         v-if="Step==1">
       <h1 class="title"
           v-html="regTitle"></h1>
 
@@ -23,7 +24,7 @@
                       slot="button"
                       size="small"
                       :disabled="codeType===VERIFY_CODE.GETTING"
-                      @click="getCode">{{showText}}</van-button>
+                      @click="getCodeHandle()">{{showText}}</van-button>
         </van-field>
       </div>
 
@@ -32,7 +33,7 @@
                   size="large"
                   :disabled="disabledEmail"
                   :loading="submiting"
-                  @click="btnLogin()">{{$t('partcailComp.next')}}</van-button>
+                  @click="verifyCodeHandle()">{{$t('partcailComp.next')}}</van-button>
 
       <!-- 邮箱登陆/注册 -->
       <van-row class="email-part"
@@ -51,6 +52,32 @@
       </van-row>
     </div>
 
+    <!-- 设置密码 -->
+    <div class="mobile-form"
+         v-if="Step==2">
+      <h1 class="title"
+          v-html="$t('partcailComp.setPass')"></h1>
+
+      <div class="cb-border-b">
+        <van-field class="password"
+                   v-model="emailForm.password"
+                   center
+                   clearable
+                   right-icon="eye-o"
+                   :placeholder="$t('partcailComp.enterPass')"
+                   :type="pswInputType"
+                   @click-right-icon="toggleInputType()">
+        </van-field>
+      </div>
+
+      <!-- 确定 -->
+      <van-button class="btn-login"
+                  size="large"
+                  :disabled="disabledPassword"
+                  :loading="submiting"
+                  @click="registerHandle()">{{$t('sure')}}</van-button>
+    </div>
+
   </div>
 </template>
 
@@ -59,7 +86,7 @@ import {mapMutations} from 'vuex'
 import AreaCodeInput from '@/components/input/areaCode'
 import {LOGIN_TYPE, VERIFY_CODE, SMS_SCENE} from '@/assets/js/consts'
 import {DLG_TYPE} from '@/assets/js/consts/dialog'
-import {getSmsCode, login} from '@/api/member'
+import {getEmailCode, validateEmail, Emailregister} from '@/api/member'
 import {getProfile} from '@/api/profile'
 
 const TIME = 60 // 倒计时时间
@@ -102,7 +129,10 @@ export default {
 
       isAgree: true, //同意协议
       disabledEmail: true,
+      disabledPassword: true,
       loginForm: 1, //1.短信登录 2.账号/邮箱登录
+
+      Step: 1,
     }
   },
   computed: {
@@ -125,11 +155,24 @@ export default {
         isAgree,
       }
     },
+    passwordValues() {
+      const {emailForm, isAgree} = this
+      return {
+        password: emailForm.password,
+        isAgree,
+      }
+    },
   },
   watch: {
     emailValues: {
       handler: function(value) {
-        this.disabledEmail = value.email.length > 3 && value.emailCode.length > 5 && value.isAgree ? false : true
+        this.disabledEmail = value.email.length > 3 && value.emailCode.length > 3 && value.isAgree ? false : true
+      },
+      deep: true,
+    },
+    passwordValues: {
+      handler: function(value) {
+        this.disabledPassword = value.password.length > 5 && value.isAgree ? false : true
       },
       deep: true,
     },
@@ -142,21 +185,19 @@ export default {
     toggleInputType(val) {
       this.pswInputType = this.pswInputType === 'password' ? 'text' : 'password'
     },
-    forgetPsw() {
-      this.$emit('forgetPswCallBack')
-    },
     // 获取验证码
-    async getCode() {
-      if (!this.phoneForm.phone) {
-        this.$toast(this.$t('partcailComp.enterPhone'))
+    async getCodeHandle() {
+      let emailR = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/
+      if (!emailR.test(this.emailForm.email)) {
+        this.$toast(this.$t('partcailComp.emailPattern'))
         return
       }
       // 倒计时状态修改
       this.codeType = VERIFY_CODE.GETTING // 获取验证码
       try {
-        const {code, msg} = await getSmsCode({
-          phone: `${this.phoneForm.areaCode}-${this.phoneForm.phone}`,
-          scene: SMS_SCENE.LOGIN,
+        const {code, msg} = await getEmailCode({
+          email: this.emailForm.email,
+          scene: SMS_SCENE.RGISTER,
         })
         if (code !== 0) {
           this.$toast(msg)
@@ -181,63 +222,49 @@ export default {
         }
       }, 1000)
     },
-    // 登录
-    btnLogin() {
-      if (this.loginForm == 1) {
-        this.loginByPhone()
-      } else {
-        this.login()
-      }
-    },
-    // 账号/邮箱登录
-    async login() {
-      if (!this.formData.username) {
-        this.$toast(this.$t('partcailComp.enterUsername'))
-        return
-      }
-      if (!this.formData.password) {
-        this.$toast(this.$t('partcailComp.enterPass'))
+    // 邮箱验证码核对
+    async verifyCodeHandle() {
+      let emailR = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/
+      if (!emailR.test(this.emailForm.email)) {
+        this.$toast(this.$t('partcailComp.emailPattern'))
         return
       }
       try {
-        const {code, data, msg} = await login({
-          type: 'password',
-          account: this.formData.username,
-          password: this.formData.password,
+        const {code, data, msg} = await validateEmail({
+          scene: SMS_SCENE.RGISTER,
+          account: this.emailForm.email,
+          code: this.emailForm.emailCode,
         })
         if (code === 0) {
-          this.vxSetToken(data.token)
+          this.Step = 2
           await this.resetTimer()
           await this.$emit('loginCallBack')
         } else {
           this.$toast(msg)
         }
       } catch (error) {
-        // console.log(error)
+        console.log(error)
       }
     },
-    // 短信登录
-    async loginByPhone() {
-      if (!this.phoneForm.phone) {
-        this.$toast(this.$t('partcailComp.enterPhone'))
-        return
-      }
-      if (!this.phoneForm.smsCode) {
-        this.$toast(this.$t('partcailComp.enterPhoneCode'))
-        return
-      }
+    // 账号/邮箱注册
+    async registerHandle() {
       try {
-        const {code, data, msg} = await login({
-          type: 'phone',
-          account: `${this.phoneForm.areaCode}-${this.phoneForm.phone}`,
-          password: this.phoneForm.password,
-          code: this.phoneForm.smsCode,
+        const {code, data, msg} = await Emailregister({
+          scene: SMS_SCENE.RGISTER,
+          account: this.emailForm.email,
+          code: this.emailForm.emailCode,
+          password: this.emailForm.password,
         })
         if (code === 0) {
-          // console.log(data.token)
-          await this.vxSetToken(data.token)
+          this.vxSetToken(data.token)
           await this.resetTimer()
-          await this.$emit('loginCallBack')
+          await this.$emit('registCallBack')
+          let href = window.location.href.slice(-1)
+          if (href == '#') {
+            this.$router.go(-2)
+          } else {
+            this.$router.go(-1)
+          }
         } else {
           this.$toast(msg)
         }
@@ -248,13 +275,6 @@ export default {
     // 去登录
     toLogin() {
       this.$emit('toLogin')
-    },
-    // 点击服务协议
-    onAgreement() {
-      this.$router.push({
-        path: '/protocol/user',
-      })
-      this.$emit('onAgreement')
     },
     // 重置定时器
     resetTimer() {
