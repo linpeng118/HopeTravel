@@ -139,7 +139,6 @@
         "yingye": "營業時間",
         "playtime": "建議遊玩時間",
         "nosale": "暫無優惠"
-
     },
     "homePage": {
         "title": "首頁",
@@ -192,7 +191,8 @@
         "classicRoute": "經典路線",
         "referencePrice": "參考價格",
         "peopleStarts": "人/起",
-        "featureList": [{
+        "featureList": [
+            {
                 "title1": "全球出發",
                 "title2": "一人成團"
             },
@@ -521,12 +521,36 @@
         "refusedRefund": "拒簽退款",
         "countrySent": "全國送簽",
         "visaList": {
-            "content1": ["面試培訓，專家指導", "全國範圍約簽", "辦簽進度實時反饋"],
-            "content2": ["最快6個工作日出簽", "極簡辦理，全程指導", "辦簽進度實時反饋"],
-            "content3": ["全國受理，1對1指導", "團購優惠，當日送簽", "遊/探親/商務/畢業典禮"],
-            "content4": ["極速辦理，最快5-30分鍾辦理", "電子落地簽，方便快捷", "過簽率，出簽有保障"],
-            "content5": ["從業10年以上專業顧問", "當日遞交，最快5個工作日出簽", "99%過簽率，出簽有保障"],
-            "content6": ["最快5個工作日出簽", "超值，一簽暢遊歐洲26國", "99%過簽率，出簽有保障"]
+            "content1": [
+                "面試培訓，專家指導",
+                "全國範圍約簽",
+                "辦簽進度實時反饋"
+            ],
+            "content2": [
+                "最快6個工作日出簽",
+                "極簡辦理，全程指導",
+                "辦簽進度實時反饋"
+            ],
+            "content3": [
+                "全國受理，1對1指導",
+                "團購優惠，當日送簽",
+                "遊/探親/商務/畢業典禮"
+            ],
+            "content4": [
+                "極速辦理，最快5-30分鍾辦理",
+                "電子落地簽，方便快捷",
+                "過簽率，出簽有保障"
+            ],
+            "content5": [
+                "從業10年以上專業顧問",
+                "當日遞交，最快5個工作日出簽",
+                "99%過簽率，出簽有保障"
+            ],
+            "content6": [
+                "最快5個工作日出簽",
+                "超值，一簽暢遊歐洲26國",
+                "99%過簽率，出簽有保障"
+            ]
         },
         "noNeed": "沒有想要的？",
         "consultSister": "馬上咨詢簽證小姐姐吧",
@@ -577,28 +601,34 @@
         "next": "下一步",
         "forgetPass": "忘記密碼",
         "resetVerifyCode": "重新獲取",
-        "enterPhone": "請輸入手機號碼",
-        "enterPhoneCode": "請輸入手機驗證碼",
+        "enterPhone": "請輸入手機號",
+        "enterPhoneCode": "請輸入驗證碼",
         "enterEmail": "請輸入郵箱號碼",
-        "loginTips": "稀飯旅行賬號登錄",
+        "loginTips": "短信快捷登錄",
+        "loginSubTips": "新號碼將自動生成賬戶",
         "ptlogin": "普通登錄",
         "placePassword": "登錄密碼",
         "phoneCodeLogin": "手機驗證碼登錄",
         "notUser": "還沒有賬號？",
         "toreg": "去注冊",
-        "AgreementLogin": "登錄即代表您已同意我們的",
-        "AgreementName": "服務協議",
+        "toursLogin": "稀飯賬號登錄",
+        "AgreementLogin": "登錄即同意我們的",
+        "AgreementName": "《稀飯旅行服務協議》",
+        "privacy": "《隱私政策》",
         "enterUsername": "請輸入用戶名",
+        "placeCount": "手機號碼/電子郵箱",
         "enterPass": "請輸入密碼",
         "regTips": "稀飯旅行賬號注冊",
         "phoneReg": "手機號注冊",
         "emailReg": "郵箱注冊",
+        "emailRegTip": "請輸入電子郵箱",
         "passEnterType": "請輸入6-20位密碼",
         "phoneRegsucess": "手機號注冊成功！",
         "emailRegsucess": "郵箱注冊成功",
-        "hoveUser": "已有賬號？",
+        "hoveUser": "已有賬號？去登錄",
         "nowLogin": "馬上登錄",
-        "AgreementReg": "我已經閱讀並同意《服務協議》"
+        "AgreementReg": "我已經閱讀並同意《服務協議》",
+        "subscribeLogin": "只差壹步，<br>完成您的預訂"
     },
     "accountComp": {
         "avatarTitle": "上傳頭像",
