@@ -1,56 +1,63 @@
 <template>
   <div class="login-comp">
-
-    <!-- 邮箱注册 -->
-    <div class="mobile-form">
-      <h1 class="title"
-          v-html="regTitle"></h1>
-
-      <div class="cb-border-b">
-        <van-field class="count-input"
-                   v-model="emailForm.email"
-                   :placeholder="$t('partcailComp.emailRegTip')" />
+    <h1 class="title">{{$t('partcailComp.loginTips')}}</h1>
+    <van-tabs class="content tours-tabs-nowrap"
+              @change="changeTabs">
+      <!-- 手机验证码登录 -->
+      <van-tab class="mobile-login"
+               :title="$t('partcailComp.phoneCodeLogin')">
+        <van-cell-group>
+          <area-code-input class="phone"
+                           :proAreaCode.sync="phoneForm.areaCode"
+                           :proMobile.sync="phoneForm.phone" />
+          <van-field class="auth-code tours-input"
+                     v-model="phoneForm.smsCode"
+                     center
+                     clearable
+                     :placeholder="$t('verifyCode')">
+            <van-button class="btn-get-code tours-button-noborder"
+                        slot="button"
+                        size="small"
+                        :disabled="codeType===VERIFY_CODE.GETTING"
+                        @click="getCode">{{showText}}</van-button>
+          </van-field>
+        </van-cell-group>
+      </van-tab>
+      <!-- 普通登录 -->
+      <van-tab class="login"
+               :title="$t('partcailComp.ptlogin')">
+        <van-cell-group>
+          <van-field class="username tours-input"
+                     v-model="formData.username"
+                     :placeholder="$t('plhdNameEmail')" />
+          <van-field class="password tours-input"
+                     v-model="formData.password"
+                     center
+                     clearable
+                     icon="eye-o"
+                     :placeholder="$t('partcailComp.placePassword')"
+                     :type="pswInputType"
+                     @click-icon="toggleInputType">
+            <van-button class="btn-forget tours-button-noborder"
+                        slot="button"
+                        size="small"
+                        @click="forgetPsw">{{$t('partcailComp.forgetPass')}}</van-button>
+          </van-field>
+        </van-cell-group>
+      </van-tab>
+      <!-- 按钮 -->
+      <div class="to-regist"
+           v-if="showRegistTip">
+        <span>{{$t('partcailComp.notUser')}}？</span>
+        <span class="blue"
+              @click="toRegist">{{$t('partcailComp.toreg')}}</span>
       </div>
-
-      <div class="code-wrapper cb-border-b">
-        <van-field class="auth-code"
-                   v-model="emailForm.emailCode"
-                   style=""
-                   center
-                   clearable
-                   :placeholder="$t('partcailComp.enterPhoneCode')">
-          <van-button class="btn-get-code tours-button-noborder"
-                      slot="button"
-                      size="small"
-                      :disabled="codeType===VERIFY_CODE.GETTING"
-                      @click="getCode">{{showText}}</van-button>
-        </van-field>
-      </div>
-
-      <!-- 下一步 -->
-      <van-button class="btn-login"
+      <van-button class="btn-login tours-button"
                   size="large"
-                  :disabled="disabledEmail"
                   :loading="submiting"
-                  @click="btnLogin()">{{$t('partcailComp.next')}}</van-button>
-
-      <!-- 邮箱登陆/注册 -->
-      <van-row class="email-part"
-               type="flex"
-               align="center">
-        <van-col class="email-login"
-                 span="12">
-        </van-col>
-        <van-col @click="toLogin()"
-                 class="email-reg"
-                 span="12">
-          {{$t('partcailComp.hoveUser')}}
-          <van-icon class="icon-arrow"
-                    name="arrow" />
-        </van-col>
-      </van-row>
-    </div>
-
+                  @click="btnLogin">{{$t('login')}}</van-button>
+      <p class="text">{{$t('partcailComp.AgreementLogin')}}<span @click="onAgreement">&nbsp;{{$t('partcailComp.AgreementName')}}</span></p>
+    </van-tabs>
   </div>
 </template>
 
@@ -73,10 +80,6 @@ export default {
     AreaCodeInput,
   },
   props: {
-    regTitle: {
-      type: String,
-      default: '',
-    },
     showRegistTip: {
       type: Boolean,
       default: false,
@@ -85,13 +88,17 @@ export default {
   data() {
     return {
       VERIFY_CODE,
-
-      pswInputType: 'password', // 密码输入框类型
-      // 邮箱注册
-      emailForm: {
-        email: '',
+      type: LOGIN_TYPE.PHONE, // 默认登录模式
+      formData: {
+        username: '',
         password: '',
-        emailCode: '', // 邮箱验证码
+      },
+      pswInputType: 'password', // 密码输入框类型
+      // 手机登录
+      phoneForm: {
+        areaCode: '86', // 区号
+        phone: '',
+        smsCode: '', // 短信验证码
       },
       submiting: false, // 是否可提交
       // 定时器
@@ -99,10 +106,6 @@ export default {
       countDownTime: TIME, // 倒计时时间
       codeType: VERIFY_CODE.START, // 获取验证码/倒计时/重新获取
       profile: {},
-
-      isAgree: true, //同意协议
-      disabledEmail: true,
-      loginForm: 1, //1.短信登录 2.账号/邮箱登录
     }
   },
   computed: {
@@ -117,28 +120,23 @@ export default {
         return this.$t('partcailComp.resetVerifyCode')
       }
     },
-    emailValues() {
-      const {emailForm, isAgree} = this
-      return {
-        email: emailForm.email,
-        emailCode: emailForm.emailCode,
-        isAgree,
-      }
-    },
-  },
-  watch: {
-    emailValues: {
-      handler: function(value) {
-        this.disabledEmail = value.email.length > 3 && value.emailCode.length > 5 && value.isAgree ? false : true
-      },
-      deep: true,
-    },
   },
   mounted() {},
   methods: {
     ...mapMutations({
       vxSetToken: 'setToken',
     }),
+    // 切换登录模式
+    changeTabs(index, title) {
+      // console.log(index, title)
+      // 清除定时器
+      this.resetTimer()
+      if (index === 1) {
+        this.type = LOGIN_TYPE.PASSWORD
+      } else {
+        this.type = LOGIN_TYPE.PHONE
+      }
+    },
     toggleInputType(val) {
       this.pswInputType = this.pswInputType === 'password' ? 'text' : 'password'
     },
@@ -183,13 +181,13 @@ export default {
     },
     // 登录
     btnLogin() {
-      if (this.loginForm == 1) {
+      if (this.type === LOGIN_TYPE.PHONE) {
         this.loginByPhone()
       } else {
         this.login()
       }
     },
-    // 账号/邮箱登录
+    // 普通登录
     async login() {
       if (!this.formData.username) {
         this.$toast(this.$t('partcailComp.enterUsername'))
@@ -201,7 +199,7 @@ export default {
       }
       try {
         const {code, data, msg} = await login({
-          type: 'password',
+          type: this.type,
           account: this.formData.username,
           password: this.formData.password,
         })
@@ -216,7 +214,7 @@ export default {
         // console.log(error)
       }
     },
-    // 短信登录
+    // 手机登录
     async loginByPhone() {
       if (!this.phoneForm.phone) {
         this.$toast(this.$t('partcailComp.enterPhone'))
@@ -228,7 +226,7 @@ export default {
       }
       try {
         const {code, data, msg} = await login({
-          type: 'phone',
+          type: this.type,
           account: `${this.phoneForm.areaCode}-${this.phoneForm.phone}`,
           password: this.phoneForm.password,
           code: this.phoneForm.smsCode,
@@ -245,9 +243,9 @@ export default {
         // console.log(error)
       }
     },
-    // 去登录
-    toLogin() {
-      this.$emit('toLogin')
+    // 去注册
+    toRegist() {
+      this.$emit('toRegist')
     },
     // 点击服务协议
     onAgreement() {
@@ -262,131 +260,90 @@ export default {
       this.codeType = VERIFY_CODE.START
       this.countDownTime = 60
     },
-    //切换协议同意状态
-    switchAgree(state) {
-      this.isAgree = state
-    },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.van-field__right-icon {
-  color: #000 !important;
-}
 .login-comp {
   .title {
-    font-size: 60px;
-    font-weight: bold;
-    color: #000000;
-    text-align: left;
-  }
-  .sub-title {
-    height: 42px;
-    line-height: 42px;
-    font-size: 24px;
+    font-size: 40px;
     font-weight: 400;
-    color: #909090;
-    text-align: left;
+    line-height: 56px;
+    color: rgba(85, 85, 85, 1);
+    opacity: 1;
   }
-
-  .mobile-form {
-    .phone {
-      margin-top: 78px;
+  .content {
+    margin-top: 100px;
+  }
+  .login,
+  .mobile-login {
+    .icon-arrow {
+      position: absolute;
+      top: 0;
+      left: 50px;
+      z-index: 999;
     }
-
-    .code-wrapper {
-      .auth-code {
-        width: 100%;
-        margin-top: 52px;
-        height: 62px;
-        line-height: 62px;
-        padding: 0 2px;
-        font-size: 28px;
-      }
-      .btn-get-code {
-        height: 90%;
-        line-height: inherit;
-        padding: 0 0 0 26px;
-        font-size: 28px;
-        &::after {
-          content: '';
-          display: inline-block;
-          position: absolute;
-          left: -10px;
-          top: calc(50% - 11px);
-          height: 22px;
-          width: 2px;
-          background: #c4c4c4;
-        }
-      }
-    }
-
-    .count-input {
-      margin-top: 78px;
-      height: 62px;
-      line-height: 62px;
-      padding: 0 4px;
-      font-size: 28px;
-      color: #000;
+  }
+  .login {
+    .username {
+      margin-top: 54px;
     }
     .password {
-      height: 62px;
-      line-height: 62px;
-      margin-top: 52px;
-      padding: 0;
-      font-size: 28px;
-      color: #000;
+      margin-top: 16px;
     }
     .btn-forget {
       position: relative;
-      font-size: 28px;
-      color: #000;
-      padding: 0;
-      padding-left: 48px;
       &::after {
         content: '';
         display: inline-block;
         position: absolute;
-        left: 0;
-        top: calc(50% - 11px);
-        height: 22px;
+        left: -5px;
+        top: 12px;
+        height: 60px;
         width: 2px;
-        background: #000000;
+        background: #c4c4c4;
       }
     }
   }
-
+  .mobile-login {
+    .phone {
+      margin-top: 54px;
+    }
+    .auth-code {
+      margin-top: 16px;
+    }
+    .btn-get-code {
+      &::after {
+        content: '';
+        display: inline-block;
+        position: absolute;
+        left: -10px;
+        top: 12px;
+        height: 60px;
+        width: 2px;
+        background: #c4c4c4;
+      }
+    }
+  }
+  .to-regist {
+    margin-top: 44px;
+    font-size: 24px;
+    font-weight: 300;
+    color: #5e5e5e;
+    .blue {
+      color: rgba(57, 158, 246, 1);
+    }
+  }
   .btn-login {
-    margin-top: 62px;
-    width: 100%;
-    height: 96px;
-    background: rgba(57, 158, 246, 1);
-    box-shadow: 0px 8px 12px rgba(89, 163, 227, 0.21);
-    opacity: 1;
-    border-radius: 48px;
-    color: #fff;
-    font-size: 36px;
-    &[disabled] {
-      background: #cddfef;
-      box-shadow: 0px 8px 12px rgba(141, 141, 141, 0.16);
-    }
+    margin-top: 20px;
   }
-  .email-part {
-    color: #909090;
-    font-size: 28px;
+  .text {
     margin-top: 30px;
-    .email-login {
-      text-align: left;
-    }
-    .email-reg {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      .icon-arrow {
-        font-size: 2px;
-        margin-left: 4px;
-      }
+    font-size: 22px;
+    color: #c4c4c4;
+    span {
+      color: rgba(57, 158, 246, 1);
     }
   }
 }
