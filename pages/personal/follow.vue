@@ -10,12 +10,15 @@
       >
       </van-nav-bar>
     </div>
-
     <div class="workbox">
       <span class="span1" @click="type=1" :style="type==1?'border-bottom:2px solid #399ef6':''">商品</span>
       <span class="span1" @click="type=2" :style="type==2?'border-bottom:2px solid #399ef6':''">{{$t('attack')}}</span>
-      <span class="span2" @click="isModify =!isModify" v-if="!isModify">{{$t('edit')}}</span>
-      <span class="span2" @click="isModify =!isModify" v-else>{{$t('cancel')}}</span>
+      <span class="span2" @click="isModify =!isModify" v-if="type==1 && hasDataListPc">
+        {{isModify ? $t('cancel') : $t('edit')}}
+      </span>
+      <span class="span2" @click="isModify =!isModify" v-if="type==2 && hasDataListGl">
+        {{isModify ? $t('cancel') : $t('edit')}}
+      </span>
     </div>
     <div class="product-wrap" v-if="type==1">
       <van-checkbox-group v-model="result" v-if="productList.length">
@@ -41,7 +44,10 @@
           </van-cell>
         </van-cell-group>
       </van-checkbox-group>
-      <div class="no-product" v-if="!productList.length && !firstLoad">{{$t('personalPage.goToCollect')}}</div>
+      <div class="no-data" v-if="!productList.length && !firstLoad">
+        <no-data msg="<p>你还有任何收藏，</p><p>去逛逛热门目的地看看有没有你想要的行程吧</p>"></no-data>
+        <van-button round type="info" class="btn-go-add" block color ="#00ABF9" to="/search">去逛逛</van-button>
+      </div>
       <div class="no-product" v-if="firstLoad">{{$t('dataLoading')}}</div>
       <div v-if="isModify" class="btn-delete"><van-button block @click="deleteProductFavorites">{{$t('delete')}}</van-button></div>
     </div>
@@ -80,7 +86,10 @@
           </van-cell>
         </van-cell-group>
       </van-checkbox-group>
-      <div class="no-product" v-if="!productList2.length && !firstLoad">{{$t('personalPage.goToCollect')}}</div>
+      <div class="no-data" v-if="!productList2.length && !firstLoad">
+        <no-data msg="<p>你还有收藏攻略哦</p>"></no-data>
+        <van-button round type="info" class="btn-go-add" block color ="#00ABF9" to="/search">去逛逛</van-button>
+      </div>
       <div class="no-product" v-if="firstLoad">{{$t('dataLoading')}}</div>
       <div v-if="isModify" class="btn-delete"><van-button block @click="deleteProductFavorites2">{{$t('delete')}}</van-button></div>
     </div>
@@ -88,11 +97,13 @@
 </template>
 
 <script>
+import NoData from '@/components/no-data'
 import {getFavorites} from '@/api/profile'
 import {delFavorite,delFavorite2,getFavoriteList2} from '@/api/products'
 import {setLocalStore,getLocalStore} from '@/assets/js/utils'
 export default {
   name: 'follow',
+  components: {NoData},
   data() {
     return {
       result: [],
@@ -102,6 +113,8 @@ export default {
       productList2:[],
       firstLoad: true,
       type:1,
+      hasDataListPc: true,
+      hasDataListGl: true,
     }
   },
 
@@ -131,6 +144,7 @@ export default {
         this.firstLoad = false
         this.productList = []
       }
+      this.hasDataListPc = !!this.productList.length
     },
     async init2() {
       let {code, data, msg} = await getFavoriteList2({page:1})
@@ -139,6 +153,7 @@ export default {
       } else {
         this.productList2 = []
       }
+      this.hasDataListGl = !!this.productList.length
     },
     onClickLeft() {
       let href = window.location.href.slice(-1)
@@ -217,6 +232,12 @@ export default {
 </script>
 
 <style type="text/scss" lang="scss" scoped>
+.no-data{
+  padding: 0 76px;
+  .btn-go-add{
+    margin-top: 40px;
+  }
+}
   .follow-wrap{
     .header{
       border-bottom: 2px solid #DEDEDE;
