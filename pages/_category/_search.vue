@@ -71,10 +71,11 @@
     </div>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <div class="refresh-box">
-        <van-list v-model="prodLoading" :finished="prodFinished" :finished-text="$t('noMore')" @load="onLoad" :immediate-check="false" ref="refProductList">
+        <van-list v-model="prodLoading" :finished="prodFinished" :finished-text="finishText" @load="onLoad" :immediate-check="false" ref="refProductList">
           <div v-for="item in productList" :key="item.product_id" class="product-main">
             <product-list :data="item" @selectItem="selectProductDetail"></product-list>
           </div>
+          <no-data v-if="noDataProduct"></no-data>
         </van-list>
         <div v-if="isShowSkeleton">
           <div class="product-main" v-for="n in 4" :key="'skeleton' + n">
@@ -152,6 +153,7 @@ import routerItem from '@/components/search/routerItem'
 import ProductList from '@/components/list/productList'
 import tabTags from '@/components/tags/tabs'
 import CityList from '@/components/list/cityList'
+import NoData from '@/components/no-data'
 import {getProductList, getNewFilterList, getFilterstotal} from '@/api/products'
 import {getmenuSearch, postKeywordsCensus} from '@/api/search'
 import DriftAside from '@/components/drift_aside'
@@ -210,7 +212,8 @@ export default {
     routerItem,
     DriftAside,
     Loading,
-    tabTags
+    tabTags,
+    NoData
   },
   data() {
     return {
@@ -245,6 +248,8 @@ export default {
       subType: [], // 二级副标题
       currentCityKey: '', //
       isShowSkeleton: true,
+      finishText: this.$t('noMore'),
+      noDataProduct: false
     }
   },
   computed: {
@@ -276,6 +281,7 @@ export default {
           this.changeRouter()
           this.prodPagination.page = 0
           this.productList = []
+          this.prodFinished = false
         }
       }
     }
@@ -304,6 +310,7 @@ export default {
           this.subType.push(id)
         }
         this.prodPagination.page = 0
+        this.prodFinished = false
         await this.searchGetProduct(true)
       }
     },
@@ -328,6 +335,7 @@ export default {
     // 搜索
     async onRefresh(){
       this.prodPagination.page = 0
+      this.prodFinished = false
       // this.productList = []
       await this.searchGetProduct(true)
     },
@@ -337,6 +345,7 @@ export default {
         this.keywordStatistics(this.searchKeyWords)
         this.prodPagination.page = 0
         this.productList = []
+        this.prodFinished = false
         this.changeRouter(true, 'cs')
       }
     },
@@ -556,6 +565,14 @@ export default {
       }
       this.isShowSkeleton = !this.productList.length && !this.prodFinished
       this.isLoading = false
+
+      if(!this.productList.length){
+        this.noDataProduct = true
+        this.finishText = ''
+      } else {
+        this.noDataProduct = false
+        this.finishText = this.$t('noMore')
+      }
     },
     // 显示title
     showTitle(name) {
@@ -679,6 +696,7 @@ export default {
   .refresh-box{
     min-height: calc(100vh - 88px);
   }
+  
   .product-main{
     padding: 20px 32px 0 32px;
     .item-ske{
