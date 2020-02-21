@@ -90,7 +90,7 @@
                   <span></span>
                 </template>
                 <template v-else>
-                  <span>{{attrx.itemsx.title}}</span>
+                  <span>{{attrx.itemsx.name}}</span>
                   <span>{{attrx.itemsx.price}}</span>
                 </template>
                 <van-icon color="#404040"
@@ -614,13 +614,14 @@
           obj.push(item)
         }
         this_.showtrvel = obj
-        
+
         for (let i = 0; i < this_.showtrvel.length; i++) {
-          let selected = this_.pricelist.attributes_selected.items
+          var selected = this_.pricelist.attributes_selected.items
           let itemx = this_.showtrvel[i]
+
           for (let j = 0; j < this_.checkedtrvel.length; j++) {
             if (itemx.id == this_.checkedtrvel[j].option_id) {
-              let kitem = this_.showtrvel[i].items
+              let kitem = selected
               for (let k = 0; k < kitem.length; k++) {
                 if (kitem[k].id == this_.checkedtrvel[j].option_val_id) {
                   this_.showtrvel[i].itemsx = kitem[k]
@@ -628,15 +629,7 @@
               }
             }
           }
-          // for(let m = 0; m < selected.length; m++) {
-          //   let items = this_.showtrvel[m]
-          //   items.price = selected[m].price
-          // }
-          
         }
-
-
-        // console.log(2222, this_.showtrvel);
 
       },
       onClickLeft () {
