@@ -1,15 +1,15 @@
 <template>
   <section class="neuHeader">
     <van-nav-bar class="login-header tours-no-bb"
-      ref="loginHeader"
-      :title="$t('confirmPage.title')"
-      :z-index="999"
-      :fixed="true"
-      @click-left="onClickLeft"
-      @click-right="onClickRight">
+                 ref="loginHeader"
+                 :title="$t('confirmPage.title')"
+                 :z-index="999"
+                 :fixed="true"
+                 @click-left="onClickLeft"
+                 @click-right="onClickRight">
       <van-icon class="left-wrap"
-        name="arrow-left"
-        slot="left" />
+                name="arrow-left"
+                slot="left" />
     </van-nav-bar>
     <div v-if="!isLoginkeyword">
       <login-line></login-line>
@@ -30,45 +30,45 @@
           <p class="item-title"><span style="color: #f44;padding-left:0">* </span>{{$t('confirmPage.transferTitle')}}</p>
           <template v-for="(item,ind) in pricelist.transfer">
             <p v-if="countprice.product_departure==item.product_departure_id"
-              :key="ind"
-              class="item-con"
-              @click="showchecktime=true">
+               :key="ind"
+               class="item-con"
+               @click="showchecktime=true">
               <span>{{item.time}}&nbsp;{{item.region}}&nbsp;{{item.address}}&nbsp;{{item.full_address}}</span>
               <span></span>
               <van-icon color="#404040"
-                name="arrow"
-                size="1.2em" />
+                        name="arrow"
+                        size="1.2em" />
             </p>
           </template>
           <p class="item-con"
-            v-if="countprice.product_departure==''"
-            @click="showchecktime=true">
+             v-if="countprice.product_departure==''"
+             @click="showchecktime=true">
             <span>{{$t('confirmPage.noTransfer')}}</span>
             <span></span>
             <van-icon color="#404040"
-              name="arrow"
-              size="1.2em" />
+                      name="arrow"
+                      size="1.2em" />
           </p>
         </div>
         <!--接送时间和地点弹出层-->
         <van-popup class="setprop"
-          v-model="showchecktime"
-          position="center"
-          :overlay="true">
+                   v-model="showchecktime"
+                   position="center"
+                   :overlay="true">
           <div class="item-title">
             <p>
               <span>{{$t('confirmPage.transferTitle')}}</span>
               <span style="float:right;color:#399EF6"
-                @click="checktime()">{{$t('sured')}}</span>
+                    @click="checktime()">{{$t('sured')}}</span>
             </p>
           </div>
           <van-radio-group v-model="countprice.product_departure"
-            class="radiobox">
+                           class="radiobox">
             <!--<van-radio name="" class="radioitem">{{$t('confirmPage.nocheckPlane')}}</van-radio>-->
             <template v-for="(item,ind) in pricelist.transfer">
               <van-radio class="radioitem"
-                :key="ind"
-                :name="item.product_departure_id">
+                         :key="ind"
+                         :name="item.product_departure_id">
                 {{item.time||''}}&nbsp;{{item.region||''}}&nbsp;{{item.address||''}}&nbsp;{{item.full_address||''}}
               </van-radio>
             </template>
@@ -78,13 +78,13 @@
       <!--行程选择-->
       <section>
         <div class="confirm-item"
-          v-if="pricelist.attributes&&pricelist.attributes.length">
+             v-if="pricelist.attributes&&pricelist.attributes.length">
           <p class="item-title"><span style="color: #f44;padding-left:0">* </span>{{$t('confirmPage.tripSel')}}</p>
           <template v-for="(attrx,ind) in showtrvel">
             <div :key="ind">
               <p class="item-tip">{{attrx.title}}</p>
               <p class="item-con"
-                @click="checktrver(attrx,ind)">
+                 @click="checktrver(attrx,ind)">
                 <template v-if="!attrx.itemsx">
                   <span>{{$t('confirmPage.noSeltrip')}}</span>
                   <span></span>
@@ -94,29 +94,29 @@
                   <span>{{attrx.itemsx.price}}</span>
                 </template>
                 <van-icon color="#404040"
-                  name="arrow"
-                  size="1.2em"></van-icon>
+                          name="arrow"
+                          size="1.2em"></van-icon>
               </p>
             </div>
           </template>
           <!--行程选择弹出层-->
           <van-popup v-model="showchecktrver"
-            class="setprop"
-            position="center"
-            :overlay="true">
+                     class="setprop"
+                     position="center"
+                     :overlay="true">
             <div class="item-title">
               <p>
                 <span>{{seltrvel.title}}</span>
                 <span @click="checktrverend()"
-                  style="float:right;color:#399EF6">{{$t('sured')}}</span>
+                      style="float:right;color:#399EF6">{{$t('sured')}}</span>
               </p>
             </div>
             <van-radio-group v-model="checktrvel"
-              class="radiobox">
+                             class="radiobox">
               <template v-for="(item,index) in seltrvel.items">
                 <van-radio class="radioitem"
-                  :key="index"
-                  :name="item.id">
+                           :key="index"
+                           :name="item.id">
                   {{item.title}}
                 </van-radio>
               </template>
@@ -127,16 +127,16 @@
       <!--游客信息-->
       <section v-if="isLogin">
         <div class="confirm-item"
-          @click="setsave()">
+             @click="setsave()">
           <p class="item-title">游客信息
             <span>务必确认填写信息与出游证件一致</span></p>
           <ul>
             <template v-for="(item,ind) in paramcontanct">
               <nuxt-link v-if="item.name"
-                :key="ind"
-                class="user-item"
-                tag="li"
-                :to="{path:'/personal/addContacts',query:{'id':item.id,'checker':paramcontanct,'isLogin':isLogin}}">
+                         :key="ind"
+                         class="user-item"
+                         tag="li"
+                         :to="{path:'/personal/addContacts',query:{'id':item.id,'checker':paramcontanct,'isLogin':isLogin}}">
                 <span>出行人{{ind+1}}<i>{{item.name}}</i></span>
                 <span>
                   <i>
@@ -148,29 +148,31 @@
           </ul>
           <div class="btnbox">
             <nuxt-link class="changeuser-btn"
-              tag="button"
-              :to="{path:'/personal/contactsList',query:{'adult':countprice.adult+countprice.child,'checker':paramcontanct,'isLogin':isLogin}}">选择出行人</nuxt-link>
+                       tag="button"
+                       :to="{path:'/personal/contactsList',query:{'adult':countprice.adult+countprice.child,'checker':paramcontanct,'isLogin':isLogin}}">选择出行人</nuxt-link>
           </div>
         </div>
       </section>
       <section v-else>
         <div class="confirm-item"
-          @click="setsave()">
+             @click="setsave()">
           <p class="item-title">游客信息<span>务必确认填写信息与出游证件一致</span></p>
           <van-collapse v-model="activeNames">
             <van-collapse-item v-for="x of countprice.adult"
-              :key="x+'2'"
-              :name="x">
-              <div slot="title" class="contitle">游客{{x}} <i class="i1">成人</i></div>
-              <addcon @traveuser="truser" :ind="x"></addcon>
+                               :key="x+'2'"
+                               :name="x">
+              <div slot="title"
+                   class="contitle">游客{{x}} <i class="i1">成人</i></div>
+              <addcon @traveuser="truser"
+                      :ind="x"></addcon>
             </van-collapse-item>
             <van-collapse-item v-for="x of countprice.child"
-              :key="x+'3'"
-              :name="x+countprice.adult">
+                               :key="x+'3'"
+                               :name="x+countprice.adult">
               <div slot="title"
-                class="contitle">游客{{x+countprice.adult}} <i class="i2">儿童</i></div>
+                   class="contitle">游客{{x+countprice.adult}} <i class="i2">儿童</i></div>
               <addcon @traveuser="truser"
-                :ind="x+countprice.adult"></addcon>
+                      :ind="x+countprice.adult"></addcon>
             </van-collapse-item>
           </van-collapse>
         </div>
@@ -180,10 +182,10 @@
         <div class="confirm-item contact">
           <p class="item-title">{{$t('contactInfo')}}</p>
           <van-field :label="$t('orderDetailPage.contact')"
-            required
-            clearable
-            v-model="contact.name"
-            :placeholder="$t('confirmPage.enterConName')" />
+                     required
+                     clearable
+                     v-model="contact.name"
+                     :placeholder="$t('confirmPage.enterConName')" />
           <div class="van-cell van-cell--required van-field">
             <div class="van-cell__title van-field__label">
               <span>{{$t('phoneNumberCode')}}</span>
@@ -191,27 +193,27 @@
             <div class="van-cell__value">
               <div class="van-field__body">
                 <i class="setvan"
-                  @click="showsel=true">+{{checkqu}}
+                   @click="showsel=true">+{{checkqu}}
                   <van-icon name="arrow" /></i>
                 <input type="text"
-                  v-model="contact.phone"
-                  :placeholder="$t('confirmPage.mustTipsInfo')"
-                  class="van-field__control">
+                       v-model="contact.phone"
+                       :placeholder="$t('confirmPage.mustTipsInfo')"
+                       class="van-field__control">
               </div>
             </div>
           </div>
           <van-field :label="$t('email')"
-            required
-            clearable
-            v-model="contact.email"
-            :placeholder="$t('confirmPage.mustTipskp')" />
+                     required
+                     clearable
+                     v-model="contact.email"
+                     :placeholder="$t('confirmPage.mustTipskp')" />
           <van-popup v-model="showsel"
-            position="right"
-            style="width:100%;height: 100%;background-color:rgba(0,0,0,0)!important;">
+                     position="right"
+                     style="width:100%;height: 100%;background-color:rgba(0,0,0,0)!important;">
             <tel-code :pageparent="'/personal/addContacts'"
-              :dataObj="columns"
-              @selectCode="onChangequ"
-              @back="showsel=false">
+                      :dataObj="columns"
+                      @selectCode="onChangequ"
+                      @back="showsel=false">
             </tel-code>
           </van-popup>
         </div>
@@ -221,50 +223,50 @@
         <div class="confirm-item">
           <p class="item-title">{{$t('confirmPage.saveInfo')}}</p>
           <div class="item-con"
-            v-if="pricelist&&pricelist.points&&pricelist.points.point">
+               v-if="pricelist&&pricelist.points&&pricelist.points.point">
             <span>
               <i class="seti">{{$t('confirmFootComp.riceGrains')}}</i>
               <i class="seti2"
-                style="color: #bbb">
+                 style="color: #bbb">
                 {{$t('confirmPage.saveInfoTip1')}}{{pricelist.points.total_point}}，{{$t('confirmPage.saveInfoTip2')}}{{pricelist.points.point}}{{$t('confirmPage.saveInfoTip3')}}{{pricelist.points.discount}}
               </i>
             </span>
             <van-switch v-model="countprice.is_point"
-              style="float: right"
-              size="2em" />
+                        style="float: right"
+                        size="2em" />
           </div>
           <p v-if="couponDetails&&couponDetails.length"
-            class="item-con"
-            @click="getCouponList('show')"
-            style="border: 1px solid #ebedf0">
+             class="item-con"
+             @click="getCouponList('show')"
+             style="border: 1px solid #ebedf0">
             <span>
               <i class="seti">{{$t('coupons')}}</i>
               <i v-if="showsetcou!=''"
-                class="seti2"
-                style="color: #1989fa">{{showsetcou}}</i>
+                 class="seti2"
+                 style="color: #1989fa">{{showsetcou}}</i>
               <i v-else
-                class="seti2"
-                style="color: #bbb">{{$t('confirmPage.notsel')}}</i>
+                 class="seti2"
+                 style="color: #bbb">{{$t('confirmPage.notsel')}}</i>
             </span>
             <span></span>
             <van-icon color="#404040"
-              name="arrow"
-              size="1.2em"
-              class="settopicon" />
+                      name="arrow"
+                      size="1.2em"
+                      class="settopicon" />
           </p>
         </div>
         <van-action-sheet v-model="showcheckCou"
-          :title="$t('coupons')"
-          class="service-note">
+                          :title="$t('coupons')"
+                          class="service-note">
           <van-radio-group v-model="setcou"
-            @change="setcouponx()">
+                           @change="setcouponx()">
             <div class="setcheck">
               <span>{{$t('confirmPage.yetNotSelCop')}}</span>
               <van-radio name="null"> </van-radio>
             </div>
             <div class="cup-item"
-              v-for="(item,index) in couponDetails"
-              :key="index">
+                 v-for="(item,index) in couponDetails"
+                 :key="index">
               <div class="cupleft">
                 <p class="p1">{{item.minus_label}}</p>
                 <p class="p2">{{item.full_label}}</p>
@@ -286,14 +288,14 @@
         <div class="confirm-item">
           <p class="item-title">{{$t('confirmPage.leaveMessage')}}</p>
           <div class="item-con"
-            style="padding-left: 0">
+               style="padding-left: 0">
             <van-field type="textarea"
-              :placeholder="$t('confirmPage.tipsRequire')"
-              rows="2"
-              autosize
-              maxlength="200"
-              :input="maxlength(comment)"
-              v-model="comment" />
+                       :placeholder="$t('confirmPage.tipsRequire')"
+                       rows="2"
+                       autosize
+                       maxlength="200"
+                       :input="maxlength(comment)"
+                       v-model="comment" />
             <p>{{characterLength}}/200</p>
           </div>
         </div>
@@ -303,23 +305,23 @@
         <div class="confirm-item">
           <div class="item-con">
             <!-- <van-checkbox v-model="tongyi"> -->
-              <i class="agreea">
-                {{$t('confirmPage.newAcceptRead')}}
-              </i>
-              <nuxt-link :to="{path:'/protocol/more'}"
-                v-if="product.product_entity_type==1">
-                <a class="agreea"
-                  style="color: #216BFF">{{$t('agreeXifanServerM')}}</a>
-              </nuxt-link>
-              
-              <nuxt-link :to="{path:'/protocol/alone'}"
-                v-if="product.product_entity_type==0">
-                <a class="agreea"
-                  style="color: #216BFF">{{$t('agreeXifanServerA')}}</a>
-              </nuxt-link>
-              <i class="agreea">
-                等内容
-                </i>
+            <i class="agreea">
+              {{$t('confirmPage.newAcceptRead')}}
+            </i>
+            <nuxt-link :to="{path:'/protocol/more'}"
+                       v-if="product.product_entity_type==1">
+              <a class="agreea"
+                 style="color: #216BFF">{{$t('agreeXifanServerM')}}</a>
+            </nuxt-link>
+
+            <nuxt-link :to="{path:'/protocol/alone'}"
+                       v-if="product.product_entity_type==0">
+              <a class="agreea"
+                 style="color: #216BFF">{{$t('agreeXifanServerA')}}</a>
+            </nuxt-link>
+            <i class="agreea">
+              等内容
+            </i>
             <!-- </van-checkbox> -->
           </div>
         </div>
@@ -334,13 +336,13 @@
 
 <script>
   import ConfirmFoot from '@/components/confirm_foot/foot.vue'
-  import {getquhao} from '@/api/contacts'
-  import {orderCouponList} from '@/api/confirm_order'
-  import {getProfile} from '@/api/profile'
-  import {getSessionStore} from '@/assets/js/utils'
-  import {guojialist} from '@/api/contacts'
+  import { getquhao } from '@/api/contacts'
+  import { orderCouponList } from '@/api/confirm_order'
+  import { getProfile } from '@/api/profile'
+  import { getSessionStore } from '@/assets/js/utils'
+  import { guojialist } from '@/api/contacts'
   import TelCode from '@/components/confirm_foot/telcode'
-  import {mapMutations, mapState} from 'vuex'
+  import { mapMutations, mapState } from 'vuex'
   import addcon from '@/components/confirm_foot/addcon'
   import loginLine from '@/components/header/loginLine'
   export default {
@@ -350,7 +352,7 @@
       addcon,
       loginLine,
     },
-    data() {
+    data () {
       return {
         countprice: {}, //vuex里面的价格计算参数
         pricelist: {}, //vuex里面的价格返回参数
@@ -369,7 +371,7 @@
         checkqu: '86',
         tongyi: true,
         comment: '',
-        contact: {name: '', phone: '', email: ''},
+        contact: { name: '', phone: '', email: '' },
         showcheckCou: false,
         couponDetails: [], //我的优惠卷列表
         setcou: '',
@@ -387,10 +389,10 @@
     },
     computed: {
       //获取计算价格参数
-      get_vuex_countprice() {
+      get_vuex_countprice () {
         return this.$store.state.confirm.countprice
       },
-      get_vuex_pricelist() {
+      get_vuex_pricelist () {
         return this.$store.state.confirm.pricelist
       },
       ...mapState({
@@ -398,22 +400,22 @@
       }),
     },
     watch: {
-      get_vuex_countprice(val) {
+      get_vuex_countprice (val) {
         this.countprice = val
         this.checkedtrvel = val.attributes
       },
       get_vuex_pricelist: {
-        handler: function(val) {
+        handler: function (val) {
           this.pricelist = val
           this.setshowtrvel()
         },
         deep: true, //深度监听
       },
-      'countprice.is_point'(val) {
-        this.$store.commit('countprice', {is_point: val})
+      'countprice.is_point' (val) {
+        this.$store.commit('countprice', { is_point: val })
       },
     },
-    mounted() {
+    mounted () {
       setTimeout(() => {
         let obj = getSessionStore('pricelist') ? JSON.parse(getSessionStore('pricelist')) : {}
         this.$store.commit('pricelist', obj)
@@ -429,7 +431,7 @@
     },
 
     methods: {
-      maxlength(value) {
+      maxlength (value) {
         this.characterLength = value.length
         let second = 6
         const timer = setInterval(() => {
@@ -442,10 +444,10 @@
           }
         }, 500)
       },
-      async init() {
+      async init () {
         // 1. 是否有token。有就请求个人信息；无则return
         let res = await getProfile()
-        let {code, data} = res
+        let { code, data } = res
         if (code === 0) {
           this.isLoginkeyword = true
           this.isLogin = true
@@ -466,7 +468,7 @@
             this.countprice.savename = data.nickname || data.chinese_name
             this.countprice.savephone = data.phone
             this.countprice.saveemail = data.email
-            this.contact = {name: data.nickname || data.chinese_name, phone: data.phone, email: data.email}
+            this.contact = { name: data.nickname || data.chinese_name, phone: data.phone, email: data.email }
           } else {
             this.contact = {
               name: this.countprice.savename,
@@ -481,8 +483,8 @@
       },
 
       //获得价格日历数据
-      async getpricedate(id) {
-        let {data, code} = await getdateTrip(id)
+      async getpricedate (id) {
+        let { data, code } = await getdateTrip(id)
         if (code === 0) {
           this.pricedate = data
         } else {
@@ -490,14 +492,14 @@
         }
       },
       //获得可用优惠卷列表
-      async getCouponList(type) {
+      async getCouponList (type) {
         let this_ = this
         let objdata = {
           product_id: this.product.product_id,
           departure: this.countprice.departure_date,
           price: this.pricelist.price,
         }
-        let {data, code} = await orderCouponList(objdata)
+        let { data, code } = await orderCouponList(objdata)
         if (code === 0) {
           this.couponDetails = data || []
         } else {
@@ -511,7 +513,7 @@
               if (this_.couponDetails[i].is_best === true) {
                 this_.setcou = i
                 this_.showsetcou = this_.couponDetails[i].title
-                this_.$store.commit('countprice', {coupon_cus_id: this_.couponDetails[i].coupon_customer_id})
+                this_.$store.commit('countprice', { coupon_cus_id: this_.couponDetails[i].coupon_customer_id })
               }
             }
           } else if (this_.couponDetails && this_.couponDetails.length && this_.countprice.coupon_cus_id != '') {
@@ -525,7 +527,7 @@
         }
       },
       //设置页头数据
-      settitletip() {
+      settitletip () {
         this.countprice = this.get_vuex_countprice
         let date = new Date(this.countprice.departure_date.replace(/-/g, '/')).getTime()
         let date1 = this.timeFormat(date)
@@ -543,7 +545,7 @@
           this.showtype = date1 + '  ' + this.countprice.adult + '成人  ' + this.countprice.child + '儿童  '
         }
       },
-      timeFormat(timestamp) {
+      timeFormat (timestamp) {
         let time = new Date(timestamp)
         let year = time.getFullYear()
         let month = time.getMonth() + 1
@@ -551,12 +553,12 @@
         return year + '年' + (month < 10 ? '0' + month : month) + '月' + (date < 10 ? '0' + date : date) + '日'
       },
       //选择行程以后
-      checktime() {
-        this.$store.commit('countprice', {product_departure: this.countprice.product_departure})
+      checktime () {
+        this.$store.commit('countprice', { product_departure: this.countprice.product_departure })
         this.showchecktime = false
       },
       //选择行程之前
-      checktrver(item, index) {
+      checktrver (item, index) {
         this.seltrvel = item
         this.checktrvel = ''
         for (let i = 0; i < this.checkedtrvel.length; i++) {
@@ -567,7 +569,7 @@
         this.showchecktrver = true
       },
       //确认行程形成之后
-      checktrverend() {
+      checktrverend () {
         var this_ = this
         let obj = null
         for (let i = 0; i < this_.checkedtrvel.length; i++) {
@@ -583,11 +585,11 @@
           this_.checkedtrvel.push(obj)
         }
 
-        this_.$store.commit('countprice', {attributes: this.checkedtrvel})
+        this_.$store.commit('countprice', { attributes: this.checkedtrvel })
         this.showchecktrver = false
       },
       //设置页面显示行程
-      setshowtrvel() {
+      setshowtrvel () {
         var obj = []
         var this_ = this
         if (!this_.pricelist.coupons.id) {
@@ -612,7 +614,9 @@
           obj.push(item)
         }
         this_.showtrvel = obj
+        
         for (let i = 0; i < this_.showtrvel.length; i++) {
+          let selected = this_.pricelist.attributes_selected.items
           let itemx = this_.showtrvel[i]
           for (let j = 0; j < this_.checkedtrvel.length; j++) {
             if (itemx.id == this_.checkedtrvel[j].option_id) {
@@ -624,9 +628,18 @@
               }
             }
           }
+          // for(let m = 0; m < selected.length; m++) {
+          //   let items = this_.showtrvel[m]
+          //   items.price = selected[m].price
+          // }
+          
         }
+
+
+        // console.log(2222, this_.showtrvel);
+
       },
-      onClickLeft() {
+      onClickLeft () {
         let href = window.location.href.slice(-1)
         if (href == '#') {
           this.$router.go(-2)
@@ -634,42 +647,42 @@
           this.$router.go(-1)
         }
       },
-      onClickRight() {
+      onClickRight () {
         this.$router.replace({
           path: `/login?redirect=${this.$route.fullPath}`,
         })
       },
       // 得到区号
-      async getqu() {
-        let {data, code, msg, hot_country} = await guojialist()
+      async getqu () {
+        let { data, code, msg, hot_country } = await guojialist()
         if (code === 0) {
           this._nomalLizePinyin(data, hot_country)
         } else {
         }
       },
-      _nomalLizePinyin(data, hot) {
+      _nomalLizePinyin (data, hot) {
         let len = data.length
         let len2 = hot.length
         let obj = {
           热门城市: [],
         }
         for (let i = 0; i < len2; i++) {
-          obj['热门城市'].push({...hot[i]})
+          obj['热门城市'].push({ ...hot[i] })
         }
         for (let i = 0; i < len; i++) {
           if (!obj[data[i].key]) {
             obj[data[i].key] = []
           }
-          obj[data[i].key].push({...data[i]})
+          obj[data[i].key].push({ ...data[i] })
         }
 
         this.columns = obj
       },
-      onChangequ(picker) {
+      onChangequ (picker) {
         this.checkqu = picker[0].telcode
         this.showsel = false
       },
-      getaddoder() {
+      getaddoder () {
         let objarr = []
         for (let i = 0; i < this.paramcontanct.length; i++) {
           objarr.push(this.paramcontanct[i].id)
@@ -702,25 +715,25 @@
         }
         return addorder
       },
-      setcouponx: function(x) {
+      setcouponx: function (x) {
         let this_ = this
         if (this_.setcou === 'null' || this_.setcou === '') {
           this_.showsetcou = ''
-          this_.$store.commit('countprice', {coupon_cus_id: ''})
+          this_.$store.commit('countprice', { coupon_cus_id: '' })
         } else {
           this_.showsetcou = this_.couponDetails[this_.setcou].title
-          this_.$store.commit('countprice', {coupon_cus_id: this_.couponDetails[this_.setcou].coupon_customer_id})
+          this_.$store.commit('countprice', { coupon_cus_id: this_.couponDetails[this_.setcou].coupon_customer_id })
         }
         this.showcheckCou = false
       },
-      setsave() {
+      setsave () {
         this.$store.commit('countprice', {
           savename: this.contact.name,
           saveemail: this.contact.email,
           savephone: this.contact.phone,
         })
       },
-      truser: function(x) {
+      truser: function (x) {
         this.usertraver[x.ind] = x.val
         console.log(this.usertraver)
       },
