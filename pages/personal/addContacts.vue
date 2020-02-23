@@ -48,7 +48,7 @@
           <span>{{$t('selectTravlerPage.nationality')}}</span>
         </div>
         <div class="van-cell__value">
-          <span>{{userform.location_info!=""?userform.location_info: $t('pleaseChoose')}}</span>
+          <span>{{userform.nationality?userform.location_info: $t('pleaseChoose')}}</span>
         </div>
         <div style="margin-top: -4px">
           <i class="van-icon van-icon-arrow van-cell__right-icon"></i>
@@ -166,7 +166,7 @@
          "dob":"",
          "email":"",
          "passport":"",
-         "nationality":7,//保存国家的id
+         "nationality":'7',//保存国家的id
          "six":0,
          "phone_country":'86',
          "identity":null,
@@ -204,10 +204,10 @@
     mounted(){
       if(this.queryid!=0){
         this.title= this.$t('selectTravlerPage.editTitle');
-        this.getcontant();
+         this.getcontant();
       }
-      this.gotCountry();
-      this.gotQuhao();
+       this.gotCountry();
+       this.gotQuhao();
       /* this.getqu(); */
       /* if(this.national){
         this.location_info = this.national;
@@ -216,9 +216,12 @@
 
     beforeRouteEnter(to, from, next) {
       console.log(from)
+      
       next(vm=>{
         vm.pushpath=from.path;
-
+        vm.getcontant();
+      vm.gotCountry();
+      vm.gotQuhao();
         next();
       })
     },
@@ -279,7 +282,7 @@
           this.userform.phone=this.userform.phone_country+'-'+this.userform.phonex;
           let {data, code, msg} = await setcontanct(this.userform,this.queryid)
           if (code === 0) {
-            console.log(data,msg);
+            console.log('setcontanct',data,msg);
             this.$router.replace({
               path:this.pushpath,
               query:{
@@ -300,7 +303,7 @@
           this.userform.phone=this.userform.phone_country+'-'+this.userform.phonex;
           let {data, code, msg} = await addcontanct(this.userform);
           if (code === 0) {
-            console.log(data,this.$route.query)
+            console.log('addcontanct',data,this.$route.query)
             this.$router.replace({
               path:this.pushpath,
               query:{
@@ -322,10 +325,13 @@
         let {data, code} = await getcontant(this.queryid)
         if (code === 0) {
          this.userform=data;
-         console.log('sssssssssssss',this.location_info);
+         console.log('userform.nationality',this.userform);
+         console.log('this.local_List',this.local_List);
+         console.log('this.hot_List',this.hot_List);
+         
          for (let key in this.local_List) {
            
-           if(this.local_List[key].id==this.userform.nationality){
+           if(this.local_List[key].id.toString() ==this.userform.nationality){
              
              this.userform.location_info = this.local_List[key].name;
              console.log(this.userform.location_info);
@@ -335,7 +341,7 @@
          for (let key in this.hot_List) {
           
            
-           if(this.hot_List[key].id==this.userform.nationality){
+           if(this.hot_List[key].id.toString()==this.userform.nationality){
              
              this.userform.location_info = this.hot_List[key].name;
              console.log(this.userform.location_info);
