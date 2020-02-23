@@ -8,11 +8,10 @@
       <van-icon name="cross" />
     </div>
     <div class="dialog-content">
-      <LoginComp :loginTitle="$t('partcailComp.subscribeLogin')"
-                 :regTitle="$t('partcailComp.subscribeLogin')"
-                 isDialog
-                 showRegistTip
-                 showLoginTip />
+      <login-comp :loginTitle="$t('partcailComp.subscribeLogin')"
+                  :regTitle="$t('partcailComp.subscribeLogin')"
+                  isDialog
+                  @loginCallBack="loginCallBack()" />
     </div>
   </van-popup>
 </template>
@@ -21,6 +20,7 @@
 import {mapMutations} from 'vuex'
 import LoginComp from '@/components/partcail/login/login'
 import {getLocalStore, setLocalStore} from '@/assets/js/utils'
+import {getProfile} from '@/api/profile'
 
 export default {
   components: {
@@ -48,11 +48,42 @@ export default {
   },
   methods: {
     ...mapMutations({
+      vxChangePage: 'login/changePage',
       vxToggleLoginDlg: 'login/toggleDialog',
+      vxSetProfile: 'profile/setProfile',
     }),
     // 关闭弹窗
     closeDlg() {
       this.vxToggleLoginDlg(false)
+    },
+    // 登陆回调
+    async loginCallBack() {
+      console.log('loginCallBack')
+      try {
+        fbq('track', 'Lead')
+      } catch (error) {
+        console.log(error)
+      }
+      // 弹窗登录/页面登录
+      await this.getUserInfo()
+      console.log(this.isDialog, this.redirect)
+      this.vxToggleLoginDlg(false)
+      // this.$router.go(0) 手机端有些浏览器不能刷新
+      location.reload()
+    },
+    // 获取到用户信息
+    async getUserInfo() {
+      let {data, code} = await getProfile()
+      console.log(data, code)
+
+      if (code === 0) {
+        console.log(1111)
+
+        this.vxSetProfile(data)
+      } else {
+        this.vxSetProfile({})
+      }
+      console.log(this.$store.state.profile.profile)
     },
   },
 }
