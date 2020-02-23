@@ -14,7 +14,9 @@
           class="layout">
           <loading v-if="firstEnter"></loading>
           <div class="no-data"
-            v-if="!firstEnter && !orderList.length">{{$t('noData')}}</div>
+            v-if="!firstEnter && !orderList.length">
+            <no-data msg="世界这么大，还没有出去看过呢"></no-data>
+          </div>
           <!-- 产品 -->
           <template v-if="orderList.length">
             <div class="prodect"
@@ -70,10 +72,12 @@
 <script>
   import {getOrderList} from '@/api/order'
   import Loading from '@/components/loading/list'
+  import NoData from '@/components/no-data'
   export default {
     name: 'component_name',
     components: {
       Loading,
+      NoData
     },
     data() {
       return {
