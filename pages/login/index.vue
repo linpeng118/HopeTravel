@@ -44,9 +44,6 @@
       })">{{$t('partcailComp.privacy')}}</span>
     </div>
 
-    <!-- <div class="login-all-comp">
-      <login-page-comp />
-    </div> -->
   </div>
 </template>
 
@@ -70,6 +67,11 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      vxChangePage: 'login/changePage',
+      vxToggleLoginDlg: 'login/toggleDialog',
+      vxSetProfile: 'profile/setProfile',
+    }),
     // 头部按钮（左）【返回】
     btnLeft() {
       // 如果游重定向地址
@@ -110,28 +112,19 @@ export default {
       } catch (error) {
         console.log(error)
       }
-      return
       // 弹窗登录/页面登录
       await this.getUserInfo()
-      console.log(this.isDialog, this.redirect)
 
-      if (this.isDialog) {
-        this.vxToggleLoginDlg(false)
-        // this.$router.go(0) 手机端有些浏览器不能刷新
-        location.reload()
+      if (this.redirect) {
+        this.$router.replace({
+          path: this.redirect,
+          query: {
+            isLogin: true,
+          },
+        })
       } else {
-        if (this.redirect) {
-          this.$router.replace({
-            path: this.redirect,
-            query: {
-              isLogin: true,
-            },
-          })
-        } else {
-          console.log('进来咯')
-
-          this.$router.push({path: '/personal'})
-        }
+        console.log('进来咯')
+        this.$router.replace({path: '/personal'})
       }
     },
     // 获取到用户信息
@@ -174,10 +167,6 @@ export default {
     top: 36px;
     color: #000;
     font-size: 36px;
-  }
-  // 登录
-  .login-all-comp {
-    padding: 212px 72px 0;
   }
 
   // 协议

@@ -598,7 +598,7 @@
         "nodataTips": "请输入密码",
         "enterError": "密码不一致，请重新输入",
         "updateSuccess": "修改密码成功",
-        "forgetPassTips": "别担心，在这里找回密码",
+        "forgetPassTips": "别担心，<br>在这里重置密码",
         "next": "下一步",
         "forgetPass": "忘记密码",
         "resetVerifyCode": "重新获取",
@@ -630,7 +630,9 @@
         "hoveUser": "已有账号？去登录",
         "nowLogin": "马上登录",
         "AgreementReg": "我已经阅读并同意《服务协议》",
-        "subscribeLogin": "只差一步，<br>完成您的预订"
+        "subscribeLogin": "只差一步，<br>完成您的预订",
+        "patternEmail": "验证邮箱",
+        "patternMobile": "验证手机"
     },
     "accountComp": {
         "avatarTitle": "上传头像",

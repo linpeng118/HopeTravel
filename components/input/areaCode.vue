@@ -1,6 +1,6 @@
 <template>
   <!-- 居中 -->
-  <van-row class="area-code-input"
+  <van-row class="area-code-input cb-border-b"
            type="flex"
            align="center"
            :class="className">

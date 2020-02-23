@@ -11,7 +11,7 @@
           v-if="loginSubTitle"
           v-html="loginSubTitle"></h2>
 
-      <area-code-input class="phone cb-border-b"
+      <area-code-input class="phone"
                        :proAreaCode.sync="phoneForm.areaCode"
                        :proMobile.sync="phoneForm.phone" />
 
@@ -40,13 +40,16 @@
       <!-- 邮箱登陆/注册 -->
       <van-row class="email-part"
                type="flex"
+               :justify="isDialog?'center':'space-between'"
                align="center">
         <van-col class="email-login"
                  span="12"
+                 :style="{textAlign:isDialog?'center':'left'}"
                  @click.native="loginForm=2">
           {{$t('partcailComp.toursLogin')}}
         </van-col>
-        <van-col @click="toRegist()"
+        <van-col v-if="!isDialog"
+                 @click="toRegist()"
                  class="email-reg"
                  span="12">
           {{$t('partcailComp.emailReg')}}
@@ -80,7 +83,7 @@
           <van-button class="btn-forget tours-button-noborder"
                       slot="button"
                       size="small"
-                      @click="forgetPsw">{{$t('partcailComp.forgetPass')}}</van-button>
+                      @click="forgetPsw()">{{$t('partcailComp.forgetPass')}}</van-button>
         </van-field>
       </div>
 
@@ -94,13 +97,16 @@
       <!-- 邮箱登陆/注册 -->
       <van-row class="email-part"
                type="flex"
+               :justify="isDialog?'center':'space-between'"
                align="center">
         <van-col class="email-login"
                  span="12"
+                 :style="{textAlign:isDialog?'center':'left'}"
                  @click.native="loginForm=1">
           {{$t('partcailComp.loginTips')}}
         </van-col>
-        <van-col @click="toRegist()"
+        <van-col v-if="!isDialog"
+                 @click="toRegist()"
                  class="email-reg"
                  span="12">
           {{$t('partcailComp.emailReg')}}
@@ -144,7 +150,7 @@ export default {
       type: String,
       default: '',
     },
-    showRegistTip: {
+    isDialog: {
       type: Boolean,
       default: false,
     },
@@ -230,7 +236,7 @@ export default {
       this.pswInputType = this.pswInputType === 'password' ? 'text' : 'password'
     },
     forgetPsw() {
-      this.$emit('forgetPswCallBack')
+      this.$router.push({path: '/reset_password'})
     },
     // 获取验证码
     async getCode() {

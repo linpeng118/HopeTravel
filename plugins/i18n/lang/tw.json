@@ -597,7 +597,7 @@
         "nodataTips": "請輸入密碼",
         "enterError": "密碼不一致，請重新輸入",
         "updateSuccess": "修改密碼成功",
-        "forgetPassTips": "別擔心，在這裏找回密碼",
+        "forgetPassTips": "別擔心，<br>在這裏重置密碼",
         "next": "下一步",
         "forgetPass": "忘記密碼",
         "resetVerifyCode": "重新獲取",
@@ -629,7 +629,9 @@
         "hoveUser": "已有賬號？去登錄",
         "nowLogin": "馬上登錄",
         "AgreementReg": "我已經閱讀並同意《服務協議》",
-        "subscribeLogin": "只差壹步，<br>完成您的預訂"
+        "subscribeLogin": "只差壹步，<br>完成您的預訂",
+        "patternEmail": "驗證郵箱",
+        "patternMobile": "驗證手機"
     },
     "accountComp": {
         "avatarTitle": "上傳頭像",
