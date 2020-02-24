@@ -40,7 +40,7 @@
                     size="large"
                     :disabled="disabledMobile"
                     :loading="submiting"
-                    @click="toNextByPhone()">{{$t('partcailComp.next')}}</van-button>
+                    @click="toNextHandle()">{{$t('partcailComp.next')}}</van-button>
 
         <!-- 邮箱登陆/注册 -->
         <van-row class="email-part"
@@ -84,7 +84,7 @@
                     size="large"
                     :disabled="disabledEmail"
                     :loading="submiting"
-                    @click="toNextByEmail()">{{$t('partcailComp.next')}}</van-button>
+                    @click="toNextHandle()">{{$t('partcailComp.next')}}</van-button>
 
         <!-- 邮箱登陆/注册 -->
         <van-row class="email-part"
@@ -107,7 +107,7 @@
 
       <div class="cb-border-b">
         <van-field class="password"
-                   v-model="emailForm.password"
+                   v-model="password"
                    center
                    clearable
                    right-icon="eye-o"
@@ -120,7 +120,7 @@
       <!-- 确定 -->
       <van-button class="btn-login"
                   size="large"
-                  :disabled="disabledMobile"
+                  :disabled="password.length<6"
                   :loading="submiting"
                   @click="resetHandle()">{{$t('sure')}}</van-button>
     </div>
@@ -132,7 +132,7 @@
 import {mapMutations} from 'vuex'
 import areaCodeInput from '@/components/input/areaCode'
 import {LOGIN_WAY, VERIFY_CODE, SMS_SCENE, EMAIL_SCENE} from '@/assets/js/consts'
-import {getSmsCode, getEmailCode} from '@/api/member'
+import {getSmsCode, getEmailCode, validateEmail, findPwd} from '@/api/member'
 
 const TIME = 60 // 倒计时时间
 
@@ -147,7 +147,7 @@ export default {
   data() {
     return {
       VERIFY_CODE,
-      redirect: this.$route.query.redirect,
+      redirect: this.$route.query.redirect, // 重定向地址
       // 默认找回密码方式
       type: LOGIN_WAY.PHONE,
       // 手机找回密码
@@ -163,6 +163,7 @@ export default {
         email: '',
         emailCode: '', // 邮箱验证码
       },
+      password: '',
       // 定时器
       timer: null,
       countDownTime: TIME, // 倒计时时间
@@ -221,6 +222,25 @@ export default {
     ...mapMutations({
       vxSetForgetForm: 'login/setForgetForm',
     }),
+    // 头部按钮（左）【返回】
+    btnLeft() {
+      // 如果游重定向地址
+      if (this.redirect) {
+        this.$router.replace({
+          path: this.redirect,
+          query: {
+            redirect: 'personal',
+          },
+        })
+      } else {
+        let href = window.location.href.slice(-1)
+        if (href == '#') {
+          this.$router.go(-2)
+        } else {
+          this.$router.go(-1)
+        }
+      }
+    },
     // 切换密码显示
     toggleInputType(val) {
       this.pswInputType = this.pswInputType === 'password' ? 'text' : 'password'
@@ -282,14 +302,34 @@ export default {
       }, 1000)
     },
     // 使用手机号找回（验证手机号）
-    async toNextByPhone() {
-      // 清除定时器
-      this.resetTimer()
-    },
-    // 使用邮箱找回（验证邮箱）
-    async toNextByEmail() {
-      // 清除定时器
-      this.resetTimer()
+    async toNextHandle() {
+      // 构造数据
+      let subData = {}
+      if (this.formStyle == 1) {
+        subData = {
+          account: `${this.phoneForm.areaCode}-${this.phoneForm.phone}`,
+          code: this.phoneForm.smsCode,
+          scene: 'resetPassword',
+        }
+      } else {
+        subData = {
+          account: this.emailForm.email,
+          code: this.emailForm.emailCode,
+          scene: 'resetPassword',
+        }
+      }
+      try {
+        const {code, data, msg} = await validateEmail(subData)
+        if (code == 0) {
+          this.Step = 2
+          // 清除定时器
+          this.resetTimer()
+        } else {
+          this.$toast(msg)
+        }
+      } catch (error) {
+        console.log(error)
+      }
     },
     // 跳转至修改密码
     callCallback() {
@@ -301,7 +341,45 @@ export default {
       this.codeType = VERIFY_CODE.START
       this.countDownTime = 60
     },
-    async resetHandle() {},
+    async resetHandle() {
+      if (!this.password) {
+        this.$toast(this.$t('partcailComp.nodataTips'))
+      }
+      // 构造数据
+      let subData = {}
+      if (this.formStyle == 1) {
+        subData = {
+          account: `${this.phoneForm.areaCode}-${this.phoneForm.phone}`,
+          code: this.phoneForm.smsCode,
+          password: this.password,
+        }
+      } else {
+        subData = {
+          account: this.emailForm.email,
+          code: this.emailForm.emailCode,
+          password: this.password,
+        }
+      }
+      // 请求接口
+      try {
+        const {code, data, msg} = await findPwd(subData)
+        if (code === 0) {
+          this.$toast(`${this.$t('partcailComp.updateSuccess')}！`)
+          this.btnLeft()
+          setTimeout(() => {
+            try {
+              fbq('track', 'Lead')
+            } catch (error) {
+              console.log(error)
+            }
+          }, 1000)
+        } else {
+          this.$toast(msg)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    },
   },
 }
 </script>

@@ -231,12 +231,18 @@ export default {
   methods: {
     ...mapMutations({
       vxSetToken: 'setToken',
+      vxToggleLoginDlg: 'login/toggleDialog',
     }),
     toggleInputType(val) {
       this.pswInputType = this.pswInputType === 'password' ? 'text' : 'password'
     },
     forgetPsw() {
-      this.$router.push({path: '/reset_password'})
+      if (this.isDialog) {
+        this.vxToggleLoginDlg(false)
+        this.$router.push({path: `/reset_password?redirect=date_trip`})
+      } else {
+        this.$router.push({path: `/reset_password?redirect=login`})
+      }
     },
     // 获取验证码
     async getCode() {
