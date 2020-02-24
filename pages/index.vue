@@ -812,6 +812,7 @@ export default {
       box-shadow: 0px 0px 12px rgba(57, 57, 57, 0.15);
       border-radius: 20px;
       padding: 24px;
+      margin-top: 10px;
       .item {
         display: flex;
         font-size: 24px;
@@ -954,6 +955,7 @@ export default {
       position: relative;
       white-space: nowrap;
       height: 368px;
+      margin-bottom: 30px;
     }
     .info {
       width: 320px;
