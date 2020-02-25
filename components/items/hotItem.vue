@@ -126,6 +126,7 @@
       font-size: 28px;
       color: #2D2D2D;
       overflow: hidden;
+      font-weight: bold;
       &.one{
         text-overflow:ellipsis;
         white-space: nowrap;
