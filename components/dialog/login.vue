@@ -91,9 +91,6 @@ export default {
 <style>
 </style>
 <style lang="scss" scoped>
-.van-overlay {
-  z-index: 5000 !important;
-}
 .login-dialog-comp {
   width: auto;
   left: 48px;
@@ -101,7 +98,7 @@ export default {
   bottom: 0;
   border-top-left-radius: 32px;
   border-top-right-radius: 32px;
-  z-index: 5000 !important;
+  //z-index: 5000 !important;
   .btn-close {
     position: absolute;
     top: 28px;
