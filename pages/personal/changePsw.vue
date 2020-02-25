@@ -6,11 +6,11 @@
     <div class="change-psw"
          v-if="formStyle==1">
       <div class="input-item">
-        <div class="name">{{$t('personalPage.newPassword')}}：</div>
+        <div class="name">{{$t('password')}}：</div>
         <div class="input">
           <van-cell-group class="no-border-top-input">
-            <van-field v-model="password"
-                       :placeholder="$t('personalPage.newPasswordTips')"
+            <van-field v-model="setPassword"
+                       :placeholder="$t('partcailComp.enterPass')"
                        type="password" />
           </van-cell-group>
         </div>
@@ -66,8 +66,10 @@
 
 <script>
 import NormalHeader from '@/components/header/normal'
-import {changePwd} from '@/api/member'
+import {changePwd, setPwd} from '@/api/member'
 import {mapState, mapMutations} from 'vuex'
+import {clearCookieByKey} from '@/assets/js/utils'
+import {TOKEN} from '@/assets/js/config'
 
 export default {
   components: {
@@ -80,6 +82,7 @@ export default {
       checkPsw: '',
       submiting: false,
       formStyle: 1,
+      setPassword: '',
     }
   },
   computed: {
@@ -89,9 +92,11 @@ export default {
   },
   mounted() {
     this.formStyle = this.vxProfile.is_password ? 2 : 1
-    console.log(this.formStyle)
   },
   methods: {
+    ...mapMutations({
+      vxSetProfile: 'profile/setProfile',
+    }),
     async onChangePsw() {
       if (!this.oldPsw) {
         this.$toast(this.$t('personalPage.oldPasswordTips'))
@@ -117,12 +122,31 @@ export default {
       })
       if (code === 0) {
         this.$toast(this.$t('operateSuc'))
+        clearCookieByKey(TOKEN)
+        this.vxSetProfile({})
+        this.$router.go(-2)
       } else {
         this.$toast(msg)
       }
       this.submiting = false
     },
-    async onSetPsw() {},
+    async onSetPsw() {
+      if (!this.setPassword) {
+        this.$toast(this.$t('partcailComp.nodataTips'))
+        return
+      }
+      this.submiting = true
+      const {code, data, msg} = await setPwd({
+        password: this.setPassword,
+      })
+      if (code === 0) {
+        this.$toast(this.$t('operateSuc'))
+        this.$router.go(-2)
+      } else {
+        this.$toast(msg)
+      }
+      this.submiting = false
+    },
   },
 }
 </script>
@@ -131,6 +155,7 @@ export default {
 .change-psw-page {
   .change-psw {
     text-align: center;
+    padding-top: 60px;
     .input-item {
       height: 112px;
       padding: 0 32px;

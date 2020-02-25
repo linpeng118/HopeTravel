@@ -11,8 +11,8 @@
       </van-nav-bar>
     </div>
     <div class="workbox">
-      <span class="span1" @click="type=1" :style="type==1?'border-bottom:2px solid #399ef6':''">商品</span>
-      <span class="span1" @click="type=2" :style="type==2?'border-bottom:2px solid #399ef6':''">{{$t('attack')}}</span>
+      <span class="span1" @click="changgeType(1)" :style="type==1?'border-bottom:2px solid #399ef6':''">商品</span>
+      <span class="span1" @click="changgeType(2)" :style="type==2?'border-bottom:2px solid #399ef6':''">{{$t('attack')}}</span>
       <span class="span2" @click="isModify =!isModify" v-if="type==1 && hasDataListPc">
         {{isModify ? $t('cancel') : $t('edit')}}
       </span>
@@ -153,7 +153,7 @@ export default {
       } else {
         this.productList2 = []
       }
-      this.hasDataListGl = !!this.productList.length
+      this.hasDataListGl = !!this.productList2.length
     },
     onClickLeft() {
       let href = window.location.href.slice(-1)
@@ -187,9 +187,6 @@ export default {
         this.$toast(this.$t('operateFail'))
       }
     },
-
-
-
     async deleteProductFavorites2(){
       console.log(this.result2.join(','));
       
@@ -203,8 +200,6 @@ export default {
         this.$toast(this.$t('operateFail'))
       }
     },
-
-
     // 产品详情跳转
     selectItem(productId) {
       if(!this.isModify) {
@@ -226,6 +221,13 @@ export default {
           }
         })
       }
+    },
+    // 改变收藏类型
+    changgeType(type){
+      this.type = type
+      this.isModify = false
+      this.hasDataListPc = !!this.productList.length
+      this.hasDataListGl = !!this.productList2.length
     }
   }
 }

@@ -45,6 +45,13 @@ export const changePwd = (data) => {
   })
 }
 
+// 首次设置密码（用户中心里设置密码使用）
+export const setPwd = (data) => {
+  return axios.put('/api/oauth/user/password', {
+    password: data.password,
+  })
+}
+
 // 获取手机验证码
 export const getSmsCode = (data) => {
   return axios.post('/api/sms/send', {
