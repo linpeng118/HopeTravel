@@ -98,14 +98,14 @@
       </van-row>
       <van-cell-group>
       </van-cell-group>
-      <div class="van-cell-group van-hairline--top-bottom">
+      <!-- <div class="van-cell-group van-hairline--top-bottom">
         <div class="van-cell van-cell--center van-cell--borderless van-switch-cell van-field">
           <div class="van-cell__title van-field__label"><span>{{$t('selectTravlerPage.isSelf')}}</span></div>
           <div class="van-cell__value">
             <van-switch-cell v-model="userform.isuser"/>
           </div>
         </div>
-      </div>
+      </div> -->
       <van-cell-group v-if="queryid!=0">
         <p @click="delconfirm()" style="float: right"><van-icon name="delete" class="elseicon" color="#399EF6;"/>&nbsp;<span class="elsespan">{{$t('delete')}}</span></p>
       </van-cell-group>
