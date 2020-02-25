@@ -96,5 +96,10 @@
     .tabbar {
         z-index: 1000;
     }
-
+    .tabbar .van-tabbar-item__icon img{
+        height: 46px;
+    }
+    .tabbar .van-tabbar-item{
+        color: #aeaeae;
+    }
 </style>
