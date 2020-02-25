@@ -400,26 +400,6 @@
        
         if (code === 0) {
 
-          /* for (let key in this.local_List) {
-           
-           if(this.local_List[key].id==this.userform.nationality){
-             
-             this.userform.location_info = this.local_List[key].name;
-             console.log(this.userform.location_info);
-             
-           }
-         }
-         for (let key in this.hot_List) {
-          
-           
-           if(this.hot_List[key].id==this.userform.nationality){
-             
-             this.userform.location_info = this.hot_List[key].name;
-             console.log(this.userform.location_info);
-             
-           }
-         } */
-
           let hot_data = data.hot_data;
           let localList = data.list;
           this.local_List = data.list;
@@ -455,20 +435,6 @@
         }
 
       },
-      // 得到区号
-      /* async getqu() {
-        let {data, code, msg} = await getquhao();
-        if(code === 0) {
-          注释这里是因为我也不知道有啥用
-          /* this.columns = data.map(v => {
-            this.$set(v, 'text',  '+'+v.tel_code+'('+v.countryName+')')
-            return v
-          })
-          console.log('sssssssssss',this.columns) ;
-          
-        }
-        
-      }, */
       //得到区号所对应的列表
       async gotQuhao(){
         let {data, code,msg} = await  getquhao()
@@ -476,38 +442,7 @@
         if (code === 0) {
        
           this.basicTelList = data;
-          // let tel_local_space = {},tel_hot_space = {};
-      ///api/locations&&/api/country/telcodes 数据合并
-      //api/locations id name name_pinyin
-      ///api/country/telcodes countryName tel_code
-      //合并后格式为 id name name_pinyin tel_code
-      // tel_local_space = this.local_List;
-      // tel_hot_space = this.hot_List;
-      // console.log(this.local_List);
-      /* for (let key in tel_local_space) {
-           this.basicTelList.map((val)=>{
-             if(val.countryName == this.local_List[key].name){
-               this.local_List[key].tel_code = val.tel_code;
-             }
-           })
-         }
-         console.log(this.local_List);
-         
-         for (let key in tel_hot_space) {
           
-           this.basicTelList.map((val)=>{
-             if(val.countryName == this.hot_List[key].name){
-               this.hot_List[key].tel_code = val.tel_code;
-             }
-           })
-         }
-         console.log(this.hot_List); */
-         
-        //  this.telList= this._nomalLizePinyin(this.local_List,this.hot_List)
-
-
-
-      //  console.log('this.telList',this.telList);
         }
         else {
 
@@ -538,15 +473,7 @@
           obj[data[i].name_pinyin].push({...data[i]})
                      
           }
-          // this.countryList = obj;
-        return obj;
-        /* else{
-          let obj = {};
-          this.basicTelList=data
-          
-        } */
-       
-   
+          return obj;
       },
 
       selectItem(lists) { // 关闭更多选择层

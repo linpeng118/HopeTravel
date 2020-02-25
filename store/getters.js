@@ -13,5 +13,6 @@ const getters = {
     incomeReport: state => state.saleUnion.incomeReport,
     payInfo: state => state.saleUnion.payInfo,
     reservePro: state => state.product.reservePro,
+    getCountryCode: state => state.common.countryCode,
 }
 export default getters
