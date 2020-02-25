@@ -49,7 +49,7 @@
         <van-button round type="info" class="btn-go-add" block color ="#00ABF9" to="/search">去逛逛</van-button>
       </div>
       <div class="no-product" v-if="firstLoad">{{$t('dataLoading')}}</div>
-      <div v-if="isModify" class="btn-delete"><van-button block @click="deleteProductFavorites">{{$t('delete')}}</van-button></div>
+      <div v-if="isModify && productList.length" class="btn-delete"><van-button block @click="deleteProductFavorites">{{$t('delete')}}</van-button></div>
     </div>
     <div class="product-wrap" v-if="type==2">
       <van-checkbox-group v-model="result2" v-if="productList2.length">
@@ -91,7 +91,7 @@
         <van-button round type="info" class="btn-go-add" block color ="#00ABF9" to="/search">去逛逛</van-button>
       </div>
       <div class="no-product" v-if="firstLoad">{{$t('dataLoading')}}</div>
-      <div v-if="isModify" class="btn-delete"><van-button block @click="deleteProductFavorites2">{{$t('delete')}}</van-button></div>
+      <div v-if="isModify && productList2.length" class="btn-delete"><van-button block @click="deleteProductFavorites2">{{$t('delete')}}</van-button></div>
     </div>
   </div>
 </template>
