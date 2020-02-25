@@ -124,7 +124,7 @@ export default {
         this.$toast(this.$t('operateSuc'))
         clearCookieByKey(TOKEN)
         this.vxSetProfile({})
-        this.$router.go(-2)
+        this.$router.replace({path: '/personal'})
       } else {
         this.$toast(msg)
       }
@@ -141,7 +141,7 @@ export default {
       })
       if (code === 0) {
         this.$toast(this.$t('operateSuc'))
-        this.$router.go(-2)
+        this.$router.replace({path: '/personal'})
       } else {
         this.$toast(msg)
       }
