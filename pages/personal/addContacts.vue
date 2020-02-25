@@ -55,7 +55,7 @@
         </div>
       </div>
       <p class="connet-title">{{$t('contact')}}</p>
-      <div class="van-cell van-field" required>
+      <div class="van-cell van-field van-cell--required">
         <div class="van-cell__title van-field__label">
           <span>{{$t('telephone')}}</span>
         </div>
@@ -112,7 +112,7 @@
     </div>
     <van-popup v-model="shownationality" position="right" style="width:100%;height: 100%;">
       <newcity-list :pageparent="'/personal/addContacts'"
-                 :dataObj="countryList"
+                 :dataObj="getCountryCode"
                  @selectItem="selectItem"
                  ref="moreList"
                  @back="moreListBack"
@@ -121,7 +121,7 @@
     </van-popup>
     <van-popup v-model="showselqu" position="right" style="width:100%;height: 100%;">
       <newtel-code :pageparent="'/personal/addContacts'"
-                 :dataObj="countryList"
+                 :dataObj="getCountryCode"
                  @selectCode="selectCode"
                  ref="moreList2"
                  @back="moreListBack2"
@@ -195,9 +195,9 @@
       }
     },
     computed: {
-      /* ...mapGetters([
-      'national'
-    ]) */
+      ...mapGetters([
+      'getCountryCode'
+    ])
     },
     created(){
     },
@@ -206,8 +206,11 @@
         this.title= this.$t('selectTravlerPage.editTitle');
          this.getcontant();
       }
-       this.gotCountry();
-       this.gotQuhao();
+      if(!this.getCountryCode.hasOwnProperty('热门')){
+        this.gotCountry();
+        this.gotQuhao();
+      }
+       
       /* this.getqu(); */
       /* if(this.national){
         this.location_info = this.national;
@@ -220,15 +223,15 @@
       next(vm=>{
         vm.pushpath=from.path;
         vm.getcontant();
-      vm.gotCountry();
-      vm.gotQuhao();
+      // vm.gotCountry();
+      // vm.gotQuhao();
         next();
       })
     },
     methods: {
-     /*  ...mapMutations({
-      vxSaveNational: 'profile/saveNational'
-    }), */
+      ...mapMutations({
+      vxSaveCountryCode: 'common/saveCountryCode'
+    }),
       countryName(data){
         this.userform.nationality=data;
         this.shownationality=false
@@ -427,7 +430,7 @@
           console.log('合并测试数据',this.basicTelList);
           
          this.countryList = this._nomalLizePinyin(localList,hot_data);
-          
+          this.vxSaveCountryCode(this.countryList)
         console.log('this.countryList',this.countryList);
         }
         else {

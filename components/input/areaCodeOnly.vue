@@ -19,7 +19,7 @@
         @back="toggleAreaList">
       </tel-code> -->
       <newtel-code :pageparent="'/personal/addContacts'"
-                 :dataObj="countryList"
+                 :dataObj="getCountryCode"
                  @selectCode="selectCode"
                  ref="moreList2"
                  @back="toggleAreaList">
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { mapMutations, mapGetters } from 'vuex'
   // import TelCode from '@/components/confirm_foot/telcode'
   import NewtelCode from '@/components/confirm_foot/newTelCode'
   // import {guojialist} from '@/api/contacts'
@@ -55,10 +56,18 @@
         basicTelList:[],//合并国家和区号的缓存列表
       }
     },
+    computed:{
+      ...mapGetters([
+        'getCountryCode'
+      ])
+    },
     mounted() {
       // this.init()
-      this.gotCountry();
-       this.gotQuhao();
+      if(!this.getCountryCode.hasOwnProperty('热门')){
+        this.gotCountry();
+        this.gotQuhao();
+      }
+      
     },
     beforeRouteEnter(to, from, next) {
       console.log(from)
@@ -66,8 +75,8 @@
       next(vm=>{
         vm.pushpath=from.path;
         vm.getcontant();
-      vm.gotCountry();
-      vm.gotQuhao();
+      // vm.gotCountry();
+      // vm.gotQuhao();
         next();
       })
     },
@@ -99,6 +108,9 @@
         }
         this.moreLists = obj
       }, */
+      ...mapMutations({
+        vxSaveCountryCode: 'common/saveCountryCode'
+      }),
       //格式化拼音列表
       _nomalLizePinyin(data,hot) {
         let len = data.length;
@@ -171,7 +183,7 @@
           console.log('合并测试数据',this.basicTelList);
           
          this.countryList = this._nomalLizePinyin(localList,hot_data);
-          
+          this.vxSaveCountryCode(this.countryList)
         console.log('this.countryList',this.countryList);
         }
         else {
