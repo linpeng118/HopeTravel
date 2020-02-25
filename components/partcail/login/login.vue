@@ -120,7 +120,7 @@
 </template>
 
 <script>
-import {mapMutations} from 'vuex'
+import {mapGetters,mapMutations} from 'vuex'
 import AreaCodeInput from '@/components/input/areaCode'
 import {LOGIN_TYPE, VERIFY_CODE, SMS_SCENE} from '@/assets/js/consts'
 import {DLG_TYPE} from '@/assets/js/consts/dialog'
@@ -184,6 +184,7 @@ export default {
       loginForm: 1, //1.短信登录 2.账号/邮箱登录
     }
   },
+  
   computed: {
     showText() {
       if (this.codeType === VERIFY_CODE.START) {
