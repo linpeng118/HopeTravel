@@ -210,11 +210,17 @@
           <van-popup v-model="showsel"
                      position="right"
                      style="width:100%;height: 100%;background-color:rgba(0,0,0,0)!important;">
-            <tel-code :pageparent="'/personal/addContacts'"
+            <!-- <tel-code :pageparent="'/personal/addContacts'"
                       :dataObj="columns"
                       @selectCode="onChangequ"
                       @back="showsel=false">
-            </tel-code>
+            </tel-code> -->
+            <newtel-code :pageparent="'/personal/addContacts'"
+                 :dataObj="countryList"
+                 @selectCode="onChangequ"
+                 ref="moreList2"
+                 @back="showsel=false">
+      </newtel-code>
           </van-popup>
         </div>
       </section>
@@ -336,19 +342,22 @@
 
 <script>
   import ConfirmFoot from '@/components/confirm_foot/foot.vue'
-  import { getquhao } from '@/api/contacts'
+  // import { getquhao } from '@/api/contacts'
   import { orderCouponList } from '@/api/confirm_order'
   import { getProfile } from '@/api/profile'
   import { getSessionStore } from '@/assets/js/utils'
-  import { guojialist } from '@/api/contacts'
-  import TelCode from '@/components/confirm_foot/telcode'
+  // import { guojialist } from '@/api/contacts'
+  import {getquhao,getLocationsCountry} from '@/api/contacts'
+  // import TelCode from '@/components/confirm_foot/telcode'
+  import NewtelCode from '@/components/confirm_foot/newTelCode'
   import { mapMutations, mapState } from 'vuex'
   import addcon from '@/components/confirm_foot/addcon'
   import loginLine from '@/components/header/loginLine'
   export default {
     components: {
       ConfirmFoot,
-      TelCode,
+      // TelCode,
+      NewtelCode,
       addcon,
       loginLine,
     },
@@ -385,6 +394,11 @@
         isLoginkeyword: true,
         usertraver: [], //未登录的用户
         characterLength: '',
+
+
+        countryList:{},//国家列表
+        telList:{},//区号列表
+        basicTelList:[],//合并国家和区号的缓存列表
       }
     },
     computed: {
@@ -425,9 +439,24 @@
         this.countprice = this.$store.state.confirm.countprice
         this.pricelist = this.get_vuex_pricelist
         this.init()
-        this.getqu()
+        // this.getqu()
         this.settitletip()
+
+        this.gotCountry();
+        this.gotQuhao();
       }, 20)
+    },
+
+    beforeRouteEnter(to, from, next) {
+      console.log(from)
+      
+      next(vm=>{
+        vm.pushpath=from.path;
+       
+      vm.gotCountry();
+      vm.gotQuhao();
+        next();
+      })
     },
 
     methods: {
@@ -646,14 +675,14 @@
         })
       },
       // 得到区号
-      async getqu () {
+      /* async getqu () {
         let { data, code, msg, hot_country } = await guojialist()
         if (code === 0) {
           this._nomalLizePinyin(data, hot_country)
         } else {
         }
-      },
-      _nomalLizePinyin (data, hot) {
+      }, */
+      /* _nomalLizePinyin (data, hot) {
         let len = data.length
         let len2 = hot.length
         let obj = {
@@ -670,9 +699,35 @@
         }
 
         this.columns = obj
+      }, */
+      //格式化拼音列表
+      _nomalLizePinyin(data,hot) {
+        let len = data.length;
+        
+
+        console.log(data,hot);
+      
+        let len2 = hot.length;
+        
+          let obj = {
+          '热门':[],
+          // '列表':[]
+        };
+        let arr = {};
+        for(let i= 0; i<len2; i++) {
+          obj['热门'].push({...hot[i]})
+        }
+        for(let i= 0; i<len; i++) {
+          if(!obj[data[i].name_pinyin]) {
+            obj[data[i].name_pinyin] = []
+          }
+          obj[data[i].name_pinyin].push({...data[i]})
+                     
+          }
+          return obj;
       },
       onChangequ (picker) {
-        this.checkqu = picker[0].telcode
+        this.checkqu = picker[0].tel_code
         this.showsel = false
       },
       getaddoder () {
@@ -733,6 +788,61 @@
       ...mapMutations({
         vxSetProfile: 'profile/setProfile',
       }),
+       //得到国家列表
+      async gotCountry(){
+        let {data, code,msg} = await getLocationsCountry()
+       
+        if (code === 0) {
+
+          let hot_data = data.hot_data;
+          let localList = data.list;
+          this.local_List = data.list;
+          this.hot_List = data.hot_data;
+          console.log(this.local_List);
+          ///api/locations&&/api/country/telcodes 数据合并
+      //api/locations id name name_pinyin
+      ///api/country/telcodes countryName tel_code
+      //合并后格式为 id name name_pinyin tel_code
+          for (let key in this.local_List) {
+           this.basicTelList.map((val)=>{
+             if(val.countryName == this.local_List[key].name){
+               localList[key].tel_code = val.tel_code;
+             }
+           })
+         }
+         for (let key in this.hot_List) {
+          
+           this.basicTelList.map((val)=>{
+             if(val.countryName == this.hot_List[key].name){
+               hot_data[key].tel_code = val.tel_code;
+             }
+           })
+         }
+          console.log('合并测试数据',this.basicTelList);
+          
+         this.countryList = this._nomalLizePinyin(localList,hot_data);
+          
+        console.log('this.countryList',this.countryList);
+        }
+        else {
+
+        }
+
+      },
+      //得到区号所对应的列表
+      async gotQuhao(){
+        let {data, code,msg} = await  getquhao()
+       
+        if (code === 0) {
+       
+          this.basicTelList = data;
+          
+        }
+        else {
+
+        }
+
+      },
     },
   }
 </script>
@@ -1036,7 +1146,7 @@
     padding: 20px 24px;
   }
   .setvan {
-    width: 120px;
+    width: 150px;
     display: inline-block;
     border-right: 1px solid #dedede;
     text-align: center;
