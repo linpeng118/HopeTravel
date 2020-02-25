@@ -6,27 +6,31 @@
               name="cross"
               class="close-btn" />
 
-    <!-- 登录 -->
-    <login-comp v-if="formStyle==1"
-                class="login-comp-wrap"
-                ref="loginComp"
-                :loginTitle="$t('partcailComp.loginTips')"
-                :loginSubTitle="$t('partcailComp.loginSubTips')"
-                :regTitle="$t('partcailComp.toursLogin')"
-                :isAgree="isAgree"
-                @toRegist="formStyle=2"
-                @loginCallBack="loginCallBack()" />
+    <div class="form">
+      <!-- 登录 -->
+      <login-comp v-if="formStyle==1"
+                  class="login-comp-wrap"
+                  ref="loginComp"
+                  :loginTitle="$t('partcailComp.loginTips')"
+                  :loginSubTitle="$t('partcailComp.loginSubTips')"
+                  :regTitle="$t('partcailComp.toursLogin')"
+                  :isAgree="isAgree"
+                  @toRegist="formStyle=2"
+                  @loginCallBack="loginCallBack()" />
 
-    <!-- 注册 -->
-    <regist-comp v-if="formStyle==2"
-                 class="regist-comp-wrap"
-                 ref="regComp"
-                 :regTitle="$t('partcailComp.emailReg')"
-                 @toLogin="formStyle=1"
-                 @registCallBack="registCallBack()" />
+      <!-- 注册 -->
+      <regist-comp v-if="formStyle==2"
+                   class="regist-comp-wrap"
+                   ref="regComp"
+                   :regTitle="$t('partcailComp.emailReg')"
+                   @toLogin="formStyle=1"
+                   @registCallBack="registCallBack()"
+                   @hideAgreement="agreementShow=false" />
+    </div>
 
     <!-- 协议 -->
-    <div class="agreement-warpper"
+    <div v-if="agreementShow"
+         class="agreement-warpper"
          @click="toggleAgreeProp()">
       <img src="../../assets/imgs/login/checked.png"
            alt=""
@@ -64,6 +68,7 @@ export default {
 
       formStyle: 1, //1.登录 2.注册
       isAgree: true, //是否同意协议
+      agreementShow: true,
     }
   },
   methods: {
@@ -159,8 +164,11 @@ export default {
 .login-page {
   height: 100%;
   min-height: 100vh;
-  padding: 174px 72px 0;
+  padding: 174px 72px 136px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   .close-btn {
     position: absolute;
     left: 62px;
@@ -172,9 +180,6 @@ export default {
   // 协议
   .agreement-warpper {
     width: 100%;
-    position: fixed;
-    left: 0;
-    bottom: 136px;
     font-size: 24px;
     color: #888;
     display: flex;

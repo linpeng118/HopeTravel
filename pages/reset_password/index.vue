@@ -260,11 +260,16 @@ export default {
       // 定时器
       this.codeType = VERIFY_CODE.GETTING // 获取验证码
       try {
-        await getSmsCode({
+        const {code, msg} = await getSmsCode({
           phone: `${this.phoneForm.areaCode}-${this.phoneForm.phone}`,
           scene: SMS_SCENE.RSPWD,
         })
-        await this.countDown()
+        if (code == 0) {
+          this.countDown()
+        } else {
+          this.$toast(msg)
+          this.resetTimer()
+        }
       } catch (error) {
         console.log(error)
         this.codeType = VERIFY_CODE.START
@@ -272,18 +277,24 @@ export default {
     },
     // 获取邮箱验证码
     async getEmailCode() {
-      if (!this.emailForm.email) {
-        this.$toast(this.$t('partcailComp.enterEmail'))
+      let emailR = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/
+      if (!emailR.test(this.emailForm.email)) {
+        this.$toast(this.$t('partcailComp.emailPattern'))
         return
       }
       // 定时器
       this.codeType = VERIFY_CODE.GETTING // 获取验证码
       try {
-        await getEmailCode({
+        const {code, msg} = await getEmailCode({
           email: this.emailForm.email,
           scene: EMAIL_SCENE.RSPWD,
         })
-        await this.countDown()
+        if (code == 0) {
+          this.countDown()
+        } else {
+          this.$toast(msg)
+          this.resetTimer()
+        }
       } catch (error) {
         console.log(error)
         this.codeType = VERIFY_CODE.START

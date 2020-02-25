@@ -239,7 +239,7 @@ export default {
     forgetPsw() {
       if (this.isDialog) {
         this.vxToggleLoginDlg(false)
-        this.$router.push({path: `/reset_password?redirect=date_trip`})
+        this.$router.push({path: `/reset_password`})
       } else {
         this.$router.push({path: `/reset_password?redirect=login`})
       }
@@ -483,7 +483,7 @@ export default {
       align-items: center;
       justify-content: flex-end;
       .icon-arrow {
-        font-size: 2px;
+        font-size: 22px;
         margin-left: 4px;
       }
     }
