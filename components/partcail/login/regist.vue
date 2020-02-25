@@ -176,6 +176,11 @@ export default {
       },
       deep: true,
     },
+    Step: function(value) {
+      if (value == 2) {
+        this.$emit('hideAgreement')
+      }
+    },
   },
   mounted() {},
   methods: {

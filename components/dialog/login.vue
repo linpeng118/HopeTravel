@@ -90,13 +90,12 @@ export default {
 </script>
 <style>
 .van-overlay {
-  /* z-index: 4000 !important; */
+  z-index: 5000 !important;
 }
 </style>
 <style lang="scss" scoped>
 .login-dialog-comp {
   width: auto;
-  // z-index: 4000 !important;
   left: 48px;
   right: 48px;
   bottom: 0;
@@ -114,6 +113,7 @@ export default {
   .dialog-content {
     padding: 54px 46px 300px;
     text-align: center;
+    z-index: 5000 !important;
   }
 }
 </style>

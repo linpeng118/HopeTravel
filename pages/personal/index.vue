@@ -2,12 +2,12 @@
   <div class="personal">
     <div class="header">
       <div class="setting">
-        <nuxt-link tag="div"
-                   class="set"
-                   to="/personal/setting">
+        <div tag="div"
+             class="set"
+             @click.stop="$router.push(`/personal/setting?isLogin=${isLogin?1:0}`)">
           <img src="../../assets/imgs/personal/index/ic_setting@2x.png"
                alt>
-        </nuxt-link>
+        </div>
       </div>
       <div class="con">
         <div class="box">
@@ -209,7 +209,6 @@ export default {
       }
     },
     editInfo() {
-      console.log('aaavvvv')
       //跳转编辑信息
       if (this.isLogin) {
         this.$router.push({

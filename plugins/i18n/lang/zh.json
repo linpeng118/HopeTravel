@@ -630,7 +630,7 @@
         "hoveUser": "已有账号？去登录",
         "nowLogin": "马上登录",
         "AgreementReg": "我已经阅读并同意《服务协议》",
-        "subscribeLogin": "只差一步，<br>完成您的预订",
+        "subscribeLogin": "还没登录，<br>请您先登录",
         "patternEmail": "验证邮箱",
         "patternMobile": "验证手机"
     },
