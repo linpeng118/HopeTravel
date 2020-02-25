@@ -88,9 +88,9 @@ export default {
         basicTelList:[],//合并国家和区号的缓存列表
     }
   },
-  computed:{
-    ...mapGetters('getCountryCode')
-  },
+  // computed:{
+  //   ...mapGetters('getCountryCode')
+  // },
   watch: {
     mobile(val) {
       this.$emit('update:proMobile', val)
