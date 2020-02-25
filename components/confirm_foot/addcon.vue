@@ -68,7 +68,7 @@
                  @countryName="countryName" >
       </city-list> -->
       <newcity-list :pageparent="'/personal/addContacts'"
-                 :dataObj="countryList"
+                 :dataObj="getCountryCode"
                  @selectItem="selectItem"
                  ref="moreList"
                  @back="moreListBack"
@@ -100,6 +100,7 @@
   import NewcityList from '@/components/confirm_foot/newCityList'
   import NewtelCode from '@/components/confirm_foot/newTelCode'
   import {getquhao} from '@/api/contacts'
+  import { mapMutations, mapGetters } from 'vuex'
   export default {
     components: {
       // CityList,TelCode
@@ -130,10 +131,16 @@
         showselqu:false,
         columns: [],
         minDate: new Date('1900/01/01'),
-        maxDate: new Date()
+        maxDate: new Date(),
+
+        countryList:{},//国家列表
       }
     },
-    computed: {},
+    computed: {
+      ...mapGetters([
+        'getCountryCode'
+      ])
+    },
     watch:{
       'userform': {
         handler(newval){
@@ -151,20 +158,26 @@
         this.getcontant();
       }
       // this.guojia();
-      this.gotCountry();
-       this.gotQuhao();
+      if(!this.getCountryCode.hasOwnProperty('热门')){
+        this.gotCountry();
+        this.gotQuhao();
+      }
+      
     },
 
     beforeRouteEnter(to, from, next) {
       next(vm=>{
         vm.pushpath=from.path;
         vm.getcontant();
-        vm.gotCountry();
-        vm.gotQuhao();
+        /* vm.gotCountry();
+        vm.gotQuhao(); */
         next();
       })
     },
     methods: {
+      ...mapMutations({
+        vxSaveCountryCode: 'common/saveCountryCode'
+      }),
       countryName(data){
         this.userform.nationality=data;
         this.shownationality=false
@@ -365,7 +378,7 @@
           console.log('合并测试数据',this.basicTelList);
           
          this.countryList = this._nomalLizePinyin(localList,hot_data);
-          
+          this.vxSaveCountryCode(this.countryList)
         console.log('this.countryList',this.countryList);
         }
         else {
