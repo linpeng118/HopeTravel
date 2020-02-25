@@ -105,7 +105,7 @@
       <h1 class="title"
           v-html="$t('partcailComp.setPass')"></h1>
 
-      <div class="cb-border-b">
+      <div class="cb-border-b set-password">
         <van-field class="password"
                    v-model="password"
                    center
@@ -422,6 +422,10 @@ export default {
   .mobile-form {
     .phone {
       margin-top: 78px;
+    }
+
+    .set-password {
+      margin-top: 226px;
     }
 
     .code-wrapper {
