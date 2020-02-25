@@ -39,8 +39,7 @@
     <van-popup v-model="showpops"
                class="setbottom"
                position="bottom"
-               :overlay="true"
-               :open="openLay()">
+               :overlay="true">
       <paylist :payData="pricelist"
                :showmili="get_vuex_countprice.is_point?'1':'0'"
                @closepops="closepops"></paylist>
@@ -90,7 +89,7 @@
 </template>
 
 <script>
-import {mapMutations} from 'vuex'
+import {mapMutations,mapState} from 'vuex'
 import {DLG_TYPE} from '@/assets/js/consts/dialog'
 import paylist from './paylist'
 import {countprice, addorder} from '@/api/confirm_order'
@@ -114,10 +113,6 @@ export default {
     rooms: {
       type: Array,
     },
-    zIndex: {
-      type: Number,
-      default: 1000,
-    },
   },
   data() {
     return {
@@ -136,10 +131,15 @@ export default {
       loading: false,
       apiPath: require('@/apiConf.env'),
       shownext: true,
+      zIndex: 3000
       //添加订单数据
     }
   },
   computed: {
+    ...mapState({
+        // 登录弹窗
+        vxShowLoginDlg: state => state.login.isShowDlg,
+      }),
     //获取计算价格参数
     get_vuex_countprice() {
       return this.$store.state.confirm.countprice
@@ -154,6 +154,11 @@ export default {
       } else {
         this.showbtn = false
       }
+    },
+    vxShowLoginDlg(val) {
+      console.log(1111,val);
+      this.zIndex= val ? 1000 : 3000
+      
     },
     orderInfo: {
       handler: function(val) {
@@ -214,10 +219,14 @@ export default {
     },
     closepops(data) {
       this.showpops = false
+      this.zIndex = 1000
     }, //关闭弹层
     openLay() {
-      console.log(12212);
-      this.zIndex = 9999
+      console.log(2222);
+    },
+    closeLay() {
+      console.log(1111);
+      
     },
     //判断当前页面位置
     checkrouter() {
@@ -327,7 +336,9 @@ export default {
   },
 }
 </script>
+<style>
 
+</style>
 <style scoped>
 .confirm-foot {
   width: 750px;
@@ -425,3 +436,4 @@ export default {
   background: rgba(251, 96, 93, 0) !important;
 }
 </style>
+

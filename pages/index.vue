@@ -23,11 +23,11 @@
           <!--搜索-->
           <div class="search-box" ref="searchBox">
             <nuxt-link tag="div" class="left" to="/search" id="searchLeft">
-              <van-icon name="search" />
+              <img src="../assets/imgs/home/icon_search@2x.png" alt="">
               <span>{{ $t("homePage.desKeywords") }}</span>
             </nuxt-link>
             <div @click.stop="showcall" class="right">
-              <van-icon name="phone-o" />
+              <img src="../assets/imgs/home/ic_phone@2x.png">
             </div>
           </div>
           <van-swipe indicator-color="white">
@@ -705,31 +705,36 @@ export default {
         top: 0;
         z-index: 10;
         height: 108px;
-        padding: 20px 30px 20px;
+        padding: 20px 32px;
         display: flex;
         justify-content: space-between;
         color: #fff;
         width: 100%;
         align-items: center;
         .left {
-          width: 620px;
+          flex: 1;
           height: 72px;
           padding: 12px 14px;
           border-radius: 36px;
           background-color: rgba(255, 255, 255, 0.8);
-          color: #989898;
           display: flex;
-          font-size: 42px;
           align-items: center;
-          transition: 0.3s all;
           span {
-            font-size: 22px;
+            font-size: 28px;
+            margin-left: 16px;
+            color: #2D2D2D;
+          }
+          img{
+            width: 32px;
+            height: 32px;
           }
         }
         .right {
-          font-weight: normal;
-          i {
-            font-size: 50px;
+          padding-left: 32px;
+          margin-top: 10px;
+          img{
+            width: 52px;
+            height: 52px;
           }
         }
       }
@@ -911,7 +916,7 @@ export default {
         border: 2px solid #00abf9;
         color: #00abf9;
         margin-right: 40px;
-        line-height: 48px;
+        line-height: 42px;
         display: inline-block;
         border-radius: 44px;
         padding: 0 16px;
