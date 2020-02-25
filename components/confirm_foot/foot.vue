@@ -39,7 +39,8 @@
     <van-popup v-model="showpops"
                class="setbottom"
                position="bottom"
-               :overlay="true">
+               :overlay="true"
+               :open="openLay()">
       <paylist :payData="pricelist"
                :showmili="get_vuex_countprice.is_point?'1':'0'"
                @closepops="closepops"></paylist>
@@ -214,6 +215,10 @@ export default {
     closepops(data) {
       this.showpops = false
     }, //关闭弹层
+    openLay() {
+      console.log(12212);
+      this.zIndex = 9999
+    },
     //判断当前页面位置
     checkrouter() {
       if ($nuxt.$route.path == '/confirm_order') {
