@@ -153,7 +153,7 @@ export default {
       } else {
         this.productList2 = []
       }
-      this.hasDataListGl = !!this.productList.length
+      this.hasDataListGl = !!this.productList2.length
     },
     onClickLeft() {
       let href = window.location.href.slice(-1)
@@ -226,6 +226,8 @@ export default {
     changgeType(type){
       this.type = type
       this.isModify = false
+      this.hasDataListPc = !!this.productList.length
+      this.hasDataListGl = !!this.productList2.length
     }
   }
 }
