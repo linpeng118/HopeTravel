@@ -1,7 +1,8 @@
 <!--订单和行程的页脚组件-->
 <template>
   <section>
-    <div class="confirm-foot">
+    <div class="confirm-foot"
+         :style="{'z-index':zIndex}">
       <span class="confirm-price"
             v-if="showbtn">
         <i>{{pricelist.total_price}}</i>
@@ -111,6 +112,10 @@ export default {
     },
     rooms: {
       type: Array,
+    },
+    zIndex: {
+      type: Number,
+      default: 1000,
     },
   },
   data() {
@@ -324,7 +329,7 @@ export default {
   height: 165px;
   background-color: #fff;
   position: fixed;
-  z-index: 3000;
+  z-index: 1000;
   box-sizing: border-box;
   padding: 40px 32px;
   left: 0;
