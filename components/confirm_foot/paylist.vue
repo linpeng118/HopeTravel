@@ -243,9 +243,10 @@
   }
   .yellow-color {
     color: rgba(255, 203, 60, 1);
+    font-weight: normal
   }
   .small-bold {
-    font-size: 14px;
+    font-size: 24px;
     font-weight: 400;
     color: rgba(61, 61, 61, 1);
   }
