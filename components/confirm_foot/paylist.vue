@@ -238,7 +238,7 @@
     width: 750px;
     padding: 0 32px;
     box-sizing: border-box;
-    font-size: 30px;
+    font-size: 25px;
     font-weight: 600;
   }
   .yellow-color {
