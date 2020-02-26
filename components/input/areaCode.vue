@@ -98,9 +98,9 @@ export default {
   },
    mounted() {
     // this.guojia()
-    console.log('我是猪',this.getCountryCode);
+    console.log('我是猪',this.getCountryCode,this.getCountryCode['热门']);
     
-    if(!this.getCountryCode.hasOwnProperty('热门')){
+    if(!this.getCountryCode['热门']||(this.getCountryCode['热门']&&this.getCountryCode['热门'].length==0)){
       this.gotCountry();
       this.gotQuhao();
     }
@@ -208,6 +208,7 @@ export default {
         if (code === 0) {
        
           this.basicTelList = data;
+          console.log('区号',this.basicTelList);
           
         }
         else {

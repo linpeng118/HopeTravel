@@ -446,7 +446,7 @@
         this.settitletip()
         console.log(this.getCountryCode);
         
-        if(!this.getCountryCode.hasOwnProperty('热门')){
+        if(!this.getCountryCode['热门']||(this.getCountryCode['热门']&&this.getCountryCode['热门'].length==0)){
           this.gotCountry();
           this.gotQuhao();
         }    
