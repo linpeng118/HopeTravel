@@ -238,11 +238,10 @@
     width: 750px;
     padding: 0 32px;
     box-sizing: border-box;
-    font-size: 14px;
+    font-size: 30px;
     font-weight: 600;
   }
   .yellow-color {
-    font-size: 18px;
     color: rgba(255, 203, 60, 1);
   }
   .small-bold {

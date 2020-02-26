@@ -156,8 +156,7 @@ export default {
       }
     },
     vxShowLoginDlg(val) {
-      console.log(1111,val);
-      this.zIndex= val ? 1000 : 3000
+      this.zIndex= val ? 1000 : 3000 
       
     },
     orderInfo: {
