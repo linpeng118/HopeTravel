@@ -53,7 +53,7 @@ export default {
         isRightIcon: true,
         value: '',
         path: '/personal/changePsw',
-        hidden: this.$route.query.isLogin == 1 ? false : true,
+        hidden: JSON.stringify(this.vxProfile) == '{}' ? true : false,
       },
       {
         type: SETTING.ABOUT,
