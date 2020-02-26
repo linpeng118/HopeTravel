@@ -202,15 +202,17 @@
     created(){
     },
     mounted(){
-      if(this.queryid!=0){
-        this.title= this.$t('selectTravlerPage.editTitle');
-         this.getcontant();
-      }
+      console.log(this.queryid);
+      
+      
       if(!this.getCountryCode['热门']||(this.getCountryCode['热门']&&this.getCountryCode['热门'].length==0)){
         this.gotCountry();
         this.gotQuhao();
       }
-       
+       if(this.queryid!=0){
+        this.title= this.$t('selectTravlerPage.editTitle');
+         this.getcontant();
+      }
       /* this.getqu(); */
       /* if(this.national){
         this.location_info = this.national;
@@ -328,11 +330,26 @@
         let {data, code} = await getcontant(this.queryid)
         if (code === 0) {
          this.userform=data;
-         console.log('userform.nationality',this.userform);
-         console.log('this.local_List',this.local_List);
-         console.log('this.hot_List',this.hot_List);
+         let neusoft = this.getCountryCode;
+         console.log(neusoft);
          
-         for (let key in this.local_List) {
+        
+        //  console.log('userform.nationality',this.userform);
+        //  console.log('this.local_List',this.local_List);
+        //  console.log('this.hot_List',this.hot_List);
+         for (let key in neusoft) {
+           neusoft[key].map(val=>{
+             if(this.userform.nationality == val.id){
+               this.userform.location_info = val.name;
+             }
+           })
+           console.log(this.userform.nationality == neusoft[key].id);
+           
+           /* if(this.userform.nationality == neusoft[key].id){
+             this.userform.location_info = this.local_List[key].name;
+           } */
+         }
+         /* for (let key in local_List_neu) {
            
            if(this.local_List[key].id.toString() ==this.userform.nationality){
              
@@ -341,7 +358,7 @@
              
            }
          }
-         for (let key in this.hot_List) {
+         for (let key in this.hot_List_neu) {
           
            
            if(this.hot_List[key].id.toString()==this.userform.nationality){
@@ -350,7 +367,7 @@
              console.log(this.userform.location_info);
              
            }
-         }
+         } */
          if(this.userform.phone.indexOf('-')!=-1){
            var arr=this.userform.phone.split('-');
            this.userform.phonex=arr[1];
