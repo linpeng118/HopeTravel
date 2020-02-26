@@ -215,9 +215,10 @@ export default {
 };
 </script>
 <style>
-.elsecheck .van-checkbox__icon,
-.van-checkbox__label {
+.elsecheck .van-checkbox__icon {
   vertical-align: top !important;
+  display: inline-block;
+  margin-top: 6px;
 }
 .elsecheck .van-checkbox__icon .van-icon {
   border: 2px solid #399ef6 !important;
@@ -250,6 +251,10 @@ export default {
 .objitembox {
   padding: 50px;
   overflow-y: auto;
+  li{
+    padding: 20px 0;
+    border-bottom: 2px solid #E4E4E4;
+  }
 }
 
 .checkboxall > div {
@@ -257,6 +262,10 @@ export default {
 }
 .elsecheck {
   vertical-align: top !important;
+  border-bottom: 2px solid#E4E4E4;
+  padding: 20px 0;
+  display: -webkit-box;
+
 }
 .elsecheck > div:nth-child(1) {
   padding-top: 5px;
@@ -279,7 +288,7 @@ export default {
   font-size: 28px;
   color: #191919;
   font-weight: bold;
-  margin-bottom: 15px;
+  // margin-bottom: 15px;
 }
 .objitem > i:first-child > a {
   display: inline-block;
