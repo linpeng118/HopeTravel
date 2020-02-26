@@ -153,16 +153,16 @@
     created(){
     },
     mounted(){
-      if(this.queryid!=0){
-        this.title= this.$t('selectTravlerPage.editTitle');
-        this.getcontant();
-      }
+      
       // this.guojia();
       if(!this.getCountryCode['热门']||(this.getCountryCode['热门']&&this.getCountryCode['热门'].length==0)){
         this.gotCountry();
         this.gotQuhao();
       }
-      
+      if(this.queryid!=0){
+        this.title= this.$t('selectTravlerPage.editTitle');
+        this.getcontant();
+      }
     },
 
     beforeRouteEnter(to, from, next) {
