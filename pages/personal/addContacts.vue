@@ -55,7 +55,7 @@
         </div>
       </div>
       <p class="connet-title">{{$t('contact')}}</p>
-      <div class="van-cell van-field" required>
+      <div class="van-cell van-field van-cell--required">
         <div class="van-cell__title van-field__label">
           <span>{{$t('telephone')}}</span>
         </div>
@@ -112,7 +112,7 @@
     </div>
     <van-popup v-model="shownationality" position="right" style="width:100%;height: 100%;">
       <newcity-list :pageparent="'/personal/addContacts'"
-                 :dataObj="countryList"
+                 :dataObj="getCountryCode"
                  @selectItem="selectItem"
                  ref="moreList"
                  @back="moreListBack"
@@ -121,7 +121,7 @@
     </van-popup>
     <van-popup v-model="showselqu" position="right" style="width:100%;height: 100%;">
       <newtel-code :pageparent="'/personal/addContacts'"
-                 :dataObj="countryList"
+                 :dataObj="getCountryCode"
                  @selectCode="selectCode"
                  ref="moreList2"
                  @back="moreListBack2"
@@ -161,7 +161,7 @@
          "name_cn":"",
          "firstname":"",
          "lastname":"",
-         "gender":"",
+         "gender":"m",
          "phonex":"",
          "dob":"",
          "email":"",
@@ -195,19 +195,24 @@
       }
     },
     computed: {
-      /* ...mapGetters([
-      'national'
-    ]) */
+      ...mapGetters([
+      'getCountryCode'
+    ])
     },
     created(){
     },
     mounted(){
-      if(this.queryid!=0){
+      console.log(this.queryid);
+      
+      
+      if(!this.getCountryCode['热门']||(this.getCountryCode['热门']&&this.getCountryCode['热门'].length==0)){
+        this.gotCountry();
+        this.gotQuhao();
+      }
+       if(this.queryid!=0){
         this.title= this.$t('selectTravlerPage.editTitle');
          this.getcontant();
       }
-       this.gotCountry();
-       this.gotQuhao();
       /* this.getqu(); */
       /* if(this.national){
         this.location_info = this.national;
@@ -220,15 +225,15 @@
       next(vm=>{
         vm.pushpath=from.path;
         vm.getcontant();
-      vm.gotCountry();
-      vm.gotQuhao();
+      // vm.gotCountry();
+      // vm.gotQuhao();
         next();
       })
     },
     methods: {
-     /*  ...mapMutations({
-      vxSaveNational: 'profile/saveNational'
-    }), */
+      ...mapMutations({
+      vxSaveCountryCode: 'common/saveCountryCode'
+    }),
       countryName(data){
         this.userform.nationality=data;
         this.shownationality=false
@@ -325,11 +330,22 @@
         let {data, code} = await getcontant(this.queryid)
         if (code === 0) {
          this.userform=data;
-         console.log('userform.nationality',this.userform);
-         console.log('this.local_List',this.local_List);
-         console.log('this.hot_List',this.hot_List);
+         let neusoft = this.getCountryCode;
+         console.log(neusoft);
          
-         for (let key in this.local_List) {
+        
+        
+         for (let key in neusoft) {
+           neusoft[key].map(val=>{
+             if(this.userform.nationality == val.id){
+               this.userform.location_info = val.name;
+             }
+           })
+           console.log(this.userform.nationality == neusoft[key].id);
+           
+          
+         }
+         /* for (let key in local_List_neu) {
            
            if(this.local_List[key].id.toString() ==this.userform.nationality){
              
@@ -338,7 +354,7 @@
              
            }
          }
-         for (let key in this.hot_List) {
+         for (let key in this.hot_List_neu) {
           
            
            if(this.hot_List[key].id.toString()==this.userform.nationality){
@@ -347,7 +363,7 @@
              console.log(this.userform.location_info);
              
            }
-         }
+         } */
          if(this.userform.phone.indexOf('-')!=-1){
            var arr=this.userform.phone.split('-');
            this.userform.phonex=arr[1];
@@ -427,7 +443,7 @@
           console.log('合并测试数据',this.basicTelList);
           
          this.countryList = this._nomalLizePinyin(localList,hot_data);
-          
+          this.vxSaveCountryCode(this.countryList)
         console.log('this.countryList',this.countryList);
         }
         else {
