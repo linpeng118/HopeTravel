@@ -267,7 +267,22 @@
         let {data, code} = await getcontant(this.queryid)
         if (code === 0) {
          this.userform=data;
-         for (let key in this.local_List) {
+         let neusoft = this.getCountryCode;
+         console.log(neusoft);
+         
+        
+        
+         for (let key in neusoft) {
+           neusoft[key].map(val=>{
+             if(this.userform.nationality == val.id){
+               this.userform.location_info = val.name;
+             }
+           })
+           console.log(this.userform.nationality == neusoft[key].id);
+           
+          
+         }
+         /* for (let key in this.local_List) {
            
            if(this.local_List[key].id.toString() ==this.userform.nationality){
              
@@ -285,7 +300,7 @@
              console.log(this.userform.location_info);
              
            }
-         }
+         } */
          if(this.userform.phone.indexOf('-')!=-1){
            var arr=this.userform.phone.split('-');
            this.userform.phonex=arr[1];

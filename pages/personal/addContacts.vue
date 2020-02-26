@@ -334,9 +334,7 @@
          console.log(neusoft);
          
         
-        //  console.log('userform.nationality',this.userform);
-        //  console.log('this.local_List',this.local_List);
-        //  console.log('this.hot_List',this.hot_List);
+        
          for (let key in neusoft) {
            neusoft[key].map(val=>{
              if(this.userform.nationality == val.id){
@@ -345,9 +343,7 @@
            })
            console.log(this.userform.nationality == neusoft[key].id);
            
-           /* if(this.userform.nationality == neusoft[key].id){
-             this.userform.location_info = this.local_List[key].name;
-           } */
+          
          }
          /* for (let key in local_List_neu) {
            
