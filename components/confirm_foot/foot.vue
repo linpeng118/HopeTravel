@@ -156,6 +156,8 @@ export default {
       }
     },
     vxShowLoginDlg(val) {
+      console.log(val);
+      
       this.zIndex= val ? 1000 : 3000 
       
     },
@@ -218,7 +220,7 @@ export default {
     },
     closepops(data) {
       this.showpops = false
-      this.zIndex = 1000
+      this.zIndex = 3000
     }, //关闭弹层
     openLay() {
       console.log(2222);
