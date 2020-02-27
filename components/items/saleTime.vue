@@ -5,7 +5,7 @@
     </div>
     <div class="count-down-time">
       <!-- {{item.special_end_date}} -->
-      <van-count-down :time="item.special_end_date * 1000" format="DD 天 HH : mm : ss">
+      <van-count-down :time="item.special_end_date * 1000" format="DD 天 HH : mm : ss" use-slot>
         <!-- <template v-slot="timeData">
           <template v-if="timeData.days > 0">
             <div class="item">{{ timeData.days | getTwo}}</div>
