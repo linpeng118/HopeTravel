@@ -166,16 +166,8 @@ module.exports = {
    ** Build configuration
    */
   build: {
-    // analyze: true,
-    // extractCSS与parallel不可并行：https://github.com/nuxt/nuxt.js/pull/5004
     extractCSS: (process.env.NODE_ENV === 'production'), // 拆分css
     maxChunkSize: 30000,
-    // parallel: true, // 多进程
-    // IE或者Edge下报错原因：（https://github.com/Rich-Harris/devalue/issues/16）
-    // 处理
-    // https://github.com/nuxt/nuxt.js/issues/4432
-    // https://github.com/nuxt/nuxt.js/issues/4643
-    // https://github.com/nuxt/nuxt.js/pull/4600
     vendor: ['vue-i18n'], //语言包转换
     babel: {
       presets({
