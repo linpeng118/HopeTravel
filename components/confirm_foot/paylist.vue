@@ -37,13 +37,13 @@
             <span>{{payData.base_price}}</span>
           </p>
           <p class="payitem2">
-            <span>{{$t('adult')}}:</span>
-            <span>{{payData.adult}}{{$t('person')}}x{{payData.adult_price}}</span>
+            <span>{{payData.adult}}{{$t('adult')}}x{{payData.adult_price}}</span>
+
           </p>
           <p class="payitem2"
             v-if="payData.child!=0">
-            <span>{{$t('child')}}:</span>
-            <span>{{payData.child}}{{$t('person')}}x{{payData.kids_price}}</span>
+            <span>{{payData.child}}{{$t('child')}}x{{payData.kids_price}}</span>
+
           </p>
         </li>
         <li class="paysection"
@@ -68,7 +68,9 @@
               :key="ind2">
               <div class="yellow-color mt-10">{{item.name}}</div>
               <template v-if="payData.rooms.length !== 0">
-                <div class="mt-10" v-for="(service,index) in payData.rooms" :key="index+2">
+                <div class="mt-10"
+                  v-for="(service,index) in payData.rooms"
+                  :key="index+2">
                   <p class="mt-10 small-bold">{{service.adult}}{{$t('productDetailPage.n_adult')}}x{{service.add_value_service_detail[item.id].adult_price}}</p>
                   <p class="mt-10 small-bold"
                     v-if="service.kids">{{service.kids}}{{$t('productDetailPage.n_children')}}x{{service.add_value_service_detail[item.id].kids_price}}</p>
@@ -141,7 +143,7 @@
         this.$emit('closepops', 'false')
       },
     },
-  }  
+  }
 </script>
 
 <style scoped>
@@ -243,7 +245,7 @@
   }
   .yellow-color {
     color: rgba(255, 203, 60, 1);
-    font-weight: normal
+    font-weight: normal;
   }
   .small-bold {
     font-size: 24px;
@@ -251,11 +253,11 @@
     color: rgba(61, 61, 61, 1);
   }
   .payitem2 span:nth-child(1) {
-    color: #191919;
     font-size: 28px;
     display: inline-block;
     float: left;
-    line-height: 60px;
+    line-height: 40px;
+    color: rgba(61, 61, 61, 1);
     width: 450px;
     overflow: hidden;
     white-space: nowrap;
