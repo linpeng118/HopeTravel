@@ -4,8 +4,8 @@
       <img :src="item.image" alt="">
     </div>
     <div class="count-down-time">
-      <van-count-down :time="item.special_end_date * 1000" use-slot>
-        <template v-slot="timeData">
+      <van-count-down :time="item.special_end_date * 1000" format="DD 天 HH : mm : ss" style="color:#fff;">
+        <!-- <template v-slot="timeData">
           <template v-if="timeData.days > 0">
             <div class="item">{{ timeData.days | getTwo}}</div>
             <span>天</span>
@@ -13,7 +13,7 @@
           <div class="item">{{ timeData.hours | getTwo }}</div><span>:</span>
           <div class="item">{{ timeData.minutes | getTwo}}</div><span>:</span>
           <div class="item">{{ timeData.seconds | getTwo}}</div>
-        </template>
+        </template> -->
       </van-count-down>
     </div>
     <div class="cp-detail">
