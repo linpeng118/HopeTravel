@@ -60,10 +60,6 @@ export default {
     }
   },
   methods:{
-    onChange(e) {
-      console.log(2342354123, e)
-      // this.timeData = e.detail
-    }
   }
 }
 </script>
