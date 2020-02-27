@@ -128,7 +128,7 @@
     </template>
     <div class="no-data" v-else>
       <no-data msg="还没有添加联系人，去添加吧"></no-data>
-      <van-button round type="info" class="btn-go-add" block color ="#00ABF9" to="/personal/addContacts">去添加</van-button>
+      <van-button round type="info" class="btn-go-add" block color ="#00ABF9" :to="{path:'/personal/addContacts',query:{'type':$route.query.type?'list':''}}">去添加</van-button>
     </div>
   </section>
 </template>
