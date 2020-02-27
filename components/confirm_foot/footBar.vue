@@ -3,7 +3,7 @@
   <section>
     <div class="confirm-foot">
       <span class="confirm-price">
-        <i>{{pricelist.total_price}}</i>
+        <i>{{pricelist.total_price}}4545</i>
       </span>
       <!-- <span class="confirm-price"
             v-else>
@@ -78,31 +78,31 @@
 </template>
 
 <script>
-import {mapMutations,mapState} from 'vuex'
-import {DLG_TYPE} from '@/assets/js/consts/dialog'
-import paylist from './paylist'
-import {countprice, addorder} from '@/api/confirm_order'
-import Loading from '@/components/loading'
-import {getProfile} from '@/api/profile'
-import {TOKEN, SESSIONSTORE, PLATFORM} from '@/assets/js/config'
-import {getSessionStore, getLocalStore, replaceServerUrl, clearCookieByKey} from '@/assets/js/utils'
-/* import onCustomerService from '@/assets/js/customerService.js' */
-import {getCookieByKey} from '@/assets/js/utils'
+// import {mapMutations,mapState} from 'vuex'
+// import {DLG_TYPE} from '@/assets/js/consts/dialog'
+// import paylist from './paylist'
+// import {countprice, addorder} from '@/api/confirm_order'
+// import Loading from '@/components/loading'
+// import {getProfile} from '@/api/profile'
+// import {TOKEN, SESSIONSTORE, PLATFORM} from '@/assets/js/config'
+// import {getSessionStore, getLocalStore, replaceServerUrl, clearCookieByKey} from '@/assets/js/utils'
+// /* import onCustomerService from '@/assets/js/customerService.js' */
+// import {getCookieByKey} from '@/assets/js/utils'
 
 export default {
-  layout: 'default',
-  components: {
-    paylist,
-    Loading,
-  },
-  props: {
-    orderInfo: {
-      type: Object,
-    },
-    rooms: {
-      type: Array,
-    },
-  },
+  // layout: 'default',
+  // components: {
+  //   paylist,
+  //   Loading,
+  // },
+  // props: {
+  //   orderInfo: {
+  //     type: Object,
+  //   },
+  //   rooms: {
+  //     type: Array,
+  //   },
+  // },
   data() {
     return {
       //价格明细列表
@@ -124,206 +124,206 @@ export default {
       //添加订单数据
     }
   },
-  computed: {
-    ...mapState({
-        // 登录弹窗
-        vxShowLoginDlg: state => state.login.isShowDlg,
-      }),
-    //获取计算价格参数
-    get_vuex_countprice() {
-      return this.$store.state.confirm.countprice
-    },
-  },
-  watch: {
-    //监听计算价格参数
-    get_vuex_countprice() {
-      if (this.get_vuex_countprice.departure_date != '' && this.get_vuex_countprice.room_total != 0) {
-        this.getpricelist(this.get_vuex_countprice)
-        this.showbtn = true
-      } else {
-        this.showbtn = false
-      }
-    },
-    vxShowLoginDlg(val) {
-      console.log(val);
+  // computed: {
+  //   ...mapState({
+  //       // 登录弹窗
+  //       vxShowLoginDlg: state => state.login.isShowDlg,
+  //     }),
+  //   //获取计算价格参数
+  //   get_vuex_countprice() {
+  //     return this.$store.state.confirm.countprice
+  //   },
+  // },
+  // watch: {
+  //   //监听计算价格参数
+  //   get_vuex_countprice() {
+  //     if (this.get_vuex_countprice.departure_date != '' && this.get_vuex_countprice.room_total != 0) {
+  //       this.getpricelist(this.get_vuex_countprice)
+  //       this.showbtn = true
+  //     } else {
+  //       this.showbtn = false
+  //     }
+  //   },
+  //   vxShowLoginDlg(val) {
+  //     console.log(val);
       
-      this.zIndex= val ? 1000 : 3000 
+  //     this.zIndex= val ? 1000 : 3000 
       
-    },
-    orderInfo: {
-      handler: function(val) {
-        if (
-          val.tongyi &&
-          val.contact.phone != '' &&
-          val.contact.name != '' &&
-          val.contact.email != '' &&
-          val.users.length
-        ) {
-          this.showbtn2 = true
-        } else {
-          this.showbtn2 = false
-        }
-      },
-      deep: true, //深度监听
-    },
-  },
-  mounted() {
-    let obj = getSessionStore('pricelist') ? JSON.parse(getSessionStore('pricelist')) : {}
-    this.$store.commit('pricelist', obj)
-    let objw = getSessionStore('countprice') ? JSON.parse(getSessionStore('countprice')) : {}
-    this.$store.commit('countprice', objw)
-    this.checkrouter() //判断当前位置
-    this.setshow()
-  },
-  methods: {
-    ...mapMutations({
-      // vxSaveReservePro: 'saveReservePro',
-      vxToggleLoginDlg: 'login/toggleDialog', // 是否显示弹窗
-      vxSetPrifile: 'profile/setProfile',
-    }),
-    // 获取价格明细
-    async getpricelist(objdata) {
-      let {data, code, msg} = await countprice(objdata)
-      if (code === 0) {
-        this.pricelist = data
-        this.pricelist.adult = this.get_vuex_countprice.adult
-        this.pricelist.child = this.get_vuex_countprice.child
-        this.$store.commit('pricelist', this.pricelist)
-      } else if (code === 11 || code === 12 || code === 13 || code === 14 || code === 15) {
-        this.$store.commit('countprice', {
-          coupon_cus_id: '',
-        })
-        this.getpricelist(this.get_vuex_countprice)
-        this.$dialog.alert({
-          message: msg,
-        })
-      } else {
-        this.$dialog.alert({
-          message: msg,
-        })
-        this.$store.commit('pricelist', {})
-        // console.log('1')
-        this.showbtn2 = false
-        this.showbtn = false
-      }
-    },
-    closepops(data) {
-      this.showpops = false
-      this.zIndex = 3000
-    }, //关闭弹层
-    openLay() {
-      console.log(2222);
-    },
-    closeLay() {
-      console.log(1111);
+  //   },
+  //   orderInfo: {
+  //     handler: function(val) {
+  //       if (
+  //         val.tongyi &&
+  //         val.contact.phone != '' &&
+  //         val.contact.name != '' &&
+  //         val.contact.email != '' &&
+  //         val.users.length
+  //       ) {
+  //         this.showbtn2 = true
+  //       } else {
+  //         this.showbtn2 = false
+  //       }
+  //     },
+  //     deep: true, //深度监听
+  //   },
+  // },
+  // mounted() {
+  //   let obj = getSessionStore('pricelist') ? JSON.parse(getSessionStore('pricelist')) : {}
+  //   this.$store.commit('pricelist', obj)
+  //   let objw = getSessionStore('countprice') ? JSON.parse(getSessionStore('countprice')) : {}
+  //   this.$store.commit('countprice', objw)
+  //   this.checkrouter() //判断当前位置
+  //   this.setshow()
+  // },
+  // methods: {
+  //   ...mapMutations({
+  //     // vxSaveReservePro: 'saveReservePro',
+  //     vxToggleLoginDlg: 'login/toggleDialog', // 是否显示弹窗
+  //     vxSetPrifile: 'profile/setProfile',
+  //   }),
+  //   // 获取价格明细
+  //   async getpricelist(objdata) {
+  //     let {data, code, msg} = await countprice(objdata)
+  //     if (code === 0) {
+  //       this.pricelist = data
+  //       this.pricelist.adult = this.get_vuex_countprice.adult
+  //       this.pricelist.child = this.get_vuex_countprice.child
+  //       this.$store.commit('pricelist', this.pricelist)
+  //     } else if (code === 11 || code === 12 || code === 13 || code === 14 || code === 15) {
+  //       this.$store.commit('countprice', {
+  //         coupon_cus_id: '',
+  //       })
+  //       this.getpricelist(this.get_vuex_countprice)
+  //       this.$dialog.alert({
+  //         message: msg,
+  //       })
+  //     } else {
+  //       this.$dialog.alert({
+  //         message: msg,
+  //       })
+  //       this.$store.commit('pricelist', {})
+  //       // console.log('1')
+  //       this.showbtn2 = false
+  //       this.showbtn = false
+  //     }
+  //   },
+  //   closepops(data) {
+  //     this.showpops = false
+  //     this.zIndex = 3000
+  //   }, //关闭弹层
+  //   openLay() {
+  //     console.log(2222);
+  //   },
+  //   closeLay() {
+  //     console.log(1111);
       
-    },
-    //判断当前页面位置
-    checkrouter() {
-      if ($nuxt.$route.path == '/confirm_order') {
-        this.thisrouter = 'confirm_order'
-      } else {
-        this.thisrouter = 'date_trip'
-      }
-      // console.log(this.thisrouter)
-    },
-    async addOrderx() {
-      if (!this.orderInfo.contact.phone.split('-')[1]) {
-        this.$toast('手机号码不能为空')
-        return
-      }
-      this.loading = true
-      let referer_id = getSessionStore(SESSIONSTORE) || ''
-      let platform = getSessionStore(PLATFORM) || ''
-      // let short_name = localStorage.getItem('tourscool_vuex')
-      console.log(this.orderInfo, referer_id, platform)
-      await this.isUserLogin()
-      let {data, code, msg} = await addorder(
-        {
-          ...this.orderInfo,
-          trace_code: getSessionStore('traceCode'),
-        },
-        referer_id,
-        platform,
-      )
-      if (code === 0) {
-        // 表单提交
-        // console.log(12121212,JSON.parse(short_name))
-        // data.short_name = JSON.parse(short_name).product.reservePro.name_short
-        this.subData(data)
-        window._agl &&
-          window._agl.push([
-            'track',
-            [
-              'success',
-              {
-                t: 3,
-              },
-            ],
-          ])
-      } else {
-        this.loading = false
-        this.$dialog.alert({
-          message: msg,
-        })
-      }
-    },
-    subData(data) {
-      console.log(1111111, data)
-      let successUrl = '//' + window.location.host + '/personal/order_des?order_id=' + data.order_id
-      let failureUrl = '//' + window.location.host + '/personal/order?status=null'
-      // 设置token
-      let token = ''
-      if (data.token) {
-        token = data.token
-      } else {
-        token = getCookieByKey(TOKEN) ? getCookieByKey(TOKEN) : ''
-      }
-      token = token.replace('Bearer ', '')
-      this.$refs.order_id.value = data.order_id
-      this.$refs.order_title.value = data.product_name
-      // this.$refs.order_title_short.value = data.short_name;
-      this.$refs.total_feecny.value = data.cny_price * 100
-      this.$refs.total_feeusd.value = data.price * 100
-      this.$refs.success_url.value = successUrl
-      this.$refs.failure_url.value = failureUrl
-      this.$refs.jwt.value = token
-      this.$refs.submitform.click()
-      this.loading = false
-    },
-    contactCustom() {
-      /* onCustomerService() */
-      let url = replaceServerUrl()
-      window.open(url, '_self')
-    },
-    //是否需要登录弹窗
-    async setshow() {
-      this.shownext = true
-    },
-    async islogin() {
-      let minNumGuest = getLocalStore('tourscool_vuex').product.reservePro || 0
-      let total_adult = 0
-      this.rooms.forEach(item => {
-        total_adult += item.adult
-      })
-      if (total_adult < minNumGuest) {
-        this.$dialog.alert({
-          message: this_.$t('dateTripPage.notEnoughPeople'),
-        })
-      } else {
-        this.$router.push({
-          path: '/confirm_order',
-        })
-      }
-    },
-    async isUserLogin() {
-      let {code} = await getProfile()
-      if (code != 0) {
-        this.vxSetPrifile({})
-        clearCookieByKey(TOKEN)
-      }
-    },
-  },
+  //   },
+  //   //判断当前页面位置
+  //   checkrouter() {
+  //     if ($nuxt.$route.path == '/confirm_order') {
+  //       this.thisrouter = 'confirm_order'
+  //     } else {
+  //       this.thisrouter = 'date_trip'
+  //     }
+  //     // console.log(this.thisrouter)
+  //   },
+  //   async addOrderx() {
+  //     if (!this.orderInfo.contact.phone.split('-')[1]) {
+  //       this.$toast('手机号码不能为空')
+  //       return
+  //     }
+  //     this.loading = true
+  //     let referer_id = getSessionStore(SESSIONSTORE) || ''
+  //     let platform = getSessionStore(PLATFORM) || ''
+  //     // let short_name = localStorage.getItem('tourscool_vuex')
+  //     console.log(this.orderInfo, referer_id, platform)
+  //     await this.isUserLogin()
+  //     let {data, code, msg} = await addorder(
+  //       {
+  //         ...this.orderInfo,
+  //         trace_code: getSessionStore('traceCode'),
+  //       },
+  //       referer_id,
+  //       platform,
+  //     )
+  //     if (code === 0) {
+  //       // 表单提交
+  //       // console.log(12121212,JSON.parse(short_name))
+  //       // data.short_name = JSON.parse(short_name).product.reservePro.name_short
+  //       this.subData(data)
+  //       window._agl &&
+  //         window._agl.push([
+  //           'track',
+  //           [
+  //             'success',
+  //             {
+  //               t: 3,
+  //             },
+  //           ],
+  //         ])
+  //     } else {
+  //       this.loading = false
+  //       this.$dialog.alert({
+  //         message: msg,
+  //       })
+  //     }
+  //   },
+  //   subData(data) {
+  //     console.log(1111111, data)
+  //     let successUrl = '//' + window.location.host + '/personal/order_des?order_id=' + data.order_id
+  //     let failureUrl = '//' + window.location.host + '/personal/order?status=null'
+  //     // 设置token
+  //     let token = ''
+  //     if (data.token) {
+  //       token = data.token
+  //     } else {
+  //       token = getCookieByKey(TOKEN) ? getCookieByKey(TOKEN) : ''
+  //     }
+  //     token = token.replace('Bearer ', '')
+  //     this.$refs.order_id.value = data.order_id
+  //     this.$refs.order_title.value = data.product_name
+  //     // this.$refs.order_title_short.value = data.short_name;
+  //     this.$refs.total_feecny.value = data.cny_price * 100
+  //     this.$refs.total_feeusd.value = data.price * 100
+  //     this.$refs.success_url.value = successUrl
+  //     this.$refs.failure_url.value = failureUrl
+  //     this.$refs.jwt.value = token
+  //     this.$refs.submitform.click()
+  //     this.loading = false
+  //   },
+  //   contactCustom() {
+  //     /* onCustomerService() */
+  //     let url = replaceServerUrl()
+  //     window.open(url, '_self')
+  //   },
+  //   //是否需要登录弹窗
+  //   async setshow() {
+  //     this.shownext = true
+  //   },
+  //   async islogin() {
+  //     let minNumGuest = getLocalStore('tourscool_vuex').product.reservePro || 0
+  //     let total_adult = 0
+  //     this.rooms.forEach(item => {
+  //       total_adult += item.adult
+  //     })
+  //     if (total_adult < minNumGuest) {
+  //       this.$dialog.alert({
+  //         message: this_.$t('dateTripPage.notEnoughPeople'),
+  //       })
+  //     } else {
+  //       this.$router.push({
+  //         path: '/confirm_order',
+  //       })
+  //     }
+  //   },
+  //   async isUserLogin() {
+  //     let {code} = await getProfile()
+  //     if (code != 0) {
+  //       this.vxSetPrifile({})
+  //       clearCookieByKey(TOKEN)
+  //     }
+  //   },
+  // },
 }
 </script>
 <style>
