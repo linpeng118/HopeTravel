@@ -1,7 +1,7 @@
 <!--订单和行程的页脚组件-->
 <template>
   <section>
-    <div class="confirm-foot"
+    <!-- <div class="confirm-foot"
          :style="{'z-index':zIndex}">
       <span class="confirm-price"
             v-if="showbtn">
@@ -43,8 +43,8 @@
       <paylist :payData="pricelist"
                :showmili="get_vuex_countprice.is_point?'1':'0'"
                @closepops="closepops"></paylist>
-    </van-popup><!-- 加载态 -->
-    <loading v-if="loading"></loading>
+    </van-popup>
+    <loading v-if="loading"></loading> -->
     <div style="display: none"
          v-if="showbtn2==true">
       <form :action="apiPath.payment+'/payment/mobile/checkout'"
@@ -57,7 +57,6 @@
                name="order_title"
                value=""
                ref="order_title">
-        <!-- <input type="text" name="order_title_short" value="" ref="order_title_short"> -->
         <input type="text"
                name="total_fee[CNY]"
                value=""
@@ -85,6 +84,12 @@
                ref="submitform">
       </form>
     </div>
+    <van-tabbar>
+      <van-tabbar-item icon="home-o">标签</van-tabbar-item>
+      <van-tabbar-item icon="search">标签</van-tabbar-item>
+      <van-tabbar-item icon="friends-o">标签</van-tabbar-item>
+      <van-tabbar-item icon="setting-o">标签</van-tabbar-item>
+    </van-tabbar>
   </section>
 </template>
 
