@@ -11,7 +11,7 @@ export default {
    methods:{
       ...mapMutations({
         // 是否显示登录弹窗
-        vxToggleLoginDlg: 'login/toggleDialog', 
+        vxToggleLoginDlg: 'login/toggleDialog',
       }),
       loginUser(){
         this.vxToggleLoginDlg(true)
