@@ -14,7 +14,6 @@
           <div class="item">{{ timeData.minutes | getTwo}}</div><span>:</span>
           <div class="item">{{ timeData.seconds | getTwo}}</div>
         </template>
-        <!-- <div class="item">{{ timeData.hours }}</div><span>:</span> -->
       </van-count-down>
     </div>
     <div class="cp-detail">
@@ -53,6 +52,17 @@ export default {
     item:{
       type:Object,
       default: null
+    }
+  },
+  data() {
+    return {
+      // timeData: {}
+    }
+  },
+  methods:{
+    onChange(e) {
+      console.log(2342354123, e)
+      // this.timeData = e.detail
     }
   }
 }
