@@ -341,7 +341,7 @@
 </template>
 
 <script>
-  import ConfirmFoot from '@/components/confirm_foot/foot.vue'
+  import ConfirmFoot from '@/components/confirm_foot/footBar'
   // import { getquhao } from '@/api/contacts'
   import { orderCouponList } from '@/api/confirm_order'
   import { getProfile } from '@/api/profile'

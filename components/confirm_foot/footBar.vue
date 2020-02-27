@@ -1,7 +1,8 @@
 <!--订单和行程的页脚组件-->
 <template>
   <section>
-    <div class="confirm-foot">
+    <div class="confirm-foot"
+         :style="{'z-index':zIndex}">
       <span class="confirm-price"
             v-if="showbtn">
         <i>{{pricelist.total_price}}</i>
@@ -35,14 +36,14 @@
         <i>{{$t('contactService')}}</i>
       </span>
     </div>
-    <!-- <van-popup v-model="showpops"
+    <van-popup v-model="showpops"
                class="setbottom"
                position="bottom"
                :overlay="true">
       <paylist :payData="pricelist"
                :showmili="get_vuex_countprice.is_point?'1':'0'"
                @closepops="closepops"></paylist>
-    </van-popup> -->
+    </van-popup><!-- 加载态 -->
     <loading v-if="loading"></loading>
     <div style="display: none"
          v-if="showbtn2==true">
@@ -339,7 +340,7 @@ export default {
 <style>
 
 </style>
-<style type="text/scss" lang="scss" scoped>
+<style scoped>
 .confirm-foot {
   width: 750px;
   height: 165px;
