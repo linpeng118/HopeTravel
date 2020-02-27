@@ -3,7 +3,7 @@
     <div class="img">
       <img :src="item.image" alt="">
     </div>
-    <div class="count-down-time">
+    <!-- <div class="count-down-time">
       <van-count-down :time="item.special_end_date * 1000" use-slot>
         <template v-slot="timeData">
           <template v-if="timeData.days > 0">
@@ -15,7 +15,7 @@
           <div class="item">{{ timeData.seconds | getTwo}}</div>
         </template>
       </van-count-down>
-    </div>
+    </div> -->
     <div class="cp-detail">
       <div class="title" :class="title == 1 ? 'one': 'two'">{{item.name}}</div>
       <div class="price-main">
