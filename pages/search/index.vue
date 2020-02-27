@@ -38,7 +38,9 @@
             </template>
             <search-result :lists="searchResultList.searchProduct" @selectItem="selectProductInfo"></search-result>
         </div>
-        <loading-tr v-if="searchLoading" :loading="loading"></loading-tr>
+        <div v-if="searchLoading" style="padding-top:100px;">
+            <loading-tr msg="哎呀，居然没有你想找的结果，换个词试试吧"></loading-tr>
+        </div>
         <loading v-if="startLoading"></loading>
         <!-- 底部导航 -->
         <Tabbar :Index="1"></Tabbar>
@@ -51,7 +53,7 @@
     import Country from '@/components/search/country'
     import SquareTag from '@/components/tags/square'
     import Loading from '@/components/loading/index'
-    import LoadingTr from '@/components/loading/whiteBg'
+    import LoadingTr from '@/components/no-data'
     import SearchResult from '@/components/items/searchResult'
     import {
         getDestination,
