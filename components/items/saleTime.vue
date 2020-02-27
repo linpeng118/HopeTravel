@@ -4,7 +4,7 @@
       <img :src="item.image" alt="">
     </div>
     <!-- <div class="count-down-time">
-      <van-count-down :time="item.special_end_date * 1000" use-slot>
+      <van-count-down :time="item.special_end_date * 1000">
         <template v-slot="timeData">
           <template v-if="timeData.days > 0">
             <div class="item">{{ timeData.days | getTwo}}</div>
@@ -56,7 +56,7 @@ export default {
   },
   data() {
     return {
-      timeData: {}
+      // timeData: {}
     }
   },
   methods:{
