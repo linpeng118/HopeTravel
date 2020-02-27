@@ -33,7 +33,7 @@
                 @back="toggleAreaList">
       </tel-code> -->
       <newtel-code :pageparent="'/personal/addContacts'"
-                 :dataObj="countryList"
+                 :dataObj="getCountryCode"
                  @selectCode="selectCode"
                  ref="moreList2"
                  @back="toggleAreaList">
@@ -88,18 +88,23 @@ export default {
         basicTelList:[],//合并国家和区号的缓存列表
     }
   },
-  // computed:{
-  //   ...mapGetters('getCountryCode')
-  // },
+  computed:{
+    ...mapGetters(['getCountryCode'])
+  },
   watch: {
     mobile(val) {
       this.$emit('update:proMobile', val)
     },
   },
-  mounted() {
+   mounted() {
     // this.guojia()
-    this.gotCountry();
-    this.gotQuhao();
+    console.log('我是猪',this.getCountryCode,this.getCountryCode['热门']);
+    
+    if(!this.getCountryCode['热门']||(this.getCountryCode['热门']&&this.getCountryCode['热门'].length==0)){
+      this.gotCountry();
+      this.gotQuhao();
+    }
+    
   },
   beforeRouteEnter(to, from, next) {
       console.log(from)
@@ -107,8 +112,8 @@ export default {
       next(vm=>{
         vm.pushpath=from.path;
         // vm.getcontant();
-      vm.gotCountry();
-      vm.gotQuhao();
+      // vm.gotCountry();
+      // vm.gotQuhao();
         next();
       })
     },
@@ -187,7 +192,9 @@ export default {
           
          this.countryList = this._nomalLizePinyin(localList,hot_data);
           this.vxSaveCountryCode(this.countryList)
-        console.log('this.countryList',this.countryList);
+        // console.log('this.countryList',this.countryList);
+        console.log('vxSaveCountryCode',this.getCountryCode);
+        
         }
         else {
 
@@ -201,6 +208,7 @@ export default {
         if (code === 0) {
        
           this.basicTelList = data;
+          console.log('区号',this.basicTelList);
           
         }
         else {
