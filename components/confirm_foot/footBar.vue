@@ -36,14 +36,14 @@
         <i>{{$t('contactService')}}</i>
       </span>
     </div>
-    <!-- <van-popup v-model="showpops"
+    <van-popup v-model="showpops"
                class="setbottom"
                position="bottom"
                :overlay="true">
       <paylist :payData="pricelist"
                :showmili="get_vuex_countprice.is_point?'1':'0'"
                @closepops="closepops"></paylist>
-    </van-popup> -->
+    </van-popup><!-- 加载态 -->
     <loading v-if="loading"></loading>
     <div style="display: none"
          v-if="showbtn2==true">
@@ -87,6 +87,7 @@
     </div>
   </section>
 </template>
+
 <script>
 import {mapMutations,mapState} from 'vuex'
 import {DLG_TYPE} from '@/assets/js/consts/dialog'
@@ -340,7 +341,7 @@ export default {
 .confirm-foot {
   width: 750px;
   height: 165px;
-  background-color: red;
+  background-color: #fff;
   position: fixed;
   z-index: 1000;
   box-sizing: border-box;
@@ -348,7 +349,89 @@ export default {
   left: 0;
   box-shadow: 0px -4px 12px rgba(0, 0, 0, 0.16);
   bottom: 0;
+}
+
+.confirm-next-btn {
+  width: 308px;
+  height: 80px;
+  display: inline-block;
+  background: #bbbbbb;
+  opacity: 1;
+  border-radius: 8px;
+  color: #fff;
+  text-align: center;
+  font-size: 32px;
+  line-height: 80px;
+  float: right;
+}
+
+.confirm-price {
+  height: 80px;
+  width: 240px;
+  display: inline-block;
+  line-height: 20px;
+  float: left;
+  padding-top: 10px;
+  color: #fb605d;
+}
+
+.confirm-price > i:nth-child(1) {
+  font-style: normal;
+  display: inline-block;
+  font-size: 32px;
+  text-align: left;
+  font-weight: bold;
+  width: 100%;
+  height: 30px;
+  margin-top: 5px;
+}
+
+.confirm-price > i:nth-child(2) {
+  font-style: normal;
+  display: inline-block;
   font-size: 24px;
+  text-align: left;
+  width: 100%;
+  height: 20px;
+  margin-top: 5px;
+}
+
+.contact-service {
+  width: 100px;
+  height: 80px;
+  display: inline-block;
+  float: right;
+  margin-right: 20px;
+  font-size: 22px;
+}
+
+.contact-service i:nth-child(1) {
+  width: 100px;
+  height: 40px;
+  background: url('../../assets/imgs/kefu.png') no-repeat;
+  background-size: 32px;
+  background-position: center;
+  display: inline-block;
+  text-align: center;
+  line-height: 40px;
+}
+
+.contact-service i:nth-child(2) {
+  font-style: normal;
+  width: 100px;
+  color: #399ef6;
+  font-size: 22px;
+  display: inline-block;
+  text-align: center;
+  line-height: 40px;
+}
+
+.showbtn {
+  background: rgba(251, 96, 93, 1) !important;
+}
+
+.setbottom {
+  background: rgba(251, 96, 93, 0) !important;
 }
 </style>
 
