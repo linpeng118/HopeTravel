@@ -337,10 +337,7 @@ export default {
   },
 }
 </script>
-<style>
-
-</style>
-<style scoped>
+<style type="text/scss" lang="scss" scoped>
 .confirm-foot {
   width: 750px;
   height: 165px;
