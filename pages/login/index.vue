@@ -69,6 +69,31 @@ export default {
       formStyle: 1, //1.登录 2.注册
       isAgree: true, //是否同意协议
       agreementShow: true,
+
+      screenHeight: 0,
+      originHeight: 0,
+    }
+  },
+  watch: {
+    screenHeight(val) {
+      if (this.originHeight != val) {
+        this.agreementShow = false
+      } else {
+        this.agreementShow = true
+      }
+    },
+  },
+  mounted() {
+    const that = this
+    if (process.client) {
+      that.screenHeight = document.body.clientHeight
+      that.originHeight = document.body.clientHeight
+      window.onresize = () => {
+        return (() => {
+          window.screenHeight = document.body.clientHeight
+          that.screenHeight = window.screenHeight
+        })()
+      }
     }
   },
   methods: {
@@ -111,7 +136,6 @@ export default {
     },
     // 登陆回调
     async loginCallBack() {
-      console.log('loginCallBack')
       try {
         fbq('track', 'Lead')
       } catch (error) {
@@ -119,7 +143,6 @@ export default {
       }
       // 弹窗登录/页面登录
       await this.getUserInfo()
-
       if (this.redirect) {
         this.$router.replace({
           path: this.redirect,
@@ -128,23 +151,17 @@ export default {
           },
         })
       } else {
-        console.log('进来咯')
         this.$router.replace({path: '/personal'})
       }
     },
     // 获取到用户信息
     async getUserInfo() {
       let {data, code} = await getProfile()
-      console.log(data, code)
-
       if (code === 0) {
-        console.log(1111)
-
         this.vxSetProfile(data)
       } else {
         this.vxSetProfile({})
       }
-      console.log(this.$store.state.profile.profile)
     },
     //注册
     registHandle() {},
@@ -163,7 +180,7 @@ export default {
 <style lang="scss" scoped>
 .login-page {
   height: 100%;
-  min-height: 100vh;
+  height: 100vh;
   padding: 174px 72px 136px;
   position: relative;
   display: flex;

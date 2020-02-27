@@ -66,9 +66,7 @@ export default {
       }
       // 弹窗登录/页面登录
       await this.getUserInfo()
-      console.log(this.isDialog, this.redirect)
       this.vxToggleLoginDlg(false)
-      // this.$router.go(0) 手机端有些浏览器不能刷新
       location.reload()
     },
     // 获取到用户信息
