@@ -1,8 +1,7 @@
 <!--订单和行程的页脚组件-->
 <template>
   <section>
-    <div class="confirm-foot"
-         :style="{'z-index':zIndex}">
+    <div class="confirm-foot">
       <span class="confirm-price"
             v-if="showbtn">
         <i>{{pricelist.total_price}}</i>
@@ -340,7 +339,7 @@ export default {
 <style>
 
 </style>
-<style scoped>
+<style type="text/scss" lang="scss" scoped>
 .confirm-foot {
   width: 750px;
   height: 165px;
