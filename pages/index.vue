@@ -27,7 +27,8 @@
               <span>{{ $t("homePage.desKeywords") }}</span>
             </nuxt-link>
             <div @click.stop="showcall" class="right">
-              <img src="../assets/imgs/home/ic_phone@2x.png">
+              <img src="../assets/imgs/home/ic_phone@2x.png" width="26" v-if="fixedTopBar">
+              <img src="../assets/imgs/home/ic_phone_h@2x.png" width="26" v-else>
             </div>
           </div>
           <van-swipe indicator-color="white">
@@ -334,7 +335,8 @@ export default {
       prodFinished: false,
       prodPagination: {},
       loadingPage: true,
-      isAndroid: this.$route.query.platform
+      isAndroid: this.$route.query.platform,
+      fixedTopBar: true
     };
   },
   computed: {
@@ -577,6 +579,7 @@ export default {
       }
       setTimeout(() => {
         if (s1 === 0) {
+          this.fixedTopBar = true
           this.$refs.searchBox.style.backgroundColor = `transparent`;
           this.$refs.searchBox.style.color = `rgb(255,255,255)`;
           document.getElementById(
@@ -589,6 +592,7 @@ export default {
                          } */
           this.$refs.searchBox.style.top = "auto";
         } else {
+          this.fixedTopBar = false
           let rate = s1 / SCROLL;
           this.$refs.searchBox.style.backgroundColor = `rgba(255,255,255,${rate})`;
           document.getElementById(
