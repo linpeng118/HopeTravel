@@ -110,7 +110,7 @@
                    v-model="password"
                    center
                    clearable
-                   right-icon="eye-o"
+                   :right-icon="pswInputType=='password'?'eye-o':'closed-eye'"
                    :placeholder="$t('partcailComp.enterPass')"
                    :type="pswInputType"
                    @click-right-icon="toggleInputType()">
@@ -132,7 +132,8 @@
 import {mapMutations} from 'vuex'
 import areaCodeInput from '@/components/input/areaCode'
 import {LOGIN_WAY, VERIFY_CODE, SMS_SCENE, EMAIL_SCENE} from '@/assets/js/consts'
-import {getSmsCode, getEmailCode, validateEmail, findPwd} from '@/api/member'
+import {getSmsCode, getEmailCode, validateEmail, findPwd, login} from '@/api/member'
+import {getProfile} from '@/api/profile'
 
 const TIME = 60 // 倒计时时间
 
@@ -221,6 +222,9 @@ export default {
   methods: {
     ...mapMutations({
       vxSetForgetForm: 'login/setForgetForm',
+      vxSetToken: 'setToken',
+      vxToggleLoginDlg: 'login/toggleDialog',
+      vxSetProfile: 'profile/setProfile',
     }),
     // 头部按钮（左）【返回】
     btnLeft() {
@@ -352,6 +356,7 @@ export default {
       this.codeType = VERIFY_CODE.START
       this.countDownTime = 60
     },
+    //重置密码
     async resetHandle() {
       if (!this.password) {
         this.$toast(this.$t('partcailComp.nodataTips'))
@@ -376,19 +381,58 @@ export default {
         const {code, data, msg} = await findPwd(subData)
         if (code === 0) {
           this.$toast(`${this.$t('partcailComp.updateSuccess')}！`)
-          this.btnLeft()
-          setTimeout(() => {
-            try {
-              fbq('track', 'Lead')
-            } catch (error) {
-              console.log(error)
-            }
-          }, 1000)
+          this.login()
+        } else {
+          this.$toast(msg)
+        }
+      } catch (error) {}
+    },
+    // 账号/邮箱登录
+    async login() {
+      // 构造数据
+      let subData = {}
+      if (this.formStyle == 1) {
+        subData = {
+          type: 'password',
+          account: `${this.phoneForm.phone}`,
+          password: this.password,
+        }
+      } else {
+        subData = {
+          type: 'password',
+          account: this.emailForm.email,
+          password: this.password,
+        }
+      }
+      try {
+        const {code, data, msg} = await login(subData)
+        if (code === 0) {
+          this.vxSetToken(data.token)
+          // 弹窗登录/页面登录
+          await this.getUserInfo()
+
+          if (this.$route.query.isDialog == 1) {
+            console.log(this.redirect)
+            this.$router.replace({path: this.redirect})
+            this.vxToggleLoginDlg(false)
+            //location.reload()
+          } else {
+            this.$router.replace({path: '/personal'})
+          }
         } else {
           this.$toast(msg)
         }
       } catch (error) {
-        console.log(error)
+        // console.log(error)
+      }
+    },
+    // 获取到用户信息
+    async getUserInfo() {
+      let {data, code} = await getProfile()
+      if (code === 0) {
+        this.vxSetProfile(data)
+      } else {
+        this.vxSetProfile({})
       }
     },
   },
@@ -414,7 +458,7 @@ export default {
   }
   .title {
     font-size: 60px;
-    font-weight: bold;
+    font-weight: 500;
     color: #000000;
     text-align: left;
   }
