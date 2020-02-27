@@ -1,50 +1,40 @@
 <!--订单和行程的页脚组件-->
 <template>
   <section>
-    <!-- <div class="confirm-foot"
-         :style="{'z-index':zIndex}">
-      <span class="confirm-price"
-            v-if="showbtn">
+    <div class="confirm-foot">
+      <span class="confirm-price">
         <i>{{pricelist.total_price}}</i>
-        <i v-if="showpops"
-           @click="showpops=false">{{$t('confirmFootComp.detail')}}
-          <van-icon name="arrow-down" />
-        </i>
-        <i v-else
-           @click="showpops=true">{{$t('confirmFootComp.detail')}}
-          <van-icon name="arrow-up" />
-        </i>
       </span>
-      <span class="confirm-price"
+      <!-- <span class="confirm-price"
             v-else>
         <i style="color: #bbb">0.00</i>
         <i style="color: #bbb">{{$t('confirmFootComp.chooseRelateInfo')}}</i>
-      </span>
-      <span :class="showbtn?'showbtn':''"
+      </span> -->
+      <!-- <span :class="showbtn?'showbtn':''"
             class="confirm-next-btn"
             v-if="thisrouter=='date_trip'"
-            @click="showbtn?islogin():''">{{shownext==true?$t('confirmFootComp.nextStep'):$t('NLoginShow')}}</span>
-      <span v-else-if="showbtn2==false"
-            class="confirm-next-btn">{{shownext==true?$t('confirmFootComp.nextStep'):$t('NLoginShow')}}</span>
-      <span v-else
+            @click="showbtn?islogin():''">{{shownext==true?$t('confirmFootComp.nextStep'):$t('NLoginShow')}}</span> -->
+      <!-- <span v-else-if="showbtn2==false"
+            class="confirm-next-btn">{{shownext==true?$t('confirmFootComp.nextStep'):$t('NLoginShow')}}</span> -->
+      <!-- <span v-else
             class="confirm-next-btn showbtn"
-            @click="addOrderx()">{{$t('confirmFootComp.nextStep')}}</span>
-      <span class="contact-service"
+            @click="addOrderx()">{{$t('confirmFootComp.nextStep')}}</span> -->
+      <!-- <span class="contact-service"
             data-agl-cvt="1"
             @click="contactCustom()">
         <i></i>
         <i>{{$t('contactService')}}</i>
-      </span>
+      </span> -->
     </div>
-    <van-popup v-model="showpops"
+    <!-- <van-popup v-model="showpops"
                class="setbottom"
                position="bottom"
                :overlay="true">
       <paylist :payData="pricelist"
                :showmili="get_vuex_countprice.is_point?'1':'0'"
                @closepops="closepops"></paylist>
-    </van-popup>
-    <loading v-if="loading"></loading> -->
+    </van-popup> -->
+    <!-- <loading v-if="loading"></loading> -->
     <div style="display: none"
          v-if="showbtn2==true">
       <form :action="apiPath.payment+'/payment/mobile/checkout'"
@@ -84,12 +74,6 @@
                ref="submitform">
       </form>
     </div>
-    <van-tabbar>
-      <van-tabbar-item icon="home-o">标签</van-tabbar-item>
-      <van-tabbar-item icon="search">标签</van-tabbar-item>
-      <van-tabbar-item icon="friends-o">标签</van-tabbar-item>
-      <van-tabbar-item icon="setting-o">标签</van-tabbar-item>
-    </van-tabbar>
   </section>
 </template>
 
