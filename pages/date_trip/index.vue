@@ -115,14 +115,14 @@
       </div>
     </section>
     <!--footer-->
-    <confirm-foots :rooms="rooms"></confirm-foots>
+    <confirm-foot :rooms="rooms"></confirm-foot>
   </section>
 </template>
 
 <script>
 import {mapState, mapGetters} from 'vuex'
 import dateTrip from '@/components/confirm_foot/dateTrip'
-// import ConfirmFoot from '@/components/confirm_foot/foot'
+import ConfirmFoot from '@/components/confirm_foot/footBar'
 import headerDate from '@/components/header/dateTrap.vue'
 import {getdateTrip} from '@/api/date_trip'
 import loginLine from '@/components/header/loginLine'
@@ -131,7 +131,7 @@ import {getProfile} from '@/api/profile'
 export default {
   components: {
     dateTrip,
-    ConfirmFoots: () => import('@/components/confirm_foot/footBar'),
+    ConfirmFoot,
     headerDate,
     loginLine,
   },
