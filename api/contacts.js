@@ -1,58 +1,59 @@
 import axios from '@/plugins/axios/axios'
 
 export const getcontants = () => {
-  return axios.get(`/api/contacts`)
+    return axios.get(`/api/contacts`)
 }
 export const getcontant = (id) => {
-  return axios.get(`/api/contact/${id}`)
+    return axios.get(`/api/contact/${id}`)
 }
 export const delcontanct = (id) => {
-  return axios.delete(`/api/contact`,{params: {
-      contact_id:id
-    }})
+    return axios.delete(`/api/contact`, {
+        params: {
+            contact_id: id
+        }
+    })
 }
 export const getquhao = () => {
-  return axios.get(`/api/country/telcodes`)
+    return axios.get(`/api/country/telcodes`)
 }
 export const guojialist = () => {
-  return axios.get(`/api/countries`)
+        return axios.get(`/api/countries`)
+    }
+    //获取国家、城市、地区 locations 只有国家
+export const getLocationsCountry = () => {
+    return axios.get('/api/locations')
 }
 export const addcontanct = (data) => {
-  return axios.post(`/api/contact`,
-    {
-      "name_cn":data.name_cn||'',
-      "firstname":data.firstname||'',
-      "lastname":data.lastname||'',
-      "phone":data.phone||'',
-      "dob":data.dob||'',
-      "email":data.email||'',
-      "passport":data.passport||'',
-      "nationality":data.nationality||'',
-      "gender":data.gender||'',
-      "identity":data.identity||'',
-      "phone_country":data.phone_country||''
-    }
-    )
+    return axios.post(`/api/contact`, {
+        "name_cn": data.name_cn || '',
+        "firstname": data.firstname || '',
+        "lastname": data.lastname || '',
+        "phone": data.phone || '',
+        "dob": data.dob || '',
+        "email": data.email || '',
+        "passport": data.passport || '',
+        "nationality": data.nationality || '',
+        "gender": data.gender || '',
+        "identity": data.identity || '',
+        "phone_country": data.phone_country || ''
+    })
 }
-export const setcontanct = (data,id) => {
-  return axios.put(`/api/contact/${id}`,
-    {
-      "name_cn":data.name_cn||'',
-      "firstname":data.firstname||'',
-      "lastname":data.lastname||'',
-      "phone":data.phone||'',
-      "dob":data.dob||'',
-      "email":data.email||'',
-      "passport":data.passport||'',
-      "nationality":data.nationality||'',
-      "gender":data.gender||'',
-      "identity":data.identity||'',
-      "phone_country":data.phone_country||''
-    },{
-      headers: {
-        'Authorization': 'token'
-      }
-    }
-  )
+export const setcontanct = (data, id) => {
+    return axios.put(`/api/contact/${id}`, {
+        "name_cn": data.name_cn || '',
+        "firstname": data.firstname || '',
+        "lastname": data.lastname || '',
+        "phone": data.phone || '',
+        "dob": data.dob || '',
+        "email": data.email || '',
+        "passport": data.passport || '',
+        "nationality": data.nationality || '',
+        "gender": data.gender || '',
+        "identity": data.identity || '',
+        "phone_country": data.phone_country || ''
+    }, {
+        headers: {
+            'Authorization': 'token'
+        }
+    })
 }
-

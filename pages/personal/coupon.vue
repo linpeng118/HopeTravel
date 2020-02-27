@@ -7,7 +7,9 @@
       <van-tabs @click="onClick" v-model="active">
         <van-tab v-for="(title,indw) in orderTile" :key="title.id" :title="title.title+'('+leng[indw]+')'" class="layout">
           <loading v-if="firstEnter"></loading>
-          <div class="no-data" v-if="!firstEnter && !conList.length">{{$t('noData')}}</div>
+          <div class="no-data" v-if="!firstEnter && !conList.length">
+            <no-data msg="还没有优惠券哦~"></no-data>
+          </div>
           <!-- 产品 -->
           <template v-if="conList.length">
             <div v-for="(item,index) in conList" :key="index">
@@ -44,10 +46,12 @@
 <script>
   import Loading from '@/components/loading/list'
   import {getcouponList} from '@/api/coupon'
+  import NoData from '@/components/no-data'
   export default {
     name: "",
     components: {
-      Loading
+      Loading,
+      NoData
     },
     data() {
       return {

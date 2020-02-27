@@ -38,7 +38,7 @@
         <div class="van-cell__title van-field__label">
           <span>{{$t('selectTravlerPage.nationality')}}</span>
         </div>
-        <div class="van-cell__value"><span>{{userform.nationality!=''?userform.nationality: $t('pleaseChoose')}}</span></div>
+        <div class="van-cell__value"><span>{{userform.nationality!=''?userform.location_info: $t('pleaseChoose')}}</span></div>
         <i class="van-icon van-icon-arrow van-cell__right-icon"></i>
 
 
@@ -60,13 +60,20 @@
       </div>
     </div>
     <van-popup v-model="shownationality" position="right" style="width:100%;height: 100%;">
-      <city-list :pageparent="'/personal/addContacts'"
+      <!-- <city-list :pageparent="'/personal/addContacts'"
                  :dataObj="moreLists"
                  @selectItem="selectItem"
                  ref="moreList"
                  @back="moreListBack"
                  @countryName="countryName" >
-      </city-list>
+      </city-list> -->
+      <newcity-list :pageparent="'/personal/addContacts'"
+                 :dataObj="getCountryCode"
+                 @selectItem="selectItem"
+                 ref="moreList"
+                 @back="moreListBack"
+                 @countryName="countryName" >
+      </newcity-list>
     </van-popup>
     <van-popup v-model="showdate" position="bottom" :overlay="true" style="width: 100%">
       <van-datetime-picker
@@ -81,18 +88,23 @@
 </template>
 
 <script>
-  import {guojialist} from '@/api/contacts'
+  // import {guojialist} from '@/api/contacts'
+  import {guojialist,getLocationsCountry} from '@/api/contacts'
   import {setcontanct} from '@/api/contacts'
   import {delcontanct} from '@/api/contacts'
   import {addcontanct} from '@/api/contacts'
   import {getcontants} from '@/api/contacts'
   import {getcontant} from '@/api/contacts'
-  import CityList from '@/components/confirm_foot/cityList'
-  import TelCode from '@/components/confirm_foot/telcode'
+  // import CityList from '@/components/confirm_foot/cityList'
+  // import TelCode from '@/components/confirm_foot/telcode'
+  import NewcityList from '@/components/confirm_foot/newCityList'
+  import NewtelCode from '@/components/confirm_foot/newTelCode'
   import {getquhao} from '@/api/contacts'
+  import { mapMutations, mapGetters } from 'vuex'
   export default {
     components: {
-      CityList,TelCode
+      // CityList,TelCode
+      NewcityList,NewtelCode
     },
     props: ['ind'],
     data() {
@@ -101,10 +113,11 @@
          "name_cn":"",
          "first_name":"",
          "last_name":"",
-         "gender":"",
+         "gender":"m",
          "dob":"",
          "passport":"",
-         "nationality":this.$t('china'),
+         "nationality":'7',
+         'location_info':this.$t('china'),//保存国家名字
        },
         shownationality: false,
         datedob:new Date('1990/01/01'),
@@ -118,10 +131,16 @@
         showselqu:false,
         columns: [],
         minDate: new Date('1900/01/01'),
-        maxDate: new Date()
+        maxDate: new Date(),
+
+        countryList:{},//国家列表
       }
     },
-    computed: {},
+    computed: {
+      ...mapGetters([
+        'getCountryCode'
+      ])
+    },
     watch:{
       'userform': {
         handler(newval){
@@ -134,20 +153,31 @@
     created(){
     },
     mounted(){
+      
+      // this.guojia();
+      if(!this.getCountryCode['热门']||(this.getCountryCode['热门']&&this.getCountryCode['热门'].length==0)){
+        this.gotCountry();
+        this.gotQuhao();
+      }
       if(this.queryid!=0){
         this.title= this.$t('selectTravlerPage.editTitle');
         this.getcontant();
       }
-      this.guojia();
     },
 
     beforeRouteEnter(to, from, next) {
       next(vm=>{
         vm.pushpath=from.path;
+        vm.getcontant();
+        /* vm.gotCountry();
+        vm.gotQuhao(); */
         next();
       })
     },
     methods: {
+      ...mapMutations({
+        vxSaveCountryCode: 'common/saveCountryCode'
+      }),
       countryName(data){
         this.userform.nationality=data;
         this.shownationality=false
@@ -237,6 +267,40 @@
         let {data, code} = await getcontant(this.queryid)
         if (code === 0) {
          this.userform=data;
+         let neusoft = this.getCountryCode;
+         console.log(neusoft);
+         
+        
+        
+         for (let key in neusoft) {
+           neusoft[key].map(val=>{
+             if(this.userform.nationality == val.id){
+               this.userform.location_info = val.name;
+             }
+           })
+           console.log(this.userform.nationality == neusoft[key].id);
+           
+          
+         }
+         /* for (let key in this.local_List) {
+           
+           if(this.local_List[key].id.toString() ==this.userform.nationality){
+             
+             this.userform.location_info = this.local_List[key].name;
+             console.log(this.userform.location_info);
+             
+           }
+         }
+         for (let key in this.hot_List) {
+          
+           
+           if(this.hot_List[key].id.toString()==this.userform.nationality){
+             
+             this.userform.location_info = this.hot_List[key].name;
+             console.log(this.userform.location_info);
+             
+           }
+         } */
          if(this.userform.phone.indexOf('-')!=-1){
            var arr=this.userform.phone.split('-');
            this.userform.phonex=arr[1];
@@ -250,18 +314,18 @@
         else {
         }
       },
-      async guojia(){
-        let {data, code,msg,hot_country} = await guojialist()
-        if (code === 0) {
-          this._nomalLizePinyin(data,hot_country)
-        }
-        else {
+      // async guojia(){
+      //   let {data, code,msg,hot_country} = await guojialist()
+      //   if (code === 0) {
+      //     this._nomalLizePinyin(data,hot_country)
+      //   }
+      //   else {
 
-        }
+      //   }
 
-      },
+      // },
       //格式化拼音列表
-      _nomalLizePinyin(data,hot) {
+      /* _nomalLizePinyin(data,hot) {
         let len = data.length;
         let len2 = hot.length;
         let obj = {
@@ -277,10 +341,11 @@
           obj[data[i].key].push({...data[i]})
         }
         this.moreLists=obj
-      },
+      }, */
 
       selectItem(lists,type) { // 关闭更多选择层
         this.userform.nationality=lists[0].name;
+        this.userform.location_info = lists[0].name;
         this.shownationality = false
       },
       selectCode(lists,type) { // 关闭更多选择层
@@ -295,7 +360,87 @@
       moreListBack2() {
         this.showselqu = false
       },
+       //得到国家列表
+      async gotCountry(){
+        let {data, code,msg} = await getLocationsCountry()
+       
+        if (code === 0) {
 
+          let hot_data = data.hot_data;
+          let localList = data.list;
+          this.local_List = data.list;
+          this.hot_List = data.hot_data;
+          console.log(this.local_List);
+          ///api/locations&&/api/country/telcodes 数据合并
+      //api/locations id name name_pinyin
+      ///api/country/telcodes countryName tel_code
+      //合并后格式为 id name name_pinyin tel_code
+          for (let key in this.local_List) {
+           this.basicTelList.map((val)=>{
+             if(val.countryName == this.local_List[key].name){
+               localList[key].tel_code = val.tel_code;
+             }
+           })
+         }
+         for (let key in this.hot_List) {
+          
+           this.basicTelList.map((val)=>{
+             if(val.countryName == this.hot_List[key].name){
+               hot_data[key].tel_code = val.tel_code;
+             }
+           })
+         }
+          console.log('合并测试数据',this.basicTelList);
+          
+         this.countryList = this._nomalLizePinyin(localList,hot_data);
+          this.vxSaveCountryCode(this.countryList)
+        console.log('this.countryList',this.countryList);
+        }
+        else {
+
+        }
+
+      },
+      //得到区号所对应的列表
+      async gotQuhao(){
+        let {data, code,msg} = await  getquhao()
+       
+        if (code === 0) {
+       
+          this.basicTelList = data;
+          
+        }
+        else {
+
+        }
+
+      },
+      //格式化拼音列表
+      _nomalLizePinyin(data,hot) {
+        let len = data.length;
+        
+
+        console.log(data,hot);
+      
+        let len2 = hot.length;
+        
+          let obj = {
+          '热门':[],
+          // '列表':[]
+        };
+        let arr = {};
+        for(let i= 0; i<len2; i++) {
+          obj['热门'].push({...hot[i]})
+        }
+        for(let i= 0; i<len; i++) {
+          if(!obj[data[i].name_pinyin]) {
+            obj[data[i].name_pinyin] = []
+          }
+          obj[data[i].name_pinyin].push({...data[i]})
+                     
+          }
+          return obj;
+      },
     },
   }
 </script>
