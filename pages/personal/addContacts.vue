@@ -334,37 +334,7 @@
          console.log(neusoft);
          
         
-        
-         for (let key in neusoft) {
-           neusoft[key].map(val=>{
-             if(this.userform.nationality == val.id){
-               this.userform.location_info = val.name;
-             }
-           })
-           console.log(this.userform.nationality == neusoft[key].id);
-           
-          
-         }
-         /* for (let key in local_List_neu) {
-           
-           if(this.local_List[key].id.toString() ==this.userform.nationality){
-             
-             this.userform.location_info = this.local_List[key].name;
-             console.log(this.userform.location_info);
-             
-           }
-         }
-         for (let key in this.hot_List_neu) {
-          
-           
-           if(this.hot_List[key].id.toString()==this.userform.nationality){
-             
-             this.userform.location_info = this.hot_List[key].name;
-             console.log(this.userform.location_info);
-             
-           }
-         } */
-         if(this.userform.phone.indexOf('-')!=-1){
+        if(this.userform.phone.indexOf('-')!=-1){
            var arr=this.userform.phone.split('-');
            this.userform.phonex=arr[1];
            this.userform.phone_country=arr[0];
@@ -373,11 +343,30 @@
            this.userform.phonex=this.userform.phone;
            this.userform.phone_country='86';
          }
-         /* this.local_List.map((val)=>{
-            if(val.id === this.userform.nationality){
-              this.location_info = val.name;
-            }
-         }) */
+
+         for (let key in neusoft) {
+           for(let m = 0; m<neusoft[key].length; m++ ){
+             if(this.userform.nationality == neusoft[key][m].id){
+               this.userform.location_info = neusoft[key][m].name;
+               console.log('aaaaa',this.userform.location_info == neusoft[key][m].name);
+             return 
+              //  return this.userform.location_info == val.name;
+               
+             }
+             else{
+               this.userform.location_info = this.userform.nationality
+              console.log('啦啦啦啦啦啦');
+              
+             }
+           }
+         
+         
+           
+          
+         }
+        
+         
+         
          
         }
         else {
