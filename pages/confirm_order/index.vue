@@ -216,7 +216,7 @@
                       @back="showsel=false">
             </tel-code> -->
             <newtel-code :pageparent="'/personal/addContacts'"
-                 :dataObj="countryList"
+                 :dataObj="getCountryCode"
                  @selectCode="onChangequ"
                  ref="moreList2"
                  @back="showsel=false">
@@ -350,7 +350,7 @@
   import {getquhao,getLocationsCountry} from '@/api/contacts'
   // import TelCode from '@/components/confirm_foot/telcode'
   import NewtelCode from '@/components/confirm_foot/newTelCode'
-  import { mapMutations, mapState } from 'vuex'
+  import { mapMutations, mapState, mapGetters } from 'vuex'
   import addcon from '@/components/confirm_foot/addcon'
   import loginLine from '@/components/header/loginLine'
   export default {
@@ -412,6 +412,9 @@
       ...mapState({
         vxReservePro: state => state.product.reservePro,
       }),
+      ...mapGetters([
+        'getCountryCode'
+      ])
     },
     watch: {
       get_vuex_countprice (val) {
@@ -441,11 +444,14 @@
         this.init()
         // this.getqu()
         this.settitletip()
-
-        this.gotCountry();
-        this.gotQuhao();
+        console.log(this.getCountryCode);
+        
+        if(!this.getCountryCode['热门']||(this.getCountryCode['热门']&&this.getCountryCode['热门'].length==0)){
+          this.gotCountry();
+          this.gotQuhao();
+        }    
       }, 20)
-    },
+    },//I don't know why anotherone set setTimeout
 
     beforeRouteEnter(to, from, next) {
       console.log(from)
@@ -453,8 +459,9 @@
       next(vm=>{
         vm.pushpath=from.path;
        
-      vm.gotCountry();
-      vm.gotQuhao();
+        /*  vm.gotCountry();
+          vm.gotQuhao(); */
+      
         next();
       })
     },
@@ -705,7 +712,7 @@
         let len = data.length;
         
 
-        console.log(data,hot);
+        // console.log(data,hot);
       
         let len2 = hot.length;
         
@@ -787,9 +794,11 @@
       },
       ...mapMutations({
         vxSetProfile: 'profile/setProfile',
+        vxSaveCountryCode: 'common/saveCountryCode'
       }),
        //得到国家列表
       async gotCountry(){
+      
         let {data, code,msg} = await getLocationsCountry()
        
         if (code === 0) {
@@ -798,7 +807,7 @@
           let localList = data.list;
           this.local_List = data.list;
           this.hot_List = data.hot_data;
-          console.log(this.local_List);
+          // console.log(this.local_List);
           ///api/locations&&/api/country/telcodes 数据合并
       //api/locations id name name_pinyin
       ///api/country/telcodes countryName tel_code
@@ -818,11 +827,15 @@
              }
            })
          }
-          console.log('合并测试数据',this.basicTelList);
+          // console.log('合并测试数据',this.basicTelList);
+          this.countryList = this._nomalLizePinyin(localList,hot_data);
+           console.log('this.countryList',this.countryList);
+          this.vxSaveCountryCode(this.countryList)
+        
+        console.log('vxSaveCountryCode',this.getCountryCode);
+         
           
-         this.countryList = this._nomalLizePinyin(localList,hot_data);
-          
-        console.log('this.countryList',this.countryList);
+       
         }
         else {
 

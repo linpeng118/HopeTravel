@@ -68,7 +68,7 @@
                  @countryName="countryName" >
       </city-list> -->
       <newcity-list :pageparent="'/personal/addContacts'"
-                 :dataObj="countryList"
+                 :dataObj="getCountryCode"
                  @selectItem="selectItem"
                  ref="moreList"
                  @back="moreListBack"
@@ -100,6 +100,7 @@
   import NewcityList from '@/components/confirm_foot/newCityList'
   import NewtelCode from '@/components/confirm_foot/newTelCode'
   import {getquhao} from '@/api/contacts'
+  import { mapMutations, mapGetters } from 'vuex'
   export default {
     components: {
       // CityList,TelCode
@@ -112,7 +113,7 @@
          "name_cn":"",
          "first_name":"",
          "last_name":"",
-         "gender":"",
+         "gender":"m",
          "dob":"",
          "passport":"",
          "nationality":'7',
@@ -130,10 +131,16 @@
         showselqu:false,
         columns: [],
         minDate: new Date('1900/01/01'),
-        maxDate: new Date()
+        maxDate: new Date(),
+
+        countryList:{},//国家列表
       }
     },
-    computed: {},
+    computed: {
+      ...mapGetters([
+        'getCountryCode'
+      ])
+    },
     watch:{
       'userform': {
         handler(newval){
@@ -146,25 +153,31 @@
     created(){
     },
     mounted(){
+      
+      // this.guojia();
+      if(!this.getCountryCode['热门']||(this.getCountryCode['热门']&&this.getCountryCode['热门'].length==0)){
+        this.gotCountry();
+        this.gotQuhao();
+      }
       if(this.queryid!=0){
         this.title= this.$t('selectTravlerPage.editTitle');
         this.getcontant();
       }
-      // this.guojia();
-      this.gotCountry();
-       this.gotQuhao();
     },
 
     beforeRouteEnter(to, from, next) {
       next(vm=>{
         vm.pushpath=from.path;
         vm.getcontant();
-        vm.gotCountry();
-        vm.gotQuhao();
+        /* vm.gotCountry();
+        vm.gotQuhao(); */
         next();
       })
     },
     methods: {
+      ...mapMutations({
+        vxSaveCountryCode: 'common/saveCountryCode'
+      }),
       countryName(data){
         this.userform.nationality=data;
         this.shownationality=false
@@ -254,7 +267,22 @@
         let {data, code} = await getcontant(this.queryid)
         if (code === 0) {
          this.userform=data;
-         for (let key in this.local_List) {
+         let neusoft = this.getCountryCode;
+         console.log(neusoft);
+         
+        
+        
+         for (let key in neusoft) {
+           neusoft[key].map(val=>{
+             if(this.userform.nationality == val.id){
+               this.userform.location_info = val.name;
+             }
+           })
+           console.log(this.userform.nationality == neusoft[key].id);
+           
+          
+         }
+         /* for (let key in this.local_List) {
            
            if(this.local_List[key].id.toString() ==this.userform.nationality){
              
@@ -272,7 +300,7 @@
              console.log(this.userform.location_info);
              
            }
-         }
+         } */
          if(this.userform.phone.indexOf('-')!=-1){
            var arr=this.userform.phone.split('-');
            this.userform.phonex=arr[1];
@@ -365,7 +393,7 @@
           console.log('合并测试数据',this.basicTelList);
           
          this.countryList = this._nomalLizePinyin(localList,hot_data);
-          
+          this.vxSaveCountryCode(this.countryList)
         console.log('this.countryList',this.countryList);
         }
         else {

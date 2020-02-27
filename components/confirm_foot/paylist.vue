@@ -238,15 +238,15 @@
     width: 750px;
     padding: 0 32px;
     box-sizing: border-box;
-    font-size: 14px;
+    font-size: 25px;
     font-weight: 600;
   }
   .yellow-color {
-    font-size: 18px;
     color: rgba(255, 203, 60, 1);
+    font-weight: normal
   }
   .small-bold {
-    font-size: 14px;
+    font-size: 24px;
     font-weight: 400;
     color: rgba(61, 61, 61, 1);
   }

@@ -108,7 +108,7 @@ export default {
   }
   .dialog-content {
     padding: 54px 46px 300px;
-    text-align: center;
+    // text-align: center;
   }
 }
 </style>
