@@ -24,9 +24,6 @@
       <waterfall-easy :over22="over" v-if="imgsArr&&imgsArr.length&&imgsArr.length>0" :loadi="loadi" :imgsArr="imgsArr" @scrollReachBottom="((obj)=>getData(obj))"></waterfall-easy>
     </div>
   </div>
-
-
-
 </template>
 <script>
   import WaterfallEasy from '../../plugins/waterfall-easy/vue-waterfall-easy'
@@ -57,6 +54,7 @@
     },
     mounted(){
       this.getData()
+      
     },
     methods: {
       async getData(type) {
@@ -101,7 +99,7 @@
 
   }
 </script>
-<style>yarn
+<style>
   body{
     overflow: scroll!important;
     position: relative!important;

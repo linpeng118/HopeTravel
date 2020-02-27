@@ -107,6 +107,7 @@
     "attackcon": "达人教你玩世界",
     "attackcomm": "攻略评论",
     "allcomm": "全部评论",
+    "password": "密码",
     "comment": {
         "rate": "评价",
         "detail": "评论详情"
@@ -147,12 +148,14 @@
         "desKeywords": "目的地/关键词",
         "customNav": "个性定制",
         "visaNav": "签证办理",
-        "hotDes": "热门目的地",
-        "timedSpecials": "限时特价",
+        "hotDes": "推荐目的地",
+        "timedSpecials": "超值特惠",
         "siftProduct": "精选商品",
         "downloadText1": "下载APP，",
         "downloadText2": "领APP专享2600元大礼",
-        "goOpen": "立即打开"
+        "goOpen": "立即打开",
+        "trcalendar": "旅行月历",
+        "serviceXf": "稀饭旅行服务保障"
     },
     "confirmPage": {
         "title": "确认订单",
@@ -189,7 +192,8 @@
         "classicRoute": "经典路线",
         "referencePrice": "参考价格",
         "peopleStarts": "人/起",
-        "featureList": [{
+        "featureList": [
+            {
                 "title1": "全球出发",
                 "title2": "一人成团"
             },
@@ -313,7 +317,7 @@
         "noNickName": "昵称还没有设置呢",
         "riceGrain": "米粒",
         "commonPassenger": "常用旅客",
-        "homepage": "主页",
+        "homepage": "首页",
         "myDistribution": "目的地",
         "destinationAlone": "在线咨询",
         "userCenter": "我的",
@@ -519,12 +523,36 @@
         "refusedRefund": "拒签退款",
         "countrySent": "全国送签",
         "visaList": {
-            "content1": ["面试培训，专家指导", "全国范围约签", "办签进度实时反馈"],
-            "content2": ["最快6个工作日出签", "极简办理，全程指导", "办签进度实时反馈"],
-            "content3": ["全国受理，1对1指导", "团购优惠，当日送签", "游/探亲/商务/毕业典礼"],
-            "content4": ["极速办理，最快5-30分钟办理", "电子落地签，方便快捷", "过签率，出签有保障"],
-            "content5": ["从业10年以上专业顾问", "当日递交，最快5个工作日出签", "99%过签率，出签有保障"],
-            "content6": ["最快5个工作日出签", "超值，一签畅游欧洲26国", "99%过签率，出签有保障"]
+            "content1": [
+                "面试培训，专家指导",
+                "全国范围约签",
+                "办签进度实时反馈"
+            ],
+            "content2": [
+                "最快6个工作日出签",
+                "极简办理，全程指导",
+                "办签进度实时反馈"
+            ],
+            "content3": [
+                "全国受理，1对1指导",
+                "团购优惠，当日送签",
+                "游/探亲/商务/毕业典礼"
+            ],
+            "content4": [
+                "极速办理，最快5-30分钟办理",
+                "电子落地签，方便快捷",
+                "过签率，出签有保障"
+            ],
+            "content5": [
+                "从业10年以上专业顾问",
+                "当日递交，最快5个工作日出签",
+                "99%过签率，出签有保障"
+            ],
+            "content6": [
+                "最快5个工作日出签",
+                "超值，一签畅游欧洲26国",
+                "99%过签率，出签有保障"
+            ]
         },
         "noNeed": "没有想要的？",
         "consultSister": "马上咨询签证小姐姐吧",
@@ -564,39 +592,48 @@
         "updatePass": "修改密码",
         "setNewPass": "请设置你的新密码",
         "pleaseInput": "请输入",
-        "setPass": "请设置密码",
+        "setPass": "设置密码",
         "confirmPass": "确认密码",
         "passInputTips": "密码为6-20位，支持数字和字母",
         "accomplish": "完成",
         "nodataTips": "请输入密码",
         "enterError": "密码不一致，请重新输入",
         "updateSuccess": "修改密码成功",
-        "forgetPassTips": "别担心，在这里找回密码",
+        "forgetPassTips": "别担心，<br>在这里重置密码",
         "next": "下一步",
         "forgetPass": "忘记密码",
         "resetVerifyCode": "重新获取",
-        "enterPhone": "请输入手机号码",
-        "enterPhoneCode": "请输入手机验证码",
+        "enterPhone": "请输入手机号",
+        "enterPhoneCode": "请输入验证码",
         "enterEmail": "请输入邮箱号码",
-        "loginTips": "稀饭旅行账号登录",
+        "loginTips": "短信快捷登录",
+        "loginSubTips": "新号码将自动生成账户",
         "ptlogin": "普通登录",
         "placePassword": "登录密码",
         "phoneCodeLogin": "手机验证码登录",
         "notUser": "还没有账号？",
         "toreg": "去注册",
-        "AgreementLogin": "登录即代表您已同意我们的",
-        "AgreementName": "服务协议",
+        "toursLogin": "稀饭账号登录",
+        "AgreementLogin": "登录即同意我们的",
+        "AgreementName": "《稀饭旅行服务协议》",
+        "privacy": "《隐私政策》",
         "enterUsername": "请输入用户名",
+        "placeCount": "手机号码/电子邮箱",
         "enterPass": "请输入密码",
         "regTips": "稀饭旅行账号注册",
         "phoneReg": "手机号注册",
         "emailReg": "邮箱注册",
+        "emailRegTip": "请输入电子邮箱",
+        "emailPattern": "邮箱格式不正确",
         "passEnterType": "请输入6-20位密码",
         "phoneRegsucess": "手机号注册成功！",
         "emailRegsucess": "邮箱注册成功",
-        "hoveUser": "已有账号？",
+        "hoveUser": "已有账号？去登录",
         "nowLogin": "马上登录",
-        "AgreementReg": "我已经阅读并同意《服务协议》"
+        "AgreementReg": "我已经阅读并同意《服务协议》",
+        "subscribeLogin": "还没登录，<br>请您先登录",
+        "patternEmail": "验证邮箱",
+        "patternMobile": "验证手机"
     },
     "accountComp": {
         "avatarTitle": "上传头像",

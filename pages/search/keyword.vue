@@ -43,7 +43,9 @@
             <square-tag :lists="searchResultList.category" @selectProductList="selectProductPage"></square-tag>
           </template>
           <search-result :lists="searchResultList.product" @selectItem="selectProductInfo"></search-result>
-          <div class="no-data" v-if="noData">{{$t('noData')}}</div>
+          <div class="no-data" v-if="noData">
+            <no-data msg="哎呀，居然没有你想找的结果，换个词试试吧"></no-data>
+          </div>
           <div class="no-data" v-if="isFirst">{{$t('loading')}}</div>
         </div>
       </template>
@@ -59,11 +61,11 @@
   import {setLocalStore, getLocalStore} from '@/assets/js/utils'
   import {TRUE_PARAMS} from '@/assets/js/config'
   import {postKeywordsCensus} from '@/api/search'
+  import NoData from '@/components/no-data'
   // 历史记录
   const SEARCH_HISTORY = '__tourscool_search_history__'
   export default {
-    components:{LayHeader,SquareTag,SearchResult},
-
+    components:{LayHeader,SquareTag,SearchResult,NoData},
     data(){
       return {
         searchKeyWords: this.$route.query.w,

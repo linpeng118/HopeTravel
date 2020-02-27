@@ -333,3 +333,37 @@
 .nuxt-progress{
     background-color: #398bf6 !important;
 }
+
+.cb-border-t{
+    position: relative;
+    &:after {
+          content: ' ';
+          width: 200%;
+          height: 200%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          border-radius: inherit;
+          transform: scale(0.5);
+          transform-origin: 0 0;
+          pointer-events: none;
+          border-bottom: 1px solid #D9D9D9;
+        }
+}
+.cb-border-b{
+    position: relative;
+    &:after {
+          content: ' ';
+          width: 200%;
+          height: 200%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          border-radius: inherit;
+          transform: scale(0.5);
+          transform-origin: 0 0;
+          pointer-events: none;
+          border-bottom: 1px solid #D9D9D9;
+          display: block!important;
+        }
+}
