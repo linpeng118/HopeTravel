@@ -71,20 +71,27 @@
                    :placeholder="$t('partcailComp.placeCount')" />
       </div>
 
-      <div class="cb-border-b">
-        <van-field class="password"
-                   v-model="formData.password"
-                   center
-                   clearable
-                   right-icon="eye-o"
-                   :placeholder="$t('partcailComp.enterPass')"
-                   :type="pswInputType"
-                   @click-right-icon="toggleInputType()">
-          <van-button class="btn-forget tours-button-noborder"
-                      slot="button"
-                      size="small"
-                      @click="forgetPsw()">{{$t('partcailComp.forgetPass')}}</van-button>
-        </van-field>
+      <div class="cb-border-b account-login">
+        <div class="leftPart">
+          <van-field class="password"
+                     v-model="formData.password"
+                     center
+                     clearable
+                     :placeholder="$t('partcailComp.enterPass')"
+                     :type="pswInputType">
+          </van-field>
+          <img v-if="pswInputType=='password'"
+               @click="toggleInputType()"
+               src="../../../assets/imgs/login/eye.png"
+               alt="">
+          <img v-else
+               @click="toggleInputType()"
+               src="../../../assets/imgs/login/eyec.png"
+               alt="">
+        </div>
+
+        <div class="btn-forget"
+             @click="forgetPsw()">{{$t('partcailComp.forgetPass')}}</div>
       </div>
 
       <!-- 登录按钮 -->
@@ -120,7 +127,7 @@
 </template>
 
 <script>
-import {mapGetters,mapMutations} from 'vuex'
+import {mapGetters, mapMutations} from 'vuex'
 import AreaCodeInput from '@/components/input/areaCode'
 import {LOGIN_TYPE, VERIFY_CODE, SMS_SCENE} from '@/assets/js/consts'
 import {DLG_TYPE} from '@/assets/js/consts/dialog'
@@ -184,7 +191,7 @@ export default {
       loginForm: 1, //1.短信登录 2.账号/邮箱登录
     }
   },
-  
+
   computed: {
     showText() {
       if (this.codeType === VERIFY_CODE.START) {
@@ -234,15 +241,16 @@ export default {
       vxSetToken: 'setToken',
       vxToggleLoginDlg: 'login/toggleDialog',
     }),
-    toggleInputType(val) {
-      this.pswInputType = this.pswInputType === 'password' ? 'text' : 'password'
+    toggleInputType() {
+      console.log(2)
+      this.pswInputType = this.pswInputType == 'password' ? 'text' : 'password'
     },
     forgetPsw() {
       if (this.isDialog) {
         this.vxToggleLoginDlg(false)
-        this.$router.push({path: `/reset_password`})
+        this.$router.replace({path: `/reset_password?redirect=${this.$route.path}&isDialog=${this.isDialog ? 1 : 0}`})
       } else {
-        this.$router.push({path: `/reset_password?redirect=login`})
+        this.$router.push({path: `/reset_password?redirect=login&isDialog=${this.isDialog ? 1 : 0}`})
       }
     },
     // 获取验证码
@@ -377,7 +385,7 @@ export default {
 .login-comp {
   .title {
     font-size: 60px;
-    font-weight: bold;
+    font-weight: 500;
     color: #000000;
     text-align: left;
   }
@@ -430,29 +438,46 @@ export default {
       font-size: 28px;
       color: #000;
     }
-    .password {
-      height: 62px;
-      line-height: 62px;
+    .account-login {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       margin-top: 52px;
-      padding: 0;
-      font-size: 28px;
-      color: #000;
-    }
-    .btn-forget {
-      position: relative;
-      font-size: 28px;
-      color: #000;
-      padding: 0;
-      padding-left: 48px;
-      &::after {
-        content: '';
-        display: inline-block;
-        position: absolute;
-        left: 0;
-        top: calc(50% - 11px);
-        height: 22px;
-        width: 2px;
-        background: #000000;
+      .leftPart {
+        flex: 1;
+        height: 62px;
+        line-height: 62px;
+        display: flex;
+        align-items: center;
+        position: relative;
+        padding-right: 40px;
+        &::after {
+          content: '';
+          width: 2px;
+          height: 22px;
+          background: #000;
+          position: absolute;
+          top: calc(50% - 11px);
+          right: 0;
+        }
+        .password {
+          flex: 1;
+          height: 100%;
+          padding: 0;
+          font-size: 28px;
+          color: #000;
+        }
+        img {
+          width: 32px;
+          margin-left: 40px;
+        }
+      }
+      .btn-forget {
+        width: 120px;
+        height: 100%;
+        font-size: 28px;
+        color: #000000;
+        margin-left: 40px;
       }
     }
   }
