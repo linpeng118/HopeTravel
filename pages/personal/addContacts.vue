@@ -48,14 +48,14 @@
           <span>{{$t('selectTravlerPage.nationality')}}</span>
         </div>
         <div class="van-cell__value">
-          <span>{{userform.nationality!=''?userform.nationality: $t('pleaseChoose')}}</span>
+          <span>{{userform.nationality?userform.location_info: $t('pleaseChoose')}}</span>
         </div>
         <div style="margin-top: -4px">
           <i class="van-icon van-icon-arrow van-cell__right-icon"></i>
         </div>
       </div>
       <p class="connet-title">{{$t('contact')}}</p>
-      <div class="van-cell van-field">
+      <div class="van-cell van-field van-cell--required">
         <div class="van-cell__title van-field__label">
           <span>{{$t('telephone')}}</span>
         </div>
@@ -63,6 +63,12 @@
           <div class="van-field__body">
             <i class="setvan" @click="showselqu=true">+{{userform.phone_country}}<van-icon name="arrow" /></i>
             <input type="text" v-model="userform.phonex" :placeholder="$t('selectTravlerPage.plndAreaSelect')" class="van-field__control">
+            <!-- <van-field
+              required="true"
+              v-model="userform.phonex"
+              :placeholder="$t('selectTravlerPage.plndAreaSelect')"
+              class="van-field__control"
+            /> -->
           </div>
         </div>
       </div>
@@ -92,35 +98,35 @@
       </van-row>
       <van-cell-group>
       </van-cell-group>
-      <div class="van-cell-group van-hairline--top-bottom">
+      <!-- <div class="van-cell-group van-hairline--top-bottom">
         <div class="van-cell van-cell--center van-cell--borderless van-switch-cell van-field">
           <div class="van-cell__title van-field__label"><span>{{$t('selectTravlerPage.isSelf')}}</span></div>
           <div class="van-cell__value">
             <van-switch-cell v-model="userform.isuser"/>
           </div>
         </div>
-      </div>
+      </div> -->
       <van-cell-group v-if="queryid!=0">
         <p @click="delconfirm()" style="float: right"><van-icon name="delete" class="elseicon" color="#399EF6;"/>&nbsp;<span class="elsespan">{{$t('delete')}}</span></p>
       </van-cell-group>
     </div>
     <van-popup v-model="shownationality" position="right" style="width:100%;height: 100%;">
-      <city-list :pageparent="'/personal/addContacts'"
-                 :dataObj="moreLists"
+      <newcity-list :pageparent="'/personal/addContacts'"
+                 :dataObj="getCountryCode"
                  @selectItem="selectItem"
                  ref="moreList"
                  @back="moreListBack"
                  @countryName="countryName" >
-      </city-list>
+      </newcity-list>
     </van-popup>
     <van-popup v-model="showselqu" position="right" style="width:100%;height: 100%;">
-      <tel-code :pageparent="'/personal/addContacts'"
-                 :dataObj="moreLists"
+      <newtel-code :pageparent="'/personal/addContacts'"
+                 :dataObj="getCountryCode"
                  @selectCode="selectCode"
                  ref="moreList2"
                  @back="moreListBack2"
                  @countryCode="countryCode" >
-      </tel-code>
+      </newtel-code>
     </van-popup>
     <van-popup v-model="showdate" position="bottom" :overlay="true" style="width: 100%">
       <van-datetime-picker
@@ -135,18 +141,19 @@
 </template>
 
 <script>
-  import {guojialist} from '@/api/contacts'
+  import {guojialist,getLocationsCountry} from '@/api/contacts'
   import {setcontanct} from '@/api/contacts'
   import {delcontanct} from '@/api/contacts'
   import {addcontanct} from '@/api/contacts'
   import {getcontants} from '@/api/contacts'
   import {getcontant} from '@/api/contacts'
-  import CityList from '@/components/confirm_foot/cityList'
-  import TelCode from '@/components/confirm_foot/telcode'
+  import NewcityList from '@/components/confirm_foot/newCityList'
+  import NewtelCode from '@/components/confirm_foot/newTelCode'
   import {getquhao} from '@/api/contacts'
+  import {mapMutations,mapGetters} from 'vuex'
   export default {
     components: {
-      CityList,TelCode
+      NewcityList,NewtelCode
     },
     data() {
       return {
@@ -154,17 +161,20 @@
          "name_cn":"",
          "firstname":"",
          "lastname":"",
-         "gender":"",
+         "gender":"m",
          "phonex":"",
          "dob":"",
          "email":"",
          "passport":"",
-         "nationality":this.$t('china'),
+         "nationality":'7',//保存国家的id
          "six":0,
          "phone_country":'86',
          "identity":null,
-         "isuser":false
+         "isuser":false,
+         'location_info':this.$t('china'),//保存国家名字
        },
+        local_List:[],//保存国家的数据列表,做缓存
+        hot_List:[],//保存热门地区的数据列表,做缓存
         shownationality: false,
         datedob:new Date('1990/01/01'),
         showdate:false,
@@ -173,34 +183,57 @@
         adult:this.$route.query.adult||null,
         checker:this.$route.query.checker||[],
         pushpath:"",
-        moreLists:{},
+        countryList:{},//国家列表
+        telList:{},//区号列表
+        basicTelList:[],//合并国家和区号的缓存列表
         showselqu:false,
         columns: [],
         minDate: new Date('1900/01/01'),
-        maxDate: new Date()
+        maxDate: new Date(),
+        // nationalityIdPc:0,//传到pc的国家id
+        // nationalityNamePc:''//国籍名字
       }
     },
-    computed: {},
+    computed: {
+      ...mapGetters([
+      'getCountryCode'
+    ])
+    },
     created(){
     },
     mounted(){
-      if(this.queryid!=0){
-        this.title= this.$t('selectTravlerPage.editTitle');
-        this.getcontant();
+      console.log(this.queryid);
+      
+      
+      if(!this.getCountryCode['热门']||(this.getCountryCode['热门']&&this.getCountryCode['热门'].length==0)){
+        this.gotCountry();
+        this.gotQuhao();
       }
-      this.guojia();
-      this.getqu();
+       if(this.queryid!=0){
+        this.title= this.$t('selectTravlerPage.editTitle');
+         this.getcontant();
+      }
+      /* this.getqu(); */
+      /* if(this.national){
+        this.location_info = this.national;
+      } */
     },
 
     beforeRouteEnter(to, from, next) {
       console.log(from)
+      
       next(vm=>{
         vm.pushpath=from.path;
-
+        vm.getcontant();
+      // vm.gotCountry();
+      // vm.gotQuhao();
         next();
       })
     },
     methods: {
+      ...mapMutations({
+      vxSaveCountryCode: 'common/saveCountryCode'
+    }),
       countryName(data){
         this.userform.nationality=data;
         this.shownationality=false
@@ -209,21 +242,7 @@
         this.userform.phone_country=data;
         this.showselqu=false
       },
-      // 得到区号
-      async getqu() {
-        let {data, code, msg} = await getquhao();
-        if(code === 0) {
-          this.columns = data.map(v => {
-            this.$set(v, 'text',  '+'+v.tel_code+'('+v.countryName+')')
-            return v
-          })
-        }
-        else {
-          this.$dialog.alert({
-            message: msg
-          });
-        }
-      },
+      
       setval(val){
        this.userform.dob=this.sedate("yyyy-MM-dd",val);
        this.showdate=false;
@@ -268,8 +287,7 @@
           this.userform.phone=this.userform.phone_country+'-'+this.userform.phonex;
           let {data, code, msg} = await setcontanct(this.userform,this.queryid)
           if (code === 0) {
-            console.log(data,msg);
-            
+            console.log('setcontanct',data,msg);
             this.$router.replace({
               path:this.pushpath,
               query:{
@@ -290,7 +308,7 @@
           this.userform.phone=this.userform.phone_country+'-'+this.userform.phonex;
           let {data, code, msg} = await addcontanct(this.userform);
           if (code === 0) {
-            console.log(data,this.$route.query)
+            console.log('addcontanct',data,this.$route.query)
             this.$router.replace({
               path:this.pushpath,
               query:{
@@ -312,6 +330,40 @@
         let {data, code} = await getcontant(this.queryid)
         if (code === 0) {
          this.userform=data;
+         let neusoft = this.getCountryCode;
+         console.log(neusoft);
+         
+        
+        
+         for (let key in neusoft) {
+           neusoft[key].map(val=>{
+             if(this.userform.nationality == val.id){
+               this.userform.location_info = val.name;
+             }
+           })
+           console.log(this.userform.nationality == neusoft[key].id);
+           
+          
+         }
+         /* for (let key in local_List_neu) {
+           
+           if(this.local_List[key].id.toString() ==this.userform.nationality){
+             
+             this.userform.location_info = this.local_List[key].name;
+             console.log(this.userform.location_info);
+             
+           }
+         }
+         for (let key in this.hot_List_neu) {
+          
+           
+           if(this.hot_List[key].id.toString()==this.userform.nationality){
+             
+             this.userform.location_info = this.hot_List[key].name;
+             console.log(this.userform.location_info);
+             
+           }
+         } */
          if(this.userform.phone.indexOf('-')!=-1){
            var arr=this.userform.phone.split('-');
            this.userform.phonex=arr[1];
@@ -321,6 +373,12 @@
            this.userform.phonex=this.userform.phone;
            this.userform.phone_country='86';
          }
+         /* this.local_List.map((val)=>{
+            if(val.id === this.userform.nationality){
+              this.location_info = val.name;
+            }
+         }) */
+         
         }
         else {
         }
@@ -352,10 +410,55 @@
         }
 
       },
-      async guojia(){
-        let {data, code,msg,hot_country} = await guojialist()
+      //得到国家列表
+      async gotCountry(){
+        let {data, code,msg} = await getLocationsCountry()
+       
         if (code === 0) {
-          this._nomalLizePinyin(data,hot_country)
+
+          let hot_data = data.hot_data;
+          let localList = data.list;
+          this.local_List = data.list;
+          this.hot_List = data.hot_data;
+          console.log(this.local_List);
+          ///api/locations&&/api/country/telcodes 数据合并
+      //api/locations id name name_pinyin
+      ///api/country/telcodes countryName tel_code
+      //合并后格式为 id name name_pinyin tel_code
+          for (let key in this.local_List) {
+           this.basicTelList.map((val)=>{
+             if(val.countryName == this.local_List[key].name){
+               localList[key].tel_code = val.tel_code;
+             }
+           })
+         }
+         for (let key in this.hot_List) {
+          
+           this.basicTelList.map((val)=>{
+             if(val.countryName == this.hot_List[key].name){
+               hot_data[key].tel_code = val.tel_code;
+             }
+           })
+         }
+          console.log('合并测试数据',this.basicTelList);
+          
+         this.countryList = this._nomalLizePinyin(localList,hot_data);
+          this.vxSaveCountryCode(this.countryList)
+        console.log('this.countryList',this.countryList);
+        }
+        else {
+
+        }
+
+      },
+      //得到区号所对应的列表
+      async gotQuhao(){
+        let {data, code,msg} = await  getquhao()
+       
+        if (code === 0) {
+       
+          this.basicTelList = data;
+          
         }
         else {
 
@@ -365,28 +468,38 @@
       //格式化拼音列表
       _nomalLizePinyin(data,hot) {
         let len = data.length;
+        
+
+        console.log(data,hot);
+      
         let len2 = hot.length;
-        let obj = {
-          '热门城市':[]
+        
+          let obj = {
+          '热门':[],
+          // '列表':[]
         };
+        let arr = {};
         for(let i= 0; i<len2; i++) {
-          obj['热门城市'].push({...hot[i]})
+          obj['热门'].push({...hot[i]})
         }
         for(let i= 0; i<len; i++) {
-          if(!obj[data[i].key]) {
-            obj[data[i].key] = []
+          if(!obj[data[i].name_pinyin]) {
+            obj[data[i].name_pinyin] = []
           }
-          obj[data[i].key].push({...data[i]})
-        }
-        this.moreLists=obj
+          obj[data[i].name_pinyin].push({...data[i]})
+                     
+          }
+          return obj;
       },
 
-      selectItem(lists,type) { // 关闭更多选择层
-        this.userform.nationality=lists[0].name;
-        this.shownationality = false
+      selectItem(lists) { // 关闭更多选择层
+        this.userform.nationality = lists[0].id;
+        /* this.vxSaveNational(lists[0].name); */
+        this.userform.location_info = lists[0].name;
+        this.shownationality = false   
       },
       selectCode(lists,type) { // 关闭更多选择层
-        this.userform.phone_country=lists[0].telcode;
+        this.userform.phone_country=lists[0].tel_code;
         this.showselqu = false
       },
       // 更多列表返回
