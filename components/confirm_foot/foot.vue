@@ -136,10 +136,10 @@ export default {
     }
   },
   computed: {
-    // ...mapState({
-    //     // 登录弹窗
-    //     vxShowLoginDlg: state => state.login.isShowDlg,
-    //   }),
+    ...mapState({
+        // 登录弹窗
+        vxShowLoginDlg: state => state.login.isShowDlg,
+      }),
     //获取计算价格参数
     get_vuex_countprice() {
       return this.$store.state.confirm.countprice
@@ -155,12 +155,12 @@ export default {
         this.showbtn = false
       }
     },
-    // vxShowLoginDlg(val) {
-    //   console.log(val);
+    vxShowLoginDlg(val) {
+      console.log(val);
       
-    //   this.zIndex= val ? 1000 : 3000 
+      this.zIndex= val ? 1000 : 3000 
       
-    // },
+    },
     orderInfo: {
       handler: function(val) {
         if (
