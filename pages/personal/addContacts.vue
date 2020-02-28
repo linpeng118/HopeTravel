@@ -151,6 +151,7 @@
   import NewtelCode from '@/components/confirm_foot/newTelCode'
   import {getquhao} from '@/api/contacts'
   import {mapMutations,mapGetters} from 'vuex'
+  import {setLocalStore,getLocalStore} from '@/assets/js/utils'
   export default {
     components: {
       NewcityList,NewtelCode
@@ -206,6 +207,10 @@
       
       
       if(!this.getCountryCode['热门']||(this.getCountryCode['热门']&&this.getCountryCode['热门'].length==0)){
+        this.gotCountry();
+        this.gotQuhao();
+      }
+      if(!getLocalStore('tourscool_countryCode_vuex')){
         this.gotCountry();
         this.gotQuhao();
       }
@@ -334,37 +339,7 @@
          console.log(neusoft);
          
         
-        
-         for (let key in neusoft) {
-           neusoft[key].map(val=>{
-             if(this.userform.nationality == val.id){
-               this.userform.location_info = val.name;
-             }
-           })
-           console.log(this.userform.nationality == neusoft[key].id);
-           
-          
-         }
-         /* for (let key in local_List_neu) {
-           
-           if(this.local_List[key].id.toString() ==this.userform.nationality){
-             
-             this.userform.location_info = this.local_List[key].name;
-             console.log(this.userform.location_info);
-             
-           }
-         }
-         for (let key in this.hot_List_neu) {
-          
-           
-           if(this.hot_List[key].id.toString()==this.userform.nationality){
-             
-             this.userform.location_info = this.hot_List[key].name;
-             console.log(this.userform.location_info);
-             
-           }
-         } */
-         if(this.userform.phone.indexOf('-')!=-1){
+        if(this.userform.phone.indexOf('-')!=-1){
            var arr=this.userform.phone.split('-');
            this.userform.phonex=arr[1];
            this.userform.phone_country=arr[0];
@@ -373,11 +348,30 @@
            this.userform.phonex=this.userform.phone;
            this.userform.phone_country='86';
          }
-         /* this.local_List.map((val)=>{
-            if(val.id === this.userform.nationality){
-              this.location_info = val.name;
-            }
-         }) */
+
+         for (let key in neusoft) {
+           for(let m = 0; m<neusoft[key].length; m++ ){
+             if(this.userform.nationality == neusoft[key][m].id){
+               this.userform.location_info = neusoft[key][m].name;
+               console.log('aaaaa',this.userform.location_info == neusoft[key][m].name);
+             return 
+              //  return this.userform.location_info == val.name;
+               
+             }
+             else{
+               this.userform.location_info = this.userform.nationality
+              console.log('啦啦啦啦啦啦');
+              
+             }
+           }
+         
+         
+           
+          
+         }
+        
+         
+         
          
         }
         else {
@@ -444,6 +438,7 @@
           
          this.countryList = this._nomalLizePinyin(localList,hot_data);
           this.vxSaveCountryCode(this.countryList)
+        setLocalStore('tourscool_countryCode_vuex',this.countryList)
         console.log('this.countryList',this.countryList);
         }
         else {

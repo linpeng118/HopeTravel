@@ -156,6 +156,8 @@ export default {
       }
     },
     vxShowLoginDlg(val) {
+      console.log(val);
+      
       this.zIndex= val ? 1000 : 3000 
       
     },
@@ -218,7 +220,7 @@ export default {
     },
     closepops(data) {
       this.showpops = false
-      this.zIndex = 1000
+      this.zIndex = 3000
     }, //关闭弹层
     openLay() {
       console.log(2222);
@@ -335,10 +337,7 @@ export default {
   },
 }
 </script>
-<style>
-
-</style>
-<style scoped>
+<style type="text/scss" lang="scss" scoped>
 .confirm-foot {
   width: 750px;
   height: 165px;

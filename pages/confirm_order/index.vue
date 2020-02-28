@@ -341,7 +341,7 @@
 </template>
 
 <script>
-  import ConfirmFoot from '@/components/confirm_foot/foot.vue'
+  import ConfirmFoot from '@/components/confirm_foot/footBar'
   // import { getquhao } from '@/api/contacts'
   import { orderCouponList } from '@/api/confirm_order'
   import { getProfile } from '@/api/profile'
@@ -353,6 +353,7 @@
   import { mapMutations, mapState, mapGetters } from 'vuex'
   import addcon from '@/components/confirm_foot/addcon'
   import loginLine from '@/components/header/loginLine'
+  import {setLocalStore,getLocalStore} from '@/assets/js/utils'
   export default {
     components: {
       ConfirmFoot,
@@ -449,7 +450,11 @@
         if(!this.getCountryCode['热门']||(this.getCountryCode['热门']&&this.getCountryCode['热门'].length==0)){
           this.gotCountry();
           this.gotQuhao();
-        }    
+        } 
+        if(!getLocalStore('tourscool_countryCode_vuex')){
+        this.gotCountry();
+        this.gotQuhao();
+      }   
       }, 20)
     },//I don't know why anotherone set setTimeout
 
@@ -831,7 +836,7 @@
           this.countryList = this._nomalLizePinyin(localList,hot_data);
            console.log('this.countryList',this.countryList);
           this.vxSaveCountryCode(this.countryList)
-        
+        setLocalStore('tourscool_countryCode_vuex',this.countryList)
         console.log('vxSaveCountryCode',this.getCountryCode);
          
           
