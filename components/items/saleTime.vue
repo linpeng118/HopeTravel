@@ -1,20 +1,9 @@
 <template>
   <div class="com-sale-time" :style="{height:height + 'px'}">
-    <div class="img" @click="chakerer">
+    <div class="img">
       <img :src="item.image" alt="">
     </div>
-    <div class="count-down-time">
-      <van-count-down :time="item.special_end_date">
-        <!-- <template v-slot="timeData">
-          <template v-if="timeData.days > 0">
-            <div class="item">{{ timeData.days }}</div>
-            <span>天</span>
-          </template>
-          <div class="item">{{ timeData.hours | getTwo }}</div><span>:</span>
-          <div class="item">{{ timeData.minutes | getTwo}}</div><span>:</span>
-          <div class="item">{{ timeData.seconds | getTwo}}</div>
-        </template> -->
-      </van-count-down>
+    <div class="count-down-time" v-html="item.time">
     </div>
     <div class="cp-detail">
       <div class="title" :class="title == 1 ? 'one': 'two'">{{item.name}}</div>
@@ -60,16 +49,9 @@ export default {
     }
   },
   created(){
-    console.log(111112222, this.item)
+    console.log(this.item.time)
   },
   methods:{
-    onChange(e) {
-      console.log(2342354123, e)
-      // this.timeData = e.detail
-    },
-    chakerer(){
-      alert('msg')
-    }
   }
 }
 </script>
@@ -98,9 +80,6 @@ export default {
     left: 10px;
     top: 10px;
     width: 100%;
-    span{
-      color: #fff;
-    }
   }
   .item {
     display: inline-block;
@@ -151,4 +130,24 @@ export default {
     }
   }
 }
+</style>
+<style>
+.count-down-time{
+    position:absolute;
+    left: 10px;
+    top: 10px;
+    width: 100%;
+    color: #fff;
+  }
+  .count-down-time span {
+    display: inline-block;
+    height: 32px;
+    line-height: 32px;
+    margin: 0 5px;
+    color: #00ABF9;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 2px;
+    padding: 0 5px;
+  }
 </style>
