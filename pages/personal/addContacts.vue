@@ -207,12 +207,14 @@
       
       
       if(!this.getCountryCode['热门']||(this.getCountryCode['热门']&&this.getCountryCode['热门'].length==0)){
-        this.gotCountry();
+        
         this.gotQuhao();
+        this.gotCountry();
       }
       if(!getLocalStore('tourscool_countryCode_vuex')){
-        this.gotCountry();
+        
         this.gotQuhao();
+        this.gotCountry();
       }
        if(this.queryid!=0){
         this.title= this.$t('selectTravlerPage.editTitle');

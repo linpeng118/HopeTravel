@@ -102,12 +102,14 @@ export default {
     console.log('我是猪',this.getCountryCode,this.getCountryCode['热门']);
     
     if(!this.getCountryCode['热门']||(this.getCountryCode['热门']&&this.getCountryCode['热门'].length==0)){
-      this.gotCountry();
+     
       this.gotQuhao();
+       this.gotCountry();
     }
     if(!getLocalStore('tourscool_countryCode_vuex')){
-        this.gotCountry();
+        
         this.gotQuhao();
+        this.gotCountry();
       }
     
   },
