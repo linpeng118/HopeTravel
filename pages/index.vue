@@ -23,12 +23,20 @@
           <!--搜索-->
           <div class="search-box" ref="searchBox">
             <nuxt-link tag="div" class="left" to="/search" id="searchLeft">
-              <img src="../assets/imgs/home/icon_search@2x.png" alt="">
+              <img src="../assets/imgs/home/icon_search@2x.png" alt="" />
               <span>{{ $t("homePage.desKeywords") }}</span>
             </nuxt-link>
             <div @click.stop="showcall" class="right">
-              <img src="../assets/imgs/home/ic_phone@2x.png" width="26" v-if="fixedTopBar">
-              <img src="../assets/imgs/home/ic_phone_h@2x.png" width="26" v-else>
+              <img
+                src="../assets/imgs/home/ic_phone@2x.png"
+                width="26"
+                v-if="fixedTopBar"
+              />
+              <img
+                src="../assets/imgs/home/ic_phone_h@2x.png"
+                width="26"
+                v-else
+              />
             </div>
           </div>
           <van-swipe indicator-color="white">
@@ -148,12 +156,13 @@
               <sale-time
                 :height="190"
                 :title="2"
-                :item="timeSalesList[0]"
+                :item.sync="timeSalesList[0]"
               ></sale-time>
+              <!-- {{timeSalesList}} -->
             </van-col>
             <van-col span="12">
               <template v-for="time in timeSalesList.slice(1, 3)">
-                <sale-time :item="time" :key="time.product_id"></sale-time>
+                <sale-time :item.sync="time" :key="time.product_id"></sale-time>
               </template>
             </van-col>
           </van-row>
@@ -239,7 +248,7 @@
             </div>
           </div>
           <div v-if="prodFinished" class="filish-bottom">
-            {{$t('noMore')}}
+            {{ $t("noMore") }}
           </div>
         </van-list>
       </div>
@@ -348,9 +357,7 @@ export default {
       return 9 * 0.5 * (414 / 375);
     }
   },
-  created(){
-    
-  },
+  created() {},
   async mounted() {
     this.getHomeInitData();
     // 监听滚动
@@ -358,20 +365,64 @@ export default {
     let u = navigator.userAgent;
     let or = window.location.origin;
     this.downUrl = `${apiConfig.base}/api/tour/v1/download`;
-    if(JSON.stringify(this.indexData) != '{}') {
+    if (JSON.stringify(this.indexData) != "{}") {
       this.$nextTick(() => {
-        this.loadingPage = false
-      })
+        this.loadingPage = false;
+      });
     } else {
-      this.loadingPage = true
+      this.loadingPage = true;
     }
+    this.getTime()
   },
   beforeDestroy() {
     this.$refs.refHomePage.removeEventListener("scroll", this.scrollFn);
   },
   methods: {
-    reLoadPage(){
-      location.reload()
+    // 转化为两位数
+    numChangeT(n) {
+      return n < 10 ? '0' + n : '' + n
+    },
+    // 倒计时时间转化
+    timeToData(maxtime) {
+      let second = Math.floor(maxtime % 60); //计算秒
+      let minite = Math.floor((maxtime / 60) % 60); //计算分
+      let hour = Math.floor((maxtime / 3600) % 24); //计算小时
+      let day = Math.floor(maxtime / 3600 / 24); //计算天
+      if(day > 0){
+        return `<span>${this.numChangeT(day)}</span>天<span>${this.numChangeT(
+          hour
+        )}</span>:<span>${this.numChangeT(
+          minite
+        )}</span>:<span>${this.numChangeT(second)}</span>`;
+      }else{
+         return `<span>${this.numChangeT(
+          hour
+        )}</span>:<span>${this.numChangeT(
+          minite
+        )}</span>:<span>${this.numChangeT(second)}</span>`;
+      }
+      
+    },
+    getTime() {
+      setInterval(() => {
+        this.timeSalesList.forEach(value => {
+          var time = this.timeToData(value.special_end_date);
+          if (typeof value.jishi == "undefined") {
+            this.$set(value, "time", time);
+          } else {
+            value.time = time;
+          }
+          if (value.special_end_date) {
+            --value.special_end_date;
+            // value.special_end_date = value.special_end_date - 1000
+          } else {
+            value.special_end_date = 0;
+          }
+        });
+      }, 1000);
+    },
+    reLoadPage() {
+      location.reload();
     },
     waterfall() {
       let that = this;
@@ -405,7 +456,7 @@ export default {
     },
     async getData(obj) {
       if (this.prodFinished) {
-        this.prodLoading = false
+        this.prodLoading = false;
         return;
       }
       const submitData = {
@@ -517,13 +568,13 @@ export default {
         tabName
       };
       // this.getData();
-      this.$refs.waterProduct.check()
+      this.$refs.waterProduct.check();
     },
     changeSubTab(tab, index) {
       this.resetWater();
       this.$set(this.tabCurrent, "tabValue", tab.filter[0].value);
       this.$set(this.tabCurrent, "tabName", tab.filter[0].name);
-      this.$refs.waterProduct.check()
+      this.$refs.waterProduct.check();
     },
     _nomolizeHotList(data) {
       let imgArr = [],
@@ -579,7 +630,7 @@ export default {
       }
       setTimeout(() => {
         if (s1 === 0) {
-          this.fixedTopBar = true
+          this.fixedTopBar = true;
           this.$refs.searchBox.style.backgroundColor = `transparent`;
           this.$refs.searchBox.style.color = `rgb(255,255,255)`;
           document.getElementById(
@@ -592,7 +643,7 @@ export default {
                          } */
           this.$refs.searchBox.style.top = "auto";
         } else {
-          this.fixedTopBar = false
+          this.fixedTopBar = false;
           let rate = s1 / SCROLL;
           this.$refs.searchBox.style.backgroundColor = `rgba(255,255,255,${rate})`;
           document.getElementById(
@@ -726,9 +777,9 @@ export default {
           span {
             font-size: 28px;
             margin-left: 16px;
-            color: #2D2D2D;
+            color: #2d2d2d;
           }
-          img{
+          img {
             width: 32px;
             height: 32px;
           }
@@ -736,7 +787,7 @@ export default {
         .right {
           padding-left: 32px;
           margin-top: 10px;
-          img{
+          img {
             width: 52px;
             height: 52px;
           }
@@ -753,14 +804,14 @@ export default {
       width: 100%;
     }
   }
-  .page-load-box{
+  .page-load-box {
     text-align: center;
     margin-top: 40px;
     font-size: 28px;
-    & > div{
+    & > div {
       line-height: 40px;
       margin-top: 20px;
-      color: #00ABF9;
+      color: #00abf9;
     }
   }
   .entry-block {
@@ -930,7 +981,7 @@ export default {
         }
       }
     }
-    .filish-bottom{
+    .filish-bottom {
       text-align: center;
       font-size: 24px;
       color: #999;
@@ -976,6 +1027,7 @@ export default {
       background-size: cover;
       background-repeat: no-repeat;
       padding: 20px;
+      vertical-align: top;
       .lm-name {
         color: #fff;
         line-height: 40px;
