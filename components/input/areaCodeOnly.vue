@@ -64,7 +64,8 @@ import { mapMutations, mapGetters } from 'vuex'
     },
     mounted() {
       // this.init()
-      if(!this.getCountryCode['热门']||(this.getCountryCode['热门']&&this.getCountryCode['热门'].length==0)){
+      this.$nextTick(()=>{
+        if(!this.getCountryCode['热门']||(this.getCountryCode['热门']&&this.getCountryCode['热门'].length==0)){
         this.gotQuhao();
         this.gotCountry();
         
@@ -74,6 +75,8 @@ import { mapMutations, mapGetters } from 'vuex'
         this.gotQuhao();
         this.gotCountry();
       }
+      },50)
+      
     },
     beforeRouteEnter(to, from, next) {
       console.log(from)
@@ -166,7 +169,10 @@ import { mapMutations, mapGetters } from 'vuex'
           let localList = data.list;
           this.local_List = data.list;
           this.hot_List = data.hot_data;
-          console.log(this.local_List);
+          console.log(this.basicTelList);
+          if(this.basicTelList.length==0){
+            await this.gotQuhao();
+          }
           ///api/locations&&/api/country/telcodes 数据合并
       //api/locations id name name_pinyin
       ///api/country/telcodes countryName tel_code
@@ -186,6 +192,8 @@ import { mapMutations, mapGetters } from 'vuex'
              }
            })
          }
+         console.log(this.basicTelList);
+         
           console.log('合并测试数据',this.basicTelList);
           
          this.countryList = this._nomalLizePinyin(localList,hot_data);
@@ -205,6 +213,8 @@ import { mapMutations, mapGetters } from 'vuex'
         if (code === 0) {
        
           this.basicTelList = data;
+          console.log(this.basicTelList);
+          
           
         }
         else {
