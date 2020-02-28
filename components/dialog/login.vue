@@ -3,11 +3,12 @@
              class="login-dialog-comp"
              position="bottom"
              :overlay="true">
-    <div class="btn-close"
-         @click="closeDlg">
-      <van-icon name="cross" />
-    </div>
+
     <div class="dialog-content">
+      <div class="btn-close"
+           @click="closeDlg">
+        <van-icon name="cross" />
+      </div>
       <login-comp :loginTitle="$t('partcailComp.subscribeLogin')"
                   :regTitle="$t('partcailComp.subscribeLogin')"
                   isDialog
@@ -88,25 +89,26 @@ export default {
 </script>
 <style lang="scss" scoped>
 .login-dialog-comp {
-  width: auto;
-  left: 48px;
-  right: 48px;
-  bottom: 0;
-  border-top-left-radius: 32px;
-  border-top-right-radius: 32px;
   //z-index: 5000 !important;
-  .btn-close {
-    position: absolute;
-    top: 28px;
-    right: 38px;
-    color: rgb(71, 30, 30);
-    .van-icon {
-      font-size: 36px;
-    }
-  }
+  background: transparent;
+
   .dialog-content {
+    background: #fff;
     padding: 54px 46px 300px;
-    // text-align: center;
+    width: 90%;
+    margin: 10% auto 0;
+    border-top-left-radius: 32px;
+    border-top-right-radius: 32px;
+    position: relative;
+    .btn-close {
+      position: absolute;
+      top: 28px;
+      right: 38px;
+      color: rgb(71, 30, 30);
+      .van-icon {
+        font-size: 36px;
+      }
+    }
   }
 }
 </style>
