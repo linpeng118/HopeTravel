@@ -59,6 +59,9 @@ export default {
       // timeData: {}
     }
   },
+  created(){
+    console.log(111112222, this.item)
+  },
   methods:{
     onChange(e) {
       console.log(2342354123, e)
