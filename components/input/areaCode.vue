@@ -60,6 +60,7 @@ import NewtelCode from '@/components/confirm_foot/newTelCode'
 // import {getCountryTelcodes} from '@/api'
 // import {guojialist} from '@/api/contacts'
 import {getquhao,getLocationsCountry} from '@/api/contacts'
+import {setLocalStore,getLocalStore} from '@/assets/js/utils'
 export default {
   components: {NewtelCode},
   props: {
@@ -104,6 +105,10 @@ export default {
       this.gotCountry();
       this.gotQuhao();
     }
+    if(!getLocalStore('tourscool_countryCode_vuex')){
+        this.gotCountry();
+        this.gotQuhao();
+      }
     
   },
   beforeRouteEnter(to, from, next) {
@@ -192,6 +197,7 @@ export default {
           
          this.countryList = this._nomalLizePinyin(localList,hot_data);
           this.vxSaveCountryCode(this.countryList)
+          setLocalStore('tourscool_countryCode_vuex',this.countryList)
         // console.log('this.countryList',this.countryList);
         console.log('vxSaveCountryCode',this.getCountryCode);
         
