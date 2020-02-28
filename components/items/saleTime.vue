@@ -1,13 +1,13 @@
 <template>
-  <nuxt-link tag="div" :to="`/product/detail?productId=${item.product_id}`" class="com-sale-time" :style="{height:height + 'px'}">
-    <div class="img">
+  <div class="com-sale-time" :style="{height:height + 'px'}">
+    <div class="img" @click="chakerer">
       <img :src="item.image" alt="">
     </div>
     <div class="count-down-time">
-      <van-count-down :time="item.special_end_date * 1000">
+      <van-count-down :time="item.special_end_date">
         <template v-slot="timeData">
           <template v-if="timeData.days > 0">
-            <div class="item">{{ timeData.days | getTwo}}</div>
+            <div class="item">{{ timeData.days }}</div>
             <span>天</span>
           </template>
           <div class="item">{{ timeData.hours | getTwo }}</div><span>:</span>
@@ -23,11 +23,11 @@
           <span>{{(item.special_price || item.default_price) | getPrice}}</span> 起
         </div>
         <span>
-          已减{{item.reduced_price | getPrice}}
+          已减{{item.reduced_price}}
         </span>
       </div>
     </div>
-  </nuxt-link>
+  </div>
 </template>
 <script>
 export default {
@@ -37,7 +37,7 @@ export default {
       return value.toString().split('.')[0]
     },
     getTwo(value) {
-      return value >= 10 ? value : '0' + value
+      return value > 10 ? value : '0' + value
     }
   },
   props:{
@@ -56,10 +56,17 @@ export default {
   },
   data() {
     return {
-      
+      // timeData: {}
     }
   },
   methods:{
+    onChange(e) {
+      console.log(2342354123, e)
+      // this.timeData = e.detail
+    },
+    chakerer(){
+      alert('msg')
+    }
   }
 }
 </script>
@@ -94,8 +101,8 @@ export default {
   }
   .item {
     display: inline-block;
+    width: 36px;
     height: 32px;
-    padding: 0 6px; 
     line-height: 32px;
     margin-right: 5px;
     color: #00ABF9;
