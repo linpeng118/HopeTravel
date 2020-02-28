@@ -1,5 +1,5 @@
 <template>
-  <div class="com-sale-time" :style="{height:height + 'px'}">
+  <nuxt-link tag="div" :to="`/product/detail?productId=${item.product_id}`" class="com-sale-time" :style="{height:height + 'px'}">
     <div class="img">
       <img :src="item.image" alt="">
     </div>
@@ -16,7 +16,7 @@
         </span>
       </div>
     </div>
-  </div>
+  </nuxt-link>
 </template>
 <script>
 export default {
