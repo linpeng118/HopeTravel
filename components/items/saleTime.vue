@@ -5,7 +5,7 @@
     </div>
     <div class="count-down-time">
       <van-count-down :time="item.special_end_date">
-        <template v-slot="timeData">
+        <!-- <template v-slot="timeData">
           <template v-if="timeData.days > 0">
             <div class="item">{{ timeData.days }}</div>
             <span>天</span>
@@ -13,7 +13,7 @@
           <div class="item">{{ timeData.hours | getTwo }}</div><span>:</span>
           <div class="item">{{ timeData.minutes | getTwo}}</div><span>:</span>
           <div class="item">{{ timeData.seconds | getTwo}}</div>
-        </template>
+        </template> -->
       </van-count-down>
     </div>
     <div class="cp-detail">

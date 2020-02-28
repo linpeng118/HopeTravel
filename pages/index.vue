@@ -150,7 +150,7 @@
                 :title="2"
                 :item="timeSalesList[0]"
               ></sale-time>
-              {{timeSalesList}}
+              <!-- {{timeSalesList}} -->
             </van-col>
             <van-col span="12">
               <template v-for="time in timeSalesList.slice(1, 3)">
