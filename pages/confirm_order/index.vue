@@ -448,12 +448,14 @@
         console.log(this.getCountryCode);
         
         if(!this.getCountryCode['热门']||(this.getCountryCode['热门']&&this.getCountryCode['热门'].length==0)){
-          this.gotCountry();
+         
           this.gotQuhao();
+           this.gotCountry();
         } 
         if(!getLocalStore('tourscool_countryCode_vuex')){
-        this.gotCountry();
+        
         this.gotQuhao();
+        this.gotCountry();
       }   
       }, 20)
     },//I don't know why anotherone set setTimeout
@@ -812,6 +814,9 @@
           let localList = data.list;
           this.local_List = data.list;
           this.hot_List = data.hot_data;
+          if(this.basicTelList.length==0){
+            await this.gotQuhao();
+          }
           // console.log(this.local_List);
           ///api/locations&&/api/country/telcodes 数据合并
       //api/locations id name name_pinyin
