@@ -12,7 +12,7 @@
           <span>{{(item.special_price || item.default_price) | getPrice}}</span> 起
         </div>
         <span>
-          已减{{item.reduced_price}}
+          已减{{item.reduced_price | getPrice1}}
         </span>
       </div>
     </div>
@@ -23,6 +23,9 @@ export default {
   name: "saleTime",
   filters:{
     getPrice(value) {
+      return value.toString().split('.')[0]
+    },
+    getPrice1(value) {
       return value.toString().split('.')[0]
     },
     getTwo(value) {
