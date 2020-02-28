@@ -1027,6 +1027,7 @@ export default {
       background-size: cover;
       background-repeat: no-repeat;
       padding: 20px;
+      vertical-align: top;
       .lm-name {
         color: #fff;
         line-height: 40px;
