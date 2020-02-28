@@ -19,7 +19,7 @@
         @back="toggleAreaList">
       </tel-code> -->
       <newtel-code :pageparent="'/personal/addContacts'"
-                 :dataObj="getCountryCode"
+                 :dataObj="getCountryCode || getLocalStore('tourscool_countryCode_vuex')"
                  @selectCode="selectCode"
                  ref="moreList2"
                  @back="toggleAreaList">
@@ -34,6 +34,7 @@ import { mapMutations, mapGetters } from 'vuex'
   import NewtelCode from '@/components/confirm_foot/newTelCode'
   // import {guojialist} from '@/api/contacts'
   import {getquhao,getLocationsCountry} from '@/api/contacts'
+  import {setLocalStore,getLocalStore} from '@/assets/js/utils'
   export default {
     components: {
       // TelCode
@@ -64,10 +65,14 @@ import { mapMutations, mapGetters } from 'vuex'
     mounted() {
       // this.init()
       if(!this.getCountryCode['热门']||(this.getCountryCode['热门']&&this.getCountryCode['热门'].length==0)){
+        
         this.gotCountry();
         this.gotQuhao();
       }
-      
+      if(!getLocalStore('tourscool_countryCode_vuex')){
+        this.gotCountry();
+        this.gotQuhao();
+      }
     },
     beforeRouteEnter(to, from, next) {
       console.log(from)
@@ -184,6 +189,7 @@ import { mapMutations, mapGetters } from 'vuex'
           
          this.countryList = this._nomalLizePinyin(localList,hot_data);
           this.vxSaveCountryCode(this.countryList)
+          setLocalStore('tourscool_countryCode_vuex',this.countryList)
         console.log('this.countryList',this.countryList);
         }
         else {
