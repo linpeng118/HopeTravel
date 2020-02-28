@@ -151,6 +151,7 @@
   import NewtelCode from '@/components/confirm_foot/newTelCode'
   import {getquhao} from '@/api/contacts'
   import {mapMutations,mapGetters} from 'vuex'
+  import {setLocalStore,getLocalStore} from '@/assets/js/utils'
   export default {
     components: {
       NewcityList,NewtelCode
@@ -206,8 +207,14 @@
       
       
       if(!this.getCountryCode['热门']||(this.getCountryCode['热门']&&this.getCountryCode['热门'].length==0)){
-        this.gotCountry();
+        
         this.gotQuhao();
+        this.gotCountry();
+      }
+      if(!getLocalStore('tourscool_countryCode_vuex')){
+        
+        this.gotQuhao();
+        this.gotCountry();
       }
        if(this.queryid!=0){
         this.title= this.$t('selectTravlerPage.editTitle');
@@ -410,6 +417,9 @@
           this.local_List = data.list;
           this.hot_List = data.hot_data;
           console.log(this.local_List);
+          if(this.basicTelList.length==0){
+            await this.gotQuhao();
+          }
           ///api/locations&&/api/country/telcodes 数据合并
       //api/locations id name name_pinyin
       ///api/country/telcodes countryName tel_code
@@ -433,6 +443,7 @@
           
          this.countryList = this._nomalLizePinyin(localList,hot_data);
           this.vxSaveCountryCode(this.countryList)
+        setLocalStore('tourscool_countryCode_vuex',this.countryList)
         console.log('this.countryList',this.countryList);
         }
         else {
