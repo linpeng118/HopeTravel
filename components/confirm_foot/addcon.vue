@@ -367,6 +367,9 @@
           this.local_List = data.list;
           this.hot_List = data.hot_data;
           console.log(this.local_List);
+          if(this.basicTelList.length==0){
+            await this.gotQuhao();
+          }
           ///api/locations&&/api/country/telcodes 数据合并
       //api/locations id name name_pinyin
       ///api/country/telcodes countryName tel_code

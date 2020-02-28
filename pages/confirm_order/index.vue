@@ -814,6 +814,9 @@
           let localList = data.list;
           this.local_List = data.list;
           this.hot_List = data.hot_data;
+          if(this.basicTelList.length==0){
+            await this.gotQuhao();
+          }
           // console.log(this.local_List);
           ///api/locations&&/api/country/telcodes 数据合并
       //api/locations id name name_pinyin
