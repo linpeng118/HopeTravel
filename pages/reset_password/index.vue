@@ -232,9 +232,6 @@ export default {
       if (this.redirect) {
         this.$router.replace({
           path: this.redirect,
-          query: {
-            redirect: 'personal',
-          },
         })
       } else {
         let href = window.location.href.slice(-1)
@@ -412,7 +409,6 @@ export default {
           await this.getUserInfo()
 
           if (this.$route.query.isDialog == 1) {
-            console.log(this.redirect)
             this.$router.replace({path: this.redirect})
             this.vxToggleLoginDlg(false)
             //location.reload()

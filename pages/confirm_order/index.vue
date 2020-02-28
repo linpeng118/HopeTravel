@@ -353,6 +353,7 @@
   import { mapMutations, mapState, mapGetters } from 'vuex'
   import addcon from '@/components/confirm_foot/addcon'
   import loginLine from '@/components/header/loginLine'
+  import {setLocalStore,getLocalStore} from '@/assets/js/utils'
   export default {
     components: {
       ConfirmFoot,
@@ -447,9 +448,15 @@
         console.log(this.getCountryCode);
         
         if(!this.getCountryCode['热门']||(this.getCountryCode['热门']&&this.getCountryCode['热门'].length==0)){
-          this.gotCountry();
+         
           this.gotQuhao();
-        }    
+           this.gotCountry();
+        } 
+        if(!getLocalStore('tourscool_countryCode_vuex')){
+        
+        this.gotQuhao();
+        this.gotCountry();
+      }   
       }, 20)
     },//I don't know why anotherone set setTimeout
 
@@ -807,6 +814,9 @@
           let localList = data.list;
           this.local_List = data.list;
           this.hot_List = data.hot_data;
+          if(this.basicTelList.length==0){
+            await this.gotQuhao();
+          }
           // console.log(this.local_List);
           ///api/locations&&/api/country/telcodes 数据合并
       //api/locations id name name_pinyin
@@ -831,7 +841,7 @@
           this.countryList = this._nomalLizePinyin(localList,hot_data);
            console.log('this.countryList',this.countryList);
           this.vxSaveCountryCode(this.countryList)
-        
+        setLocalStore('tourscool_countryCode_vuex',this.countryList)
         console.log('vxSaveCountryCode',this.getCountryCode);
          
           
