@@ -253,7 +253,7 @@ export default {
           path: `/reset_password?redirect=${this.$route.fullPath}&isDialog=${this.isDialog ? 1 : 0}`,
         })
       } else {
-        this.$router.push({path: `/reset_password?redirect=login&isDialog=${this.isDialog ? 1 : 0}`})
+        this.$router.push({path: `/reset_password?isDialog=${this.isDialog ? 1 : 0}`})
       }
     },
     // 获取验证码
