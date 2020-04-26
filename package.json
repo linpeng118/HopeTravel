@@ -27,7 +27,7 @@
     "html2canvas": "1.0.0-alpha.12",
     "install": "^0.13.0",
     "koa": "2.5.2",
-    "lodash": "4.17.11",
+    "lodash": "4.17.15",
     "m-share": "1.0.1",
     "node-sass": "4.13.0",
     "npm": "^6.11.2",
