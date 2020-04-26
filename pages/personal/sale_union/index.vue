@@ -1,6 +1,6 @@
 <template>
   <div class="union-page-container union-main-page">
-    <header-bar title="稀饭联盟"></header-bar>
+    <header-bar title="HopeTravel联盟"></header-bar>
     <div class="main-union" style="padding-top: 46px;">
       <!--我的收益-->
       <div class="self-news" @click="onProfitCenter">

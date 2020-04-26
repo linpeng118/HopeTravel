@@ -19,10 +19,6 @@
     import {
         DLG_TYPE
     } from '@/assets/js/consts/dialog'
-    /* import onCustomerService from '@/assets/js/customerService.js' */
-    import {
-        replaceServerUrl
-    } from '@/assets/js/utils'
     import {
         mapMutations,
         mapState,
@@ -106,9 +102,8 @@
                 this.isShowDrift = false
             },
             contactCustom() {
-                /* onCustomerService() */
-                let url = replaceServerUrl()
-                window.open(url, '_self')
+              console.log('contactCustom');
+              
             },
         },
     }

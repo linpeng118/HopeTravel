@@ -192,8 +192,7 @@
         "classicRoute": "經典路線",
         "referencePrice": "參考價格",
         "peopleStarts": "人/起",
-        "featureList": [
-            {
+        "featureList": [{
                 "title1": "全球出發",
                 "title2": "一人成團"
             },
@@ -558,7 +557,6 @@
         "nationalAndFree": "全國送簽，辦理無憂",
         "professionalAndFree": "專業團隊，服務無憂",
         "copyright": "稀飯旅行所有 仿版必究",
-        "icp": "蜀ICP備18023967號-1",
         "preferential": "前100名咨詢，可獲得特價簽證，最低65元",
         "immediatelyConsult": "馬上咨詢"
     },

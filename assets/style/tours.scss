@@ -1,160 +1,133 @@
-.hide-customer-service {
-  // 53客服隐藏
-  #mini_chat,
-  #mobile_minchat_div,
-  #mobile_ivt_div,
-  #mobile_icon_div,
-  #mobile_chat_card {
+// 百度隐藏
+#newBridge {
     display: none !important;
-  }
-  // 百度隐藏
-  #newBridge {
-    display: none !important;
-  }
-  &.pr-dl{
+}
+
+&.pr-dl {
     position: static !important;
     overflow-y: auto !important;
-  }
+}
+
+
 }
 .show-customer-service {
-  // 53客服显示
-  #mini_chat,
-  #mobile_minchat_div,
-  #mobile_ivt_div,
-  #mobile_icon_div,
-  #mobile_chat_card {
-    display: block;
-  }
-  // 百度显示
-  #newBridge {
-    display: block;
-  }
+    // 百度显示
+    #newBridge {
+        display: block;
+    }
 }
-
 // ============= 用于覆盖使用的vant的UI样式，定制公司自己的一套样式规范 ===========
-
 .tours-tabs {
-  .van-tabs__line {
-    background-color: #399ef6;
-  }
-
-  .van-tabs__wrap {
-    left: 32px;
-    border-bottom: 2px solid #e4e4e4;
-  }
-
-  .van-hairline--top-bottom::after {
-    border-width: 0 !important;
-  }
+    .van-tabs__line {
+        background-color: #399ef6;
+    }
+    
+    .van-tabs__wrap {
+        left: 32px;
+        border-bottom: 2px solid #e4e4e4;
+    }
+    
+    .van-hairline--top-bottom::after {
+        border-width: 0 !important;
+    }
 }
-
 .tours-tabs-nowrap {
-  .van-tabs__line {
-    background-color: #399ef6;
-  }
-
-  .van-hairline--top-bottom::after {
-    border-width: 0 !important;
-  }
+    .van-tabs__line {
+        background-color: #399ef6;
+    }
+    
+    .van-hairline--top-bottom::after {
+        border-width: 0 !important;
+    }
 }
-
 // 去掉border-bottom（van-hairline--bottom）
 .tours-no-bb {
-  &.van-hairline--bottom::after {
-    border-bottom-width: 0px !important;
-  }
+    &.van-hairline--bottom::after {
+        border-bottom-width: 0px !important;
+    }
 }
-
 // 登录样式
 .tours-input {
-  height: 80px;
-
-  &.van-cell,
-  .van-field {
-    padding: 15px 20px;
-    border: 2px solid rgba(196, 196, 196, 1) !important;
-    border-radius: 10px;
-  }
-
-  &.van-field .van-cell__title {
-    text-align: left;
-    max-width: 100px;
-  }
+    height: 80px;
+    &.van-cell,
+    .van-field {
+        padding: 15px 20px;
+        border: 2px solid rgba(196, 196, 196, 1) !important;
+        border-radius: 10px;
+    }
+    
+    &.van-field .van-cell__title {
+        text-align: left;
+        max-width: 100px;
+    }
 }
-
 // 私人定制输入框样式
 .tours-input-no-bg {
-  &.van-cell-group {
-    background: transparent;
-  }
-
-  &.van-hairline--top-bottom::after {
-    border: 0;
-  }
-
-  .van-cell {
-    padding: 10px 20px;
-    height: 72px;
-    background-color: transparent;
-
-    .van-field__control {
-      color: #fff;
+    &.van-cell-group {
+        background: transparent;
     }
-  }
+    
+    &.van-hairline--top-bottom::after {
+        border: 0;
+    }
+    
+    .van-cell {
+        padding: 10px 20px;
+        height: 72px;
+        background-color: transparent;
+        .van-field__control {
+            color: #fff;
+        }
+    }
 }
-
 .tours-button {
-  &.van-button--default {
-    height: 84px;
-    line-height: 84px;
-    background: #399ef6 !important;
-    color: #fff;
-    border: 0;
-    border-radius: 10px;
-  }
+    &.van-button--default {
+        height: 84px;
+        line-height: 84px;
+        background: #399ef6 !important;
+        color: #fff;
+        border: 0;
+        border-radius: 10px;
+    }
 }
-
 // 登录button样式
 .tours-button-noborder {
-  &.van-button--default {
-    height: 84px;
-    line-height: 84px;
-    color: #399ef6;
-    border: 0;
-    border-radius: 10px;
-  }
+    &.van-button--default {
+        height: 84px;
+        line-height: 84px;
+        color: #399ef6;
+        border: 0;
+        border-radius: 10px;
+    }
 }
-
 // 私人定制按钮样式
 .tours-button-no-bg {
-  &.van-button--default {
-    height: 72px;
-    line-height: 72px;
-    background: rgba(0, 0, 0, 0);
-    border: 2px solid rgba(57, 158, 246, 1);
-    color: #fff;
-    opacity: 1;
-    border-radius: 22px;
-  }
+    &.van-button--default {
+        height: 72px;
+        line-height: 72px;
+        background: rgba(0, 0, 0, 0);
+        border: 2px solid rgba(57, 158, 246, 1);
+        color: #fff;
+        opacity: 1;
+        border-radius: 22px;
+    }
 }
-
 // 去掉van-cell的border-bottom
 .tours-list-no-bb {
-  .van-cell::after {
-    border-bottom: 0 !important;
-  }
+    .van-cell::after {
+        border-bottom: 0 !important;
+    }
 }
-
 // checkbox方形
 .tour-checkbox {
-  .van-checkbox__icon {
-    height: 28px;
-    line-height: 28px;
-  }
-
-  .van-checkbox__icon--round .van-icon {
-    border-radius: 4px;
-    width: 28px;
-    height: 28px;
-  }
+    .van-checkbox__icon {
+        height: 28px;
+        line-height: 28px;
+    }
+    
+    .van-checkbox__icon--round .van-icon {
+        border-radius: 4px;
+        width: 28px;
+        height: 28px;
+    }
 }

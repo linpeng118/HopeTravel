@@ -38,9 +38,6 @@
 </template>
 <script>
     import {
-        replaceServerUrl
-    } from '@/assets/js/utils'
-    import {
         getCookie,
         getLocalStore,
         setLocalStore,
@@ -85,8 +82,6 @@
                     this.dotShow = 0
                     setSessionStore('dotShow', 0)
                 }, 7200000)
-                let url = replaceServerUrl()
-                window.open(url, '_blank')
             },
         },
     }

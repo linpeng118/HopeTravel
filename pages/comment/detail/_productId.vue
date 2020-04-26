@@ -151,10 +151,10 @@
                 </div>
               </div>
 
-              <!--稀饭回复-->
+              <!--HopeTravel回复-->
               <div class="reply" v-if="item.reply">
                 <div class="append-tit tourscool">
-                  <img src="~assets/imgs/tourscool.png" alt />稀饭回复
+                  <img src="~assets/imgs/tourscool.png" alt />HopeTravel回复
                 </div>
                 <div class="content">{{ item.reply }}</div>
               </div>

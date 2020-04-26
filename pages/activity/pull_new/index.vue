@@ -11,7 +11,7 @@
       <!-- 默认 -->
       <div class="price-content default"
         v-if="receiveStatus===RECEIVE_TYPE.default">
-        <h1 class="title">稀饭大礼</h1>
+        <h1 class="title">HopeTravel大礼</h1>
         <img class="img-desc"
           src="~/assets/imgs/invite/send_2600@2x.png"
           alt="">
@@ -39,10 +39,10 @@
             src="~/assets/imgs/invite/box@2x.png"
             alt="">
         </div>
-        <p class="tip-text">已放入稀饭旅行APP【我的-我的券】</p>
+        <p class="tip-text">已放入HopeTravel旅行APP【我的-我的券】</p>
         <van-button class="button-activity mt-26"
           @click="onOpenApp"
-          type="default">打开稀饭APP查看</van-button>
+          type="default">打开HopeTravelAPP查看</van-button>
       </div>
       <!-- 重新输入 -->
       <div class="price-content old"
@@ -66,10 +66,10 @@
             alt="">
         </div>
         <p class="tip-text again-tip">{{msg}}</p>
-        <!-- 打开稀饭APP查看 -->
+        <!-- 打开HopeTravelAPP查看 -->
         <van-button class="button-activity mt-26"
           @click="onOpenApp"
-          type="default">打开稀饭APP查看</van-button>
+          type="default">打开HopeTravelAPP查看</van-button>
       </div>
       <h1 class="rule-title">活动规则</h1>
       <section class="rule-desc"
@@ -170,7 +170,7 @@
         if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
           window.location.href = 'https://a.app.qq.com/o/simple.jsp?pkgname=com.zmcs.tourscool'
         } else if (u.indexOf('iPhone') > -1) {
-          window.location.href = 'https://itunes.apple.com/cn/app/稀饭旅行/id1449120712?mt=8'
+          window.location.href = 'https://itunes.apple.com/cn/app/HopeTravel旅行/id1449120712?mt=8'
         }
       },
     },

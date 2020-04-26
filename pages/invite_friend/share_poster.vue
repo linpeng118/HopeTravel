@@ -9,7 +9,7 @@
       <div class="left">
         <h2>有你有我游世界</h2>
         <h1>长按识别二维码</h1>
-        <h1>下载稀饭旅行APP</h1>
+        <h1>下载HopeTravel旅行APP</h1>
       </div>
       <div class="code">
         <img :src="imgData" alt="">

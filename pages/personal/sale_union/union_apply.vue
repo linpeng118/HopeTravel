@@ -1,9 +1,9 @@
 <template>
   <div>
-    <header-bar title="加入稀饭联盟"></header-bar>
+    <header-bar title="加入HopeTravel联盟"></header-bar>
     <div style="padding-top: 46px;" class="add-union">
       <div class="bg-top">
-        <nuxt-link to="/personal/about_xf_union" class="know-info">点我了解稀饭联盟</nuxt-link>
+        <nuxt-link to="/personal/about_xf_union" class="know-info">点我了解HopeTravel联盟</nuxt-link>
       </div>
       <div class="login-box">
         <h2 class="title">填写手机号码</h2>
@@ -60,11 +60,11 @@
                         @click="getCode">{{getShowText}}</van-button>
           </van-field>
           <div class="btn-login">
-            <input type="button" @click="btnLogin" value="加入稀饭联盟">
+            <input type="button" @click="btnLogin" value="加入HopeTravel联盟">
           </div>
           <div class="agreement">
             <van-checkbox v-model="checked" checked-color="#FCAE26"></van-checkbox>
-            <nuxt-link tag="span" to="/protocol/union">接受邀请并与稀饭旅行签约</nuxt-link>
+            <nuxt-link tag="span" to="/protocol/union">接受邀请并与HopeTravel旅行签约</nuxt-link>
           </div>
         </van-cell-group>
       </div>
@@ -169,7 +169,7 @@ export default {
     },
     async btnLogin() {
       if (!this.checked) {
-        this.$toast('请接受稀饭旅行邀约')
+        this.$toast('请接受HopeTravel旅行邀约')
         return
       }
       if (!this.phoneForm.phone && !this.profile.phone) {
@@ -191,7 +191,7 @@ export default {
         })
         if (code === 0) {
           this.$dialog.alert({
-            message: '加入成功,跟着稀饭一起挣钱吧！'
+            message: '加入成功,跟着HopeTravel一起挣钱吧！'
           }).then(() => {
             this.$router.push({
               name: 'personal-sale_union'

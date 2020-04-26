@@ -83,7 +83,7 @@
         ('方法名（带参）', funcName)
         switch (funcName) {
           case 'jumpProductListView':
-            //  1=当地跟团，2=当地玩乐，3=稀饭精品，4=门票演出，5=一日游，6=接驳服务，7=邮轮
+            //  1=当地跟团，2=当地玩乐，3=HopeTravel精品，4=门票演出，5=一日游，6=接驳服务，7=邮轮
             this.appBridge[funcName]({
               'itemType': 1
             })

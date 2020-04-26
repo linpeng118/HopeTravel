@@ -281,7 +281,6 @@ import DriftAside from "@/components/drift_aside";
 import { throttle as _throttle } from "lodash";
 import { setCookieByKey, getCookieByKey } from "@/assets/js/utils";
 import { mapGetters, mapMutations } from "vuex";
-import { replaceServerUrl } from "@/assets/js/utils";
 import apiConfig from "./../apiConf.env";
 import Tabbar from "@/components/tabbar";
 export default {
@@ -500,9 +499,8 @@ export default {
     },
     //在线咨询
     contactCustom() {
-      /* onCustomerService() */
-      let url = replaceServerUrl();
-      window.open(url, "_self");
+      console.log('contactCustom');
+      
     },
     // 判断手机是安卓还是苹果
     downUrl() {},

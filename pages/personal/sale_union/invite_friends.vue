@@ -11,7 +11,7 @@
               <img :src="faceImage" alt="" @load="isLoadImg('face')">
               <div>
                 <h2 class="name">{{profile | getName}}</h2>
-                <p>我加入了稀饭联盟，赚了不少钱了， 你也快来吧！</p>
+                <p>我加入了HopeTravel联盟，赚了不少钱了， 你也快来吧！</p>
               </div>
             </div>
           </div>

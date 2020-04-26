@@ -41,7 +41,7 @@
           <div class="detail" @click="goToPathShare('friend')">
             <img src="../../../assets/imgs/union/icon_union@2x.png" alt="">
             <div class="desc">
-              <p class="name">稀饭盟友</p>
+              <p class="name">HopeTravel盟友</p>
               <p v-if="JSON.stringify(incomeReport) !== '{}'">产生{{incomeReport.friend.order}}个订单，帮我赚取了{{incomeReport.currency}}{{incomeReport.friend.income}}</p>
             </div>
             <div class="right">
