@@ -6,7 +6,7 @@
         <div class="detail">
           <img src="../../../assets/imgs/union/icon_union@2x.png" alt="">
           <div class="desc">
-            <p class="name">稀饭盟友</p>
+            <p class="name">HopeTravel盟友</p>
             <p v-if="JSON.stringify(friendReport) !== '{}'">产生{{friendReport.total.order}}个订单，帮我赚取了{{friendReport.currency}}{{friendReport.total.income}}</p>
           </div>
           <div class="right">

@@ -176,7 +176,7 @@
             </template>
           </van-row>
         </div>
-        <!-- 稀饭推荐 -->
+        <!-- HopeTravel推荐 -->
         <div class="nav-title">
           <div>{{ $t("tours.torusRecommend") }}</div>
         </div>
@@ -583,8 +583,7 @@ import {
   getLocalStore,
   setLocalStore,
   getSessionStore,
-  setSessionStore,
-  replaceServerUrl
+  setSessionStore
 } from '@/assets/js/utils'
 import {
 addOrDelFavorite,
@@ -1205,8 +1204,8 @@ export default {
     },
     // 在线咨询
     onlineCounsel() {
-      let url = replaceServerUrl()
-      window.open(url, "_self")
+      console.log('onlineCounsel');
+      
     },
     //点击收起
     putAway(){

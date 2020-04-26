@@ -157,8 +157,6 @@
 import {mapMutations} from 'vuex'
 import {getProfile} from '@/api/profile'
 import {joinStatus} from '@/api/sale_union'
-/* import onCustomerService from '@/assets/js/customerService.js' */
-import {replaceServerUrl} from '@/assets/js/utils'
 import Tabbar from '@/components/tabbar'
 export default {
   name: 'component_name',
@@ -285,9 +283,8 @@ export default {
       }
     },
     contactCustom() {
-      /* onCustomerService() */
-      let url = replaceServerUrl()
-      window.open(url, '_self')
+      console.log('contactCustom');
+      
     },
     ...mapMutations({
       vxSetProfile: 'profile/setProfile',

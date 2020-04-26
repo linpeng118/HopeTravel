@@ -18,7 +18,7 @@
           <p v-else>{{resultStr}}</p>
           <a class="invite-btn" :href="downUrl" v-if="receiveStatus === 0">{{btnString}}</a>
           <van-button v-else round block class="invite-btn" @click="getWish">{{btnString}}</van-button>
-          <p class="get-ok" v-if="getOk">小主可前往稀饭个人中心查看优惠券</p>
+          <p class="get-ok" v-if="getOk">小主可前往HopeTravel个人中心查看优惠券</p>
         </div>
       </div>
     </div>
@@ -51,7 +51,7 @@ export default {
   },
   head(){
     return{
-      title:'稀饭大礼相送'
+      title:'HopeTravel大礼相送'
     }
   },
   data(){
@@ -94,7 +94,7 @@ export default {
     if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
       this.downUrl = 'https://a.app.qq.com/o/simple.jsp?pkgname=com.zmcs.tourscool'
     } else if (u.indexOf('iPhone') > -1) {
-      this.downUrl = 'https://itunes.apple.com/cn/app/稀饭旅行/id1449120712?mt=8'
+      this.downUrl = 'https://itunes.apple.com/cn/app/HopeTravel旅行/id1449120712?mt=8'
     }
   },
   methods:{
@@ -121,7 +121,7 @@ export default {
         let {code,msg} = await acceptExternal(params)
         this.resultStr = msg
         this.submitRes = false
-        this.btnString = '打开稀饭APP'
+        this.btnString = '打开HopeTravelAPP'
         this.receiveStatus = code
         if(code == RECEIVE_TYPE.self) {
           this.submitRes = true
@@ -135,19 +135,19 @@ export default {
           })
         } else if(this.receiveStatus == RECEIVE_TYPE.old) {
           this.submitRes = false
-          this.btnString = '打开稀饭APP'
+          this.btnString = '打开HopeTravelAPP'
           this.receiveStatus = 0
           this.getOk = false
           this.phone = ''
         } else if(this.receiveStatus == RECEIVE_TYPE.again) {
           this.submitRes = false
-          this.btnString = '打开稀饭APP'
+          this.btnString = '打开HopeTravelAPP'
           this.receiveStatus = 0
           this.getOk = false
           this.phone = ''
         } else if(this.receiveStatus == 0) {
           this.submitRes = false
-          this.btnString = '打开稀饭APP'
+          this.btnString = '打开HopeTravelAPP'
           this.receiveStatus = 0
           this.getOk = false
           this.phone = ''

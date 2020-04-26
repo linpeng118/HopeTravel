@@ -94,7 +94,7 @@
       Coupons
     },
     head: {
-      title: '稀饭大礼相送'
+      title: 'HopeTravel大礼相送'
     },
     filters: {
       getName(name) {

@@ -143,22 +143,7 @@
       DriftAside,
       dayItem
     },
-    /* head() {
-      let srcCustomerService
-      if (process.env.customerService === "53kf") {
-        srcCustomerService = 'https://tb.53kf.com/code/code/10181581/2'
-      }
-      return {
-        script: [
-          {
-            src: srcCustomerService
-          },
-        ]
-      }
-    }, */
     asyncData({route, query,redirect}){
-      // console.log(2222222222, route)
-      // category=89,89&product_type=&span_city=&start_city=32,29&itemType=0
       let  {category,span_city,start_city,w,sem} = query
       let _obj = {
         category,span_city,start_city

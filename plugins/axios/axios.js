@@ -11,8 +11,7 @@ import {
     CURRENCY,
     PLATFORM,
     PHONE_TYPE,
-    APP_VERSION,
-    CUSTOMER_SERVICE
+    APP_VERSION
 } from '@/assets/js/config'
 // 使用UI库的弹窗
 import {
@@ -76,13 +75,7 @@ httprequest.interceptors.request.use(
 httprequest.interceptors.response.use(
     // 请求成功
     res => {
-        let date = res.headers.date
-        let time = ''
-        date.replace(/ (\d+):/, (w) => {
-            time = w.slice(1, -1)
-        })
-        window[CUSTOMER_SERVICE] = Number(time)
-        console.log(window[CUSTOMER_SERVICE]);
+
         if (res.status === 200) {
             // 700：必须重新登录；401：返回了新的token
             if (res.data.code === 700 && res.config.url.indexOf('profile') < 0 && res.config.url.indexOf('coupon') < 0) {

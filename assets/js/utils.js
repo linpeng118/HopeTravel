@@ -1,5 +1,5 @@
-import { LIST_PARAMS, TRUE_PARAMS, CUSTOMER_SERVICE } from './config'
-import {TAB_PARAMS} from './consts/products'
+import { LIST_PARAMS, TRUE_PARAMS } from './config'
+import { TAB_PARAMS } from './consts/products'
 /**
  * 存储localStorage
  */
@@ -184,7 +184,7 @@ function isCard(val) {
  */
 function getParams(str) {
     // tj 途径景点；cf 出发城市; js 结束城市; sj 行程天数；jg 价格预算；page 为当前的页数；zl 游轮
-    // yg 当地跟团 type 1；yw 当地玩乐 type 2；yj稀饭自营 type 3 ；yl 游轮 type 7；ym 门票演出 4; yr 一日游 5
+    // yg 当地跟团 type 1；yw 当地玩乐 type 2；yjHopeTravel自营 type 3 ；yl 游轮 type 7；ym 门票演出 4; yr 一日游 5
     // /21312/yg-cf29-tj143_131-js32
     let _searchArr = str.split('-')
     let res = {}
@@ -260,19 +260,6 @@ function removeOrAddStr(str, name) {
     }
 }
 
-/* 根据服务器时间替换53客服链接 */
-function replaceServerUrl() {
-    var src = "https://tb.53kf.com/code/client/10181581/2";
-    var americaUtcDate = window[CUSTOMER_SERVICE];
-    console.log(americaUtcDate);
-
-    // if (americaUtcDate < 1 || americaUtcDate >= 14) {
-    if (americaUtcDate < 23 && americaUtcDate >= 15) { 
-        src = "https://tb.53kf.com/code/client/3d536eec7f1463b6367bc401b498f8c67/3"
-    }
-    return src;
-}
-
 export {
     setLocalStore,
     getLocalStore,
@@ -292,6 +279,5 @@ export {
     getSessionStore,
     getParams,
     changeParams,
-    removeOrAddStr,
-    replaceServerUrl,
+    removeOrAddStr
 }

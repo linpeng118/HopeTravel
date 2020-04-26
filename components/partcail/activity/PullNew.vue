@@ -8,7 +8,7 @@
       src="~/assets/imgs/activity/pull_new/qrcode.jpg"
       alt=""
       srcset="">
-    <p class="text mt-38">关注稀饭旅行公众号</p>
+    <p class="text mt-38">关注HopeTravel旅行公众号</p>
     <p class="text">及时获得优惠活动信息</p>
     <van-button class="btn-copy"
       round

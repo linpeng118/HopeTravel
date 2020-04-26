@@ -3,7 +3,7 @@
     <!-- 默认 -->
     <div class="price-content default"
       v-if="receiveStatus===RECEIVE_TYPE.default">
-      <h1 class="title">稀饭大礼</h1>
+      <h1 class="title">HopeTravel大礼</h1>
       <img class="img-desc"
         src="~/assets/imgs/invite/send_2600@2x.png"
         alt="">
@@ -59,7 +59,7 @@
           alt="">
       </div>
       <p class="tip-text again-tip">{{msg}}</p>
-      <!-- 打开稀饭APP查看 -->
+      <!-- 打开HopeTravelAPP查看 -->
       <van-button class="button-activity mt-24"
         @click="jumpToUse"
         type="default">去使用</van-button>

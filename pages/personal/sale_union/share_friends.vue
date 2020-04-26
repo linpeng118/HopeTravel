@@ -1,6 +1,6 @@
 <template>
   <div class="page-container">
-    <!--<header-bar title="加入稀饭联盟"></header-bar>-->
+    <!--<header-bar title="加入HopeTravel联盟"></header-bar>-->
     <div class="main-box">
       <div class="top-bg">
         <div class="pep-info">
@@ -8,7 +8,7 @@
             <img :src="recommendInfo.face" alt="">
             <div>
               <h2 class="name">{{recommendInfo | getName}}</h2>
-              <p>我加入了稀饭联盟，赚了不少钱了， 你也快来吧！</p>
+              <p>我加入了HopeTravel联盟，赚了不少钱了， 你也快来吧！</p>
             </div>
           </div>
           <div class="btn-accept" @click="acceptShare">
@@ -17,7 +17,7 @@
           <!--<nuxt-link tag="div" :to="`/personal/sale_union/friend_accept?referrer_id=${$route.query.referrer_id}`"></nuxt-link>-->
           <div class="agreement">
             <van-checkbox v-model="checked" checked-color="#FCAE26"></van-checkbox>
-            <nuxt-link tag="span" to="/protocol/union">接受邀请并与稀饭旅行签约</nuxt-link>
+            <nuxt-link tag="span" to="/protocol/union">接受邀请并与HopeTravel旅行签约</nuxt-link>
           </div>
         </div>
       </div>
@@ -82,7 +82,7 @@ export default {
     },
     acceptShare() {
       if(!this.checked){
-        this.$toast('请接受稀饭旅行邀约');
+        this.$toast('请接受HopeTravel旅行邀约');
       } else {
         this.$router.push({
           name: 'personal-sale_union-friend_accept',

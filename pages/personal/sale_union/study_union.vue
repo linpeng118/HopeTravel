@@ -4,7 +4,7 @@
     <div style="padding-top: 46px;" class="bg-gradient">
       <div class="top-slg-b">
         <div class="share-code">
-          <h2 class="title">稀饭小哥哥</h2>
+          <h2 class="title">HopeTravel小哥哥</h2>
           <div>
             <img src="../../../assets/imgs/xifantours_code.jpg" alt="">
           </div>

@@ -46,6 +46,3 @@ export const TRUE_PARAMS = {
     'lines': 'ln',
     'attraction': 'at'
 }
-
-// 
-export const CUSTOMER_SERVICE = '__tourscool_customer_service_time'

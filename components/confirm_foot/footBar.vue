@@ -96,8 +96,7 @@ import {countprice, addorder} from '@/api/confirm_order'
 import Loading from '@/components/loading'
 import {getProfile} from '@/api/profile'
 import {TOKEN, SESSIONSTORE, PLATFORM} from '@/assets/js/config'
-import {getSessionStore, getLocalStore, replaceServerUrl, clearCookieByKey} from '@/assets/js/utils'
-/* import onCustomerService from '@/assets/js/customerService.js' */
+import {getSessionStore, getLocalStore, clearCookieByKey} from '@/assets/js/utils'
 import {getCookieByKey} from '@/assets/js/utils'
 
 export default {
@@ -303,9 +302,8 @@ export default {
       this.loading = false
     },
     contactCustom() {
-      /* onCustomerService() */
-      let url = replaceServerUrl()
-      window.open(url, '_self')
+      console.log('contactCustom');
+      
     },
     //是否需要登录弹窗
     async setshow() {

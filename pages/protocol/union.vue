@@ -15,7 +15,7 @@
     name: 'union',
     head() {
       return {
-        title: '稀饭旅行线上分销协议'
+        title: 'HopeTravel旅行线上分销协议'
       }
     },
     methods: {
